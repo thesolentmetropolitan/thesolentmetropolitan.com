@@ -130,3 +130,5 @@ out/
 # not ignored at this time, may ignore useful files by mistake
 #target/
 
+/.editorconfig
+/.gitattributes
