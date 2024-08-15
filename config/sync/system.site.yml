@@ -1,0 +1,12 @@
+langcode: en
+name: 'The Solent Metropolitan'
+mail: thesolentmetropolitan@gmail.com
+slogan: 'The broader perspective, for a distinct region'
+page:
+  403: ''
+  404: ''
+  front: /node
+admin_compact_mode: false
+weight_select_max: 100
+default_langcode: en
+mail_notification: null
