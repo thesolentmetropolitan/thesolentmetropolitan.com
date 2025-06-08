@@ -1,4 +1,7 @@
+_core:
+  default_config_hash: ijfbzDTN4CbE7Sr-6ubWzy_t1vH4OtU1doNCLssVz-4
 langcode: en
+uuid: 29478e80-b12f-4df7-96ff-1d604384bf38
 name: 'The Solent Metropolitan'
 mail: thesolentmetropolitan@gmail.com
 slogan: 'The broader perspective, for a distinct region'

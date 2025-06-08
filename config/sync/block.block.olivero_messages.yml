@@ -1,3 +1,4 @@
+uuid: e6443bf3-aeff-4f0a-89f4-1a4145a84677
 langcode: en
 status: true
 dependencies:
@@ -5,6 +6,8 @@ dependencies:
     - system
   theme:
     - olivero
+_core:
+  default_config_hash: BZ5tpW7H8X4PVGRm3MImTIHd2tN0eF7zOtp4SpRYUA0
 id: olivero_messages
 theme: olivero
 region: highlighted
