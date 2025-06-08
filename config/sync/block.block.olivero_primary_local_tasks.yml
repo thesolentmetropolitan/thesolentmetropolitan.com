@@ -1,8 +1,11 @@
+uuid: 28c07b5f-7f11-46f4-a4ea-ff81e751d354
 langcode: en
 status: true
 dependencies:
   theme:
     - olivero
+_core:
+  default_config_hash: nGE3EoPQQaQCuqTUtZgw0-KIzmrqdKDzdNQf2JyPUt4
 id: olivero_primary_local_tasks
 theme: olivero
 region: highlighted

@@ -1,8 +1,11 @@
+uuid: 2aefbfe7-fd8c-4dfa-952b-52ae91eda97b
 langcode: en
 status: true
 dependencies:
   module:
     - node
+_core:
+  default_config_hash: KgGJDZFpMaz_8bTv6fN1bXS3Qi5LWmRJI9R53kEGsNQ
 id: node.teaser
 label: Teaser
 description: ''
