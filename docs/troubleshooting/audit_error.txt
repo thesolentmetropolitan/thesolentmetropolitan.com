@@ -1,0 +1,609 @@
+Windows Subsystem for Linux is now available in the Microsoft Store!
+You can upgrade by running 'wsl.exe --update' or by visiting https://aka.ms/wslstorepage
+Installing WSL from the Microsoft Store will give you the latest WSL updates, faster.
+For more information please visit https://aka.ms/wslstoreinfo
+
+Welcome to Ubuntu 24.04.2 LTS (GNU/Linux 4.19.104-microsoft-standard x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/pro
+
+ System information as of Tue Jun 10 12:19:52 BST 2025
+
+  System load:  0.0                Processes:             9
+  Usage of /:   2.6% of 250.98GB   Users logged in:       0
+  Memory usage: 0%                 IPv4 address for eth0: 172.24.80.92
+  Swap usage:   0%
+
+This message is shown once a day. To disable it please create the
+/home/robdavisprojects/.hushlogin file.
+robdavisprojects@Workstation-W64:~$ ssh server03
+Welcome to Ubuntu 24.04.2 LTS (GNU/Linux 6.8.0-60-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/pro
+
+ System information as of Tue Jun 10 11:20:03 UTC 2025
+
+  System load:  0.02                Processes:             136
+  Usage of /:   17.0% of 115.20GB   Users logged in:       0
+  Memory usage: 13%                 IPv4 address for eth0: 157.245.32.67
+  Swap usage:   0%                  IPv4 address for eth0: 10.16.0.5
+
+Expanded Security Maintenance for Applications is not enabled.
+
+62 updates can be applied immediately.
+To see these additional updates run: apt list --upgradable
+
+Enable ESM Apps to receive additional future security updates.
+See https://ubuntu.com/esm or run: sudo pro status
+
+
+Last login: Tue Jun 10 10:30:55 2025 from 152.37.120.126
+rob@server03:~$ sudo reboot
+
+Broadcast message from root@server03 on pts/1 (Tue 2025-06-10 11:20:09 UTC):
+
+The system will reboot now!
+
+rob@server03:~$ client_loop: send disconnect: Broken pipe
+robdavisprojects@Workstation-W64:~$ ssh server03
+Welcome to Ubuntu 24.04.2 LTS (GNU/Linux 6.8.0-60-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/pro
+
+ System information as of Tue Jun 10 11:21:34 UTC 2025
+
+  System load:  0.02                Processes:             131
+  Usage of /:   17.0% of 115.20GB   Users logged in:       0
+  Memory usage: 10%                 IPv4 address for eth0: 157.245.32.67
+  Swap usage:   0%                  IPv4 address for eth0: 10.16.0.5
+
+Expanded Security Maintenance for Applications is not enabled.
+
+62 updates can be applied immediately.
+To see these additional updates run: apt list --upgradable
+
+Enable ESM Apps to receive additional future security updates.
+See https://ubuntu.com/esm or run: sudo pro status
+
+
+Last login: Tue Jun 10 11:20:04 2025 from 152.37.120.126
+rob@server03:~$ exit
+logout
+Connection to 157.245.32.67 closed.
+robdavisprojects@Workstation-W64:~$ ls
+0.1.zip  2024-06-30-ligc-dev-staging.sql  bbcmicro  content_structural_outline  projects
+robdavisprojects@Workstation-W64:~$ cd projects/
+robdavisprojects@Workstation-W64:~/projects$ ls
+stricty  thesolentmetropolitan
+robdavisprojects@Workstation-W64:~/projects$ cd thesolentmetropolitan/
+robdavisprojects@Workstation-W64:~/projects/thesolentmetropolitan$ ls
+dev
+robdavisprojects@Workstation-W64:~/projects/thesolentmetropolitan$ c dev
+c: command not found
+robdavisprojects@Workstation-W64:~/projects/thesolentmetropolitan$ cd dev
+robdavisprojects@Workstation-W64:~/projects/thesolentmetropolitan/dev$ ls
+2025-06-08-live-thesolentmetropolitan.com.sql  thesolentmetropolitan
+robdavisprojects@Workstation-W64:~/projects/thesolentmetropolitan/dev$ cd thesolentmetropolitan/
+robdavisprojects@Workstation-W64:~/projects/thesolentmetropolitan/dev/thesolentmetropolitan$ ls
+LICENSE  composer  composer.json  composer.lock  config  docs  drush  tools  vendor  web
+robdavisprojects@Workstation-W64:~/projects/thesolentmetropolitan/dev/thesolentmetropolitan$ ddev start
+ERRO[0000] app.FindContainerByType(web) failed
+ERRO[0000] app.FindContainerByType(web) failed
+Could not connect to a Docker provider. Please start or install a Docker provider.
+For install help go to: https://ddev.readthedocs.io/en/stable/users/install/docker-installation/
+robdavisprojects@Workstation-W64:~/projects/thesolentmetropolitan/dev/thesolentmetropolitan$ sudo service docker start
+[sudo] password for robdavisprojects:
+ * Starting Docker: docker                                                                                       [ OK ]
+robdavisprojects@Workstation-W64:~/projects/thesolentmetropolitan/dev/thesolentmetropolitan$ ps -ef
+UID        PID  PPID  C STIME TTY          TIME CMD
+root         1     0  0 12:19 ?        00:00:00 /init
+root         8     1  0 12:19 ?        00:00:00 /init
+root         9     8  0 12:19 ?        00:00:00 /init
+robdavi+    10     9  0 12:19 pts/0    00:00:00 -bash
+root       116     9 23 12:55 ?        00:00:00 /usr/bin/dockerd -p /var/run/docker.pid
+root       128   116  5 12:55 ?        00:00:00 containerd --config /var/run/docker/containerd/containerd.toml
+robdavi+   734    10  0 12:55 pts/0    00:00:00 ps -ef
+robdavisprojects@Workstation-W64:~/projects/thesolentmetropolitan/dev/thesolentmetropolitan$ ddev start
+
+ TIP OF THE DAY
+ In recent versions of DDEV you can use `ddev composer create-project` just as you would use `composer
+ create-project`. You no longer need the alternate `ddev composer create` (which still works fine).
+
+Starting thesolentmetropolitan.com...
+ Container ddev-ssh-agent  Recreate
+ Container ddev-ssh-agent  Recreated
+ Container ddev-ssh-agent  Started
+ssh-agent container is running: If you want to add authentication to the ssh-agent container, run 'ddev auth ssh' to enable your keys.
+Unable to get WSL2 networking mode: failed to run wslinfo: exec: "wslinfo": executable file not found in $PATH
+Building project images....
+Project images built in 2s.
+ Container ddev-thesolentmetropolitan.com-db  Recreate
+ Container ddev-thesolentmetropolitan.com-web  Recreate
+ Container ddev-thesolentmetropolitan.com-db  Recreated
+ Container ddev-thesolentmetropolitan.com-web  Recreated
+ Container ddev-thesolentmetropolitan.com-db  Started
+ Container ddev-thesolentmetropolitan.com-web  Started
+Waiting for containers to become ready: [web db]
+Starting ddev-router if necessary...
+ Container ddev-router  Created
+ Container ddev-router  Started
+Successfully started thesolentmetropolitan.com
+Your project can be reached at https://thesolentmetropolitan.com.ddev.site
+See 'ddev describe' for alternate URLs.
+robdavisprojects@Workstation-W64:~/projects/thesolentmetropolitan/dev/thesolentmetropolitan$
+robdavisprojects@Workstation-W64:~/projects/thesolentmetropolitan/dev/thesolentmetropolitan$
+robdavisprojects@Workstation-W64:~/projects/thesolentmetropolitan/dev/thesolentmetropolitan$
+robdavisprojects@Workstation-W64:~/projects/thesolentmetropolitan/dev/thesolentmetropolitan$ ls
+LICENSE  composer  composer.json  composer.lock  config  docs  drush  tools  vendor  web
+robdavisprojects@Workstation-W64:~/projects/thesolentmetropolitan/dev/thesolentmetropolitan$ ddev composer update
+Loading composer repositories with package information
+Updating dependencies
+Lock file operations: 0 installs, 56 updates, 2 removals
+  - Removing symfony/polyfill-php72 (v1.30.0)
+  - Removing symfony/polyfill-php80 (v1.30.0)
+  - Upgrading composer/semver (3.4.0 => 3.4.3)
+  - Upgrading consolidation/annotated-command (4.10.0 => 4.10.1)
+  - Upgrading consolidation/output-formatters (4.5.0 => 4.6.0)
+  - Upgrading consolidation/site-alias (4.1.0 => 4.1.1)
+  - Upgrading consolidation/site-process (5.4.0 => 5.4.2)
+  - Upgrading doctrine/annotations (1.14.3 => 1.14.4)
+  - Upgrading doctrine/deprecations (1.1.3 => 1.1.5)
+  - Upgrading drupal/core (10.3.1 => 10.4.8)
+  - Upgrading drupal/core-composer-scaffold (10.3.1 => 10.4.8)
+  - Upgrading drupal/core-project-message (10.3.1 => 10.4.8)
+  - Upgrading drupal/core-recommended (10.3.1 => 10.4.8)
+  - Upgrading egulias/email-validator (4.0.2 => 4.0.4)
+  - Upgrading grasmash/expander (3.0.0 => 3.0.1)
+  - Upgrading guzzlehttp/guzzle (7.8.1 => 7.9.3)
+  - Upgrading guzzlehttp/promises (2.0.2 => 2.0.4)
+  - Upgrading guzzlehttp/psr7 (2.6.2 => 2.7.1)
+  - Upgrading league/container (4.2.2 => 4.2.5)
+  - Upgrading mck89/peast (v1.16.2 => v1.16.3)
+  - Upgrading nikic/php-parser (v5.1.0 => v5.5.0)
+  - Upgrading pear/pear-core-minimal (v1.10.15 => v1.10.16)
+  - Upgrading phootwork/collection (v3.2.2 => v3.2.3)
+  - Upgrading phootwork/lang (v3.2.2 => v3.2.3)
+  - Upgrading psr/log (3.0.0 => 3.0.2)
+  - Upgrading psy/psysh (v0.12.4 => v0.12.8)
+  - Upgrading symfony/console (v6.4.9 => v6.4.22)
+  - Upgrading symfony/dependency-injection (v6.4.9 => v6.4.22)
+  - Upgrading symfony/deprecation-contracts (v3.5.0 => v3.5.1)
+  - Upgrading symfony/error-handler (v6.4.9 => v6.4.22)
+  - Upgrading symfony/event-dispatcher (v6.4.8 => v6.4.13)
+  - Upgrading symfony/event-dispatcher-contracts (v3.5.0 => v3.5.1)
+  - Upgrading symfony/filesystem (v6.4.9 => v6.4.13)
+  - Upgrading symfony/finder (v6.4.8 => v6.4.17)
+  - Upgrading symfony/http-foundation (v6.4.8 => v6.4.22)
+  - Upgrading symfony/http-kernel (v6.4.9 => v6.4.22)
+  - Upgrading symfony/mailer (v6.4.9 => v6.4.21)
+  - Upgrading symfony/mime (v6.4.9 => v6.4.21)
+  - Upgrading symfony/polyfill-ctype (v1.29.0 => v1.31.0)
+  - Upgrading symfony/polyfill-iconv (v1.29.0 => v1.31.0)
+  - Upgrading symfony/polyfill-intl-grapheme (v1.29.0 => v1.31.0)
+  - Upgrading symfony/polyfill-intl-idn (v1.29.0 => v1.31.0)
+  - Upgrading symfony/polyfill-intl-normalizer (v1.29.0 => v1.31.0)
+  - Upgrading symfony/polyfill-mbstring (v1.29.0 => v1.31.0)
+  - Upgrading symfony/polyfill-php81 (v1.30.0 => v1.32.0)
+  - Upgrading symfony/polyfill-php83 (v1.29.0 => v1.31.0)
+  - Upgrading symfony/process (v6.4.8 => v6.4.20)
+  - Upgrading symfony/psr-http-message-bridge (v6.4.8 => v6.4.13)
+  - Upgrading symfony/routing (v6.4.8 => v6.4.22)
+  - Upgrading symfony/serializer (v6.4.9 => v6.4.22)
+  - Upgrading symfony/service-contracts (v3.5.0 => v3.5.1)
+  - Upgrading symfony/string (v6.4.9 => v6.4.21)
+  - Upgrading symfony/translation-contracts (v3.5.0 => v3.5.1)
+  - Upgrading symfony/validator (v6.4.9 => v6.4.22)
+  - Upgrading symfony/var-dumper (v6.4.9 => v6.4.21)
+  - Upgrading symfony/var-exporter (v6.4.9 => v6.4.22)
+  - Upgrading symfony/yaml (v6.4.8 => v6.4.21)
+  - Upgrading twig/twig (v3.10.3 => v3.19.0)
+Writing lock file
+Installing dependencies from lock file (including require-dev)
+Package operations: 0 installs, 56 updates, 2 removals
+  - Downloading drupal/core-composer-scaffold (10.4.8)
+  - Downloading symfony/polyfill-mbstring (v1.31.0)
+  - Downloading symfony/polyfill-intl-normalizer (v1.31.0)
+  - Downloading symfony/polyfill-intl-grapheme (v1.31.0)
+  - Downloading symfony/polyfill-ctype (v1.31.0)
+  - Downloading symfony/string (v6.4.21)
+  - Downloading symfony/deprecation-contracts (v3.5.1)
+  - Downloading symfony/service-contracts (v3.5.1)
+  - Downloading symfony/console (v6.4.22)
+  - Downloading psr/log (3.0.2)
+  - Downloading symfony/filesystem (v6.4.13)
+  - Downloading composer/semver (3.4.3)
+  - Downloading symfony/polyfill-php81 (v1.32.0)
+  - Downloading twig/twig (v3.19.0)
+  - Downloading symfony/yaml (v6.4.21)
+  - Downloading symfony/var-exporter (v6.4.22)
+  - Downloading symfony/var-dumper (v6.4.21)
+  - Downloading symfony/translation-contracts (v3.5.1)
+  - Downloading symfony/polyfill-php83 (v1.31.0)
+  - Downloading symfony/validator (v6.4.22)
+  - Downloading symfony/serializer (v6.4.22)
+  - Downloading symfony/routing (v6.4.22)
+  - Downloading symfony/http-foundation (v6.4.22)
+  - Downloading symfony/psr-http-message-bridge (v6.4.13)
+  - Downloading symfony/process (v6.4.20)
+  - Downloading symfony/polyfill-intl-idn (v1.31.0)
+  - Downloading symfony/polyfill-iconv (v1.31.0)
+  - Downloading symfony/mime (v6.4.21)
+  - Downloading symfony/event-dispatcher-contracts (v3.5.1)
+  - Downloading symfony/event-dispatcher (v6.4.13)
+  - Downloading doctrine/deprecations (1.1.5)
+  - Downloading egulias/email-validator (4.0.4)
+  - Downloading symfony/mailer (v6.4.21)
+  - Downloading symfony/error-handler (v6.4.22)
+  - Downloading symfony/http-kernel (v6.4.22)
+  - Downloading symfony/finder (v6.4.17)
+  - Downloading symfony/dependency-injection (v6.4.22)
+  - Downloading pear/pear-core-minimal (v1.10.16)
+  - Downloading mck89/peast (v1.16.3)
+  - Downloading guzzlehttp/psr7 (2.7.1)
+  - Downloading guzzlehttp/promises (2.0.4)
+  - Downloading guzzlehttp/guzzle (7.9.3)
+  - Downloading doctrine/annotations (1.14.4)
+  - Downloading drupal/core (10.4.8)
+  - Downloading nikic/php-parser (v5.5.0)
+  - Downloading psy/psysh (v0.12.8)
+  - Downloading league/container (4.2.5)
+  - Downloading grasmash/expander (3.0.1)
+  - Downloading consolidation/site-alias (4.1.1)
+  - Downloading consolidation/site-process (5.4.2)
+  - Downloading phootwork/lang (v3.2.3)
+  - Downloading consolidation/output-formatters (4.6.0)
+  - Downloading consolidation/annotated-command (4.10.1)
+  - Removing symfony/polyfill-php80 (v1.30.0)
+  - Removing symfony/polyfill-php72 (v1.30.0)
+  - Upgrading drupal/core-composer-scaffold (10.3.1 => 10.4.8): Extracting archive
+  - Upgrading drupal/core-project-message (10.3.1 => 10.4.8): Extracting archive
+  - Upgrading symfony/polyfill-mbstring (v1.29.0 => v1.31.0): Extracting archive
+  - Upgrading symfony/polyfill-intl-normalizer (v1.29.0 => v1.31.0): Extracting archive
+  - Upgrading symfony/polyfill-intl-grapheme (v1.29.0 => v1.31.0): Extracting archive
+  - Upgrading symfony/polyfill-ctype (v1.29.0 => v1.31.0): Extracting archive
+  - Upgrading symfony/string (v6.4.9 => v6.4.21): Extracting archive
+  - Upgrading symfony/deprecation-contracts (v3.5.0 => v3.5.1): Extracting archive
+  - Upgrading symfony/service-contracts (v3.5.0 => v3.5.1): Extracting archive
+  - Upgrading symfony/console (v6.4.9 => v6.4.22): Extracting archive
+  - Upgrading psr/log (3.0.0 => 3.0.2): Extracting archive
+  - Upgrading symfony/filesystem (v6.4.9 => v6.4.13): Extracting archive
+  - Upgrading composer/semver (3.4.0 => 3.4.3): Extracting archive
+  - Upgrading symfony/polyfill-php81 (v1.30.0 => v1.32.0): Extracting archive
+  - Upgrading twig/twig (v3.10.3 => v3.19.0): Extracting archive
+  - Upgrading symfony/yaml (v6.4.8 => v6.4.21): Extracting archive
+  - Upgrading symfony/var-exporter (v6.4.9 => v6.4.22): Extracting archive
+  - Upgrading symfony/var-dumper (v6.4.9 => v6.4.21): Extracting archive
+  - Upgrading symfony/translation-contracts (v3.5.0 => v3.5.1): Extracting archive
+  - Upgrading symfony/polyfill-php83 (v1.29.0 => v1.31.0): Extracting archive
+  - Upgrading symfony/validator (v6.4.9 => v6.4.22): Extracting archive
+  - Upgrading symfony/serializer (v6.4.9 => v6.4.22): Extracting archive
+  - Upgrading symfony/routing (v6.4.8 => v6.4.22): Extracting archive
+  - Upgrading symfony/http-foundation (v6.4.8 => v6.4.22): Extracting archive
+  - Upgrading symfony/psr-http-message-bridge (v6.4.8 => v6.4.13): Extracting archive
+  - Upgrading symfony/process (v6.4.8 => v6.4.20): Extracting archive
+  - Upgrading symfony/polyfill-intl-idn (v1.29.0 => v1.31.0): Extracting archive
+  - Upgrading symfony/polyfill-iconv (v1.29.0 => v1.31.0): Extracting archive
+  - Upgrading symfony/mime (v6.4.9 => v6.4.21): Extracting archive
+  - Upgrading symfony/event-dispatcher-contracts (v3.5.0 => v3.5.1): Extracting archive
+  - Upgrading symfony/event-dispatcher (v6.4.8 => v6.4.13): Extracting archive
+  - Upgrading doctrine/deprecations (1.1.3 => 1.1.5): Extracting archive
+  - Upgrading egulias/email-validator (4.0.2 => 4.0.4): Extracting archive
+  - Upgrading symfony/mailer (v6.4.9 => v6.4.21): Extracting archive
+  - Upgrading symfony/error-handler (v6.4.9 => v6.4.22): Extracting archive
+  - Upgrading symfony/http-kernel (v6.4.9 => v6.4.22): Extracting archive
+  - Upgrading symfony/finder (v6.4.8 => v6.4.17): Extracting archive
+  - Upgrading symfony/dependency-injection (v6.4.9 => v6.4.22): Extracting archive
+  - Upgrading pear/pear-core-minimal (v1.10.15 => v1.10.16): Extracting archive
+  - Upgrading mck89/peast (v1.16.2 => v1.16.3): Extracting archive
+  - Upgrading guzzlehttp/psr7 (2.6.2 => 2.7.1): Extracting archive
+  - Upgrading guzzlehttp/promises (2.0.2 => 2.0.4): Extracting archive
+  - Upgrading guzzlehttp/guzzle (7.8.1 => 7.9.3): Extracting archive
+  - Upgrading doctrine/annotations (1.14.3 => 1.14.4): Extracting archive
+  - Upgrading drupal/core (10.3.1 => 10.4.8): Extracting archive
+  - Upgrading drupal/core-recommended (10.3.1 => 10.4.8)
+  - Upgrading nikic/php-parser (v5.1.0 => v5.5.0): Extracting archive
+  - Upgrading psy/psysh (v0.12.4 => v0.12.8): Extracting archive
+  - Upgrading league/container (4.2.2 => 4.2.5): Extracting archive
+  - Upgrading grasmash/expander (3.0.0 => 3.0.1): Extracting archive
+  - Upgrading consolidation/site-alias (4.1.0 => 4.1.1): Extracting archive
+  - Upgrading consolidation/site-process (5.4.0 => 5.4.2): Extracting archive
+  - Upgrading phootwork/lang (v3.2.2 => v3.2.3): Extracting archive
+  - Upgrading phootwork/collection (v3.2.2 => v3.2.3): Extracting archive
+  - Upgrading consolidation/output-formatters (4.5.0 => 4.6.0): Extracting archive
+  - Upgrading consolidation/annotated-command (4.10.0 => 4.10.1): Extracting archive
+Generating autoload files
+
+ ┌ Do you wish to run the specified pending updates? ───────────┐
+ │ Yes                                                          │
+ └──────────────────────────────────────────────────────────────┘
+
+>  [notice] Update started: system_update_10400
+>  [notice] Update completed: system_update_10400
+ [success] Finished performing updates.
+robdavisprojects@Workstation-W64:~/projects/thesolentmetropolitan/dev/thesolentmetropolitan$ ddev drush updb
+ [success] No pending updates.
+robdavisprojects@Workstation-W64:~/projects/thesolentmetropolitan/dev/thesolentmetropolitan$ ddev drush cex
+ [notice] The active configuration is identical to the configuration in the export directory (../config/sync).
+../config/syncts@Workstation-W64:~/projects/thesolentmetropolitan/dev/thesolentmetropolitan$ ddev drush cr
+robdavisprojects@Workstation-W64:~/projects/thesolentmetropolitan/dev/thesolentmetropolitan$ ddev composer require 'drupal/superfish:^1.13'
+./composer.json has been updated:~/projects/thesolentmetropolitan/dev/thesolentmetropolitan$ ddev drush updb
+Running composer update drupal/superfish-----------------------------------
+Loading composer repositories with package information
+Updating dependencies --------------- -------------------------------------
+Lock file operations: 2 installs, 0 updates, 0 removalsnt update to 11102.
+  - Locking drupal/superfish (1.13.0) -------------------------------------
+  - Locking lobsterr/drupal-superfish (2.3.10)
+Writing lock file
+Installing dependencies from lock file (including require-dev)──┐
+Package operations: 2 installs, 0 updates, 0 removals           │
+  - Downloading lobsterr/drupal-superfish (2.3.10)──────────────┘
+  - Downloading drupal/superfish (1.13.0)
+  - Installing lobsterr/drupal-superfish (2.3.10): Extracting archive
+  - Installing drupal/superfish (1.13.0): Extracting archive
+Generating autoload files
+42 packages you are using are looking for funding.
+Use the `composer fund` command to find out more!
+
+Failed to audit installed packages.
+robdavisprojects@Workstation-W64:~/projects/thesolentmetropolitan/dev/thesolentmetropolitan$ ddev composer require 'drupal/superfish:^1.13'
+./composer.json has been updated
+Running composer update drupal/superfish
+Loading composer repositories with package information
+Updating dependencies
+Nothing to modify in lock file
+Writing lock file
+Installing dependencies from lock file (including require-dev)
+Nothing to install, update or remove
+Generating autoload files
+42 packages you are using are looking for funding.
+Use the `composer fund` command to find out more!
+Failed to audit installed packages.
+robdavisprojects@Workstation-W64:~/projects/thesolentmetropolitan/dev/thesolentmetropolitan$
+robdavisprojects@Workstation-W64:~/projects/thesolentmetropolitan/dev/thesolentmetropolitan$ #
+robdavisprojects@Workstation-W64:~/projects/thesolentmetropolitan/dev/thesolentmetropolitan$
+robdavisprojects@Workstation-W64:~/projects/thesolentmetropolitan/dev/thesolentmetropolitan$ ls
+LICENSE  composer  composer.json  composer.lock  config  docs  drush  tools  vendor  web
+robdavisprojects@Workstation-W64:~/projects/thesolentmetropolitan/dev/thesolentmetropolitan$ rm -Rf composer.lock vendor
+robdavisprojects@Workstation-W64:~/projects/thesolentmetropolitan/dev/thesolentmetropolitan$ ddev composer require 'drupal/superfish:^1.13'
+./composer.json has been updated
+Running composer update drupal/superfish
+Loading composer repositories with package information
+Updating dependencies
+Lock file operations: 85 installs, 0 updates, 0 removals
+  - Locking asm89/stack-cors (v2.2.0)
+  - Locking chi-teck/drupal-code-generator (3.6.1)
+  - Locking composer/installers (v2.3.0)
+  - Locking composer/semver (3.4.3)
+  - Locking consolidation/annotated-command (4.10.1)
+  - Locking consolidation/config (2.1.2)
+  - Locking consolidation/filter-via-dot-access-data (2.0.2)
+  - Locking consolidation/log (3.1.0)
+  - Locking consolidation/output-formatters (4.6.0)
+  - Locking consolidation/robo (4.0.6)
+  - Locking consolidation/self-update (2.2.0)
+  - Locking consolidation/site-alias (4.1.1)
+  - Locking consolidation/site-process (5.4.2)
+  - Locking dflydev/dot-access-data (v3.0.3)
+  - Locking doctrine/annotations (1.14.4)
+  - Locking doctrine/deprecations (1.1.5)
+  - Locking doctrine/lexer (2.1.1)
+  - Locking drupal/core (10.4.8)
+  - Locking drupal/core-composer-scaffold (10.4.8)
+  - Locking drupal/core-project-message (10.4.8)
+  - Locking drupal/core-recommended (10.4.8)
+  - Locking drupal/superfish (1.13.0)
+  - Locking drupal/this_is_me_theme (1.0.0)
+  - Locking drush/drush (13.6.0)
+  - Locking egulias/email-validator (4.0.4)
+  - Locking grasmash/expander (3.0.1)
+  - Locking grasmash/yaml-cli (3.2.1)
+  - Locking guzzlehttp/guzzle (7.9.3)
+  - Locking guzzlehttp/promises (2.0.4)
+  - Locking guzzlehttp/psr7 (2.7.1)
+  - Locking laravel/prompts (v0.3.5)
+  - Locking league/container (4.2.5)
+  - Locking lobsterr/drupal-superfish (2.3.10)
+  - Locking masterminds/html5 (2.9.0)
+  - Locking mck89/peast (v1.16.3)
+  - Locking nikic/php-parser (v5.5.0)
+  - Locking pear/archive_tar (1.5.0)
+  - Locking pear/console_getopt (v1.4.3)
+  - Locking pear/pear-core-minimal (v1.10.16)
+  - Locking pear/pear_exception (v1.0.2)
+  - Locking phootwork/collection (v3.2.3)
+  - Locking phootwork/lang (v3.2.3)
+  - Locking phpowermove/docblock (v4.0)
+  - Locking psr/cache (3.0.0)
+  - Locking psr/container (2.0.2)
+  - Locking psr/event-dispatcher (1.0.0)
+  - Locking psr/http-client (1.0.3)
+  - Locking psr/http-factory (1.1.0)
+  - Locking psr/http-message (2.0)
+  - Locking psr/log (3.0.2)
+  - Locking psy/psysh (v0.12.8)
+  - Locking ralouphie/getallheaders (3.0.3)
+  - Locking sebastian/diff (4.0.6)
+  - Locking symfony/console (v6.4.22)
+  - Locking symfony/dependency-injection (v6.4.22)
+  - Locking symfony/deprecation-contracts (v3.5.1)
+  - Locking symfony/error-handler (v6.4.22)
+  - Locking symfony/event-dispatcher (v6.4.13)
+  - Locking symfony/event-dispatcher-contracts (v3.5.1)
+  - Locking symfony/filesystem (v6.4.13)
+  - Locking symfony/finder (v6.4.17)
+  - Locking symfony/http-foundation (v6.4.22)
+  - Locking symfony/http-kernel (v6.4.22)
+  - Locking symfony/mailer (v6.4.21)
+  - Locking symfony/mime (v6.4.21)
+  - Locking symfony/polyfill-ctype (v1.31.0)
+  - Locking symfony/polyfill-iconv (v1.31.0)
+  - Locking symfony/polyfill-intl-grapheme (v1.31.0)
+  - Locking symfony/polyfill-intl-idn (v1.31.0)
+  - Locking symfony/polyfill-intl-normalizer (v1.31.0)
+  - Locking symfony/polyfill-mbstring (v1.31.0)
+  - Locking symfony/polyfill-php81 (v1.32.0)
+  - Locking symfony/polyfill-php83 (v1.31.0)
+  - Locking symfony/process (v6.4.20)
+  - Locking symfony/psr-http-message-bridge (v6.4.13)
+  - Locking symfony/routing (v6.4.22)
+  - Locking symfony/serializer (v6.4.22)
+  - Locking symfony/service-contracts (v3.5.1)
+  - Locking symfony/string (v6.4.21)
+  - Locking symfony/translation-contracts (v3.5.1)
+  - Locking symfony/validator (v6.4.22)
+  - Locking symfony/var-dumper (v6.4.21)
+  - Locking symfony/var-exporter (v6.4.22)
+  - Locking symfony/yaml (v6.4.21)
+  - Locking twig/twig (v3.19.0)
+Writing lock file
+Installing dependencies from lock file (including require-dev)
+Package operations: 85 installs, 0 updates, 0 removals
+  - Installing composer/installers (v2.3.0): Extracting archive
+  - Installing drupal/core-composer-scaffold (10.4.8): Extracting archive
+  - Installing drupal/core-project-message (10.4.8): Extracting archive
+  - Installing symfony/polyfill-mbstring (v1.31.0): Extracting archive
+  - Installing symfony/polyfill-intl-normalizer (v1.31.0): Extracting archive
+  - Installing symfony/polyfill-intl-grapheme (v1.31.0): Extracting archive
+  - Installing symfony/polyfill-ctype (v1.31.0): Extracting archive
+  - Installing symfony/string (v6.4.21): Extracting archive
+  - Installing symfony/deprecation-contracts (v3.5.1): Extracting archive
+  - Installing psr/container (2.0.2): Extracting archive
+  - Installing symfony/service-contracts (v3.5.1): Extracting archive
+  - Installing symfony/console (v6.4.22): Extracting archive
+  - Installing psr/log (3.0.2): Extracting archive
+  - Installing consolidation/log (3.1.0): Extracting archive
+  - Installing symfony/filesystem (v6.4.13): Extracting archive
+  - Installing composer/semver (3.4.3): Extracting archive
+  - Installing consolidation/self-update (2.2.0): Extracting archive
+  - Installing symfony/polyfill-php81 (v1.32.0): Extracting archive
+  - Installing twig/twig (v3.19.0): Extracting archive
+  - Installing symfony/yaml (v6.4.21): Extracting archive
+  - Installing symfony/var-exporter (v6.4.22): Extracting archive
+  - Installing symfony/var-dumper (v6.4.21): Extracting archive
+  - Installing symfony/translation-contracts (v3.5.1): Extracting archive
+  - Installing symfony/polyfill-php83 (v1.31.0): Extracting archive
+  - Installing symfony/validator (v6.4.22): Extracting archive
+  - Installing symfony/serializer (v6.4.22): Extracting archive
+  - Installing symfony/routing (v6.4.22): Extracting archive
+  - Installing symfony/http-foundation (v6.4.22): Extracting archive
+  - Installing psr/http-message (2.0): Extracting archive
+  - Installing symfony/psr-http-message-bridge (v6.4.13): Extracting archive
+  - Installing symfony/process (v6.4.20): Extracting archive
+  - Installing symfony/polyfill-intl-idn (v1.31.0): Extracting archive
+  - Installing symfony/polyfill-iconv (v1.31.0): Extracting archive
+  - Installing symfony/mime (v6.4.21): Extracting archive
+  - Installing psr/event-dispatcher (1.0.0): Extracting archive
+  - Installing symfony/event-dispatcher-contracts (v3.5.1): Extracting archive
+  - Installing symfony/event-dispatcher (v6.4.13): Extracting archive
+  - Installing doctrine/deprecations (1.1.5): Extracting archive
+  - Installing doctrine/lexer (2.1.1): Extracting archive
+  - Installing egulias/email-validator (4.0.4): Extracting archive
+  - Installing symfony/mailer (v6.4.21): Extracting archive
+  - Installing symfony/error-handler (v6.4.22): Extracting archive
+  - Installing symfony/http-kernel (v6.4.22): Extracting archive
+  - Installing symfony/finder (v6.4.17): Extracting archive
+  - Installing symfony/dependency-injection (v6.4.22): Extracting archive
+  - Installing sebastian/diff (4.0.6): Extracting archive
+  - Installing ralouphie/getallheaders (3.0.3): Extracting archive
+  - Installing psr/http-factory (1.1.0): Extracting archive
+  - Installing psr/http-client (1.0.3): Extracting archive
+  - Installing psr/cache (3.0.0): Extracting archive
+  - Installing pear/pear_exception (v1.0.2): Extracting archive
+  - Installing pear/console_getopt (v1.4.3): Extracting archive
+  - Installing pear/pear-core-minimal (v1.10.16): Extracting archive
+  - Installing pear/archive_tar (1.5.0): Extracting archive
+  - Installing mck89/peast (v1.16.3): Extracting archive
+  - Installing masterminds/html5 (2.9.0): Extracting archive
+  - Installing guzzlehttp/psr7 (2.7.1): Extracting archive
+  - Installing guzzlehttp/promises (2.0.4): Extracting archive
+  - Installing guzzlehttp/guzzle (7.9.3): Extracting archive
+  - Installing doctrine/annotations (1.14.4): Extracting archive
+  - Installing asm89/stack-cors (v2.2.0): Extracting archive
+  - Installing drupal/core (10.4.8): Extracting archive
+  - Installing drupal/core-recommended (10.4.8)
+  - Installing lobsterr/drupal-superfish (2.3.10): Extracting archive
+  - Installing drupal/superfish (1.13.0): Extracting archive
+  - Installing drupal/this_is_me_theme (1.0.0): Extracting archive
+  - Installing nikic/php-parser (v5.5.0): Extracting archive
+  - Installing psy/psysh (v0.12.8): Extracting archive
+  - Installing league/container (4.2.5): Extracting archive
+  - Installing laravel/prompts (v0.3.5): Extracting archive
+  - Installing dflydev/dot-access-data (v3.0.3): Extracting archive
+  - Installing grasmash/yaml-cli (3.2.1): Extracting archive
+  - Installing grasmash/expander (3.0.1): Extracting archive
+  - Installing consolidation/config (2.1.2): Extracting archive
+  - Installing consolidation/site-alias (4.1.1): Extracting archive
+  - Installing consolidation/site-process (5.4.2): Extracting archive
+  - Installing phootwork/lang (v3.2.3): Extracting archive
+  - Installing phootwork/collection (v3.2.3): Extracting archive
+  - Installing phpowermove/docblock (v4.0): Extracting archive
+  - Installing consolidation/output-formatters (4.6.0): Extracting archive
+  - Installing consolidation/annotated-command (4.10.1): Extracting archive
+  - Installing consolidation/robo (4.0.6): Extracting archive
+  - Installing consolidation/filter-via-dot-access-data (2.0.2): Extracting archive
+  - Installing chi-teck/drupal-code-generator (3.6.1): Extracting archive
+  - Installing drush/drush (13.6.0): Extracting archive
+6 package suggestions were added by new dependencies, use `composer suggest` to see details.
+Generating autoload files
+42 packages you are using are looking for funding.
+Use the `composer fund` command to find out more!
+No security vulnerability advisories found.
+robdavisprojects@Workstation-W64:~/projects/thesolentmetropolitan/dev/thesolentmetropolitan$ ddev composer install
+Installing dependencies from lock file (including require-dev)
+Verifying lock file contents can be installed on current platform.
+Nothing to install, update or remove
+Generating autoload files
+42 packages you are using are looking for funding.
+Use the `composer fund` command to find out more!
+  * Homepage: https://www.drupal.org/project/drupal
+  * Support:
+    * docs: https://www.drupal.org/docs/user_guide/en/index.html
+    * chat: https://www.drupal.org/node/314178
+robdavisprojects@Workstation-W64:~/projects/thesolentmetropolitan/dev/thesolentmetropolitan$ git status
+On branch main
+Your branch is up to date with 'origin/main'.
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   composer.json
+        modified:   composer.lock
+        modified:   docs/troubleshooting/troubleshooting.md
+        modified:   web/sites/default/default.settings.php
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        web/libraries/
+
+no changes added to commit (use "git add" and/or "git commit -a")
+robdavisprojects@Workstation-W64:~/projects/thesolentmetropolitan/dev/thesolentmetropolitan$ git add .
+robdavisprojects@Workstation-W64:~/projects/thesolentmetropolitan/dev/thesolentmetropolitan$ git commit -am "composer update various the install"
+[main 1648d60] composer update various the install
+ 23 files changed, 3149 insertions(+), 618 deletions(-)
+ create mode 100644 web/libraries/drupal-superfish/.gitignore
+ create mode 100644 web/libraries/drupal-superfish/README.MD
+ create mode 100644 web/libraries/drupal-superfish/VERSION
+ create mode 100644 web/libraries/drupal-superfish/composer.json
+ create mode 100644 web/libraries/drupal-superfish/css/superfish.css
+ create mode 100644 web/libraries/drupal-superfish/jquery.hoverIntent.minified.js
+ create mode 100644 web/libraries/drupal-superfish/sfsmallscreen.js
+ create mode 100644 web/libraries/drupal-superfish/sftouchscreen.js
+ create mode 100644 web/libraries/drupal-superfish/style/ABOUT_THIS_DIRECTORY.MD
+ create mode 100644 web/libraries/drupal-superfish/style/THEMES.MD
+ create mode 100644 web/libraries/drupal-superfish/style/THEMES_SCSS.MD
+ create mode 100644 web/libraries/drupal-superfish/style/black/black.css
+ create mode 100644 web/libraries/drupal-superfish/style/blue/blue.css
+ create mode 100644 web/libraries/drupal-superfish/style/coffee/coffee.css
+ create mode 100644 web/libraries/drupal-superfish/style/default/default.css
+ create mode 100644 web/libraries/drupal-superfish/style/white/white.css
+ create mode 100644 web/libraries/drupal-superfish/superfish.js
+ create mode 100644 web/libraries/drupal-superfish/supersubs.js
+ create mode 100644 web/libraries/drupal-superfish/supposition.js
+robdavisprojects@Workstation-W64:~/projects/thesolentmetropolitan/dev/thesolentmetropolitan$ code
+robdavisprojects@Workstation-W64:~/projects/thesolentmetropolitan/dev/thesolentmetropolitan$
