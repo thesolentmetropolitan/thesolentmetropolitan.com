@@ -1,8 +1,0 @@
-uuid: baea3c60-e6be-4cf9-a688-6ee6c5888f65
-langcode: en
-status: true
-dependencies: {  }
-id: main-navigation
-label: 'Main navigation'
-description: ''
-locked: false
