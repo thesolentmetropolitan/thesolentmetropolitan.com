@@ -1,25 +1,27 @@
-uuid: 7c0eb617-a4b6-4b7e-b2f8-619205e5e12a
+uuid: a52410ac-4948-4e82-b6bf-20954dc99147
 langcode: en
 status: true
 dependencies:
   config:
-    - system.menu.main-navigation
+    - system.menu.main
   module:
     - system
   theme:
     - olivero
-id: olivero_mainnavigation
+_core:
+  default_config_hash: KWAiziL39uEzmOJEql_wbUP2RtqGceL3WM2CfxhMelE
+id: olivero_main_menu
 theme: olivero
 region: primary_menu
 weight: 0
 provider: null
-plugin: 'system_menu_block:main-navigation'
+plugin: 'system_menu_block:main'
 settings:
-  id: 'system_menu_block:main-navigation'
+  id: 'system_menu_block:main'
   label: 'Main navigation'
   label_display: '0'
   provider: system
   level: 1
-  depth: 0
-  expand_all_items: false
+  depth: 2
+  expand_all_items: true
 visibility: {  }
