@@ -89,16 +89,6 @@
  * @endcode
  */
 
-// from keepass "work - my projects.kdbx"
-$databases['default']['default'] = array (
-  'database' => 'wmsstage',
-  'username' => 'wmsstage',
-  'password' => 'RDxUurQLorovsWJ8XCvAhsU8y2N7rQY75hzHCZgF5nJhn7dfApErjyfsULC843PaBi9Dw!',
-  'host' => 'localhost',
-  'port' => '3306',
-  'driver' => 'mysql',
-);
-
 /**
  * Customizing database settings.
  *
