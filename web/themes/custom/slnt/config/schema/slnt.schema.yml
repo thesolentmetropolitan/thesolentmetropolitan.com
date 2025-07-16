@@ -1,0 +1,8 @@
+# Schema for the configuration files of the slnt theme.
+slnt.settings:
+  type: theme_settings
+  label: 'slnt settings'
+  mapping:
+    example:
+      type: string
+      label: Example
