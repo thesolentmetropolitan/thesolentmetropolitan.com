@@ -1,0 +1,22 @@
+uuid: 0f494d38-d9df-4d9d-b2a2-746aa0554625
+langcode: en
+status: true
+dependencies:
+  theme:
+    - customsolent
+_core:
+  default_config_hash: ydSxdq7R66I8UMC460rOzlfzvlUL4VRbdwc6z9DWaUI
+id: customsolent_secondary_local_tasks
+theme: customsolent
+region: header
+weight: -2
+provider: null
+plugin: local_tasks_block
+settings:
+  id: local_tasks_block
+  label: 'Secondary tabs'
+  label_display: '0'
+  provider: core
+  primary: false
+  secondary: true
+visibility: {  }
