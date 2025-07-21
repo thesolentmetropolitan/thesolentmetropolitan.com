@@ -36,7 +36,6 @@
       <ul>
     {% endif %}
     {% for item in items %}
-      {{ dump(item) }}
       <li{{ item.attributes }}>
         {{ link(item.title, item.url) }}
         {% if item.below %}

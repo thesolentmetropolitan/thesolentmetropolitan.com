@@ -47,7 +47,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -45
+    weight: -44
     langcode: en
     uuid: 837c07f7-a5c0-4df4-92d8-60cd936d01fa
     options: {  }
@@ -99,7 +99,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -46
+    weight: -45
     langcode: en
     uuid: ba100dfb-b62e-43fa-a42a-88f144ca441a
     options: {  }
@@ -164,22 +164,9 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -47
+    weight: -46
     langcode: en
     uuid: 3a203bbe-f23c-4fb3-9ab3-b0b7aa5f3ee0
-    options: {  }
-  -
-    menu_name: main
-    title: 'Performing Arts'
-    parent: 'menu_link_content:9548ba9b-5ae0-4248-8c2e-f76e52ef31f5'
-    uri: 'internal:/arts/performing-arts'
-    link_title: ''
-    description: null
-    enabled: true
-    expanded: false
-    weight: -48
-    langcode: en
-    uuid: f6ddaf14-71a7-4e34-8e2a-4688c19c652d
     options: {  }
   -
     menu_name: main
@@ -196,9 +183,9 @@ menus:
     options: {  }
   -
     menu_name: main
-    title: Partnerships
+    title: Colllaboration
     parent: 'menu_link_content:ca4916ec-7269-42dc-abf5-5864739fbddd'
-    uri: 'internal:/business-strategy/partnerships'
+    uri: 'internal:/business-strategy/collaboration'
     link_title: ''
     description: null
     enabled: true
@@ -206,4 +193,30 @@ menus:
     weight: -48
     langcode: en
     uuid: ba66230c-eb65-480d-8311-973d2ddfe61b
+    options: {  }
+  -
+    menu_name: main
+    title: 'Theatre & Acting'
+    parent: 'menu_link_content:9548ba9b-5ae0-4248-8c2e-f76e52ef31f5'
+    uri: 'internal:/theatre-and-acting'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -47
+    langcode: en
+    uuid: b382d99f-6a38-4d1a-8641-b8e93bacec5e
+    options: {  }
+  -
+    menu_name: main
+    title: Dance
+    parent: 'menu_link_content:9548ba9b-5ae0-4248-8c2e-f76e52ef31f5'
+    uri: 'internal:/culture/dance'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -48
+    langcode: en
+    uuid: c50bef7f-4d83-4b78-9046-fb60d82cda45
     options: {  }
