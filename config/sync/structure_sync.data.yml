@@ -1,0 +1,209 @@
+menus:
+  -
+    menu_name: main
+    title: Culture
+    parent: null
+    uri: 'internal:/culture'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -49
+    langcode: en
+    uuid: 9548ba9b-5ae0-4248-8c2e-f76e52ef31f5
+    options: {  }
+  -
+    menu_name: main
+    title: Tech
+    parent: null
+    uri: 'internal:/tech'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -42
+    langcode: en
+    uuid: 57c1d03b-fff3-407d-af0e-2fc37254aa2a
+    options: {  }
+  -
+    menu_name: main
+    title: Infrastructure
+    parent: 'menu_link_content:ca4916ec-7269-42dc-abf5-5864739fbddd'
+    uri: 'internal:/infrastructure'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -50
+    langcode: en
+    uuid: 84280df7-1f91-4321-9e41-18f4d41b10e8
+    options: {  }
+  -
+    menu_name: main
+    title: Identity
+    parent: 'menu_link_content:9548ba9b-5ae0-4248-8c2e-f76e52ef31f5'
+    uri: 'internal:/identity'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -45
+    langcode: en
+    uuid: 837c07f7-a5c0-4df4-92d8-60cd936d01fa
+    options: {  }
+  -
+    menu_name: main
+    title: Science
+    parent: null
+    uri: 'internal:/science'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -43
+    langcode: en
+    uuid: 12c86a49-2aa6-4d01-8b4e-ca29230f8dc3
+    options: {  }
+  -
+    menu_name: main
+    title: 'Business & Strategy'
+    parent: null
+    uri: 'internal:/business-strategy'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -47
+    langcode: en
+    uuid: ca4916ec-7269-42dc-abf5-5864739fbddd
+    options: {  }
+  -
+    menu_name: main
+    title: Health
+    parent: null
+    uri: 'internal:/health'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -45
+    langcode: en
+    uuid: 1e665e14-aa16-489e-98b5-dfdc88595a6d
+    options: {  }
+  -
+    menu_name: main
+    title: Community
+    parent: 'menu_link_content:9548ba9b-5ae0-4248-8c2e-f76e52ef31f5'
+    uri: 'internal:/community'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -46
+    langcode: en
+    uuid: ba100dfb-b62e-43fa-a42a-88f144ca441a
+    options: {  }
+  -
+    menu_name: main
+    title: Sport
+    parent: null
+    uri: 'internal:/sport'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -48
+    langcode: en
+    uuid: 3691cd90-a8ea-49ae-8cdf-9cb8e438541a
+    options: {  }
+  -
+    menu_name: main
+    title: Art
+    parent: 'menu_link_content:9548ba9b-5ae0-4248-8c2e-f76e52ef31f5'
+    uri: 'internal:/art'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -50
+    langcode: en
+    uuid: 8dbccd1a-0d0a-43a2-80ec-0aedc24e46dd
+    options: {  }
+  -
+    menu_name: main
+    title: Environment
+    parent: 'menu_link_content:12c86a49-2aa6-4d01-8b4e-ca29230f8dc3'
+    uri: 'internal:/environment'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -50
+    langcode: en
+    uuid: 8b7a2b29-8b8a-4048-84c2-7dbe167bb5b4
+    options: {  }
+  -
+    menu_name: main
+    title: Music
+    parent: 'menu_link_content:9548ba9b-5ae0-4248-8c2e-f76e52ef31f5'
+    uri: 'internal:/music'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -49
+    langcode: en
+    uuid: e2aec3fc-c4d7-4d3c-a8e2-8e5424f731cc
+    options: {  }
+  -
+    menu_name: main
+    title: Film
+    parent: 'menu_link_content:9548ba9b-5ae0-4248-8c2e-f76e52ef31f5'
+    uri: 'internal:/film'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -47
+    langcode: en
+    uuid: 3a203bbe-f23c-4fb3-9ab3-b0b7aa5f3ee0
+    options: {  }
+  -
+    menu_name: main
+    title: 'Performing Arts'
+    parent: 'menu_link_content:9548ba9b-5ae0-4248-8c2e-f76e52ef31f5'
+    uri: 'internal:/arts/performing-arts'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -48
+    langcode: en
+    uuid: f6ddaf14-71a7-4e34-8e2a-4688c19c652d
+    options: {  }
+  -
+    menu_name: main
+    title: 'Featured Business'
+    parent: 'menu_link_content:ca4916ec-7269-42dc-abf5-5864739fbddd'
+    uri: 'internal:/business-strategy/featured-business'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -49
+    langcode: en
+    uuid: e05cf5a7-6df7-49fa-bcdd-64871c05b98e
+    options: {  }
+  -
+    menu_name: main
+    title: Partnerships
+    parent: 'menu_link_content:ca4916ec-7269-42dc-abf5-5864739fbddd'
+    uri: 'internal:/business-strategy/partnerships'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -48
+    langcode: en
+    uuid: ba66230c-eb65-480d-8311-973d2ddfe61b
+    options: {  }
