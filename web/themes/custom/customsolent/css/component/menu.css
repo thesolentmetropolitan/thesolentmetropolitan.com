@@ -1,0 +1,15 @@
+nav[role=navigation] li {
+    display: inline-block;
+}
+
+nav[role=navigation] li li {
+    display: none;
+}
+
+/*
+
+auto-generate ids?
+
+https://stackoverflow.com/questions/29894777/how-can-i-click-a-specific-li-without-an-id-or-class
+
+*/
