@@ -144,9 +144,9 @@ menus:
     options: {  }
   -
     menu_name: main
-    title: 'Featured Business'
+    title: 'Business News'
     parent: 'menu_link_content:ca4916ec-7269-42dc-abf5-5864739fbddd'
-    uri: 'internal:/business-strategy/featured-business'
+    uri: 'internal:/business-strategy/business-news'
     link_title: ''
     description: null
     enabled: true
