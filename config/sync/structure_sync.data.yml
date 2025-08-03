@@ -14,19 +14,6 @@ menus:
     options: {  }
   -
     menu_name: main
-    title: Tech
-    parent: null
-    uri: 'internal:/tech'
-    link_title: ''
-    description: null
-    enabled: true
-    expanded: false
-    weight: -42
-    langcode: en
-    uuid: 57c1d03b-fff3-407d-af0e-2fc37254aa2a
-    options: {  }
-  -
-    menu_name: main
     title: Infrastructure
     parent: 'menu_link_content:ca4916ec-7269-42dc-abf5-5864739fbddd'
     uri: 'internal:/infrastructure'
@@ -34,33 +21,20 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -50
+    weight: -48
     langcode: en
     uuid: 84280df7-1f91-4321-9e41-18f4d41b10e8
     options: {  }
   -
     menu_name: main
-    title: Identity
-    parent: 'menu_link_content:9548ba9b-5ae0-4248-8c2e-f76e52ef31f5'
-    uri: 'internal:/identity'
-    link_title: ''
-    description: null
-    enabled: true
-    expanded: false
-    weight: -44
-    langcode: en
-    uuid: 837c07f7-a5c0-4df4-92d8-60cd936d01fa
-    options: {  }
-  -
-    menu_name: main
-    title: Science
+    title: 'Science & Tech'
     parent: null
-    uri: 'internal:/science'
+    uri: 'internal:/science-tech'
     link_title: ''
     description: null
     enabled: true
     expanded: false
-    weight: -43
+    weight: -45
     langcode: en
     uuid: 12c86a49-2aa6-4d01-8b4e-ca29230f8dc3
     options: {  }
@@ -73,20 +47,20 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -47
+    weight: -46
     langcode: en
     uuid: ca4916ec-7269-42dc-abf5-5864739fbddd
     options: {  }
   -
     menu_name: main
-    title: Health
-    parent: null
-    uri: 'internal:/health'
+    title: 'Health & Fitness'
+    parent: 'menu_link_content:756c53bd-5480-481e-8ee9-dc1cc63d4c34'
+    uri: 'internal:/lifestyle/health-fitness'
     link_title: ''
     description: null
     enabled: true
     expanded: false
-    weight: -45
+    weight: -50
     langcode: en
     uuid: 1e665e14-aa16-489e-98b5-dfdc88595a6d
     options: {  }
@@ -99,7 +73,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -45
+    weight: -49
     langcode: en
     uuid: ba100dfb-b62e-43fa-a42a-88f144ca441a
     options: {  }
@@ -138,7 +112,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -50
+    weight: -49
     langcode: en
     uuid: 8b7a2b29-8b8a-4048-84c2-7dbe167bb5b4
     options: {  }
@@ -151,7 +125,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -49
+    weight: -46
     langcode: en
     uuid: e2aec3fc-c4d7-4d3c-a8e2-8e5424f731cc
     options: {  }
@@ -164,7 +138,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -46
+    weight: -47
     langcode: en
     uuid: 3a203bbe-f23c-4fb3-9ab3-b0b7aa5f3ee0
     options: {  }
@@ -183,27 +157,27 @@ menus:
     options: {  }
   -
     menu_name: main
-    title: Colllaboration
+    title: Collaboration
     parent: 'menu_link_content:ca4916ec-7269-42dc-abf5-5864739fbddd'
     uri: 'internal:/business-strategy/collaboration'
     link_title: ''
     description: null
     enabled: true
     expanded: false
-    weight: -48
+    weight: -50
     langcode: en
     uuid: ba66230c-eb65-480d-8311-973d2ddfe61b
     options: {  }
   -
     menu_name: main
-    title: 'Theatre & Acting'
+    title: Stage
     parent: 'menu_link_content:9548ba9b-5ae0-4248-8c2e-f76e52ef31f5'
-    uri: 'internal:/theatre-and-acting'
+    uri: 'internal:/culture/stage'
     link_title: ''
     description: null
     enabled: true
     expanded: false
-    weight: -47
+    weight: -45
     langcode: en
     uuid: b382d99f-6a38-4d1a-8641-b8e93bacec5e
     options: {  }
@@ -219,4 +193,56 @@ menus:
     weight: -48
     langcode: en
     uuid: c50bef7f-4d83-4b78-9046-fb60d82cda45
+    options: {  }
+  -
+    menu_name: main
+    title: Writing
+    parent: 'menu_link_content:9548ba9b-5ae0-4248-8c2e-f76e52ef31f5'
+    uri: 'internal:/culture/writing'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -44
+    langcode: en
+    uuid: b285e567-d41f-4eed-a2b2-b506c88e727f
+    options: {  }
+  -
+    menu_name: main
+    title: Computing
+    parent: 'menu_link_content:12c86a49-2aa6-4d01-8b4e-ca29230f8dc3'
+    uri: 'internal:/science-tech/computing'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -50
+    langcode: en
+    uuid: 78a6db47-cb6c-4e52-9a26-4a27c30b063e
+    options: {  }
+  -
+    menu_name: main
+    title: Lifestyle
+    parent: null
+    uri: 'internal:/lifestyle'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -47
+    langcode: en
+    uuid: 756c53bd-5480-481e-8ee9-dc1cc63d4c34
+    options: {  }
+  -
+    menu_name: main
+    title: Research
+    parent: 'menu_link_content:12c86a49-2aa6-4d01-8b4e-ca29230f8dc3'
+    uri: 'internal:/science-tech/research'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -48
+    langcode: en
+    uuid: bbe562c2-63e2-4f77-8d79-1edbd2605aea
     options: {  }
