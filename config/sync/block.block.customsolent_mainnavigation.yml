@@ -17,7 +17,7 @@ plugin: 'superfish:main'
 settings:
   id: 'superfish:main'
   label: 'Main navigation'
-  label_display: visible
+  label_display: '0'
   provider: superfish
   level: 1
   depth: null
