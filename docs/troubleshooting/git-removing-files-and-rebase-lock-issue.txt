@@ -1,0 +1,7 @@
+https://stackoverflow.com/questions/79730918/certs-in-ddev-traefik-certs-trigger-good-samaritan-unsolicited-email-from-git
+
+Removing files completely from git history and resolving lock issue
+
+I did git rebase -i HEAD~4 based on stackoverflow.com/a/40926981/227926 and dropped the commit that added the traefik keys. I also tried git revert commit-id to remove the file, but that didn't work. stackoverflow.com/a/46049015/227926 This solution appears to have worked on the basis that there is only one commit associated with the certs and that it would appear that no further commits by me (unintentionally) or otherwise had changed the file.
+
+Further to my [previous comment](https://stackoverflow.com/questions/79730918/certs-in-ddev-traefik-certs-trigger-good-samaritan-unsolicited-email-from-git#comment140655224_79730925) I got an error mentioning git lock so I had to do [this solution](https://stackoverflow.com/a/36268476/227926)
