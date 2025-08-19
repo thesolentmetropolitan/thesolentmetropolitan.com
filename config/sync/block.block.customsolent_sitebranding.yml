@@ -1,16 +1,14 @@
-uuid: 2d812e6e-2f64-4d69-a8f1-42db7ff7ff19
+uuid: 9ca11585-71c0-497b-84a4-df49d8f99c47
 langcode: en
-status: false
+status: true
 dependencies:
   module:
     - system
   theme:
     - customsolent
-_core:
-  default_config_hash: n_nlgjggHVfQt2H__zvLOKB2YtjPDbQ5tHijF9LE1aM
-id: customsolent_site_branding
+id: customsolent_sitebranding
 theme: customsolent
-region: header
+region: logo
 weight: 0
 provider: null
 plugin: system_branding_block
