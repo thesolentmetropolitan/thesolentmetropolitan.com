@@ -1,0 +1,23 @@
+uuid: 9ca11585-71c0-497b-84a4-df49d8f99c47
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - customsolent
+id: customsolent_sitebranding
+theme: customsolent
+region: logo
+weight: 0
+provider: null
+plugin: system_branding_block
+settings:
+  id: system_branding_block
+  label: 'Site branding'
+  label_display: '0'
+  provider: system
+  use_site_logo: true
+  use_site_name: false
+  use_site_slogan: false
+visibility: {  }
