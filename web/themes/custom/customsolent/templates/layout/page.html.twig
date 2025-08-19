@@ -29,6 +29,7 @@
  *
  * Regions:
  * - page.header: Items for the header region.
+ * - page.logo: Logo.
  * - page.primary_menu: Items for the primary menu region.
  * - page.secondary_menu: Items for the secondary menu region.
  * - page.highlighted: Items for the highlighted content region.
@@ -48,8 +49,14 @@
   <header role="banner">
     {{ page.header }}
   </header>
+  
+  <div id="slnt-logo">
+    {{ page.logo }}
+  </div>
+  <div id="slnt-prim-menu">
+    {{ page.primary_menu }}
+  </div>
 
-  {{ page.primary_menu }}
   {{ page.secondary_menu }}
 
   {{ page.breadcrumb }}
