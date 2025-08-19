@@ -8,7 +8,9 @@ libraries:
   - customsolent/global
 regions:
   header: 'Header'
+  logo: 'Logo'
   primary_menu: 'Primary menu'
+  search: 'Search'
   secondary_menu: 'Secondary menu'
   page_top: 'Page top'
   page_bottom: 'Page bottom'
