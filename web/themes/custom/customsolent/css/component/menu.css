@@ -13,3 +13,23 @@ auto-generate ids?
 https://stackoverflow.com/questions/29894777/how-can-i-click-a-specific-li-without-an-id-or-class
 
 */
+
+/*#superfish-main,*/
+.slnt-menu-main-ul {
+  background: white;
+}
+
+.slnt-menu-li {
+  background: white;
+  font-family: "Noto Serif"
+}
+
+ul.sf-menu .sf-sub-indicator {
+/* .slnt-menu-a > .sf-sub-indicator { */
+  right: unset;
+}
+
+.slnt-menu-a {
+    text-decoration: none;
+    color: black;
+}

@@ -23,7 +23,7 @@ settings:
   depth: null
   expand_all_items: false
   menu_type: navbar
-  style: default
+  style: none
   arrow: 1
   shadow: 1
   speed: fast
@@ -68,7 +68,7 @@ settings:
   link_depth_class: 1
   link_text_prefix: ''
   link_text_suffix: ''
-  custom_list_class: ''
-  custom_item_class: ''
-  custom_link_class: ''
+  custom_list_class: slnt-menu-main-ul
+  custom_item_class: slnt-menu-li
+  custom_link_class: slnt-menu-a
 visibility: {  }

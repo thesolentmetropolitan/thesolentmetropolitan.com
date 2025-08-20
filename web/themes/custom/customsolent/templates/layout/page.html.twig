@@ -43,22 +43,26 @@
  * @see \Drupal\Core\Theme\ThemePreprocess::preprocessPage()
  * @see html.html.twig
  */
+
+     {{ page.header }}
 #}
 <div class="layout-container">
 
-  <header role="banner">
-    {{ page.header }}
+  <header>
+    <div id="slnt-header">
+      <div id="slnt-logo">
+        {{ page.logo }}
+      </div>
+      <div id="slnt-prim-menu">
+        {{ page.primary_menu }}
+      </div>
+      <div id="slnt-srch">
+        {{ page.search }}
+      </div>
+    </div>
   </header>
   
-  <div id="slnt-logo">
-    {{ page.logo }}
-  </div>
-  <div id="slnt-prim-menu">
-    {{ page.primary_menu }}
-  </div>
-  <div id="slnt-srch">
-    {{ page.search }}
-  </div>
+
 
   {{ page.secondary_menu }}
 
