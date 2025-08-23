@@ -14,35 +14,9 @@ menus:
     options: {  }
   -
     menu_name: main
-    title: Infrastructure
-    parent: 'menu_link_content:ca4916ec-7269-42dc-abf5-5864739fbddd'
-    uri: 'internal:/infrastructure'
-    link_title: ''
-    description: null
-    enabled: true
-    expanded: false
-    weight: -48
-    langcode: en
-    uuid: 84280df7-1f91-4321-9e41-18f4d41b10e8
-    options: {  }
-  -
-    menu_name: main
-    title: 'Science & Tech'
+    title: Sectors
     parent: null
-    uri: 'internal:/science-tech'
-    link_title: ''
-    description: null
-    enabled: true
-    expanded: false
-    weight: -48
-    langcode: en
-    uuid: 12c86a49-2aa6-4d01-8b4e-ca29230f8dc3
-    options: {  }
-  -
-    menu_name: main
-    title: 'Business & Strategy'
-    parent: null
-    uri: 'internal:/business-strategy'
+    uri: 'internal:/sectors'
     link_title: ''
     description: null
     enabled: true
@@ -55,12 +29,12 @@ menus:
     menu_name: main
     title: Health
     parent: 'menu_link_content:756c53bd-5480-481e-8ee9-dc1cc63d4c34'
-    uri: 'internal:/lifestyle/health'
+    uri: 'internal:/living/health'
     link_title: ''
     description: null
     enabled: true
     expanded: false
-    weight: -50
+    weight: -51
     langcode: en
     uuid: 1e665e14-aa16-489e-98b5-dfdc88595a6d
     options: {  }
@@ -73,20 +47,20 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -49
+    weight: -48
     langcode: en
     uuid: ba100dfb-b62e-43fa-a42a-88f144ca441a
     options: {  }
   -
     menu_name: main
     title: Sport
-    parent: null
+    parent: 'menu_link_content:9548ba9b-5ae0-4248-8c2e-f76e52ef31f5'
     uri: 'internal:/sport'
     link_title: ''
     description: null
     enabled: true
     expanded: false
-    weight: -46
+    weight: -38
     langcode: en
     uuid: 3691cd90-a8ea-49ae-8cdf-9cb8e438541a
     options: {  }
@@ -105,19 +79,6 @@ menus:
     options: {  }
   -
     menu_name: main
-    title: Environment
-    parent: 'menu_link_content:12c86a49-2aa6-4d01-8b4e-ca29230f8dc3'
-    uri: 'internal:/environment'
-    link_title: ''
-    description: null
-    enabled: true
-    expanded: false
-    weight: -49
-    langcode: en
-    uuid: 8b7a2b29-8b8a-4048-84c2-7dbe167bb5b4
-    options: {  }
-  -
-    menu_name: main
     title: Music
     parent: 'menu_link_content:9548ba9b-5ae0-4248-8c2e-f76e52ef31f5'
     uri: 'internal:/music'
@@ -125,7 +86,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -44
+    weight: -41
     langcode: en
     uuid: e2aec3fc-c4d7-4d3c-a8e2-8e5424f731cc
     options: {  }
@@ -138,35 +99,9 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -46
+    weight: -44
     langcode: en
     uuid: 3a203bbe-f23c-4fb3-9ab3-b0b7aa5f3ee0
-    options: {  }
-  -
-    menu_name: main
-    title: 'Business News'
-    parent: 'menu_link_content:ca4916ec-7269-42dc-abf5-5864739fbddd'
-    uri: 'internal:/business-strategy/business-news'
-    link_title: ''
-    description: null
-    enabled: true
-    expanded: false
-    weight: -49
-    langcode: en
-    uuid: e05cf5a7-6df7-49fa-bcdd-64871c05b98e
-    options: {  }
-  -
-    menu_name: main
-    title: Collaboration
-    parent: 'menu_link_content:ca4916ec-7269-42dc-abf5-5864739fbddd'
-    uri: 'internal:/business-strategy/collaboration'
-    link_title: ''
-    description: null
-    enabled: true
-    expanded: false
-    weight: -50
-    langcode: en
-    uuid: ba66230c-eb65-480d-8311-973d2ddfe61b
     options: {  }
   -
     menu_name: main
@@ -177,7 +112,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -42
+    weight: -36
     langcode: en
     uuid: b382d99f-6a38-4d1a-8641-b8e93bacec5e
     options: {  }
@@ -190,61 +125,35 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -48
+    weight: -47
     langcode: en
     uuid: c50bef7f-4d83-4b78-9046-fb60d82cda45
     options: {  }
   -
     menu_name: main
-    title: Writing
+    title: 'Writing & Blogs'
     parent: 'menu_link_content:9548ba9b-5ae0-4248-8c2e-f76e52ef31f5'
-    uri: 'internal:/culture/writing'
+    uri: 'internal:/culture/writing-and-blogs'
     link_title: ''
     description: null
     enabled: true
     expanded: false
-    weight: -41
+    weight: -35
     langcode: en
     uuid: b285e567-d41f-4eed-a2b2-b506c88e727f
     options: {  }
   -
     menu_name: main
-    title: Computing
-    parent: 'menu_link_content:12c86a49-2aa6-4d01-8b4e-ca29230f8dc3'
-    uri: 'internal:/science-tech/computing'
-    link_title: ''
-    description: null
-    enabled: true
-    expanded: false
-    weight: -50
-    langcode: en
-    uuid: 78a6db47-cb6c-4e52-9a26-4a27c30b063e
-    options: {  }
-  -
-    menu_name: main
-    title: 'Lifestyle & You'
+    title: Living
     parent: null
-    uri: 'internal:/lifestyle-and-you'
+    uri: 'internal:/living'
     link_title: ''
     description: null
     enabled: true
     expanded: false
-    weight: -45
+    weight: -44
     langcode: en
     uuid: 756c53bd-5480-481e-8ee9-dc1cc63d4c34
-    options: {  }
-  -
-    menu_name: main
-    title: Research
-    parent: 'menu_link_content:12c86a49-2aa6-4d01-8b4e-ca29230f8dc3'
-    uri: 'internal:/science-tech/research'
-    link_title: ''
-    description: null
-    enabled: true
-    expanded: false
-    weight: -47
-    langcode: en
-    uuid: bbe562c2-63e2-4f77-8d79-1edbd2605aea
     options: {  }
   -
     menu_name: main
@@ -255,54 +164,28 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -45
+    weight: -43
     langcode: en
     uuid: 4b597611-3c69-49ab-a8f6-5d1ae184aeb1
     options: {  }
   -
     menu_name: main
-    title: 'Radio & Podcasts'
+    title: 'Podcasts & Radio'
     parent: 'menu_link_content:9548ba9b-5ae0-4248-8c2e-f76e52ef31f5'
-    uri: 'internal:/radio-podcasts'
+    uri: 'internal:/podcasts-radio'
     link_title: ''
     description: null
     enabled: true
     expanded: false
-    weight: -43
+    weight: -39
     langcode: en
     uuid: 4b3fc748-1d7b-4dd2-9d23-a7a78c447b36
     options: {  }
   -
     menu_name: main
-    title: Football
-    parent: 'menu_link_content:3691cd90-a8ea-49ae-8cdf-9cb8e438541a'
-    uri: 'internal:/sport/football'
-    link_title: ''
-    description: null
-    enabled: true
-    expanded: false
-    weight: -49
-    langcode: en
-    uuid: 30f023c9-9459-4748-bc7a-133cbe0aa69d
-    options: {  }
-  -
-    menu_name: main
-    title: Cricket
-    parent: 'menu_link_content:3691cd90-a8ea-49ae-8cdf-9cb8e438541a'
-    uri: 'internal:/sport/cricket'
-    link_title: ''
-    description: null
-    enabled: true
-    expanded: false
-    weight: -48
-    langcode: en
-    uuid: 0999cc09-98a7-47e6-9522-f077a0b4119e
-    options: {  }
-  -
-    menu_name: main
     title: 'Food & Drink'
-    parent: 'menu_link_content:756c53bd-5480-481e-8ee9-dc1cc63d4c34'
-    uri: 'internal:/lifestyle/food-drink'
+    parent: 'menu_link_content:9548ba9b-5ae0-4248-8c2e-f76e52ef31f5'
+    uri: 'internal:/living/food-drink'
     link_title: ''
     description: null
     enabled: true
@@ -315,12 +198,12 @@ menus:
     menu_name: main
     title: Fitness
     parent: 'menu_link_content:756c53bd-5480-481e-8ee9-dc1cc63d4c34'
-    uri: 'internal:/lifestyle/fitness'
+    uri: 'internal:/living/fitness'
     link_title: ''
     description: null
     enabled: true
     expanded: false
-    weight: -48
+    weight: -49
     langcode: en
     uuid: 249fa295-3ade-4010-80ca-2f8986f68688
     options: {  }
@@ -328,7 +211,7 @@ menus:
     menu_name: main
     title: 'Learning & Education'
     parent: 'menu_link_content:756c53bd-5480-481e-8ee9-dc1cc63d4c34'
-    uri: 'internal:/lifestyle/learning-education'
+    uri: 'internal:/living/learning-education'
     link_title: ''
     description: null
     enabled: true
@@ -346,7 +229,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -47
+    weight: -46
     langcode: en
     uuid: db9c6fda-c2ce-49bc-8e5e-3327534174aa
     options: {  }
@@ -354,12 +237,12 @@ menus:
     menu_name: main
     title: 'Mental Health'
     parent: 'menu_link_content:756c53bd-5480-481e-8ee9-dc1cc63d4c34'
-    uri: 'internal:/lifestyle/mental-health'
+    uri: 'internal:/living/mental-health'
     link_title: ''
     description: null
     enabled: true
     expanded: false
-    weight: -49
+    weight: -50
     langcode: en
     uuid: 6eabc665-7abb-43a1-8190-b4e3b635df7b
     options: {  }
@@ -367,12 +250,402 @@ menus:
     menu_name: main
     title: Family
     parent: 'menu_link_content:756c53bd-5480-481e-8ee9-dc1cc63d4c34'
-    uri: 'internal:/lifestyle/family'
+    uri: 'internal:/living/family'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -48
+    langcode: en
+    uuid: 11debdd8-92fc-41aa-9986-0ded7eb85ee9
+    options: {  }
+  -
+    menu_name: main
+    title: Maritime
+    parent: 'menu_link_content:ca4916ec-7269-42dc-abf5-5864739fbddd'
+    uri: 'internal:/sectors/maritime'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -35
+    langcode: en
+    uuid: e5e84f75-afd1-4ab4-9468-a21693975305
+    options: {  }
+  -
+    menu_name: main
+    title: Farming
+    parent: 'menu_link_content:ca4916ec-7269-42dc-abf5-5864739fbddd'
+    uri: 'internal:/sectors/farming'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -42
+    langcode: en
+    uuid: cd4c065b-6519-4899-8ee3-abe0c2356df3
+    options: {  }
+  -
+    menu_name: main
+    title: 'Science & Tech'
+    parent: 'menu_link_content:ca4916ec-7269-42dc-abf5-5864739fbddd'
+    uri: 'internal:/sectors/science-tech'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -29
+    langcode: en
+    uuid: 785d407c-dd2a-4b90-b48f-d1b6e8b933e1
+    options: {  }
+  -
+    menu_name: main
+    title: 'Engineering & Manufacturing'
+    parent: 'menu_link_content:ca4916ec-7269-42dc-abf5-5864739fbddd'
+    uri: 'internal:/sectors/engineering-and-manufacturing'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -44
+    langcode: en
+    uuid: b23ffe1c-300d-4c7b-a31a-55e120efb49d
+    options: {  }
+  -
+    menu_name: main
+    title: 'Infrastructure & Logistics'
+    parent: 'menu_link_content:ca4916ec-7269-42dc-abf5-5864739fbddd'
+    uri: 'internal:/sectors/infrastructure-logistics'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -37
+    langcode: en
+    uuid: b841ff01-b616-4e06-827e-3f866589c0bc
+    options: {  }
+  -
+    menu_name: main
+    title: Construction
+    parent: 'menu_link_content:ca4916ec-7269-42dc-abf5-5864739fbddd'
+    uri: 'internal:/sectors/construction'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -49
+    langcode: en
+    uuid: 36d08377-3e2c-4b8a-880c-436af016f269
+    options: {  }
+  -
+    menu_name: main
+    title: 'Marketing & PR'
+    parent: 'menu_link_content:ca4916ec-7269-42dc-abf5-5864739fbddd'
+    uri: 'internal:/sectors/marketing-pr'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -34
+    langcode: en
+    uuid: 0d619d7d-b548-4734-94f9-8ab767901178
+    options: {  }
+  -
+    menu_name: main
+    title: Crafts
+    parent: 'menu_link_content:ca4916ec-7269-42dc-abf5-5864739fbddd'
+    uri: 'internal:/sectors/crafts'
     link_title: ''
     description: null
     enabled: true
     expanded: false
     weight: -47
     langcode: en
-    uuid: 11debdd8-92fc-41aa-9986-0ded7eb85ee9
+    uuid: 11f0a182-e92f-41f2-9c71-c64417bed929
+    options: {  }
+  -
+    menu_name: main
+    title: Education
+    parent: 'menu_link_content:ca4916ec-7269-42dc-abf5-5864739fbddd'
+    uri: 'internal:/sectors/education'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -46
+    langcode: en
+    uuid: f026cbda-7837-44a1-9dfa-d96fedae5281
+    options: {  }
+  -
+    menu_name: main
+    title: 'Health & Care'
+    parent: 'menu_link_content:ca4916ec-7269-42dc-abf5-5864739fbddd'
+    uri: 'internal:/sectors/health-and-care'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -39
+    langcode: en
+    uuid: 29e84fb0-4d60-4a5a-baf5-a7b24ae91010
+    options: {  }
+  -
+    menu_name: main
+    title: Hospitality
+    parent: 'menu_link_content:ca4916ec-7269-42dc-abf5-5864739fbddd'
+    uri: 'internal:/sectors/hospitality'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -38
+    langcode: en
+    uuid: 675facb3-2d62-4124-8ec5-0f0031488472
+    options: {  }
+  -
+    menu_name: main
+    title: 'Food & Drink'
+    parent: 'menu_link_content:ca4916ec-7269-42dc-abf5-5864739fbddd'
+    uri: 'internal:/sectors/food-drink'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -40
+    langcode: en
+    uuid: 817714c1-33c6-407c-82ae-e571badbc20e
+    options: {  }
+  -
+    menu_name: main
+    title: Lifestyle
+    parent: 'menu_link_content:ca4916ec-7269-42dc-abf5-5864739fbddd'
+    uri: 'internal:/sectors/lifestyle'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -36
+    langcode: en
+    uuid: 1938fad3-f184-4b15-969a-c207510ecb0b
+    options: {  }
+  -
+    menu_name: main
+    title: 'Finance & Legal'
+    parent: 'menu_link_content:ca4916ec-7269-42dc-abf5-5864739fbddd'
+    uri: 'internal:/sectors/finance-legal'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -41
+    langcode: en
+    uuid: 54f61a44-6775-4619-b8bf-7d65f56a5f56
+    options: {  }
+  -
+    menu_name: main
+    title: 'Professional Services'
+    parent: 'menu_link_content:ca4916ec-7269-42dc-abf5-5864739fbddd'
+    uri: 'internal:/sectors/professional-services'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -32
+    langcode: en
+    uuid: 9444b6b5-f978-42cb-937b-ce8f2eb6f81d
+    options: {  }
+  -
+    menu_name: main
+    title: 'Property & Trades'
+    parent: 'menu_link_content:ca4916ec-7269-42dc-abf5-5864739fbddd'
+    uri: 'internal:/sectors/property-and-trades'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -31
+    langcode: en
+    uuid: e94fc196-e0dc-49a8-8d24-ecc45bee1db6
+    options: {  }
+  -
+    menu_name: main
+    title: Transport
+    parent: 'menu_link_content:ca4916ec-7269-42dc-abf5-5864739fbddd'
+    uri: 'internal:/sectors/transport'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -28
+    langcode: en
+    uuid: ba276cbf-52f0-4e61-9f1d-99fa65acb6cd
+    options: {  }
+  -
+    menu_name: main
+    title: 'Creative & Performance'
+    parent: 'menu_link_content:ca4916ec-7269-42dc-abf5-5864739fbddd'
+    uri: 'internal:/sectors/creative-performance'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -48
+    langcode: en
+    uuid: 84c852cb-79ca-416d-bafa-01ad85050918
+    options: {  }
+  -
+    menu_name: main
+    title: Environment
+    parent: 'menu_link_content:ca4916ec-7269-42dc-abf5-5864739fbddd'
+    uri: 'internal:/sectors/environment'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -45
+    langcode: en
+    uuid: 2f24a73a-8101-4865-a606-8f2adaf41608
+    options: {  }
+  -
+    menu_name: main
+    title: Media
+    parent: 'menu_link_content:ca4916ec-7269-42dc-abf5-5864739fbddd'
+    uri: 'internal:/sectors/media'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -33
+    langcode: en
+    uuid: 46040601-f8d3-42bd-aff8-55a347b770cf
+    options: {  }
+  -
+    menu_name: main
+    title: 'Charity & Volunteering'
+    parent: 'menu_link_content:ca4916ec-7269-42dc-abf5-5864739fbddd'
+    uri: 'internal:/sectors/charity-and-volunteering'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -50
+    langcode: en
+    uuid: 4f728897-4179-4a7a-badc-4b8567fb095d
+    options: {  }
+  -
+    menu_name: main
+    title: 'Event & Venue'
+    parent: 'menu_link_content:ca4916ec-7269-42dc-abf5-5864739fbddd'
+    uri: 'internal:/sectors/event-venue'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -43
+    langcode: en
+    uuid: 2194b58c-6143-4e7d-8e68-f59925b69aba
+    options: {  }
+  -
+    menu_name: main
+    title: 'Science & Tech Forums'
+    parent: 'menu_link_content:9548ba9b-5ae0-4248-8c2e-f76e52ef31f5'
+    uri: 'internal:/culture/science-tech-forums'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -49
+    langcode: en
+    uuid: 13aa2a20-b941-4dd5-8a27-e4e1dd4b61be
+    options: {  }
+  -
+    menu_name: main
+    title: 'Makers & Crafts'
+    parent: 'menu_link_content:9548ba9b-5ae0-4248-8c2e-f76e52ef31f5'
+    uri: 'internal:/culture/makers-crafts'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -42
+    langcode: en
+    uuid: 76cf4d5f-3016-4103-9798-2ac3f1793846
+    options: {  }
+  -
+    menu_name: main
+    title: Retail
+    parent: 'menu_link_content:ca4916ec-7269-42dc-abf5-5864739fbddd'
+    uri: 'internal:/sectors/retail'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -30
+    langcode: en
+    uuid: c1070c3a-500f-43b6-ad13-aebb517684e3
+    options: {  }
+  -
+    menu_name: main
+    title: 'Streaming & TV'
+    parent: 'menu_link_content:9548ba9b-5ae0-4248-8c2e-f76e52ef31f5'
+    uri: 'internal:/culture/streaming-tv'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -37
+    langcode: en
+    uuid: 4b28e4d3-d73d-495e-9e9e-efa4185a4dbf
+    options: {  }
+  -
+    menu_name: main
+    title: 'Vehicle & Machinery'
+    parent: 'menu_link_content:ca4916ec-7269-42dc-abf5-5864739fbddd'
+    uri: 'internal:/sectors/vehicle-machinery'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -27
+    langcode: en
+    uuid: 74b8480d-83ba-43ea-b5e4-c99bdc227a9e
+    options: {  }
+  -
+    menu_name: main
+    title: 'Home & Garden'
+    parent: 'menu_link_content:756c53bd-5480-481e-8ee9-dc1cc63d4c34'
+    uri: 'internal:/living/home-garden'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -47
+    langcode: en
+    uuid: 0fec7440-af88-4538-bfd1-5422b795b14d
+    options: {  }
+  -
+    menu_name: main
+    title: "Enthusiasts' Clubs"
+    parent: 'menu_link_content:9548ba9b-5ae0-4248-8c2e-f76e52ef31f5'
+    uri: 'internal:/culture/enthusiasts-clubs'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -40
+    langcode: en
+    uuid: 2cb98f06-787e-4109-a6ed-0bc032237980
+    options: {  }
+  -
+    menu_name: main
+    title: 'Advice & Outreach'
+    parent: 'menu_link_content:756c53bd-5480-481e-8ee9-dc1cc63d4c34'
+    uri: 'internal:/living/advice-outreach'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -45
+    langcode: en
+    uuid: a727d56f-62aa-4416-a871-77d12b26f2b9
     options: {  }
