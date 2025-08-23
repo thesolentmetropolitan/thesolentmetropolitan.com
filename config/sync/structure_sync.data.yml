@@ -34,7 +34,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -51
+    weight: -52
     langcode: en
     uuid: 1e665e14-aa16-489e-98b5-dfdc88595a6d
     options: {  }
@@ -42,7 +42,7 @@ menus:
     menu_name: main
     title: Community
     parent: 'menu_link_content:9548ba9b-5ae0-4248-8c2e-f76e52ef31f5'
-    uri: 'internal:/community'
+    uri: 'internal:/culture/community'
     link_title: ''
     description: null
     enabled: true
@@ -68,7 +68,7 @@ menus:
     menu_name: main
     title: 'Art & Design'
     parent: 'menu_link_content:9548ba9b-5ae0-4248-8c2e-f76e52ef31f5'
-    uri: 'internal:/art-design'
+    uri: 'internal:/culture/art-design'
     link_title: ''
     description: null
     enabled: true
@@ -81,7 +81,7 @@ menus:
     menu_name: main
     title: Music
     parent: 'menu_link_content:9548ba9b-5ae0-4248-8c2e-f76e52ef31f5'
-    uri: 'internal:/music'
+    uri: 'internal:/culture/music'
     link_title: ''
     description: null
     enabled: true
@@ -94,7 +94,7 @@ menus:
     menu_name: main
     title: Film
     parent: 'menu_link_content:9548ba9b-5ae0-4248-8c2e-f76e52ef31f5'
-    uri: 'internal:/film'
+    uri: 'internal:/culture/film'
     link_title: ''
     description: null
     enabled: true
@@ -159,7 +159,7 @@ menus:
     menu_name: main
     title: Heritage
     parent: 'menu_link_content:9548ba9b-5ae0-4248-8c2e-f76e52ef31f5'
-    uri: 'internal:/heritage'
+    uri: 'internal:/culture/heritage'
     link_title: ''
     description: null
     enabled: true
@@ -172,7 +172,7 @@ menus:
     menu_name: main
     title: 'Podcasts & Radio'
     parent: 'menu_link_content:9548ba9b-5ae0-4248-8c2e-f76e52ef31f5'
-    uri: 'internal:/podcasts-radio'
+    uri: 'internal:/culture/podcasts-radio'
     link_title: ''
     description: null
     enabled: true
@@ -185,7 +185,7 @@ menus:
     menu_name: main
     title: 'Food & Drink'
     parent: 'menu_link_content:9548ba9b-5ae0-4248-8c2e-f76e52ef31f5'
-    uri: 'internal:/living/food-drink'
+    uri: 'internal:/culture/food-drink'
     link_title: ''
     description: null
     enabled: true
@@ -203,7 +203,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -49
+    weight: -50
     langcode: en
     uuid: 249fa295-3ade-4010-80ca-2f8986f68688
     options: {  }
@@ -216,7 +216,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -46
+    weight: -47
     langcode: en
     uuid: 58c994bf-0fc1-4f42-b496-142e8c0d0a40
     options: {  }
@@ -242,7 +242,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -50
+    weight: -51
     langcode: en
     uuid: 6eabc665-7abb-43a1-8190-b4e3b635df7b
     options: {  }
@@ -255,7 +255,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -48
+    weight: -49
     langcode: en
     uuid: 11debdd8-92fc-41aa-9986-0ded7eb85ee9
     options: {  }
@@ -619,7 +619,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -47
+    weight: -48
     langcode: en
     uuid: 0fec7440-af88-4538-bfd1-5422b795b14d
     options: {  }
@@ -638,9 +638,9 @@ menus:
     options: {  }
   -
     menu_name: main
-    title: 'Advice & Outreach'
+    title: Advice
     parent: 'menu_link_content:756c53bd-5480-481e-8ee9-dc1cc63d4c34'
-    uri: 'internal:/living/advice-outreach'
+    uri: 'internal:/living/advice'
     link_title: ''
     description: null
     enabled: true
@@ -648,4 +648,17 @@ menus:
     weight: -45
     langcode: en
     uuid: a727d56f-62aa-4416-a871-77d12b26f2b9
+    options: {  }
+  -
+    menu_name: main
+    title: Outreach
+    parent: 'menu_link_content:756c53bd-5480-481e-8ee9-dc1cc63d4c34'
+    uri: 'internal:/living/outreach'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -46
+    langcode: en
+    uuid: fe14f8c4-e80b-4f2d-8d36-9b3d0b78b638
     options: {  }
