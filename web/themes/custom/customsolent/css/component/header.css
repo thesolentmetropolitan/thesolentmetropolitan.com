@@ -1,0 +1,27 @@
+#mast-head {
+    width: 15em;
+}
+
+#slnt-logo {
+    display:inline-block;
+    float:left;
+}
+
+#slnt-prim-menu {
+    display:inline-block;
+    float:left; 
+}
+
+#slnt-srch {
+    display:inline-block;
+    float:left; 
+}
+
+#slnt-header {
+    /*clear: both;*/
+}
+
+main {
+    clear:both;
+}
+

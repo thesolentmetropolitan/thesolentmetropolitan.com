@@ -1,0 +1,63 @@
+nav[role=navigation] li {
+    display: inline-block;
+}
+
+nav[role=navigation] li li {
+    display: none;
+}
+
+/*
+
+auto-generate ids?
+
+https://stackoverflow.com/questions/29894777/how-can-i-click-a-specific-li-without-an-id-or-class
+
+*/
+
+/*#superfish-main,*/
+.slnt-menu-main-ul {
+  background: white;
+}
+
+.slnt-menu-li {
+  background: white;
+  font-family: "Noto Serif"
+}
+
+ul.sf-menu .sf-sub-indicator {
+/* .slnt-menu-a > .sf-sub-indicator { */
+  right: unset;
+}
+
+.slnt-menu-a {
+    text-decoration: none;
+    color: black;
+}
+
+.sf-depth-2 {
+  background-color: #023E8A;
+  color: white;
+}
+
+.sfHover {
+  background-color: #560BAD;
+  color: white;
+}
+
+.sfHover > .slnt-menu-a {
+    text-decoration: none;
+    color: white;
+}
+
+/*
+.sf-depth-1 > ul {
+  width: 720px;
+  background-color: green;
+}
+*/
+
+ul.sf-menu.sf-navbar li ul, ul.sf-menu.sf-navbar li li li
+{
+  width: 720px;
+  background-color: #023E8A;
+}

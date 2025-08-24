@@ -1,0 +1,22 @@
+uuid: fc685007-1263-4505-b735-921b4a39da65
+langcode: en
+status: true
+dependencies:
+  module:
+    - help
+  theme:
+    - customsolent
+_core:
+  default_config_hash: VfPFqqxfkomud5CO8DUijw85QIl9GIxh_nIxLOYESxg
+id: customsolent_help
+theme: customsolent
+region: header
+weight: 0
+provider: null
+plugin: help_block
+settings:
+  id: help_block
+  label: Help
+  label_display: '0'
+  provider: help
+visibility: {  }
