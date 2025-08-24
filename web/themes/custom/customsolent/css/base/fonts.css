@@ -1,0 +1,52 @@
+@font-face {
+  font-family: "Noto Sans";
+  src: url('../../fonts/Noto_Sans/NotoSans-VariableFont_wdth,wght.ttf');
+}
+
+@font-face {
+  font-family: "Noto Sans Italic";
+  src: url('../../fonts/Noto_Sans/NotoSans-Italic-VariableFont_wdth,wght.ttf');
+}
+
+@font-face {
+  font-family: "Noto Serif";
+  src: url('../../fonts/Noto_Sans/NotoSerif-VariableFont_wdth,wght.ttf');
+}
+
+@font-face {
+  font-family: "Noto Serif Italic";
+  src: url('../../fonts/Noto_Sans/NotoSerif-Italic-VariableFont_wdth,wght.ttf');
+}
+
+
+.slnt-text,
+body,
+.slnt-text > * a {
+  font-family: 'Noto Sans';
+  font-size: 1em;
+}
+
+h1 {
+  font-family: "Noto Serif";
+  font-size: 3.2em;
+  font-weight: 700;
+  line-height: 1.1em;
+}
+
+h2 {
+  font-family: "Noto Sans";
+  font-size: 2.5em;
+  font-weight: 500;
+}
+
+h3 {
+  font-family: "Noto Sans";
+  font-size: 2em;
+  font-weight: 400;
+}
+
+h4 {
+  font-family: "Noto Sans";
+  font-size: 1.2em;
+}
+

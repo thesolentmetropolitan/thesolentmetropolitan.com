@@ -1,0 +1,22 @@
+uuid: 3d74b7af-2d1c-407f-8320-c676b5431fc1
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - customsolent
+_core:
+  default_config_hash: VhBzWb7lMRtIOg9G7VSw_0uopi-7zXeHq4vXqqV1HFE
+id: customsolent_breadcrumbs
+theme: customsolent
+region: breadcrumb
+weight: 0
+provider: null
+plugin: system_breadcrumb_block
+settings:
+  id: system_breadcrumb_block
+  label: Breadcrumbs
+  label_display: '0'
+  provider: system
+visibility: {  }

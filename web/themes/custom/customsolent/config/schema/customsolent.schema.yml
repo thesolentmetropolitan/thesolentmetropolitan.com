@@ -1,0 +1,8 @@
+# Schema for the configuration files of the customsolent theme.
+customsolent.settings:
+  type: theme_settings
+  label: 'customsolent settings'
+  mapping:
+    example:
+      type: string
+      label: Example

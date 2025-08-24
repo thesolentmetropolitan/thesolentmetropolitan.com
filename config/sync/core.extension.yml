@@ -20,6 +20,7 @@ module:
   field_ui: 0
   file: 0
   filter: 0
+  gin_toolbar: 0
   help: 0
   history: 0
   image: 0
@@ -34,6 +35,8 @@ module:
   path_alias: 0
   search: 0
   shortcut: 0
+  structure_sync: 0
+  superfish: 0
   system: 0
   taxonomy: 0
   text: 0
@@ -47,4 +50,6 @@ module:
 theme:
   olivero: 0
   claro: 0
+  customsolent: 0
+  gin: 0
 profile: standard

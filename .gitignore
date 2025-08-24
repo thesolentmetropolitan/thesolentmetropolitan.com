@@ -30,6 +30,7 @@ web/sites/*/settings.local.php
 
 # ignore local services.yml settings
 web/sites/default/services.yml
+web/sites/default/development.services.yml
 
 # Ignore SimpleTest multi-site environment.
 /web/sites/simpletest
