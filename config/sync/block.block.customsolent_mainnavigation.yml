@@ -28,12 +28,12 @@ settings:
   shadow: 1
   speed: fast
   delay: 800
-  slide: vertical
+  slide: none
   supposition: 1
   hoverintent: 1
-  touch: 0
+  touch: 1
   touchbh: 2
-  touchdh: 0
+  touchdh: 1
   touchbp: 768
   touchua: 0
   touchual: ''
@@ -57,9 +57,9 @@ settings:
   supersubs: 1
   minwidth: 12
   maxwidth: 27
-  multicolumn: 0
+  multicolumn: 1
   multicolumn_depth: 1
-  multicolumn_levels: 1
+  multicolumn_levels: 3
   pathlevels: 1
   expanded: 0
   clone_parent: 0
