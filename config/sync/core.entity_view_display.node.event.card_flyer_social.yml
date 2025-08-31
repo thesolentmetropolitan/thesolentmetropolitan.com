@@ -1,16 +1,16 @@
-uuid: 207dcfe7-135c-4d91-b3f1-db8185831f76
+uuid: d76c7f24-2b39-44a3-af07-ccdb31a36f17
 langcode: en
 status: true
 dependencies:
   config:
-    - core.entity_view_mode.node.card_social_flyer
+    - core.entity_view_mode.node.card_flyer_social
     - node.type.event
   module:
     - user
-id: node.event.card_social_flyer
+id: node.event.card_flyer_social
 targetEntityType: node
 bundle: event
-mode: card_social_flyer
+mode: card_flyer_social
 content:
   links:
     settings: {  }

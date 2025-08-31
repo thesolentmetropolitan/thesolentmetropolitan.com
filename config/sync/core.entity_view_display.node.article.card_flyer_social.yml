@@ -1,9 +1,9 @@
-uuid: ebb265c6-ee95-4bdd-84cb-b9f0f3d15408
+uuid: 223cc33d-6692-42b0-bf76-9d8b36cd7151
 langcode: en
 status: true
 dependencies:
   config:
-    - core.entity_view_mode.node.card_social_flyer
+    - core.entity_view_mode.node.card_flyer_social
     - field.field.node.article.body
     - field.field.node.article.comment
     - field.field.node.article.field_image
@@ -17,10 +17,10 @@ dependencies:
     - user
 _core:
   default_config_hash: br6izr-iGEu--JvNbCJNtOBpRnxpFLXfoV5y61U9Nqc
-id: node.article.card_social_flyer
+id: node.article.card_flyer_social
 targetEntityType: node
 bundle: article
-mode: card_social_flyer
+mode: card_flyer_social
 content:
   body:
     type: text_default
