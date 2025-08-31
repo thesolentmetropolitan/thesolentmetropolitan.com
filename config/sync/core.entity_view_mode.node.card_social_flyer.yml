@@ -1,0 +1,11 @@
+uuid: 94a30fbe-c4b9-4578-bddc-1350177d2683
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.card_social_flyer
+label: 'Card Social Flyer'
+description: null
+targetEntityType: node
+cache: true
