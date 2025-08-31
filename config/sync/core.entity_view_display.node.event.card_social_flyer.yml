@@ -1,0 +1,20 @@
+uuid: 207dcfe7-135c-4d91-b3f1-db8185831f76
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.card_social_flyer
+    - node.type.event
+  module:
+    - user
+id: node.event.card_social_flyer
+targetEntityType: node
+bundle: event
+mode: card_social_flyer
+content:
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden: {  }

@@ -1,0 +1,29 @@
+uuid: bfb1aabd-5b75-4466-9caa-a002b5f55d8d
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.card_social_flyer
+    - field.field.node.page.body
+    - node.type.page
+  module:
+    - text
+    - user
+_core:
+  default_config_hash: M_Y8L5tfmhx7DR143E05YyZSpvgil6VFvqcfBWykalg
+id: node.page.card_social_flyer
+targetEntityType: node
+bundle: page
+mode: card_social_flyer
+content:
+  body:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+  links:
+    weight: 101
+    region: content
+hidden: {  }
