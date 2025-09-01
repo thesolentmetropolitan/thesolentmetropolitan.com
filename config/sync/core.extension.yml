@@ -5,9 +5,12 @@ module:
   automated_cron: 0
   big_pipe: 0
   block: 0
+  block_classes: 0
   block_content: 0
   breakpoint: 0
   ckeditor5: 0
+  classy_paragraphs: 0
+  color_field: 0
   comment: 0
   config: 0
   contact: 0
@@ -21,23 +24,27 @@ module:
   field_ui: 0
   file: 0
   filter: 0
+  fitvids: 0
   gin_toolbar: 0
   help: 0
   history: 0
   image: 0
   link: 0
+  menu_link_attributes: 0
   menu_link_content: 0
   menu_ui: 0
   mysql: 0
   node: 0
   options: 0
   page_cache: 0
+  page_specific_class: 0
   path: 0
   path_alias: 0
   search: 0
   shortcut: 0
   structure_sync: 0
   superfish: 0
+  svg_image: 0
   system: 0
   taxonomy: 0
   text: 0
@@ -46,6 +53,7 @@ module:
   upgrade_status: 0
   user: 0
   views_ui: 0
+  viewsreference: 0
   views: 10
   paragraphs: 11
   standard: 1000
