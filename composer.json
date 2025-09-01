@@ -20,6 +20,7 @@
         "drupal/core-project-message": "^11",
         "drupal/core-recommended": "^11",
         "drupal/gin": "^5.0",
+        "drupal/paragraphs": "^1.19",
         "drupal/structure_sync": "^2.0",
         "drupal/superfish": "^1.13",
         "drupal/upgrade_status": "^4.3",
