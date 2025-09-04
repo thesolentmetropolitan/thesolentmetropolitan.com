@@ -5,14 +5,13 @@ dependencies:
   config:
     - core.entity_view_mode.node.card_flyer_social
     - field.field.node.article.body
-    - field.field.node.article.comment
     - field.field.node.article.field_image
     - field.field.node.article.field_tags
     - field.field.node.article.field_topics
     - image.style.wide
     - node.type.article
   module:
-    - image
+    - svg_image
     - text
     - user
 _core:
@@ -61,5 +60,4 @@ content:
     third_party_settings: {  }
     weight: 100
     region: content
-hidden:
-  comment: true
+hidden: {  }
