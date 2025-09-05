@@ -2,7 +2,14 @@ nav[role=navigation] li {
     display: inline-block;
 }
 
+
+/*
 nav[role=navigation] li li {
+    display: none;
+}
+*/
+
+nav[role=navigation] ul li ul {
     display: none;
 }
 

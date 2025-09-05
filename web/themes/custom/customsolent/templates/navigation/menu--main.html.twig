@@ -43,6 +43,10 @@
         {% endif %}
       </li>
     {% endfor %}
-    </ul>
+    {% if menu_level == 0 %}
+      </ul>
+    {% else %}
+      </ul>
+    {% endif %}
   {% endif %}
 {% endmacro %}
