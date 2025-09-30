@@ -1,7 +1,13 @@
-nav[role=navigation] li {
+/*nav[role=navigation] li {
     display: inline-block;
 }
+*/
 
+.main-menu-item-container li {
+          display: block;
+    white-space: nowrap;
+    width: 150px;
+}
 
 /*
 nav[role=navigation] li li {
@@ -9,8 +15,54 @@ nav[role=navigation] li li {
 }
 */
 
+/*
 nav[role=navigation] ul li ul {
     display: none;
+}
+*/
+
+/*
+.sub-menu-hidden {
+    display: none;
+}
+*/
+
+.main-menu-item-container {
+display: inline-block;
+}
+
+.sub-menu-item-container {
+  flex-direction: row;
+        position: relative;
+        height: 64px;
+        columns: 6;
+        width: auto;
+}
+
+
+.sub-menu-container.visible {
+  /*
+        top: 70px;
+        width: 100%;
+        left: 0;
+        position: absolute;
+        z-index: -2;
+        */
+
+        top: 70px;
+    width: 100%;
+    right: 250px;
+    position: absolute;
+    z-index: -2;
+}
+
+.sub-menu-container.hidden {
+  /*
+        opacity: 0;
+        visibility: hidden;
+        width: 99.999%;
+  */
+  display: none;
 }
 
 /*
