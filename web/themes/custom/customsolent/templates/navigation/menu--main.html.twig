@@ -36,10 +36,10 @@
   {% import _self as menus %}
   {% if items %}
     {% if menu_level == 0 %}
-      <ul{{ attributes.addClass("main-menu-item-container") }} >
+      <ul class="main-menu-item-container">
     {% else %}
       <div class="sub-menu-container hidden">
-      <ul{{ attributes.addClass("sub-menu-item-container") }} >
+      <ul class="sub-menu-item-container">
     {% endif %}
     {% for item in items %}
       <li{{ item.attributes }}>
