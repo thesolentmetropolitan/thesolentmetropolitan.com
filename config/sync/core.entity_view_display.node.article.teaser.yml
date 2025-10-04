@@ -52,4 +52,5 @@ content:
     weight: 100
     region: content
 hidden:
+  comment: true
   field_topics: true
