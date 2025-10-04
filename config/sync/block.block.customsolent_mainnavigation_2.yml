@@ -1,0 +1,25 @@
+uuid: abc1c03f-b235-48f9-8cf4-3bae29e36f3c
+langcode: en
+status: true
+dependencies:
+  config:
+    - system.menu.main
+  module:
+    - system
+  theme:
+    - customsolent
+id: customsolent_mainnavigation_2
+theme: customsolent
+region: search
+weight: 0
+provider: null
+plugin: 'system_menu_block:main'
+settings:
+  id: 'system_menu_block:main'
+  label: 'Main navigation'
+  label_display: visible
+  provider: system
+  level: 1
+  depth: null
+  expand_all_items: false
+visibility: {  }
