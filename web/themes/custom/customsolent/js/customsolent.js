@@ -2,16 +2,37 @@
  * @file
  * customsolent behaviors.
  */
-(function (Drupal) {
+(function ($, Drupal) {
 
   'use strict';
 
   Drupal.behaviors.customsolent = {
-    attach (context, settings) {
+    attach: function (context, settings) {
+      $(document).ready(function () {
 
-      console.log('It works!');
+        const menuItems = document.querySelectorAll('nav[role=navigation] li');
+
+        menuItems.forEach(item => {
+          item.addEventListener('click', function () {
+                    console.log('main menu item clicked');
+            // Find the submenu within the clicked item
+            const submenu = this.querySelector('.sub-menu-container');
+            if (submenu) {
+                    console.log('and yes there is a submenu');
+submenu.classList.remove("hidden");
+submenu.classList.add("visible");
+            }
+
+          });
+
+
+        });
+        //console.log('It works!');
+
+      });
 
     }
   };
 
-} (Drupal));
+}(jQuery, Drupal));
+
