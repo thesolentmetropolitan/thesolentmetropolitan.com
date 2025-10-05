@@ -32,6 +32,18 @@ https://www.w3schools.com/css/css3_multiple_columns.asp
 
 */
 
+/* credit: BBC iPlayer - well I pay my license fee to the glorious corporation. "It's Your BBC" */
+.navigation--animated {
+    transition-property: height;
+    -webkit-transition-property: height;
+    transition-timing-function: 
+ease;
+    -webkit-transition-timing-function: 
+ease;
+    transition-duration: .5s;
+    -webkit-transition-duration: .5s;
+}
+
 
 
 /*nav[role=navigation] li {
@@ -117,7 +129,8 @@ display: inline-block;
 
         top: 100px;
     width: 100%;
-    right: 250px;
+    /*right: 250px; */
+    right: 0px; 
     position: absolute;
     z-index: -2;
 }
