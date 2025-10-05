@@ -33,11 +33,37 @@
                   /*console.log('and yes there is a submenu');*/
                   aSubMenu.classList.remove("hidden");
                   aSubMenu.classList.add("visible");
+
+/*
+https://stackoverflow.com/a/15615701/227926
+*/
+
+                   var offsetHeight = aSubMenu.offsetHeight;
+
+console.log('offsetHeight is of type' + typeof offsetHeight);
+console.log('offsetHeight value is ' + offsetHeight);
+
+/* var offsetHeightCalc = parseInt(offsetHeight.value) + 100; */
+
+var offsetHeightCalc = parseInt(offsetHeight) + 100;
+
+console.log('offsetHeightCalc is of type ' + typeof offsetHeightCalc);
+console.log('offsetHeightCalc value is ' + offsetHeightCalc);
+
+                  const mainMenuNavContainer = document.getElementById('block-customsolent-mainnavigation');
+
+                  mainMenuNavContainer.setAttribute("style","height: " + offsetHeightCalc + "px");
+
                 }
                 else {
                   aSubMenu.classList.add("hidden");
                   aSubMenu.classList.remove("visible");
                 }
+
+
+               
+
+
 
               });
 
