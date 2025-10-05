@@ -29,6 +29,14 @@
 
 
                   console.log('found the clicked submenu');
+
+                  /*console.log('and yes there is a submenu');*/
+                  aSubMenu.classList.remove("hidden");
+                  aSubMenu.classList.add("visible");
+                }
+                else {
+                  aSubMenu.classList.add("hidden");
+                  aSubMenu.classList.remove("visible");
                 }
 
               });
@@ -37,9 +45,11 @@
               /* Array.from(nodes).find(node => node.isEqualNode(nodeToFind)); */
               /*const elementToRemove = Array.from(topMainContainers).find(node => node.isEqualNode(submenu));*/
 
+              /*
               console.log('and yes there is a submenu');
               submenu.classList.remove("hidden");
               submenu.classList.add("visible");
+              */
             }
 
           });
