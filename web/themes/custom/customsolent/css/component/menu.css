@@ -139,6 +139,7 @@ display: inline-block;
     right: 0px; 
     position: absolute;
     z-index: -2;
+    visibility: visible;
 
 
         transition-delay: .2s;
@@ -175,7 +176,10 @@ ease;
         visibility: hidden;
         width: 99.999%;
   */
+  /*
   display: none;
+  */
+  visibility: hidden;
 }
 
 /*
