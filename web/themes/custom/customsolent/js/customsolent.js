@@ -31,28 +31,38 @@
                   console.log('found the clicked submenu');
 
                   /*console.log('and yes there is a submenu');*/
-                  aSubMenu.classList.remove("hidden");
-                  aSubMenu.classList.add("visible");
 
-/*
-https://stackoverflow.com/a/15615701/227926
-*/
+                  if (aSubMenu.classList.contains("hidden")) {
+                    aSubMenu.classList.remove("hidden");
+                    aSubMenu.classList.add("visible");
+                  }
+                  else {
+                    if (aSubMenu.classList.contains("visible")) {
+                      aSubMenu.classList.remove("visible");
+                      aSubMenu.classList.add("hidden");
+                    }
+                  }
 
-                   var offsetHeight = aSubMenu.offsetHeight;
 
-console.log('offsetHeight is of type' + typeof offsetHeight);
-console.log('offsetHeight value is ' + offsetHeight);
+                  /*
+                  https://stackoverflow.com/a/15615701/227926
+                  */
 
-/* var offsetHeightCalc = parseInt(offsetHeight.value) + 100; */
+                  var offsetHeight = aSubMenu.offsetHeight;
 
-var offsetHeightCalc = parseInt(offsetHeight) + 100;
+                  console.log('offsetHeight is of type' + typeof offsetHeight);
+                  console.log('offsetHeight value is ' + offsetHeight);
 
-console.log('offsetHeightCalc is of type ' + typeof offsetHeightCalc);
-console.log('offsetHeightCalc value is ' + offsetHeightCalc);
+                  /* var offsetHeightCalc = parseInt(offsetHeight.value) + 100; */
+
+                  var offsetHeightCalc = parseInt(offsetHeight) + 100;
+
+                  console.log('offsetHeightCalc is of type ' + typeof offsetHeightCalc);
+                  console.log('offsetHeightCalc value is ' + offsetHeightCalc);
 
                   const mainMenuNavContainer = document.getElementById('block-customsolent-mainnavigation');
 
-                  mainMenuNavContainer.setAttribute("style","height: " + offsetHeightCalc + "px");
+                  mainMenuNavContainer.setAttribute("style", "height: " + offsetHeightCalc + "px");
 
                 }
                 else {
@@ -61,7 +71,7 @@ console.log('offsetHeightCalc value is ' + offsetHeightCalc);
                 }
 
 
-               
+
 
 
 

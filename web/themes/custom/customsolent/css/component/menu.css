@@ -34,15 +34,15 @@ https://www.w3schools.com/css/css3_multiple_columns.asp
 
 /* credit: BBC iPlayer - well I pay my license fee to the glorious corporation. "It's Your BBC" */
 .navigation--animated {
-    transition-property: height;
-    -webkit-transition-property: height;
+    transition-property: top;
+    -webkit-transition-property: top;
     transition-timing-function: 
 ease;
     -webkit-transition-timing-function: 
 ease;
     transition-duration: .5s;
     -webkit-transition-duration: .5s;
-    height: 64px;
+    /*height: 64px; */
 }
 
 
@@ -139,7 +139,6 @@ display: inline-block;
 }
 
 .sub-menu-container {
-        top: 100px;
     width: 100%;
     /*right: 250px; */
     right: 0px; 
@@ -157,7 +156,7 @@ display: inline-block;
         z-index: -2;
         */
 
-
+  top: 100px;
     visibility: visible;
 
 
@@ -219,6 +218,7 @@ ease;
   display: none;
   */
   visibility: hidden;
+  top: 30px;
 
      /* height: 0px;*/
 }
