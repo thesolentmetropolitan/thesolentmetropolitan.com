@@ -1,0 +1,69 @@
+element.style {
+    height: 208.188px;
+}
+#tviplayer *, #iplayer-overlay-root-container * {
+    outline: 0;
+}
+.tvip-js .navigation {
+    height: 64px;
+}
+.navigation--animated {
+    transition-property: height;
+    -webkit-transition-property: height;
+    transition-timing-function: 
+ease;
+    -webkit-transition-timing-function: 
+ease;
+    transition-duration: 2s;
+    -webkit-transition-duration: 2s;
+}
+.navigation {
+    display: -webkit-flex;
+    display: flex
+;
+    display: -ms-flex;
+    flex-flow: column;
+    -webkit-flex-flow: column;
+    transform: translate3d(0, 0, 0);
+    -webkit-transform: translate3d(0, 0, 0);
+    will-change: height;
+    color: #f6f6f6;
+    background-color: #141414;
+    border-bottom: 1px solid #202224;
+    overflow: hidden;
+    position: relative;
+    z-index: 89;
+}
+* {
+    padding: 0;
+    margin: 0;
+    border: 0;
+}
+user agent stylesheet
+nav {
+    display: block;
+    unicode-bidi: isolate;
+}
+#tviplayer, #iplayer-overlay-root-container {
+    min-width: 320px;
+    background-color: #000;
+    font-size: 1.3em;
+    line-height: 1.6em;
+    overflow: hidden;
+    position: relative;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-text-size-adjust: 100%;
+}
+.b-reith-sans-font body #orb-modules, html>body {
+    font-family: ReithSans, Arial, Helvetica, freesans, sans-serif;
+    font-family: var(--bbc-font);
+}
+html>body #orb-modules {
+    font-family: Arial, Helvetica, freesans, sans-serif;
+    font-family: var(--bbc-font-legacy);
+}
+body {
+    font-size: 62.5%;
+    line-height: 1;
+}
