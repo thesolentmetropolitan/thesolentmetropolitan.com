@@ -32,8 +32,23 @@ https://www.w3schools.com/css/css3_multiple_columns.asp
 
 */
 
+/*
+.container-inline .hidden {
+    display: initial;
+    visibility: hidden;
+}
+    */
+
+/*
+.container-inline .hidden {
+    display: initial;
+    visibility: hidden;
+}
+*/
+
+
 /* credit: BBC iPlayer - well I pay my license fee to the glorious corporation. "It's Your BBC" */
-.navigation--animated {
+.sub-menu-container.animated {
     transition-property: top;
     -webkit-transition-property: top;
     transition-timing-function: 
@@ -45,6 +60,17 @@ ease;
     /*height: 64px; */
 }
 
+nav[role=navigation].animation {
+    transition-property: height;
+    -webkit-transition-property: height;
+    transition-timing-function: 
+ease;
+    -webkit-transition-timing-function: 
+ease;
+    transition-duration: .5s;
+    -webkit-transition-duration: .5s;
+    /*height: 64px; */ 
+}
 
 nav[role=navigation] {
   /*
@@ -156,8 +182,9 @@ display: inline-block;
         z-index: -2;
         */
 
-  top: 100px;
-    visibility: visible;
+  /* will setting it as a style do the trick ? */
+  /*top: 100px;*/
+    /*visibility: visible;*/
 
 
 /*
@@ -217,8 +244,8 @@ ease;
   /*
   display: none;
   */
-  visibility: hidden;
-  top: 30px;
+  /*visibility: hidden;*/
+  /*top: 30px;*/
 
      /* height: 0px;*/
 }

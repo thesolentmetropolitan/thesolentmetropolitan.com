@@ -10,6 +10,22 @@
     attach: function (context, settings) {
       $(document).ready(function () {
 
+                  const mainMenuNavContainer = document.getElementById('block-customsolent-mainnavigation');
+
+                          mainMenuNavContainer.setAttribute("style", "height: 100px");
+
+        const allSubMenus = document.querySelectorAll('.sub-menu-container');
+
+        allSubMenus.forEach(aSubMenu => {
+          aSubMenu.classList.remove("visible");
+          aSubMenu.classList.add("hidden");
+
+
+          aSubMenu.setAttribute("style", "top: 30px");
+        }
+        );
+
+
         const menuItems = document.querySelectorAll('nav[role=navigation] li');
 
         menuItems.forEach(item => {
@@ -35,11 +51,13 @@
                   if (aSubMenu.classList.contains("hidden")) {
                     aSubMenu.classList.remove("hidden");
                     aSubMenu.classList.add("visible");
+                    aSubMenu.setAttribute("style", "top: 100px");
                   }
                   else {
                     if (aSubMenu.classList.contains("visible")) {
                       aSubMenu.classList.remove("visible");
                       aSubMenu.classList.add("hidden");
+                      aSubMenu.setAttribute("style", "top: 30px");
                     }
                   }
 
