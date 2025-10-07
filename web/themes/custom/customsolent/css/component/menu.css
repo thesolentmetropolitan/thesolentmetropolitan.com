@@ -184,7 +184,8 @@ display: inline-block;
 
   /* will setting it as a style do the trick ? */
   /*top: 100px;*/
-    /*visibility: visible;*/
+    visibility: visible;
+      display: initial;
 
 
 /*
@@ -203,6 +204,9 @@ ease;
 
 
 /* for the animation of the ease of the menu, select 'top' css instead of height, use z-index and opacity to hide it, and then we are nearly there with the desktop menu */
+
+/* also there's another .hidden class somewhere else which is applying display: none which stops animations */
+
 
 /*
 
@@ -244,7 +248,8 @@ ease;
   /*
   display: none;
   */
-  /*visibility: hidden;*/
+  visibility: hidden;
+  display: initial;
   /*top: 30px;*/
 
      /* height: 0px;*/

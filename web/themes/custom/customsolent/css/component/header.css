@@ -19,6 +19,11 @@
 
 #slnt-header {
     /*clear: both;*/
+    width: 100%;
+    height: 100px;
+    opacity: 1.0;
+    z-index: 10;
+    background-color: white;
 }
 
 main {
