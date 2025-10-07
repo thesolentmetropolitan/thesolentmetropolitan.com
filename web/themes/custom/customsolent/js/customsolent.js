@@ -10,9 +10,9 @@
     attach: function (context, settings) {
       $(document).ready(function () {
 
-                  const mainMenuNavContainer = document.getElementById('block-customsolent-mainnavigation');
+        const mainMenuNavContainer = document.getElementById('block-customsolent-mainnavigation');
 
-                          mainMenuNavContainer.setAttribute("style", "height: 100px");
+        mainMenuNavContainer.setAttribute("style", "height: 100px");
 
         const allSubMenus = document.querySelectorAll('.sub-menu-container');
 
@@ -48,39 +48,62 @@
 
                   /*console.log('and yes there is a submenu');*/
 
+
                   if (aSubMenu.classList.contains("hidden")) {
+                    /* opening submenu */
                     aSubMenu.classList.remove("hidden");
                     aSubMenu.classList.add("visible");
-                    aSubMenu.setAttribute("style", "top: 100px");
+                    aSubMenu.setAttribute("style", "top: 110px");
+
+
+                    /* https://stackoverflow.com/a/15615701/227926 */
+
+                    var offsetHeight = aSubMenu.offsetHeight;
+
+                    console.log('offsetHeight is of type' + typeof offsetHeight);
+                    console.log('offsetHeight value is ' + offsetHeight);
+
+                    /* var offsetHeightCalc = parseInt(offsetHeight.value) + 100; */
+
+                    var offsetHeightCalc = parseInt(offsetHeight) + 100;
+
+                    console.log('offsetHeightCalc is of type ' + typeof offsetHeightCalc);
+                    console.log('offsetHeightCalc value is ' + offsetHeightCalc);
+
+                    const mainMenuNavContainer = document.getElementById('block-customsolent-mainnavigation');
+
+                    mainMenuNavContainer.setAttribute("style", "height: " + offsetHeightCalc + "px");
                   }
                   else {
+                    /* closing submenu */
                     if (aSubMenu.classList.contains("visible")) {
                       aSubMenu.classList.remove("visible");
                       aSubMenu.classList.add("hidden");
                       aSubMenu.setAttribute("style", "top: 30px");
+
+
+                                          /* https://stackoverflow.com/a/15615701/227926 */
+
+                    var offsetHeight = aSubMenu.offsetHeight;
+
+                    console.log('offsetHeight is of type' + typeof offsetHeight);
+                    console.log('offsetHeight value is ' + offsetHeight);
+
+                    /* var offsetHeightCalc = parseInt(offsetHeight.value) + 100; */
+
+                    var offsetHeightCalc = parseInt(offsetHeight) - 100;
+
+                    console.log('offsetHeightCalc is of type ' + typeof offsetHeightCalc);
+                    console.log('offsetHeightCalc value is ' + offsetHeightCalc);
+
+                    const mainMenuNavContainer = document.getElementById('block-customsolent-mainnavigation');
+
+                    mainMenuNavContainer.setAttribute("style", "height: 64px");
                     }
                   }
 
 
-                  /*
-                  https://stackoverflow.com/a/15615701/227926
-                  */
 
-                  var offsetHeight = aSubMenu.offsetHeight;
-
-                  console.log('offsetHeight is of type' + typeof offsetHeight);
-                  console.log('offsetHeight value is ' + offsetHeight);
-
-                  /* var offsetHeightCalc = parseInt(offsetHeight.value) + 100; */
-
-                  var offsetHeightCalc = parseInt(offsetHeight) + 100;
-
-                  console.log('offsetHeightCalc is of type ' + typeof offsetHeightCalc);
-                  console.log('offsetHeightCalc value is ' + offsetHeightCalc);
-
-                  const mainMenuNavContainer = document.getElementById('block-customsolent-mainnavigation');
-
-                  mainMenuNavContainer.setAttribute("style", "height: " + offsetHeightCalc + "px");
 
                 }
                 else {
