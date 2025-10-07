@@ -10,7 +10,11 @@
     attach: function (context, settings) {
       $(document).ready(function () {
 
-        const mainMenuNavContainer = document.getElementById('block-customsolent-mainnavigation');
+        // or https://stackoverflow.com/a/24296220/227926
+        //const mainMenuNavContainer = document.querySelector('block-customsolent-mainnavigation');
+
+        const mainMenuNavContainer = document.querySelector('header > * nav[role=navigation]');
+
 
         mainMenuNavContainer.setAttribute("style", "height: 100px");
 
@@ -70,7 +74,8 @@
                     console.log('offsetHeightCalc is of type ' + typeof offsetHeightCalc);
                     console.log('offsetHeightCalc value is ' + offsetHeightCalc);
 
-                    const mainMenuNavContainer = document.getElementById('block-customsolent-mainnavigation');
+                    const mainMenuNavContainer = document.querySelector('header > * nav[role=navigation]');
+                    //const mainMenuNavContainer = document.getElementById('block-customsolent-mainnavigation');
 
                     mainMenuNavContainer.setAttribute("style", "height: " + offsetHeightCalc + "px");
                   }
