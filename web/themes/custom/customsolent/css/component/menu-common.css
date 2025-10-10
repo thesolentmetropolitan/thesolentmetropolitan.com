@@ -1,11 +1,12 @@
-
-  
-  
-  
-  .sub-menu-item-container > li {
+.sub-menu-item-container>li {
     list-style-type: none;
-  }
+}
 
-  .main-menu-item-container > li {
+.main-menu-item-container>li {
     list-style-type: none;
-  }
+}
+
+
+.main-menu-item-container>li {
+    cursor: pointer;
+}
