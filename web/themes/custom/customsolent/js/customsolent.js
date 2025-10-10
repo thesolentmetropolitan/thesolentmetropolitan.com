@@ -33,7 +33,11 @@
         const menuItems = document.querySelectorAll('nav[role=navigation] li');
 
         menuItems.forEach(item => {
-          item.addEventListener('click', function () {
+          item.addEventListener('click', function (e) {
+
+          e.stopPropagation();
+          e.preventDefault();
+
             console.log('main menu item clicked');
             // Find the submenu within the clicked item
             const submenu = this.querySelector('.sub-menu-container');
