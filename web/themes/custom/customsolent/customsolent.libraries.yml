@@ -12,7 +12,8 @@ global:
       css/component/field.css: {}
       css/component/form.css: {}
       css/component/header.css: {}
-      css/component/menu.css: {}
+      css/component/menu-desktop.css: {}
+      css/component/menu-mobile.css: {}
       css/component/messages.css: {}
       css/component/node.css: {}
       css/component/sidebar.css: {}

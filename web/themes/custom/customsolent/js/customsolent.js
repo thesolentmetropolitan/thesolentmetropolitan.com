@@ -35,8 +35,8 @@
         menuItems.forEach(item => {
           item.addEventListener('click', function (e) {
 
-          e.stopPropagation();
-          e.preventDefault();
+            e.stopPropagation();
+            e.preventDefault();
 
             console.log('main menu item clicked');
             // Find the submenu within the clicked item
@@ -91,23 +91,23 @@
                       aSubMenu.setAttribute("style", "top: 30px");
 
 
-                                          /* https://stackoverflow.com/a/15615701/227926 */
+                      /* https://stackoverflow.com/a/15615701/227926 */
 
-                    var offsetHeight = aSubMenu.offsetHeight;
+                      var offsetHeight = aSubMenu.offsetHeight;
 
-                    console.log('offsetHeight is of type' + typeof offsetHeight);
-                    console.log('offsetHeight value is ' + offsetHeight);
+                      console.log('offsetHeight is of type' + typeof offsetHeight);
+                      console.log('offsetHeight value is ' + offsetHeight);
 
-                    /* var offsetHeightCalc = parseInt(offsetHeight.value) + 100; */
+                      /* var offsetHeightCalc = parseInt(offsetHeight.value) + 100; */
 
-                    var offsetHeightCalc = parseInt(offsetHeight) - 100;
+                      var offsetHeightCalc = parseInt(offsetHeight) - 100;
 
-                    console.log('offsetHeightCalc is of type ' + typeof offsetHeightCalc);
-                    console.log('offsetHeightCalc value is ' + offsetHeightCalc);
+                      console.log('offsetHeightCalc is of type ' + typeof offsetHeightCalc);
+                      console.log('offsetHeightCalc value is ' + offsetHeightCalc);
 
-                    const mainMenuNavContainer = document.getElementById('block-customsolent-mainnavigation');
+                      const mainMenuNavContainer = document.getElementById('block-customsolent-mainnavigation');
 
-                    mainMenuNavContainer.setAttribute("style", "height: 64px");
+                      mainMenuNavContainer.setAttribute("style", "height: 64px");
                     }
                   }
 
