@@ -1,0 +1,113 @@
+@media (max-width: 991px) {
+
+  /* credit: BBC iPlayer - well I pay my license fee to the glorious corporation. "It's Your BBC" */
+  .sub-menu-container.animated {
+    transition-property: top;
+    -webkit-transition-property: top;
+    transition-timing-function:
+      ease;
+    -webkit-transition-timing-function:
+      ease;
+    transition-duration: .5s;
+    -webkit-transition-duration: .5s;
+    /*height: 64px; */
+  }
+
+  nav[role=navigation].animation {
+    transition-property: height;
+    -webkit-transition-property: height;
+    transition-timing-function:
+      ease;
+    -webkit-transition-timing-function:
+      ease;
+    transition-duration: .5s;
+    -webkit-transition-duration: .5s;
+    /*height: 64px; */
+  }
+
+  nav[role=navigation] {}
+
+
+
+  .main-menu-item-container>li {
+    display: block;
+    white-space: nowrap;
+    width: 150px;
+  }
+
+  .main-menu-item-container {
+    display: inline-block;
+    column-count: 3;
+    width: 200px;
+  }
+
+  .sub-menu-item-container {
+    flex-direction: row;
+    position: relative;
+    height: 64px;
+    columns: 6;
+    width: auto;
+    z-index: -2;
+
+  }
+
+  .sub-menu-container {
+    width: 100%;
+    /*right: 250px; */
+    right: 0px;
+    position: absolute;
+    z-index: -2;
+    /*height: 100%;*/
+  }
+
+  .sub-menu-container.visible {
+    visibility: visible;
+    display: initial;
+  }
+
+  .sub-menu-container.hidden {
+    visibility: hidden;
+    display: initial;
+
+  }
+
+  .slnt-menu-main-ul {
+    background: white;
+  }
+
+  .slnt-menu-li {
+    background: white;
+    font-family: "Noto Serif"
+  }
+
+  ul.sf-menu .sf-sub-indicator {
+    /* .slnt-menu-a > .sf-sub-indicator { */
+    right: unset;
+  }
+
+  .slnt-menu-a {
+    text-decoration: none;
+    color: black;
+  }
+
+  .sf-depth-2 {
+    background-color: #023E8A;
+    color: white;
+  }
+
+  .sfHover {
+    background-color: #560BAD;
+    color: white;
+  }
+
+  .sfHover>.slnt-menu-a {
+    text-decoration: none;
+    color: white;
+  }
+
+  ul.sf-menu.sf-navbar li ul,
+  ul.sf-menu.sf-navbar li li li {
+    width: 720px;
+    background-color: #023E8A;
+  }
+}

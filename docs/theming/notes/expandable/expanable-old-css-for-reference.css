@@ -1,0 +1,286 @@
+/*
+.container-inline .hidden {
+    display: initial;
+    visibility: hidden;
+}
+    */
+
+/*
+.container-inline .hidden {
+    display: initial;
+    visibility: hidden;
+}
+*/
+
+
+
+
+
+
+@media (min-width: 992px) {
+
+  /* credit: BBC iPlayer - well I pay my license fee to the glorious corporation. "It's Your BBC" */
+  .sub-menu-container.animated {
+    transition-property: top;
+    -webkit-transition-property: top;
+    transition-timing-function:
+      ease;
+    -webkit-transition-timing-function:
+      ease;
+    transition-duration: .5s;
+    -webkit-transition-duration: .5s;
+    /*height: 64px; */
+  }
+
+  nav[role=navigation].animation {
+    transition-property: height;
+    -webkit-transition-property: height;
+    transition-timing-function:
+      ease;
+    -webkit-transition-timing-function:
+      ease;
+    transition-duration: .5s;
+    -webkit-transition-duration: .5s;
+    /*height: 64px; */
+  }
+
+  nav[role=navigation] {
+    /*
+  position: relative;
+  overflow: hidden;
+  position: relative;
+  */
+    /*
+  z-index: 89;
+  will-change: height;
+  */
+    /*overflow: hidden;*/
+
+  }
+
+
+  /*nav[role=navigation] li {
+    display: inline-block;
+}
+*/
+
+  .main-menu-item-container>li {
+    display: block;
+    white-space: nowrap;
+    width: 150px;
+  }
+
+
+  /*.navigation--animated .navigation__subnav--transition-open */
+  /*
+.sub-menu-container.visible {
+    transition-delay: .2s;
+    transition-property: opacity;
+    -webkit-transition-property: opacity;
+    transition-timing-function: 
+ease;
+    -webkit-transition-timing-function: 
+ease;
+    transition-duration: .5s;
+    -webkit-transition-duration: .5s;
+}
+*/
+
+  /*.navigation--animated .navigation__subnav--hidden.navigation__subnav--transition-close */
+  /*
+.sub-menu-container.hidden {
+    transition-delay: .5s;
+    transition-property: visibility, opacity;
+    -webkit-transition-property: visibility, opacity;
+    transition-timing-function: 
+ease;
+    -webkit-transition-timing-function: 
+ease;
+    transition-duration: 0;
+    -webkit-transition-duration: 0;
+}
+    */
+
+
+  /*
+nav[role=navigation] li li {
+    display: none;
+}
+*/
+
+  /*
+nav[role=navigation] ul li ul {
+    display: none;
+}
+*/
+
+  /*
+.sub-menu-hidden {
+    display: none;
+}
+*/
+
+  .main-menu-item-container {
+    display: inline-block;
+    column-count: 3;
+    width: 200px;
+  }
+
+  .sub-menu-item-container {
+    flex-direction: row;
+    position: relative;
+    height: 64px;
+    columns: 6;
+    width: auto;
+    z-index: -2;
+
+  }
+
+  .sub-menu-container {
+    width: 100%;
+    /*right: 250px; */
+    right: 0px;
+    position: absolute;
+    z-index: -2;
+    /*height: 100%;*/
+  }
+
+  .sub-menu-container.visible {
+    /*
+        top: 70px;
+        width: 100%;
+        left: 0;
+        position: absolute;
+        z-index: -2;
+        */
+
+    /* will setting it as a style do the trick ? */
+    /*top: 100px;*/
+    visibility: visible;
+    display: initial;
+
+
+    /*
+        transition-delay: .2s;
+    transition-property: opacity;
+    -webkit-transition-property: opacity;
+    transition-timing-function: 
+ease;
+    -webkit-transition-timing-function: 
+ease;
+    transition-duration: .5s;
+    -webkit-transition-duration: .5s;
+    height: 64px;
+    */
+  }
+
+
+  /* for the animation of the ease of the menu, select 'top' css instead of height, use z-index and opacity to hide it, and then we are nearly there with the desktop menu */
+
+  /* also there's another .hidden class somewhere else which is applying display: none which stops animations */
+
+
+  /*
+
+.navigation--animated .navigation__subnav--transition-open {
+        transition-delay: .2s;
+    transition-property: opacity;
+    -webkit-transition-property: opacity;
+    transition-timing-function: 
+ease;
+    -webkit-transition-timing-function: 
+ease;
+    transition-duration: .5s;
+    -webkit-transition-duration: .5s;
+}
+
+*/
+
+
+  .sub-menu-container.hidden {
+
+    /*
+        transition-delay: .2s;
+    transition-property: opacity;
+    -webkit-transition-property: opacity;
+    transition-timing-function: 
+ease;
+    -webkit-transition-timing-function: 
+ease;
+    transition-duration: .5s;
+    -webkit-transition-duration: .5s;
+    height: 64px;
+*/
+
+    /*
+        opacity: 0;
+        visibility: hidden;
+        width: 99.999%;
+  */
+    /*
+  display: none;
+  */
+    visibility: hidden;
+    display: initial;
+    /*top: 30px;*/
+
+    /* height: 0px;*/
+  }
+
+  /*
+
+auto-generate ids?
+
+https://stackoverflow.com/questions/29894777/how-can-i-click-a-specific-li-without-an-id-or-class
+
+*/
+
+  /*#superfish-main,*/
+  .slnt-menu-main-ul {
+    background: white;
+  }
+
+  .slnt-menu-li {
+    background: white;
+    font-family: "Noto Serif"
+  }
+
+  ul.sf-menu .sf-sub-indicator {
+    /* .slnt-menu-a > .sf-sub-indicator { */
+    right: unset;
+  }
+
+  .slnt-menu-a {
+    text-decoration: none;
+    color: black;
+  }
+
+  .sf-depth-2 {
+    background-color: #023E8A;
+    color: white;
+  }
+
+  .sfHover {
+    background-color: #560BAD;
+    color: white;
+  }
+
+  .sfHover>.slnt-menu-a {
+    text-decoration: none;
+    color: white;
+  }
+
+  /*
+.sf-depth-1 > ul {
+  width: 720px;
+  background-color: green;
+}
+*/
+
+  ul.sf-menu.sf-navbar li ul,
+  ul.sf-menu.sf-navbar li li li {
+    width: 720px;
+    background-color: #023E8A;
+  }
+
+}
