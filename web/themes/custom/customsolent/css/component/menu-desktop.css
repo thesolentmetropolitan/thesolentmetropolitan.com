@@ -48,7 +48,6 @@
     columns: 6;
     width: auto;
     z-index: -2;
-
   }
 
   .sub-menu-container {
@@ -77,7 +76,7 @@
 
   .slnt-menu-li {
     background: white;
-    font-family: "Noto Serif"
+    font-family: "Noto Serif";
   }
 
   ul.sf-menu .sf-sub-indicator {
