@@ -1,3 +1,11 @@
+
+  
+  
+  
   .sub-menu-item-container > li {
+    list-style-type: none;
+  }
+
+  .main-menu-item-container > li {
     list-style-type: none;
   }
