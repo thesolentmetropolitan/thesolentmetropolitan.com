@@ -1,5 +1,41 @@
 @media (min-width: 992px) {
 
+
+  #mast-head {
+    width: 15em;
+  }
+
+  #slnt-logo {
+    display: inline-block;
+    float: left;
+  }
+
+  #slnt-prim-menu {
+    display: inline-block;
+    float: left;
+  }
+
+  #slnt-srch {
+    display: inline-block;
+    float: left;
+  }
+
+  #slnt-header {
+    /*clear: both;*/
+    width: 100%;
+    height: 100px;
+    opacity: 1.0;
+    z-index: 10;
+    background-color: white;
+  }
+
+  main {
+    clear: both;
+  }
+
+
+
+
   /* credit: BBC iPlayer - well I pay my license fee to the glorious corporation. "It's Your BBC" */
   .sub-menu-container.animated {
     transition-property: top;
