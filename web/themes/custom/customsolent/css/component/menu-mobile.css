@@ -35,6 +35,7 @@
     width: 150px;
   }
 
+  /*
   .main-menu-item-container {
     display: inline-block;
     column-count: 3;
@@ -50,6 +51,7 @@
     z-index: -2;
 
   }
+  */
 
   .sub-menu-container {
     width: 100%;
@@ -80,34 +82,8 @@
     font-family: "Noto Serif"
   }
 
-  ul.sf-menu .sf-sub-indicator {
-    /* .slnt-menu-a > .sf-sub-indicator { */
-    right: unset;
-  }
-
   .slnt-menu-a {
     text-decoration: none;
     color: black;
-  }
-
-  .sf-depth-2 {
-    background-color: #023E8A;
-    color: white;
-  }
-
-  .sfHover {
-    background-color: #560BAD;
-    color: white;
-  }
-
-  .sfHover>.slnt-menu-a {
-    text-decoration: none;
-    color: white;
-  }
-
-  ul.sf-menu.sf-navbar li ul,
-  ul.sf-menu.sf-navbar li li li {
-    width: 720px;
-    background-color: #023E8A;
   }
 }
