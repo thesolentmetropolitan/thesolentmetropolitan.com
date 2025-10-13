@@ -118,7 +118,8 @@ Specificity: (0,2,0)
 
                       const mainMenuNavContainer = document.getElementById('block-customsolent-mainnavigation');
 
-                      mainMenuNavContainer.setAttribute("style", "height: 64px");
+                      const subMenuHeight = "128px";
+                      mainMenuNavContainer.setAttribute("style", "height:" + subMenuHeight);
                     }
                   }
 
