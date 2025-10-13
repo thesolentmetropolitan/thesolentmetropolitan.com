@@ -1,12 +1,31 @@
 .sub-menu-item-container>li {
-    list-style-type: none;
+  list-style-type: none;
 }
 
 .main-menu-item-container>li {
-    list-style-type: none;
+  list-style-type: none;
 }
 
 
 .main-menu-item-container>li {
-    cursor: pointer;
+  cursor: pointer;
+}
+
+
+.navigation__link__down-icon {
+  fill: black;
+}
+
+.navigation__link--selected .navigation__link__down-icon {
+  transform: rotate(-180deg);
+}
+
+@media (min-width: 37.5em) {
+  .navigation__link__down-icon {
+    width: 6px;
+    height: 6px;
+    margin-bottom: -2px;
+    margin-left: 2px;
+    transition: transform .4s ease;
+  }
 }
