@@ -80,7 +80,7 @@
   .sub-menu-item-container {
     flex-direction: row;
     position: relative;
-    height: 64px;
+    height: 128px; /* subMenuHeight */
     columns: 6;
     width: auto;
     z-index: -2;
