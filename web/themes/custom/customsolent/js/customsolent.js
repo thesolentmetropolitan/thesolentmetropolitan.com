@@ -58,6 +58,17 @@
 
 
                   if (aSubMenu.classList.contains("hidden")) {
+
+/*
+
+.navigation__link--selected .navigation__link__down-icon
+Specificity: (0,2,0)
+ {
+    transform: rotate(-180deg);
+}
+
+*/
+
                     /* opening submenu */
                     aSubMenu.classList.remove("hidden");
                     aSubMenu.classList.add("visible");
