@@ -36,7 +36,9 @@
           item.addEventListener('click', function (e) {
 
             e.stopPropagation();
+            /*
             e.preventDefault();
+            */
 
             console.log('main menu item clicked');
             // Find the submenu within the clicked item
