@@ -46,9 +46,10 @@
       ease;
     transition-duration: .5s;
     -webkit-transition-duration: .5s;
-    /*height: 64px; */
   }
+      /*height: 64px; */
 
+  /*
   nav[role=navigation].animation {
     transition-property: height;
     -webkit-transition-property: height;
@@ -58,11 +59,14 @@
       ease;
     transition-duration: .5s;
     -webkit-transition-duration: .5s;
-    /*height: 64px; */
   }
+    */
+      /*height: 64px; */
 
+
+/*
   nav[role=navigation] {}
-
+*/
 
 
   .main-menu-item-container>li {
