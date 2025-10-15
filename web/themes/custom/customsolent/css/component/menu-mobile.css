@@ -111,6 +111,7 @@ main {
     /*height: 100%;*/
   }
 
+  /*
   .sub-menu-container.visible {
     visibility: visible;
     display: initial;
@@ -121,6 +122,7 @@ main {
     display: initial;
 
   }
+    */
 
   .slnt-menu-main-ul {
     background: white;
@@ -135,4 +137,19 @@ main {
     visibility: initial;
     display: none;
   }
+
+  .sub-menu-item-container > li {
+  padding-bottom: 5px;
 }
+
+.main-menu-item-container > li {
+  padding-bottom: 5px;
+}
+
+}
+
+/*
+
+https://stackoverflow.com/questions/79791175/how-to-stop-tap-highlight-blink-on-sub-menu-items-and-only-have-it-for-top-menu
+
+*/
