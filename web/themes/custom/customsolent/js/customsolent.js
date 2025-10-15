@@ -61,20 +61,48 @@
 
                   if (aSubMenu.classList.contains("hidden")) {
 
-/*
-
-.navigation__link--selected .navigation__link__down-icon
-Specificity: (0,2,0)
- {
-    transform: rotate(-180deg);
-}
-
-*/
+                    /*
+                    
+                    .navigation__link--selected .navigation__link__down-icon
+                    Specificity: (0,2,0)
+                     {
+                        transform: rotate(-180deg);
+                    }
+                    
+                    */
 
                     /* opening submenu */
                     aSubMenu.classList.remove("hidden");
                     aSubMenu.classList.add("visible");
+                    /*
+                    aSubMenu.one("webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend",
+                      function (event) {
+                        aSubMenu.setAttribute("style", "z-index: 0");
+                        // Do something when the transition ends
+                      });
+                    */
+
+                    /* https://stackoverflow.com/a/11845715/227926 */
+                    aSubMenu.addEventListener('webkitTransitionEnd', transitionEndHandlerFunc, false);
+                    aSubMenu.addEventListener('otransitionend', transitionEndHandlerFunc, false);
+                    aSubMenu.addEventListener('oTransitionEnd', transitionEndHandlerFunc, false);
+                    aSubMenu.addEventListener('msTransitionEnd', transitionEndHandlerFunc, false);
+                    aSubMenu.addEventListener('transitionend', transitionEndHandlerFunc, false);
+
+ console.log("aSubMenu is of type " + typeof aSubMenu);
+
+                    function transitionEndHandlerFunc(event) {
+                     /* aSubMenu.setAttribute("style", "z-index: 0"); */
+                     /* https://stackoverflow.com/a/68839284/227926 */
+                      aSubMenu.style.setProperty("z-index", "0");
+                    }
+
                     aSubMenu.setAttribute("style", "top: 110px");
+
+                    /* https://www.reddit.com/r/webdev/comments/n3fijk/change_zindex_of_transitioning_element/ */
+                    /* https://jonsuh.com/blog/detect-the-end-of-css-animations-and-transitions-with-javascript/ */
+
+
 
 
                     /* https://stackoverflow.com/a/15615701/227926 */
