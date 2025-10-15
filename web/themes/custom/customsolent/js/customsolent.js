@@ -89,11 +89,11 @@
                     aSubMenu.addEventListener('msTransitionEnd', transitionEndHandlerFunc, false);
                     aSubMenu.addEventListener('transitionend', transitionEndHandlerFunc, false);
 
- console.log("aSubMenu is of type " + typeof aSubMenu);
+                    console.log("aSubMenu is of type " + typeof aSubMenu);
 
                     function transitionEndHandlerFunc(event) {
-                     /* aSubMenu.setAttribute("style", "z-index: 0"); */
-                     /* https://stackoverflow.com/a/68839284/227926 */
+                      /* aSubMenu.setAttribute("style", "z-index: 0"); */
+                      /* https://stackoverflow.com/a/68839284/227926 */
                       aSubMenu.style.setProperty("z-index", "0");
                     }
 
