@@ -97,7 +97,10 @@
                       aSubMenu.style.setProperty("z-index", "0");
                     }
 
+                    /*
                     aSubMenu.setAttribute("style", "top: 110px");
+                    */
+                    aSubMenu.style.setProperty("top", "110px");
 
                     /* https://www.reddit.com/r/webdev/comments/n3fijk/change_zindex_of_transitioning_element/ */
                     /* https://jonsuh.com/blog/detect-the-end-of-css-animations-and-transitions-with-javascript/ */
