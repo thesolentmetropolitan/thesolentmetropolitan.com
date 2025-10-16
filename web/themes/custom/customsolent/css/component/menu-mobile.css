@@ -153,3 +153,25 @@ main {
 https://stackoverflow.com/questions/79791175/how-to-stop-tap-highlight-blink-on-sub-menu-items-and-only-have-it-for-top-menu
 
 */
+
+
+/* Remove pointer events from the LI containers so they don't get tap highlights */
+/*
+.main-menu-item-container > li {
+    pointer-events: none;
+}
+*/
+/* Re-enable pointer events on the interactive children */
+/*
+.main-menu-item-container > li > button.main_nav_link {
+    pointer-events: auto;
+}
+*/
+
+/* Ensure the entire submenu and its contents are interactive */
+/*
+.sub-menu-container,
+.sub-menu-container * {
+    pointer-events: auto;
+}
+*/

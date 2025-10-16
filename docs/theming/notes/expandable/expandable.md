@@ -43,5 +43,18 @@ https://www.w3schools.com/cssref/pr_grid-row.php
 
 https://www.w3schools.com/css/css3_multiple_columns.asp
 
+
+https://www.quirksmode.org/dom/getstyles.html
+
+https://stackoverflow.com/questions/6338217/get-a-css-value-with-javascript
+
+https://stackoverflow.com/questions/6338217/get-a-css-value-with-javascript
+
+https://www.w3schools.com/js/js_scope.asp
+
+https://developer.mozilla.org/en-US/docs/Web/API/Node/parentElement
+
+https://claude.ai/chat/65abdec7-9c25-4a07-b27d-32f00dee3d70
+
 */
 
