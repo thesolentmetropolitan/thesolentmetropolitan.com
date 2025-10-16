@@ -30,109 +30,122 @@
         );
 
 
-        const menuItems = document.querySelectorAll('nav[role=navigation] li');
+        const menuItems = document.querySelectorAll('nav[role=navigation] button');
 
         menuItems.forEach(item => {
           item.addEventListener('click', function (e) {
 
-            e.stopPropagation();
+
             /*
             e.preventDefault();
             */
 
             console.log('main menu item clicked');
             // Find the submenu within the clicked item
-            const submenu = this.querySelector('.sub-menu-container');
-            if (submenu) {
 
-              console.log("submenu is of type " + typeof submenu);
+            /*const submenu = item.parentElement.querySelector('.sub-menu-container');*/
 
-              const allSubMenus = document.querySelectorAll('.sub-menu-container');
+            //const submenu = this.querySelector('.sub-menu-container');
+            if (item) {
 
-              allSubMenus.forEach(aSubMenu => {
-                console.log("search for current - submenu is of type " + typeof aSubMenu);
-                if (aSubMenu.isEqualNode(submenu)) {
+              //console.log("submenu is of type " + typeof submenu);
+
+              /*const allSubMenus = document.querySelectorAll('.sub-menu-container');*/
+
+              const allSubMenus = document.querySelectorAll('nav[role=navigation] button');
+
+              allSubMenus.forEach(aButton => {
+
+                if (aButton.isEqualNode(item)) {
+                  e.stopPropagation();
+                  e.preventDefault();
 
 
                   console.log('found the clicked submenu');
 
                   /*console.log('and yes there is a submenu');*/
 
+                  const aSubMenu = this.parentElement.querySelector('.sub-menu-container');
 
-                  if (aSubMenu.classList.contains("hidden")) {
+                                  console.log("search for current - submenu is of type " + typeof aSubMenu);
 
-                    /*
+                  //const aSubMenu = this.querySelector('.sub-menu-container');
+
+                  const primaryMenuContainerAsId = document.getElementById("slnt-prim-menu");
+
+
+                  var primaryMenuContainerStyle = window.getComputedStyle(primaryMenuContainerAsId);
+                  var primaryMenuContainerCssDisplay = primaryMenuContainerStyle.getPropertyValue('display');
+                  console.log(primaryMenuContainerCssDisplay);
+
+                  if (primaryMenuContainerCssDisplay == "block") {
                     
-                    .navigation__link--selected .navigation__link__down-icon
-                    Specificity: (0,2,0)
-                     {
-                        transform: rotate(-180deg);
+                    console.log('mobile mode');
+
+                  //const aSubMenu = item.parentElement.querySelector('.sub-menu-container');
+
+                    if (aSubMenu.classList.contains("hidden")) {
+                      aSubMenu.classList.remove("hidden");
+                      aSubMenu.classList.add("visible");
                     }
-                    
-                    */
-
-                    /* opening submenu */
-                    aSubMenu.classList.remove("hidden");
-                    aSubMenu.classList.add("visible");
-                    /*
-                    aSubMenu.one("webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend",
-                      function (event) {
-                        aSubMenu.setAttribute("style", "z-index: 0");
-                        // Do something when the transition ends
-                      });
-                    */
-
-                    /* https://stackoverflow.com/a/11845715/227926 */
-                    aSubMenu.addEventListener('webkitTransitionEnd', transitionEndHandlerFunc, false);
-                    aSubMenu.addEventListener('otransitionend', transitionEndHandlerFunc, false);
-                    aSubMenu.addEventListener('oTransitionEnd', transitionEndHandlerFunc, false);
-                    aSubMenu.addEventListener('msTransitionEnd', transitionEndHandlerFunc, false);
-                    aSubMenu.addEventListener('transitionend', transitionEndHandlerFunc, false);
-
-                    console.log("aSubMenu is of type " + typeof aSubMenu);
-
-                    function transitionEndHandlerFunc(event) {
-                      /* aSubMenu.setAttribute("style", "z-index: 0"); */
-                      /* https://stackoverflow.com/a/68839284/227926 */
-                      aSubMenu.style.setProperty("z-index", "0");
+                    else {
+                      if (aSubMenu.classList.contains("visible")) {
+                        aSubMenu.classList.remove("visible");
+                        aSubMenu.classList.add("hidden");
+                      }
                     }
-
-                    /*
-                    aSubMenu.setAttribute("style", "top: 110px");
-                    */
-                    aSubMenu.style.setProperty("top", "110px");
-
-                    /* https://www.reddit.com/r/webdev/comments/n3fijk/change_zindex_of_transitioning_element/ */
-                    /* https://jonsuh.com/blog/detect-the-end-of-css-animations-and-transitions-with-javascript/ */
-
-
-
-
-                    /* https://stackoverflow.com/a/15615701/227926 */
-
-                    var offsetHeight = aSubMenu.offsetHeight;
-
-                    console.log('offsetHeight is of type' + typeof offsetHeight);
-                    console.log('offsetHeight value is ' + offsetHeight);
-
-                    /* var offsetHeightCalc = parseInt(offsetHeight.value) + 100; */
-
-                    var offsetHeightCalc = parseInt(offsetHeight) + 100;
-
-                    console.log('offsetHeightCalc is of type ' + typeof offsetHeightCalc);
-                    console.log('offsetHeightCalc value is ' + offsetHeightCalc);
-
-                    const mainMenuNavContainer = document.querySelector('header > * nav[role=navigation]');
-                    //const mainMenuNavContainer = document.getElementById('block-customsolent-mainnavigation');
-
-                    mainMenuNavContainer.setAttribute("style", "height: " + offsetHeightCalc + "px");
+                      
                   }
                   else {
-                    /* closing submenu */
-                    if (aSubMenu.classList.contains("visible")) {
-                      aSubMenu.classList.remove("visible");
-                      aSubMenu.classList.add("hidden");
-                      aSubMenu.setAttribute("style", "top: 30px");
+                    console.log('desktop mode');
+
+                    if (aSubMenu.classList.contains("hidden")) {
+
+                      /*
+                      
+                      .navigation__link--selected .navigation__link__down-icon
+                      Specificity: (0,2,0)
+                       {
+                          transform: rotate(-180deg);
+                      }
+                      
+                      */
+
+                      /* opening submenu */
+                      aSubMenu.classList.remove("hidden");
+                      aSubMenu.classList.add("visible");
+                      /*
+                      aSubMenu.one("webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend",
+                        function (event) {
+                          aSubMenu.setAttribute("style", "z-index: 0");
+                          // Do something when the transition ends
+                        });
+                      */
+
+                      /* https://stackoverflow.com/a/11845715/227926 */
+                      aSubMenu.addEventListener('webkitTransitionEnd', transitionEndHandlerFunc, false);
+                      aSubMenu.addEventListener('otransitionend', transitionEndHandlerFunc, false);
+                      aSubMenu.addEventListener('oTransitionEnd', transitionEndHandlerFunc, false);
+                      aSubMenu.addEventListener('msTransitionEnd', transitionEndHandlerFunc, false);
+                      aSubMenu.addEventListener('transitionend', transitionEndHandlerFunc, false);
+
+                      console.log("aSubMenu is of type " + typeof aSubMenu);
+
+                      function transitionEndHandlerFunc(event) {
+                        /* aSubMenu.setAttribute("style", "z-index: 0"); */
+                        /* https://stackoverflow.com/a/68839284/227926 */
+                        aSubMenu.style.setProperty("z-index", "0");
+                      }
+
+                      /*
+                      aSubMenu.setAttribute("style", "top: 110px");
+                      */
+                      aSubMenu.style.setProperty("top", "110px");
+
+                      /* https://www.reddit.com/r/webdev/comments/n3fijk/change_zindex_of_transitioning_element/ */
+                      /* https://jonsuh.com/blog/detect-the-end-of-css-animations-and-transitions-with-javascript/ */
+
+
 
 
                       /* https://stackoverflow.com/a/15615701/227926 */
@@ -144,17 +157,45 @@
 
                       /* var offsetHeightCalc = parseInt(offsetHeight.value) + 100; */
 
-                      var offsetHeightCalc = parseInt(offsetHeight) - 100;
+                      var offsetHeightCalc = parseInt(offsetHeight) + 100;
 
                       console.log('offsetHeightCalc is of type ' + typeof offsetHeightCalc);
                       console.log('offsetHeightCalc value is ' + offsetHeightCalc);
 
-                      const mainMenuNavContainer = document.getElementById('block-customsolent-mainnavigation');
+                      const mainMenuNavContainer = document.querySelector('header > * nav[role=navigation]');
+                      //const mainMenuNavContainer = document.getElementById('block-customsolent-mainnavigation');
 
-                      const subMenuHeight = "128px";
-                      mainMenuNavContainer.setAttribute("style", "height:" + subMenuHeight);
+                      mainMenuNavContainer.setAttribute("style", "height: " + offsetHeightCalc + "px");
                     }
-                  }
+                    else {
+                      /* closing submenu */
+                      if (aSubMenu.classList.contains("visible")) {
+                        aSubMenu.classList.remove("visible");
+                        aSubMenu.classList.add("hidden");
+                        aSubMenu.setAttribute("style", "top: 30px");
+
+
+                        /* https://stackoverflow.com/a/15615701/227926 */
+
+                        var offsetHeight = aSubMenu.offsetHeight;
+
+                        console.log('offsetHeight is of type' + typeof offsetHeight);
+                        console.log('offsetHeight value is ' + offsetHeight);
+
+                        /* var offsetHeightCalc = parseInt(offsetHeight.value) + 100; */
+
+                        var offsetHeightCalc = parseInt(offsetHeight) - 100;
+
+                        console.log('offsetHeightCalc is of type ' + typeof offsetHeightCalc);
+                        console.log('offsetHeightCalc value is ' + offsetHeightCalc);
+
+                        const mainMenuNavContainer = document.getElementById('block-customsolent-mainnavigation');
+
+                        const subMenuHeight = "128px";
+                        mainMenuNavContainer.setAttribute("style", "height:" + subMenuHeight);
+                      }
+                    } /* desktop hide-show toggle */
+                  } /* detect mobile width */
 
 
 
