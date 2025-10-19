@@ -27,6 +27,7 @@
     opacity: 1.0;
     /* z-index: 10; */
     background-color: white;
+    position: relative;
   }
 
   main {
@@ -97,7 +98,7 @@ https://stackoverflow.com/a/20590319/227926
 
       /*height: 64px; */
 
-  /*
+  
   nav[role=navigation].animation {
     transition-property: height;
     -webkit-transition-property: height;
@@ -108,7 +109,7 @@ https://stackoverflow.com/a/20590319/227926
     transition-duration: .5s;
     -webkit-transition-duration: .5s;
   }
-  */
+  
 
 
       /*height: 64px; */

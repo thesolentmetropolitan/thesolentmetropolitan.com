@@ -53,7 +53,7 @@
               /*const allSubMenus = document.querySelectorAll('.sub-menu-container');*/
 
 
-const allSubMenuContainers = document.querySelectorAll('.main-menu-item-container > * .sub-menu-container');
+              const allSubMenuContainers = document.querySelectorAll('.main-menu-item-container > * .sub-menu-container');
 
 
               //const allSubMenus = document.querySelectorAll('nav[role=navigation] button');
@@ -71,7 +71,7 @@ const allSubMenuContainers = document.querySelectorAll('.main-menu-item-containe
 
 
 
-                                  console.log("search for current - submenu is of type " + typeof aSubMenu);
+                  console.log("search for current - submenu is of type " + typeof aSubMenu);
 
                   //const aSubMenu = this.querySelector('.sub-menu-container');
 
@@ -83,10 +83,10 @@ const allSubMenuContainers = document.querySelectorAll('.main-menu-item-containe
                   console.log(primaryMenuContainerCssDisplay);
 
                   if (primaryMenuContainerCssDisplay == "block") {
-                    
+
                     console.log('mobile mode');
 
-                  //const aSubMenu = item.parentElement.querySelector('.sub-menu-container');
+                    //const aSubMenu = item.parentElement.querySelector('.sub-menu-container');
 
                     if (aSubMenu.classList.contains("hidden")) {
                       aSubMenu.classList.remove("hidden");
@@ -98,7 +98,7 @@ const allSubMenuContainers = document.querySelectorAll('.main-menu-item-containe
                         aSubMenu.classList.add("hidden");
                       }
                     }
-                      
+
                   }
                   else {
                     console.log('desktop mode');
