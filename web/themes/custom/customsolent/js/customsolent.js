@@ -21,11 +21,14 @@
         const allSubMenus = document.querySelectorAll('.sub-menu-container');
 
         allSubMenus.forEach(aSubMenu => {
+          submenu_hide(aSubMenu);
+          /*
           aSubMenu.classList.remove("visible");
           aSubMenu.classList.add("hidden");
 
 
           aSubMenu.setAttribute("style", "top: 30px");
+          */
         }
         );
 
@@ -94,8 +97,11 @@
                     }
                     else {
                       if (aSubMenu.classList.contains("visible")) {
+                                  submenu_hide(aSubMenu);
+                        /*
                         aSubMenu.classList.remove("visible");
                         aSubMenu.classList.add("hidden");
+                        */
                       }
                     }
 
@@ -174,10 +180,13 @@
                     else {
                       /* closing submenu */
                       if (aSubMenu.classList.contains("visible")) {
+
+                                  submenu_hide(aSubMenu);
+                        /*
                         aSubMenu.classList.remove("visible");
                         aSubMenu.classList.add("hidden");
                         aSubMenu.setAttribute("style", "top: 30px");
-
+                        */
 
                         /* https://stackoverflow.com/a/15615701/227926 */
 
@@ -208,6 +217,7 @@
                 else {
                   aSubMenu.classList.add("hidden");
                   aSubMenu.classList.remove("visible");
+                            aSubMenu.setAttribute("style", "top: 30px");
                 }
 
 
@@ -234,6 +244,13 @@
         //console.log('It works!');
 
       });
+
+      function submenu_hide( aSubMenu ) {
+                          aSubMenu.classList.add("hidden");
+                  aSubMenu.classList.remove("visible");
+                  aSubMenu.setAttribute("style", "top: 30px");
+
+      }
 
     }
   };
