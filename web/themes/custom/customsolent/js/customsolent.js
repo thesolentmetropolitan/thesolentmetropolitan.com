@@ -30,10 +30,10 @@
         );
 
 
-        const menuItems = document.querySelectorAll('nav[role=navigation] button');
+        const mainMenuTopLevelButtons = document.querySelectorAll('.main-menu-item-container > * button');
 
-        menuItems.forEach(item => {
-          item.addEventListener('click', function (e) {
+        mainMenuTopLevelButtons.forEach(topLevelButton => {
+          topLevelButton.addEventListener('click', function (e) {
 
 
             /*
@@ -43,20 +43,24 @@
             console.log('main menu item clicked');
             // Find the submenu within the clicked item
 
-            /*const submenu = item.parentElement.querySelector('.sub-menu-container');*/
+            const subMenuContainerForClickedButton = topLevelButton.parentElement.querySelector('.sub-menu-container');
 
             //const submenu = this.querySelector('.sub-menu-container');
-            if (item) {
+            if (subMenuContainerForClickedButton) {
 
               //console.log("submenu is of type " + typeof submenu);
 
               /*const allSubMenus = document.querySelectorAll('.sub-menu-container');*/
 
-              const allSubMenus = document.querySelectorAll('nav[role=navigation] button');
 
-              allSubMenus.forEach(aButton => {
+const allSubMenuContainers = document.querySelectorAll('.main-menu-item-container > * .sub-menu-container');
 
-                if (aButton.isEqualNode(item)) {
+
+              //const allSubMenus = document.querySelectorAll('nav[role=navigation] button');
+
+              allSubMenuContainers.forEach(aSubMenu => {
+
+                if (aSubMenu.isEqualNode(subMenuContainerForClickedButton)) {
                   e.stopPropagation();
                   e.preventDefault();
 
@@ -65,13 +69,13 @@
 
                   /*console.log('and yes there is a submenu');*/
 
-                  const aSubMenu = this.parentElement.querySelector('.sub-menu-container');
+
 
                                   console.log("search for current - submenu is of type " + typeof aSubMenu);
 
                   //const aSubMenu = this.querySelector('.sub-menu-container');
 
-                  const primaryMenuContainerAsId = document.getElementById("slnt-prim-menu");
+                  const primaryMenuContainerAsId = document.getElementById("sub-menu-item-container-ul");
 
 
                   var primaryMenuContainerStyle = window.getComputedStyle(primaryMenuContainerAsId);
