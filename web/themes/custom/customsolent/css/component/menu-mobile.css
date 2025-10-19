@@ -117,7 +117,7 @@ main {
     display: initial;
   }
 
-  .sub-menu-container.hidden {
+  .sub-menu-container.hidden-2l {
     visibility: hidden;
     display: initial;
 
@@ -133,7 +133,7 @@ main {
     display: block;
   }
 
-  .sub-menu-container.hidden {
+  .sub-menu-container.hidden-2l {
     visibility: initial;
     display: none;
   }
