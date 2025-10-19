@@ -24,7 +24,7 @@
           submenu_hide(aSubMenu);
           /*
           aSubMenu.classList.remove("visible");
-          aSubMenu.classList.add("hidden");
+          aSubMenu.classList.add("hidden-2l");
 
 
           aSubMenu.setAttribute("style", "top: 30px");
@@ -91,16 +91,15 @@
 
                     //const aSubMenu = item.parentElement.querySelector('.sub-menu-container');
 
-                    if (aSubMenu.classList.contains("hidden")) {
-                      aSubMenu.classList.remove("hidden");
-                      aSubMenu.classList.add("visible");
+                    if (aSubMenu.classList.contains("hidden-2l")) {
+                      submenu_show(aSubMenu);
                     }
                     else {
-                      if (aSubMenu.classList.contains("visible")) {
-                                  submenu_hide(aSubMenu);
+                      if (aSubMenu.classList.contains("visible-2l")) {
+                        submenu_hide(aSubMenu);
                         /*
                         aSubMenu.classList.remove("visible");
-                        aSubMenu.classList.add("hidden");
+                        aSubMenu.classList.add("hidden-2l");
                         */
                       }
                     }
@@ -109,7 +108,7 @@
                   else {
                     console.log('desktop mode');
 
-                    if (aSubMenu.classList.contains("hidden")) {
+                    if (aSubMenu.classList.contains("hidden-2l")) {
 
                       /*
                       
@@ -122,8 +121,10 @@
                       */
 
                       /* opening submenu */
-                      aSubMenu.classList.remove("hidden");
+                      /*
+                      aSubMenu.classList.remove("hidden-2l");
                       aSubMenu.classList.add("visible");
+                      */
                       /*
                       aSubMenu.one("webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend",
                         function (event) {
@@ -133,19 +134,19 @@
                       */
 
                       /* https://stackoverflow.com/a/11845715/227926 */
-                      aSubMenu.addEventListener('webkitTransitionEnd', transitionEndHandlerFunc, false);
-                      aSubMenu.addEventListener('otransitionend', transitionEndHandlerFunc, false);
-                      aSubMenu.addEventListener('oTransitionEnd', transitionEndHandlerFunc, false);
-                      aSubMenu.addEventListener('msTransitionEnd', transitionEndHandlerFunc, false);
-                      aSubMenu.addEventListener('transitionend', transitionEndHandlerFunc, false);
+                      /*
+                      aSubMenu.addEventListener('webkitTransitionEnd', transitionEndHandlerFunc_submenu_show, false);
+                      aSubMenu.addEventListener('otransitionend', transitionEndHandlerFunc_submenu_show, false);
+                      aSubMenu.addEventListener('oTransitionEnd', transitionEndHandlerFunc_submenu_show, false);
+                      aSubMenu.addEventListener('msTransitionEnd', transitionEndHandlerFunc_submenu_show, false);
+                      aSubMenu.addEventListener('transitionend', transitionEndHandlerFunc_submenu_show, false);
+                      */
+
+                      submenu_show(aSubMenu);
 
                       console.log("aSubMenu is of type " + typeof aSubMenu);
 
-                      function transitionEndHandlerFunc(event) {
-                        /* aSubMenu.setAttribute("style", "z-index: 0"); */
-                        /* https://stackoverflow.com/a/68839284/227926 */
-                        aSubMenu.style.setProperty("z-index", "0");
-                      }
+
 
                       /*
                       aSubMenu.setAttribute("style", "top: 110px");
@@ -179,12 +180,12 @@
                     }
                     else {
                       /* closing submenu */
-                      if (aSubMenu.classList.contains("visible")) {
+                      if (aSubMenu.classList.contains("visible-2l")) {
 
-                                  submenu_hide(aSubMenu);
+                        submenu_hide(aSubMenu);
                         /*
                         aSubMenu.classList.remove("visible");
-                        aSubMenu.classList.add("hidden");
+                        aSubMenu.classList.add("hidden-2l");
                         aSubMenu.setAttribute("style", "top: 30px");
                         */
 
@@ -215,9 +216,13 @@
 
                 }
                 else {
-                  aSubMenu.classList.add("hidden");
+                  submenu_hide(aSubMenu);
+
+                  /*
+                  aSubMenu.classList.add("hidden-2l");
                   aSubMenu.classList.remove("visible");
                             aSubMenu.setAttribute("style", "top: 30px");
+*/
                 }
 
 
@@ -233,7 +238,7 @@
 
               /*
               console.log('and yes there is a submenu');
-              submenu.classList.remove("hidden");
+              submenu.classList.remove("hidden-2l");
               submenu.classList.add("visible");
               */
             }
@@ -245,11 +250,66 @@
 
       });
 
-      function submenu_hide( aSubMenu ) {
-                          aSubMenu.classList.add("hidden");
-                  aSubMenu.classList.remove("visible");
-                  aSubMenu.setAttribute("style", "top: 30px");
+      function submenu_show(aSubMenu) {
 
+        aSubMenu.removeEventListener('webkitTransitionEnd', transitionEndHandlerFunc_submenu_hide, false);
+        aSubMenu.removeEventListener('otransitionend', transitionEndHandlerFunc_submenu_hide, false);
+        aSubMenu.removeEventListener('oTransitionEnd', transitionEndHandlerFunc_submenu_hide, false);
+        aSubMenu.removeEventListener('msTransitionEnd', transitionEndHandlerFunc_submenu_hide, false);
+        aSubMenu.removeEventListener('transitionend', transitionEndHandlerFunc_submenu_hide, false);
+
+
+        aSubMenu.addEventListener('webkitTransitionEnd', transitionEndHandlerFunc_submenu_show, false);
+        aSubMenu.addEventListener('otransitionend', transitionEndHandlerFunc_submenu_show, false);
+        aSubMenu.addEventListener('oTransitionEnd', transitionEndHandlerFunc_submenu_show, false);
+        aSubMenu.addEventListener('msTransitionEnd', transitionEndHandlerFunc_submenu_show, false);
+        aSubMenu.addEventListener('transitionend', transitionEndHandlerFunc_submenu_show, false);
+
+        aSubMenu.classList.remove("hidden-2l");
+        aSubMenu.classList.add("visible-2l");
+      }
+
+      function transitionEndHandlerFunc_submenu_show(event) {
+        /* aSubMenu.setAttribute("style", "z-index: 0"); */
+        /* https://stackoverflow.com/a/68839284/227926 */
+        /*
+        aSubMenu.style.setProperty("z-index", "-1");
+        */
+        event.target.style.setProperty("z-index", "0");
+      }
+
+      function submenu_hide(aSubMenu) {
+
+
+        aSubMenu.removeEventListener('webkitTransitionEnd', transitionEndHandlerFunc_submenu_show, false);
+        aSubMenu.removeEventListener('otransitionend', transitionEndHandlerFunc_submenu_show, false);
+        aSubMenu.removeEventListener('oTransitionEnd', transitionEndHandlerFunc_submenu_show, false);
+        aSubMenu.removeEventListener('msTransitionEnd', transitionEndHandlerFunc_submenu_show, false);
+        aSubMenu.removeEventListener('transitionend', transitionEndHandlerFunc_submenu_show, false);
+
+        aSubMenu.addEventListener('webkitTransitionEnd', transitionEndHandlerFunc_submenu_hide, false);
+        aSubMenu.addEventListener('otransitionend', transitionEndHandlerFunc_submenu_hide, false);
+        aSubMenu.addEventListener('oTransitionEnd', transitionEndHandlerFunc_submenu_hide, false);
+        aSubMenu.addEventListener('msTransitionEnd', transitionEndHandlerFunc_submenu_hide, false);
+        aSubMenu.addEventListener('transitionend', transitionEndHandlerFunc_submenu_hide, false);
+
+        aSubMenu.classList.add("hidden-2l");
+        aSubMenu.classList.remove("visible-2l");
+        aSubMenu.setAttribute("style", "top: -5px"); /* top hidden position */
+        /*aSubMenu.setAttribute("style", "z-index: -1");*/
+
+      }
+
+
+
+
+      function transitionEndHandlerFunc_submenu_hide(event) {
+        /* aSubMenu.setAttribute("style", "z-index: 0"); */
+        /* https://stackoverflow.com/a/68839284/227926 */
+        /*
+        aSubMenu.style.setProperty("z-index", "-1");
+        */
+        event.target.style.setProperty("z-index", "-1");
       }
 
     }
