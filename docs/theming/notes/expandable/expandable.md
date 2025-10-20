@@ -56,5 +56,33 @@ https://developer.mozilla.org/en-US/docs/Web/API/Node/parentElement
 
 https://claude.ai/chat/65abdec7-9c25-4a07-b27d-32f00dee3d70
 
+
+
+
+https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/removeEventListener
+
+didnt use
+https://stackoverflow.com/questions/57367871/trigger-a-function-at-a-specific-transition-value
+
+a + b 
+good to know, remind myself
+https://stackoverflow.com/questions/1139763/what-does-the-plus-sign-css-selector-mean
+
+trying to make it specific and not class with css elsewhere, a form of namespacing
+https://stackoverflow.com/questions/11115998/is-there-a-way-to-add-remove-several-classes-in-one-single-instruction-with-clas
+
+i just needed event.target
+https://stackoverflow.com/questions/48239/getting-the-id-of-the-element-that-fired-an-event
+
+click the checkbox at the bottom of welcome page
+https://github.com/shanalikhan/code-settings-sync/issues/1074
+
+reminder but i think i decided to use an id instead
+https://stackoverflow.com/questions/17965956/how-to-get-element-by-class-name
+
+for detecting mobile
+https://stackoverflow.com/questions/6338217/get-a-css-value-with-javascript
+
+
 */
 
