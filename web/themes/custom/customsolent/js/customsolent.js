@@ -10,13 +10,13 @@
     attach: function (context, settings) {
       $(document).ready(function () {
 
+                $(window).resize(menu_refreshSize);
+
         // or https://stackoverflow.com/a/24296220/227926
         //const mainMenuNavContainer = document.querySelector('block-customsolent-mainnavigation');
 
-        const mainMenuNavContainer = document.querySelector('header > * nav[role=navigation]');
 
 
-        mainMenuNavContainer.setAttribute("style", "height: 100px");
 
         const allSubMenus = document.querySelectorAll('.sub-menu-container');
 
@@ -205,8 +205,11 @@
 
                         const mainMenuNavContainer = document.getElementById('block-customsolent-mainnavigation');
 
-                        const subMenuHeight = "128px";
-                        mainMenuNavContainer.setAttribute("style", "height:" + subMenuHeight);
+                        /* if not mobile */
+                        if (!isMobile()) {
+                          const subMenuHeight = "128px";
+                          mainMenuNavContainer.setAttribute("style", "height:" + subMenuHeight);
+                        }
                       }
                     } /* desktop hide-show toggle */
                   } /* detect mobile width */
@@ -310,6 +313,32 @@
         aSubMenu.style.setProperty("z-index", "-1");
         */
         event.target.style.setProperty("z-index", "-1");
+      }
+
+      function menu_refreshSize() {
+        var mainMenuNavContainer = document.querySelector('header > * nav[role=navigation]');
+        if (!isMobile()) {
+          mainMenuNavContainer.setAttribute("style", "height: 100px");
+        }
+        else {
+          mainMenuNavContainer.setAttribute("style", "height: auto");
+        }
+      }
+
+      function isMobile() {
+        var primaryMenuContainerAsId = document.getElementById("sub-menu-item-container-ul");
+
+        var primaryMenuContainerStyle = window.getComputedStyle(primaryMenuContainerAsId);
+        var primaryMenuContainerCssDisplay = primaryMenuContainerStyle.getPropertyValue('display');
+        var isMobileFlag = false;
+        if (primaryMenuContainerCssDisplay == "block") {
+          isMobileFlag = true;
+        }
+        else {
+          isMobileFlag = false;
+        }
+
+        return isMobileFlag;
       }
 
     }
