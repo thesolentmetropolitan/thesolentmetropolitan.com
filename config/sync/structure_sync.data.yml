@@ -34,7 +34,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -52
+    weight: -62
     langcode: en
     uuid: 1e665e14-aa16-489e-98b5-dfdc88595a6d
     options: {  }
@@ -47,7 +47,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -48
+    weight: -61
     langcode: en
     uuid: ba100dfb-b62e-43fa-a42a-88f144ca441a
     options: {  }
@@ -60,7 +60,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -38
+    weight: -50
     langcode: en
     uuid: 3691cd90-a8ea-49ae-8cdf-9cb8e438541a
     options: {  }
@@ -73,7 +73,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -50
+    weight: -63
     langcode: en
     uuid: 8dbccd1a-0d0a-43a2-80ec-0aedc24e46dd
     options: {  }
@@ -86,7 +86,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -41
+    weight: -54
     langcode: en
     uuid: e2aec3fc-c4d7-4d3c-a8e2-8e5424f731cc
     options: {  }
@@ -99,7 +99,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -44
+    weight: -57
     langcode: en
     uuid: 3a203bbe-f23c-4fb3-9ab3-b0b7aa5f3ee0
     options: {  }
@@ -112,7 +112,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -36
+    weight: -48
     langcode: en
     uuid: b382d99f-6a38-4d1a-8641-b8e93bacec5e
     options: {  }
@@ -125,7 +125,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -47
+    weight: -60
     langcode: en
     uuid: c50bef7f-4d83-4b78-9046-fb60d82cda45
     options: {  }
@@ -138,7 +138,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -35
+    weight: -47
     langcode: en
     uuid: b285e567-d41f-4eed-a2b2-b506c88e727f
     options: {  }
@@ -164,7 +164,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -43
+    weight: -56
     langcode: en
     uuid: 4b597611-3c69-49ab-a8f6-5d1ae184aeb1
     options: {  }
@@ -177,7 +177,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -39
+    weight: -52
     langcode: en
     uuid: 4b3fc748-1d7b-4dd2-9d23-a7a78c447b36
     options: {  }
@@ -190,7 +190,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -45
+    weight: -58
     langcode: en
     uuid: 5c470876-f6dd-4520-8992-82b583995442
     options: {  }
@@ -203,7 +203,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -50
+    weight: -63
     langcode: en
     uuid: 249fa295-3ade-4010-80ca-2f8986f68688
     options: {  }
@@ -216,7 +216,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -47
+    weight: -60
     langcode: en
     uuid: 58c994bf-0fc1-4f42-b496-142e8c0d0a40
     options: {  }
@@ -229,7 +229,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -46
+    weight: -59
     langcode: en
     uuid: db9c6fda-c2ce-49bc-8e5e-3327534174aa
     options: {  }
@@ -242,7 +242,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -51
+    weight: -59
     langcode: en
     uuid: 6eabc665-7abb-43a1-8190-b4e3b635df7b
     options: {  }
@@ -255,7 +255,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -49
+    weight: -64
     langcode: en
     uuid: 11debdd8-92fc-41aa-9986-0ded7eb85ee9
     options: {  }
@@ -268,7 +268,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -35
+    weight: -43
     langcode: en
     uuid: e5e84f75-afd1-4ab4-9468-a21693975305
     options: {  }
@@ -281,7 +281,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -42
+    weight: -53
     langcode: en
     uuid: cd4c065b-6519-4899-8ee3-abe0c2356df3
     options: {  }
@@ -294,33 +294,33 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -29
+    weight: -34
     langcode: en
     uuid: 785d407c-dd2a-4b90-b48f-d1b6e8b933e1
     options: {  }
   -
     menu_name: main
-    title: 'Engineering & Manufacturing'
+    title: Engineering
     parent: 'menu_link_content:ca4916ec-7269-42dc-abf5-5864739fbddd'
-    uri: 'internal:/sectors/engineering-and-manufacturing'
+    uri: 'internal:/sectors/engineering'
     link_title: ''
     description: null
     enabled: true
     expanded: false
-    weight: -44
+    weight: -55
     langcode: en
     uuid: b23ffe1c-300d-4c7b-a31a-55e120efb49d
     options: {  }
   -
     menu_name: main
-    title: 'Infrastructure & Logistics'
+    title: Infrastructure
     parent: 'menu_link_content:ca4916ec-7269-42dc-abf5-5864739fbddd'
-    uri: 'internal:/sectors/infrastructure-logistics'
+    uri: 'internal:/sectors/infrastructure'
     link_title: ''
     description: null
     enabled: true
     expanded: false
-    weight: -37
+    weight: -48
     langcode: en
     uuid: b841ff01-b616-4e06-827e-3f866589c0bc
     options: {  }
@@ -333,7 +333,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -49
+    weight: -61
     langcode: en
     uuid: 36d08377-3e2c-4b8a-880c-436af016f269
     options: {  }
@@ -346,7 +346,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -34
+    weight: -42
     langcode: en
     uuid: 0d619d7d-b548-4734-94f9-8ab767901178
     options: {  }
@@ -359,7 +359,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -47
+    weight: -59
     langcode: en
     uuid: 11f0a182-e92f-41f2-9c71-c64417bed929
     options: {  }
@@ -372,7 +372,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -46
+    weight: -57
     langcode: en
     uuid: f026cbda-7837-44a1-9dfa-d96fedae5281
     options: {  }
@@ -385,7 +385,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -39
+    weight: -50
     langcode: en
     uuid: 29e84fb0-4d60-4a5a-baf5-a7b24ae91010
     options: {  }
@@ -398,7 +398,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -38
+    weight: -49
     langcode: en
     uuid: 675facb3-2d62-4124-8ec5-0f0031488472
     options: {  }
@@ -411,7 +411,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -40
+    weight: -51
     langcode: en
     uuid: 817714c1-33c6-407c-82ae-e571badbc20e
     options: {  }
@@ -424,20 +424,20 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -36
+    weight: -46
     langcode: en
     uuid: 1938fad3-f184-4b15-969a-c207510ecb0b
     options: {  }
   -
     menu_name: main
-    title: 'Finance & Legal'
+    title: Finance
     parent: 'menu_link_content:ca4916ec-7269-42dc-abf5-5864739fbddd'
-    uri: 'internal:/sectors/finance-legal'
+    uri: 'internal:/sectors/finance'
     link_title: ''
     description: null
     enabled: true
     expanded: false
-    weight: -41
+    weight: -52
     langcode: en
     uuid: 54f61a44-6775-4619-b8bf-7d65f56a5f56
     options: {  }
@@ -450,7 +450,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -32
+    weight: -38
     langcode: en
     uuid: 9444b6b5-f978-42cb-937b-ce8f2eb6f81d
     options: {  }
@@ -463,7 +463,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -31
+    weight: -37
     langcode: en
     uuid: e94fc196-e0dc-49a8-8d24-ecc45bee1db6
     options: {  }
@@ -476,7 +476,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -28
+    weight: -33
     langcode: en
     uuid: ba276cbf-52f0-4e61-9f1d-99fa65acb6cd
     options: {  }
@@ -489,20 +489,20 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -48
+    weight: -60
     langcode: en
     uuid: 84c852cb-79ca-416d-bafa-01ad85050918
     options: {  }
   -
     menu_name: main
-    title: Environment
+    title: 'Environment & Nature'
     parent: 'menu_link_content:ca4916ec-7269-42dc-abf5-5864739fbddd'
-    uri: 'internal:/sectors/environment'
+    uri: 'internal:/sectors/environment-nature'
     link_title: ''
     description: null
     enabled: true
     expanded: false
-    weight: -45
+    weight: -56
     langcode: en
     uuid: 2f24a73a-8101-4865-a606-8f2adaf41608
     options: {  }
@@ -515,7 +515,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -33
+    weight: -41
     langcode: en
     uuid: 46040601-f8d3-42bd-aff8-55a347b770cf
     options: {  }
@@ -528,7 +528,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -50
+    weight: -62
     langcode: en
     uuid: 4f728897-4179-4a7a-badc-4b8567fb095d
     options: {  }
@@ -541,7 +541,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -43
+    weight: -54
     langcode: en
     uuid: 2194b58c-6143-4e7d-8e68-f59925b69aba
     options: {  }
@@ -554,7 +554,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -49
+    weight: -51
     langcode: en
     uuid: 13aa2a20-b941-4dd5-8a27-e4e1dd4b61be
     options: {  }
@@ -567,7 +567,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -42
+    weight: -55
     langcode: en
     uuid: 76cf4d5f-3016-4103-9798-2ac3f1793846
     options: {  }
@@ -580,7 +580,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -30
+    weight: -36
     langcode: en
     uuid: c1070c3a-500f-43b6-ad13-aebb517684e3
     options: {  }
@@ -593,7 +593,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -37
+    weight: -49
     langcode: en
     uuid: 4b28e4d3-d73d-495e-9e9e-efa4185a4dbf
     options: {  }
@@ -606,7 +606,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -27
+    weight: -31
     langcode: en
     uuid: 74b8480d-83ba-43ea-b5e4-c99bdc227a9e
     options: {  }
@@ -619,7 +619,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -48
+    weight: -61
     langcode: en
     uuid: 0fec7440-af88-4538-bfd1-5422b795b14d
     options: {  }
@@ -632,7 +632,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -40
+    weight: -53
     langcode: en
     uuid: 2cb98f06-787e-4109-a6ed-0bc032237980
     options: {  }
@@ -645,7 +645,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -45
+    weight: -65
     langcode: en
     uuid: a727d56f-62aa-4416-a871-77d12b26f2b9
     options: {  }
@@ -658,7 +658,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -46
+    weight: -58
     langcode: en
     uuid: fe14f8c4-e80b-4f2d-8d36-9b3d0b78b638
     options: {  }
@@ -671,7 +671,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: 0
+    weight: -39
     langcode: en
     uuid: 3b6ab636-0c48-4efa-9029-1016b6f62e3a
     options: {  }
@@ -684,7 +684,150 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: 0
+    weight: -40
     langcode: en
     uuid: de946a40-4cd2-41a1-a116-0fb37f0ffd92
+    options: {  }
+  -
+    menu_name: main
+    title: 'Video Games'
+    parent: 'menu_link_content:9548ba9b-5ae0-4248-8c2e-f76e52ef31f5'
+    uri: 'internal:/culture/video-games'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -46
+    langcode: en
+    uuid: b154f4a0-8cd8-4b69-8aa6-1b6f1d9de5b6
+    options: {  }
+  -
+    menu_name: main
+    title: 'Board Games'
+    parent: 'menu_link_content:9548ba9b-5ae0-4248-8c2e-f76e52ef31f5'
+    uri: 'internal:/culture/board-games'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -62
+    langcode: en
+    uuid: 04a753a4-c283-43d0-b1f9-247d6e8065b6
+    options: {  }
+  -
+    menu_name: main
+    title: 'Animal Care'
+    parent: 'menu_link_content:ca4916ec-7269-42dc-abf5-5864739fbddd'
+    uri: 'internal:/sector/animal-care'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -64
+    langcode: en
+    uuid: 1eaf129c-d331-4633-9ac5-c7c1d9c40ab7
+    options: {  }
+  -
+    menu_name: main
+    title: Architecture
+    parent: 'menu_link_content:ca4916ec-7269-42dc-abf5-5864739fbddd'
+    uri: 'internal:/sector/architecture'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -63
+    langcode: en
+    uuid: 9bea57b9-6456-4047-a087-37280f07ebba
+    options: {  }
+  -
+    menu_name: main
+    title: Aerospace
+    parent: 'menu_link_content:ca4916ec-7269-42dc-abf5-5864739fbddd'
+    uri: 'internal:/sector/aerospace'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -65
+    langcode: en
+    uuid: 0619862f-7f23-413f-866a-f992ceebcc79
+    options: {  }
+  -
+    menu_name: main
+    title: Manufacturing
+    parent: 'menu_link_content:ca4916ec-7269-42dc-abf5-5864739fbddd'
+    uri: 'internal:/sector/manufacturing'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -44
+    langcode: en
+    uuid: b318acdf-64d7-41e1-85f6-09bf071343cd
+    options: {  }
+  -
+    menu_name: main
+    title: Logistics
+    parent: 'menu_link_content:ca4916ec-7269-42dc-abf5-5864739fbddd'
+    uri: 'internal:/sector/logistics'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -45
+    langcode: en
+    uuid: 98629043-47e3-4f0f-ba9b-26f9fb2152ca
+    options: {  }
+  -
+    menu_name: main
+    title: Legal
+    parent: 'menu_link_content:ca4916ec-7269-42dc-abf5-5864739fbddd'
+    uri: 'internal:/sector/legal'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -47
+    langcode: en
+    uuid: 427482d8-45ce-4cc1-ad7d-4caa14213825
+    options: {  }
+  -
+    menu_name: main
+    title: Utilities
+    parent: 'menu_link_content:ca4916ec-7269-42dc-abf5-5864739fbddd'
+    uri: 'internal:/sector/utilities'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -32
+    langcode: en
+    uuid: f7e15ce4-ca68-4a11-bec6-43023f68e729
+    options: {  }
+  -
+    menu_name: main
+    title: Rescue
+    parent: 'menu_link_content:ca4916ec-7269-42dc-abf5-5864739fbddd'
+    uri: 'internal:/sector/rescue'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -35
+    langcode: en
+    uuid: 0baa4040-10f2-4624-8f1a-e77342e9be8c
+    options: {  }
+  -
+    menu_name: main
+    title: 'Democracy & gov'
+    parent: 'menu_link_content:ca4916ec-7269-42dc-abf5-5864739fbddd'
+    uri: 'internal:/sector/democracy-gov'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -58
+    langcode: en
+    uuid: b3f0fd1c-c51e-4fa6-81ee-74b4a5d3b6a0
     options: {  }
