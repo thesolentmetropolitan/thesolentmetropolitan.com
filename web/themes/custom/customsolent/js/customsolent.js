@@ -85,7 +85,8 @@
                   var primaryMenuContainerCssDisplay = primaryMenuContainerStyle.getPropertyValue('display');
                   console.log(primaryMenuContainerCssDisplay);
 
-                  if (primaryMenuContainerCssDisplay == "block") {
+                  //if (primaryMenuContainerCssDisplay == "block") {
+if (screen.width < 992) {
 
                     console.log('mobile mode');
 
@@ -207,7 +208,7 @@
 
                         /* if not mobile */
                         if (!isMobile()) {
-                          const subMenuHeight = "128px";
+                          const subMenuHeight = "204px";
                           mainMenuNavContainer.setAttribute("style", "height:" + subMenuHeight);
                         }
                       }

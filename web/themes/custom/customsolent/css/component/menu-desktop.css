@@ -138,22 +138,25 @@ https://stackoverflow.com/a/20590319/227926
 */
 
 
-  .main-menu-item-container>li {
+     .main-menu-item-container>li {
     display: block;
     white-space: nowrap;
-    width: 150px;
+   /*width: 150px;*/
   }
 
   .main-menu-item-container {
     display: inline-block;
     column-count: 3;
-    width: 200px;
+    /*width: 200px; */
+        margin-top: 0px;
+        margin-bottom: 0px;
   }
 
   .sub-menu-item-container {
     flex-direction: row;
     position: relative;
-    height: 128px; /* subMenuHeight */
+    /*height: 128px;*/ /* subMenuHeight */
+    height: 104px;
     columns: 6;
     width: auto;
     /*z-index: -2;*/
@@ -192,4 +195,11 @@ https://stackoverflow.com/a/20590319/227926
     /*top: -5px; */
     /* top hidden position */
   }
+
+
+  .main-menu-wrap {
+    align-items: center;
+    display: flex;
+    height: 90px;
+}
 }
