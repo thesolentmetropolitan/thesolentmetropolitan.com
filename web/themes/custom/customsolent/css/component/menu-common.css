@@ -28,8 +28,10 @@
 .navigation__link__down-icon {
   width: 6px;
   height: 6px;
+  /*
   margin-bottom: -2px;
   margin-left: 2px;
+  */
   transition: transform .4s ease;
 }
 
