@@ -1,6 +1,4 @@
 @media (min-width: 992px) {
-
-
   #mast-head {
     width: 15em;
   }
@@ -21,12 +19,9 @@
   }
 
   #slnt-header {
-    /*clear: both;*/
     width: 100%;
     height: 128px;
     opacity: 1.0;
-    /* z-index: 10; */
-      /*z-index: 0;*/
     background-color: white;
     position: relative;
   }
@@ -34,9 +29,6 @@
   main {
     clear: both;
   }
-
-
-
 
   /* credit: BBC iPlayer - well I pay my license fee to the glorious corporation. "It's Your BBC" */
   /*
@@ -53,7 +45,7 @@
   */
 
 
-/* DRAWER MENU 
+  /* DRAWER MENU 
 https://stackoverflow.com/a/20590319/227926
 */
 
@@ -77,26 +69,12 @@ https://stackoverflow.com/a/20590319/227926
   }
   */
 
-
-
-  /*
-  @keyframes top {
-    100% { z-index: 0; }
-  }
-  */
-
-
   /* 
-
   https://stackoverflow.com/a/64769022/227926
-
   transition: [property] [duration] [timing-function] [delay], ... more property-transitions
-
   */
 
-      /*height: 64px; */
 
-  
   nav[role=navigation].animation {
     transition-property: height;
     -webkit-transition-property: height;
@@ -107,7 +85,7 @@ https://stackoverflow.com/a/20590319/227926
     transition-duration: .5s;
     -webkit-transition-duration: .5s;
   }
-  
+
 
   /*
   .sub-menu-container.animated {
@@ -129,77 +107,45 @@ https://stackoverflow.com/a/20590319/227926
   }
 
 
-
-      /*height: 64px; */
-
-
-/*
-  nav[role=navigation] {}
-*/
-
-
-     .main-menu-item-container>li {
+  .main-menu-item-container>li {
     display: block;
     white-space: nowrap;
-   /*width: 150px;*/
   }
 
   .main-menu-item-container {
     display: inline-block;
     column-count: 3;
-    /*width: 200px; */
-        margin-top: 0px;
-        margin-bottom: 0px;
+
+    margin-top: 0px;
+    margin-bottom: 0px;
   }
 
   .sub-menu-item-container {
     flex-direction: row;
     position: relative;
-    /*height: 128px;*/ /* subMenuHeight */
-    height: 104px;
+    /*height: 104px;*/
     columns: 6;
     width: auto;
-    /*z-index: -2;*/
   }
 
   .sub-menu-container {
     width: 100%;
-    /*right: 250px; */
     right: 0px;
     position: absolute;
-    /*z-index: -2;*/
-    /*height: 100%;*/
   }
 
   .sub-menu-container.visible-2l {
-    /*
-    visibility: visible;
-    display: initial;
-    */
-          z-index: -1;
+    z-index: -1;
   }
 
   .sub-menu-container.hidden-2l {
-    /*
-    visibility: hidden;
-    display: initial;
-    */
-    /*
     z-index: -1;
-    */
-    /*
-        display: initial;
-        */
-      z-index: -1;
-      top: -5px;
-    /*top: -5px; */
-    /* top hidden position */
+    top: -5px;
   }
-
 
   .main-menu-wrap {
     align-items: center;
     display: flex;
     height: 90px;
-}
+  }
 }
