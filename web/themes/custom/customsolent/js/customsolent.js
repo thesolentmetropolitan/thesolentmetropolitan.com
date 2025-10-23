@@ -11,7 +11,7 @@
         desktop height constants
       */
       const submenu_desktop_hide_position = "110px";
-      const submenu_desktop_hide_position_top = "-5px";
+      const submenu_desktop_hide_position_top = "-60px";
       const desktop_offset_height = 100;
 
       $(document).ready(function () {
@@ -64,6 +64,7 @@
                   else {
                     console.log('desktop mode');
 
+                    const mainMenuNavContainer = document.querySelector('header > * nav[role=navigation]');
                     if (aSubMenu.classList.contains("hidden-2l")) {
                       submenu_show(aSubMenu);
 
@@ -86,8 +87,6 @@
                       console.log('offsetHeightCalc is of type ' + typeof offsetHeightCalc);
                       console.log('offsetHeightCalc value is ' + offsetHeightCalc);
 
-                      const mainMenuNavContainer = document.querySelector('header > * nav[role=navigation]');
-
                       mainMenuNavContainer.setAttribute("style", "height: " + offsetHeightCalc + "px");
                     }
                     else {
@@ -106,12 +105,16 @@
                         console.log('offsetHeightCalc is of type ' + typeof offsetHeightCalc);
                         console.log('offsetHeightCalc value is ' + offsetHeightCalc);
 
-                        const mainMenuNavContainer = document.getElementById('block-customsolent-mainnavigation');
+                        /*const mainMenuNavContainer = document.getElementById('block-customsolent-mainnavigation');*/
 
+                        mainMenuNavContainer.setAttribute("style", "height: " + "90" + "px");
                         /* if not mobile */
                         if (!isMobile()) {
+                          //mainMenuNavContainer.setAttribute("style", "height: " + "90" + "px");
+                          /*
                           const subMenuHeight = "204px";
                           mainMenuNavContainer.setAttribute("style", "height:" + subMenuHeight);
+                          */
                         }
                       }
                     } /* desktop hide-show toggle */

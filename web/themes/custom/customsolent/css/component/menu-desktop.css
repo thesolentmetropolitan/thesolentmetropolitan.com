@@ -20,7 +20,8 @@
 
   #slnt-header {
     width: 100%;
-    height: 128px;
+    height: 90px; /* submenu_cover_height related: main_menu_section_height and submenu_desktop_hide_position_top */
+
     opacity: 1.0;
     background-color: white;
     position: relative;
@@ -86,6 +87,10 @@ https://stackoverflow.com/a/20590319/227926
     -webkit-transition-duration: .5s;
   }
 
+  nav[role=navigation] {
+    height: 90px;
+  }  
+
 
   /*
   .sub-menu-container.animated {
@@ -115,7 +120,6 @@ https://stackoverflow.com/a/20590319/227926
   .main-menu-item-container {
     display: inline-block;
     column-count: 3;
-
     margin-top: 0px;
     margin-bottom: 0px;
   }
@@ -123,7 +127,6 @@ https://stackoverflow.com/a/20590319/227926
   .sub-menu-item-container {
     flex-direction: row;
     position: relative;
-    /*height: 104px;*/
     columns: 6;
     width: auto;
   }
@@ -140,12 +143,12 @@ https://stackoverflow.com/a/20590319/227926
 
   .sub-menu-container.hidden-2l {
     z-index: -1;
-    top: -5px;
+    top: -60px; /* submenu_desktop_hide_position_top */
   }
 
   .main-menu-wrap {
     align-items: center;
     display: flex;
-    height: 90px;
+    height: 90px; /* main_menu_section_height - related: submenu_cover_height and submenu_desktop_hide_position_top*/
   }
 }
