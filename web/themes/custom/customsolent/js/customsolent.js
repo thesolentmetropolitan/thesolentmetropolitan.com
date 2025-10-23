@@ -182,9 +182,26 @@
 
 
       function menu_refreshSize() {
-        //var mainMenuNavContainer = document.querySelector('header > * nav[role=navigation]');
+        var mainMenuNavContainer = document.querySelector('header > * nav[role=navigation]');
         if (!isMobile()) {
-          console.log( ' desktop');
+          console.log(' desktop');
+          var aSubMenu = document.querySelector(".sub-menu-container.visible-2l");
+          if (!aSubMenu) {
+            aSubMenu = document.querySelector(".sub-menu-container");
+          }
+
+          var offsetHeight = aSubMenu.offsetHeight;
+
+          console.log('offsetHeight is of type' + typeof offsetHeight);
+          console.log('offsetHeight value is ' + offsetHeight);
+
+          var offsetHeightCalc = parseInt(offsetHeight) + desktop_offset_height;
+
+          console.log('offsetHeightCalc is of type ' + typeof offsetHeightCalc);
+          console.log('offsetHeightCalc value is ' + offsetHeightCalc);
+
+
+          mainMenuNavContainer.setAttribute("style", "height: " + offsetHeightCalc + "px");
         }
         else {
           console.log(' mobile');
@@ -210,14 +227,23 @@
         */
 
         // still needs to be fixed but this will help: https://stackoverflow.com/questions/6850164/get-the-device-width-in-javascript
+        var isMobileFlag = false;
+        //var screenWidth = document.documentElement.clientWidth;
 
-        if (screen.width <= css_breakpoint_mobile) {
+
+        // not reliable
+        // may have to go back to detecting a css class
+        // https://stackoverflow.com/questions/833699/clientheight-clientwidth-returning-different-values-on-different-browsers
+
+var screenWidth = $(window).width();
+
+        if (screenWidth <= css_breakpoint_mobile) {
           isMobileFlag = true;
-                    console.log( ' mobile');
+          console.log(' mobile ' + screenWidth);
         }
         else {
           isMobileFlag = false;
-          console.log( ' desktop');
+          console.log(' desktop ' + screenWidth);
         }
         return isMobileFlag;
       }
