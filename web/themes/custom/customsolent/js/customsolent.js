@@ -13,6 +13,7 @@
       const submenu_desktop_hide_position = "110px";
       const submenu_desktop_hide_position_top = "-60px";
       const desktop_offset_height = 100;
+      const css_breakpoint_mobile = 991;
 
       $(document).ready(function () {
 
@@ -50,7 +51,7 @@
                   var primaryMenuContainerCssDisplay = primaryMenuContainerStyle.getPropertyValue('display');
                   console.log(primaryMenuContainerCssDisplay);
 
-                  if (screen.width < 992) {
+                  if (isMobile()) {
                     console.log('mobile mode');
                     if (aSubMenu.classList.contains("hidden-2l")) {
                       submenu_show(aSubMenu);
@@ -181,17 +182,19 @@
 
 
       function menu_refreshSize() {
-        var mainMenuNavContainer = document.querySelector('header > * nav[role=navigation]');
+        //var mainMenuNavContainer = document.querySelector('header > * nav[role=navigation]');
         if (!isMobile()) {
-          mainMenuNavContainer.setAttribute("style", "height: " + desktop_offset_height + "px");
+          console.log( ' desktop');
         }
         else {
+          console.log(' mobile');
           mainMenuNavContainer.setAttribute("style", "height: auto");
         }
       }
 
 
       function isMobile() {
+        /*
         var primaryMenuContainerAsId = document.getElementById("sub-menu-item-container-ul");
         var primaryMenuContainerStyle = window.getComputedStyle(primaryMenuContainerAsId);
         var primaryMenuContainerCssDisplay = primaryMenuContainerStyle.getPropertyValue('display');
@@ -201,6 +204,20 @@
         }
         else {
           isMobileFlag = false;
+        }
+        return isMobileFlag;
+    
+        */
+
+        // still needs to be fixed but this will help: https://stackoverflow.com/questions/6850164/get-the-device-width-in-javascript
+
+        if (screen.width <= css_breakpoint_mobile) {
+          isMobileFlag = true;
+                    console.log( ' mobile');
+        }
+        else {
+          isMobileFlag = false;
+          console.log( ' desktop');
         }
         return isMobileFlag;
       }
