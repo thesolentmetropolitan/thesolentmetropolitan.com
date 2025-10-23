@@ -227,7 +227,7 @@
         */
 
         // still needs to be fixed but this will help: https://stackoverflow.com/questions/6850164/get-the-device-width-in-javascript
-        var isMobileFlag = false;
+
         //var screenWidth = document.documentElement.clientWidth;
 
 
@@ -235,8 +235,9 @@
         // may have to go back to detecting a css class
         // https://stackoverflow.com/questions/833699/clientheight-clientwidth-returning-different-values-on-different-browsers
 
-var screenWidth = $(window).width();
-
+        /*
+       var screenWidth = $(window).width();
+        var isMobileFlag = false;
         if (screenWidth <= css_breakpoint_mobile) {
           isMobileFlag = true;
           console.log(' mobile ' + screenWidth);
@@ -244,6 +245,18 @@ var screenWidth = $(window).width();
         else {
           isMobileFlag = false;
           console.log(' desktop ' + screenWidth);
+        }
+        return isMobileFlag;
+*/
+
+                var isMobileFlag = false;
+        if ($(".main-menu-item-container").css("column-count") > 1) {
+          isMobileFlag = false;
+          console.log(' desktop ' );
+        }
+        else {
+          isMobileFlag = true;
+          console.log(' mobile ' );
         }
         return isMobileFlag;
       }

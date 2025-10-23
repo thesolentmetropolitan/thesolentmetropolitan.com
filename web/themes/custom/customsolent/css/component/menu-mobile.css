@@ -82,6 +82,10 @@ main {
     width: 150px;
   }
 
+  .main-menu-item-container {
+    display: block;
+  }
+
   /*
   .main-menu-item-container {
     display: inline-block;
