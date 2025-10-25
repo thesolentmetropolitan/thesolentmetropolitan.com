@@ -108,7 +108,7 @@
 
                         /*const mainMenuNavContainer = document.getElementById('block-customsolent-mainnavigation');*/
 
-                        mainMenuNavContainer.setAttribute("style", "height: " + "90" + "px");
+                        mainMenuNavContainer.setAttribute("style", "height: " + "96px"); /* menu_bar_height */
                         /* if not mobile */
                         if (!isMobile()) {
                           //mainMenuNavContainer.setAttribute("style", "height: " + "90" + "px");
