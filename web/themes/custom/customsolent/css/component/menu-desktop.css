@@ -20,7 +20,7 @@
 
   #slnt-header {
     width: 100%;
-    height: 90px; /* submenu_cover_height related: main_menu_section_height and submenu_desktop_hide_position_top */
+    height: 96px; /* submenu_cover_height related: main_menu_section_height and submenu_desktop_hide_position_top */
 
     opacity: 1.0;
     background-color: white;
@@ -89,6 +89,7 @@ https://stackoverflow.com/a/20590319/227926
 
   nav[role=navigation] {
     /* height: 90px; */
+    /*height: 96px;*/
   }  
 
 
