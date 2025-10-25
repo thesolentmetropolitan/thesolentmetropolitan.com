@@ -96,6 +96,7 @@
 
                         /* https://stackoverflow.com/a/15615701/227926 */
 
+                        /*
                         var offsetHeight = aSubMenu.offsetHeight;
 
                         console.log('offsetHeight is of type' + typeof offsetHeight);
@@ -105,6 +106,7 @@
 
                         console.log('offsetHeightCalc is of type ' + typeof offsetHeightCalc);
                         console.log('offsetHeightCalc value is ' + offsetHeightCalc);
+                        */
 
                         /*const mainMenuNavContainer = document.getElementById('block-customsolent-mainnavigation');*/
 
@@ -187,16 +189,7 @@
           /* get the visible menu element */
           var aSubMenu = document.querySelector(".sub-menu-container.visible-2l");
           if (aSubMenu) {
-
-          }
-          else {
-            aSubMenu = document.querySelector(".sub-menu-container");
-          }
-
-          if (aSubMenu) {
-
-
-            var offsetHeight = aSubMenu.offsetHeight;
+                         var offsetHeight = aSubMenu.offsetHeight;
 
             console.log('offsetHeight is of type' + typeof offsetHeight);
             console.log('offsetHeight value is ' + offsetHeight);
@@ -208,6 +201,16 @@
 
 
             mainMenuNavContainer.setAttribute("style", "height: " + offsetHeightCalc + "px");
+
+          }
+          else {
+            aSubMenu = document.querySelector(".sub-menu-container");
+          }
+
+          if (aSubMenu) {
+
+
+
           }
 
 
