@@ -11,7 +11,7 @@
         desktop height constants
       */
       const submenu_desktop_hide_position = "110px";
-      const submenu_desktop_hide_position_top = "-60px";
+      const submenu_desktop_hide_position_top = "-60px"; /* TODO this needs to be calculated individually for each submenu */
       const desktop_offset_height = 100;
       const css_breakpoint_mobile = 991;
 
