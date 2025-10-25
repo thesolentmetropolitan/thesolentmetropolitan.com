@@ -184,23 +184,33 @@
         var mainMenuNavContainer = document.querySelector('header > * nav[role=navigation]');
         if (!isMobile()) {
           console.log(' desktop');
+          /* get the visible menu element */
           var aSubMenu = document.querySelector(".sub-menu-container.visible-2l");
-          if (!aSubMenu) {
+          if (aSubMenu) {
+
+          }
+          else {
             aSubMenu = document.querySelector(".sub-menu-container");
           }
 
-          var offsetHeight = aSubMenu.offsetHeight;
-
-          console.log('offsetHeight is of type' + typeof offsetHeight);
-          console.log('offsetHeight value is ' + offsetHeight);
-
-          var offsetHeightCalc = parseInt(offsetHeight) + desktop_offset_height;
-
-          console.log('offsetHeightCalc is of type ' + typeof offsetHeightCalc);
-          console.log('offsetHeightCalc value is ' + offsetHeightCalc);
+          if (aSubMenu) {
 
 
-          mainMenuNavContainer.setAttribute("style", "height: " + offsetHeightCalc + "px");
+            var offsetHeight = aSubMenu.offsetHeight;
+
+            console.log('offsetHeight is of type' + typeof offsetHeight);
+            console.log('offsetHeight value is ' + offsetHeight);
+
+            var offsetHeightCalc = parseInt(offsetHeight) + desktop_offset_height;
+
+            console.log('offsetHeightCalc is of type ' + typeof offsetHeightCalc);
+            console.log('offsetHeightCalc value is ' + offsetHeightCalc);
+
+
+            mainMenuNavContainer.setAttribute("style", "height: " + offsetHeightCalc + "px");
+          }
+
+
         }
         else {
           console.log(' mobile');
@@ -213,11 +223,11 @@
         var isMobileFlag = false;
         if ($(".main-menu-item-container").css("column-count") > 1) {
           isMobileFlag = false;
-          console.log(' desktop ' );
+          console.log(' desktop ');
         }
         else {
           isMobileFlag = true;
-          console.log(' mobile ' );
+          console.log(' mobile ');
         }
         return isMobileFlag;
       }
