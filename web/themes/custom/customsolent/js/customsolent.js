@@ -11,8 +11,8 @@
         desktop height constants
       */
       const submenu_desktop_top_reveal = "110px";
-      const submenu_desktop_top_hide = "-60px"; /* TODO this needs to be calculated individually for each submenu */
-      const desktop_offset_height = 100;
+      const submenu_desktop_top_hide = get_submenu_desktop_top_hide(); /* TODO this needs to be calculated individually for each submenu */
+      const desktop_offset_height = get_desktop_offset_height();
 
       $(document).ready(function () {
 
@@ -66,7 +66,7 @@
                   else {
                     console.log('desktop mode');
 
-                    const mainMenuNavContainer = document.querySelector('header > * nav[role=navigation]');
+                    var mainMenuNavContainer = document.querySelector('header > * nav[role=navigation]');
                     if (aSubMenu.classList.contains("hidden-2l")) {
                       submenu_show(aSubMenu);
 
@@ -79,6 +79,7 @@
 
                       /* https://stackoverflow.com/a/15615701/227926 */
 
+                      /*
                       var offsetHeight = aSubMenu.offsetHeight;
 
                       console.log('offsetHeight is of type' + typeof offsetHeight);
@@ -90,26 +91,15 @@
                       console.log('offsetHeightCalc value is ' + offsetHeightCalc);
 
                       mainMenuNavContainer.setAttribute("style", "height: " + offsetHeightCalc + "px");
+                      */ 
+
+                     
+                      desktop_menu_drawer_show(aSubMenu, mainMenuNavContainer);
+                      
                     }
                     else {
                       if (aSubMenu.classList.contains("visible-2l")) {
                         submenu_hide(aSubMenu);
-
-                        /* https://stackoverflow.com/a/15615701/227926 */
-
-                        /*
-                        var offsetHeight = aSubMenu.offsetHeight;
-
-                        console.log('offsetHeight is of type' + typeof offsetHeight);
-                        console.log('offsetHeight value is ' + offsetHeight);
-
-                        var offsetHeightCalc = parseInt(offsetHeight) - desktop_offset_height;
-
-                        console.log('offsetHeightCalc is of type ' + typeof offsetHeightCalc);
-                        console.log('offsetHeightCalc value is ' + offsetHeightCalc);
-                        */
-
-                        /*const mainMenuNavContainer = document.getElementById('block-customsolent-mainnavigation');*/
 
                         mainMenuNavContainer.setAttribute("style", "height: " + "96px"); /* menu_bar_height */
                         /* if not mobile */
@@ -191,37 +181,33 @@
             console.log("any menu that was opened in mobile mode ought to remain open in desktop mode");
           }
           */
-          
+
+          /* https://stackoverflow.com/a/15615701/227926 */
 
           console.log(' desktop');
           /* get the visible menu element */
           var aSubMenu = document.querySelector(".sub-menu-container.visible-2l");
           if (aSubMenu) {
-                         var offsetHeight = aSubMenu.offsetHeight;
+            desktop_menu_drawer_show(aSubMenu, mainMenuNavContainer);
 
-            console.log('offsetHeight is of type' + typeof offsetHeight);
-            console.log('offsetHeight value is ' + offsetHeight);
-
-            var offsetHeightCalc = parseInt(offsetHeight) + desktop_offset_height;
-
-            console.log('offsetHeightCalc is of type ' + typeof offsetHeightCalc);
-            console.log('offsetHeightCalc value is ' + offsetHeightCalc);
-
-
-            mainMenuNavContainer.setAttribute("style", "height: " + offsetHeightCalc + "px");
-
+            /*
+                        var offsetHeight = aSubMenu.offsetHeight;
+            
+                        console.log('offsetHeight is of type' + typeof offsetHeight);
+                        console.log('offsetHeight value is ' + offsetHeight);
+            
+                        var offsetHeightCalc = parseInt(offsetHeight) + desktop_offset_height;
+            
+                        console.log('offsetHeightCalc is of type ' + typeof offsetHeightCalc);
+                        console.log('offsetHeightCalc value is ' + offsetHeightCalc);
+            
+            
+                        mainMenuNavContainer.setAttribute("style", "height: " + offsetHeightCalc + "px");
+                        */
           }
           else {
             aSubMenu = document.querySelector(".sub-menu-container");
           }
-
-          if (aSubMenu) {
-
-
-
-          }
-
-
         }
         else {
           console.log(' mobile');
@@ -245,13 +231,28 @@
         return isMobileFlag;
       }
 
-      function wasMobile() {
-        var wasMobileFlag = false;
-        if ($(".main-menu-item-container").hasClass("mobile")) {
-          wasMobileFlag = true;
-          $(".main-menu-item-container").removeClass("mobile");
-        }
-        return wasMobileFlag;
+      function get_desktop_offset_height() {
+        return 100;
+      }
+
+      function desktop_menu_drawer_show(aSubMenu, mainMenuNavContainer) {
+        var offsetHeight = aSubMenu.offsetHeight;
+
+        var desktop_offset_height = get_desktop_offset_height();
+
+        console.log('offsetHeight is of type' + typeof offsetHeight);
+        console.log('offsetHeight value is ' + offsetHeight);
+
+        var offsetHeightCalc = parseInt(offsetHeight) + desktop_offset_height;
+
+        console.log('offsetHeightCalc is of type ' + typeof offsetHeightCalc);
+        console.log('offsetHeightCalc value is ' + offsetHeightCalc);
+
+        mainMenuNavContainer.setAttribute("style", "height: " + offsetHeightCalc + "px");
+      }
+
+      function get_submenu_desktop_top_hide() {
+        return "-60px";
       }
     }
   };
