@@ -88,14 +88,6 @@
                         submenu_hide(aSubMenu);
 
                         mainMenuNavContainer.setAttribute("style", "height: " + "96px"); /* menu_bar_height */
-                        /* if not mobile */
-                        if (!isMobile()) {
-                          //mainMenuNavContainer.setAttribute("style", "height: " + "90" + "px");
-                          /*
-                          const subMenuHeight = "204px";
-                          mainMenuNavContainer.setAttribute("style", "height:" + subMenuHeight);
-                          */
-                        }
                       }
                     } /* desktop hide-show toggle */
                   } /* detect mobile width */
