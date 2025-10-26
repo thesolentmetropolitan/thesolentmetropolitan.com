@@ -10,12 +10,13 @@
       /*
         desktop height constants
       */
-      const submenu_desktop_hide_position = "110px";
-      const submenu_desktop_hide_position_top = "-60px"; /* TODO this needs to be calculated individually for each submenu */
+      const submenu_desktop_top_reveal = "110px";
+      const submenu_desktop_top_hide = "-60px"; /* TODO this needs to be calculated individually for each submenu */
       const desktop_offset_height = 100;
-      const css_breakpoint_mobile = 991;
 
       $(document).ready(function () {
+
+        var isMobileFlag = isMobile();
 
         $(window).resize(menu_refreshSize);
         const allSubMenus = document.querySelectorAll('.sub-menu-container');
@@ -71,7 +72,7 @@
 
                       console.log("aSubMenu is of type " + typeof aSubMenu);
 
-                      aSubMenu.style.setProperty("top", submenu_desktop_hide_position);
+                      aSubMenu.style.setProperty("top", submenu_desktop_top_reveal);
 
                       /* https://www.reddit.com/r/webdev/comments/n3fijk/change_zindex_of_transitioning_element/ */
                       /* https://jonsuh.com/blog/detect-the-end-of-css-animations-and-transitions-with-javascript/ */
@@ -172,7 +173,7 @@
 
         aSubMenu.classList.add("hidden-2l");
         aSubMenu.classList.remove("visible-2l");
-        aSubMenu.setAttribute("style", "top: " + submenu_desktop_hide_position_top); /* top hidden position */
+        aSubMenu.setAttribute("style", "top: " + submenu_desktop_top_hide); /* top hidden position */
       }
 
 
@@ -185,6 +186,13 @@
       function menu_refreshSize() {
         var mainMenuNavContainer = document.querySelector('header > * nav[role=navigation]');
         if (!isMobile()) {
+          /*
+          if(wasMobile()) {
+            console.log("any menu that was opened in mobile mode ought to remain open in desktop mode");
+          }
+          */
+          
+
           console.log(' desktop');
           /* get the visible menu element */
           var aSubMenu = document.querySelector(".sub-menu-container.visible-2l");
@@ -227,12 +235,23 @@
         if ($(".main-menu-item-container").css("column-count") > 1) {
           isMobileFlag = false;
           console.log(' desktop ');
+          $(".main-menu-item-container").removeClass("mobile");
         }
         else {
           isMobileFlag = true;
           console.log(' mobile ');
+          $(".main-menu-item-container").addClass("mobile");
         }
         return isMobileFlag;
+      }
+
+      function wasMobile() {
+        var wasMobileFlag = false;
+        if ($(".main-menu-item-container").hasClass("mobile")) {
+          wasMobileFlag = true;
+          $(".main-menu-item-container").removeClass("mobile");
+        }
+        return wasMobileFlag;
       }
     }
   };
