@@ -15,12 +15,14 @@
 
         var isMobileFlag = isMobile();
 
-        $(window).resize(menu_refreshSize);
+
         const allSubMenus = document.querySelectorAll('.sub-menu-container');
         allSubMenus.forEach(aSubMenu => {
           submenu_hide(aSubMenu);
         }
         );
+
+        $(window).resize(menu_refreshSize);
 
         const mainMenuTopLevelButtons = document.querySelectorAll('.main-menu-item-container > * button');
 
@@ -75,7 +77,7 @@
                       /* https://jonsuh.com/blog/detect-the-end-of-css-animations-and-transitions-with-javascript/ */
                       /* https://stackoverflow.com/a/15615701/227926 */
 
-                      desktop_menu_drawer_show(aSubMenu, mainMenuNavContainer);                      
+                      desktop_menu_drawer_show(aSubMenu, mainMenuNavContainer);
                     }
                     else {
                       if (aSubMenu.classList.contains("visible-2l")) {
@@ -190,11 +192,11 @@
         var offsetHeight = aSubMenu.offsetHeight;
 
         var topValue = aSubMenu.style.getPropertyValue("top");
-        
+
         if (topValue == "-60px") {
-          aSubMenu.setAttribute("style", "top: " + submenu_desktop_top_reveal); 
+          aSubMenu.setAttribute("style", "top: " + submenu_desktop_top_reveal);
         }
-      
+
 
         var desktop_offset_height = get_desktop_offset_height();
 
