@@ -79,20 +79,6 @@
 
                       /* https://stackoverflow.com/a/15615701/227926 */
 
-                      /*
-                      var offsetHeight = aSubMenu.offsetHeight;
-
-                      console.log('offsetHeight is of type' + typeof offsetHeight);
-                      console.log('offsetHeight value is ' + offsetHeight);
-
-                      var offsetHeightCalc = parseInt(offsetHeight) + desktop_offset_height;
-
-                      console.log('offsetHeightCalc is of type ' + typeof offsetHeightCalc);
-                      console.log('offsetHeightCalc value is ' + offsetHeightCalc);
-
-                      mainMenuNavContainer.setAttribute("style", "height: " + offsetHeightCalc + "px");
-                      */ 
-
                      
                       desktop_menu_drawer_show(aSubMenu, mainMenuNavContainer);
                       
