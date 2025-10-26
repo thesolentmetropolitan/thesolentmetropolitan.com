@@ -189,6 +189,13 @@
       function desktop_menu_drawer_show(aSubMenu, mainMenuNavContainer) {
         var offsetHeight = aSubMenu.offsetHeight;
 
+        var topValue = aSubMenu.style.getPropertyValue("top");
+        
+        if (topValue == "-60px") {
+          aSubMenu.setAttribute("style", "top: " + submenu_desktop_top_reveal); 
+        }
+      
+
         var desktop_offset_height = get_desktop_offset_height();
 
         console.log('offsetHeight is of type' + typeof offsetHeight);
