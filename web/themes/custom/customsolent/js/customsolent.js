@@ -6,10 +6,7 @@
   'use strict';
   Drupal.behaviors.customsolent = {
     attach: function (context, settings) {
-
-      /*
-        desktop height constants
-      */
+      /* desktop height constants */
       const submenu_desktop_top_reveal = "110px";
       const submenu_desktop_top_hide = get_submenu_desktop_top_hide(); /* TODO this needs to be calculated individually for each submenu */
       const desktop_offset_height = get_desktop_offset_height();
@@ -76,12 +73,9 @@
 
                       /* https://www.reddit.com/r/webdev/comments/n3fijk/change_zindex_of_transitioning_element/ */
                       /* https://jonsuh.com/blog/detect-the-end-of-css-animations-and-transitions-with-javascript/ */
-
                       /* https://stackoverflow.com/a/15615701/227926 */
 
-                     
-                      desktop_menu_drawer_show(aSubMenu, mainMenuNavContainer);
-                      
+                      desktop_menu_drawer_show(aSubMenu, mainMenuNavContainer);                      
                     }
                     else {
                       if (aSubMenu.classList.contains("visible-2l")) {
@@ -154,12 +148,6 @@
       function menu_refreshSize() {
         var mainMenuNavContainer = document.querySelector('header > * nav[role=navigation]');
         if (!isMobile()) {
-          /*
-          if(wasMobile()) {
-            console.log("any menu that was opened in mobile mode ought to remain open in desktop mode");
-          }
-          */
-
           /* https://stackoverflow.com/a/15615701/227926 */
 
           console.log(' desktop');
