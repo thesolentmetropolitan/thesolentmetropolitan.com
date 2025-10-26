@@ -210,3 +210,12 @@
 
 }(jQuery, Drupal));
 
+/*
+
+https://stackoverflow.com/questions/707565/how-do-you-add-css-with-javascript
+https://www.w3schools.com/jquery/jquery_css.asp
+https://stackoverflow.com/questions/507138/how-to-add-a-class-to-a-given-element
+https://api.jquery.com/addClass/
+https://stackoverflow.com/questions/15615552/get-div-height-with-plain-javascript/15615701#15615701
+https://share.google/aimode/AwSaOjVxeyB5KzXQl
+*/
