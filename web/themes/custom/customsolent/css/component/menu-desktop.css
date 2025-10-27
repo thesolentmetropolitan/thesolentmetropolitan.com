@@ -120,7 +120,7 @@ https://stackoverflow.com/a/20590319/227926
 
   .main-menu-item-container {
     display: inline-block;
-    column-count: 3; /* mobile screen detection relies on this in customsolent.js */
+    column-count: 5; /* mobile screen detection relies on this in customsolent.js */
     margin-top: 0px;
     margin-bottom: 0px;
   }
