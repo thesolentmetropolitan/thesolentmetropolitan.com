@@ -209,7 +209,7 @@
         console.log('offsetHeight is of type' + typeof offsetHeight);
         console.log('offsetHeight value is ' + offsetHeight);
 
-        var offsetHeightCalc = parseInt(offsetHeight) + desktop_offset_height;
+        var offsetHeightCalc = parseInt(offsetHeight) + desktop_offset_height + 16;
 
         console.log('offsetHeightCalc is of type ' + typeof offsetHeightCalc);
         console.log('offsetHeightCalc value is ' + offsetHeightCalc);

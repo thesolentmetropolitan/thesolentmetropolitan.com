@@ -29,6 +29,7 @@
 
   main {
     clear: both;
+    border-top: 1px steelblue solid;
   }
 
   /* credit: BBC iPlayer - well I pay my license fee to the glorious corporation. "It's Your BBC" */
