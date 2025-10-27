@@ -13,7 +13,7 @@
 
       $(document).ready(function () {
 
-        var isMobileFlag = isMobile();
+        desktop_menu_initialise_container_height();
 
 
         const allSubMenus = document.querySelectorAll('.sub-menu-container');
@@ -218,6 +218,11 @@
       function get_mainMenuNavContainer() {
         var mainMenuNavContainer = document.querySelector('header > * nav[role=navigation]');
         return mainMenuNavContainer;
+      }
+
+      function desktop_menu_initialise_container_height() {
+        var mainMenuNavContainer = get_mainMenuNavContainer();
+        mainMenuNavContainer.setAttribute("style", "height: " + "96px"); /* menu_bar_height */
       }
     }
   };
