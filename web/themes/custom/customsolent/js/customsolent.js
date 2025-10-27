@@ -153,14 +153,19 @@
         if (!isMobile()) {
           /* https://stackoverflow.com/a/15615701/227926 */
 
-          console.log(' desktop');
-          /* get the visible menu element */
-          var aSubMenu = document.querySelector(".sub-menu-container.visible-2l");
-          if (aSubMenu) {
-            desktop_menu_drawer_show(aSubMenu, mainMenuNavContainer);
+          if (!check_submenu_open()) {
+            desktop_menu_initialise_container_height();
           }
           else {
-            aSubMenu = document.querySelector(".sub-menu-container");
+            console.log(' desktop');
+            /* get the visible menu element */
+            var aSubMenu = document.querySelector(".sub-menu-container.visible-2l");
+            if (aSubMenu) {
+              desktop_menu_drawer_show(aSubMenu, mainMenuNavContainer);
+            }
+            else {
+              aSubMenu = document.querySelector(".sub-menu-container");
+            }
           }
         }
         else {
@@ -224,6 +229,36 @@
       function desktop_menu_initialise_container_height() {
         var mainMenuNavContainer = get_mainMenuNavContainer();
         mainMenuNavContainer.setAttribute("style", "height: " + "96px"); /* menu_bar_height */
+      }
+
+      // let / var / const?
+
+      function check_submenu_open() {
+        const allSubMenuContainers = document.querySelectorAll('.main-menu-item-container > * .sub-menu-container');
+
+        // https://stackoverflow.com/a/58194747/227926
+
+        /*
+        allSubMenuContainers.forEach(aSubMenu => {
+          if (aSubMenu.classList.contains("visible-2l")) {
+
+            return true;
+          }
+        }
+        );
+        */
+
+
+        for(let aSubMenu of allSubMenuContainers) {
+          if (aSubMenu.classList.contains("visible-2l")) {
+            return true;
+          }
+        }
+
+
+        return false;
+
+        /* https://stackoverflow.com/a/48802390/227926 */
       }
     }
   };
