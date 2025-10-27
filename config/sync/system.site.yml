@@ -7,7 +7,7 @@ mail: thesolentmetropolitan@gmail.com
 slogan: 'The broader perspective, for a distinct region'
 page:
   403: ''
-  404: ''
+  404: /node/15
   front: /node
 admin_compact_mode: false
 weight_select_max: 100
