@@ -65,7 +65,7 @@
                   else {
                     console.log('desktop mode');
 
-                    var mainMenuNavContainer = document.querySelector('header > * nav[role=navigation]');
+                    var mainMenuNavContainer = get_mainMenuNavContainer();
                     if (aSubMenu.classList.contains("hidden-2l")) {
                       submenu_show(aSubMenu);
 
@@ -148,7 +148,7 @@
 
 
       function menu_refreshSize() {
-        var mainMenuNavContainer = document.querySelector('header > * nav[role=navigation]');
+        var mainMenuNavContainer = get_mainMenuNavContainer();
         if (!isMobile()) {
           /* https://stackoverflow.com/a/15615701/227926 */
 
@@ -213,6 +213,11 @@
 
       function get_submenu_desktop_top_hide() {
         return "-60px";
+      }
+
+      function get_mainMenuNavContainer() {
+        var mainMenuNavContainer = document.querySelector('header > * nav[role=navigation]');
+        return mainMenuNavContainer;
       }
     }
   };
