@@ -13,8 +13,9 @@
 
       $(document).ready(function () {
 
-        desktop_menu_initialise_container_height();
-
+        if (!isMobile()) {
+          desktop_menu_initialise_container_height();
+        }
 
         const allSubMenus = document.querySelectorAll('.sub-menu-container');
         allSubMenus.forEach(aSubMenu => {
