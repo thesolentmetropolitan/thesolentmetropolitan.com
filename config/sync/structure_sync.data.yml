@@ -8,7 +8,7 @@ menus:
     description: null
     enabled: true
     expanded: true
-    weight: -70
+    weight: -78
     langcode: en
     uuid: 9548ba9b-5ae0-4248-8c2e-f76e52ef31f5
     options: {  }
@@ -21,7 +21,7 @@ menus:
     description: null
     enabled: true
     expanded: true
-    weight: -69
+    weight: -77
     langcode: en
     uuid: ca4916ec-7269-42dc-abf5-5864739fbddd
     options: {  }
@@ -47,7 +47,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -66
+    weight: -72
     langcode: en
     uuid: ba100dfb-b62e-43fa-a42a-88f144ca441a
     options: {  }
@@ -60,7 +60,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -53
+    weight: -59
     langcode: en
     uuid: 3691cd90-a8ea-49ae-8cdf-9cb8e438541a
     options: {  }
@@ -73,7 +73,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -68
+    weight: -74
     langcode: en
     uuid: 8dbccd1a-0d0a-43a2-80ec-0aedc24e46dd
     options: {  }
@@ -86,7 +86,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -57
+    weight: -63
     langcode: en
     uuid: e2aec3fc-c4d7-4d3c-a8e2-8e5424f731cc
     options: {  }
@@ -99,7 +99,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -52
+    weight: -58
     langcode: en
     uuid: b382d99f-6a38-4d1a-8641-b8e93bacec5e
     options: {  }
@@ -112,7 +112,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -65
+    weight: -71
     langcode: en
     uuid: c50bef7f-4d83-4b78-9046-fb60d82cda45
     options: {  }
@@ -125,7 +125,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -51
+    weight: -57
     langcode: en
     uuid: b285e567-d41f-4eed-a2b2-b506c88e727f
     options: {  }
@@ -138,7 +138,7 @@ menus:
     description: null
     enabled: true
     expanded: true
-    weight: -68
+    weight: -76
     langcode: en
     uuid: 756c53bd-5480-481e-8ee9-dc1cc63d4c34
     options: {  }
@@ -151,7 +151,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -60
+    weight: -66
     langcode: en
     uuid: 4b597611-3c69-49ab-a8f6-5d1ae184aeb1
     options: {  }
@@ -164,7 +164,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -55
+    weight: -61
     langcode: en
     uuid: 4b3fc748-1d7b-4dd2-9d23-a7a78c447b36
     options: {  }
@@ -177,7 +177,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -61
+    weight: -67
     langcode: en
     uuid: 5c470876-f6dd-4520-8992-82b583995442
     options: {  }
@@ -216,7 +216,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -63
+    weight: -69
     langcode: en
     uuid: db9c6fda-c2ce-49bc-8e5e-3327534174aa
     options: {  }
@@ -541,7 +541,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -54
+    weight: -60
     langcode: en
     uuid: 13aa2a20-b941-4dd5-8a27-e4e1dd4b61be
     options: {  }
@@ -554,7 +554,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -59
+    weight: -64
     langcode: en
     uuid: 76cf4d5f-3016-4103-9798-2ac3f1793846
     options: {  }
@@ -580,7 +580,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -62
+    weight: -68
     langcode: en
     uuid: 4b28e4d3-d73d-495e-9e9e-efa4185a4dbf
     options: {  }
@@ -619,7 +619,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -56
+    weight: -62
     langcode: en
     uuid: 2cb98f06-787e-4109-a6ed-0bc032237980
     options: {  }
@@ -684,7 +684,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -50
+    weight: -56
     langcode: en
     uuid: b154f4a0-8cd8-4b69-8aa6-1b6f1d9de5b6
     options: {  }
@@ -697,7 +697,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -67
+    weight: -73
     langcode: en
     uuid: 04a753a4-c283-43d0-b1f9-247d6e8065b6
     options: {  }
@@ -853,7 +853,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -64
+    weight: -70
     langcode: en
     uuid: fbe9244c-f7a5-4e42-b53b-136152c7f54d
     options: {  }
@@ -866,7 +866,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -58
+    weight: -65
     langcode: en
     uuid: 703e35f8-8c77-486d-91ab-7353bae16341
     options: {  }
@@ -892,7 +892,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -67
+    weight: -74
     langcode: en
     uuid: 00eabb8c-58ed-4f9b-88c1-0c5b1aecf9e1
     options: {  }
@@ -905,7 +905,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -66
+    weight: -75
     langcode: en
     uuid: 099ef8b8-72f0-4695-9fc1-c21684dba940
     options: {  }
@@ -947,4 +947,69 @@ menus:
     weight: -74
     langcode: en
     uuid: 75433b24-523b-446d-bd92-58e071591eb9
+    options: {  }
+  -
+    menu_name: main
+    title: Events
+    parent: 'menu_link_content:00eabb8c-58ed-4f9b-88c1-0c5b1aecf9e1'
+    uri: 'internal:/explore/events'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -79
+    langcode: en
+    uuid: 216896dd-bf5a-4ac9-9e6d-4afdbc5a3410
+    options: {  }
+  -
+    menu_name: main
+    title: Articles
+    parent: 'menu_link_content:00eabb8c-58ed-4f9b-88c1-0c5b1aecf9e1'
+    uri: 'internal:/explore/articles'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -75
+    langcode: en
+    uuid: 4368da11-419c-4f37-8c3c-9605727f5ebc
+    options: {  }
+  -
+    menu_name: main
+    title: Organisations
+    parent: 'menu_link_content:00eabb8c-58ed-4f9b-88c1-0c5b1aecf9e1'
+    uri: 'internal:/explore/organisations'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -77
+    langcode: en
+    uuid: e9242771-d104-47d0-81cc-d6890672b587
+    options: {  }
+  -
+    menu_name: main
+    title: Themes
+    parent: 'menu_link_content:00eabb8c-58ed-4f9b-88c1-0c5b1aecf9e1'
+    uri: 'internal:/explore/themes'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -78
+    langcode: en
+    uuid: 57a663cd-b989-4cfe-b53f-89ceebbc35b3
+    options: {  }
+  -
+    menu_name: main
+    title: Collaborations
+    parent: 'menu_link_content:00eabb8c-58ed-4f9b-88c1-0c5b1aecf9e1'
+    uri: 'internal:/explore/collaborations'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -76
+    langcode: en
+    uuid: 14c70397-a1ec-4066-9964-8dd1b23a3248
     options: {  }
