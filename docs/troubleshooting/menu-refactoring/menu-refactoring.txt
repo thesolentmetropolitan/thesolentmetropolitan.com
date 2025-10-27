@@ -1,0 +1,725 @@
+robdaviswork@Roberts-MacBook-Air thesolentmetropolitan.com % git diff
+diff --git a/web/themes/custom/customsolent/js/customsolent.js b/web/themes/custom/customsolent/js/customsolent.js
+index 456e9ca..61cb023 100644
+--- a/web/themes/custom/customsolent/js/customsolent.js
++++ b/web/themes/custom/customsolent/js/customsolent.js
+@@ -138,6 +138,9 @@
+         aSubMenu.classList.add("hidden-2l");
+         aSubMenu.classList.remove("visible-2l");
+         aSubMenu.setAttribute("style", "top: " + submenu_desktop_top_hide); /* top hidden position */
+:
+diff --git a/web/themes/custom/customsolent/js/customsolent.js b/web/themes/custom/customsolent/js/customsolent.js
+index 456e9ca..61cb023 100644
+--- a/web/themes/custom/customsolent/js/customsolent.js
++++ b/web/themes/custom/customsolent/js/customsolent.js
+@@ -138,6 +138,9 @@
+         aSubMenu.classList.add("hidden-2l");
+         aSubMenu.classList.remove("visible-2l");
+         aSubMenu.setAttribute("style", "top: " + submenu_desktop_top_hide); /* top hidden position */
+:
+diff --git a/web/themes/custom/customsolent/js/customsolent.js b/web/themes/custom/customsolent/js/customsolent.js
+index 456e9ca..61cb023 100644
+--- a/web/themes/custom/customsolent/js/customsolent.js
++++ b/web/themes/custom/customsolent/js/customsolent.js
+@@ -138,6 +138,9 @@
+         aSubMenu.classList.add("hidden-2l");
+         aSubMenu.classList.remove("visible-2l");
+         aSubMenu.setAttribute("style", "top: " + submenu_desktop_top_hide); /* top hidden position */
+:
+diff --git a/web/themes/custom/customsolent/js/customsolent.js b/web/themes/custom/customsolent/js/customsolent.js
+index 456e9ca..61cb023 100644
+--- a/web/themes/custom/customsolent/js/customsolent.js
++++ b/web/themes/custom/customsolent/js/customsolent.js
+@@ -138,6 +138,9 @@
+         aSubMenu.classList.add("hidden-2l");
+         aSubMenu.classList.remove("visible-2l");
+         aSubMenu.setAttribute("style", "top: " + submenu_desktop_top_hide); /* top hidden position */
+:
+diff --git a/web/themes/custom/customsolent/js/customsolent.js b/web/themes/custom/customsolent/js/customsolent.js
+index 456e9ca..61cb023 100644
+--- a/web/themes/custom/customsolent/js/customsolent.js
++++ b/web/themes/custom/customsolent/js/customsolent.js
+@@ -138,6 +138,9 @@
+         aSubMenu.classList.add("hidden-2l");
+         aSubMenu.classList.remove("visible-2l");
+         aSubMenu.setAttribute("style", "top: " + submenu_desktop_top_hide); /* top hidden position */
+:
+diff --git a/web/themes/custom/customsolent/js/customsolent.js b/web/themes/custom/customsolent/js/customsolent.js
+index 456e9ca..61cb023 100644
+--- a/web/themes/custom/customsolent/js/customsolent.js
++++ b/web/themes/custom/customsolent/js/customsolent.js
+@@ -138,6 +138,9 @@
+         aSubMenu.classList.add("hidden-2l");
+         aSubMenu.classList.remove("visible-2l");
+         aSubMenu.setAttribute("style", "top: " + submenu_desktop_top_hide); /* top hidden position */
+:
+diff --git a/web/themes/custom/customsolent/js/customsolent.js b/web/themes/custom/customsolent/js/customsolent.js
+index 456e9ca..61cb023 100644
+--- a/web/themes/custom/customsolent/js/customsolent.js
++++ b/web/themes/custom/customsolent/js/customsolent.js
+@@ -138,6 +138,9 @@
+         aSubMenu.classList.add("hidden-2l");
+         aSubMenu.classList.remove("visible-2l");
+         aSubMenu.setAttribute("style", "top: " + submenu_desktop_top_hide); /* top hidden position */
+:
+diff --git a/web/themes/custom/customsolent/js/customsolent.js b/web/themes/custom/customsolent/js/customsolent.js
+index 456e9ca..61cb023 100644
+--- a/web/themes/custom/customsolent/js/customsolent.js
++++ b/web/themes/custom/customsolent/js/customsolent.js
+@@ -138,6 +138,9 @@
+         aSubMenu.classList.add("hidden-2l");
+         aSubMenu.classList.remove("visible-2l");
+         aSubMenu.setAttribute("style", "top: " + submenu_desktop_top_hide); /* top hidden position */
+:
+diff --git a/web/themes/custom/customsolent/js/customsolent.js b/web/themes/custom/customsolent/js/customsolent.js
+index 456e9ca..61cb023 100644
+--- a/web/themes/custom/customsolent/js/customsolent.js
++++ b/web/themes/custom/customsolent/js/customsolent.js
+@@ -138,6 +138,9 @@
+         aSubMenu.classList.add("hidden-2l");
+         aSubMenu.classList.remove("visible-2l");
+         aSubMenu.setAttribute("style", "top: " + submenu_desktop_top_hide); /* top hidden position */
+:
+diff --git a/web/themes/custom/customsolent/js/customsolent.js b/web/themes/custom/customsolent/js/customsolent.js
+index 456e9ca..61cb023 100644
+--- a/web/themes/custom/customsolent/js/customsolent.js
++++ b/web/themes/custom/customsolent/js/customsolent.js
+@@ -138,6 +138,9 @@
+         aSubMenu.classList.add("hidden-2l");
+         aSubMenu.classList.remove("visible-2l");
+         aSubMenu.setAttribute("style", "top: " + submenu_desktop_top_hide); /* top hidden position */
+:
+diff --git a/web/themes/custom/customsolent/js/customsolent.js b/web/themes/custom/customsolent/js/customsolent.js
+index 456e9ca..61cb023 100644
+--- a/web/themes/custom/customsolent/js/customsolent.js
++++ b/web/themes/custom/customsolent/js/customsolent.js
+@@ -138,6 +138,9 @@
+         aSubMenu.classList.add("hidden-2l");
+         aSubMenu.classList.remove("visible-2l");
+         aSubMenu.setAttribute("style", "top: " + submenu_desktop_top_hide); /* top hidden position */
+:
+diff --git a/web/themes/custom/customsolent/js/customsolent.js b/web/themes/custom/customsolent/js/customsolent.js
+index 456e9ca..61cb023 100644
+--- a/web/themes/custom/customsolent/js/customsolent.js
++++ b/web/themes/custom/customsolent/js/customsolent.js
+@@ -138,6 +138,9 @@
+         aSubMenu.classList.add("hidden-2l");
+         aSubMenu.classList.remove("visible-2l");
+         aSubMenu.setAttribute("style", "top: " + submenu_desktop_top_hide); /* top hidden position */
+:
+diff --git a/web/themes/custom/customsolent/js/customsolent.js b/web/themes/custom/customsolent/js/customsolent.js
+index 456e9ca..61cb023 100644
+--- a/web/themes/custom/customsolent/js/customsolent.js
++++ b/web/themes/custom/customsolent/js/customsolent.js
+@@ -138,6 +138,9 @@
+         aSubMenu.classList.add("hidden-2l");
+         aSubMenu.classList.remove("visible-2l");
+         aSubMenu.setAttribute("style", "top: " + submenu_desktop_top_hide); /* top hidden position */
+:
+diff --git a/web/themes/custom/customsolent/js/customsolent.js b/web/themes/custom/customsolent/js/customsolent.js
+index 456e9ca..61cb023 100644
+--- a/web/themes/custom/customsolent/js/customsolent.js
++++ b/web/themes/custom/customsolent/js/customsolent.js
+@@ -138,6 +138,9 @@
+         aSubMenu.classList.add("hidden-2l");
+         aSubMenu.classList.remove("visible-2l");
+         aSubMenu.setAttribute("style", "top: " + submenu_desktop_top_hide); /* top hidden position */
+:...skipping...
+diff --git a/web/themes/custom/customsolent/js/customsolent.js b/web/themes/custom/customsolent/js/customsolent.js
+index 456e9ca..61cb023 100644
+--- a/web/themes/custom/customsolent/js/customsolent.js
++++ b/web/themes/custom/customsolent/js/customsolent.js
+@@ -138,6 +138,9 @@
+         aSubMenu.classList.add("hidden-2l");
+         aSubMenu.classList.remove("visible-2l");
+         aSubMenu.setAttribute("style", "top: " + submenu_desktop_top_hide); /* top hidden position */
++
+:...skipping...
+diff --git a/web/themes/custom/customsolent/js/customsolent.js b/web/themes/custom/customsolent/js/customsolent.js
+index 456e9ca..61cb023 100644
+--- a/web/themes/custom/customsolent/js/customsolent.js
++++ b/web/themes/custom/customsolent/js/customsolent.js
+@@ -138,6 +138,9 @@
+         aSubMenu.classList.add("hidden-2l");
+         aSubMenu.classList.remove("visible-2l");
+         aSubMenu.setAttribute("style", "top: " + submenu_desktop_top_hide); /* top hidden position */
++
++        var mainMenuNavContainer = get_mainMenuNavContainer();
++        mainMenuNavContainer.setAttribute("style", "height: " + "96px"); /* menu_bar_height */
+:...skipping...
+diff --git a/web/themes/custom/customsolent/js/customsolent.js b/web/themes/custom/customsolent/js/customsolent.js
+index 456e9ca..61cb023 100644
+--- a/web/themes/custom/customsolent/js/customsolent.js
++++ b/web/themes/custom/customsolent/js/customsolent.js
+@@ -138,6 +138,9 @@
+         aSubMenu.classList.add("hidden-2l");
+         aSubMenu.classList.remove("visible-2l");
+         aSubMenu.setAttribute("style", "top: " + submenu_desktop_top_hide); /* top hidden position */
++
++        var mainMenuNavContainer = get_mainMenuNavContainer();
++        mainMenuNavContainer.setAttribute("style", "height: " + "96px"); /* menu_bar_height */
+       }
+ 
+:...skipping...
+diff --git a/web/themes/custom/customsolent/js/customsolent.js b/web/themes/custom/customsolent/js/customsolent.js
+index 456e9ca..61cb023 100644
+--- a/web/themes/custom/customsolent/js/customsolent.js
++++ b/web/themes/custom/customsolent/js/customsolent.js
+@@ -138,6 +138,9 @@
+         aSubMenu.classList.add("hidden-2l");
+         aSubMenu.classList.remove("visible-2l");
+         aSubMenu.setAttribute("style", "top: " + submenu_desktop_top_hide); /* top hidden position */
++
++        var mainMenuNavContainer = get_mainMenuNavContainer();
++        mainMenuNavContainer.setAttribute("style", "height: " + "96px"); /* menu_bar_height */
+       }
+ 
+ 
+@@ -189,16 +192,27 @@
+:...skipping...
+diff --git a/web/themes/custom/customsolent/js/customsolent.js b/web/themes/custom/customsolent/js/customsolent.js
+index 456e9ca..61cb023 100644
+--- a/web/themes/custom/customsolent/js/customsolent.js
++++ b/web/themes/custom/customsolent/js/customsolent.js
+@@ -138,6 +138,9 @@
+         aSubMenu.classList.add("hidden-2l");
+         aSubMenu.classList.remove("visible-2l");
+         aSubMenu.setAttribute("style", "top: " + submenu_desktop_top_hide); /* top hidden position */
++
++        var mainMenuNavContainer = get_mainMenuNavContainer();
++        mainMenuNavContainer.setAttribute("style", "height: " + "96px"); /* menu_bar_height */
+       }
+ 
+ 
+@@ -189,16 +192,27 @@
+       }
+ 
+       function desktop_menu_drawer_show(aSubMenu, mainMenuNavContainer) {
+-        var offsetHeight = aSubMenu.offsetHeight;
+-
+:...skipping...
+diff --git a/web/themes/custom/customsolent/js/customsolent.js b/web/themes/custom/customsolent/js/customsolent.js
+index 456e9ca..61cb023 100644
+--- a/web/themes/custom/customsolent/js/customsolent.js
++++ b/web/themes/custom/customsolent/js/customsolent.js
+@@ -138,6 +138,9 @@
+         aSubMenu.classList.add("hidden-2l");
+         aSubMenu.classList.remove("visible-2l");
+         aSubMenu.setAttribute("style", "top: " + submenu_desktop_top_hide); /* top hidden position */
++
++        var mainMenuNavContainer = get_mainMenuNavContainer();
++        mainMenuNavContainer.setAttribute("style", "height: " + "96px"); /* menu_bar_height */
+       }
+ 
+ 
+@@ -189,16 +192,27 @@
+       }
+ 
+       function desktop_menu_drawer_show(aSubMenu, mainMenuNavContainer) {
+-        var offsetHeight = aSubMenu.offsetHeight;
+-
+         var topValue = aSubMenu.style.getPropertyValue("top");
+:...skipping...
+diff --git a/web/themes/custom/customsolent/js/customsolent.js b/web/themes/custom/customsolent/js/customsolent.js
+index 456e9ca..61cb023 100644
+--- a/web/themes/custom/customsolent/js/customsolent.js
++++ b/web/themes/custom/customsolent/js/customsolent.js
+@@ -138,6 +138,9 @@
+         aSubMenu.classList.add("hidden-2l");
+         aSubMenu.classList.remove("visible-2l");
+         aSubMenu.setAttribute("style", "top: " + submenu_desktop_top_hide); /* top hidden position */
++
++        var mainMenuNavContainer = get_mainMenuNavContainer();
++        mainMenuNavContainer.setAttribute("style", "height: " + "96px"); /* menu_bar_height */
+       }
+ 
+ 
+@@ -189,16 +192,27 @@
+       }
+ 
+       function desktop_menu_drawer_show(aSubMenu, mainMenuNavContainer) {
+-        var offsetHeight = aSubMenu.offsetHeight;
+-
+         var topValue = aSubMenu.style.getPropertyValue("top");
+ 
+         if (topValue == "-60px") {
+           aSubMenu.setAttribute("style", "top: " + submenu_desktop_top_reveal);
+:...skipping...
+diff --git a/web/themes/custom/customsolent/js/customsolent.js b/web/themes/custom/customsolent/js/customsolent.js
+index 456e9ca..61cb023 100644
+--- a/web/themes/custom/customsolent/js/customsolent.js
++++ b/web/themes/custom/customsolent/js/customsolent.js
+@@ -138,6 +138,9 @@
+         aSubMenu.classList.add("hidden-2l");
+         aSubMenu.classList.remove("visible-2l");
+         aSubMenu.setAttribute("style", "top: " + submenu_desktop_top_hide); /* top hidden position */
++
++        var mainMenuNavContainer = get_mainMenuNavContainer();
++        mainMenuNavContainer.setAttribute("style", "height: " + "96px"); /* menu_bar_height */
+       }
+ 
+ 
+@@ -189,16 +192,27 @@
+       }
+ 
+       function desktop_menu_drawer_show(aSubMenu, mainMenuNavContainer) {
+-        var offsetHeight = aSubMenu.offsetHeight;
+-
+         var topValue = aSubMenu.style.getPropertyValue("top");
+ 
+         if (topValue == "-60px") {
+           aSubMenu.setAttribute("style", "top: " + submenu_desktop_top_reveal);
+         }
+ 
+:...skipping...
+diff --git a/web/themes/custom/customsolent/js/customsolent.js b/web/themes/custom/customsolent/js/customsolent.js
+index 456e9ca..61cb023 100644
+--- a/web/themes/custom/customsolent/js/customsolent.js
++++ b/web/themes/custom/customsolent/js/customsolent.js
+@@ -138,6 +138,9 @@
+         aSubMenu.classList.add("hidden-2l");
+         aSubMenu.classList.remove("visible-2l");
+         aSubMenu.setAttribute("style", "top: " + submenu_desktop_top_hide); /* top hidden position */
++
++        var mainMenuNavContainer = get_mainMenuNavContainer();
++        mainMenuNavContainer.setAttribute("style", "height: " + "96px"); /* menu_bar_height */
+       }
+ 
+ 
+@@ -189,16 +192,27 @@
+       }
+ 
+       function desktop_menu_drawer_show(aSubMenu, mainMenuNavContainer) {
+-        var offsetHeight = aSubMenu.offsetHeight;
+-
+         var topValue = aSubMenu.style.getPropertyValue("top");
+ 
+         if (topValue == "-60px") {
+           aSubMenu.setAttribute("style", "top: " + submenu_desktop_top_reveal);
+         }
+ 
++        desktop_expand_navContainer(aSubMenu);
++      }
++
+:...skipping...
+diff --git a/web/themes/custom/customsolent/js/customsolent.js b/web/themes/custom/customsolent/js/customsolent.js
+index 456e9ca..61cb023 100644
+--- a/web/themes/custom/customsolent/js/customsolent.js
++++ b/web/themes/custom/customsolent/js/customsolent.js
+@@ -138,6 +138,9 @@
+         aSubMenu.classList.add("hidden-2l");
+         aSubMenu.classList.remove("visible-2l");
+         aSubMenu.setAttribute("style", "top: " + submenu_desktop_top_hide); /* top hidden position */
++
++        var mainMenuNavContainer = get_mainMenuNavContainer();
++        mainMenuNavContainer.setAttribute("style", "height: " + "96px"); /* menu_bar_height */
+       }
+ 
+ 
+@@ -189,16 +192,27 @@
+       }
+ 
+       function desktop_menu_drawer_show(aSubMenu, mainMenuNavContainer) {
+-        var offsetHeight = aSubMenu.offsetHeight;
+-
+         var topValue = aSubMenu.style.getPropertyValue("top");
+ 
+         if (topValue == "-60px") {
+           aSubMenu.setAttribute("style", "top: " + submenu_desktop_top_reveal);
+         }
+ 
++        desktop_expand_navContainer(aSubMenu);
++      }
++
++      function get_submenu_desktop_top_hide() {
++        return "-60px";
++      }
+:...skipping...
+diff --git a/web/themes/custom/customsolent/js/customsolent.js b/web/themes/custom/customsolent/js/customsolent.js
+index 456e9ca..61cb023 100644
+--- a/web/themes/custom/customsolent/js/customsolent.js
++++ b/web/themes/custom/customsolent/js/customsolent.js
+@@ -138,6 +138,9 @@
+         aSubMenu.classList.add("hidden-2l");
+         aSubMenu.classList.remove("visible-2l");
+         aSubMenu.setAttribute("style", "top: " + submenu_desktop_top_hide); /* top hidden position */
++
++        var mainMenuNavContainer = get_mainMenuNavContainer();
++        mainMenuNavContainer.setAttribute("style", "height: " + "96px"); /* menu_bar_height */
+       }
+ 
+ 
+@@ -189,16 +192,27 @@
+       }
+ 
+       function desktop_menu_drawer_show(aSubMenu, mainMenuNavContainer) {
+-        var offsetHeight = aSubMenu.offsetHeight;
+-
+         var topValue = aSubMenu.style.getPropertyValue("top");
+ 
+         if (topValue == "-60px") {
+           aSubMenu.setAttribute("style", "top: " + submenu_desktop_top_reveal);
+         }
+ 
++        desktop_expand_navContainer(aSubMenu);
++      }
++
++      function get_submenu_desktop_top_hide() {
++        return "-60px";
++      }
+ 
++      function get_mainMenuNavContainer() {
++        var mainMenuNavContainer = document.querySelector('header > * nav[role=navigation]');
+:...skipping...
+diff --git a/web/themes/custom/customsolent/js/customsolent.js b/web/themes/custom/customsolent/js/customsolent.js
+index 456e9ca..61cb023 100644
+--- a/web/themes/custom/customsolent/js/customsolent.js
++++ b/web/themes/custom/customsolent/js/customsolent.js
+@@ -138,6 +138,9 @@
+         aSubMenu.classList.add("hidden-2l");
+         aSubMenu.classList.remove("visible-2l");
+         aSubMenu.setAttribute("style", "top: " + submenu_desktop_top_hide); /* top hidden position */
++
++        var mainMenuNavContainer = get_mainMenuNavContainer();
++        mainMenuNavContainer.setAttribute("style", "height: " + "96px"); /* menu_bar_height */
+       }
+ 
+ 
+@@ -189,16 +192,27 @@
+       }
+ 
+       function desktop_menu_drawer_show(aSubMenu, mainMenuNavContainer) {
+-        var offsetHeight = aSubMenu.offsetHeight;
+-
+         var topValue = aSubMenu.style.getPropertyValue("top");
+ 
+         if (topValue == "-60px") {
+           aSubMenu.setAttribute("style", "top: " + submenu_desktop_top_reveal);
+         }
+ 
++        desktop_expand_navContainer(aSubMenu);
++      }
++
++      function get_submenu_desktop_top_hide() {
++        return "-60px";
++      }
+ 
++      function get_mainMenuNavContainer() {
++        var mainMenuNavContainer = document.querySelector('header > * nav[role=navigation]');
++        return mainMenuNavContainer;
++      }
++
++      function desktop_expand_navContainer(aSubMenu) {
+:...skipping...
+diff --git a/web/themes/custom/customsolent/js/customsolent.js b/web/themes/custom/customsolent/js/customsolent.js
+index 456e9ca..61cb023 100644
+--- a/web/themes/custom/customsolent/js/customsolent.js
++++ b/web/themes/custom/customsolent/js/customsolent.js
+@@ -138,6 +138,9 @@
+         aSubMenu.classList.add("hidden-2l");
+         aSubMenu.classList.remove("visible-2l");
+         aSubMenu.setAttribute("style", "top: " + submenu_desktop_top_hide); /* top hidden position */
++
++        var mainMenuNavContainer = get_mainMenuNavContainer();
++        mainMenuNavContainer.setAttribute("style", "height: " + "96px"); /* menu_bar_height */
+       }
+ 
+ 
+@@ -189,16 +192,27 @@
+       }
+ 
+       function desktop_menu_drawer_show(aSubMenu, mainMenuNavContainer) {
+-        var offsetHeight = aSubMenu.offsetHeight;
+-
+         var topValue = aSubMenu.style.getPropertyValue("top");
+ 
+         if (topValue == "-60px") {
+           aSubMenu.setAttribute("style", "top: " + submenu_desktop_top_reveal);
+         }
+ 
++        desktop_expand_navContainer(aSubMenu);
++      }
++
++      function get_submenu_desktop_top_hide() {
++        return "-60px";
++      }
+ 
++      function get_mainMenuNavContainer() {
++        var mainMenuNavContainer = document.querySelector('header > * nav[role=navigation]');
++        return mainMenuNavContainer;
++      }
++
++      function desktop_expand_navContainer(aSubMenu) {
+         var desktop_offset_height = get_desktop_offset_height();
++        var offsetHeight = aSubMenu.offsetHeight;
+ 
+         console.log('offsetHeight is of type' + typeof offsetHeight);
+:...skipping...
+diff --git a/web/themes/custom/customsolent/js/customsolent.js b/web/themes/custom/customsolent/js/customsolent.js
+index 456e9ca..61cb023 100644
+--- a/web/themes/custom/customsolent/js/customsolent.js
++++ b/web/themes/custom/customsolent/js/customsolent.js
+@@ -138,6 +138,9 @@
+         aSubMenu.classList.add("hidden-2l");
+         aSubMenu.classList.remove("visible-2l");
+         aSubMenu.setAttribute("style", "top: " + submenu_desktop_top_hide); /* top hidden position */
++
++        var mainMenuNavContainer = get_mainMenuNavContainer();
++        mainMenuNavContainer.setAttribute("style", "height: " + "96px"); /* menu_bar_height */
+       }
+ 
+ 
+@@ -189,16 +192,27 @@
+       }
+ 
+       function desktop_menu_drawer_show(aSubMenu, mainMenuNavContainer) {
+-        var offsetHeight = aSubMenu.offsetHeight;
+-
+         var topValue = aSubMenu.style.getPropertyValue("top");
+ 
+         if (topValue == "-60px") {
+           aSubMenu.setAttribute("style", "top: " + submenu_desktop_top_reveal);
+         }
+ 
++        desktop_expand_navContainer(aSubMenu);
++      }
++
++      function get_submenu_desktop_top_hide() {
++        return "-60px";
++      }
+ 
++      function get_mainMenuNavContainer() {
++        var mainMenuNavContainer = document.querySelector('header > * nav[role=navigation]');
++        return mainMenuNavContainer;
++      }
++
++      function desktop_expand_navContainer(aSubMenu) {
+         var desktop_offset_height = get_desktop_offset_height();
++        var offsetHeight = aSubMenu.offsetHeight;
+ 
+         console.log('offsetHeight is of type' + typeof offsetHeight);
+         console.log('offsetHeight value is ' + offsetHeight);
+@@ -208,11 +222,9 @@
+:...skipping...
+diff --git a/web/themes/custom/customsolent/js/customsolent.js b/web/themes/custom/customsolent/js/customsolent.js
+index 456e9ca..61cb023 100644
+--- a/web/themes/custom/customsolent/js/customsolent.js
++++ b/web/themes/custom/customsolent/js/customsolent.js
+@@ -138,6 +138,9 @@
+         aSubMenu.classList.add("hidden-2l");
+         aSubMenu.classList.remove("visible-2l");
+         aSubMenu.setAttribute("style", "top: " + submenu_desktop_top_hide); /* top hidden position */
++
++        var mainMenuNavContainer = get_mainMenuNavContainer();
++        mainMenuNavContainer.setAttribute("style", "height: " + "96px"); /* menu_bar_height */
+       }
+ 
+ 
+@@ -189,16 +192,27 @@
+       }
+ 
+       function desktop_menu_drawer_show(aSubMenu, mainMenuNavContainer) {
+-        var offsetHeight = aSubMenu.offsetHeight;
+-
+         var topValue = aSubMenu.style.getPropertyValue("top");
+ 
+         if (topValue == "-60px") {
+           aSubMenu.setAttribute("style", "top: " + submenu_desktop_top_reveal);
+         }
+ 
++        desktop_expand_navContainer(aSubMenu);
++      }
++
++      function get_submenu_desktop_top_hide() {
++        return "-60px";
++      }
+ 
++      function get_mainMenuNavContainer() {
++        var mainMenuNavContainer = document.querySelector('header > * nav[role=navigation]');
++        return mainMenuNavContainer;
++      }
++
++      function desktop_expand_navContainer(aSubMenu) {
+         var desktop_offset_height = get_desktop_offset_height();
++        var offsetHeight = aSubMenu.offsetHeight;
+ 
+         console.log('offsetHeight is of type' + typeof offsetHeight);
+         console.log('offsetHeight value is ' + offsetHeight);
+@@ -208,11 +222,9 @@
+         console.log('offsetHeightCalc is of type ' + typeof offsetHeightCalc);
+         console.log('offsetHeightCalc value is ' + offsetHeightCalc);
+ 
+:...skipping...
+diff --git a/web/themes/custom/customsolent/js/customsolent.js b/web/themes/custom/customsolent/js/customsolent.js
+index 456e9ca..61cb023 100644
+--- a/web/themes/custom/customsolent/js/customsolent.js
++++ b/web/themes/custom/customsolent/js/customsolent.js
+@@ -138,6 +138,9 @@
+         aSubMenu.classList.add("hidden-2l");
+         aSubMenu.classList.remove("visible-2l");
+         aSubMenu.setAttribute("style", "top: " + submenu_desktop_top_hide); /* top hidden position */
++
++        var mainMenuNavContainer = get_mainMenuNavContainer();
++        mainMenuNavContainer.setAttribute("style", "height: " + "96px"); /* menu_bar_height */
+       }
+ 
+ 
+@@ -189,16 +192,27 @@
+       }
+ 
+       function desktop_menu_drawer_show(aSubMenu, mainMenuNavContainer) {
+-        var offsetHeight = aSubMenu.offsetHeight;
+-
+         var topValue = aSubMenu.style.getPropertyValue("top");
+ 
+         if (topValue == "-60px") {
+           aSubMenu.setAttribute("style", "top: " + submenu_desktop_top_reveal);
+         }
+ 
++        desktop_expand_navContainer(aSubMenu);
++      }
++
++      function get_submenu_desktop_top_hide() {
++        return "-60px";
++      }
+ 
++      function get_mainMenuNavContainer() {
++        var mainMenuNavContainer = document.querySelector('header > * nav[role=navigation]');
++        return mainMenuNavContainer;
++      }
++
++      function desktop_expand_navContainer(aSubMenu) {
+         var desktop_offset_height = get_desktop_offset_height();
++        var offsetHeight = aSubMenu.offsetHeight;
+ 
+         console.log('offsetHeight is of type' + typeof offsetHeight);
+         console.log('offsetHeight value is ' + offsetHeight);
+@@ -208,11 +222,9 @@
+         console.log('offsetHeightCalc is of type ' + typeof offsetHeightCalc);
+         console.log('offsetHeightCalc value is ' + offsetHeightCalc);
+ 
++        var mainMenuNavContainer = get_mainMenuNavContainer();
+         mainMenuNavContainer.setAttribute("style", "height: " + offsetHeightCalc + "px");
+-      }
+ 
+-      function get_submenu_desktop_top_hide() {
+-        return "-60px";
+:...skipping...
+diff --git a/web/themes/custom/customsolent/js/customsolent.js b/web/themes/custom/customsolent/js/customsolent.js
+index 456e9ca..61cb023 100644
+--- a/web/themes/custom/customsolent/js/customsolent.js
++++ b/web/themes/custom/customsolent/js/customsolent.js
+@@ -138,6 +138,9 @@
+         aSubMenu.classList.add("hidden-2l");
+         aSubMenu.classList.remove("visible-2l");
+         aSubMenu.setAttribute("style", "top: " + submenu_desktop_top_hide); /* top hidden position */
++
++        var mainMenuNavContainer = get_mainMenuNavContainer();
++        mainMenuNavContainer.setAttribute("style", "height: " + "96px"); /* menu_bar_height */
+       }
+ 
+ 
+@@ -189,16 +192,27 @@
+       }
+ 
+       function desktop_menu_drawer_show(aSubMenu, mainMenuNavContainer) {
+-        var offsetHeight = aSubMenu.offsetHeight;
+-
+         var topValue = aSubMenu.style.getPropertyValue("top");
+ 
+         if (topValue == "-60px") {
+           aSubMenu.setAttribute("style", "top: " + submenu_desktop_top_reveal);
+         }
+ 
++        desktop_expand_navContainer(aSubMenu);
++      }
++
++      function get_submenu_desktop_top_hide() {
++        return "-60px";
++      }
+ 
++      function get_mainMenuNavContainer() {
++        var mainMenuNavContainer = document.querySelector('header > * nav[role=navigation]');
++        return mainMenuNavContainer;
++      }
++
++      function desktop_expand_navContainer(aSubMenu) {
+         var desktop_offset_height = get_desktop_offset_height();
++        var offsetHeight = aSubMenu.offsetHeight;
+ 
+         console.log('offsetHeight is of type' + typeof offsetHeight);
+         console.log('offsetHeight value is ' + offsetHeight);
+@@ -208,11 +222,9 @@
+         console.log('offsetHeightCalc is of type ' + typeof offsetHeightCalc);
+         console.log('offsetHeightCalc value is ' + offsetHeightCalc);
+ 
++        var mainMenuNavContainer = get_mainMenuNavContainer();
+         mainMenuNavContainer.setAttribute("style", "height: " + offsetHeightCalc + "px");
+-      }
+ 
+-      function get_submenu_desktop_top_hide() {
+-        return "-60px";
+       }
+     }
+   };
+:...skipping...
+diff --git a/web/themes/custom/customsolent/js/customsolent.js b/web/themes/custom/customsolent/js/customsolent.js
+index 456e9ca..61cb023 100644
+--- a/web/themes/custom/customsolent/js/customsolent.js
++++ b/web/themes/custom/customsolent/js/customsolent.js
+@@ -138,6 +138,9 @@
+         aSubMenu.classList.add("hidden-2l");
+         aSubMenu.classList.remove("visible-2l");
+         aSubMenu.setAttribute("style", "top: " + submenu_desktop_top_hide); /* top hidden position */
++
++        var mainMenuNavContainer = get_mainMenuNavContainer();
++        mainMenuNavContainer.setAttribute("style", "height: " + "96px"); /* menu_bar_height */
+       }
+ 
+ 
+@@ -189,16 +192,27 @@
+       }
+ 
+       function desktop_menu_drawer_show(aSubMenu, mainMenuNavContainer) {
+-        var offsetHeight = aSubMenu.offsetHeight;
+-
+         var topValue = aSubMenu.style.getPropertyValue("top");
+ 
+         if (topValue == "-60px") {
+           aSubMenu.setAttribute("style", "top: " + submenu_desktop_top_reveal);
+         }
+ 
++        desktop_expand_navContainer(aSubMenu);
++      }
++
++      function get_submenu_desktop_top_hide() {
++        return "-60px";
++      }
+ 
++      function get_mainMenuNavContainer() {
++        var mainMenuNavContainer = document.querySelector('header > * nav[role=navigation]');
++        return mainMenuNavContainer;
++      }
++
++      function desktop_expand_navContainer(aSubMenu) {
+         var desktop_offset_height = get_desktop_offset_height();
++        var offsetHeight = aSubMenu.offsetHeight;
+ 
+         console.log('offsetHeight is of type' + typeof offsetHeight);
+         console.log('offsetHeight value is ' + offsetHeight);
+@@ -208,11 +222,9 @@
+         console.log('offsetHeightCalc is of type ' + typeof offsetHeightCalc);
+         console.log('offsetHeightCalc value is ' + offsetHeightCalc);
+ 
++        var mainMenuNavContainer = get_mainMenuNavContainer();
+         mainMenuNavContainer.setAttribute("style", "height: " + offsetHeightCalc + "px");
+-      }
+ 
+-      function get_submenu_desktop_top_hide() {
+-        return "-60px";
+       }
+     }
+   };
+~
+~
+robdaviswork@Roberts-MacBook-Air thesolentmetropolitan.com % 
