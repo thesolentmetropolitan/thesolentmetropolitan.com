@@ -273,4 +273,11 @@ https://stackoverflow.com/questions/507138/how-to-add-a-class-to-a-given-element
 https://api.jquery.com/addClass/
 https://stackoverflow.com/questions/15615552/get-div-height-with-plain-javascript/15615701#15615701
 https://share.google/aimode/AwSaOjVxeyB5KzXQl
+
+https://www.w3schools.com/js/js_break.asp
+https://stackoverflow.com/questions/48802066/how-to-break-continue-across-nested-for-each-loops-in-typescript
+https://stackoverflow.com/questions/58194616/how-to-check-if-an-element-class-child-has-a-specific-class
+https://stackoverflow.com/questions/51782899/css-grid-variable-column-width-and-wrapping
+https://www.w3schools.com/cssref/css_colors.php
+https://stackoverflow.com/questions/61951047/how-do-i-draw-a-line-at-the-top-of-a-div-for-a-home-bar
 */
