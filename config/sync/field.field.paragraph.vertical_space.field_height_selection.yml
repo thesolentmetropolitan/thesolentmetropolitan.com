@@ -1,0 +1,21 @@
+uuid: bdfb8219-076f-425a-801d-aa88660b228b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_height_selection
+    - paragraphs.paragraphs_type.vertical_space
+  module:
+    - options
+id: paragraph.vertical_space.field_height_selection
+field_name: field_height_selection
+entity_type: paragraph
+bundle: vertical_space
+label: 'Height selection'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

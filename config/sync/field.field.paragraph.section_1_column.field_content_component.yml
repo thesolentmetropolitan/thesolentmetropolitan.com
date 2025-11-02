@@ -1,0 +1,64 @@
+uuid: c4e5cbcc-9a30-4eba-9d4e-4de50cd0c91f
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_content_component
+    - paragraphs.paragraphs_type.call_to_action
+    - paragraphs.paragraphs_type.enclosure
+    - paragraphs.paragraphs_type.heading
+    - paragraphs.paragraphs_type.image
+    - paragraphs.paragraphs_type.image_with_link
+    - paragraphs.paragraphs_type.link
+    - paragraphs.paragraphs_type.section_1_column
+    - paragraphs.paragraphs_type.text
+  module:
+    - entity_reference_revisions
+id: paragraph.section_1_column.field_content_component
+field_name: field_content_component
+entity_type: paragraph
+bundle: section_1_column
+label: 'Content Component'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      image_with_link: image_with_link
+      call_to_action: call_to_action
+      enclosure: enclosure
+      heading: heading
+      image: image
+      link: link
+      text: text
+    negate: 0
+    target_bundles_drag_drop:
+      call_to_action:
+        weight: 7
+        enabled: true
+      enclosure:
+        weight: 8
+        enabled: true
+      heading:
+        weight: 9
+        enabled: true
+      image:
+        weight: 10
+        enabled: true
+      image_with_link:
+        weight: 6
+        enabled: true
+      link:
+        weight: 15
+        enabled: true
+      section_1_column:
+        weight: 9
+        enabled: false
+      text:
+        weight: 16
+        enabled: true
+field_type: entity_reference_revisions

@@ -1,0 +1,65 @@
+uuid: d6f5aa29-2e2f-4173-91dc-c2c249e5020f
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.section_2_column.field_content_component_left
+    - field.field.paragraph.section_2_column.field_content_component_right
+    - field.field.paragraph.section_2_column.field_style
+    - paragraphs.paragraphs_type.section_2_column
+  module:
+    - paragraphs
+id: paragraph.section_2_column.default
+targetEntityType: paragraph
+bundle: section_2_column
+mode: default
+content:
+  field_content_component_left:
+    type: paragraphs
+    weight: 3
+    region: content
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      closed_mode: summary
+      autocollapse: none
+      closed_mode_threshold: 0
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
+      features:
+        collapse_edit_all: collapse_edit_all
+        duplicate: duplicate
+    third_party_settings: {  }
+  field_content_component_right:
+    type: paragraphs
+    weight: 4
+    region: content
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      closed_mode: summary
+      autocollapse: none
+      closed_mode_threshold: 0
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
+      features:
+        collapse_edit_all: collapse_edit_all
+        duplicate: duplicate
+    third_party_settings: {  }
+  field_style:
+    type: entity_reference_autocomplete
+    weight: 2
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true

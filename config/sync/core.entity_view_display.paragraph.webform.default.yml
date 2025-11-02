@@ -1,0 +1,51 @@
+uuid: e0297977-a455-4ab3-b028-42f262d167be
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.webform.field_color_text
+    - field.field.paragraph.webform.field_submit_button_color
+    - field.field.paragraph.webform.field_submit_button_color_text
+    - field.field.paragraph.webform.field_webform
+    - paragraphs.paragraphs_type.webform
+  module:
+    - webform
+id: paragraph.webform.default
+targetEntityType: paragraph
+bundle: webform
+mode: default
+content:
+  field_color_text:
+    type: entity_reference_label
+    label: hidden
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_submit_button_color:
+    type: entity_reference_label
+    label: hidden
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_submit_button_color_text:
+    type: entity_reference_label
+    label: hidden
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  field_webform:
+    type: webform_entity_reference_entity_view
+    label: hidden
+    settings:
+      source_entity: true
+      lazy: false
+    third_party_settings: {  }
+    weight: 4
+    region: content
+hidden: {  }

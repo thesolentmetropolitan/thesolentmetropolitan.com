@@ -1,0 +1,49 @@
+uuid: c720e346-37fa-4b50-80a9-c1895db399ac
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_content_component
+    - paragraphs.paragraphs_type.call_to_action
+    - paragraphs.paragraphs_type.enclosure
+    - paragraphs.paragraphs_type.heading
+    - paragraphs.paragraphs_type.image
+    - paragraphs.paragraphs_type.image_with_link
+  module:
+    - entity_reference_revisions
+id: paragraph.enclosure.field_content_component
+field_name: field_content_component
+entity_type: paragraph
+bundle: enclosure
+label: 'Content Component'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      image_with_link: image_with_link
+      call_to_action: call_to_action
+      heading: heading
+      image: image
+    negate: 0
+    target_bundles_drag_drop:
+      call_to_action:
+        weight: 7
+        enabled: true
+      enclosure:
+        weight: 8
+        enabled: false
+      heading:
+        weight: 9
+        enabled: true
+      image:
+        weight: 10
+        enabled: true
+      image_with_link:
+        weight: 6
+        enabled: true
+field_type: entity_reference_revisions

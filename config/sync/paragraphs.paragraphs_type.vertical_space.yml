@@ -1,0 +1,10 @@
+uuid: a3c284d5-9906-4f52-9b2e-29d7969337a8
+langcode: en
+status: true
+dependencies: {  }
+id: vertical_space
+label: 'Vertical space'
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }

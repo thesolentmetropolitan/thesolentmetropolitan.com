@@ -1,0 +1,31 @@
+uuid: 3c409422-1e0e-47e9-8e1a-18e446e7dac8
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.text.field_color_text
+    - field.field.paragraph.text.field_text
+    - paragraphs.paragraphs_type.text
+  module:
+    - text
+id: paragraph.text.default
+targetEntityType: paragraph
+bundle: text
+mode: default
+content:
+  field_color_text:
+    type: entity_reference_label
+    label: hidden
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_text:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 2
+    region: content
+hidden: {  }

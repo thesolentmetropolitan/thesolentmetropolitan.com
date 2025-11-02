@@ -1,0 +1,39 @@
+uuid: bf10998d-0fad-4f71-951a-083c7cb448ca
+langcode: en
+status: true
+dependencies:
+  module:
+    - options
+    - paragraphs
+id: paragraph.field_height_selection
+field_name: field_height_selection
+entity_type: paragraph
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: '0_5'
+      label: 0.5em
+    -
+      value: 1em
+      label: 1em
+    -
+      value: 1_5em
+      label: 1.5em
+    -
+      value: 2em
+      label: 2em
+    -
+      value: 3em
+      label: 3em
+    -
+      value: 4em
+      label: 4em
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

@@ -1,0 +1,49 @@
+uuid: f41c0195-f66b-4db0-9885-bdfe90a6fbed
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.enclosure.field_color_background
+    - field.field.paragraph.enclosure.field_content_component
+    - field.field.paragraph.enclosure.field_style
+    - paragraphs.paragraphs_type.enclosure
+  module:
+    - entity_reference_revisions
+id: paragraph.enclosure.default
+targetEntityType: paragraph
+bundle: enclosure
+mode: default
+content:
+  field_color_background:
+    type: entity_reference_autocomplete
+    weight: 0
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_content_component:
+    type: entity_reference_revisions_autocomplete
+    weight: 3
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_style:
+    type: entity_reference_autocomplete
+    weight: 2
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true
