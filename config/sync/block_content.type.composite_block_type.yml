@@ -1,0 +1,8 @@
+uuid: beac0537-0976-4ff2-bf0c-faeaa5e7b1c1
+langcode: en
+status: true
+dependencies: {  }
+id: composite_block_type
+label: 'Composite block type'
+revision: false
+description: null
