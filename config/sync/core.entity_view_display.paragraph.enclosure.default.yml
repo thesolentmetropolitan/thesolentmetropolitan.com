@@ -1,0 +1,42 @@
+uuid: ad96629c-6e83-4de9-bb23-37b47ee7a6c5
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.enclosure.field_color_background
+    - field.field.paragraph.enclosure.field_content_component
+    - field.field.paragraph.enclosure.field_style
+    - paragraphs.paragraphs_type.enclosure
+  module:
+    - entity_reference_revisions
+id: paragraph.enclosure.default
+targetEntityType: paragraph
+bundle: enclosure
+mode: default
+content:
+  field_color_background:
+    type: entity_reference_label
+    label: hidden
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_content_component:
+    type: entity_reference_revisions_entity_view
+    label: hidden
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  field_style:
+    type: entity_reference_label
+    label: hidden
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 2
+    region: content
+hidden: {  }

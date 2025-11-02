@@ -1,0 +1,33 @@
+uuid: 365998bd-5db4-4884-8e05-c95828ed0e73
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_color_background
+    - paragraphs.paragraphs_type.call_to_action
+    - taxonomy.vocabulary.color
+  content:
+    - 'taxonomy_term:color:8e3ea472-51ce-44fe-807c-7de58a01217f'
+id: paragraph.call_to_action.field_color_background
+field_name: field_color_background
+entity_type: paragraph
+bundle: call_to_action
+label: 'Color - background'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    target_uuid: 8e3ea472-51ce-44fe-807c-7de58a01217f
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      color: color
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

@@ -1,0 +1,20 @@
+uuid: d8f5753e-c383-46f7-95cf-262a2ff1dac4
+langcode: en
+status: true
+dependencies:
+  module:
+    - paragraphs
+    - taxonomy
+id: paragraph.field_submit_button_color_text
+field_name: field_submit_button_color_text
+entity_type: paragraph
+type: entity_reference
+settings:
+  target_type: taxonomy_term
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

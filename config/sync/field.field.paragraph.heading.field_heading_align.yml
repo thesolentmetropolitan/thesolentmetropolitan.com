@@ -1,0 +1,21 @@
+uuid: 2204a040-5f4c-4fb8-95ea-b4bae399e978
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_heading_align
+    - paragraphs.paragraphs_type.heading
+  module:
+    - options
+id: paragraph.heading.field_heading_align
+field_name: field_heading_align
+entity_type: paragraph
+bundle: heading
+label: 'Heading align'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

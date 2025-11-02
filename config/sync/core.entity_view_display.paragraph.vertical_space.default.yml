@@ -1,0 +1,22 @@
+uuid: 1b00f599-75a9-4655-adfb-2193b6e58ff8
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.vertical_space.field_height_selection
+    - paragraphs.paragraphs_type.vertical_space
+  module:
+    - options
+id: paragraph.vertical_space.default
+targetEntityType: paragraph
+bundle: vertical_space
+mode: default
+content:
+  field_height_selection:
+    type: list_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden: {  }

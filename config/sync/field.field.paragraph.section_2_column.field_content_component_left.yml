@@ -1,0 +1,67 @@
+uuid: 192ead80-6f8b-4ab6-987b-7b93585d8486
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_content_component_left
+    - paragraphs.paragraphs_type.call_to_action
+    - paragraphs.paragraphs_type.enclosure
+    - paragraphs.paragraphs_type.heading
+    - paragraphs.paragraphs_type.image
+    - paragraphs.paragraphs_type.image_with_link
+    - paragraphs.paragraphs_type.link
+    - paragraphs.paragraphs_type.section_2_column
+    - paragraphs.paragraphs_type.text
+  module:
+    - entity_reference_revisions
+id: paragraph.section_2_column.field_content_component_left
+field_name: field_content_component_left
+entity_type: paragraph
+bundle: section_2_column
+label: 'Content Component left'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      call_to_action: call_to_action
+      enclosure: enclosure
+      heading: heading
+      image: image
+      image_with_link: image_with_link
+      link: link
+      text: text
+    negate: 0
+    target_bundles_drag_drop:
+      call_to_action:
+        weight: 11
+        enabled: true
+      enclosure:
+        weight: 12
+        enabled: true
+      heading:
+        weight: 13
+        enabled: true
+      image:
+        weight: 14
+        enabled: true
+      image_with_link:
+        weight: 15
+        enabled: true
+      link:
+        weight: 16
+        enabled: true
+      section_1_column:
+        weight: 17
+        enabled: false
+      section_2_column:
+        weight: 10
+        enabled: false
+      text:
+        weight: 18
+        enabled: true
+field_type: entity_reference_revisions

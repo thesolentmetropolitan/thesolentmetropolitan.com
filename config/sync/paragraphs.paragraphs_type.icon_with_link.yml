@@ -1,0 +1,10 @@
+uuid: add8a433-f948-4a6d-a3bd-70b4f62c0548
+langcode: en
+status: true
+dependencies: {  }
+id: icon_with_link
+label: 'Icon with link'
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }

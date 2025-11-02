@@ -1,0 +1,10 @@
+uuid: 3ee634a5-330d-4313-ab3b-4bd2d441a2ff
+langcode: en
+status: true
+dependencies: {  }
+id: enclosure
+label: Enclosure
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }

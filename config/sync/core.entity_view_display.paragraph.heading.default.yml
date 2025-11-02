@@ -1,0 +1,47 @@
+uuid: b6b78e33-a234-4507-be1d-15591252b197
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.heading.field_color_text
+    - field.field.paragraph.heading.field_heading
+    - field.field.paragraph.heading.field_heading_align
+    - field.field.paragraph.heading.field_heading_size
+    - paragraphs.paragraphs_type.heading
+  module:
+    - options
+id: paragraph.heading.default
+targetEntityType: paragraph
+bundle: heading
+mode: default
+content:
+  field_color_text:
+    type: entity_reference_label
+    label: hidden
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_heading:
+    type: basic_string
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_heading_align:
+    type: list_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  field_heading_size:
+    type: list_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 4
+    region: content
+hidden: {  }
