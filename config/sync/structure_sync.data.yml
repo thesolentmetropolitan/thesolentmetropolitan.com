@@ -1074,7 +1074,7 @@ menus:
     options: {  }
   -
     menu_name: main
-    title: 'Sector catergories'
+    title: 'Sector categories'
     parent: 'menu_link_content:ca4916ec-7269-42dc-abf5-5864739fbddd'
     uri: 'route:<nolink>'
     link_title: ''
