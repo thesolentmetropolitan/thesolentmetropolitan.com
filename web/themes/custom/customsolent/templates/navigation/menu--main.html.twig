@@ -40,11 +40,16 @@
 		{% if menu_level == 0 %}
 			<div class="main-menu-wrap">
 				<ul class="main-menu-item-container" id="sub-menu-item-container-ul">
+				{% set item_leaves = items %}
 				{% else %}
+				    {% set item_leaves = items|slice(1) %}
 					<div class="sub-menu-container hidden-2l animated">
+					{% set first_item =items|first %}
+					    {{ link(first_item.title, first_item.url, { 'class': ['first-link']}) }}
 						<ul class="sub-menu-item-container">
 						{% endif %}
-						{% for item in items %}
+						  {% for item in item_leaves %}
+
 							<li{{item.attributes}}>
 								{% if menu_level == 0 %}
 									{% if item.below %}
