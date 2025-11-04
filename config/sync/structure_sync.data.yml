@@ -1035,19 +1035,6 @@ menus:
           - main-menu-item-home-container
   -
     menu_name: main
-    title: 'Culture categories'
-    parent: 'menu_link_content:9548ba9b-5ae0-4248-8c2e-f76e52ef31f5'
-    uri: 'route:<nolink>'
-    link_title: ''
-    description: null
-    enabled: true
-    expanded: false
-    weight: -87
-    langcode: en
-    uuid: 2d241f2d-f224-4745-8867-3a4ad917b44f
-    options: {  }
-  -
-    menu_name: main
     title: 'Tourism & Travel'
     parent: 'menu_link_content:ca4916ec-7269-42dc-abf5-5864739fbddd'
     uri: 'internal:/sectors/tourism-travel'
@@ -1074,19 +1061,6 @@ menus:
     options: {  }
   -
     menu_name: main
-    title: 'Sector categories'
-    parent: 'menu_link_content:ca4916ec-7269-42dc-abf5-5864739fbddd'
-    uri: 'route:<nolink>'
-    link_title: ''
-    description: null
-    enabled: true
-    expanded: false
-    weight: -87
-    langcode: en
-    uuid: d3e00372-dea8-43ef-b7ee-a2eb10ad6fe4
-    options: {  }
-  -
-    menu_name: main
     title: 'All Living'
     parent: 'menu_link_content:756c53bd-5480-481e-8ee9-dc1cc63d4c34'
     uri: 'internal:/living'
@@ -1097,19 +1071,6 @@ menus:
     weight: -88
     langcode: en
     uuid: 06454abe-16b9-49d3-b638-b3fbfbaae379
-    options: {  }
-  -
-    menu_name: main
-    title: 'Living categories'
-    parent: 'menu_link_content:756c53bd-5480-481e-8ee9-dc1cc63d4c34'
-    uri: 'route:<nolink>'
-    link_title: ''
-    description: null
-    enabled: true
-    expanded: false
-    weight: -87
-    langcode: en
-    uuid: 775cd38a-7a2a-436c-b860-3d3cce4c5853
     options: {  }
   -
     menu_name: main
@@ -1126,19 +1087,6 @@ menus:
     options: {  }
   -
     menu_name: main
-    title: 'About sections'
-    parent: 'menu_link_content:099ef8b8-72f0-4695-9fc1-c21684dba940'
-    uri: 'route:<nolink>'
-    link_title: ''
-    description: null
-    enabled: true
-    expanded: false
-    weight: -87
-    langcode: en
-    uuid: 8f9da646-0a71-47df-80ad-85c4a358ea91
-    options: {  }
-  -
-    menu_name: main
     title: 'Explore All'
     parent: 'menu_link_content:00eabb8c-58ed-4f9b-88c1-0c5b1aecf9e1'
     uri: 'internal:/explore'
@@ -1149,19 +1097,6 @@ menus:
     weight: -90
     langcode: en
     uuid: 0bc867ba-b710-491d-aebc-aacbad3005a4
-    options: {  }
-  -
-    menu_name: main
-    title: 'Explore by:'
-    parent: 'menu_link_content:00eabb8c-58ed-4f9b-88c1-0c5b1aecf9e1'
-    uri: 'route:<nolink>'
-    link_title: ''
-    description: null
-    enabled: true
-    expanded: false
-    weight: -89
-    langcode: en
-    uuid: b7f91154-f8b1-490e-9227-8b863e02aa10
     options: {  }
 taxonomies:
   color:
