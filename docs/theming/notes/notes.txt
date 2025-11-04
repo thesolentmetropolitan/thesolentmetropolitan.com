@@ -1,0 +1,53 @@
+
+ul li menu levels accessibility
+https://blog.pope.tech/2024/01/30/how-to-create-accessible-navigations-and-sub-menus/#:~:text=To%20be%20accessible%2C%20the%20dropdown,for%20hover%2Dspecific%20accessibility%20considerations.
+https://www.levelaccess.com/blog/accessible-navigation-menus-pitfalls-and-best-practices/
+
+https://www.screamingfrog.co.uk/seo-spider/issues/accessibility/wcag-2-0-a-lists-must-only-contain-li-content-elements/#:~:text=Lists%20must%20be%20marked%20up,elements%20other%20than%20li%20elements.
+
+
+
+
+treating some menu items differently...
+https://stackoverflow.com/questions/15639247/css-selector-for-nth-range
+https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_selectors/Selectors_and_combinators
+https://stackoverflow.com/questions/25644885/selector-for-not-immediate-child-element
+
+
+https://drupal.stackexchange.com/questions/279172/add-class-to-link-twig-attribute#:~:text=In%20twig%2C%20you'd%20be,template%20for%20your%20link%20field.
+
+
+
+checking some established sites for accessibility:
+https://gemini.google.com/share/265226553ef5
+https://claude.ai/chat/d406a3bc-15ec-4ce2-816d-2745dda5d0df
+https://claude.ai/chat/71afdd24-cdbc-4247-9f43-54ce2b58596a
+https://claude.ai/chat/26b9f9a6-e8a8-4469-805d-1062ac66fe57
+
+
+twig for 2nd item in array
+https://stackoverflow.com/questions/15578003/twig-how-to-get-the-first-item-from-the-array
+https://craftcms.stackexchange.com/questions/289/how-do-i-target-the-first-item-in-a-twig-for-loop
+https://twig.symfony.com/doc/3.x/templates.html
+https://gemini.google.com/share/56c0dc7edbc6
+https://gemini.google.com/share/0e36df3a14b8
+
+starting a loop at 2nd item
+https://gemini.google.com/share/dda02fb5d3b2
+
+
+is it ok to have heading text that itself doesnt have a link in a menu accessibility
+
+Yes, it is acceptable to have heading text that is not a link in a menu from an accessibility standpoint. Such items are often used as labels or categories to group related, clickable menu items beneath them, especially in a mega menu structure. 
+Key Accessibility Considerations
+Semantic Markup: The heading must use proper semantic HTML heading tags (<h2>, <h3>, etc.) so that screen readers recognize it as a heading. Do not use styling (like bold or large font) alone to create the visual appearance of a heading.
+Differentiation: There must be a clear distinction between what is clickable (a link) and what is not (a non-linked heading).
+Visual cues: Linked items should have standard link conventions, such as being underlined or a different color.
+Assistive technology cues: Screen reader users will naturally perceive the difference due to the semantic markup (a heading versus a link).
+Logical Structure: The headings should follow a logical, hierarchical order within the page structure (e.g., <h2> followed by <h3>s, not skipping levels like <h2> straight to <h4>). In fixed sections like a navigation menu, consistency across pages is more important than the content heading levels on any single page.
+Keyboard Navigation: Non-linked headings should not be in the keyboard tab order, as they are not interactive elements. Only interactive elements (links, buttons, form fields) should be keyboard focusable.
+Context: Headings help users, especially those using screen readers, to scan and navigate the menu by section, significantly improving usability. 
+By following these practices, you can effectively use non-linked headings in menus to provide valuable structure and context without creating accessibility barriers.
+
+
+https://www.w3.org/WAI/tutorials/page-structure/headings/#:~:text=heading%20after%20navigation-,Heading%20ranks,it%20closes%20the%20previous%20section.
