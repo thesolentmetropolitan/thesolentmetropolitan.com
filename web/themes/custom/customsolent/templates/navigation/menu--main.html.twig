@@ -38,37 +38,38 @@
 	{% import _self as menus %}
 	{% if items %}
 		{% if menu_level == 0 %}
-      <div class="main-menu-wrap">
-			<ul class="main-menu-item-container" id="sub-menu-item-container-ul">
-			{% else %}
-				<div class="sub-menu-container hidden-2l animated">
-					<ul class="sub-menu-item-container">
-					{% endif %}
-					{% for item in items %}
-						<li{{item.attributes}}>
-							{% if menu_level == 0 %}
-							    {% if item.below %}
+			<div class="main-menu-wrap">
+				<ul class="main-menu-item-container" id="sub-menu-item-container-ul">
+				{% else %}
+					<div class="sub-menu-container hidden-2l animated">
+						<ul class="sub-menu-item-container">
+						{% endif %}
+						{% for item in items %}
+							<li{{item.attributes}}>
+								{% if menu_level == 0 %}
+									{% if item.below %}
 
 										<button class="main_nav_link ">{{ item.title }}
-										<svg role="presentation" class="lnk__icon navigation__link__down-icon" focusable="false">
-										<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#tvip-down-triangle" href="#tvip-down-triangle" role="presentation"></use>
-										</svg>
-									</button>
-							    {% else %}
-{{ link(item.title, item.url) }}
+											<svg role="presentation" class="lnk__icon navigation__link__down-icon" focusable="false">
+												<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#tvip-down-triangle" href="#tvip-down-triangle" role="presentation"></use>
+											</svg>
+										</button>
+									{% else %}
+										{{ link(item.title, item.url) }}
 
+									{% endif %}
+								{% else %}
+									{{ link(item.title, item.url) }}
 								{% endif %}
-							{% else %}
-								{{ link(item.title, item.url) }}
-							{% endif %}
-							{% if item.below %}
-								{{ menus.menu_links(item.below, attributes, menu_level + 1) }}
-							{% endif %}
-						</li>
-					{% endfor %}
-					{% if menu_level == 0 %}
-					</ul>
-          </div>{# main menu wrap #}
+								{% if item.below %}
+									{{ menus.menu_links(item.below, attributes, menu_level + 1) }}
+								{% endif %}
+							</li>
+						{% endfor %}
+						{% if menu_level == 0 %}
+						</ul>
+					</div>
+					{# main menu wrap #}
 			{% else %}
 				</ul>
 			</div>
