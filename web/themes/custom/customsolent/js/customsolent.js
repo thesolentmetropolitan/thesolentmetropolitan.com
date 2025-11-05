@@ -8,8 +8,8 @@
     attach: function (context, settings) {
       /* desktop height constants */
       const submenu_desktop_top_reveal = "110px";
-      const submenu_desktop_top_hide = get_submenu_desktop_top_hide(); /* TODO this needs to be calculated individually for each submenu */
-      const desktop_offset_height = get_desktop_offset_height();
+      //const submenu_desktop_top_hide = get_submenu_desktop_top_hide(aSubMenu); /* TODO this needs to be calculated individually for each submenu */
+      //const desktop_offset_height = get_desktop_offset_height();
 
       $(document).ready(function () {
 
@@ -138,7 +138,7 @@
 
         aSubMenu.classList.add("hidden-2l");
         aSubMenu.classList.remove("visible-2l");
-        aSubMenu.setAttribute("style", "top: " + get_submenu_desktop_top_hide()); /* top hidden position */
+        aSubMenu.setAttribute("style", "top: " + get_submenu_desktop_top_hide(aSubMenu)); /* top hidden position */
       }
 
 
@@ -199,8 +199,10 @@
         var offsetHeight = aSubMenu.offsetHeight;
 
         var topValue = aSubMenu.style.getPropertyValue("top");
-
-        if (topValue == "-60px") {
+ 
+        //if (topValue == "-60px") {
+        var calcTopValue = get_submenu_desktop_top_hide(aSubMenu);
+        if ( topValue == calcTopValue) {
           aSubMenu.setAttribute("style", "top: " + submenu_desktop_top_reveal);
         }
 
@@ -218,11 +220,12 @@
         mainMenuNavContainer.setAttribute("style", "height: " + offsetHeightCalc + "px");
       }
 
-      function get_submenu_desktop_top_hide() {
-
+      function get_submenu_desktop_top_hide(aSubMenu) {
         var offsetHeight = aSubMenu.offsetHeight;
-
-        return "-60px";
+        var topval = -270 + offsetHeight;
+        var retval = parseInt(topval);
+        return retval + "px";
+        //return "-60px";
       }
 
       function get_mainMenuNavContainer() {
