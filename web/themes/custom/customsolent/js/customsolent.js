@@ -138,7 +138,7 @@
 
         aSubMenu.classList.add("hidden-2l");
         aSubMenu.classList.remove("visible-2l");
-        aSubMenu.setAttribute("style", "top: " + submenu_desktop_top_hide); /* top hidden position */
+        aSubMenu.setAttribute("style", "top: " + get_submenu_desktop_top_hide()); /* top hidden position */
       }
 
 
@@ -195,6 +195,7 @@
       }
 
       function desktop_menu_drawer_show(aSubMenu, mainMenuNavContainer) {
+        // https://www.w3schools.com/Jsref/prop_element_offsetheight.asp
         var offsetHeight = aSubMenu.offsetHeight;
 
         var topValue = aSubMenu.style.getPropertyValue("top");
@@ -218,6 +219,9 @@
       }
 
       function get_submenu_desktop_top_hide() {
+
+        var offsetHeight = aSubMenu.offsetHeight;
+
         return "-60px";
       }
 
