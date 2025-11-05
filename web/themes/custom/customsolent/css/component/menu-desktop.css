@@ -145,7 +145,8 @@ https://stackoverflow.com/a/20590319/227926
 
   .sub-menu-container.hidden-2l {
     z-index: -1;
-    top: -60px; /* submenu_desktop_hide_position_top */
+    /* submenu_desktop_hide_position_top */
+    /*top: -60px; */
   }
 
   .main-menu-wrap {
