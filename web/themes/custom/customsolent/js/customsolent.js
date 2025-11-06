@@ -177,7 +177,8 @@
 
       function isMobile() {
         var isMobileFlag = false;
-        if ($(".main-menu-item-container").css("column-count") > 1) {
+        /* if ($(".main-menu-item-container").css("column-count") > 1) { */
+        if ($(".main-menu-item-container li ").css("display") == "inline-block") {
           isMobileFlag = false;
           console.log(' desktop ');
           $(".main-menu-item-container").removeClass("mobile");
