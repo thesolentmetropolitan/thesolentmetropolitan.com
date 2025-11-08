@@ -1,6 +1,7 @@
 @media (min-width: 992px) {
   #mast-head {
-    width: 15em;
+    height: 96px;
+    display: block; /* https://stackoverflow.com/a/11126701/227926 */
   }
 
   #slnt-logo {
@@ -25,6 +26,8 @@
     opacity: 1.0;
     background-color: white;
     position: relative;
+
+
   }
 
   main {
@@ -152,6 +155,7 @@ https://stackoverflow.com/a/20590319/227926
   .main-menu-wrap {
     align-items: center;
     display: flex;
-    height: 90px; /* main_menu_section_height - related: submenu_cover_height and submenu_desktop_hide_position_top*/
+    height: 96px;
+    /*height: 90px;(/ /* main_menu_section_height - related: submenu_cover_height and submenu_desktop_hide_position_top*/
   }
 }
