@@ -15,14 +15,9 @@
 
         if (!isMobile()) {
           desktop_menu_initialise_container_height();
-          
-        const allSubMenus = document.querySelectorAll('.sub-menu-container');
-        allSubMenus.forEach(aSubMenu => {
-          submenu_hide(aSubMenu);
-        }
-        );
-        }
 
+          desktop_menu_hide_all_submenus();
+        }
 
 
         $(window).resize(menu_refreshSize);
@@ -157,6 +152,8 @@
 
           if (!check_submenu_open()) {
             desktop_menu_initialise_container_height();
+
+            desktop_menu_hide_all_submenus();
           }
           else {
             console.log(' desktop');
@@ -202,12 +199,12 @@
         var offsetHeight = aSubMenu.offsetHeight;
 
         var topValue = aSubMenu.style.getPropertyValue("top");
- 
+
         //if (topValue == "-60px") {
         var calcTopValue = get_submenu_desktop_top_hide(aSubMenu);
-        if ( topValue == calcTopValue) {
+       // if (topValue == calcTopValue) {
           aSubMenu.setAttribute("style", "top: " + submenu_desktop_top_reveal);
-        }
+       // }
 
 
         var desktop_offset_height = get_desktop_offset_height();
@@ -259,7 +256,7 @@
         */
 
 
-        for(let aSubMenu of allSubMenuContainers) {
+        for (let aSubMenu of allSubMenuContainers) {
           if (aSubMenu.classList.contains("visible-2l")) {
             return true;
           }
@@ -269,6 +266,15 @@
         return false;
 
         /* https://stackoverflow.com/a/48802390/227926 */
+      }
+
+
+      function desktop_menu_hide_all_submenus() {
+        const allSubMenus = document.querySelectorAll('.sub-menu-container');
+        allSubMenus.forEach(aSubMenu => {
+          submenu_hide(aSubMenu);
+        }
+        );
       }
     }
   };
