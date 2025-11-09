@@ -51,3 +51,24 @@ By following these practices, you can effectively use non-linked headings in men
 
 
 https://www.w3.org/WAI/tutorials/page-structure/headings/#:~:text=heading%20after%20navigation-,Heading%20ranks,it%20closes%20the%20previous%20section.
+
+
+
+
+these didnt work
+https://www.w3schools.com/css/css3_flexbox_container.asp
+https://api.jquery.com/width/
+https://www.w3schools.com/jsreF/prop_screen_width.asp
+https://developer.mozilla.org/en-US/docs/Web/API/Screen/width
+https://stackoverflow.com/questions/7715124/do-something-if-screen-width-is-less-than-960-px
+https://stackoverflow.com/questions/3671689/computed-column-width-is-different-than-css-declared-width-for-column-how-does#:~:text=When%20you%20set%20the%20width,on%20what%20browser%20you%20use.
+https://stackoverflow.com/questions/1122381/how-to-force-child-div-to-be-100-of-parent-divs-height-without-specifying-pare
+https://stackoverflow.com/questions/384145/expanding-a-parent-div-to-the-height-of-its-children
+https://stackoverflow.com/questions/4804581/how-can-i-expand-floated-child-divs-height-to-parents-height
+https://stackoverflow.com/questions/3671689/computed-column-width-is-different-than-css-declared-width-for-column-how-does#:~:text=When%20you%20set%20the%20width,on%20what%20browser%20you%20use.
+attempt to get menus to centre vertically
+https://gemini.google.com/share/f3e479338ed7
+https://claude.ai/share/e95a4e2f-42eb-4aea-9caa-3de03fe353cc
+
+this did
+https://stackoverflow.com/questions/11126685/why-does-container-div-insist-on-being-slightly-larger-than-img-or-svg-content
