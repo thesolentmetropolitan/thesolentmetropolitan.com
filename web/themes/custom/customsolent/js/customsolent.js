@@ -15,13 +15,15 @@
 
         if (!isMobile()) {
           desktop_menu_initialise_container_height();
-        }
-
+          
         const allSubMenus = document.querySelectorAll('.sub-menu-container');
         allSubMenus.forEach(aSubMenu => {
           submenu_hide(aSubMenu);
         }
         );
+        }
+
+
 
         $(window).resize(menu_refreshSize);
 
