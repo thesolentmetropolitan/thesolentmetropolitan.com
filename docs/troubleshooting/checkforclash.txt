@@ -1,0 +1,11 @@
+web/themes/custom/customsolent/templates/layout/page.html.twig:
+  51  	<header>
+  52: 		<div id="slnt-header">
+  53: 			<div id="slnt-logo">
+  54  				{{ page.logo }}
+  55  			</div>
+  56: 			<div id="slnt-prim-menu">
+  57  				{{ page.primary_menu }}
+  58  			</div>
+  59: 			<div id="slnt-srch">
+  60  				{{ page.search }}

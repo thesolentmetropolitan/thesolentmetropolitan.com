@@ -1,0 +1,62 @@
+
+@media screen and (min-width: 768px ) {
+
+}
+
+.slnt-content-2-column {
+  padding-top: 2em;
+  padding-left: 2em;
+}
+
+.slnt-content-2-column {
+  padding-right: 2em;
+}
+
+.slnt-content-2-column .slnt-column-left,
+.slnt-content-2-column .slnt-column-right {
+  padding-bottom: 2em;
+}
+
+@media screen and (max-width: 1023px ) {
+  .slnt-content-2-column .slnt-column-left {
+    /*float: left;*/
+    width: auto;
+    clear: both;
+  }
+    
+  .slnt-content-2-column .slnt-column-right {
+    /*float: left;*/
+    width: auto;
+    clear: both;
+  }
+}
+
+@media screen and (min-width: 1024px ) {
+  .slnt-content-2-column .slnt-column-left > .field {
+    padding-right: 1em;
+  }
+
+  .slnt-content-2-column .slnt-column-right > .field {
+    padding-left: 1em;
+  }
+
+  .slnt-content-2-column .slnt-column-left {
+    float: left;
+    width: 50%;
+  }
+    
+  .slnt-content-2-column .slnt-column-right {
+    float: right;
+    width: 50%;
+  }
+
+  .slnt-content-2-column h1,
+  .slnt-content-2-column h2,
+  .slnt-content-2-column h3,
+  .slnt-content-2-column h4,
+  .slnt-content-2-column h5,
+  .slnt-content-2-column h6 {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+}

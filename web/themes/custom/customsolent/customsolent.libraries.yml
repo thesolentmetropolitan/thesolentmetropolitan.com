@@ -8,19 +8,35 @@ global:
       css/base/fonts.css: {}
     component:
       css/component/block.css: {}
+      css/components/paragraph-section-1-column.css: {}
+      css/components/paragraph-section-2-column.css: {}
+      css/components/paragraph-section-3-column.css: {}
+      css/components/paragraph-enclosure.css: {}
+      css/components/paragraph-text.css: {}
       css/component/breadcrumb.css: {}
+      css/components/cta.css: {}
       css/component/field.css: {}
+      css/components/footer-base.css: {}
+      css/components/footer-end.css: {}
       css/component/form.css: {}
+      css/components/front.css: {}
       css/component/header.css: {}
       css/component/menu-common.css: {}
       css/component/menu-desktop.css: {}
       css/component/menu-mobile.css: {}
       css/component/messages.css: {}
       css/component/node.css: {}
+      css/components/node-view-mode-full-news-center-group-item.css: {}
+      css/components/node-view-mode-teaser-news-center-group-item.css: {}
+      css/components/node-view-mode-full-team.css: {}
+     
+     css/components/search.css: {}
       css/component/sidebar.css: {}
       css/component/table.css: {}
       css/component/tabs.css: {}
       css/component/buttons.css: {}
+      css/components/views.css: {}
+      css/components/page.css: {}
     layout:
       css/layout/layout.css: {}
     theme:
