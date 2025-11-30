@@ -1,0 +1,32 @@
+@media screen and (max-width: 511px ) {
+  .hero-image .paragraph--type--image img {
+    width: 100%;
+    /*height: 30em;*/
+    object-fit: cover;
+
+  }
+}
+
+
+@media screen and (min-width: 768px ) {
+    .hero-image .paragraph--type--image img {
+    width: 100%;
+    /*height: 30em;*/
+    height: 425px;
+    object-fit: cover;
+  }
+}
+
+
+@media screen and (min-width: 1024px ) {
+  .hero-image .paragraph--type--image img {
+    width: 100%;
+    /*height: 30em;*/
+    height: 400px;
+    object-fit: cover;
+    object-position: 0% 40%;
+  }
+}
+
+
+

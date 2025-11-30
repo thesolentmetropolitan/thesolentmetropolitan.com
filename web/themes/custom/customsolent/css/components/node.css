@@ -1,0 +1,19 @@
+/*for top left type */
+.node--view-mode-teaser.knowledge-hub-content-group,
+.node--view-mode-teaser.news-center-content-group {
+  position: relative;
+}
+
+.node--view-mode-teaser.knowledge-hub-content-group .top-left,
+.node--view-mode-teaser.news-center-content-group .top-left {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  background-color: #029cdc;
+  color: white;
+  font-family: "Oswald";
+  font-size: 1.5em;
+  padding-left: 0.3em;
+  padding-right: 0.3em;
+}
+
