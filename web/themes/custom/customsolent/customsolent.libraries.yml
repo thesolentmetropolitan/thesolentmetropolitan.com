@@ -28,14 +28,11 @@ global:
       css/component/node.css: {}
       css/components/node-view-mode-full-news-center-group-item.css: {}
       css/components/node-view-mode-teaser-news-center-group-item.css: {}
-      css/components/node-view-mode-full-team.css: {}
-     
-     css/components/search.css: {}
+      css/components/search.css: {}
       css/component/sidebar.css: {}
       css/component/table.css: {}
       css/component/tabs.css: {}
       css/component/buttons.css: {}
-      css/components/views.css: {}
       css/components/page.css: {}
     layout:
       css/layout/layout.css: {}

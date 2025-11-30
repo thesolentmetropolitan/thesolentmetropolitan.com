@@ -67,6 +67,11 @@
  *
  */
 #}
+
+        {#
+        <img src="{{ file_url(image_uri) }}" alt="{{ node.field_event_image.alt }}" />
+        #}
+
 {%
   set classes = [
     'node',
@@ -77,12 +82,12 @@
     view_mode ? 'node--view-mode-' ~ view_mode|clean_class,
   ]
 %}
-{{ attach_library('classy/node') }}
+
 
   <a href="{{ url }}">
 <article{{ attributes.addClass(classes).addClass('news-center-content-group') }}>
 
-
+        {#
 {% if node.field_event_image.entity %}
   {% set image_uri = node.field_event_image.entity.uri.value %}
 
@@ -93,13 +98,12 @@
         '#attributes': { class: '', alt: 'text', title: 'text' },
       } %}
       <div class="field--type-image">
-        {#
-        <img src="{{ file_url(image_uri) }}" alt="{{ node.field_event_image.alt }}" />
-        #}
+
         {{ responsiveimagestyle }}
       </div>
 
 {% endif %}
+        #}
 <div class="top-left">EVENT</div>
         <h2>
       {{ label }}
@@ -107,8 +111,9 @@
 
 {{ content["body"] }}
 
+{#
 <div class="date">{{ node.field_event_date.value|date('m/d/y') }}</div>
-
+#}
 </article>
 </a>
 

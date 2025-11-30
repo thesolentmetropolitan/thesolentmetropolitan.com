@@ -66,7 +66,16 @@
  * @see template_preprocess_node()
  *
  */
+
+
+ 
 #}
+
+
+      {#
+      <img src="{{ file_url(image_uri) }}" alt="{{ node.field_image.alt }}" />
+      #}
+
 {%
   set classes = [
     'node',
@@ -77,11 +86,12 @@
     view_mode ? 'node--view-mode-' ~ view_mode|clean_class,
   ]
 %}
-{{ attach_library('classy/node') }}
+
 
 
 <article{{ attributes.addClass(classes).addClass('news-center-content-group') }}>
   <div class="inner">
+  {#
     {% if node.field_image.entity %}
       {% set image_uri = node.field_image.entity.uri.value %}
     {% endif %}
@@ -97,15 +107,14 @@
     } %}
 
     <div class="field--type-image">
-      {#
-      <img src="{{ file_url(image_uri) }}" alt="{{ node.field_image.alt }}" />
-      #}
+
       {{ responsiveimagestyle }}
     </div>
     <div class="sub-heading-date-combo">
       <div class="sub-heading">{{ content.body['#items'][0].summary }}</div>
       <div class="date">{{ node.published_at.value|date('d F Y') }}</div>
     </div>
+    #}
     <div class="body-container">
       {{ content["body"] }}
     </div>
