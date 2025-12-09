@@ -8,6 +8,7 @@ share/*
 !share/purpose.txt
 
 data/db*
+data/database-backups*
 
 drush/contrib/
 vendor
