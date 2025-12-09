@@ -8,10 +8,8 @@ dependencies:
     - field.field.node.article.field_image
     - field.field.node.article.field_tags
     - field.field.node.article.field_topics
-    - image.style.wide
     - node.type.article
   module:
-    - svg_image
     - text
     - user
 _core:
@@ -27,17 +25,6 @@ content:
     settings: {  }
     third_party_settings: {  }
     weight: 0
-    region: content
-  field_image:
-    type: image
-    label: hidden
-    settings:
-      image_link: ''
-      image_style: wide
-      image_loading:
-        attribute: eager
-    third_party_settings: {  }
-    weight: -1
     region: content
   field_tags:
     type: entity_reference_label
@@ -60,4 +47,5 @@ content:
     third_party_settings: {  }
     weight: 100
     region: content
-hidden: {  }
+hidden:
+  field_image: true
