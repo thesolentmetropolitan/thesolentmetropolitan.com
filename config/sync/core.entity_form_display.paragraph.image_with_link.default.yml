@@ -8,20 +8,18 @@ dependencies:
     - paragraphs.paragraphs_type.image_with_link
   module:
     - link
+    - media_library
 id: paragraph.image_with_link.default
 targetEntityType: paragraph
 bundle: image_with_link
 mode: default
 content:
   field_image:
-    type: entity_reference_autocomplete
+    type: media_library_widget
     weight: 0
     region: content
     settings:
-      match_operator: CONTAINS
-      match_limit: 10
-      size: 60
-      placeholder: ''
+      media_types: {  }
     third_party_settings: {  }
   field_link:
     type: link_default

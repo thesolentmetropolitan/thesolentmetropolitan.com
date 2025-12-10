@@ -10,6 +10,8 @@ share/*
 data/db*
 data/database-backups*
 
+docs/content/images*
+
 drush/contrib/
 vendor
 web/core/
