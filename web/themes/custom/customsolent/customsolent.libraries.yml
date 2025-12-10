@@ -13,6 +13,7 @@ global:
       css/components/paragraph-section-3-column.css: {}
       css/components/paragraph-enclosure.css: {}
       css/components/paragraph-text.css: {}
+      css/components/paragraph-image.css: {}
       css/component/breadcrumb.css: {}
       css/components/cta.css: {}
       css/component/field.css: {}
