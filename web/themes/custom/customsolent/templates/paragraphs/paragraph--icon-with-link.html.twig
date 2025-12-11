@@ -56,7 +56,7 @@
 {% block paragraph %}
 
  <style>
-  .paragraph--type--social-icon-with-link > * .field--name-field-social-icon 
+  .paragraph--type--icon-with-link > * .field--name-field-icon > * .field__item
   {
     color: {{ paragraph.field_color_text.0.entity.field_color.value.0.color }}; 
     
@@ -68,7 +68,7 @@
   <div{{ attributes.addClass(classes) }}>
     {% block content %}
       <a href="{{ paragraph.field_link.0.url }}">
-        {{ content['field_social_icon'] }}
+        {{ content['field_icon'] }}
       </a> 
     {% endblock %}
   </div>
