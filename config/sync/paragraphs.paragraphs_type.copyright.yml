@@ -1,0 +1,10 @@
+uuid: 1928923a-f5ea-4159-89d2-0f27698e4425
+langcode: en
+status: true
+dependencies: {  }
+id: copyright
+label: Copyright
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }

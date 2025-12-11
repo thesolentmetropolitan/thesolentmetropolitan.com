@@ -9,30 +9,24 @@ dependencies:
     - paragraphs.paragraphs_type.icon_with_link
   module:
     - link
+    - media_library
 id: paragraph.icon_with_link.default
 targetEntityType: paragraph
 bundle: icon_with_link
 mode: default
 content:
   field_color_text:
-    type: entity_reference_autocomplete
+    type: options_select
     weight: 1
     region: content
-    settings:
-      match_operator: CONTAINS
-      match_limit: 10
-      size: 60
-      placeholder: ''
+    settings: {  }
     third_party_settings: {  }
   field_icon:
-    type: entity_reference_autocomplete
+    type: media_library_widget
     weight: 3
     region: content
     settings:
-      match_operator: CONTAINS
-      match_limit: 10
-      size: 60
-      placeholder: ''
+      media_types: {  }
     third_party_settings: {  }
   field_link:
     type: link_default

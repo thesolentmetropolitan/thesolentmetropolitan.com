@@ -1,0 +1,33 @@
+uuid: 2ad80985-cf16-4f72-9544-4c9ff2517cd9
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.copyright.field_copyright_message
+    - field.field.paragraph.copyright.field_year
+    - paragraphs.paragraphs_type.copyright
+  module:
+    - datetime
+    - text
+id: paragraph.copyright.default
+targetEntityType: paragraph
+bundle: copyright
+mode: default
+content:
+  field_copyright_message:
+    type: text_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_year:
+    type: datetime_default
+    weight: 1
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true

@@ -5,13 +5,19 @@ dependencies:
   config:
     - field.storage.paragraph.field_content_component
     - paragraphs.paragraphs_type.call_to_action
+    - paragraphs.paragraphs_type.copyright
     - paragraphs.paragraphs_type.enclosure
     - paragraphs.paragraphs_type.heading
+    - paragraphs.paragraphs_type.icon_with_link
     - paragraphs.paragraphs_type.image
     - paragraphs.paragraphs_type.image_with_link
     - paragraphs.paragraphs_type.link
     - paragraphs.paragraphs_type.section_1_column
     - paragraphs.paragraphs_type.text
+    - paragraphs.paragraphs_type.vertical_space
+    - paragraphs.paragraphs_type.video
+    - paragraphs.paragraphs_type.view_display
+    - paragraphs.paragraphs_type.webform
   module:
     - entity_reference_revisions
 id: paragraph.section_1_column.field_content_component
@@ -34,17 +40,29 @@ settings:
       heading: heading
       image: image
       link: link
+      copyright: copyright
       text: text
+      icon_with_link: icon_with_link
+      vertical_space: vertical_space
+      video: video
+      view_display: view_display
+      webform: webform
     negate: 0
     target_bundles_drag_drop:
       call_to_action:
         weight: 7
+        enabled: true
+      copyright:
+        weight: 16
         enabled: true
       enclosure:
         weight: 8
         enabled: true
       heading:
         weight: 9
+        enabled: true
+      icon_with_link:
+        weight: 20
         enabled: true
       image:
         weight: 10
@@ -58,7 +76,22 @@ settings:
       section_1_column:
         weight: 9
         enabled: false
+      section_2_column:
+        weight: 25
+        enabled: false
       text:
         weight: 16
+        enabled: true
+      vertical_space:
+        weight: 27
+        enabled: true
+      video:
+        weight: 28
+        enabled: true
+      view_display:
+        weight: 29
+        enabled: true
+      webform:
+        weight: 30
         enabled: true
 field_type: entity_reference_revisions

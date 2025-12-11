@@ -5,6 +5,7 @@ dependencies:
   config:
     - field.storage.paragraph.field_content_component_right
     - paragraphs.paragraphs_type.call_to_action
+    - paragraphs.paragraphs_type.copyright
     - paragraphs.paragraphs_type.enclosure
     - paragraphs.paragraphs_type.heading
     - paragraphs.paragraphs_type.image
@@ -33,6 +34,7 @@ settings:
       heading: heading
       image: image
       image_with_link: image_with_link
+      copyright: copyright
       link: link
       text: text
     negate: 0
@@ -40,12 +42,18 @@ settings:
       call_to_action:
         weight: 11
         enabled: true
+      copyright:
+        weight: 16
+        enabled: true
       enclosure:
         weight: 12
         enabled: true
       heading:
         weight: 13
         enabled: true
+      icon_with_link:
+        weight: 20
+        enabled: false
       image:
         weight: 14
         enabled: true
@@ -64,4 +72,16 @@ settings:
       text:
         weight: 18
         enabled: true
+      vertical_space:
+        weight: 27
+        enabled: false
+      video:
+        weight: 28
+        enabled: false
+      view_display:
+        weight: 29
+        enabled: false
+      webform:
+        weight: 30
+        enabled: false
 field_type: entity_reference_revisions
