@@ -8,7 +8,7 @@ slogan: 'The broader perspective, for a distinct region'
 page:
   403: ''
   404: /node/15
-  front: /node
+  front: /node/17
 admin_compact_mode: false
 weight_select_max: 100
 default_langcode: en
