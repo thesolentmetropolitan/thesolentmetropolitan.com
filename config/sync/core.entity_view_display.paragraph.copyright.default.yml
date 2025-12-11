@@ -1,0 +1,33 @@
+uuid: 3e2e5860-2154-461e-9bf6-71cffc0f892d
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.copyright.field_copyright_message
+    - field.field.paragraph.copyright.field_year
+    - paragraphs.paragraphs_type.copyright
+  module:
+    - datetime
+    - text
+id: paragraph.copyright.default
+targetEntityType: paragraph
+bundle: copyright
+mode: default
+content:
+  field_copyright_message:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_year:
+    type: datetime_custom
+    label: hidden
+    settings:
+      timezone_override: ''
+      date_format: 'Y'
+    third_party_settings: {  }
+    weight: 1
+    region: content
+hidden: {  }

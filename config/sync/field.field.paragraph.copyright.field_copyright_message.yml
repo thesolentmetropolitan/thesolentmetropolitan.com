@@ -1,0 +1,25 @@
+uuid: d00aee07-2886-4465-8c80-f4fa50b532fb
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_copyright_message
+    - paragraphs.paragraphs_type.copyright
+  module:
+    - text
+id: paragraph.copyright.field_copyright_message
+field_name: field_copyright_message
+entity_type: paragraph
+bundle: copyright
+label: 'Copyright message'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 'Copyright (c) The Solent Metropolitan'
+    format: full_html
+default_value_callback: ''
+settings:
+  allowed_formats: {  }
+field_type: text

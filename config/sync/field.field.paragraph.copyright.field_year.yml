@@ -1,0 +1,24 @@
+uuid: 0737b1d9-7044-4aa1-851e-6683e5f4fbf4
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_year
+    - paragraphs.paragraphs_type.copyright
+  module:
+    - datetime
+id: paragraph.copyright.field_year
+field_name: field_year
+entity_type: paragraph
+bundle: copyright
+label: Year
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    default_date_type: now
+    default_date: now
+default_value_callback: ''
+settings: {  }
+field_type: datetime
