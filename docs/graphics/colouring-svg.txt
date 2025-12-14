@@ -1,0 +1,11 @@
+https://www.adelindanaila.com/blog/how-to-change-color-svg-using-img-tag#:~:text=The%20better%20approach%20is%20to,the%20color%20of%20the%20SVG.
+
+https://gemini.google.com/share/1a4083270eb1
+
+blue
+https://coolors.co/palettes/popular/blue
+https://www.w3schools.com/cssref/css_colors.php
+https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Values/named-color
+https://www.w3schools.com/tags/ref_colornames.asp
+
+https://anthonyhobday.com/sideprojects/saferules/
