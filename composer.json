@@ -22,6 +22,7 @@
         "drupal/core-composer-scaffold": "^11",
         "drupal/core-project-message": "^11",
         "drupal/core-recommended": "^11",
+        "drupal/custom_field": "^4.0",
         "drupal/fitvids": "^2.1",
         "drupal/gin": "^5.0",
         "drupal/media_responsive_thumbnail": "^2.0",

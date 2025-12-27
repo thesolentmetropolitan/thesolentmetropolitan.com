@@ -43,6 +43,9 @@
       {{ dd(paragraph.field_link.0.url) }}
 
  */
+
+      
+
 #}
 {%
   set classes = [
@@ -53,15 +56,23 @@
   ]
 %}
 
+{# 
+https://gemini.google.com/share/45fdc5c9ff07
+#}
+{% set bundle = paragraph.bundle|clean_class %}
+{% set instance_id = 'paragraph-' ~ bundle ~ '-' ~ paragraph.id() %}
+
 {% block paragraph %}
 
 	<style>
-		.paragraph--type--icon-with-link > * .field--name-field-icon > * .field__item {
+		 #{{ instance_id }} {
 			color: {{paragraph.field_color_text.0.entity.field_color.value.0.color}}
 			;
-
 			display: flex;
 			align-items: center;
+			height: 2em;
+			width: 2em;
+			overflow: hidden;
 		}
 	</style>
 
@@ -73,38 +84,42 @@
 	{# Check your Media Type configuration to see what the file field inside it is named #}
 	{% set file_entity = media_item.field_media_image.entity %}
 
-{#
-https://gemini.google.com/share/e003ce2dc2cf
-#}
+	{#
+	https://gemini.google.com/share/e003ce2dc2cf
+	#}
 
-{# #}
-{#
-{{ dump(file_entity) }}
+	{# #}
+	{#
+	{{ dump(file_entity) }}
+	
+	{{ dump(file_entity.uri.value) }}
+	#}
 
-{{ dump(file_entity.uri.value) }}
-#}
+	{#
+	{{ dump(file_entity.uri.value) }}
+	
+	{{ dump( file_url(file_entity.uri.value)) }}
+	#}
 
-{#
-{{ dump(file_entity.uri.value) }}
-
-{{ dump( file_url(file_entity.uri.value)) }}
-#}
-
-	{# 3. Get the local system path and include it #}
-		{% if file_entity %}
-			<div class="my-svg-icon"> {{ source(file_entity.uri.value, ignore_missing = true) }}
+		{# 3. Get the local system path and include it #}
+    {#
+			{% if file_entity %} <div class="my-svg-icon">{{ source(file_entity.uri.value, ignore_missing = true) }}
 		</div>
 	{% endif %}
+  	#}
 
-	<div{{attributes.addClass(classes)}}>
-		{% block content %}
-			<a href="{{ paragraph.field_link.0.url }}">
-				{% if file_entity %}
-					<div class="my-svg-icon">
-						{{ source( file_url(file_entity.uri.value), ignore_missing = true) }}
-					</div>
-				{% endif %}
-			</a>
-		{% endblock %}
-	</div>
+
+	{% block content %}
+
+
+
+		<a href="{{ paragraph.field_link.0.url }}">
+			{% if file_entity %}
+				<div id="{{ instance_id }}" {{attributes.addClass(classes) }}>
+					{{ source( file_url(file_entity.uri.value), ignore_missing = true) }}
+				</div>
+			{% endif %}
+		</a>
+	{% endblock %}
+
 {% endblock paragraph %}
