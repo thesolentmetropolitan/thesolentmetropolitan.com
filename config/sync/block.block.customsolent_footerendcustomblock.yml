@@ -5,9 +5,13 @@ dependencies:
   content:
     - 'block_content:composite_block_type:cfecf2a5-43d2-4c0f-a961-07547c87bbce'
   module:
+    - block_classes
     - block_content
   theme:
     - customsolent
+third_party_settings:
+  block_classes:
+    block_class: block_classes-end-footer
 id: customsolent_footerendcustomblock
 theme: customsolent
 region: footer
