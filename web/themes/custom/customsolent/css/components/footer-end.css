@@ -21,13 +21,13 @@ block_classes-end-footer
 }
 
 .block_classes-end-footer {
-  padding-bottom: 1em;
+  /* padding-bottom: 1em; */
 }
 
 .block_classes-end-footer{
   color: #FFFFFF;
-  background-color: #2C0150;
   overflow: auto;
+  width: 100%;
 }
 
 .block_classes-end-footer > * .field--name-field-year {
@@ -109,4 +109,10 @@ block_classes-end-footer
 
 .classy-paragraph-icons-set.paragraph--type--enclosure {
   overflow:unset !important;
+}
+
+.block_classes-end-footer {
+  position:fixed;
+  bottom: 0;
+
 }
