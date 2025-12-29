@@ -112,7 +112,9 @@ block_classes-end-footer
 }
 
 .block_classes-end-footer {
+  /*
   position:fixed;
   bottom: 0;
-
+*/
+  margin-top: auto;
 }
