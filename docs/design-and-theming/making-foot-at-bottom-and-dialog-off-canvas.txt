@@ -1,0 +1,30 @@
+
+
+
+robdaviswork@192 thesolentmetropolitan.com % git diff web/themes/custom/customsolent/templates/content/off-canvas-page-wrapper.html.twig
+diff --git a/web/themes/custom/customsolent/templates/content/off-canvas-page-wrapper.html.twig b/web/themes/custom/customsolent/templates/content/off-canvas-page-wrapper.html.twig
+index 04a80b1..b50aae5 100644
+--- a/web/themes/custom/customsolent/templates/content/off-canvas-page-wrapper.html.twig
++++ b/web/themes/custom/customsolent/templates/content/off-canvas-page-wrapper.html.twig
+@@ -18,7 +18,7 @@
+  */
+ #}
+ {% if children %}
+-  <div class="dialog-off-canvas-main-canvas" data-off-canvas-main-canvas>
++
+     {{ children }}
+-  </div>
++
+ {% endif %}
+robdaviswork@192 thesolentmetropolitan.com % 
+
+
+https://www.drupal.org/forum/support/theme-development/2019-08-08/how-to-safely-remove-dialog-off-canvas-main-canvas-class
+
+
+because div dialog off canvas was affecting the flex css to make the footer stick to the bottom
+
+https://gemini.google.com/share/35bf7926e71a
+
+https://www.30secondsofcode.org/css/s/footer-at-the-bottom/
+

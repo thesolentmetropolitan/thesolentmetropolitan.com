@@ -1,3 +1,5 @@
+https://gemini.google.com/share/5b9f2312bfbf
+
 That's a great choice. Using Drush with a custom script is the most efficient and scalable way to handle bulk content and menu creation in Drupal. It leverages Drupal's core services directly.
 
 Here is an example of the workflow and the necessary PHP code you would run using Drush's `scr` (script) command. This process assumes you have a simple list of page titles you want to create.
