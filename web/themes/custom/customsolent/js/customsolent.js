@@ -14,6 +14,8 @@
       $(document).ready(function () {
 
         if (!isMobile()) {
+          console.log('not mobile 1');
+
           desktop_menu_initialise_container_height();
 
           desktop_menu_hide_all_submenus();
@@ -148,6 +150,8 @@
       function menu_refreshSize() {
         var mainMenuNavContainer = get_mainMenuNavContainer();
         if (!isMobile()) {
+          console.log('not mobile 2');
+
           /* https://stackoverflow.com/a/15615701/227926 */
 
           if (!check_submenu_open()) {
@@ -180,12 +184,28 @@
         if ($(".main-menu-item-container li ").css("display") == "inline-block") {
           isMobileFlag = false;
           console.log(' desktop ');
-          $(".main-menu-item-container").removeClass("mobile");
+
+          if (!$(".main-menu-item-container").hasClass("desktop")) {
+            $(".main-menu-item-container").addClass("desktop");
+            desktop_menu_initialise_container_height();
+          }
+          
+          if ($(".main-menu-item-container").hasClass("mobile")) {
+            $(".main-menu-item-container").removeClass("mobile");
+          }
         }
         else {
           isMobileFlag = true;
           console.log(' mobile ');
-          $(".main-menu-item-container").addClass("mobile");
+
+          if (!$(".main-menu-item-container").hasClass("mobile")) {
+            $(".main-menu-item-container").addClass("mobile");
+          }
+
+          if ($(".main-menu-item-container").hasClass("desktop")) {
+            $(".main-menu-item-container").removeClass("desktop");
+          }
+          
         }
         return isMobileFlag;
       }
@@ -203,6 +223,9 @@
         //if (topValue == "-60px") {
         var calcTopValue = get_submenu_desktop_top_hide(aSubMenu);
        // if (topValue == calcTopValue) {
+
+
+
           aSubMenu.setAttribute("style", "top: " + submenu_desktop_top_reveal);
        // }
 
