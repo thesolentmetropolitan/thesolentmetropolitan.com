@@ -1,0 +1,22 @@
+.svg-defs {
+    display: none;
+}
+
+body {
+    margin: 0px;
+
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Takes up full screen height */
+}
+
+/* Adjust this selector to match your main content area */
+main, .main-container { 
+    flex: 1; 
+}
+
+/*
+.layout-container {
+  display: flex;
+}
+  */

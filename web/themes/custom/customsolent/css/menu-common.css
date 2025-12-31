@@ -1,0 +1,129 @@
+.sub-menu-item-container>li {
+  list-style-type: none;
+}
+
+.main-menu-item-container>li {
+  list-style-type: none;
+}
+
+
+/* https://claude.ai/share/a3ad86c3-2b80-49ad-ae93-c2abcaebed04 */
+
+/*
+.main-menu-item-container>li {
+  cursor: pointer;
+}
+*/
+
+
+.navigation__link__down-icon {
+  fill: black;
+}
+
+.navigation__link--selected .navigation__link__down-icon {
+  transform: rotate(-180deg);
+}
+
+
+.navigation__link__down-icon {
+  width: 6px;
+  height: 6px;
+  /*
+  margin-bottom: -2px;
+  margin-left: 2px;
+  */
+  margin-bottom: 2px;
+  transition: transform .4s ease;
+}
+
+/*
+button.main_nav_link {
+
+	background: none;
+  
+
+	color: inherit;
+
+
+
+	border: none;
+ 
+	padding: 0;
+
+	font: inherit;
+
+
+
+	cursor: pointer;
+
+
+	outline: inherit;
+
+}
+  */
+
+
+button.main_nav_link {
+  /*
+        display: -webkit-flex;
+        display: flex;
+        display: -ms-flex;
+        -webkit-flex-basis: auto;
+        flex-basis: auto;
+        
+        -webkit-align-items: center;
+        align-items: center;
+        */
+        
+background-color: white;
+
+        	background: none;
+        border: 0;
+        width: auto;
+        height: 100%;
+        padding: 0 6px;
+        cursor: pointer;
+        
+
+            -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    
+}
+
+button.main_nav_link:focus {
+    outline: none !important;
+}
+
+
+button.main_nav_link {
+  font-family: "Noto Sans";
+  font-size: 1em;
+}
+
+
+/*
+
+PERHAPS dont need to change "top" for mobile. I think so...
+
+https://stackoverflow.com/questions/21003535/anyway-to-prevent-the-blue-highlighting-of-elements-in-chrome-when-clicking-quic
+
+
+https://www.reddit.com/r/reactjs/comments/uznomv/why_does_tapping_on_button_causes_quick_flash_of/
+
+
+https://www.reddit.com/r/reactjs/comments/uznomv/why_does_tapping_on_button_causes_quick_flash_of/
+https://developer.mozilla.org/en-US/docs/Web/CSS/-webkit-tap-highlight-color
+
+https://hartenfeller.dev/blog/chrome-mobile-highlight-color
+
+https://stackoverflow.com/questions/2460100/remove-the-complete-styling-of-an-html-button-submit
+
+
+https://stackoverflow.com/questions/51639828/how-to-select-class-and-tag-in-css
+
+*/
