@@ -164,9 +164,12 @@
           allSubMenus.forEach(aSubMenu => {
             removeTransitionListeners(aSubMenu);
             
-            // Reset inline styles to prevent animation artifacts
             if (newMode === 'mobile') {
+              // Remove inline styles for mobile
               aSubMenu.removeAttribute('style');
+            } else {
+              // Force hide all submenus when switching to desktop
+              hideSubmenu(aSubMenu, true);
             }
           });
           
@@ -178,7 +181,6 @@
         if (newMode === 'desktop') {
           if (!check_submenu_open()) {
             desktop_menu_initialise_container_height();
-            desktop_menu_hide_all_submenus();
           } else {
             const aSubMenu = document.querySelector(".sub-menu-container.visible-2l");
             if (aSubMenu) {
