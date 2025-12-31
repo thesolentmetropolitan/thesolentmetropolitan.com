@@ -164,12 +164,21 @@
           allSubMenus.forEach(aSubMenu => {
             removeTransitionListeners(aSubMenu);
             
+            const isOpen = aSubMenu.classList.contains("visible-2l");
+            
             if (newMode === 'mobile') {
               // Remove inline styles for mobile
               aSubMenu.removeAttribute('style');
             } else {
-              // Force hide all submenus when switching to desktop
-              hideSubmenu(aSubMenu, true);
+              // Desktop mode: set position instantly without animation
+              if (isOpen) {
+                // Keep it open but set position without animating
+                aSubMenu.style.setProperty("top", submenu_desktop_top_reveal);
+                aSubMenu.style.setProperty("z-index", "0");
+              } else {
+                // Hide it instantly
+                hideSubmenu(aSubMenu, true);
+              }
             }
           });
           
