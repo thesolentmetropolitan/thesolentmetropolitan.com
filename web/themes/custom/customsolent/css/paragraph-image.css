@@ -1,0 +1,12 @@
+.paragraph--type--image {
+  height: 400px;
+  text-align: center;
+  position: relative;
+}
+
+.paragraph--type--image img {
+  object-fit: cover;
+  object-position: center;
+  width: 100%;
+  height: 100%;
+}
