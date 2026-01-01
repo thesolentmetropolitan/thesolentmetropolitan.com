@@ -121,7 +121,7 @@
         aSubMenu.classList.add("visible-2l");
 
         if (!isMobile()) {
-          aSubMenu.style.setProperty("top", submenu_desktop_top_reveal);
+          //aSubMenu.style.setProperty("top", submenu_desktop_top_reveal);
           
           const mainMenuNavContainer = get_mainMenuNavContainer();
           desktop_menu_drawer_show(aSubMenu, mainMenuNavContainer);
@@ -145,7 +145,7 @@
         aSubMenu.classList.remove("visible-2l");
         
         if (!isMobile()) {
-          aSubMenu.setAttribute("style", "top: " + get_submenu_desktop_top_hide(aSubMenu));
+          //aSubMenu.setAttribute("style", "top: " + get_submenu_desktop_top_hide(aSubMenu));
         }
       }
 
@@ -173,7 +173,7 @@
               // Desktop mode: set position instantly without animation
               if (isOpen) {
                 // Keep it open but set position without animating
-                aSubMenu.style.setProperty("top", submenu_desktop_top_reveal);
+                //aSubMenu.style.setProperty("top", submenu_desktop_top_reveal);
                 aSubMenu.style.setProperty("z-index", "0");
               } else {
                 // Hide it instantly
@@ -229,7 +229,7 @@
 
       function desktop_menu_drawer_show(aSubMenu, mainMenuNavContainer) {
         const offsetHeight = aSubMenu.offsetHeight;
-        aSubMenu.setAttribute("style", "top: " + submenu_desktop_top_reveal);
+        //aSubMenu.setAttribute("style", "top: " + submenu_desktop_top_reveal);
 
         const desktop_offset_height = get_desktop_offset_height();
         const offsetHeightCalc = parseInt(offsetHeight) + desktop_offset_height + 16;
