@@ -207,12 +207,12 @@
             });
             mainMenuNavContainer.style.setProperty("height", "auto");
           } else {
-            // Going to desktop: temporarily disable transitions, then set positions
-            mainMenuNavContainer.style.setProperty("transition", "none");
+            // Going to desktop: disable transitions FIRST, then set all properties
+            mainMenuNavContainer.classList.remove('animation');
             
             allSubMenus.forEach(aSubMenu => {
               removeTransitionListeners(aSubMenu);
-              aSubMenu.style.setProperty("transition", "none");
+              aSubMenu.classList.remove('animated');
               
               const isOpen = aSubMenu.classList.contains("visible-2l");
               
@@ -232,11 +232,6 @@
                 aSubMenu.style.setProperty("visibility", "hidden");
                 aSubMenu.style.setProperty("opacity", "0");
               }
-              
-              // Re-enable transitions after a brief delay
-              setTimeout(() => {
-                aSubMenu.style.removeProperty("transition");
-              }, 50);
             });
             
             // Set default height if no menus open
@@ -244,10 +239,16 @@
               mainMenuNavContainer.style.setProperty("height", menu_bar_height);
             }
             
-            // Re-enable nav transitions after a brief delay
-            setTimeout(() => {
-              mainMenuNavContainer.style.removeProperty("transition");
-            }, 50);
+            // Force reflow to ensure all changes are applied
+            void mainMenuNavContainer.offsetHeight;
+            
+            // Re-enable animation classes after changes are complete
+            requestAnimationFrame(() => {
+              mainMenuNavContainer.classList.add('animation');
+              allSubMenus.forEach(aSubMenu => {
+                aSubMenu.classList.add('animated');
+              });
+            });
           }
           
           currentMode = newMode;
