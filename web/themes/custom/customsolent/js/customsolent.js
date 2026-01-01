@@ -7,7 +7,6 @@
   Drupal.behaviors.customsolent = {
     attach: function (context, settings) {
       /* desktop height constants */
-      const submenu_desktop_top_reveal = "110px";
       const menu_bar_height = "96px";
       
       let currentMode = null; // Track current mode to detect changes
@@ -59,9 +58,12 @@
        */
       function handleTransitionEnd(event, aSubMenu, isShowing) {
         if (isShowing) {
-          event.target.style.setProperty("z-index", "0");
+          // After showing animation completes, ensure full visibility
+          aSubMenu.style.setProperty("opacity", "1");
         } else {
-          event.target.style.setProperty("z-index", "-1");
+          // After hiding animation completes, hide completely
+          aSubMenu.style.setProperty("visibility", "hidden");
+          aSubMenu.style.setProperty("opacity", "0");
         }
         // Clean up listener after it fires
         removeTransitionListeners(aSubMenu);
@@ -115,16 +117,31 @@
        */
       function showSubmenu(aSubMenu) {
         removeTransitionListeners(aSubMenu);
-        addTransitionListeners(aSubMenu, true);
 
         aSubMenu.classList.remove("hidden-2l");
         aSubMenu.classList.add("visible-2l");
 
         if (!isMobile()) {
-          //aSubMenu.style.setProperty("top", submenu_desktop_top_reveal);
+          // Make visible first
+          aSubMenu.style.setProperty("visibility", "visible");
           
           const mainMenuNavContainer = get_mainMenuNavContainer();
-          desktop_menu_drawer_show(aSubMenu, mainMenuNavContainer);
+          
+          // Start with opacity 0
+          aSubMenu.style.setProperty("opacity", "0");
+          
+          // Force reflow to ensure changes are applied
+          void aSubMenu.offsetHeight;
+          
+          // Calculate and set new height, then fade in
+          // Use requestAnimationFrame to ensure the height change triggers transition
+          requestAnimationFrame(() => {
+            desktop_menu_drawer_show(aSubMenu, mainMenuNavContainer);
+            aSubMenu.style.setProperty("opacity", "1");
+          });
+          
+          // Add transition listener for cleanup
+          addTransitionListeners(aSubMenu, true);
         }
       }
 
@@ -134,18 +151,28 @@
       function hideSubmenu(aSubMenu, instant = false) {
         removeTransitionListeners(aSubMenu);
         
-        if (!instant) {
-          addTransitionListeners(aSubMenu, false);
-        } else {
-          // Instant hide: set z-index immediately
-          aSubMenu.style.setProperty("z-index", "-1");
-        }
-
         aSubMenu.classList.add("hidden-2l");
         aSubMenu.classList.remove("visible-2l");
         
         if (!isMobile()) {
-          //aSubMenu.setAttribute("style", "top: " + get_submenu_desktop_top_hide(aSubMenu));
+          // Reset nav container height when hiding submenu
+          const mainMenuNavContainer = get_mainMenuNavContainer();
+          mainMenuNavContainer.style.setProperty("height", menu_bar_height);
+          
+          if (instant) {
+            // Instant hide: set properties immediately
+            aSubMenu.style.setProperty("visibility", "hidden");
+            aSubMenu.style.setProperty("opacity", "0");
+          } else {
+            // Animated hide: fade out
+            addTransitionListeners(aSubMenu, false);
+            aSubMenu.style.setProperty("opacity", "0");
+            
+            // After fade completes, hide visibility
+            setTimeout(() => {
+              aSubMenu.style.setProperty("visibility", "hidden");
+            }, 500); // Match your CSS transition duration
+          }
         }
       }
 
@@ -170,11 +197,11 @@
               // Remove inline styles for mobile
               aSubMenu.removeAttribute('style');
             } else {
-              // Desktop mode: set position instantly without animation
+              // Desktop mode: set visibility instantly without animation
               if (isOpen) {
-                // Keep it open but set position without animating
-                //aSubMenu.style.setProperty("top", submenu_desktop_top_reveal);
-                aSubMenu.style.setProperty("z-index", "0");
+                // Keep it open but set visibility without animating
+                aSubMenu.style.setProperty("visibility", "visible");
+                aSubMenu.style.setProperty("opacity", "1");
               } else {
                 // Hide it instantly
                 hideSubmenu(aSubMenu, true);
@@ -197,7 +224,7 @@
             }
           }
         } else {
-          mainMenuNavContainer.setAttribute("style", "height: auto");
+          mainMenuNavContainer.style.setProperty("height", "auto");
         }
       }
 
@@ -229,18 +256,11 @@
 
       function desktop_menu_drawer_show(aSubMenu, mainMenuNavContainer) {
         const offsetHeight = aSubMenu.offsetHeight;
-        //aSubMenu.setAttribute("style", "top: " + submenu_desktop_top_reveal);
-
         const desktop_offset_height = get_desktop_offset_height();
         const offsetHeightCalc = parseInt(offsetHeight) + desktop_offset_height + 16;
 
-        mainMenuNavContainer.setAttribute("style", "height: " + offsetHeightCalc + "px");
-      }
-
-      function get_submenu_desktop_top_hide(aSubMenu) {
-        const offsetHeight = aSubMenu.offsetHeight;
-        const topval = -270 + offsetHeight;
-        return parseInt(topval) + "px";
+        console.log('Setting nav height to:', offsetHeightCalc + 'px');
+        mainMenuNavContainer.style.setProperty("height", offsetHeightCalc + "px");
       }
 
       function get_mainMenuNavContainer() {
@@ -249,7 +269,7 @@
 
       function desktop_menu_initialise_container_height() {
         const mainMenuNavContainer = get_mainMenuNavContainer();
-        mainMenuNavContainer.setAttribute("style", "height: " + menu_bar_height);
+        mainMenuNavContainer.style.setProperty("height", menu_bar_height);
       }
 
       function check_submenu_open() {
