@@ -196,25 +196,26 @@
           
           const mainMenuNavContainer = get_mainMenuNavContainer();
           
-          // Temporarily disable transitions during mode change
-          mainMenuNavContainer.style.setProperty("transition", "none");
-          
           // Clean up all submenus on mode change
           const allSubMenus = document.querySelectorAll('.sub-menu-container');
-          allSubMenus.forEach(aSubMenu => {
-            removeTransitionListeners(aSubMenu);
-            
-            // Temporarily disable transitions on submenus too
-            aSubMenu.style.setProperty("transition", "none");
-            
-            const isOpen = aSubMenu.classList.contains("visible-2l");
-            
-            if (newMode === 'mobile') {
-              // Remove inline styles for mobile
+          
+          if (newMode === 'mobile') {
+            // Going to mobile: remove all inline styles
+            allSubMenus.forEach(aSubMenu => {
+              removeTransitionListeners(aSubMenu);
               aSubMenu.removeAttribute('style');
-              mainMenuNavContainer.style.setProperty("height", "auto");
-            } else {
-              // Desktop mode: set visibility instantly without animation
+            });
+            mainMenuNavContainer.style.setProperty("height", "auto");
+          } else {
+            // Going to desktop: temporarily disable transitions, then set positions
+            mainMenuNavContainer.style.setProperty("transition", "none");
+            
+            allSubMenus.forEach(aSubMenu => {
+              removeTransitionListeners(aSubMenu);
+              aSubMenu.style.setProperty("transition", "none");
+              
+              const isOpen = aSubMenu.classList.contains("visible-2l");
+              
               if (isOpen) {
                 // Keep it open but set position and visibility without animating
                 aSubMenu.style.setProperty("top", submenu_desktop_top_reveal);
@@ -230,20 +231,24 @@
                 // Hide it instantly
                 aSubMenu.style.setProperty("visibility", "hidden");
                 aSubMenu.style.setProperty("opacity", "0");
-                mainMenuNavContainer.style.setProperty("height", menu_bar_height);
               }
+              
+              // Re-enable transitions after a brief delay
+              setTimeout(() => {
+                aSubMenu.style.removeProperty("transition");
+              }, 50);
+            });
+            
+            // Set default height if no menus open
+            if (!check_submenu_open()) {
+              mainMenuNavContainer.style.setProperty("height", menu_bar_height);
             }
             
-            // Re-enable transitions after a brief delay
+            // Re-enable nav transitions after a brief delay
             setTimeout(() => {
-              aSubMenu.style.removeProperty("transition");
+              mainMenuNavContainer.style.removeProperty("transition");
             }, 50);
-          });
-          
-          // Re-enable nav transitions after a brief delay
-          setTimeout(() => {
-            mainMenuNavContainer.style.removeProperty("transition");
-          }, 50);
+          }
           
           currentMode = newMode;
         } else {
