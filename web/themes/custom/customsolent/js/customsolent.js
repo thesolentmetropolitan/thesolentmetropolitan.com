@@ -196,10 +196,16 @@
           
           const mainMenuNavContainer = get_mainMenuNavContainer();
           
+          // Temporarily disable transitions during mode change
+          mainMenuNavContainer.style.setProperty("transition", "none");
+          
           // Clean up all submenus on mode change
           const allSubMenus = document.querySelectorAll('.sub-menu-container');
           allSubMenus.forEach(aSubMenu => {
             removeTransitionListeners(aSubMenu);
+            
+            // Temporarily disable transitions on submenus too
+            aSubMenu.style.setProperty("transition", "none");
             
             const isOpen = aSubMenu.classList.contains("visible-2l");
             
@@ -222,11 +228,22 @@
                 mainMenuNavContainer.style.setProperty("height", offsetHeightCalc + "px");
               } else {
                 // Hide it instantly
-                hideSubmenu(aSubMenu, true);
+                aSubMenu.style.setProperty("visibility", "hidden");
+                aSubMenu.style.setProperty("opacity", "0");
                 mainMenuNavContainer.style.setProperty("height", menu_bar_height);
               }
             }
+            
+            // Re-enable transitions after a brief delay
+            setTimeout(() => {
+              aSubMenu.style.removeProperty("transition");
+            }, 50);
           });
+          
+          // Re-enable nav transitions after a brief delay
+          setTimeout(() => {
+            mainMenuNavContainer.style.removeProperty("transition");
+          }, 50);
           
           currentMode = newMode;
         } else {
