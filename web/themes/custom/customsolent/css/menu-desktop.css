@@ -26,8 +26,6 @@
     opacity: 1.0;
     background-color: white;
     position: relative;
-
-
   }
 
   main {
@@ -37,58 +35,12 @@
     /* https://gemini.google.com/share/1bf7b89017b3 */
   }
 
-  /* credit: BBC iPlayer - well I pay my license fee to the glorious corporation. "It's Your BBC" */
-  /*
-  .sub-menu-container.animated {
-    transition-property: top;
-    -webkit-transition-property: top;
-    transition-timing-function:
-      ease;
-    -webkit-transition-timing-function:
-      ease;
-    transition-duration: .5s;
-    -webkit-transition-duration: .5s;
-  }
-  */
-
-
-  /* DRAWER MENU 
-https://stackoverflow.com/a/20590319/227926
-*/
-
-  /*
-  .sub-menu-container.animated {
-    transition-property: top;
-    -webkit-transition-property: top;
-    transition-timing-function:
-      ease;
-    -webkit-transition-timing-function:
-      ease;
-    transition-duration: .5s;
-    -webkit-transition-duration: .5s;
-  }
-  */
-
-  /*
-  .sub-menu-container.animated {
-  transition: top .5s ease;
-  -webkit-transition: top .5s ease;
-  }
-  */
-
-  /* 
-  https://stackoverflow.com/a/64769022/227926
-  transition: [property] [duration] [timing-function] [delay], ... more property-transitions
-  */
-
-
+  /* Nav container height animation */
   nav[role=navigation].animation {
     transition-property: height;
     -webkit-transition-property: height;
-    transition-timing-function:
-      ease;
-    -webkit-transition-timing-function:
-      ease;
+    transition-timing-function: ease;
+    -webkit-transition-timing-function: ease;
     transition-duration: .5s;
     -webkit-transition-duration: .5s;
   }
@@ -98,26 +50,15 @@ https://stackoverflow.com/a/20590319/227926
     /*height: 96px;*/
   }  
 
-
-  /*
+  /* Submenu opacity fade animation */
   .sub-menu-container.animated {
-  transition: top .5s ease;
-  -webkit-transition: top .5s ease;
-  }
-  */
-
-
-  .sub-menu-container.animated {
-    transition-property: top;
-    -webkit-transition-property: top;
-    transition-timing-function:
-      ease;
-    -webkit-transition-timing-function:
-      ease;
+    transition-property: opacity;
+    -webkit-transition-property: opacity;
+    transition-timing-function: ease;
+    -webkit-transition-timing-function: ease;
     transition-duration: .5s;
     -webkit-transition-duration: .5s;
   }
-
 
   .main-menu-item-container>li {
     display: inline-block;
@@ -158,6 +99,6 @@ https://stackoverflow.com/a/20590319/227926
     align-items: center;
     display: flex;
     height: 96px;
-    /*height: 90px;(/ /* main_menu_section_height - related: submenu_cover_height and submenu_desktop_hide_position_top*/
+    /*height: 90px;*/ /* main_menu_section_height - related: submenu_cover_height and submenu_desktop_hide_position_top*/
   }
 }
