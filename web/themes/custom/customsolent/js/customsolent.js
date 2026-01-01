@@ -7,6 +7,7 @@
   Drupal.behaviors.customsolent = {
     attach: function (context, settings) {
       /* desktop height constants */
+      const submenu_desktop_top_reveal = "110px";
       const menu_bar_height = "96px";
       
       let currentMode = null; // Track current mode to detect changes
@@ -122,6 +123,9 @@
         aSubMenu.classList.add("visible-2l");
 
         if (!isMobile()) {
+          // Position the submenu
+          aSubMenu.style.setProperty("top", submenu_desktop_top_reveal);
+          
           // Make visible first
           aSubMenu.style.setProperty("visibility", "visible");
           
@@ -137,7 +141,11 @@
           // Use requestAnimationFrame to ensure the height change triggers transition
           requestAnimationFrame(() => {
             desktop_menu_drawer_show(aSubMenu, mainMenuNavContainer);
-            aSubMenu.style.setProperty("opacity", "1");
+            
+            // Small delay to ensure height is set before opacity change
+            requestAnimationFrame(() => {
+              aSubMenu.style.setProperty("opacity", "1");
+            });
           });
           
           // Add transition listener for cleanup
@@ -186,6 +194,8 @@
         if (modeChanged) {
           console.log('Mode changed from', currentMode, 'to', newMode);
           
+          const mainMenuNavContainer = get_mainMenuNavContainer();
+          
           // Clean up all submenus on mode change
           const allSubMenus = document.querySelectorAll('.sub-menu-container');
           allSubMenus.forEach(aSubMenu => {
@@ -196,35 +206,45 @@
             if (newMode === 'mobile') {
               // Remove inline styles for mobile
               aSubMenu.removeAttribute('style');
+              mainMenuNavContainer.style.setProperty("height", "auto");
             } else {
               // Desktop mode: set visibility instantly without animation
               if (isOpen) {
-                // Keep it open but set visibility without animating
+                // Keep it open but set position and visibility without animating
+                aSubMenu.style.setProperty("top", submenu_desktop_top_reveal);
                 aSubMenu.style.setProperty("visibility", "visible");
                 aSubMenu.style.setProperty("opacity", "1");
+                
+                // Set nav height instantly for open submenu
+                const offsetHeight = aSubMenu.offsetHeight;
+                const desktop_offset_height = get_desktop_offset_height();
+                const offsetHeightCalc = parseInt(offsetHeight) + desktop_offset_height + 16;
+                mainMenuNavContainer.style.setProperty("height", offsetHeightCalc + "px");
               } else {
                 // Hide it instantly
                 hideSubmenu(aSubMenu, true);
+                mainMenuNavContainer.style.setProperty("height", menu_bar_height);
               }
             }
           });
           
           currentMode = newMode;
-        }
-
-        const mainMenuNavContainer = get_mainMenuNavContainer();
-        
-        if (newMode === 'desktop') {
-          if (!check_submenu_open()) {
-            desktop_menu_initialise_container_height();
-          } else {
-            const aSubMenu = document.querySelector(".sub-menu-container.visible-2l");
-            if (aSubMenu) {
-              desktop_menu_drawer_show(aSubMenu, mainMenuNavContainer);
-            }
-          }
         } else {
-          mainMenuNavContainer.style.setProperty("height", "auto");
+          // No mode change, just resize within same mode
+          const mainMenuNavContainer = get_mainMenuNavContainer();
+          
+          if (newMode === 'desktop') {
+            if (!check_submenu_open()) {
+              desktop_menu_initialise_container_height();
+            } else {
+              const aSubMenu = document.querySelector(".sub-menu-container.visible-2l");
+              if (aSubMenu) {
+                desktop_menu_drawer_show(aSubMenu, mainMenuNavContainer);
+              }
+            }
+          } else {
+            mainMenuNavContainer.style.setProperty("height", "auto");
+          }
         }
       }
 
