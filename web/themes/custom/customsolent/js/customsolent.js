@@ -188,6 +188,7 @@
         aSubMenu.classList.add("visible-2l");
 
         if (!isMobile()) {
+          // Desktop behavior
           // Position the submenu
           aSubMenu.style.setProperty("top", submenu_desktop_top_reveal);
           
@@ -215,6 +216,12 @@
           
           // Add transition listener for cleanup
           addTransitionListeners(aSubMenu, true);
+        } else {
+          // Mobile behavior - make submenu scrollable
+          aSubMenu.style.setProperty("display", "block");
+          aSubMenu.style.setProperty("max-height", "50vh");
+          aSubMenu.style.setProperty("overflow-y", "auto");
+          aSubMenu.style.setProperty("overflow-x", "hidden");
         }
       }
 
@@ -228,6 +235,7 @@
         aSubMenu.classList.remove("visible-2l");
         
         if (!isMobile()) {
+          // Desktop behavior
           // Reset nav container height when hiding submenu
           const mainMenuNavContainer = get_mainMenuNavContainer();
           mainMenuNavContainer.style.setProperty("height", menu_bar_height);
@@ -246,6 +254,12 @@
               aSubMenu.style.setProperty("visibility", "hidden");
             }, 500); // Match your CSS transition duration
           }
+        } else {
+          // Mobile behavior - hide submenu
+          aSubMenu.style.setProperty("display", "none");
+          aSubMenu.style.removeProperty("max-height");
+          aSubMenu.style.removeProperty("overflow-y");
+          aSubMenu.style.removeProperty("overflow-x");
         }
       }
 
