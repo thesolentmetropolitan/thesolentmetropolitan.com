@@ -282,7 +282,19 @@
             // Going to mobile: remove all inline styles and show burger menu
             allSubMenus.forEach(aSubMenu => {
               removeTransitionListeners(aSubMenu);
+              
+              const isOpen = aSubMenu.classList.contains("visible-2l");
+              
+              // Clear desktop styles
               aSubMenu.removeAttribute('style');
+              
+              // If submenu was open in desktop, apply mobile scrollable styles
+              if (isOpen) {
+                aSubMenu.style.setProperty("display", "block");
+                aSubMenu.style.setProperty("max-height", "50vh");
+                aSubMenu.style.setProperty("overflow-y", "auto");
+                aSubMenu.style.setProperty("overflow-x", "hidden");
+              }
             });
             mainMenuNavContainer.style.setProperty("height", "auto");
             
