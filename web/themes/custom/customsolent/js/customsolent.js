@@ -333,6 +333,10 @@
               
               const isOpen = aSubMenu.classList.contains("visible-2l");
               
+              // Clear all mobile inline styles first
+              aSubMenu.removeAttribute('style');
+              
+              // Then apply desktop styles
               if (isOpen) {
                 // Keep it open but set position and visibility without animating
                 aSubMenu.style.setProperty("top", submenu_desktop_top_reveal);
@@ -345,7 +349,7 @@
                 const offsetHeightCalc = parseInt(offsetHeight) + desktop_offset_height + 16;
                 mainMenuNavContainer.style.setProperty("height", offsetHeightCalc + "px");
               } else {
-                // Hide it instantly
+                // Hide it instantly with desktop styles
                 aSubMenu.style.setProperty("visibility", "hidden");
                 aSubMenu.style.setProperty("opacity", "0");
               }
