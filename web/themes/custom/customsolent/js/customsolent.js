@@ -217,12 +217,87 @@
           // Add transition listener for cleanup
           addTransitionListeners(aSubMenu, true);
         } else {
-          // Mobile behavior - make submenu scrollable
+          // Mobile behavior - make submenu scrollable with calculated height
+          const maxHeight = calculateMobileSubmenuHeight(aSubMenu);
+          
           aSubMenu.style.setProperty("display", "block");
-          aSubMenu.style.setProperty("max-height", "50vh");
+          aSubMenu.style.setProperty("width", "100%");
+          aSubMenu.style.setProperty("max-height", maxHeight + "px");
           aSubMenu.style.setProperty("overflow-y", "auto");
           aSubMenu.style.setProperty("overflow-x", "hidden");
+          aSubMenu.style.setProperty("-webkit-overflow-scrolling", "touch"); // Smooth scrolling on iOS
+          
+          // Make the LI items inside full width too
+          const subMenuItems = aSubMenu.querySelectorAll('li');
+          subMenuItems.forEach(li => {
+            li.style.setProperty("width", "100%");
+          });
         }
+      }
+
+      /**
+       * Calculate appropriate height for mobile submenu
+       * Screen height - logo height - other top-level menu items height
+       */
+      function calculateMobileSubmenuHeight(aSubMenu) {
+        // Get viewport height
+        const viewportHeight = window.innerHeight;
+        
+        // Get logo height
+        const logoHeight = $("#slnt-logo").outerHeight(true) || 0;
+        
+        // Get the parent li element of this submenu
+        const parentLi = aSubMenu.closest('li');
+        
+        // Calculate height of all top-level menu item LI elements
+        let otherMenuItemsHeight = 0;
+        const allMenuItems = document.querySelectorAll('.main-menu-item-container > li');
+        
+        allMenuItems.forEach(item => {
+          // Get just the LI height (including its button, but not counting expanded submenus)
+          const itemClone = $(item).clone();
+          // Remove any open submenus from the clone to get just the button height
+          itemClone.find('.sub-menu-container').remove();
+          
+          // Create a temporary element to measure
+          const tempDiv = $('<div>').css({
+            position: 'absolute',
+            visibility: 'hidden',
+            display: 'block'
+          }).append(itemClone);
+          
+          $('body').append(tempDiv);
+          const itemHeight = tempDiv.find('li').outerHeight(true) || 0;
+          tempDiv.remove();
+          
+          otherMenuItemsHeight += itemHeight;
+        });
+        
+        // Larger buffer for breathing room at bottom (aesthetic spacing)
+        const buffer = 60;
+        
+        // Calculate available height
+        const availableHeight = viewportHeight - logoHeight - otherMenuItemsHeight - buffer;
+        
+        // Use 85% of available height for a nice balance
+        // This leaves 15% as margin/breathing room
+        const targetHeight = availableHeight * 0.85;
+        
+        // Use at least 150px, but prefer the calculated target
+        const calculatedHeight = Math.max(150, targetHeight);
+        
+        console.log('Mobile submenu height calculation:', {
+          viewportHeight,
+          logoHeight,
+          otherMenuItemsHeight,
+          buffer,
+          availableHeight,
+          targetHeight,
+          calculatedHeight,
+          percentageUsed: ((calculatedHeight / availableHeight) * 100).toFixed(1) + '%'
+        });
+        
+        return calculatedHeight;
       }
 
       /**
@@ -257,9 +332,11 @@
         } else {
           // Mobile behavior - hide submenu
           aSubMenu.style.setProperty("display", "none");
+          aSubMenu.style.removeProperty("width");
           aSubMenu.style.removeProperty("max-height");
           aSubMenu.style.removeProperty("overflow-y");
           aSubMenu.style.removeProperty("overflow-x");
+          aSubMenu.style.removeProperty("-webkit-overflow-scrolling");
         }
       }
 
@@ -290,10 +367,14 @@
               
               // If submenu was open in desktop, apply mobile scrollable styles
               if (isOpen) {
+                const maxHeight = calculateMobileSubmenuHeight(aSubMenu);
+                
                 aSubMenu.style.setProperty("display", "block");
-                aSubMenu.style.setProperty("max-height", "50vh");
+                aSubMenu.style.setProperty("width", "100%");
+                aSubMenu.style.setProperty("max-height", maxHeight + "px");
                 aSubMenu.style.setProperty("overflow-y", "auto");
                 aSubMenu.style.setProperty("overflow-x", "hidden");
+                aSubMenu.style.setProperty("-webkit-overflow-scrolling", "touch");
               }
             });
             mainMenuNavContainer.style.setProperty("height", "auto");
