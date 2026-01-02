@@ -16,6 +16,7 @@
         initializeMenu();
         $(window).resize(menu_refreshSize);
 
+        // Desktop menu button handlers
         const mainMenuTopLevelButtons = document.querySelectorAll('.main-menu-item-container > * button');
 
         mainMenuTopLevelButtons.forEach(topLevelButton => {
@@ -40,7 +41,68 @@
             }
           });
         });
+
+        // Mobile burger menu setup
+        setupMobileBurgerMenu();
       });
+
+      /**
+       * Setup mobile burger menu
+       */
+      function setupMobileBurgerMenu() {
+        // Create burger menu HTML - using same structure as Gospel Choir site
+        var menuicon = 
+          '<a href="#" id="slnt-togl-expand" class="slnt-togl-expand"> \
+            <div class="menu-icon"> \
+              <span class="top"></span> \
+              <span class="middle"></span> \
+              <span class="bottom"></span> \
+            </div> \
+            <div class="menu-text"> \
+              <span class="icon-burger">MENU</span> \
+              <span class="icon-close">CLOSE</span> \
+            </div> \
+          </a>';
+
+        // Insert burger menu if in mobile mode and not already present
+        if (isMobile() && $('#slnt-mobile-menu-container').is(':empty')) {
+          $("#slnt-mobile-menu-container").append(menuicon);
+        }
+
+        // Burger menu click handler - adapted from Gospel Choir site
+        $('#slnt-togl-expand')
+          .off('.toglexpandns')
+          .on({
+            'click.toglexpandns': function(e) {
+              e.stopPropagation();
+              e.preventDefault();
+              
+              if (isMobile()) {
+                var togl_expd = document.getElementById('slnt-togl-expand');
+                togl_expd.classList.toggle('slnt-togl-expand--open');
+
+                if ($("nav[role=navigation]").css("display") == "none" || 
+                    $(".main-menu-wrap").css("display") == "none") {
+                  // Show menu
+                  $("body").css("overflow", "hidden");
+                  $("body").addClass('slnt-overlay-menu-bg');
+                  $("nav[role=navigation]").css("display", "block");
+                  $(".main-menu-wrap").css("display", "block");
+                  $("#slnt-header").addClass('slnt-overlay-hdr-hgt-togl-expand-mob-menu');
+                  $("#slnt-header").removeClass('slnt-hdr-hgt-init');
+                } else {
+                  // Hide menu
+                  $("body").css("overflow", "");
+                  $("body").removeClass('slnt-overlay-menu-bg');
+                  $("nav[role=navigation]").css("display", "none");
+                  $(".main-menu-wrap").css("display", "none");
+                  $("#slnt-header").removeClass('slnt-overlay-hdr-hgt-togl-expand-mob-menu');
+                  $("#slnt-header").addClass('slnt-hdr-hgt-init');
+                }
+              }
+            }
+          });
+      }
 
       /**
        * Initialize menu on page load
@@ -51,6 +113,11 @@
         if (currentMode === 'desktop') {
           desktop_menu_initialise_container_height();
           desktop_menu_hide_all_submenus();
+        } else {
+          // Mobile mode - hide menu initially and add initial header height class
+          $("nav[role=navigation]").css("display", "none");
+          $(".main-menu-wrap").css("display", "none");
+          $("#slnt-header").addClass('slnt-hdr-hgt-init');
         }
       }
 
@@ -59,12 +126,10 @@
        */
       function handleTransitionEnd(event, aSubMenu, isShowing) {
         if (isShowing) {
-          // After showing animation completes, ensure full visibility
-          aSubMenu.style.setProperty("opacity", "1");
+          event.target.style.setProperty("opacity", "1");
         } else {
-          // After hiding animation completes, hide completely
-          aSubMenu.style.setProperty("visibility", "hidden");
-          aSubMenu.style.setProperty("opacity", "0");
+          event.target.style.setProperty("visibility", "hidden");
+          event.target.style.setProperty("opacity", "0");
         }
         // Clean up listener after it fires
         removeTransitionListeners(aSubMenu);
@@ -200,15 +265,41 @@
           const allSubMenus = document.querySelectorAll('.sub-menu-container');
           
           if (newMode === 'mobile') {
-            // Going to mobile: remove all inline styles
+            // Going to mobile: remove all inline styles and show burger menu
             allSubMenus.forEach(aSubMenu => {
               removeTransitionListeners(aSubMenu);
               aSubMenu.removeAttribute('style');
             });
             mainMenuNavContainer.style.setProperty("height", "auto");
+            
+            // Add burger menu
+            if ($('#slnt-mobile-menu-container').is(':empty')) {
+              setupMobileBurgerMenu();
+            }
+            
+            // Hide main menu initially in mobile
+            $("nav[role=navigation]").css("display", "none");
+            $(".main-menu-wrap").css("display", "none");
+            $("#slnt-header").addClass('slnt-hdr-hgt-init');
+            
+            // Reset mobile overlay if it was on
+            $("body").css("overflow", "");
+            $("body").removeClass('slnt-overlay-menu-bg');
+            
           } else {
             // Going to desktop: disable transitions FIRST, then set all properties
             mainMenuNavContainer.classList.remove('animation');
+            
+            // Remove burger menu and reset mobile styles
+            $("#slnt-mobile-menu-container").empty();
+            $("#slnt-header").removeClass('slnt-overlay-hdr-hgt-togl-expand-mob-menu');
+            $("#slnt-header").removeClass('slnt-hdr-hgt-init');
+            
+            // Reset mobile overlay styles
+            $("body").css("overflow", "");
+            $("body").removeClass('slnt-overlay-menu-bg');
+            $("nav[role=navigation]").css("display", "");
+            $(".main-menu-wrap").css("display", "");
             
             allSubMenus.forEach(aSubMenu => {
               removeTransitionListeners(aSubMenu);
