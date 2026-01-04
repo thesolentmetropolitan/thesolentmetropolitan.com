@@ -225,13 +225,19 @@
           aSubMenu.style.setProperty("max-height", maxHeight + "px");
           aSubMenu.style.setProperty("overflow-y", "auto");
           aSubMenu.style.setProperty("overflow-x", "hidden");
-          aSubMenu.style.setProperty("-webkit-overflow-scrolling", "touch"); // Smooth scrolling on iOS
+          aSubMenu.style.setProperty("-webkit-overflow-scrolling", "touch");
           
           // Make the LI items inside full width too
           const subMenuItems = aSubMenu.querySelectorAll('li');
           subMenuItems.forEach(li => {
             li.style.setProperty("width", "100%");
           });
+          
+          // Add scroll event listener for fade gradients
+          // Use setTimeout to ensure layout has settled before checking overflow
+          setTimeout(() => {
+            setupMobileScrollFade(aSubMenu);
+          }, 50);
         }
       }
 
@@ -375,6 +381,11 @@
                 aSubMenu.style.setProperty("overflow-y", "auto");
                 aSubMenu.style.setProperty("overflow-x", "hidden");
                 aSubMenu.style.setProperty("-webkit-overflow-scrolling", "touch");
+                
+                // Setup scroll fades after layout settles
+                setTimeout(() => {
+                  setupMobileScrollFade(aSubMenu);
+                }, 50);
               }
             });
             mainMenuNavContainer.style.setProperty("height", "auto");
@@ -533,6 +544,63 @@
         allSubMenus.forEach(aSubMenu => {
           hideSubmenu(aSubMenu, true); // Instant hide on init
         });
+      }
+
+      /**
+       * Setup scroll fade indicators for mobile submenus
+       */
+      function setupMobileScrollFade(aSubMenu) {
+        // Remove any existing scroll handler
+        $(aSubMenu).off('scroll.mobilefade');
+        
+        // Check initial scroll position and overflow
+        updateScrollFadeClasses(aSubMenu);
+        
+        // Add scroll event handler
+        $(aSubMenu).on('scroll.mobilefade', function() {
+          updateScrollFadeClasses(this);
+        });
+      }
+
+      /**
+       * Update CSS classes based on scroll position for fade effects
+       */
+      function updateScrollFadeClasses(element) {
+        const scrollTop = element.scrollTop;
+        const scrollHeight = element.scrollHeight;
+        const clientHeight = element.clientHeight;
+        const scrollBottom = scrollHeight - scrollTop - clientHeight;
+        
+        // Check if content actually overflows (is scrollable)
+        const hasOverflow = scrollHeight > clientHeight;
+        
+        console.log('Scroll fade check:', {
+          scrollHeight,
+          clientHeight,
+          hasOverflow,
+          scrollTop,
+          scrollBottom
+        });
+        
+        if (hasOverflow) {
+          element.classList.add('has-overflow');
+        } else {
+          element.classList.remove('has-overflow');
+        }
+        
+        // Add 'scrolled-down' class if scrolled from top (show top fade)
+        if (scrollTop > 10) {
+          element.classList.add('scrolled-down');
+        } else {
+          element.classList.remove('scrolled-down');
+        }
+        
+        // Add 'scrolled-to-bottom' class if at bottom (hide bottom fade)
+        if (scrollBottom < 10) {
+          element.classList.add('scrolled-to-bottom');
+        } else {
+          element.classList.remove('scrolled-to-bottom');
+        }
       }
     }
   };
