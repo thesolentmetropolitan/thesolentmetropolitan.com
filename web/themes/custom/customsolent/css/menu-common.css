@@ -106,6 +106,15 @@ button.main_nav_link {
 }
 
 
+.sub-menu-container > a.first-link {
+    padding-inline-start: 40px;
+    font-weight: 800;
+}
+
+ul.sub-menu-item-container {
+    padding-top: 0.3em;
+}
+
 /*
 
 PERHAPS dont need to change "top" for mobile. I think so...
