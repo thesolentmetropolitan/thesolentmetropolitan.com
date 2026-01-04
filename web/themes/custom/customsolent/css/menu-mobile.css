@@ -1,47 +1,45 @@
 @media (max-width: 991px) {
 
-
-#mast-head {
+  #mast-head {
     width: 15em;
-}
+  }
 
-#slnt-logo {
+  #slnt-logo {
     display: block;
     /*
     display:inline-block;
     float:left;
     */
-}
+  }
 
-#slnt-prim-menu {
-        display: block;
+  #slnt-prim-menu {
+    display: block;
     /*
     display:inline-block;
     float:left; 
     */
-}
+  }
 
-#slnt-srch {
-        display: block;
+  #slnt-srch {
+    display: block;
     /*
     display:inline-block;
     float:left; 
     */
-}
+  }
 
-#slnt-header {
+  #slnt-header {
     /*clear: both;*/
     width: 100%;
     /*height: 100px;*/
     opacity: 1.0;
     z-index: 10;
     background-color: white;
-}
+  }
 
-main {
-    clear:both;
-}  
-
+  main {
+    clear: both;
+  }
 
   /* credit: BBC iPlayer - well I pay my license fee to the glorious corporation. "It's Your BBC" */
   .sub-menu-container.animated {
@@ -73,8 +71,6 @@ main {
   }
 
   nav[role=navigation] {}
-
-
 
   .main-menu-item-container>li {
     display: block;
@@ -143,12 +139,77 @@ main {
   }
 
   .sub-menu-item-container > li {
-  padding-bottom: 5px;
-}
+    padding-bottom: 5px;
+  }
 
-.main-menu-item-container > li {
-  padding-bottom: 5px;
-}
+  .main-menu-item-container > li {
+    padding-bottom: 5px;
+  }
+
+  /* Mobile submenu scroll fade indicators */
+  .sub-menu-container.visible-2l {
+    position: relative;
+  }
+
+  /* Top fade - uses sticky positioning to stay at top while scrolling */
+  /* Only show if content overflows AND user has scrolled down */
+  .sub-menu-container.visible-2l.has-overflow.scrolled-down::before {
+    content: '';
+    position: sticky;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 50px;
+    margin-bottom: -50px;
+    background: linear-gradient(
+      to bottom, 
+      rgba(255, 255, 255, 1) 0%,
+      rgba(255, 255, 255, 0.9) 20%,
+      rgba(255, 255, 255, 0.5) 60%,
+      rgba(255, 255, 255, 0) 100%
+    );
+    pointer-events: none;
+    opacity: 1;
+    z-index: 10;
+    display: block;
+  }
+
+  /* Bottom fade - uses sticky positioning to stay at bottom while scrolling */
+  /* Only show if content overflows AND user is NOT at bottom */
+  .sub-menu-container.visible-2l.has-overflow:not(.scrolled-to-bottom)::after {
+    content: '';
+    position: sticky;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 50px;
+    margin-top: -50px;
+    background: linear-gradient(
+      to bottom, 
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.5) 40%,
+      rgba(255, 255, 255, 0.9) 80%,
+      rgba(255, 255, 255, 1) 100%
+    );
+    pointer-events: none;
+    opacity: 1;
+    z-index: 10;
+    display: block;
+  }
+
+  /* Adjust gradient colors for dark backgrounds */
+  /* If your mobile menu overlay is dark, use these instead: */
+  /*
+  .slnt-overlay-menu-bg .sub-menu-container.visible-2l::after {
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.95));
+  }
+  
+  .slnt-overlay-menu-bg .sub-menu-container.visible-2l::before {
+    background: linear-gradient(to top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.95));
+  }
+  */
 
 }
 
@@ -157,7 +218,6 @@ main {
 https://stackoverflow.com/questions/79791175/how-to-stop-tap-highlight-blink-on-sub-menu-items-and-only-have-it-for-top-menu
 
 */
-
 
 /* Remove pointer events from the LI containers so they don't get tap highlights */
 /*
@@ -179,9 +239,6 @@ https://stackoverflow.com/questions/79791175/how-to-stop-tap-highlight-blink-on-
     pointer-events: auto;
 }
 */
-
-
-/* Add to your menu-mobile.css or similar */
 
 /* Burger menu - adjusted for white background */
 
@@ -213,7 +270,7 @@ https://stackoverflow.com/questions/79791175/how-to-stop-tap-highlight-blink-on-
 }
 
 .slnt-togl-expand .menu-icon span {
-  background: #000;  /* Changed from rgb(200,200,200) to black */
+  background: #000;
   display: block;
   height: 4px;
   width: 30px;
@@ -221,23 +278,36 @@ https://stackoverflow.com/questions/79791175/how-to-stop-tap-highlight-blink-on-
   transition: all .3s ease-in-out;
 }
 
-.slnt-togl-expand .menu-icon span.top { top: 0; }
-.slnt-togl-expand .menu-icon span.middle { top: 10px; }
-.slnt-togl-expand .menu-icon span.bottom { top: 20px; }
+.slnt-togl-expand .menu-icon span.top {
+  top: 0;
+}
+
+.slnt-togl-expand .menu-icon span.middle {
+  top: 10px;
+}
+
+.slnt-togl-expand .menu-icon span.bottom {
+  top: 20px;
+}
 
 .slnt-togl-expand .menu-text {
   font-size: 1rem;
   line-height: 1em;
-  color: #000;  /* Changed from rgb(200,200,200) to black */
+  color: #000;
   transition: all .3s ease-in-out;
 }
 
-.slnt-togl-expand .menu-text .icon-burger { display: block; }
-.slnt-togl-expand .menu-text .icon-close { display: none; }
+.slnt-togl-expand .menu-text .icon-burger {
+  display: block;
+}
+
+.slnt-togl-expand .menu-text .icon-close {
+  display: none;
+}
 
 /* Hover states */
 .slnt-togl-expand:hover .menu-icon span {
-  background: #333;  /* Slightly lighter on hover */
+  background: #333;
 }
 
 .slnt-togl-expand:hover .menu-text {
@@ -246,7 +316,7 @@ https://stackoverflow.com/questions/79791175/how-to-stop-tap-highlight-blink-on-
 
 /* Open state */
 .slnt-togl-expand.slnt-togl-expand--open .menu-icon span {
-  background: #000;  /* Keep black when open */
+  background: #000;
 }
 
 .slnt-togl-expand.slnt-togl-expand--open .menu-icon span.top {
@@ -267,8 +337,13 @@ https://stackoverflow.com/questions/79791175/how-to-stop-tap-highlight-blink-on-
   color: #000;
 }
 
-.slnt-togl-expand.slnt-togl-expand--open .menu-text .icon-burger { display: none; }
-.slnt-togl-expand.slnt-togl-expand--open .menu-text .icon-close { display: block; }
+.slnt-togl-expand.slnt-togl-expand--open .menu-text .icon-burger {
+  display: none;
+}
+
+.slnt-togl-expand.slnt-togl-expand--open .menu-text .icon-close {
+  display: block;
+}
 
 .slnt-togl-expand.slnt-togl-expand--open:hover .menu-icon span {
   background: #333;
@@ -280,7 +355,7 @@ https://stackoverflow.com/questions/79791175/how-to-stop-tap-highlight-blink-on-
 
 /* Overlay - when menu is open */
 .slnt-overlay-menu-bg {
-  background-color: white;  /* Changed from black - adjust as needed */
+  background-color: white;
   transition: all .2s ease-in-out;
   z-index: 100;
   height: 100vh;
