@@ -144,6 +144,7 @@
 
   .main-menu-item-container > li {
     padding-bottom: 5px;
+    width:100%;
   }
 
   /* Mobile submenu scroll fade indicators */
