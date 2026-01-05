@@ -88,11 +88,11 @@
   }
 
   .sub-menu-container.visible-2l {
-    z-index: -1;
+    /* z-index: -1; */
   }
 
   .sub-menu-container.hidden-2l {
-    z-index: -1;
+    /* z-index: -1; */
     /* submenu_desktop_hide_position_top */
     /*top: -60px; */
   }
