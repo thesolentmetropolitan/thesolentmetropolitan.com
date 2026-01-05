@@ -103,4 +103,13 @@
     height: 96px;
     /*height: 90px;*/ /* main_menu_section_height - related: submenu_cover_height and submenu_desktop_hide_position_top*/
   }
+
+.sub-menu-container {
+  z-index: -1;  /* Default for all submenus */
+}
+
+.sub-menu-container.hidden-2l {
+  z-index: -1;  /* Explicit for hidden */
+}
+
 }
