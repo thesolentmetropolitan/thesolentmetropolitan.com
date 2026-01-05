@@ -125,11 +125,18 @@
        * Unified transition end handler
        */
       function handleTransitionEnd(event, aSubMenu, isShowing) {
+        console.log('Transition ended:', {isShowing, target: event.target});
+        
         if (isShowing) {
-          event.target.style.setProperty("opacity", "1");
+          // After showing animation completes, set z-index to 0 for clickable links
+          console.log('Setting z-index to 0');
+          event.target.style.setProperty("z-index", "0");
         } else {
+          // After hiding animation completes
           event.target.style.setProperty("visibility", "hidden");
           event.target.style.setProperty("opacity", "0");
+          // z-index is already -1, set at start of hide animation
+          console.log('Hide animation complete, z-index already -1');
         }
         // Clean up listener after it fires
         removeTransitionListeners(aSubMenu);
@@ -192,6 +199,9 @@
           // Position the submenu
           aSubMenu.style.setProperty("top", submenu_desktop_top_reveal);
           
+          // Start with z-index -1 during animation
+          aSubMenu.style.setProperty("z-index", "-1");
+          
           // Make visible first
           aSubMenu.style.setProperty("visibility", "visible");
           
@@ -214,7 +224,7 @@
             });
           });
           
-          // Add transition listener for cleanup
+          // Add transition listener for cleanup - will set z-index to 0 when done
           addTransitionListeners(aSubMenu, true);
         } else {
           // Mobile behavior - make submenu scrollable with calculated height
@@ -320,6 +330,10 @@
           // Reset nav container height when hiding submenu
           const mainMenuNavContainer = get_mainMenuNavContainer();
           mainMenuNavContainer.style.setProperty("height", menu_bar_height);
+          
+          // Set z-index to -1 BEFORE starting fade out animation
+          // This way the menu goes behind content during the fade
+          aSubMenu.style.setProperty("z-index", "-1");
           
           if (instant) {
             // Instant hide: set properties immediately
