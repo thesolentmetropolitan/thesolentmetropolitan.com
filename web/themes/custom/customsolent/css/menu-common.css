@@ -29,8 +29,6 @@
     width: 1em;
     height: 1em;
     margin-bottom: 0;
-
-    padding-left: 0.2em;
     transition: transform .4s ease;
 }
 
@@ -103,6 +101,10 @@ button.main_nav_link {
   font-size: 1em;
   display: flex;
   align-items: center;
+}
+
+button.main_nav_link > span {
+  padding-right: 0.2em;
 }
 
 

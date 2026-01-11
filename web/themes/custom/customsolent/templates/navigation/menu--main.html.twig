@@ -54,7 +54,8 @@
 								{% if menu_level == 0 %}
 									{% if item.below %}
 
-										<button class="main_nav_link ">{{ item.title }}
+										<button class="main_nav_link ">
+										<span>{{ item.title }}</span>
 											<svg role="presentation" class="lnk__icon navigation__link__down-icon" focusable="false">
 												<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#tvip-down-triangle" href="#tvip-down-triangle" role="presentation"></use>
 											</svg>
