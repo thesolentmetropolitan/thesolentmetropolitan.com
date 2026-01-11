@@ -26,14 +26,12 @@
 
 
 .navigation__link__down-icon {
-  width: 6px;
-  height: 6px;
-  /*
-  margin-bottom: -2px;
-  margin-left: 2px;
-  */
-  margin-bottom: 2px;
-  transition: transform .4s ease;
+    width: 1em;
+    height: 1em;
+    margin-bottom: 0;
+
+    padding-left: 0.2em;
+    transition: transform .4s ease;
 }
 
 /*
@@ -103,6 +101,8 @@ button.main_nav_link:focus {
 button.main_nav_link {
   font-family: "Noto Sans";
   font-size: 1em;
+  display: flex;
+  align-items: center;
 }
 
 
