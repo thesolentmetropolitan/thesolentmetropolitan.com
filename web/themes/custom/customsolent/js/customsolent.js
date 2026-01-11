@@ -2,6 +2,8 @@
  * @file
  * customsolent behaviors.
  */
+
+/* 11 Jan 2025 - with double-click fix */
 (function ($, Drupal) {
   'use strict';
   Drupal.behaviors.customsolent = {
@@ -9,7 +11,7 @@
       /* desktop height constants */
       const submenu_desktop_top_reveal = "110px";
       const menu_bar_height = "96px";
-
+      
       let currentMode = null; // Track current mode to detect changes
 
       $(document).ready(function () {
@@ -34,7 +36,6 @@
                   toggleChevron(aSubMenu);
                   // Toggle the clicked submenu
                   toggleSubmenu(aSubMenu);
-
                 } else {
                   unselectChevron(aSubMenu);
                   // Hide all other submenus
@@ -54,7 +55,7 @@
        */
       function setupMobileBurgerMenu() {
         // Create burger menu HTML - using same structure as Gospel Choir site
-        var menuicon =
+        var menuicon = 
           '<a href="#" id="slnt-togl-expand" class="slnt-togl-expand"> \
             <div class="menu-icon"> \
               <span class="top"></span> \
@@ -76,16 +77,16 @@
         $('#slnt-togl-expand')
           .off('.toglexpandns')
           .on({
-            'click.toglexpandns': function (e) {
+            'click.toglexpandns': function(e) {
               e.stopPropagation();
               e.preventDefault();
-
+              
               if (isMobile()) {
                 var togl_expd = document.getElementById('slnt-togl-expand');
                 togl_expd.classList.toggle('slnt-togl-expand--open');
 
-                if ($("nav[role=navigation]").css("display") == "none" ||
-                  $(".main-menu-wrap").css("display") == "none") {
+                if ($("nav[role=navigation]").css("display") == "none" || 
+                    $(".main-menu-wrap").css("display") == "none") {
                   // Show menu
                   $("body").css("overflow", "hidden");
                   $("body").addClass('slnt-overlay-menu-bg');
@@ -112,7 +113,7 @@
        */
       function initializeMenu() {
         currentMode = isMobile() ? 'mobile' : 'desktop';
-
+        
         if (currentMode === 'desktop') {
           desktop_menu_initialise_container_height();
           desktop_menu_hide_all_submenus();
@@ -127,8 +128,14 @@
       /**
        * Unified transition end handler
        */
-      function handleTransitionEnd(event, aSubMenu, isShowing) {
-        console.log('Transition ended:', { isShowing, target: event.target });
+      function handleTransitionEnd(event, aSubMenu, isShowing, transitionId) {
+        // Check if this is still the current transition - ignore stale events
+        if (aSubMenu._currentTransitionId !== transitionId) {
+          console.log('Ignoring stale transition event, id:', transitionId, 'current:', aSubMenu._currentTransitionId);
+          return;
+        }
+        
+        console.log('Transition ended:', { isShowing, target: event.target, transitionId });
 
         if (isShowing) {
           // After showing animation completes, set z-index to 0 for clickable links
@@ -149,7 +156,11 @@
        * Add transition listeners for a submenu
        */
       function addTransitionListeners(aSubMenu, isShowing) {
-        const handler = (e) => handleTransitionEnd(e, aSubMenu, isShowing);
+        // Generate unique ID for this transition
+        const transitionId = Date.now() + Math.random();
+        aSubMenu._currentTransitionId = transitionId;
+        
+        const handler = (e) => handleTransitionEnd(e, aSubMenu, isShowing, transitionId);
 
         // Store handler reference so we can remove it later
         aSubMenu._transitionHandler = handler;
@@ -159,6 +170,8 @@
         aSubMenu.addEventListener('oTransitionEnd', handler, false);
         aSubMenu.addEventListener('msTransitionEnd', handler, false);
         aSubMenu.addEventListener('transitionend', handler, false);
+        
+        console.log('Added transition listener with id:', transitionId);
       }
 
       /**
@@ -179,12 +192,26 @@
        * Toggle submenu between shown and hidden states
        */
       function toggleSubmenu(aSubMenu) {
-        const isCurrentlyHidden = aSubMenu.classList.contains("hidden-2l");
+        // Use the intended state, not the current class which changes immediately
+        // Check if we're currently animating to show or already shown
+        const isCurrentlyOrBecomingVisible = aSubMenu.classList.contains("visible-2l");
+        
+        console.log('toggleSubmenu called:', {
+          isCurrentlyOrBecomingVisible,
+          currentClasses: aSubMenu.className,
+          currentOpacity: aSubMenu.style.opacity,
+          currentVisibility: aSubMenu.style.visibility,
+          currentZIndex: aSubMenu.style.zIndex
+        });
 
-        if (isCurrentlyHidden) {
-          showSubmenu(aSubMenu);
-        } else {
+        if (isCurrentlyOrBecomingVisible) {
+          // It's visible or becoming visible, so hide it
+          console.log('→ Calling hideSubmenu');
           hideSubmenu(aSubMenu);
+        } else {
+          // It's hidden or becoming hidden, so show it
+          console.log('→ Calling showSubmenu');
+          showSubmenu(aSubMenu);
         }
       }
 
@@ -192,7 +219,17 @@
        * Show a submenu with animation
        */
       function showSubmenu(aSubMenu) {
+        console.log('showSubmenu START');
+        
+        // IMPORTANT: Remove ALL existing listeners first to prevent conflicts
         removeTransitionListeners(aSubMenu);
+        
+        // Clear any pending setTimeout from previous hide operations
+        if (aSubMenu._hideTimeout) {
+          console.log('Clearing pending hide timeout');
+          clearTimeout(aSubMenu._hideTimeout);
+          delete aSubMenu._hideTimeout;
+        }
 
         aSubMenu.classList.remove("hidden-2l");
         aSubMenu.classList.add("visible-2l");
@@ -223,6 +260,7 @@
 
             // Small delay to ensure height is set before opacity change
             requestAnimationFrame(() => {
+              console.log('showSubmenu: Setting opacity to 1');
               aSubMenu.style.setProperty("opacity", "1");
             });
           });
@@ -232,20 +270,20 @@
         } else {
           // Mobile behavior - make submenu scrollable with calculated height
           const maxHeight = calculateMobileSubmenuHeight(aSubMenu);
-
+          
           aSubMenu.style.setProperty("display", "block");
           aSubMenu.style.setProperty("width", "100%");
           aSubMenu.style.setProperty("max-height", maxHeight + "px");
           aSubMenu.style.setProperty("overflow-y", "auto");
           aSubMenu.style.setProperty("overflow-x", "hidden");
           aSubMenu.style.setProperty("-webkit-overflow-scrolling", "touch");
-
+          
           // Make the LI items inside full width too
           const subMenuItems = aSubMenu.querySelectorAll('li');
           subMenuItems.forEach(li => {
             li.style.setProperty("width", "100%");
           });
-
+          
           // Add scroll event listener for fade gradients
           // Use setTimeout to ensure layout has settled before checking overflow
           setTimeout(() => {
@@ -261,50 +299,50 @@
       function calculateMobileSubmenuHeight(aSubMenu) {
         // Get viewport height
         const viewportHeight = window.innerHeight;
-
+        
         // Get logo height
         const logoHeight = $("#slnt-logo").outerHeight(true) || 0;
-
+        
         // Get the parent li element of this submenu
         const parentLi = aSubMenu.closest('li');
-
+        
         // Calculate height of all top-level menu item LI elements
         let otherMenuItemsHeight = 0;
         const allMenuItems = document.querySelectorAll('.main-menu-item-container > li');
-
+        
         allMenuItems.forEach(item => {
           // Get just the LI height (including its button, but not counting expanded submenus)
           const itemClone = $(item).clone();
           // Remove any open submenus from the clone to get just the button height
           itemClone.find('.sub-menu-container').remove();
-
+          
           // Create a temporary element to measure
           const tempDiv = $('<div>').css({
             position: 'absolute',
             visibility: 'hidden',
             display: 'block'
           }).append(itemClone);
-
+          
           $('body').append(tempDiv);
           const itemHeight = tempDiv.find('li').outerHeight(true) || 0;
           tempDiv.remove();
-
+          
           otherMenuItemsHeight += itemHeight;
         });
-
+        
         // Larger buffer for breathing room at bottom (aesthetic spacing)
         const buffer = 60;
-
+        
         // Calculate available height
         const availableHeight = viewportHeight - logoHeight - otherMenuItemsHeight - buffer;
-
+        
         // Use 85% of available height for a nice balance
         // This leaves 15% as margin/breathing room
         const targetHeight = availableHeight * 0.85;
-
+        
         // Use at least 150px, but prefer the calculated target
         const calculatedHeight = Math.max(150, targetHeight);
-
+        
         console.log('Mobile submenu height calculation:', {
           viewportHeight,
           logoHeight,
@@ -315,7 +353,7 @@
           calculatedHeight,
           percentageUsed: ((calculatedHeight / availableHeight) * 100).toFixed(1) + '%'
         });
-
+        
         return calculatedHeight;
       }
 
@@ -323,7 +361,17 @@
        * Hide a submenu with optional instant mode (no animation)
        */
       function hideSubmenu(aSubMenu, instant = false) {
+        console.log('hideSubmenu START, instant:', instant);
+        
+        // IMPORTANT: Remove ALL existing listeners first to prevent conflicts
         removeTransitionListeners(aSubMenu);
+        
+        // Clear any pending setTimeout from previous operations
+        if (aSubMenu._hideTimeout) {
+          console.log('Clearing pending hide timeout in hideSubmenu');
+          clearTimeout(aSubMenu._hideTimeout);
+          delete aSubMenu._hideTimeout;
+        }
 
         aSubMenu.classList.add("hidden-2l");
         aSubMenu.classList.remove("visible-2l");
@@ -340,16 +388,21 @@
 
           if (instant) {
             // Instant hide: set properties immediately
+            console.log('hideSubmenu: Instant hide');
             aSubMenu.style.setProperty("visibility", "hidden");
             aSubMenu.style.setProperty("opacity", "0");
           } else {
             // Animated hide: fade out
+            console.log('hideSubmenu: Animated hide, setting opacity to 0');
             addTransitionListeners(aSubMenu, false);
             aSubMenu.style.setProperty("opacity", "0");
 
             // After fade completes, hide visibility
-            setTimeout(() => {
+            // Store timeout ID so we can cancel it if needed
+            aSubMenu._hideTimeout = setTimeout(() => {
+              console.log('hideSubmenu: setTimeout fired, hiding visibility');
               aSubMenu.style.setProperty("visibility", "hidden");
+              delete aSubMenu._hideTimeout;
             }, 500); // Match your CSS transition duration
           }
         } else {
@@ -369,36 +422,36 @@
       function menu_refreshSize() {
         const newMode = isMobile() ? 'mobile' : 'desktop';
         const modeChanged = (currentMode !== newMode);
-
+        
         if (modeChanged) {
           console.log('Mode changed from', currentMode, 'to', newMode);
-
+          
           const mainMenuNavContainer = get_mainMenuNavContainer();
-
+          
           // Clean up all submenus on mode change
           const allSubMenus = document.querySelectorAll('.sub-menu-container');
-
+          
           if (newMode === 'mobile') {
             // Going to mobile: remove all inline styles and show burger menu
             allSubMenus.forEach(aSubMenu => {
               removeTransitionListeners(aSubMenu);
-
+              
               const isOpen = aSubMenu.classList.contains("visible-2l");
-
+              
               // Clear desktop styles
               aSubMenu.removeAttribute('style');
-
+              
               // If submenu was open in desktop, apply mobile scrollable styles
               if (isOpen) {
                 const maxHeight = calculateMobileSubmenuHeight(aSubMenu);
-
+                
                 aSubMenu.style.setProperty("display", "block");
                 aSubMenu.style.setProperty("width", "100%");
                 aSubMenu.style.setProperty("max-height", maxHeight + "px");
                 aSubMenu.style.setProperty("overflow-y", "auto");
                 aSubMenu.style.setProperty("overflow-x", "hidden");
                 aSubMenu.style.setProperty("-webkit-overflow-scrolling", "touch");
-
+                
                 // Setup scroll fades after layout settles
                 setTimeout(() => {
                   setupMobileScrollFade(aSubMenu);
@@ -406,52 +459,52 @@
               }
             });
             mainMenuNavContainer.style.setProperty("height", "auto");
-
+            
             // Add burger menu
             if ($('#slnt-mobile-menu-container').is(':empty')) {
               setupMobileBurgerMenu();
             }
-
+            
             // Hide main menu initially in mobile
             $("nav[role=navigation]").css("display", "none");
             $(".main-menu-wrap").css("display", "none");
             $("#slnt-header").addClass('slnt-hdr-hgt-init');
-
+            
             // Reset mobile overlay if it was on
             $("body").css("overflow", "");
             $("body").removeClass('slnt-overlay-menu-bg');
-
+            
           } else {
             // Going to desktop: disable transitions FIRST, then set all properties
             mainMenuNavContainer.classList.remove('animation');
-
+            
             // Remove burger menu and reset mobile styles
             $("#slnt-mobile-menu-container").empty();
             $("#slnt-header").removeClass('slnt-overlay-hdr-hgt-togl-expand-mob-menu');
             $("#slnt-header").removeClass('slnt-hdr-hgt-init');
-
+            
             // Reset mobile overlay styles
             $("body").css("overflow", "");
             $("body").removeClass('slnt-overlay-menu-bg');
             $("nav[role=navigation]").css("display", "");
             $(".main-menu-wrap").css("display", "");
-
+            
             allSubMenus.forEach(aSubMenu => {
               removeTransitionListeners(aSubMenu);
               aSubMenu.classList.remove('animated');
-
+              
               const isOpen = aSubMenu.classList.contains("visible-2l");
-
+              
               // Clear all mobile inline styles first
               aSubMenu.removeAttribute('style');
-
+              
               // Then apply desktop styles
               if (isOpen) {
                 // Keep it open but set position and visibility without animating
                 aSubMenu.style.setProperty("top", submenu_desktop_top_reveal);
                 aSubMenu.style.setProperty("visibility", "visible");
                 aSubMenu.style.setProperty("opacity", "1");
-
+                
                 // Set nav height instantly for open submenu
                 const offsetHeight = aSubMenu.offsetHeight;
                 const desktop_offset_height = get_desktop_offset_height();
@@ -463,15 +516,15 @@
                 aSubMenu.style.setProperty("opacity", "0");
               }
             });
-
+            
             // Set default height if no menus open
             if (!check_submenu_open()) {
               mainMenuNavContainer.style.setProperty("height", menu_bar_height);
             }
-
+            
             // Force reflow to ensure all changes are applied
             void mainMenuNavContainer.offsetHeight;
-
+            
             // Re-enable animation classes after changes are complete
             requestAnimationFrame(() => {
               mainMenuNavContainer.classList.add('animation');
@@ -480,12 +533,12 @@
               });
             });
           }
-
+          
           currentMode = newMode;
         } else {
           // No mode change, just resize within same mode
           const mainMenuNavContainer = get_mainMenuNavContainer();
-
+          
           if (newMode === 'desktop') {
             if (!check_submenu_open()) {
               desktop_menu_initialise_container_height();
@@ -507,7 +560,7 @@
        */
       function isMobile() {
         const isMobileFlag = $(".main-menu-item-container li").css("display") !== "inline-block";
-
+        
         if (!isMobileFlag) {
           if (!$(".main-menu-item-container").hasClass("desktop")) {
             $(".main-menu-item-container").addClass("desktop");
@@ -519,7 +572,7 @@
           }
           $(".main-menu-item-container").removeClass("desktop");
         }
-
+        
         return isMobileFlag;
       }
 
@@ -547,7 +600,7 @@
 
       function check_submenu_open() {
         const allSubMenuContainers = document.querySelectorAll('.main-menu-item-container > * .sub-menu-container');
-
+        
         for (let aSubMenu of allSubMenuContainers) {
           if (aSubMenu.classList.contains("visible-2l")) {
             return true;
@@ -569,12 +622,12 @@
       function setupMobileScrollFade(aSubMenu) {
         // Remove any existing scroll handler
         $(aSubMenu).off('scroll.mobilefade');
-
+        
         // Check initial scroll position and overflow
         updateScrollFadeClasses(aSubMenu);
-
+        
         // Add scroll event handler
-        $(aSubMenu).on('scroll.mobilefade', function () {
+        $(aSubMenu).on('scroll.mobilefade', function() {
           updateScrollFadeClasses(this);
         });
       }
@@ -587,10 +640,10 @@
         const scrollHeight = element.scrollHeight;
         const clientHeight = element.clientHeight;
         const scrollBottom = scrollHeight - scrollTop - clientHeight;
-
+        
         // Check if content actually overflows (is scrollable)
         const hasOverflow = scrollHeight > clientHeight;
-
+        
         console.log('Scroll fade check:', {
           scrollHeight,
           clientHeight,
@@ -598,20 +651,20 @@
           scrollTop,
           scrollBottom
         });
-
+        
         if (hasOverflow) {
           element.classList.add('has-overflow');
         } else {
           element.classList.remove('has-overflow');
         }
-
+        
         // Add 'scrolled-down' class if scrolled from top (show top fade)
         if (scrollTop > 10) {
           element.classList.add('scrolled-down');
         } else {
           element.classList.remove('scrolled-down');
         }
-
+        
         // Add 'scrolled-to-bottom' class if at bottom (hide bottom fade)
         if (scrollBottom < 10) {
           element.classList.add('scrolled-to-bottom');
