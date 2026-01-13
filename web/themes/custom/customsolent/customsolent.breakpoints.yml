@@ -12,13 +12,13 @@ customsolent.small:
     - 1x
 customsolent.medium:
   label: narrow
-  mediaQuery: 'all and (min-width: 768px) and (max-width: 991px)'
+  mediaQuery: 'all and (min-width: 768px) and (max-width: 1199px)'
   weight: 2
   multipliers:
     - 1x
 customsolent.large:
   label: wide
-  mediaQuery: 'all and (min-width: 992px) and (max-width: 1199px)'
+  mediaQuery: 'all and (min-width: 1200px) and (max-width: 1199px)'
   weight: 3
   multipliers:
     - 1x
