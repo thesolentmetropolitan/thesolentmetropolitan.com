@@ -8,3 +8,20 @@
   justify-content: center;
 */
 }
+
+/* Desktop: constrain site content to 1200px */
+@media screen and (min-width: 1200px) {
+  /* Header constrained to 1200px */
+  #slnt-header {
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* Main content constrained to 1200px */
+  main[role="main"] {
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
