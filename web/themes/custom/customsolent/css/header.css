@@ -37,4 +37,8 @@
 
 
 
-
+@media (min-width: 1200px) {
+  header {
+    border-bottom: 1px steelblue solid;
+  }
+}

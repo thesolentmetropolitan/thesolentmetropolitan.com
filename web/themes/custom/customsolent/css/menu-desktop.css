@@ -1,4 +1,4 @@
-@media (min-width: 992px) {
+@media (min-width: 1200px) {
   #mast-head {
     height: 96px;
     display: block; /* https://stackoverflow.com/a/11126701/227926 */
@@ -30,7 +30,6 @@
 
   main {
     clear: both;
-    border-top: 1px steelblue solid;
     overflow: hidden;
     /* https://gemini.google.com/share/1bf7b89017b3 */
     background-color: white;
