@@ -559,8 +559,9 @@
        * @returns {boolean} true if mobile
        */
       function isMobile() {
-        const isMobileFlag = $(".main-menu-item-container li").css("display") !== "inline-block";
-        
+        const display = $(".main-menu-item-container li").css("display");
+        const isMobileFlag = display !== "inline-block" && display !== "flex";
+
         if (!isMobileFlag) {
           if (!$(".main-menu-item-container").hasClass("desktop")) {
             $(".main-menu-item-container").addClass("desktop");
@@ -572,7 +573,7 @@
           }
           $(".main-menu-item-container").removeClass("desktop");
         }
-        
+
         return isMobileFlag;
       }
 
