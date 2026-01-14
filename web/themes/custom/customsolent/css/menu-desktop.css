@@ -118,7 +118,12 @@
       background-color: #f0f0f0;
     }
 
-    /* Background color for main menu item when its submenu is expanded */
+    /* Background color for entire li when its submenu is expanded */
+    .main-menu-item-container > li:has(.sub-menu-container.visible-2l) {
+      background-color: #f0f0f0;
+    }
+
+    /* Background color for main menu button when its submenu is expanded */
     li:has(.sub-menu-container.visible-2l) > button.main_nav_link {
       background-color: #f0f0f0;
     }
