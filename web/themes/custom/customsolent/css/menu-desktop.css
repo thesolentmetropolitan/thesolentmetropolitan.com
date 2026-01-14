@@ -88,6 +88,19 @@
 
   /* Desktop 1200px: constrain submenu content and add full-width background */
   @media screen and (min-width: 1200px) {
+    /* Flex layout for menu items to enable column effect */
+    .main-menu-item-container {
+      height: 100%;
+      display: flex;
+      align-items: center;
+    }
+
+    .main-menu-item-container > li {
+      height: 100%;
+      display: flex;
+      align-items: center;
+    }
+
     /* Full-width background using pseudo-element */
     .sub-menu-container::before {
       content: '';
