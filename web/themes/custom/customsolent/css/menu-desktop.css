@@ -108,20 +108,6 @@
     /* Background color for main menu item when its submenu is expanded */
     li:has(.sub-menu-container.visible-2l) > button.main_nav_link {
       background-color: #f0f0f0;
-      position: relative;
-      z-index: 1;
-    }
-
-    /* Create vertical "column" - only visible after animation completes */
-    li:has(.sub-menu-container.visible-2l:not(.animated)) > button.main_nav_link::after {
-      content: '';
-      position: absolute;
-      top: 100%;
-      left: 0;
-      right: 0;
-      height: 50px;
-      background-color: #f0f0f0;
-      z-index: 0;
     }
 
     /* Constrain submenu content to 1200px */
