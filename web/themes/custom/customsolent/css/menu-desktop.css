@@ -112,8 +112,8 @@
       z-index: 1;
     }
 
-    /* Create vertical "column" from button down to submenu */
-    li:has(.sub-menu-container.visible-2l) > button.main_nav_link::after {
+    /* Create vertical "column" - only visible after animation completes */
+    li:has(.sub-menu-container.visible-2l:not(.animated)) > button.main_nav_link::after {
       content: '';
       position: absolute;
       top: 100%;
