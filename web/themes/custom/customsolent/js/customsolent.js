@@ -3,7 +3,7 @@
  * customsolent behaviors.
  */
 
-/* 11 Jan 2025 - with double-click fix */
+/* 15 Jan 2026 - no reveal animation when switching between submenus */
 (function ($, Drupal) {
   'use strict';
   Drupal.behaviors.customsolent = {
@@ -31,17 +31,45 @@
 
               const allSubMenuContainers = document.querySelectorAll('.main-menu-item-container > * .sub-menu-container');
 
+              // Check if any submenu is currently open (for switching detection)
+              const anySubmenuCurrentlyOpen = check_submenu_open();
+              // Check if the clicked submenu is the one that's open
+              const clickedSubmenuIsOpen = subMenuContainerForClickedButton.classList.contains("visible-2l");
+              // Determine if we're switching between submenus
+              const switchingFromOther = anySubmenuCurrentlyOpen && !clickedSubmenuIsOpen;
+
+              // If switching between submenus, disable nav animation at the start
+              const mainMenuNavContainer = get_mainMenuNavContainer();
+              if (switchingFromOther && !isMobile()) {
+                // Disable transition via inline style (overrides CSS)
+                mainMenuNavContainer.style.setProperty("transition", "none", "important");
+                // Force reflow
+                void mainMenuNavContainer.offsetHeight;
+              }
+
               allSubMenuContainers.forEach(aSubMenu => {
                 if (aSubMenu.isEqualNode(subMenuContainerForClickedButton)) {
                   toggleChevron(aSubMenu);
                   // Toggle the clicked submenu
-                  toggleSubmenu(aSubMenu);
+                  // If switching from another open submenu (not this one), show instantly
+                  toggleSubmenu(aSubMenu, switchingFromOther);
                 } else {
                   unselectChevron(aSubMenu);
                   // Hide all other submenus
-                  hideSubmenu(aSubMenu, true); // true = instant, no animation
+                  // When switching, skip the height reset (the new submenu will set the height)
+                  hideSubmenu(aSubMenu, true, switchingFromOther); // instant=true, skipHeightReset=switchingFromOther
                 }
               });
+
+              // Re-enable transitions after switching is complete
+              if (switchingFromOther && !isMobile()) {
+                // Force reflow to ensure all changes are applied
+                void mainMenuNavContainer.offsetHeight;
+                // Use setTimeout to ensure all style changes are committed before restoring transitions
+                setTimeout(() => {
+                  mainMenuNavContainer.style.removeProperty("transition");
+                }, 50);
+              }
             }
           });
         });
@@ -190,14 +218,17 @@
 
       /**
        * Toggle submenu between shown and hidden states
+       * @param {Element} aSubMenu - The submenu element
+       * @param {boolean} instantShow - If true, show without animation (used when switching between submenus)
        */
-      function toggleSubmenu(aSubMenu) {
+      function toggleSubmenu(aSubMenu, instantShow = false) {
         // Use the intended state, not the current class which changes immediately
         // Check if we're currently animating to show or already shown
         const isCurrentlyOrBecomingVisible = aSubMenu.classList.contains("visible-2l");
-        
+
         console.log('toggleSubmenu called:', {
           isCurrentlyOrBecomingVisible,
+          instantShow,
           currentClasses: aSubMenu.className,
           currentOpacity: aSubMenu.style.opacity,
           currentVisibility: aSubMenu.style.visibility,
@@ -205,25 +236,27 @@
         });
 
         if (isCurrentlyOrBecomingVisible) {
-          // It's visible or becoming visible, so hide it
+          // It's visible or becoming visible, so hide it (always animated)
           console.log('→ Calling hideSubmenu');
           hideSubmenu(aSubMenu);
         } else {
           // It's hidden or becoming hidden, so show it
-          console.log('→ Calling showSubmenu');
-          showSubmenu(aSubMenu);
+          console.log('→ Calling showSubmenu, instant:', instantShow);
+          showSubmenu(aSubMenu, instantShow);
         }
       }
 
       /**
-       * Show a submenu with animation
+       * Show a submenu with optional instant mode (no animation)
+       * @param {Element} aSubMenu - The submenu element
+       * @param {boolean} instant - If true, show without animation (used when switching between submenus)
        */
-      function showSubmenu(aSubMenu) {
-        console.log('showSubmenu START');
-        
+      function showSubmenu(aSubMenu, instant = false) {
+        console.log('showSubmenu START, instant:', instant);
+
         // IMPORTANT: Remove ALL existing listeners first to prevent conflicts
         removeTransitionListeners(aSubMenu);
-        
+
         // Clear any pending setTimeout from previous hide operations
         if (aSubMenu._hideTimeout) {
           console.log('Clearing pending hide timeout');
@@ -236,37 +269,66 @@
 
         if (!isMobile()) {
           // Desktop behavior
-          // Position the submenu
-          aSubMenu.style.setProperty("top", submenu_desktop_top_reveal);
-
-          // Start with z-index -1 during animation
-          aSubMenu.style.setProperty("z-index", "-1");
-
-          // Make visible first
-          aSubMenu.style.setProperty("visibility", "visible");
-
           const mainMenuNavContainer = get_mainMenuNavContainer();
 
-          // Start with opacity 0
-          aSubMenu.style.setProperty("opacity", "0");
+          if (instant) {
+            // Instant show: disable ALL CSS transitions using inline style
+            // (nav animation is already disabled at click handler level)
+            console.log('showSubmenu: Instant show (no animation)');
 
-          // Force reflow to ensure changes are applied
-          void aSubMenu.offsetHeight;
+            // Disable transitions via inline style (overrides all CSS transitions)
+            aSubMenu.style.setProperty("transition", "none", "important");
 
-          // Calculate and set new height, then fade in
-          // Use requestAnimationFrame to ensure the height change triggers transition
-          requestAnimationFrame(() => {
+            // Force reflow to apply transition disabling
+            void aSubMenu.offsetHeight;
+
+            // Position the submenu and set all properties immediately
+            aSubMenu.style.setProperty("top", submenu_desktop_top_reveal);
+            aSubMenu.style.setProperty("z-index", "0");
+            aSubMenu.style.setProperty("visibility", "visible");
+            aSubMenu.style.setProperty("opacity", "1");
+
+            // Set height immediately
             desktop_menu_drawer_show(aSubMenu, mainMenuNavContainer);
 
-            // Small delay to ensure height is set before opacity change
-            requestAnimationFrame(() => {
-              console.log('showSubmenu: Setting opacity to 1');
-              aSubMenu.style.setProperty("opacity", "1");
-            });
-          });
+            // Force reflow to ensure changes are applied before re-enabling transitions
+            void aSubMenu.offsetHeight;
 
-          // Add transition listener for cleanup - will set z-index to 0 when done
-          addTransitionListeners(aSubMenu, true);
+            // Re-enable CSS transitions after a short delay to ensure all changes are committed
+            setTimeout(() => {
+              aSubMenu.style.removeProperty("transition");
+            }, 50);
+          } else {
+            // Position the submenu
+            aSubMenu.style.setProperty("top", submenu_desktop_top_reveal);
+            // Animated show: fade in with transition
+            // Start with z-index -1 during animation
+            aSubMenu.style.setProperty("z-index", "-1");
+
+            // Make visible first
+            aSubMenu.style.setProperty("visibility", "visible");
+
+            // Start with opacity 0
+            aSubMenu.style.setProperty("opacity", "0");
+
+            // Force reflow to ensure changes are applied
+            void aSubMenu.offsetHeight;
+
+            // Calculate and set new height, then fade in
+            // Use requestAnimationFrame to ensure the height change triggers transition
+            requestAnimationFrame(() => {
+              desktop_menu_drawer_show(aSubMenu, mainMenuNavContainer);
+
+              // Small delay to ensure height is set before opacity change
+              requestAnimationFrame(() => {
+                console.log('showSubmenu: Setting opacity to 1');
+                aSubMenu.style.setProperty("opacity", "1");
+              });
+            });
+
+            // Add transition listener for cleanup - will set z-index to 0 when done
+            addTransitionListeners(aSubMenu, true);
+          }
         } else {
           // Mobile behavior - make submenu scrollable with calculated height
           const maxHeight = calculateMobileSubmenuHeight(aSubMenu);
@@ -359,13 +421,16 @@
 
       /**
        * Hide a submenu with optional instant mode (no animation)
+       * @param {Element} aSubMenu - The submenu element
+       * @param {boolean} instant - If true, hide without animation
+       * @param {boolean} skipHeightReset - If true, don't reset nav height (used when switching between submenus)
        */
-      function hideSubmenu(aSubMenu, instant = false) {
-        console.log('hideSubmenu START, instant:', instant);
-        
+      function hideSubmenu(aSubMenu, instant = false, skipHeightReset = false) {
+        console.log('hideSubmenu START, instant:', instant, 'skipHeightReset:', skipHeightReset);
+
         // IMPORTANT: Remove ALL existing listeners first to prevent conflicts
         removeTransitionListeners(aSubMenu);
-        
+
         // Clear any pending setTimeout from previous operations
         if (aSubMenu._hideTimeout) {
           console.log('Clearing pending hide timeout in hideSubmenu');
@@ -378,9 +443,11 @@
 
         if (!isMobile()) {
           // Desktop behavior
-          // Reset nav container height when hiding submenu
-          const mainMenuNavContainer = get_mainMenuNavContainer();
-          mainMenuNavContainer.style.setProperty("height", menu_bar_height);
+          // Reset nav container height when hiding submenu (unless switching)
+          if (!skipHeightReset) {
+            const mainMenuNavContainer = get_mainMenuNavContainer();
+            mainMenuNavContainer.style.setProperty("height", menu_bar_height);
+          }
 
           // Set z-index to -1 BEFORE starting fade out animation
           // This way the menu goes behind content during the fade
