@@ -1,0 +1,30 @@
+uuid: 24bd6c4a-bb9e-42ec-8e2b-f1d02d142550
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.composite_page.field_content_component
+    - node.type.composite_page
+  module:
+    - entity_reference_revisions
+    - user
+id: node.composite_page.default
+targetEntityType: node
+bundle: composite_page
+mode: default
+content:
+  field_content_component:
+    type: entity_reference_revisions_entity_view
+    label: hidden
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden: {  }
