@@ -98,6 +98,7 @@
       -webkit-transition-duration: .5s;
     }
 
+
     /* When switching between submenus: disable slide but keep fade */
     .main-menu-item-container:has(.sub-menu-container.visible-2l) .sub-menu-container.animated {
       transition-property: opacity;
