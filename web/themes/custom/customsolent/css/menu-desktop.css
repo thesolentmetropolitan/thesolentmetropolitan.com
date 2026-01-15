@@ -39,7 +39,7 @@
   /* Submenu text fade transition for switching */
   .sub-menu-container .first-link,
   .sub-menu-container .sub-menu-item-container a {
-    transition: opacity 0.3s ease;
+    transition: opacity 0.18s ease;
   }
 
   .sub-menu-container.text-hidden .first-link,
