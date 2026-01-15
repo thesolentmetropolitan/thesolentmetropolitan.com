@@ -98,6 +98,12 @@
       -webkit-transition-duration: .5s;
     }
 
+    /* Disable transition when switching between submenus (when another is already visible) */
+    .main-menu-item-container:has(.sub-menu-container.visible-2l) .sub-menu-container.animated {
+      transition-duration: 0s;
+      -webkit-transition-duration: 0s;
+    }
+
     /* Visible position - slides down to reveal */
     .sub-menu-container.visible-2l {
       top: 90px !important;
