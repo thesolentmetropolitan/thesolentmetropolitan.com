@@ -39,22 +39,52 @@
               const switchingFromOther = anySubmenuCurrentlyOpen && !clickedSubmenuIsOpen;
 
               // When switching between submenus:
-              // - Submenu content switches instantly (no fade animation)
+              // - Submenu text fades out, then new text fades in
               // - Nav height animates smoothly (so main position animates)
 
-              allSubMenuContainers.forEach(aSubMenu => {
-                if (aSubMenu.isEqualNode(subMenuContainerForClickedButton)) {
-                  toggleChevron(aSubMenu);
-                  // Toggle the clicked submenu
-                  // If switching from another open submenu (not this one), show instantly
-                  toggleSubmenu(aSubMenu, switchingFromOther);
-                } else {
-                  unselectChevron(aSubMenu);
-                  // Hide all other submenus
-                  // When switching, skip the height reset (the new submenu will set the height)
-                  hideSubmenu(aSubMenu, true, switchingFromOther); // instant=true, skipHeightReset=switchingFromOther
+              if (switchingFromOther && !isMobile()) {
+                // Find the currently open submenu
+                const currentlyOpenSubmenu = document.querySelector('.sub-menu-container.visible-2l');
+
+                if (currentlyOpenSubmenu) {
+                  // Step 1: Pre-hide new submenu text (before any animation starts)
+                  subMenuContainerForClickedButton.classList.add('text-hidden');
+                  // Force browser to apply the class
+                  void subMenuContainerForClickedButton.offsetHeight;
+
+                  // Step 2: Fade out old submenu text
+                  currentlyOpenSubmenu.classList.add('text-hidden');
+
+                  // Step 3: After text fades out completely, switch submenus
+                  setTimeout(() => {
+                    allSubMenuContainers.forEach(aSubMenu => {
+                      if (aSubMenu.isEqualNode(subMenuContainerForClickedButton)) {
+                        toggleChevron(aSubMenu);
+                        toggleSubmenu(aSubMenu, true); // instant show (text already hidden)
+                      } else {
+                        unselectChevron(aSubMenu);
+                        hideSubmenu(aSubMenu, true, true); // instant hide, skip height reset
+                      }
+                    });
+
+                    // Step 4: Fade in new submenu text after a brief moment
+                    setTimeout(() => {
+                      subMenuContainerForClickedButton.classList.remove('text-hidden');
+                    }, 100);
+                  }, 300); // Match CSS transition duration (0.3s)
                 }
-              });
+              } else {
+                // Normal open/close (not switching)
+                allSubMenuContainers.forEach(aSubMenu => {
+                  if (aSubMenu.isEqualNode(subMenuContainerForClickedButton)) {
+                    toggleChevron(aSubMenu);
+                    toggleSubmenu(aSubMenu, false);
+                  } else {
+                    unselectChevron(aSubMenu);
+                    hideSubmenu(aSubMenu, true, false);
+                  }
+                });
+              }
             }
           });
         });
@@ -425,6 +455,7 @@
 
         aSubMenu.classList.add("hidden-2l");
         aSubMenu.classList.remove("visible-2l");
+        aSubMenu.classList.remove("text-hidden"); // Clean up text fade class
 
         if (!isMobile()) {
           // Desktop behavior
