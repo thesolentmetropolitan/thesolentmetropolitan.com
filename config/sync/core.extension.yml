@@ -53,6 +53,7 @@ module:
   system: 0
   taxonomy: 0
   text: 0
+  token: 0
   toolbar: 0
   twig_tweak: 0
   update: 0
@@ -61,6 +62,7 @@ module:
   views_ui: 0
   viewsreference: 0
   webform: 0
+  pathauto: 1
   views: 10
   paragraphs: 11
   standard: 1000
