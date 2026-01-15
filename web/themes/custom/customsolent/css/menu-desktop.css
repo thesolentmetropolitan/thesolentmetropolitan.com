@@ -98,22 +98,6 @@
       -webkit-transition-duration: .5s;
     }
 
-
-    /* When switching between submenus: disable slide but keep fade */
-    .main-menu-item-container:has(.sub-menu-container.visible-2l) .sub-menu-container.animated {
-      transition-property: opacity;
-      -webkit-transition-property: opacity;
-      transition-duration: .5s;
-      -webkit-transition-duration: .5s;
-    }
-
-    /* Position submenus instantly when switching (no slide) */
-    .main-menu-item-container:has(.sub-menu-container.visible-2l) .sub-menu-container.visible-2l,
-    .main-menu-item-container:has(.sub-menu-container.visible-2l) .sub-menu-container.hidden-2l {
-      transition-property: opacity;
-      -webkit-transition-property: opacity;
-    }
-
     /* Visible position - slides down to reveal */
     .sub-menu-container.visible-2l {
       top: 90px !important;
