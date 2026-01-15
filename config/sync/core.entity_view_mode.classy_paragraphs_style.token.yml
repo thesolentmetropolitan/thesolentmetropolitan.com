@@ -1,0 +1,11 @@
+uuid: ca25f429-a449-41f5-866d-6a13441f644b
+langcode: en
+status: true
+dependencies:
+  module:
+    - classy_paragraphs
+id: classy_paragraphs_style.token
+label: Token
+description: null
+targetEntityType: classy_paragraphs_style
+cache: true
