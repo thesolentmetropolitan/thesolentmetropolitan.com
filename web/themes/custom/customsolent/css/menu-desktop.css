@@ -36,6 +36,17 @@
     opacity: 1.0;
   }
 
+  /* Submenu text fade transition for switching */
+  .sub-menu-container .first-link,
+  .sub-menu-container .sub-menu-item-container a {
+    transition: opacity 0.3s ease;
+  }
+
+  .sub-menu-container.text-hidden .first-link,
+  .sub-menu-container.text-hidden .sub-menu-item-container a {
+    opacity: 0;
+  }
+
   /* Nav container height animation */
   nav[role=navigation].animation {
     transition-property: height;
