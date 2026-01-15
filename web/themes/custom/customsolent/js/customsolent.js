@@ -38,14 +38,9 @@
               // Determine if we're switching between submenus
               const switchingFromOther = anySubmenuCurrentlyOpen && !clickedSubmenuIsOpen;
 
-              // If switching between submenus, disable nav animation at the start
-              const mainMenuNavContainer = get_mainMenuNavContainer();
-              if (switchingFromOther && !isMobile()) {
-                // Disable transition via inline style (overrides CSS)
-                mainMenuNavContainer.style.setProperty("transition", "none", "important");
-                // Force reflow
-                void mainMenuNavContainer.offsetHeight;
-              }
+              // When switching between submenus:
+              // - Submenu content switches instantly (no fade animation)
+              // - Nav height animates smoothly (so main position animates)
 
               allSubMenuContainers.forEach(aSubMenu => {
                 if (aSubMenu.isEqualNode(subMenuContainerForClickedButton)) {
@@ -60,16 +55,6 @@
                   hideSubmenu(aSubMenu, true, switchingFromOther); // instant=true, skipHeightReset=switchingFromOther
                 }
               });
-
-              // Re-enable transitions after switching is complete
-              if (switchingFromOther && !isMobile()) {
-                // Force reflow to ensure all changes are applied
-                void mainMenuNavContainer.offsetHeight;
-                // Use setTimeout to ensure all style changes are committed before restoring transitions
-                setTimeout(() => {
-                  mainMenuNavContainer.style.removeProperty("transition");
-                }, 50);
-              }
             }
           });
         });
