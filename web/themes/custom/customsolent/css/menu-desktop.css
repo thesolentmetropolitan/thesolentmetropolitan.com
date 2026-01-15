@@ -51,10 +51,10 @@
     /*height: 96px;*/
   }  
 
-  /* Submenu opacity fade animation */
+  /* Submenu opacity and slide animation */
   .sub-menu-container.animated {
-    transition-property: opacity;
-    -webkit-transition-property: opacity;
+    transition-property: opacity, top;
+    -webkit-transition-property: opacity, top;
     transition-timing-function: ease;
     -webkit-transition-timing-function: ease;
     transition-duration: .5s;
@@ -142,8 +142,13 @@
       display: block;
     }
 
-    /* Position submenu to close gap */
-    .sub-menu-container {
+    /* Hidden position - under the main menu */
+    .sub-menu-container.hidden-2l {
+      top: 0;
+    }
+
+    /* Visible position - slides down to reveal */
+    .sub-menu-container.visible-2l {
       top: 90px;
     }
   }
@@ -154,8 +159,6 @@
 
   .sub-menu-container.hidden-2l {
     z-index: -1;
-    /* submenu_desktop_hide_position_top */
-    /*top: -60px; */
   }
 
   .main-menu-wrap {
