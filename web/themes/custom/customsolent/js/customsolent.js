@@ -70,8 +70,8 @@
                     // Step 4: Fade in new submenu text after a brief moment
                     setTimeout(() => {
                       subMenuContainerForClickedButton.classList.remove('text-hidden');
-                    }, 100);
-                  }, 300); // Match CSS transition duration (0.3s)
+                    }, 50);
+                  }, 180); // Match CSS transition duration (0.18s)
                 }
               } else {
                 // Normal open/close (not switching)
