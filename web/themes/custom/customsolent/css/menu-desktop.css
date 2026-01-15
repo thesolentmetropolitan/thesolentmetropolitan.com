@@ -86,6 +86,29 @@
     position: absolute;
   }
 
+  /* Desktop: Apply transition to submenu for slide animation */
+  @media screen and (min-width: 992px) {
+    .sub-menu-container {
+      top: -50px; /* Default hidden position */
+      transition-property: opacity, top;
+      -webkit-transition-property: opacity, top;
+      transition-timing-function: ease;
+      -webkit-transition-timing-function: ease;
+      transition-duration: .5s;
+      -webkit-transition-duration: .5s;
+    }
+
+    /* Visible position - slides down to reveal */
+    .sub-menu-container.visible-2l {
+      top: 90px !important;
+    }
+
+    /* Hidden position - slides up above the menu bar */
+    .sub-menu-container.hidden-2l {
+      top: -50px !important;
+    }
+  }
+
   /* Desktop 1200px: constrain submenu content and add full-width background */
   @media screen and (min-width: 1200px) {
     /* Flex layout for menu items to enable column effect */
@@ -142,23 +165,17 @@
       display: block;
     }
 
-    /* Hidden position - under the main menu */
-    .sub-menu-container.hidden-2l {
-      top: 0;
-    }
-
     /* Visible position - slides down to reveal */
     .sub-menu-container.visible-2l {
       top: 90px;
+      z-index: 100;
     }
-  }
 
-  .sub-menu-container.visible-2l {
-    z-index: 100;
-  }
-
-  .sub-menu-container.hidden-2l {
-    z-index: -1;
+    /* Hidden position - slides up above the menu bar */
+    .sub-menu-container.hidden-2l {
+      top: -50px;
+      z-index: -1;
+    }
   }
 
   .main-menu-wrap {
