@@ -141,7 +141,7 @@
        */
       function initializeMenu() {
         currentMode = isMobile() ? 'mobile' : 'desktop';
-        
+
         if (currentMode === 'desktop') {
           desktop_menu_initialise_container_height();
           desktop_menu_hide_all_submenus();
@@ -648,6 +648,11 @@
         return 100;
       }
 
+      /**
+       * Show the menu drawer by setting nav height
+       * @param {Element} aSubMenu - The submenu element
+       * @param {Element} mainMenuNavContainer - The nav container element
+       */
       function desktop_menu_drawer_show(aSubMenu, mainMenuNavContainer) {
         const offsetHeight = aSubMenu.offsetHeight;
         const desktop_offset_height = get_desktop_offset_height();
