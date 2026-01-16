@@ -251,7 +251,12 @@ foreach ($menus as $menu_item) {
     output("        field_heading_align: 'left'");
     output("        field_heading_size: 'h2'");
     output("        field_color_text: 'black'");
-    output("    - Paragraph 2: text");
+    output("    - Paragraph 2: heading");
+    output("        field_heading: '$title events, organisations and articles to appear here'");
+    output("        field_heading_align: 'left'");
+    output("        field_heading_size: 'h2'");
+    output("        field_color_text: 'black'");
+    output("    - Paragraph 3: text");
     output("        description: '$description'");
     $created++;
     continue;
@@ -281,6 +286,19 @@ foreach ($menus as $menu_item) {
     $heading_paragraph = Paragraph::create($heading_data);
     $heading_paragraph->save();
 
+    // Create the second heading paragraph (placeholder for events/orgs/articles)
+    $placeholder_heading_data = [
+      'type' => 'heading',
+      'field_heading' => "$title events, organisations and articles to appear here",
+      'field_heading_align' => 'left',
+      'field_heading_size' => 'h2',
+    ];
+    if ($black_term) {
+      $placeholder_heading_data['field_color_text'] = ['target_id' => $black_term->id()];
+    }
+    $placeholder_heading_paragraph = Paragraph::create($placeholder_heading_data);
+    $placeholder_heading_paragraph->save();
+
     // Create the text paragraph with description
     $description = get_description($title, $title_descriptions);
     $text_paragraph = Paragraph::create([
@@ -301,6 +319,10 @@ foreach ($menus as $menu_item) {
         [
           'target_id' => $heading_paragraph->id(),
           'target_revision_id' => $heading_paragraph->getRevisionId(),
+        ],
+        [
+          'target_id' => $placeholder_heading_paragraph->id(),
+          'target_revision_id' => $placeholder_heading_paragraph->getRevisionId(),
         ],
         [
           'target_id' => $text_paragraph->id(),
