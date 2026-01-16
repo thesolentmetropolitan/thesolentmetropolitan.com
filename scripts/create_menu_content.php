@@ -254,7 +254,7 @@ foreach ($menus as $menu_item) {
     output("    - Paragraph 2: heading");
     output("        field_heading: '$title events, organisations and articles to appear here'");
     output("        field_heading_align: 'left'");
-    output("        field_heading_size: 'h2'");
+    output("        field_heading_size: 'h3'");
     output("        field_color_text: 'black'");
     output("    - Paragraph 3: text");
     output("        description: '$description'");
@@ -291,7 +291,7 @@ foreach ($menus as $menu_item) {
       'type' => 'heading',
       'field_heading' => "$title events, organisations and articles to appear here",
       'field_heading_align' => 'left',
-      'field_heading_size' => 'h2',
+      'field_heading_size' => 'h3',
     ];
     if ($black_term) {
       $placeholder_heading_data['field_color_text'] = ['target_id' => $black_term->id()];
