@@ -124,21 +124,41 @@ foreach ($menus as $menu_item) {
   output("[$count] Processing: $title (path: $path)");
 
   if ($dry_run) {
-    output("  Would create node with:");
+    output("  Would create composite_page node with:");
     output("    - Title: $title");
     output("    - Path: $path");
-    output("    - Paragraph 1: heading with text '$title'");
-    output("    - Paragraph 2: text with text '$title'");
+    output("    - Paragraph 1: heading");
+    output("        field_heading: '$title'");
+    output("        field_heading_align: 'left'");
+    output("        field_heading_size: 'h2'");
+    output("        field_color_text: 'black'");
+    output("    - Paragraph 2: text with '$title'");
     $created++;
     continue;
   }
 
   try {
+    // Load the "black" color taxonomy term
+    $color_terms = \Drupal::entityTypeManager()
+      ->getStorage('taxonomy_term')
+      ->loadByProperties(['vid' => 'color', 'name' => 'black']);
+    $black_term = reset($color_terms);
+
+    if (!$black_term) {
+      output("  WARNING: Could not find 'black' color term, skipping color field");
+    }
+
     // Create the heading paragraph
-    $heading_paragraph = Paragraph::create([
+    $heading_data = [
       'type' => 'heading',
       'field_heading' => $title,
-    ]);
+      'field_heading_align' => 'left',
+      'field_heading_size' => 'h2',
+    ];
+    if ($black_term) {
+      $heading_data['field_color_text'] = ['target_id' => $black_term->id()];
+    }
+    $heading_paragraph = Paragraph::create($heading_data);
     $heading_paragraph->save();
 
     // Create the text paragraph
@@ -151,9 +171,9 @@ foreach ($menus as $menu_item) {
     ]);
     $text_paragraph->save();
 
-    // Create the node (using landing_page content type)
+    // Create the node (using composite_page content type)
     $node = Node::create([
-      'type' => 'landing_page',
+      'type' => 'composite_page',
       'title' => $title,
       'status' => 1, // Published
       'field_content_component' => [
