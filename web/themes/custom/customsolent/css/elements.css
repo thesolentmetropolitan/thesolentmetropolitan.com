@@ -20,3 +20,7 @@ main, .main-container {
   display: flex;
 }
   */
+
+.sub-menu-item-container a {
+  text-decoration: none;
+}
