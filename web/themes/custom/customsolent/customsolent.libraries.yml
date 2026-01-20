@@ -8,13 +8,8 @@ global:
       css/fonts.css: {}
     component:
       css/block.css: {}
-      css/paragraph-section-1-column.css: {}
-      css/paragraph-section-2-column.css: {}
-      css/paragraph-section-3-column.css: {}
-      css/paragraph-enclosure.css: {}
-      css/paragraph-text.css: {}
-      css/paragraph-image.css: {}
       css/breadcrumb.css: {}
+      css/buttons.css: {}
       css/cta.css: {}
       css/field.css: {}
       css/footer-base.css: {}
@@ -29,12 +24,17 @@ global:
       css/node.css: {}
       css/node-view-mode-full-news-center-group-item.css: {}
       css/node-view-mode-teaser-news-center-group-item.css: {}
+      css/page.css: {}
+      css/paragraph-enclosure.css: {}
+      css/paragraph-image.css: {}
+      css/paragraph-section-1-column.css: {}
+      css/paragraph-section-2-column.css: {}
+      css/paragraph-section-3-column.css: {}
+      css/paragraph-text.css: {}
       css/search.css: {}
       css/sidebar.css: {}
       css/table.css: {}
       css/tabs.css: {}
-      css/buttons.css: {}
-      css/page.css: {}
     layout:
       css/layout.css: {}
     theme:
