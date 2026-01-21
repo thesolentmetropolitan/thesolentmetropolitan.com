@@ -1,7 +1,8 @@
-@media (min-width: 1200px) {
+@media screen and (min-width: 1200px) {
   #mast-head {
     height: 96px;
-    display: block; /* https://stackoverflow.com/a/11126701/227926 */
+    display: block;
+    /* https://stackoverflow.com/a/11126701/227926 */
   }
 
   #slnt-logo {
@@ -21,7 +22,8 @@
 
   #slnt-header {
     width: 100%;
-    height: 96px; /* submenu_cover_height related: main_menu_section_height and submenu_desktop_hide_position_top */
+    height: 96px;
+    /* submenu_cover_height related: main_menu_section_height and submenu_desktop_hide_position_top */
 
     opacity: 1.0;
     background-color: white;
@@ -60,7 +62,7 @@
   nav[role=navigation] {
     /* height: 90px; */
     /*height: 96px;*/
-  }  
+  }
 
   /* Submenu opacity and slide animation */
   .sub-menu-container.animated {
@@ -79,7 +81,8 @@
 
   .main-menu-item-container {
     display: inline-block;
-    /*column-count: 5;*/ /* mobile screen detection relies on this in customsolent.js */
+    /*column-count: 5;*/
+    /* mobile screen detection relies on this in customsolent.js */
     margin-top: 0px;
     margin-bottom: 0px;
   }
@@ -98,110 +101,112 @@
   }
 
   /* Desktop: Apply transition to submenu for slide animation */
-  @media screen and (min-width: 992px) {
-    .sub-menu-container {
-      top: -50px; /* Default hidden position */
-      transition-property: opacity, top;
-      -webkit-transition-property: opacity, top;
-      transition-timing-function: ease;
-      -webkit-transition-timing-function: ease;
-      transition-duration: .5s;
-      -webkit-transition-duration: .5s;
-    }
 
-    /* Visible position - slides down to reveal */
-    .sub-menu-container.visible-2l {
-      top: 90px !important;
-    }
-
-    /* Hidden position - slides up above the menu bar */
-    .sub-menu-container.hidden-2l {
-      top: -50px !important;
-    }
+  .sub-menu-container {
+    top: -50px;
+    /* Default hidden position */
+    transition-property: opacity, top;
+    -webkit-transition-property: opacity, top;
+    transition-timing-function: ease;
+    -webkit-transition-timing-function: ease;
+    transition-duration: .5s;
+    -webkit-transition-duration: .5s;
   }
 
+  /* Visible position - slides down to reveal */
+  .sub-menu-container.visible-2l {
+    top: 90px !important;
+  }
+
+  /* Hidden position - slides up above the menu bar */
+  .sub-menu-container.hidden-2l {
+    top: -50px !important;
+  }
+
+
   /* Desktop 1200px: constrain submenu content and add full-width background */
-  @media screen and (min-width: 1200px) {
-    /* Flex layout for menu items to enable column effect */
-    .main-menu-item-container {
-      height: 100%;
-      display: flex;
-      align-items: center;
-    }
 
-    .main-menu-item-container > li {
-      height: 100%;
-      display: flex;
-      align-items: center;
-    }
+  /* Flex layout for menu items to enable column effect */
+  .main-menu-item-container {
+    height: 100%;
+    display: flex;
+    align-items: center;
+  }
 
-    /* Full-width background using pseudo-element */
-    .sub-menu-container::before {
-      content: '';
-      position: absolute;
-      width: 100vw;
-      height: 100%;
-      left: 50%;
-      top: 0;
-      transform: translateX(-50%);
-      z-index: -1;
-    }
+  .main-menu-item-container>li {
+    height: 100%;
+    display: flex;
+    align-items: center;
+  }
 
-    /* Background color when submenu is visible */
-    .sub-menu-container.visible-2l::before {
-      background-color: #f0f0f0;
-    }
+  /* Full-width background using pseudo-element */
+  .sub-menu-container::before {
+    content: '';
+    position: absolute;
+    width: 100vw;
+    height: 100%;
+    left: 50%;
+    top: 0;
+    transform: translateX(-50%);
+    z-index: -1;
+  }
 
-    /* Background color for entire li when its submenu is expanded */
-    .main-menu-item-container > li:has(.sub-menu-container.visible-2l) {
-      background-color: #f0f0f0;
-    }
+  /* Background color when submenu is visible */
+  .sub-menu-container.visible-2l::before {
+    background-color: #f0f0f0;
+  }
 
-    /* Background color for main menu button when its submenu is expanded */
-    li:has(.sub-menu-container.visible-2l) > button.main_nav_link {
-      background-color: #f0f0f0;
-    }
+  /* Background color for entire li when its submenu is expanded */
+  .main-menu-item-container>li:has(.sub-menu-container.visible-2l) {
+    background-color: #f0f0f0;
+  }
 
-    /* Constrain submenu content to 1200px */
-    .sub-menu-item-container {
-      max-width: 1200px;
-      margin-left: auto;
-      margin-right: auto;
-    }
+  /* Background color for main menu button when its submenu is expanded */
+  li:has(.sub-menu-container.visible-2l)>button.main_nav_link {
+    background-color: #f0f0f0;
+  }
 
-    .sub-menu-container > .first-link {
-      max-width: 1200px;
-      margin-left: auto;
-      margin-right: auto;
-      display: block;
-    }
+  /* Constrain submenu content to 1200px */
+  .sub-menu-item-container {
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+  }
 
-    /* Visible position - slides down to reveal */
-    .sub-menu-container.visible-2l {
-      top: 90px;
-      z-index: 100;
-    }
+  .sub-menu-container>.first-link {
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+  }
 
-    /* Hidden position - slides up above the menu bar */
-    .sub-menu-container.hidden-2l {
-      top: -50px;
-      z-index: -1;
-    }
+  /* Visible position - slides down to reveal */
+  .sub-menu-container.visible-2l {
+    top: 90px;
+    z-index: 100;
+  }
+
+  /* Hidden position - slides up above the menu bar */
+  .sub-menu-container.hidden-2l {
+    top: -50px;
+    z-index: -1;
   }
 
   .main-menu-wrap {
     align-items: center;
     display: flex;
     height: 96px;
-    /*height: 90px;*/ /* main_menu_section_height - related: submenu_cover_height and submenu_desktop_hide_position_top*/
+    /*height: 90px;*/
+    /* main_menu_section_height - related: submenu_cover_height and submenu_desktop_hide_position_top*/
   }
 
-.sub-menu-container {
-  z-index: -1;  /* Default for all submenus */
-}
+  .sub-menu-container {
+    z-index: -1;
+    /* Default for all submenus */
+  }
 
-.sub-menu-container.hidden-2l {
-  z-index: -1;  /* Explicit for hidden */
-}
-
+  .sub-menu-container.hidden-2l {
+    z-index: -1;
+    /* Explicit for hidden */
+  }
 }
