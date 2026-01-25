@@ -79,20 +79,17 @@
 											{% endif %}
 
 											{% if linkAttributes.hasClass('menu-link-attributes-search') %}
-												<li id="id-search-menu-item" {{ attributes }} >
-													<div class="search-menu-item" id="search-in-menu">
-														<div class="search-menu-item-title">
-														<span>
-															{{ link.title_translate }}
-														</span>
-														</div>
-														<div class="search-menu-item-icon">
-														<svg class="icon" aria-hidden="true" role="presentation" focusable="false"> 
+												<div class="main-menu-item-wrapper">
+													<button class="main_nav_link" id="search-in-menu">
+														<svg class="search-menu-icon" aria-hidden="true" role="presentation" focusable="false">
 															<use xlink:href="/themes/custom/customsolent/icons/search-magnifying-glass.svg"></use>
 														</svg>
-														</div>
-													</div>
-												</li>
+														<span>{{ item.title }}</span>
+														<svg role="presentation" class="lnk__icon navigation__link__down-icon" focusable="false">
+															<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#tvip-down-triangle" href="#tvip-down-triangle" role="presentation"></use>
+														</svg>
+													</button>
+												</div>
 											{% else %}
 												<div class="main-menu-item-wrapper">
 													{{ link(item.title, item.url, { 'class': ['main_nav_link'] }) }}
