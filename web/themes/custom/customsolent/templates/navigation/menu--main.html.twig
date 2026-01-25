@@ -66,19 +66,19 @@
 												{{ menus.menu_links(item.below, attributes, menu_level + 1) }}
 											</div>
 										{% else %}
-										{# not quite working yet #}
-											{% set linkAttributes = link['attributes'] %}
-											{% if ( link['url'] is defined and link['url'] is not empty ) %}
-											{% set tag = "a" %}
-											{% else  %}
-											{% set tag = 'span' %}
-											{% set linkAttributes = linkAttributes.addClass('tb-megamenu-no-link').setAttribute('tabindex', '0') %}
-											{% if submenu is empty %}
-												{% set linkAttributes = linkAttributes.addClass('tb-megamenu-no-submenu') %}
-											{% endif %}
+										{# linkAttributes derived from item.url #}
+											{% set linkAttributes = create_attribute(item.url.getOption('attributes') ?? {}) %}
+											  {% if ( link['url'] is defined and link['url'] is not empty ) %}
+											    {% set tag = "a" %}
+											  {% else  %}
+											    {% set tag = 'span' %}
+											    {% set linkAttributes = linkAttributes.addClass('tb-megamenu-no-link').setAttribute('tabindex', '0') %}
+											    {% if submenu is empty %}
+												  {% set linkAttributes = linkAttributes.addClass('tb-megamenu-no-submenu') %}
+											    {% endif %}
 											{% endif %}
 
-											{% if link['attributes'].hasClass('menu-link-attributes-search') %}
+											{% if linkAttributes.hasClass('menu-link-attributes-search') %}
 												<li id="id-search-menu-item" {{ attributes }} >
 													<div class="search-menu-item" id="search-in-menu">
 														<div class="search-menu-item-title">
