@@ -59,18 +59,19 @@ button.main_nav_link {
   */
 
 
-button.main_nav_link {
+button.main_nav_link,
+a.main_nav_link {
   /*
         display: -webkit-flex;
         display: flex;
         display: -ms-flex;
         -webkit-flex-basis: auto;
         flex-basis: auto;
-        
+
         -webkit-align-items: center;
         align-items: center;
         */
-        
+
 background-color: white;
 
         	background: none;
@@ -79,7 +80,8 @@ background-color: white;
         height: 100%;
         padding: 0 6px;
         cursor: pointer;
-        
+        text-decoration: none;
+        color: inherit;
 
             -webkit-tap-highlight-color: transparent;
     -webkit-touch-callout: none;
@@ -88,15 +90,17 @@ background-color: white;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    
+
 }
 
-button.main_nav_link:focus {
+button.main_nav_link:focus,
+a.main_nav_link:focus {
     outline: none !important;
 }
 
 
-button.main_nav_link {
+button.main_nav_link,
+a.main_nav_link {
   font-family: "Noto Sans";
   font-size: 1em;
   display: flex;

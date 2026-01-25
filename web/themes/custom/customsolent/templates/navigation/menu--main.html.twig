@@ -94,7 +94,9 @@
 													</div>
 												</li>
 											{% else %}
-												{{ link(item.title, item.url) }}
+												<div class="main-menu-item-wrapper">
+													{{ link(item.title, item.url, { 'class': ['main_nav_link'] }) }}
+												</div>
 											{% endif %}
 										{% endif %}
 									{% else %}
