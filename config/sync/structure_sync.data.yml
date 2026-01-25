@@ -1176,6 +1176,23 @@ menus:
     langcode: en
     uuid: ca86fef9-5848-430f-b06c-af844b3b2f03
     options: {  }
+  -
+    menu_name: main
+    title: Search
+    parent: null
+    uri: 'internal:/'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: 0
+    langcode: en
+    uuid: b2e7f480-1788-4484-a923-fa3aba0283ee
+    options:
+      attributes:
+        class:
+          - menu-link-attributes-search
+        target: _self
 taxonomies:
   color:
     -

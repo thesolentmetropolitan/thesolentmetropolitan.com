@@ -782,6 +782,23 @@
           aMenuButton.classList.remove("navigation__link--selected");
         }
       }
+
+      const searchMenuOption = document.querySelector('#search-in-menu');
+      const searchForm = document.querySelector('#search-form-container');
+      searchMenuOption.addEventListener('click', function() {
+        if (searchForm.classList.contains('closed')) {
+          searchForm.classList.remove('closed');
+        }
+        else {
+          searchForm.classList.add('closed');
+        }
+      });
+
+      function closeSearchForm(){
+        if ($("#mobilemenubutton").css("display") == "block" ){
+          searchForm.classList.add('closed');
+        }
+      }
     }
   };
 

@@ -26,7 +26,7 @@
         "drupal/fitvids": "^2.1",
         "drupal/gin": "^5.0",
         "drupal/media_responsive_thumbnail": "^2.0",
-        "drupal/menu_link_attributes": "^1.5",
+        "drupal/menu_link_attributes": "^1.6",
         "drupal/page_specific_class": "^2.0",
         "drupal/paragraphs": "^1.19",
         "drupal/pathauto": "^1.14",

@@ -34,6 +34,9 @@
 {{ menus.menu_links(items, attributes, 0) }}
 
 
+
+
+
 {% macro menu_links(items, attributes, menu_level) %}
 	{% import _self as menus %}
 	{% if items %}
@@ -50,29 +53,57 @@
 						{% endif %}
 						  {% for item in item_leaves %}
 
-							<li{{item.attributes}}>
-								{% if menu_level == 0 %}
-									{% if item.below %}
-										<div class="main-menu-item-wrapper">
-											<button class="main_nav_link ">
-											<span>{{ item.title }}</span>
-												<svg role="presentation" class="lnk__icon navigation__link__down-icon" focusable="false">
-													<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#tvip-down-triangle" href="#tvip-down-triangle" role="presentation"></use>
-												</svg>
-											</button>
-											{{ menus.menu_links(item.below, attributes, menu_level + 1) }}
-										</div>
+								<li{{item.attributes}}>
+									{% if menu_level == 0 %}
+										{% if item.below %}
+											<div class="main-menu-item-wrapper">
+												<button class="main_nav_link ">
+												<span>{{ item.title }}</span>
+													<svg role="presentation" class="lnk__icon navigation__link__down-icon" focusable="false">
+														<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#tvip-down-triangle" href="#tvip-down-triangle" role="presentation"></use>
+													</svg>
+												</button>
+												{{ menus.menu_links(item.below, attributes, menu_level + 1) }}
+											</div>
+										{% else %}
+										{# not quite working yet #}
+											{% set linkAttributes = link['attributes'] %}
+											{% if ( link['url'] is defined and link['url'] is not empty ) %}
+											{% set tag = "a" %}
+											{% else  %}
+											{% set tag = 'span' %}
+											{% set linkAttributes = linkAttributes.addClass('tb-megamenu-no-link').setAttribute('tabindex', '0') %}
+											{% if submenu is empty %}
+												{% set linkAttributes = linkAttributes.addClass('tb-megamenu-no-submenu') %}
+											{% endif %}
+											{% endif %}
+
+											{% if link['attributes'].hasClass('menu-link-attributes-search') %}
+												<li id="id-search-menu-item" {{ attributes }} >
+													<div class="search-menu-item" id="search-in-menu">
+														<div class="search-menu-item-title">
+														<span>
+															{{ link.title_translate }}
+														</span>
+														</div>
+														<div class="search-menu-item-icon">
+														<svg class="icon" aria-hidden="true" role="presentation" focusable="false"> 
+															<use xlink:href="/themes/custom/customsolent/icons/search-magnifying-glass.svg"></use>
+														</svg>
+														</div>
+													</div>
+												</li>
+											{% else %}
+												{{ link(item.title, item.url) }}
+											{% endif %}
+										{% endif %}
 									{% else %}
 										{{ link(item.title, item.url) }}
-
+										{% if item.below %}
+											{{ menus.menu_links(item.below, attributes, menu_level + 1) }}
+										{% endif %}
 									{% endif %}
-								{% else %}
-									{{ link(item.title, item.url) }}
-									{% if item.below %}
-										{{ menus.menu_links(item.below, attributes, menu_level + 1) }}
-									{% endif %}
-								{% endif %}
-							</li>
+								</li>
 						{% endfor %}
 						{% if menu_level == 0 %}
 						</ul>
