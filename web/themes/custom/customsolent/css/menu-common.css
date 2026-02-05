@@ -30,6 +30,9 @@
     height: 1em;
     margin-bottom: 0;
     transition: transform .4s ease;
+    display: block;
+    flex-shrink: 0;
+    overflow: visible;
 }
 
 /*
