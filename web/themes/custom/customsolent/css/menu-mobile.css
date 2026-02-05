@@ -234,6 +234,13 @@
     padding-left: calc(6px + 1.2em);
   }
 
+  /* Move magnifying glass to the right of "Search" text on mobile */
+  .search-menu-icon {
+    order: 1;
+    margin-right: 0;
+    margin-left: 0.3em;
+  }
+
 }
 
 /*
