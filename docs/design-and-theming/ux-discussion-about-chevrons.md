@@ -164,4 +164,90 @@ Thanks Claude I'll stick with desktop as is as you sugggested initially and left
 ⏺ You're welcome! Glad it looks right. The mobile menu should now have left-side chevrons, bigger text, and proper    
   Home alignment — all from those four CSS rules.                                                                     
                                                       
-                                                      
+
+
+                                                      ❯ On mobile only, can the magnifying glass - svg with class "search-menu-icon" be to the left of the word Search      
+  (only for mobile), please.                                                                                          
+                                                                                                                      
+⏺ Read(web/themes/custom/customsolent/css/menu-mobile.css)                                                            
+  ⎿  Read 422 lines                                                                                                   
+                                                                                                                      
+⏺ Let me check the HTML structure of the search button to understand the current element order.                       
+                                                                                                                      
+⏺ Explore(Find search menu button HTML)                                                                               
+  ⎿  Done (5 tool uses · 19.3k tokens · 13s)                                                                          
+                                                                                                                      
+⏺ The source order is: magnifying glass, span, chevron. With order: -1 on the chevron, the current mobile visual order
+   should be: chevron, magnifying glass, "Search". So the magnifying glass is already to the left of "Search" text.   
+  Let me check if there's other CSS overriding this.                                                                  
+                                                                                                                      
+⏺ Search(pattern: "search-menu-icon", path: "web/themes/custom/customsolent/css", output_mode: "content")             
+  ⎿  Found 7 lines (ctrl+o to expand)                                                                                 
+                                                                                                                      
+⏺ Let me check the flex properties on the button to verify the current layout.                                        
+                                                                                                                      
+⏺ Search(pattern: "main_nav_link", path: "web/themes/custom/customsolent/css", glob: "*.css", output_mode: "content") 
+  ⎿  Found 103 lines (ctrl+o to expand)                                                                               
+                                                                                                                      
+⏺ Search(pattern: "\border\s*:", path: "web/themes/custom/customsolent/css", output_mode: "content")                  
+  ⎿  Found 1 line (ctrl+o to expand)                                                                                  
+                                                                                                                      
+⏺ Read(web/themes/custom/customsolent/css/search.css)                                                                 
+  ⎿  Read 278 lines                                                                                                   
+                                                                                                                      
+⏺ Read(web/themes/custom/customsolent/css/menu-common.css)                                                            
+  ⎿  Read 147 lines                                                                                                   
+                                                                                                                      
+⏺ Based on my analysis, the magnifying glass should already be to the left of "Search" on mobile. Here's why:         
+                                                                                                                      
+  The search button's HTML source order is:                                                                           
+  1. <svg class="search-menu-icon"> (magnifying glass)                                                                
+  2. <span>Search</span>                                                                                              
+  3. <svg class="navigation__link__down-icon"> (chevron)                                                              
+                                                                                                                      
+  With display: flex on the button and order: -1 on the chevron (from our last commit), the mobile visual order is:   
+                                                                                                                      
+  Chevron → Magnifying glass → "Search"                                                                               
+                                                                                                                      
+  The magnifying glass is already to the left of "Search" — and has been, even before our changes, since it comes     
+  first in the HTML source order.                                                                                     
+                                                                                                                      
+  Could you describe what you're currently seeing? It's possible you need to clear the browser cache to pick up the   
+  new CSS from the last push, or there may be a different issue I'm not spotting.                                     
+                                                                                                                      
+✻ Cogitated for 2m 12s                                                                                                
+                                                                                                                      
+❯ Sorry Claude my mistake really sorry I meant to the right. For mobile only, have the magnifying glass to the        
+  right only.                                                                                                         
+                                                                                                                      
+⏺ No need to apologise. Since the magnifying glass is already first in source order, I just need to push it after the 
+  text span on mobile using order. The span has default order: 0, so giving .search-menu-icon order: 1 will place it  
+  after the text but before the chevron... actually, the chevron has order: -1 so it's already at the start. Let me   
+  think about this more carefully.                                                                                    
+                                                                                                                      
+  Mobile visual order currently: Chevron (-1) → Magnifying glass (0) → "Search" span (0)                              
+                                                                                                                      
+  To get: Chevron → "Search" → Magnifying glass, I need the magnifying glass after the span. Setting .search-menu-icon
+   { order: 1; } will do it. And the margin-right: 0.3em on the icon should become margin-left instead so the gap is  
+  on the correct side.                                                                                                
+                                                                                                                      
+⏺ Update(web/themes/custom/customsolent/css/menu-mobile.css)                                                          
+  ⎿  Added 7 lines                                                                                                    
+      234      padding-left: calc(6px + 1.2em);                                                                       
+      235    }                                                                                                        
+      236                                                                                                             
+      237 +  /* Move magnifying glass to the right of "Search" text on mobile */                                      
+      238 +  .search-menu-icon {                                                                                      
+      239 +    order: 1;                                                                                              
+      240 +    margin-right: 0;                                                                                       
+      241 +    margin-left: 0.3em;                                                                                    
+      242 +  }                                                                                                        
+      243 +                                                                                                           
+      244  }                                                                                                          
+      245                                                                                                             
+      246  /*                                                                                                         
+                                                                                                                      
+⏺ Done. On mobile the search button visual order will now be: Chevron → "Search" → Magnifying glass. The order: 1     
+  pushes the icon after the text span, and the margin is swapped from right to left so the spacing is on the correct  
+  side. Desktop is unaffected since the rule is inside the @media (max-width: 1199px) block.                          
+                                                                                             
