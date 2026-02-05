@@ -212,6 +212,28 @@
   }
   */
 
+  /* Bigger mobile text (chevrons auto-scale via 1em units) */
+  button.main_nav_link,
+  a.main_nav_link {
+    font-size: 1.4em;
+  }
+
+  /* Move chevrons to the left via flex ordering */
+  .navigation__link__down-icon {
+    order: -1;
+  }
+
+  /* Swap span gap from right side to left side */
+  button.main_nav_link > span {
+    padding-right: 0;
+    padding-left: 0.2em;
+  }
+
+  /* Home link -- add left padding so text aligns with dropdown items */
+  a.main_nav_link {
+    padding-left: calc(6px + 1.2em);
+  }
+
 }
 
 /*
