@@ -227,23 +227,30 @@
                 var togl_expd = document.getElementById('slnt-togl-expand');
                 togl_expd.classList.toggle('slnt-togl-expand--open');
 
-                if ($("nav[role=navigation]").css("display") == "none" || 
+                if ($("nav[role=navigation]").css("display") == "none" ||
                     $(".main-menu-wrap").css("display") == "none") {
-                  // Show menu
+                  // Show menu - fade in
                   $("body").css("overflow", "hidden");
                   $("body").addClass('slnt-overlay-menu-bg');
-                  $("nav[role=navigation]").css("display", "block");
+                  $("nav[role=navigation]").css({"display": "block", "opacity": "0", "transition": "none"});
                   $(".main-menu-wrap").css("display", "block");
                   $("#slnt-header").addClass('slnt-overlay-hdr-hgt-togl-expand-mob-menu');
                   $("#slnt-header").removeClass('slnt-hdr-hgt-init');
+                  // Delay ensures browser has painted opacity:0 before starting transition
+                  setTimeout(() => {
+                    $("nav[role=navigation]").css({"transition": "opacity 0.8s ease", "opacity": "1"});
+                  }, 50);
                 } else {
-                  // Hide menu
-                  $("body").css("overflow", "");
-                  $("body").removeClass('slnt-overlay-menu-bg');
-                  $("nav[role=navigation]").css("display", "none");
-                  $(".main-menu-wrap").css("display", "none");
-                  $("#slnt-header").removeClass('slnt-overlay-hdr-hgt-togl-expand-mob-menu');
-                  $("#slnt-header").addClass('slnt-hdr-hgt-init');
+                  // Hide menu - fade out then clean up
+                  $("nav[role=navigation]").css("opacity", "0");
+                  setTimeout(() => {
+                    $("body").css("overflow", "");
+                    $("body").removeClass('slnt-overlay-menu-bg');
+                    $("nav[role=navigation]").css("display", "none");
+                    $(".main-menu-wrap").css("display", "none");
+                    $("#slnt-header").removeClass('slnt-overlay-hdr-hgt-togl-expand-mob-menu');
+                    $("#slnt-header").addClass('slnt-hdr-hgt-init');
+                  }, 300); // Match CSS transition duration
                 }
               }
             }
