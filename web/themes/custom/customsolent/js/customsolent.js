@@ -740,133 +740,87 @@
           // Clean up all submenus on mode change
           const allSubMenus = document.querySelectorAll('.sub-menu-container');
           
+          // Disable chevron transitions so they reset instantly (no animated rotation)
+          const allChevrons = document.querySelectorAll('.navigation__link__down-icon');
+          allChevrons.forEach(chevron => {
+            chevron.style.setProperty('transition', 'none', 'important');
+          });
+
+          // Close all submenus and search on any mode change - clean slate
+          allSubMenus.forEach(aSubMenu => {
+            removeTransitionListeners(aSubMenu);
+            unselectChevron(aSubMenu);
+            aSubMenu.classList.remove('visible-2l');
+            aSubMenu.classList.add('hidden-2l');
+            aSubMenu.removeAttribute('style');
+          });
+
+          // Reset search form
+          const sfReset = document.querySelector('#search-form-container');
+          if (sfReset) {
+            sfReset.classList.remove('visible-2l');
+            sfReset.classList.add('hidden-2l');
+            sfReset.removeAttribute('style');
+          }
+          const searchBtnReset = document.querySelector('#search-in-menu');
+          if (searchBtnReset) searchBtnReset.classList.remove('navigation__link--selected');
+
+          // Force reflow so chevron state is applied instantly, then re-enable transitions
+          void document.body.offsetHeight;
+          allChevrons.forEach(chevron => {
+            chevron.style.removeProperty('transition');
+          });
+
           if (newMode === 'mobile') {
-            // Going to mobile: remove all inline styles and show burger menu
-            allSubMenus.forEach(aSubMenu => {
-              removeTransitionListeners(aSubMenu);
-              
-              const isOpen = aSubMenu.classList.contains("visible-2l");
-              
-              // Clear desktop styles
-              aSubMenu.removeAttribute('style');
-              
-              // If submenu was open in desktop, apply mobile scrollable styles
-              if (isOpen) {
-                const maxHeight = calculateMobileSubmenuHeight(aSubMenu);
-
-                // Disable transition for instant mode change
-                aSubMenu.style.setProperty("transition", "none", "important");
-                void aSubMenu.offsetHeight;
-
-                aSubMenu.style.setProperty("width", "100%");
-                aSubMenu.style.setProperty("max-height", maxHeight + "px");
-                aSubMenu.style.setProperty("opacity", "1");
-                aSubMenu.style.setProperty("overflow-y", "auto");
-                aSubMenu.style.setProperty("overflow-x", "hidden");
-                aSubMenu.style.setProperty("-webkit-overflow-scrolling", "touch");
-
-                void aSubMenu.offsetHeight;
-
-                // Re-enable transitions
-                setTimeout(() => {
-                  aSubMenu.style.removeProperty("transition");
-                }, 50);
-
-                // Setup scroll fades after layout settles
-                setTimeout(() => {
-                  setupMobileScrollFade(aSubMenu);
-                }, 100);
-              }
-            });
+            // Going to mobile
             mainMenuNavContainer.style.setProperty("height", "auto");
-            
+
             // Add burger menu
             if ($('#slnt-mobile-menu-container').is(':empty')) {
               setupMobileBurgerMenu();
             }
-            
+
             // Hide main menu initially in mobile
             $("nav[role=navigation]").css("display", "none");
             $(".main-menu-wrap").css("display", "none");
             $("#slnt-header").addClass('slnt-hdr-hgt-init');
-            
+
             // Reset mobile overlay if it was on
             $("body").css("overflow", "");
             $("body").removeClass('slnt-overlay-menu-bg');
 
-            // Reset search form for mobile mode
-            const sfMobile = document.querySelector('#search-form-container');
-            if (sfMobile) {
-              sfMobile.classList.remove('visible-2l');
-              sfMobile.classList.add('hidden-2l');
-              sfMobile.removeAttribute('style');
-            }
-            const searchBtnMobile = document.querySelector('#search-in-menu');
-            if (searchBtnMobile) searchBtnMobile.classList.remove('navigation__link--selected');
-
           } else {
-            // Going to desktop: disable transitions FIRST, then set all properties
+            // Going to desktop
             mainMenuNavContainer.classList.remove('animation');
-            
+
             // Remove burger menu and reset mobile styles
             $("#slnt-mobile-menu-container").empty();
             $("#slnt-header").removeClass('slnt-overlay-hdr-hgt-togl-expand-mob-menu');
             $("#slnt-header").removeClass('slnt-hdr-hgt-init');
-            
+
             // Reset mobile overlay styles
             $("body").css("overflow", "");
             $("body").removeClass('slnt-overlay-menu-bg');
             $("nav[role=navigation]").css("display", "");
             $(".main-menu-wrap").css("display", "");
-            
-            allSubMenus.forEach(aSubMenu => {
-              removeTransitionListeners(aSubMenu);
-              aSubMenu.classList.remove('animated');
-              
-              const isOpen = aSubMenu.classList.contains("visible-2l");
-              
-              // Clear all mobile inline styles first
-              aSubMenu.removeAttribute('style');
-              
-              // Then apply desktop styles
-              if (isOpen) {
-                // Keep it open but set position and visibility without animating
-                aSubMenu.style.setProperty("top", submenu_desktop_top_reveal);
-                aSubMenu.style.setProperty("visibility", "visible");
-                aSubMenu.style.setProperty("opacity", "1");
-                
-                // Set nav height instantly for open submenu
-                const offsetHeight = aSubMenu.offsetHeight;
-                const desktop_offset_height = get_desktop_offset_height();
-                const offsetHeightCalc = parseInt(offsetHeight) + desktop_offset_height + 16;
-                mainMenuNavContainer.style.setProperty("height", offsetHeightCalc + "px");
-              } else {
-                // Hide it instantly with desktop styles
-                aSubMenu.style.setProperty("visibility", "hidden");
-                aSubMenu.style.setProperty("opacity", "0");
-              }
-            });
-            
-            // Reset search form for desktop mode
-            const sfDesktop = document.querySelector('#search-form-container');
-            if (sfDesktop) {
-              sfDesktop.classList.remove('visible-2l');
-              sfDesktop.classList.add('hidden-2l');
-              sfDesktop.removeAttribute('style');
-              sfDesktop.style.setProperty("visibility", "hidden");
-              sfDesktop.style.setProperty("opacity", "0");
-            }
-            const searchBtnDesktop = document.querySelector('#search-in-menu');
-            if (searchBtnDesktop) searchBtnDesktop.classList.remove('navigation__link--selected');
 
-            // Set default height if no menus open
-            if (!check_submenu_open()) {
-              mainMenuNavContainer.style.setProperty("height", menu_bar_height);
+            // Set all submenus to desktop hidden state
+            allSubMenus.forEach(aSubMenu => {
+              aSubMenu.style.setProperty("visibility", "hidden");
+              aSubMenu.style.setProperty("opacity", "0");
+            });
+
+            // Set search form to desktop hidden state
+            if (sfReset) {
+              sfReset.style.setProperty("visibility", "hidden");
+              sfReset.style.setProperty("opacity", "0");
             }
+
+            mainMenuNavContainer.style.setProperty("height", menu_bar_height);
 
             // Force reflow to ensure all changes are applied
             void mainMenuNavContainer.offsetHeight;
-            
+
             // Re-enable animation classes after changes are complete
             requestAnimationFrame(() => {
               mainMenuNavContainer.classList.add('animation');
