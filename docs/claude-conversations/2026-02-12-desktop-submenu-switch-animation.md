@@ -63,7 +63,61 @@ Formula: `startTop = finalTop + oldSubmenuHeight - newSubmenuHeight`
 - `web/themes/custom/customsolent/css/menu-mobile.css` - mobile menu sizing and animation
 - `web/themes/custom/customsolent/js/customsolent.js` - mobile animation JS + desktop switch animation
 
-### Remaining work
-- Testing the switch animation across all menu items with different submenu heights
-- White gap fix: when switching to a shorter submenu, a momentary white gap appears
-  between the menu bar and the submenu during the upward slide animation
+### White gap fix (completed same session)
+- When switching to a shorter submenu, a white gap appeared between the menu bar
+  and submenu during the upward slide
+- Fix: used `padding-top` approach instead of `top` offset for the shorter case
+- Submenu stays at `finalTop` (no gap), `padding-top` pushes content down initially,
+  then transitions to 0. The `::before` background (`height: 100%`) fills the padding
+  area so #f0f0f0 connects seamlessly with the menu bar
+
+---
+
+### Search menu integration - later same day (12 Feb 2026)
+
+**Goal**: Make the search form reveal/hide like other submenu items. Previously,
+clicking Search toggled `display: none` via a `closed` class, and the search form
+appeared below the submenu area. User wanted it positioned in the submenu area with
+the same animation and interaction as regular submenus.
+
+**Key structural challenge**: The search form (`#search-form-container`) is in a
+completely separate Drupal region (`page.search` rendered in `#slnt-srch`) from the
+main menu (`page.primary_menu` in `#slnt-prim-menu`). The search button
+(`#search-in-menu`) in the menu has no `.sub-menu-container` child unlike other
+menu items with submenus.
+
+**Approach**: Position `#search-form-container` absolutely (like `.sub-menu-container`)
+so it appears in the submenu area. Both are positioned relative to `#slnt-header`
+(which has `position: relative` on desktop). Created dedicated `showSearchForm()` and
+`hideSearchForm()` functions mirroring `showSubmenu`/`hideSubmenu`.
+
+**Changes made**:
+
+1. **Template** (`block--search-form-block.html.twig`):
+   - Changed `class="closed"` to `class="hidden-2l"` to use the same class system
+
+2. **CSS** (`search.css`):
+   - Replaced `#search-form-container.closed { display: none; }` with submenu-style
+     positioning: `position: absolute; width: 100%; top: -50px;` (hidden) /
+     `top: 90px` (visible)
+   - Added full-width `#f0f0f0` background via `::before` pseudo-element
+   - Added `navigation__link--selected` background styles for search button and
+     parent `li` using `:has()` selector
+   - Mobile: `max-height` + `opacity` animation for `hidden-2l`
+
+3. **JS** (`customsolent.js`):
+   - `showSearchForm()`: desktop slide-down (opacity/z-index/nav-height animation),
+     mobile max-height animation
+   - `hideSearchForm(instant, skipHeightReset)`: mirrors hideSubmenu with guards
+   - New search click handler: opens search with animation while closing any open
+     submenus; closes search on re-click; toggles chevron
+   - Normal submenu open/close path: added `hideSearchForm()` call so opening a
+     submenu closes the search form
+   - Desktop init: sets `visibility: hidden; opacity: 0` on search form
+   - Mode change handler: resets search form state in both mobile and desktop
+     transition paths
+
+**Files modified**:
+- `web/themes/custom/customsolent/css/search.css`
+- `web/themes/custom/customsolent/js/customsolent.js`
+- `web/themes/custom/customsolent/templates/block/block--search-form-block.html.twig`
