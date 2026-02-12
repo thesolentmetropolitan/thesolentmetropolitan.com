@@ -121,3 +121,25 @@ so it appears in the submenu area. Both are positioned relative to `#slnt-header
 - `web/themes/custom/customsolent/css/search.css`
 - `web/themes/custom/customsolent/js/customsolent.js`
 - `web/themes/custom/customsolent/templates/block/block--search-form-block.html.twig`
+
+### Clean slate on resize - same session
+
+**Goal**: Previously, open submenu state was preserved when resizing between desktop
+and mobile. This felt contrived - especially desktop-to-mobile where the burger menu
+had to be opened to see the preserved submenu. Changed to close all submenus and
+search on any resize mode change.
+
+**Changes**:
+- Simplified `menu_refreshSize()`: shared reset logic at the top closes all submenus,
+  resets all chevrons, and resets the search form. Each mode branch then only handles
+  mode-specific setup (burger menu, nav display, desktop styles).
+- Removed "preserve open state" conditional logic (mobile scrollable style
+  re-application, desktop position/visibility re-application for open submenus).
+- Fixed chevron animation on mode change: temporarily disabling `transition` on all
+  `.navigation__link__down-icon` elements with `!important` before removing
+  `navigation__link--selected`, forcing reflow, then re-enabling transitions. This
+  prevents the unwanted 0.4s animated rotation when resizing.
+
+**Tag**: `v1.0-search-menu-integration` marks the state before resize changes.
+
+**Tested**: Firefox, Chrome, Edge on Windows 11; Chrome and Safari on macOS.
