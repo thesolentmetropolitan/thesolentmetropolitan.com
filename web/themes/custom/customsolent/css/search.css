@@ -249,8 +249,62 @@ button.search-menu-item-icon {
   background-color: white;
 }
 
-#search-form-container.closed {
-  display: none;
+/* Desktop: position search form in submenu area like regular submenus */
+@media screen and (min-width: 1200px) {
+  #search-form-container {
+    position: absolute;
+    width: 100%;
+    right: 0px;
+    top: -50px;
+    z-index: -1;
+    transition-property: opacity, top;
+    transition-timing-function: ease;
+    transition-duration: .5s;
+  }
+
+  #search-form-container.visible-2l {
+    top: 90px !important;
+  }
+
+  #search-form-container.hidden-2l {
+    top: -50px !important;
+    z-index: -1;
+  }
+
+  /* Full-width background like regular submenus */
+  #search-form-container.visible-2l::before {
+    content: '';
+    position: absolute;
+    width: 100vw;
+    height: 100%;
+    left: 50%;
+    top: 0;
+    transform: translateX(-50%);
+    z-index: -1;
+    background-color: #f0f0f0;
+  }
+
+  /* Background for search button and its parent li when search is open */
+  #search-in-menu.navigation__link--selected {
+    background-color: #f0f0f0;
+  }
+
+  .main-menu-item-container > li:has(#search-in-menu.navigation__link--selected) {
+    background-color: #f0f0f0;
+  }
+}
+
+/* Mobile: animate search form reveal/hide */
+@media (max-width: 1199px) {
+  #search-form-container {
+    transition: max-height 0.5s ease, opacity 0.5s ease;
+  }
+
+  #search-form-container.hidden-2l {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+  }
 }
 
 #search-in-menu {

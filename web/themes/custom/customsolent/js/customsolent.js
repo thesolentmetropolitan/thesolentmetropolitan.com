@@ -169,6 +169,11 @@
                 }
               } else {
                 // Normal open/close (not switching)
+                // Close search form if open (skip height reset since submenu will set it)
+                hideSearchForm(false, true);
+                const searchBtn = document.querySelector('#search-in-menu');
+                if (searchBtn) searchBtn.classList.remove('navigation__link--selected');
+
                 allSubMenuContainers.forEach(aSubMenu => {
                   if (aSubMenu.isEqualNode(subMenuContainerForClickedButton)) {
                     toggleChevron(aSubMenu);
@@ -614,6 +619,113 @@
       }
 
       /**
+       * Show the search form with animation (like showSubmenu)
+       */
+      function showSearchForm() {
+        const searchFormContainer = document.querySelector('#search-form-container');
+        if (!searchFormContainer || searchFormContainer.classList.contains('visible-2l')) return;
+
+        searchFormContainer.classList.remove('hidden-2l');
+        searchFormContainer.classList.add('visible-2l');
+
+        if (!isMobile()) {
+          // Desktop: animate slide down like submenus
+          const mainMenuNavContainer = get_mainMenuNavContainer();
+
+          searchFormContainer.style.setProperty('z-index', '-1');
+          searchFormContainer.style.setProperty('visibility', 'visible');
+          searchFormContainer.style.setProperty('opacity', '0');
+
+          void searchFormContainer.offsetHeight;
+
+          requestAnimationFrame(() => {
+            // Set nav height for search form
+            const offsetHeight = searchFormContainer.offsetHeight;
+            const desktop_offset_height = get_desktop_offset_height();
+            const navHeight = offsetHeight + desktop_offset_height + 16;
+            mainMenuNavContainer.style.setProperty('height', navHeight + 'px');
+
+            requestAnimationFrame(() => {
+              searchFormContainer.style.setProperty('opacity', '1');
+            });
+          });
+
+          // After transition completes, set z-index for interactive content
+          setTimeout(() => {
+            if (searchFormContainer.classList.contains('visible-2l')) {
+              searchFormContainer.style.setProperty('z-index', '0');
+            }
+          }, 500);
+        } else {
+          // Mobile: animate max-height
+          searchFormContainer.style.setProperty('overflow', 'hidden');
+          searchFormContainer.style.setProperty('max-height', '0');
+          searchFormContainer.style.setProperty('opacity', '0');
+
+          void searchFormContainer.offsetHeight;
+
+          searchFormContainer.style.setProperty('max-height', '200px');
+          searchFormContainer.style.setProperty('opacity', '1');
+
+          setTimeout(() => {
+            if (searchFormContainer.classList.contains('visible-2l')) {
+              searchFormContainer.style.removeProperty('overflow');
+            }
+          }, 500);
+        }
+      }
+
+      /**
+       * Hide the search form with optional instant mode (like hideSubmenu)
+       * @param {boolean} instant - If true, hide without animation
+       * @param {boolean} skipHeightReset - If true, don't reset nav height
+       */
+      function hideSearchForm(instant = false, skipHeightReset = false) {
+        const searchFormContainer = document.querySelector('#search-form-container');
+        if (!searchFormContainer || !searchFormContainer.classList.contains('visible-2l')) return;
+
+        searchFormContainer.classList.add('hidden-2l');
+        searchFormContainer.classList.remove('visible-2l');
+
+        if (!isMobile()) {
+          // Desktop
+          if (!skipHeightReset) {
+            const mainMenuNavContainer = get_mainMenuNavContainer();
+            if (!check_submenu_open()) {
+              mainMenuNavContainer.style.setProperty('height', menu_bar_height);
+            }
+          }
+
+          searchFormContainer.style.setProperty('z-index', '-1');
+
+          if (instant) {
+            searchFormContainer.style.setProperty('visibility', 'hidden');
+            searchFormContainer.style.setProperty('opacity', '0');
+          } else {
+            searchFormContainer.style.setProperty('opacity', '0');
+            setTimeout(() => {
+              if (searchFormContainer.classList.contains('hidden-2l')) {
+                searchFormContainer.style.setProperty('visibility', 'hidden');
+              }
+            }, 500);
+          }
+        } else {
+          // Mobile
+          searchFormContainer.style.setProperty('overflow', 'hidden');
+          searchFormContainer.style.setProperty('max-height', '0');
+          searchFormContainer.style.setProperty('opacity', '0');
+
+          setTimeout(() => {
+            if (searchFormContainer.classList.contains('hidden-2l')) {
+              searchFormContainer.style.removeProperty('overflow');
+              searchFormContainer.style.removeProperty('max-height');
+              searchFormContainer.style.removeProperty('opacity');
+            }
+          }, 500);
+        }
+      }
+
+      /**
        * Handle window resize - detect mode changes and clean up
        */
       function menu_refreshSize() {
@@ -681,7 +793,17 @@
             // Reset mobile overlay if it was on
             $("body").css("overflow", "");
             $("body").removeClass('slnt-overlay-menu-bg');
-            
+
+            // Reset search form for mobile mode
+            const sfMobile = document.querySelector('#search-form-container');
+            if (sfMobile) {
+              sfMobile.classList.remove('visible-2l');
+              sfMobile.classList.add('hidden-2l');
+              sfMobile.removeAttribute('style');
+            }
+            const searchBtnMobile = document.querySelector('#search-in-menu');
+            if (searchBtnMobile) searchBtnMobile.classList.remove('navigation__link--selected');
+
           } else {
             // Going to desktop: disable transitions FIRST, then set all properties
             mainMenuNavContainer.classList.remove('animation');
@@ -725,11 +847,23 @@
               }
             });
             
+            // Reset search form for desktop mode
+            const sfDesktop = document.querySelector('#search-form-container');
+            if (sfDesktop) {
+              sfDesktop.classList.remove('visible-2l');
+              sfDesktop.classList.add('hidden-2l');
+              sfDesktop.removeAttribute('style');
+              sfDesktop.style.setProperty("visibility", "hidden");
+              sfDesktop.style.setProperty("opacity", "0");
+            }
+            const searchBtnDesktop = document.querySelector('#search-in-menu');
+            if (searchBtnDesktop) searchBtnDesktop.classList.remove('navigation__link--selected');
+
             // Set default height if no menus open
             if (!check_submenu_open()) {
               mainMenuNavContainer.style.setProperty("height", menu_bar_height);
             }
-            
+
             // Force reflow to ensure all changes are applied
             void mainMenuNavContainer.offsetHeight;
             
@@ -828,6 +962,12 @@
         allSubMenus.forEach(aSubMenu => {
           hideSubmenu(aSubMenu, true); // Instant hide on init
         });
+        // Initialize search form as hidden
+        const sf = document.querySelector('#search-form-container');
+        if (sf) {
+          sf.style.setProperty("visibility", "hidden");
+          sf.style.setProperty("opacity", "0");
+        }
       }
 
       /**
@@ -908,21 +1048,33 @@
         }
       }
 
-      const searchMenuOption = document.querySelector('#search-in-menu');
-      const searchForm = document.querySelector('#search-form-container');
-      searchMenuOption.addEventListener('click', function() {
-        if (searchForm.classList.contains('closed')) {
-          searchForm.classList.remove('closed');
-        }
-        else {
-          searchForm.classList.add('closed');
-        }
-      });
+      // Search form handler - integrated with submenu system
+      const searchMenuButton = document.querySelector('#search-in-menu');
+      const searchFormContainer = document.querySelector('#search-form-container');
 
-      function closeSearchForm(){
-        if ($("#mobilemenubutton").css("display") == "block" ){
-          searchForm.classList.add('closed');
-        }
+      if (searchMenuButton && searchFormContainer) {
+        searchMenuButton.addEventListener('click', function(e) {
+          e.stopPropagation();
+          e.preventDefault();
+
+          const searchIsOpen = searchFormContainer.classList.contains('visible-2l');
+
+          if (searchIsOpen) {
+            // Close search
+            hideSearchForm();
+            searchMenuButton.classList.remove('navigation__link--selected');
+          } else {
+            // Open search - first close any open submenus
+            const allSubMenuContainers = document.querySelectorAll('.main-menu-item-container > * .sub-menu-container');
+            allSubMenuContainers.forEach(aSubMenu => {
+              unselectChevron(aSubMenu);
+              hideSubmenu(aSubMenu, false, true); // animated, skip height reset
+            });
+
+            showSearchForm();
+            searchMenuButton.classList.add('navigation__link--selected');
+          }
+        });
       }
     }
   };
