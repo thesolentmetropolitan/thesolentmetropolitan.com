@@ -452,16 +452,17 @@
           }
         } else {
           // Mobile behavior - animated reveal with scrollable height
-          const maxHeight = calculateMobileSubmenuHeight(aSubMenu);
-
-          // Set initial animation state
+          // Set initial collapsed state FIRST so all submenus are collapsed
+          // during height calculation (prevents target submenu inflating its li)
           aSubMenu.style.setProperty("width", "100%");
           aSubMenu.style.setProperty("overflow", "hidden");
           aSubMenu.style.setProperty("max-height", "0");
           aSubMenu.style.setProperty("opacity", "0");
 
-          // Force reflow to ensure initial state is rendered
+          // Force reflow to ensure collapsed state is rendered before measuring
           void aSubMenu.offsetHeight;
+
+          const maxHeight = calculateMobileSubmenuHeight();
 
           // Trigger animation to target state
           aSubMenu.style.setProperty("max-height", maxHeight + "px");
@@ -480,68 +481,42 @@
       }
 
       /**
-       * Calculate appropriate height for mobile submenu
-       * Screen height - logo height - other top-level menu items height
+       * Calculate max-height for mobile submenu so all menu items stay on screen.
+       * Formula: viewport height - branding block height - all menu li heights
+       * Must be called AFTER the target submenu is collapsed (max-height:0 inline)
+       * so its parent li height doesn't include expanded submenu content.
        */
-      function calculateMobileSubmenuHeight(aSubMenu) {
-        // Get viewport height
+      function calculateMobileSubmenuHeight() {
         const viewportHeight = window.innerHeight;
-        
-        // Get logo height
-        const logoHeight = $("#slnt-logo").outerHeight(true) || 0;
-        
-        // Get the parent li element of this submenu
-        const parentLi = aSubMenu.closest('li');
-        
-        // Calculate height of all top-level menu item LI elements
-        let otherMenuItemsHeight = 0;
-        const allMenuItems = document.querySelectorAll('.main-menu-item-container > li');
-        
-        allMenuItems.forEach(item => {
-          // Get just the LI height (including its button, but not counting expanded submenus)
-          const itemClone = $(item).clone();
-          // Remove any open submenus from the clone to get just the button height
-          itemClone.find('.sub-menu-container').remove();
-          
-          // Create a temporary element to measure
-          const tempDiv = $('<div>').css({
-            position: 'absolute',
-            visibility: 'hidden',
-            display: 'block'
-          }).append(itemClone);
-          
-          $('body').append(tempDiv);
-          const itemHeight = tempDiv.find('li').outerHeight(true) || 0;
-          tempDiv.remove();
-          
-          otherMenuItemsHeight += itemHeight;
+
+        // Branding block (site logo/name) rendered by Drupal
+        const brandingBlock = document.getElementById('block-customsolent-sitebranding')
+                           || document.getElementById('slnt-logo');
+        const brandingHeight = brandingBlock ? brandingBlock.offsetHeight : 0;
+
+        // Sum heights of all top-level menu li elements (including margins)
+        // All submenus are collapsed at this point so li heights = button heights only
+        let menuItemsHeight = 0;
+        const allLis = document.querySelectorAll('ul.main-menu-item-container.mobile > li');
+        allLis.forEach(li => {
+          const style = window.getComputedStyle(li);
+          const marginTop = parseFloat(style.marginTop) || 0;
+          const marginBottom = parseFloat(style.marginBottom) || 0;
+          menuItemsHeight += li.offsetHeight + marginTop + marginBottom;
         });
-        
-        // Larger buffer for breathing room at bottom (aesthetic spacing)
-        const buffer = 60;
-        
-        // Calculate available height
-        const availableHeight = viewportHeight - logoHeight - otherMenuItemsHeight - buffer;
-        
-        // Use 85% of available height for a nice balance
-        // This leaves 15% as margin/breathing room
-        const targetHeight = availableHeight * 0.85;
-        
-        // Use at least 150px, but prefer the calculated target
-        const calculatedHeight = Math.max(150, targetHeight);
-        
+
+        const bottomPadding = 20;
+        const maxHeight = viewportHeight - brandingHeight - menuItemsHeight - bottomPadding;
+
         console.log('Mobile submenu height calculation:', {
           viewportHeight,
-          logoHeight,
-          otherMenuItemsHeight,
-          buffer,
-          availableHeight,
-          targetHeight,
-          calculatedHeight,
-          percentageUsed: ((calculatedHeight / availableHeight) * 100).toFixed(1) + '%'
+          brandingHeight,
+          menuItemsHeight,
+          bottomPadding,
+          maxHeight
         });
-        
-        return calculatedHeight;
+
+        return Math.max(150, maxHeight);
       }
 
       /**
