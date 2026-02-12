@@ -808,8 +808,9 @@
             // Reset mobile overlay styles
             $("body").css("overflow", "");
             $("body").removeClass('slnt-overlay-menu-bg');
-            $("nav[role=navigation]").css("display", "");
-            $(".main-menu-wrap").css("display", "");
+            // Clear ALL inline styles from nav (including transition/opacity from burger fade)
+            document.querySelector("nav[role=navigation]").removeAttribute('style');
+            document.querySelector(".main-menu-wrap").removeAttribute('style');
 
             // Set all submenus to desktop hidden state
             allSubMenus.forEach(aSubMenu => {
