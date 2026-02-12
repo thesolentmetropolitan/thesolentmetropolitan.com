@@ -70,9 +70,7 @@
     /*height: 64px; */
   }
 
-  nav[role=navigation] {
-    transition: opacity 0.5s ease;
-  }
+  nav[role=navigation] {}
 
   .main-menu-item-container>li {
     display: block;

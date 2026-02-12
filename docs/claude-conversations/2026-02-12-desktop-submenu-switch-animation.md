@@ -143,3 +143,37 @@ search on any resize mode change.
 **Tag**: `v1.0-search-menu-integration` marks the state before resize changes.
 
 **Tested**: Firefox, Chrome, Edge on Windows 11; Chrome and Safari on macOS.
+
+### Mobile menu fade, inline SVG, and nav style leak fix - same day
+
+**1. Mobile burger menu fade in/out**:
+- Added opacity fade when toggling the mobile menu via the burger icon
+- Uses inline `transition` set via JS (not CSS) for reliability with `display:none→block`
+- Fade in: 0.8s (slower needed for appearing content to be perceptible)
+- Fade out: 0.3s (faster feels natural for disappearing content)
+- `transition: none` set first to establish opacity:0 state, then transition + opacity:1
+  set together in a `setTimeout(50)` to guarantee browser has painted the invisible state
+
+**2. Inline SVG magnifying glass (Safari/iOS fix)**:
+- SVG `<use xlink:href="external.svg">` doesn't work in Safari/WebKit - only fragment
+  identifiers (`#id`) within the same document are supported
+- Replaced with inline SVG (circle + line) in both `menu--main.html.twig` (menu button)
+  and `block--search-form-block.html.twig` (search form submit)
+- Also fixed wrong path in search form template (`/themes/custom/slnt/` should have been
+  `/themes/custom/customsolent/`)
+- Uses steelblue `rgb(70,130,180)` to match original SVG colour
+
+**3. Nav inline style leak after mobile→desktop resize**:
+- **Bug**: After using mobile burger menu and resizing to desktop, the nav container
+  retained inline `transition: opacity 0.8s ease` from the burger fade handler. This
+  overrode the desktop CSS `.animation { transition-property: height }`, breaking the
+  smooth submenu close animation (nav height snapped instead of transitioning).
+- **Fix**: Changed mode change handler (going to desktop) from `$("nav").css("display","")`
+  (which only cleared display) to `nav.removeAttribute('style')` (clears ALL inline
+  styles including transition and opacity leftovers from the burger handler).
+
+**Files modified**:
+- `web/themes/custom/customsolent/css/menu-mobile.css`
+- `web/themes/custom/customsolent/js/customsolent.js`
+- `web/themes/custom/customsolent/templates/block/block--search-form-block.html.twig`
+- `web/themes/custom/customsolent/templates/navigation/menu--main.html.twig`
