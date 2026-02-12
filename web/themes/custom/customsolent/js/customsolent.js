@@ -102,38 +102,46 @@
                     void newMenu.offsetHeight;
                     const newSubmenuHeight = newMenu.offsetHeight;
 
-                    // Calculate starting top: offset so the new submenu's bottom edge
-                    // aligns with where the old submenu's bottom edge was.
-                    // Taller (startTop < finalTop): slides DOWN to reveal extra height
-                    // Shorter (startTop > finalTop): slides UP to contract height
-                    const startTop = finalTop + oldSubmenuHeight - newSubmenuHeight;
+                    const heightDiff = newSubmenuHeight - oldSubmenuHeight;
 
-                    // Set the offset starting position
-                    newMenu.style.setProperty("top", startTop + "px", "important");
+                    if (heightDiff > 0) {
+                      // TALLER new submenu: slide DOWN from underneath the menu bar
+                      const startTop = finalTop - heightDiff;
 
-                    // For taller submenu: clip portion above menu bar so it emerges from underneath
-                    const clipTop = Math.max(0, finalTop - startTop);
-                    if (clipTop > 0) {
-                      newMenu.style.setProperty("clip-path", "inset(" + clipTop + "px 0 0 0)");
-                    }
+                      // Start at offset position with top portion clipped
+                      newMenu.style.setProperty("top", startTop + "px", "important");
+                      newMenu.style.setProperty("clip-path", "inset(" + heightDiff + "px 0 0 0)");
 
-                    // Force reflow to apply starting position
-                    void newMenu.offsetHeight;
+                      void newMenu.offsetHeight;
 
-                    // Enable transitions for the slide
-                    let transitionProps = "top 0.5s ease";
-                    if (clipTop > 0) {
-                      transitionProps += ", clip-path 0.5s ease";
-                    }
-                    newMenu.style.setProperty("transition", transitionProps, "important");
+                      // Animate top + clip-path together
+                      newMenu.style.setProperty("transition", "top 0.5s ease, clip-path 0.5s ease", "important");
 
-                    // Force reflow so transition is active before setting target
-                    void newMenu.offsetHeight;
+                      void newMenu.offsetHeight;
 
-                    // Animate to final position - slides the submenu into place
-                    newMenu.style.setProperty("top", finalTop + "px", "important");
-                    if (clipTop > 0) {
+                      // Slide to final position, removing clip
+                      newMenu.style.setProperty("top", finalTop + "px", "important");
                       newMenu.style.setProperty("clip-path", "inset(0 0 0 0)");
+
+                    } else if (heightDiff < 0) {
+                      // SHORTER new submenu: keep at finalTop (no white gap), use
+                      // padding-top to push content down, then animate padding to 0.
+                      // The ::before background (height:100%) fills the padding area
+                      // so the #f0f0f0 background connects seamlessly with the menu bar.
+                      const paddingOffset = Math.abs(heightDiff);
+
+                      // Keep submenu at final position - no gap between menu bar and submenu
+                      newMenu.style.setProperty("top", finalTop + "px", "important");
+                      newMenu.style.setProperty("padding-top", paddingOffset + "px");
+
+                      void newMenu.offsetHeight;
+
+                      // Animate padding-top to 0 (content slides up, background contracts from bottom)
+                      newMenu.style.setProperty("transition", "padding-top 0.5s ease", "important");
+
+                      void newMenu.offsetHeight;
+
+                      newMenu.style.setProperty("padding-top", "0px");
                     }
 
                     // Animate nav container height in sync (nav has its own 0.5s height transition)
@@ -154,6 +162,7 @@
                       newMenu.style.removeProperty("top");
                       newMenu.style.removeProperty("z-index");
                       newMenu.style.removeProperty("clip-path");
+                      newMenu.style.removeProperty("padding-top");
                       slntHeader.style.removeProperty("isolation");
                     }, 550);
                   }, 180); // Match CSS transition duration (0.18s)
