@@ -47,8 +47,9 @@
                 const currentlyOpenSubmenu = document.querySelector('.sub-menu-container.visible-2l');
 
                 if (currentlyOpenSubmenu) {
-                  // Measure old submenu height before any changes
+                  // Measure old submenu before any changes
                   const oldSubmenuHeight = currentlyOpenSubmenu.offsetHeight;
+                  const finalTop = parseInt(window.getComputedStyle(currentlyOpenSubmenu).top);
 
                   // Step 1: Pre-hide new submenu text (before any animation starts)
                   subMenuContainerForClickedButton.classList.add('text-hidden');
@@ -62,6 +63,7 @@
                   setTimeout(() => {
                     const newMenu = subMenuContainerForClickedButton;
                     const mainMenuNavContainer = get_mainMenuNavContainer();
+                    const slntHeader = document.getElementById('slnt-header');
 
                     // Hide all other submenus instantly (skip height reset)
                     allSubMenuContainers.forEach(aSubMenu => {
@@ -86,10 +88,13 @@
                     // Disable transitions to set up initial state instantly
                     newMenu.style.setProperty("transition", "none", "important");
 
-                    // Show at normal position first to measure natural height
-                    // Note: top needs !important to override CSS .visible-2l { top: 90px !important }
-                    newMenu.style.setProperty("top", submenu_desktop_top_reveal, "important");
-                    newMenu.style.setProperty("z-index", "0");
+                    // Create stacking context on header so z-index:-1 renders
+                    // behind the header's white background (not behind the whole page)
+                    slntHeader.style.setProperty("isolation", "isolate");
+
+                    // Show at final position first to measure natural height
+                    newMenu.style.setProperty("top", finalTop + "px", "important");
+                    newMenu.style.setProperty("z-index", "-1"); // Behind header background during slide
                     newMenu.style.setProperty("visibility", "visible");
                     newMenu.style.setProperty("opacity", "1");
 
@@ -99,25 +104,37 @@
 
                     // Calculate starting top: offset so the new submenu's bottom edge
                     // aligns with where the old submenu's bottom edge was.
-                    // Taller new submenu (startTop < 96): slides DOWN to reveal extra height
-                    // Shorter new submenu (startTop > 96): slides UP to contract height
-                    const topValue = parseInt(submenu_desktop_top_reveal);
-                    const startTop = topValue + oldSubmenuHeight - newSubmenuHeight;
+                    // Taller (startTop < finalTop): slides DOWN to reveal extra height
+                    // Shorter (startTop > finalTop): slides UP to contract height
+                    const startTop = finalTop + oldSubmenuHeight - newSubmenuHeight;
 
-                    // Set the offset starting position (!important to override CSS rule)
+                    // Set the offset starting position
                     newMenu.style.setProperty("top", startTop + "px", "important");
+
+                    // For taller submenu: clip portion above menu bar so it emerges from underneath
+                    const clipTop = Math.max(0, finalTop - startTop);
+                    if (clipTop > 0) {
+                      newMenu.style.setProperty("clip-path", "inset(" + clipTop + "px 0 0 0)");
+                    }
 
                     // Force reflow to apply starting position
                     void newMenu.offsetHeight;
 
-                    // Enable top transition
-                    newMenu.style.setProperty("transition", "top 0.5s ease", "important");
+                    // Enable transitions for the slide
+                    let transitionProps = "top 0.5s ease";
+                    if (clipTop > 0) {
+                      transitionProps += ", clip-path 0.5s ease";
+                    }
+                    newMenu.style.setProperty("transition", transitionProps, "important");
 
                     // Force reflow so transition is active before setting target
                     void newMenu.offsetHeight;
 
-                    // Animate top to final position - this slides the submenu into place
-                    newMenu.style.setProperty("top", submenu_desktop_top_reveal, "important");
+                    // Animate to final position - slides the submenu into place
+                    newMenu.style.setProperty("top", finalTop + "px", "important");
+                    if (clipTop > 0) {
+                      newMenu.style.setProperty("clip-path", "inset(0 0 0 0)");
+                    }
 
                     // Animate nav container height in sync (nav has its own 0.5s height transition)
                     const desktop_offset_height = get_desktop_offset_height();
@@ -129,9 +146,15 @@
                       newMenu.classList.remove('text-hidden');
                     }, 50);
 
-                    // Clean up after slide animation completes
+                    // Clean up after slide animation completes - remove ALL inline
+                    // overrides so CSS rules control the submenu again (critical for
+                    // subsequent close animation which relies on CSS .hidden-2l { top: -50px })
                     setTimeout(() => {
                       newMenu.style.removeProperty("transition");
+                      newMenu.style.removeProperty("top");
+                      newMenu.style.removeProperty("z-index");
+                      newMenu.style.removeProperty("clip-path");
+                      slntHeader.style.removeProperty("isolation");
                     }, 550);
                   }, 180); // Match CSS transition duration (0.18s)
                 }
