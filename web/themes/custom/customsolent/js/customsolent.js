@@ -345,27 +345,31 @@
             addTransitionListeners(aSubMenu, true);
           }
         } else {
-          // Mobile behavior - make submenu scrollable with calculated height
+          // Mobile behavior - animated reveal with scrollable height
           const maxHeight = calculateMobileSubmenuHeight(aSubMenu);
-          
-          aSubMenu.style.setProperty("display", "block");
+
+          // Set initial animation state
           aSubMenu.style.setProperty("width", "100%");
+          aSubMenu.style.setProperty("overflow", "hidden");
+          aSubMenu.style.setProperty("max-height", "0");
+          aSubMenu.style.setProperty("opacity", "0");
+
+          // Force reflow to ensure initial state is rendered
+          void aSubMenu.offsetHeight;
+
+          // Trigger animation to target state
           aSubMenu.style.setProperty("max-height", maxHeight + "px");
-          aSubMenu.style.setProperty("overflow-y", "auto");
-          aSubMenu.style.setProperty("overflow-x", "hidden");
-          aSubMenu.style.setProperty("-webkit-overflow-scrolling", "touch");
-          
-          // Make the LI items inside full width too
-          const subMenuItems = aSubMenu.querySelectorAll('li');
-          subMenuItems.forEach(li => {
-            li.style.setProperty("width", "100%");
-          });
-          
-          // Add scroll event listener for fade gradients
-          // Use setTimeout to ensure layout has settled before checking overflow
-          setTimeout(() => {
-            setupMobileScrollFade(aSubMenu);
-          }, 50);
+          aSubMenu.style.setProperty("opacity", "1");
+
+          // After animation completes, enable scrolling and setup fade gradients
+          aSubMenu._showTimeout = setTimeout(() => {
+            if (aSubMenu.classList.contains("visible-2l")) {
+              aSubMenu.style.setProperty("overflow-y", "auto");
+              aSubMenu.style.setProperty("overflow-x", "hidden");
+              aSubMenu.style.setProperty("-webkit-overflow-scrolling", "touch");
+              setupMobileScrollFade(aSubMenu);
+            }
+          }, 500); // Match CSS transition duration (0.5s)
         }
       }
 
@@ -489,13 +493,29 @@
             }, 500); // Match your CSS transition duration
           }
         } else {
-          // Mobile behavior - hide submenu
-          aSubMenu.style.setProperty("display", "none");
-          aSubMenu.style.removeProperty("width");
-          aSubMenu.style.removeProperty("max-height");
-          aSubMenu.style.removeProperty("overflow-y");
-          aSubMenu.style.removeProperty("overflow-x");
-          aSubMenu.style.removeProperty("-webkit-overflow-scrolling");
+          // Mobile behavior - animated hide
+          // Clear any pending show timeout
+          if (aSubMenu._showTimeout) {
+            clearTimeout(aSubMenu._showTimeout);
+            delete aSubMenu._showTimeout;
+          }
+
+          aSubMenu.style.setProperty("overflow", "hidden");
+          aSubMenu.style.setProperty("max-height", "0");
+          aSubMenu.style.setProperty("opacity", "0");
+
+          // Clean up inline styles after animation completes
+          setTimeout(() => {
+            if (aSubMenu.classList.contains("hidden-2l")) {
+              aSubMenu.style.removeProperty("width");
+              aSubMenu.style.removeProperty("max-height");
+              aSubMenu.style.removeProperty("opacity");
+              aSubMenu.style.removeProperty("overflow");
+              aSubMenu.style.removeProperty("overflow-y");
+              aSubMenu.style.removeProperty("overflow-x");
+              aSubMenu.style.removeProperty("-webkit-overflow-scrolling");
+            }
+          }, 500); // Match CSS transition duration (0.5s)
         }
       }
 
@@ -527,18 +547,29 @@
               // If submenu was open in desktop, apply mobile scrollable styles
               if (isOpen) {
                 const maxHeight = calculateMobileSubmenuHeight(aSubMenu);
-                
-                aSubMenu.style.setProperty("display", "block");
+
+                // Disable transition for instant mode change
+                aSubMenu.style.setProperty("transition", "none", "important");
+                void aSubMenu.offsetHeight;
+
                 aSubMenu.style.setProperty("width", "100%");
                 aSubMenu.style.setProperty("max-height", maxHeight + "px");
+                aSubMenu.style.setProperty("opacity", "1");
                 aSubMenu.style.setProperty("overflow-y", "auto");
                 aSubMenu.style.setProperty("overflow-x", "hidden");
                 aSubMenu.style.setProperty("-webkit-overflow-scrolling", "touch");
-                
+
+                void aSubMenu.offsetHeight;
+
+                // Re-enable transitions
+                setTimeout(() => {
+                  aSubMenu.style.removeProperty("transition");
+                }, 50);
+
                 // Setup scroll fades after layout settles
                 setTimeout(() => {
                   setupMobileScrollFade(aSubMenu);
-                }, 50);
+                }, 100);
               }
             });
             mainMenuNavContainer.style.setProperty("height", "auto");
