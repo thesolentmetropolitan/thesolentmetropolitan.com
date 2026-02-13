@@ -261,7 +261,7 @@
 
   /* Home link -- add left padding so text aligns with dropdown items */
   a.main_nav_link {
-    padding-left: calc(6px + 1.2em);
+    padding-left: calc(6px + 1.4em);
   }
 
   /* Move magnifying glass to the right of "Search" text on mobile */
