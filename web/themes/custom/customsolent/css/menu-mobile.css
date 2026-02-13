@@ -2,6 +2,8 @@
 
   #mast-head {
     width: 15em;
+    padding-left: 1.4em;
+    padding-top: 1em;
   }
 
   #slnt-logo {
@@ -221,13 +223,13 @@
   /* Bigger mobile text (chevrons auto-scale via 1em units) */
   button.main_nav_link,
   a.main_nav_link {
-    font-size: 1.7rem;
+    font-size: 1.6rem;
   }
 
   /* Submenu items: 80% of main menu size */
   .sub-menu-container a.first-link,
   .sub-menu-item-container a {
-    font-size: 1.0rem;
+    font-size: 1.4rem;
   }
 
   /* Move chevrons to the left via flex ordering */
