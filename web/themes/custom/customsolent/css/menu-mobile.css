@@ -221,7 +221,7 @@
   /* Bigger mobile text (chevrons auto-scale via 1em units) */
   button.main_nav_link,
   a.main_nav_link {
-    font-size: 2.0rem;
+    font-size: 1.7rem;
   }
 
   /* Submenu items: 80% of main menu size */
