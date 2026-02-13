@@ -229,7 +229,7 @@
   /* Submenu items: 80% of main menu size */
   .sub-menu-container a.first-link,
   .sub-menu-item-container a {
-    font-size: 1.4rem;
+    font-size: 1.3rem;
   }
 
   /* Move chevrons to the left via flex ordering */

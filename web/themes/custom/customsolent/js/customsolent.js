@@ -505,7 +505,7 @@
           menuItemsHeight += li.offsetHeight + marginTop + marginBottom;
         });
 
-        const bottomPadding = 80;
+        const bottomPadding = 120;
         const maxHeight = viewportHeight - brandingHeight - menuItemsHeight - bottomPadding;
 
         console.log('Mobile submenu height calculation:', {
