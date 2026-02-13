@@ -232,6 +232,18 @@
     font-size: 1.2rem;
   }
 
+  .sub-menu-item-container a {
+    padding-left: 0.3em;
+  }
+
+    .main-menu-item-wrapper > a.main_nav_link,
+    .main-menu-item-wrapper > .main_nav_link > span,
+    .sub-menu-item-container a,
+    .sub-menu-container a.first-link,
+    .sub-menu-container a {
+        color: rgb(16, 60, 96);
+    }
+
   /* Move chevrons to the left via flex ordering */
   .navigation__link__down-icon {
     order: -1;
