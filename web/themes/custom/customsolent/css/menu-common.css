@@ -33,6 +33,7 @@
     display: block;
     flex-shrink: 0;
     overflow: visible;
+    stroke: rgb(16, 60, 96);
 }
 
 /*
