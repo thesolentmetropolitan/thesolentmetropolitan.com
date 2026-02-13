@@ -236,6 +236,10 @@
     padding-left: 0.3em;
   }
 
+  .sub-menu-container a.first-link {
+    text-decoration: none;
+  }
+
     .main-menu-item-wrapper > a.main_nav_link,
     .main-menu-item-wrapper > .main_nav_link > span,
     .sub-menu-item-container a,
