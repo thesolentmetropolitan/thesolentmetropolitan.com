@@ -26,8 +26,6 @@
 
 
 .navigation__link__down-icon {
-    width: 1em;
-    height: 1em;
     margin-bottom: 0;
     transition: transform .4s ease;
     display: block;
@@ -82,7 +80,7 @@ background-color: white;
         border: 0;
         width: auto;
         height: 100%;
-        padding: 0 6px;
+        padding: 0 12px;
         cursor: pointer;
         text-decoration: none;
         color: inherit;
@@ -113,6 +111,7 @@ a.main_nav_link {
 
 button.main_nav_link > span {
   padding-right: 0.2em;
+  color: rgb(16, 60, 96);
 }
 
 

@@ -210,4 +210,22 @@
     z-index: -1;
     /* Explicit for hidden */
   }
+
+  .navigation__link__down-icon {
+    height: 1em;
+    width: 0.9em;
+  }
+
+      .main-menu-item-wrapper > a.main_nav_link {
+        color: rgb(16, 60, 96);
+    }
+
+    .sub-menu-container .first-link,
+    .sub-menu-item-container a {
+      color: rgb(16, 60, 96);
+    }
+
+        .sub-menu-container .first-link {
+          text-decoration: none;
+        }
 }
