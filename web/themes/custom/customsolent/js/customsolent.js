@@ -859,7 +859,7 @@
       }
 
       function get_desktop_offset_height() {
-        return 100;
+        return 96;
       }
 
       /**
