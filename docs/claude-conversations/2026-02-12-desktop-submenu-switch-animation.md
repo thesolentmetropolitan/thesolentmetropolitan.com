@@ -177,3 +177,52 @@ search on any resize mode change.
 - `web/themes/custom/customsolent/js/customsolent.js`
 - `web/themes/custom/customsolent/templates/block/block--search-form-block.html.twig`
 - `web/themes/custom/customsolent/templates/navigation/menu--main.html.twig`
+
+---
+
+### Mobile submenu max-height calculation fix - 12 Feb 2026 (evening)
+
+**Goal**: On smaller mobile screens (e.g. iPhone SE3), the Search main menu item was
+pushed off the bottom of the screen when another menu item's submenu was opened. The
+submenu's `max-height` was too large for the available space.
+
+**Approach**: Replaced the previous clone-based measurement (which used temporary DOM
+elements, 85% scaling factor, and a 60px buffer) with a direct calculation:
+
+`max-height = viewport height - branding block height - all menu li heights - bottom padding`
+
+- Branding block: `#block-customsolent-sitebranding` (falls back to `#slnt-logo`)
+- Menu li heights: all `li` children of `ul.main-menu-item-container.mobile`, measured
+  with `offsetHeight` + computed margins
+- Bottom padding: 20px so Search isn't flush with screen edge
+- Minimum floor: 150px
+
+**Key implementation detail**: Moved the initial collapsed state setup (`max-height: 0;
+overflow: hidden`) in `showSubmenu()` to BEFORE the height calculation. This ensures the
+target submenu is collapsed when measuring its parent `li` height, preventing the
+naturally-expanded submenu content from inflating the measurement.
+
+**Files modified**:
+- `web/themes/custom/customsolent/js/customsolent.js`
+
+### Desktop submenu switch: full-width background during slide-down - same evening
+
+**Goal**: When switching to a taller submenu on desktop, the `.sub-menu-container` div
+showed its `#f0f0f0` background during the slide-down animation, but the full-width
+`::before` pseudo-element (100vw wide) only appeared after the animation completed.
+
+**Root cause**: `clip-path: inset(Npx 0 0 0)` on the submenu clips to the element's
+border box. The `::before` pseudo-element (width: 100vw, extending far beyond the
+submenu's own width) was being clipped to the submenu width throughout the animation.
+After cleanup removed `clip-path` at 550ms, the `::before` became visible.
+
+**Fix**: Changed `clip-path` left/right inset values from `0` to `-100vw`:
+- Before: `inset(Npx 0 0 0)` → `inset(0 0 0 0)`
+- After: `inset(Npx -100vw 0 -100vw)` → `inset(0 -100vw 0 -100vw)`
+
+Negative inset values expand the clipping region beyond the element's bounds, so the
+100vw-wide `::before` is no longer clipped sideways. The top inset still clips the
+portion above the menu bar as before. Fixes GitHub issue #86.
+
+**Files modified**:
+- `web/themes/custom/customsolent/js/customsolent.js`
