@@ -109,8 +109,10 @@
                       const startTop = finalTop - heightDiff;
 
                       // Start at offset position with top portion clipped
+                      // Left/right use -100vw so clip-path doesn't clip the ::before
+                      // pseudo-element (100vw wide full-width background)
                       newMenu.style.setProperty("top", startTop + "px", "important");
-                      newMenu.style.setProperty("clip-path", "inset(" + heightDiff + "px 0 0 0)");
+                      newMenu.style.setProperty("clip-path", "inset(" + heightDiff + "px -100vw 0 -100vw)");
 
                       void newMenu.offsetHeight;
 
@@ -121,7 +123,7 @@
 
                       // Slide to final position, removing clip
                       newMenu.style.setProperty("top", finalTop + "px", "important");
-                      newMenu.style.setProperty("clip-path", "inset(0 0 0 0)");
+                      newMenu.style.setProperty("clip-path", "inset(0 -100vw 0 -100vw)");
 
                     } else if (heightDiff < 0) {
                       // SHORTER new submenu: keep at finalTop (no white gap), use
