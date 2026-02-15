@@ -226,3 +226,32 @@ portion above the menu bar as before. Fixes GitHub issue #86.
 
 **Files modified**:
 - `web/themes/custom/customsolent/js/customsolent.js`
+
+### Desktop submenu reveal: fix visible jump at end of animation - same evening
+
+**Goal**: On desktop, when revealing a submenu (no other submenus open), a small visible
+jump appeared at the top of the submenu div at the very end of the slide-down animation.
+
+**Root cause**: Mismatch between the submenu's CSS `top: 90px` and the header height of
+`96px`. During animation the submenu is at `z-index: -1` (behind the header's white
+background). The 6px overlap (from 90px to 96px) was hidden behind the header. When
+`transitionend` fired and the handler set `z-index: 0`, the submenu moved in front of
+the header, and the 6px strip suddenly appeared — the visible jump.
+
+Three different values were out of alignment:
+- CSS `.visible-2l { top: 90px !important }` — submenu position
+- JS `submenu_desktop_top_reveal = "96px"` — inline top (overridden by CSS !important)
+- JS `get_desktop_offset_height() = 100` — nav height calculation offset
+
+**Fix**: Aligned all values to 96px (matching the header and menu bar height):
+- `menu-desktop.css`: both `.visible-2l` rules changed from `top: 90px` to `top: 96px`
+- `search.css`: `.visible-2l` changed from `top: 90px` to `top: 96px`
+- `customsolent.js`: `get_desktop_offset_height()` changed from 100 to 96
+
+The submenu now starts exactly at the header's bottom edge, so the z-index change at
+transition end reveals no hidden overlap. Fixes GitHub issue #83.
+
+**Files modified**:
+- `web/themes/custom/customsolent/css/menu-desktop.css`
+- `web/themes/custom/customsolent/css/search.css`
+- `web/themes/custom/customsolent/js/customsolent.js`
