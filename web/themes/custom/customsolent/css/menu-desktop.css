@@ -116,7 +116,7 @@
 
   /* Visible position - slides down to reveal */
   .sub-menu-container.visible-2l {
-    top: 90px !important;
+    top: 96px !important;
   }
 
   /* Hidden position - slides up above the menu bar */
@@ -183,7 +183,7 @@
 
   /* Visible position - slides down to reveal */
   .sub-menu-container.visible-2l {
-    top: 90px;
+    top: 96px;
     z-index: 100;
   }
 
