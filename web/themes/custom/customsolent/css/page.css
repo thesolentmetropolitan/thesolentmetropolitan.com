@@ -11,11 +11,12 @@
 
 /* Desktop: constrain site content to 1200px */
 @media screen and (min-width: 1200px) {
-  /* Header constrained to 1200px */
+  /* Header spans full width (blue background); content aligned to main + 2em grid */
   #slnt-header {
-    max-width: 1200px;
-    margin-left: auto;
-    margin-right: auto;
+    max-width: none;
+    box-sizing: border-box;
+    padding-left: max(2em, calc((100% - 1200px) / 2 + 2em));
+    padding-right: max(2em, calc((100% - 1200px) / 2 + 2em));
   }
 
   /* Main content constrained to 1200px */

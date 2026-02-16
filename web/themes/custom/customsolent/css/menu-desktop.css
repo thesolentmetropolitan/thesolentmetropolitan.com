@@ -167,18 +167,6 @@
     background-color: var(--warm-grey);
   }
 
-  /* Active menu item text: solent blue, bold */
-  li:has(.sub-menu-container.visible-2l)>button.main_nav_link > span {
-    color: var(--solent-blue);
-    font-weight: 700;
-  }
-
-  /* Active chevron: solent blue */
-  li:has(.sub-menu-container.visible-2l) .navigation__link__down-icon {
-    fill: var(--solent-blue);
-    stroke: var(--solent-blue);
-  }
-
   /* Constrain submenu content to 1200px */
   .sub-menu-item-container {
     max-width: 1200px;
@@ -263,11 +251,13 @@
     stroke: #fff;
   }
 
-  /* Submenu item text */
+  /* Submenu item text — display:block so padding creates layout space (no overlap) */
   .sub-menu-container .first-link,
   .sub-menu-item-container a {
-    color: var(--text-mid);
+    color: var(--solent-blue);
     transition: background-color 0.15s, color 0.15s;
+    padding: 0.16em 0.2em;
+    display: block;
   }
 
   .sub-menu-container .first-link {
@@ -280,5 +270,17 @@
     background-color: var(--magenta);
     color: #ffffff;
     font-weight: 700;
+  }
+
+  /* Active menu item text: solent blue, bold — after white text rules so cascade wins */
+  .main-menu-item-container>li:has(.sub-menu-container.visible-2l) button.main_nav_link > span {
+    color: var(--solent-blue);
+    font-weight: 700;
+  }
+
+  /* Active chevron: solent blue */
+  .main-menu-item-container>li:has(.sub-menu-container.visible-2l) .navigation__link__down-icon {
+    fill: var(--solent-blue);
+    stroke: var(--solent-blue);
   }
 }
