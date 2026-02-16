@@ -2,6 +2,10 @@
     clear: both;
 }
 
+footer[role="contentinfo"] {
+  background-color: var(--solent-blue);
+}
+
 /* Desktop: full-width footer background with 1200px constrained content */
 @media screen and (min-width: 1200px) {
   /* Full-width wrapper for footer background color */

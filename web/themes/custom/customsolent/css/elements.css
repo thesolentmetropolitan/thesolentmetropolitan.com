@@ -1,9 +1,23 @@
+:root {
+  --solent-blue: #2c4f6e;
+  --solent-blue-light: #3a6489;
+  --solent-blue-pale: #e8eef3;
+  --magenta: #c5007a;
+  --magenta-dark: #a30065;
+  --warm-grey: #f5f3f0;
+  --body-bg: #faf9f7;
+  --text: #1a1a1a;
+  --text-mid: #444444;
+}
+
 .svg-defs {
     display: none;
 }
 
 body {
     margin: 0px;
+    background-color: var(--body-bg);
+    color: var(--text);
 
     display: flex;
     flex-direction: column;
@@ -11,8 +25,8 @@ body {
 }
 
 /* Adjust this selector to match your main content area */
-main, .main-container { 
-    flex: 1; 
+main, .main-container {
+    flex: 1;
 }
 
 /*
@@ -23,4 +37,26 @@ main, .main-container {
 
 .sub-menu-item-container a {
   text-decoration: none;
+}
+
+/* Body content links */
+.layout-content a {
+  color: var(--text);
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-color: var(--magenta);
+  text-underline-offset: 3px;
+  text-decoration-thickness: 2px;
+  transition: color 0.15s;
+}
+
+.layout-content a:hover {
+  color: var(--magenta);
+}
+
+/* Body content headings */
+.layout-content h1,
+.layout-content h2,
+.layout-content h3 {
+  color: var(--solent-blue);
 }

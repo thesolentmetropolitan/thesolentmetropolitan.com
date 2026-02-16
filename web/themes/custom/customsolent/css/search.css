@@ -281,16 +281,33 @@ button.search-menu-item-icon {
     top: 0;
     transform: translateX(-50%);
     z-index: -1;
-    background-color: #f0f0f0;
+    background-color: var(--warm-grey);
   }
 
   /* Background for search button and its parent li when search is open */
   #search-in-menu.navigation__link--selected {
-    background-color: #f0f0f0;
+    background-color: var(--warm-grey);
   }
 
   .main-menu-item-container > li:has(#search-in-menu.navigation__link--selected) {
-    background-color: #f0f0f0;
+    background-color: var(--warm-grey);
+  }
+
+  /* Active search button text: solent blue, bold */
+  #search-in-menu.navigation__link--selected > span {
+    color: var(--solent-blue);
+    font-weight: 700;
+  }
+
+  /* Active search chevron: solent blue */
+  #search-in-menu.navigation__link--selected .navigation__link__down-icon {
+    fill: var(--solent-blue);
+    stroke: var(--solent-blue);
+  }
+
+  /* Active search icon: solent blue */
+  #search-in-menu.navigation__link--selected .search-menu-icon {
+    stroke: var(--solent-blue);
   }
 }
 
