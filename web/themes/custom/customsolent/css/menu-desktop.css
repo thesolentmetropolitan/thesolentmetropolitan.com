@@ -27,7 +27,7 @@
     /* submenu_cover_height related: main_menu_section_height and submenu_desktop_hide_position_top */
 
     opacity: 1.0;
-    background-color: white;
+    background-color: var(--solent-blue);
     position: relative;
   }
 
@@ -154,17 +154,29 @@
 
   /* Background color when submenu is visible */
   .sub-menu-container.visible-2l::before {
-    background-color: #f0f0f0;
+    background-color: var(--warm-grey);
   }
 
-  /* Background color for entire li when its submenu is expanded */
+  /* Background color for entire li when its submenu is expanded (active item) */
   .main-menu-item-container>li:has(.sub-menu-container.visible-2l) {
-    background-color: #f0f0f0;
+    background-color: var(--warm-grey);
   }
 
-  /* Background color for main menu button when its submenu is expanded */
+  /* Background color for main menu button when its submenu is expanded (active item) */
   li:has(.sub-menu-container.visible-2l)>button.main_nav_link {
-    background-color: #f0f0f0;
+    background-color: var(--warm-grey);
+  }
+
+  /* Active menu item text: solent blue, bold */
+  li:has(.sub-menu-container.visible-2l)>button.main_nav_link > span {
+    color: var(--solent-blue);
+    font-weight: 700;
+  }
+
+  /* Active chevron: solent blue */
+  li:has(.sub-menu-container.visible-2l) .navigation__link__down-icon {
+    fill: var(--solent-blue);
+    stroke: var(--solent-blue);
   }
 
   /* Constrain submenu content to 1200px */
@@ -216,16 +228,57 @@
     width: 0.9em;
   }
 
-      .main-menu-item-wrapper > a.main_nav_link {
-        color: rgb(16, 60, 96);
-    }
+  /* Desktop nav link text: white on blue header */
+  button.main_nav_link > span {
+    color: rgba(255, 255, 255, 0.85);
+    transition: color 0.15s;
+  }
 
-    .sub-menu-container .first-link,
-    .sub-menu-item-container a {
-      color: rgb(16, 60, 96);
-    }
+  button.main_nav_link:hover > span {
+    color: #fff;
+  }
 
-        .sub-menu-container .first-link {
-          text-decoration: none;
-        }
+  /* Home link (no child span) */
+  .main-menu-item-wrapper > a.main_nav_link {
+    color: rgba(255, 255, 255, 0.85);
+    transition: color 0.15s;
+  }
+
+  .main-menu-item-wrapper > a.main_nav_link:hover {
+    color: #fff;
+  }
+
+  /* Desktop chevrons: white on blue header */
+  .navigation__link__down-icon {
+    fill: rgba(255, 255, 255, 0.85);
+    stroke: rgba(255, 255, 255, 0.85);
+  }
+
+  /* Desktop search icon: white on blue header */
+  .search-menu-icon {
+    stroke: rgba(255, 255, 255, 0.85);
+  }
+
+  button.main_nav_link:hover .search-menu-icon {
+    stroke: #fff;
+  }
+
+  /* Submenu item text */
+  .sub-menu-container .first-link,
+  .sub-menu-item-container a {
+    color: var(--text-mid);
+    transition: background-color 0.15s, color 0.15s;
+  }
+
+  .sub-menu-container .first-link {
+    text-decoration: none;
+  }
+
+  /* Submenu item hover: magenta */
+  .sub-menu-container .first-link:hover,
+  .sub-menu-item-container a:hover {
+    background-color: var(--magenta);
+    color: #ffffff;
+    font-weight: 700;
+  }
 }
