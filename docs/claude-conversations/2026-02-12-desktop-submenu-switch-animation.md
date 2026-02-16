@@ -255,3 +255,51 @@ transition end reveals no hidden overlap. Fixes GitHub issue #83.
 - `web/themes/custom/customsolent/css/menu-desktop.css`
 - `web/themes/custom/customsolent/css/search.css`
 - `web/themes/custom/customsolent/js/customsolent.js`
+
+---
+
+### Colourway implementation — 12 Feb 2026 (evening, `colourways` branch)
+
+**Goal**: Implement a new colour palette from `docs/design-and-theming/colourway-brief.md`.
+Work done on a `colourways` feature branch.
+
+**CSS variables added** (`:root` in `elements.css`):
+`--solent-blue: #2c4f6e`, `--magenta: #c5007a`, `--warm-grey: #f5f3f0`,
+`--body-bg: #faf9f7`, `--text: #1a1a1a`, `--text-mid: #444444`, plus light/dark variants.
+
+**Changes implemented** (all desktop-scoped via `@media min-width: 1200px` where needed):
+
+1. **Page background**: `body { background-color: var(--body-bg) }` — off-white `#faf9f7`
+2. **Nav bar**: `#slnt-header` background → solent-blue. Nav link text → white (0.85 opacity,
+   full white on hover). Chevrons and search icon → white. Desktop only; mobile unchanged.
+3. **Active/open menu item**: warm-grey background, solent-blue bold text. Chevron turns
+   solent-blue. Search button gets same treatment when active.
+4. **Submenu panel**: `::before` background `#f0f0f0` → `var(--warm-grey)`. Same in search.css.
+5. **Submenu items**: colour solent-blue (not #444), `display: block` with `0.16em 0.2em`
+   padding so hover backgrounds don't overlap adjacent items. Hover: magenta bg, white bold text.
+6. **Body content links**: bold, 2px magenta underline, 3px offset. Hover turns magenta.
+7. **Headings** (h1-h3 in `.layout-content`): solent-blue.
+8. **Footer**: solent-blue background, `rgba(255,255,255,0.5)` text.
+9. **Header border**: steelblue → `var(--solent-blue)`.
+
+**Active menu text fix**: Initial selector `li:has(...)>button > span` didn't match because
+the DOM has `li > div.main-menu-item-wrapper > button > span`. Fixed by changing `>button`
+to ` button` (descendant selector). Also moved active state rules after the white text rules
+for cascade order safety.
+
+**Full-width header**: Removed `max-width: 1200px` on `#slnt-header` in `page.css`. Added
+dynamic padding `max(2em, calc((100% - 1200px) / 2 + 2em))` to align header content to
+the same grid as `main` + `.slnt-content-1-column` (2em inset).
+
+**Submenu alignment**: Attempted dynamic padding approach on `.sub-menu-item-container` and
+`.first-link` but it broke alignment. Reverted to original `max-width: 1200px; margin: auto`.
+Submenu horizontal alignment to main content grid still to be resolved.
+
+**Files modified**:
+- `web/themes/custom/customsolent/css/elements.css`
+- `web/themes/custom/customsolent/css/menu-desktop.css`
+- `web/themes/custom/customsolent/css/search.css`
+- `web/themes/custom/customsolent/css/header.css`
+- `web/themes/custom/customsolent/css/footer-base.css`
+- `web/themes/custom/customsolent/css/footer-end.css`
+- `web/themes/custom/customsolent/css/page.css`
