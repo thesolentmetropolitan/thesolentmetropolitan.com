@@ -171,19 +171,30 @@
                   }, 180); // Match CSS transition duration (0.18s)
                 }
               } else {
-                // Normal open/close (not switching)
+                // Normal open/close (not switching between submenus)
+                // Check if search form is open — capture height for slide animation
+                let oldSearchHeight = 0;
+                const searchFormEl = document.querySelector('#search-form-container');
+                if (searchFormEl && searchFormEl.classList.contains('visible-2l')) {
+                  oldSearchHeight = searchFormEl.offsetHeight;
+                }
+
                 // Close search form if open (instant, skip height reset since submenu will set it)
                 hideSearchForm(true, true);
                 const searchBtn = document.querySelector('#search-in-menu');
                 if (searchBtn) searchBtn.classList.remove('navigation__link--selected');
 
+                // When switching from search, skip height reset for other submenus
+                // (showSubmenu will set the correct nav height via slide animation)
+                const skipOtherReset = oldSearchHeight > 0;
+
                 allSubMenuContainers.forEach(aSubMenu => {
                   if (aSubMenu.isEqualNode(subMenuContainerForClickedButton)) {
                     toggleChevron(aSubMenu);
-                    toggleSubmenu(aSubMenu, false);
+                    toggleSubmenu(aSubMenu, false, oldSearchHeight);
                   } else {
                     unselectChevron(aSubMenu);
-                    hideSubmenu(aSubMenu, true, false);
+                    hideSubmenu(aSubMenu, true, skipOtherReset);
                   }
                 });
               }
@@ -344,8 +355,9 @@
        * Toggle submenu between shown and hidden states
        * @param {Element} aSubMenu - The submenu element
        * @param {boolean} instantShow - If true, show without animation (used when switching between submenus)
+       * @param {number} oldHeight - Height of the previously open panel (for slide animation)
        */
-      function toggleSubmenu(aSubMenu, instantShow = false) {
+      function toggleSubmenu(aSubMenu, instantShow = false, oldHeight = 0) {
         // Use the intended state, not the current class which changes immediately
         // Check if we're currently animating to show or already shown
         const isCurrentlyOrBecomingVisible = aSubMenu.classList.contains("visible-2l");
@@ -365,8 +377,8 @@
           hideSubmenu(aSubMenu);
         } else {
           // It's hidden or becoming hidden, so show it
-          console.log('→ Calling showSubmenu, instant:', instantShow);
-          showSubmenu(aSubMenu, instantShow);
+          console.log('→ Calling showSubmenu, instant:', instantShow, 'oldHeight:', oldHeight);
+          showSubmenu(aSubMenu, instantShow, oldHeight);
         }
       }
 
@@ -374,9 +386,10 @@
        * Show a submenu with optional instant mode (no animation)
        * @param {Element} aSubMenu - The submenu element
        * @param {boolean} instant - If true, show without animation (used when switching between submenus)
+       * @param {number} oldHeight - Height of the previously open panel (for slide animation when switching from search)
        */
-      function showSubmenu(aSubMenu, instant = false) {
-        console.log('showSubmenu START, instant:', instant);
+      function showSubmenu(aSubMenu, instant = false, oldHeight = 0) {
+        console.log('showSubmenu START, instant:', instant, 'oldHeight:', oldHeight);
 
         // IMPORTANT: Remove ALL existing listeners first to prevent conflicts
         removeTransitionListeners(aSubMenu);
@@ -422,10 +435,79 @@
             setTimeout(() => {
               aSubMenu.style.removeProperty("transition");
             }, 50);
+          } else if (oldHeight > 0) {
+            // Slide animation: switching from another panel (e.g. search form)
+            // Uses same heightDiff logic as submenu-to-submenu switching
+            const slntHeader = document.getElementById('slnt-header');
+            const desktop_offset_height = get_desktop_offset_height();
+            const finalTop = desktop_offset_height;
+
+            // Disable transitions to set up initial state instantly
+            aSubMenu.style.setProperty("transition", "none", "important");
+
+            // Create stacking context so z-index:-1 renders behind header
+            slntHeader.style.setProperty("isolation", "isolate");
+
+            // Position at final position to measure natural height
+            aSubMenu.style.setProperty("top", finalTop + "px", "important");
+            aSubMenu.style.setProperty("z-index", "-1");
+            aSubMenu.style.setProperty("visibility", "visible");
+            aSubMenu.style.setProperty("opacity", "1");
+
+            void aSubMenu.offsetHeight;
+            const newSubmenuHeight = aSubMenu.offsetHeight;
+
+            const heightDiff = newSubmenuHeight - oldHeight;
+
+            if (heightDiff > 0) {
+              // TALLER: slide DOWN from behind header
+              const startTop = finalTop - heightDiff;
+
+              aSubMenu.style.setProperty("top", startTop + "px", "important");
+              aSubMenu.style.setProperty("clip-path", "inset(" + heightDiff + "px -100vw 0 -100vw)");
+
+              void aSubMenu.offsetHeight;
+
+              aSubMenu.style.setProperty("transition", "top 0.5s ease, clip-path 0.5s ease", "important");
+
+              void aSubMenu.offsetHeight;
+
+              aSubMenu.style.setProperty("top", finalTop + "px", "important");
+              aSubMenu.style.setProperty("clip-path", "inset(0 -100vw 0 -100vw)");
+            } else if (heightDiff < 0) {
+              // SHORTER: padding-top animation
+              const paddingOffset = Math.abs(heightDiff);
+
+              aSubMenu.style.setProperty("top", finalTop + "px", "important");
+              aSubMenu.style.setProperty("padding-top", (paddingOffset + submenu_padding_top) + "px");
+
+              void aSubMenu.offsetHeight;
+
+              aSubMenu.style.setProperty("transition", "padding-top 0.5s ease", "important");
+
+              void aSubMenu.offsetHeight;
+
+              aSubMenu.style.setProperty("padding-top", submenu_padding_top + "px");
+            }
+            // heightDiff === 0: no animation needed, submenu is already at correct position
+
+            // Animate nav container height
+            const navHeight = newSubmenuHeight + desktop_offset_height;
+            mainMenuNavContainer.style.setProperty("height", navHeight + "px");
+
+            // Clean up after animation completes
+            setTimeout(() => {
+              aSubMenu.style.removeProperty("transition");
+              aSubMenu.style.removeProperty("top");
+              aSubMenu.style.removeProperty("z-index");
+              aSubMenu.style.removeProperty("clip-path");
+              aSubMenu.style.removeProperty("padding-top");
+              slntHeader.style.removeProperty("isolation");
+            }, 550);
           } else {
+            // Normal animated show: fade in with transition
             // Position the submenu
             aSubMenu.style.setProperty("top", submenu_desktop_top_reveal);
-            // Animated show: fade in with transition
             // Start with z-index -1 during animation
             aSubMenu.style.setProperty("z-index", "-1");
 
