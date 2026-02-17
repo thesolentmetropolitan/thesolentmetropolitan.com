@@ -260,6 +260,7 @@ button.search-menu-item-icon {
     transition-property: opacity, top;
     transition-timing-function: ease;
     transition-duration: .5s;
+    padding-bottom: 16px;
   }
 
   #search-form-container.visible-2l {

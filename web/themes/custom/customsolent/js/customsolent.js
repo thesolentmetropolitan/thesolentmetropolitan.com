@@ -148,7 +148,7 @@
 
                     // Animate nav container height in sync (nav has its own 0.5s height transition)
                     const desktop_offset_height = get_desktop_offset_height();
-                    const navHeight = newSubmenuHeight + desktop_offset_height + 16;
+                    const navHeight = newSubmenuHeight + desktop_offset_height;
                     mainMenuNavContainer.style.setProperty("height", navHeight + "px");
 
                     // Step 4: Fade in new submenu text
@@ -626,7 +626,7 @@
             // Set nav height for search form
             const offsetHeight = searchFormContainer.offsetHeight;
             const desktop_offset_height = get_desktop_offset_height();
-            const navHeight = offsetHeight + desktop_offset_height + 16;
+            const navHeight = offsetHeight + desktop_offset_height;
             mainMenuNavContainer.style.setProperty('height', navHeight + 'px');
 
             requestAnimationFrame(() => {
@@ -870,7 +870,7 @@
       function desktop_menu_drawer_show(aSubMenu, mainMenuNavContainer) {
         const offsetHeight = aSubMenu.offsetHeight;
         const desktop_offset_height = get_desktop_offset_height();
-        const offsetHeightCalc = parseInt(offsetHeight) + desktop_offset_height + 16;
+        const offsetHeightCalc = parseInt(offsetHeight) + desktop_offset_height;
 
         console.log('Setting nav height to:', offsetHeightCalc + 'px');
         mainMenuNavContainer.style.setProperty("height", offsetHeightCalc + "px");
