@@ -1,9 +1,9 @@
-# Submenu Padding — Extend Warm-Grey to Header Border + Top Breathing Room
+# Submenu Padding & Search Animation
 
 **Date:** 2026-02-17
-**Branch:** main
-**Commits:** `dcf2210` (bottom fill), `ae67885` (top padding)
-**Status:** Partially complete — bottom fill may need further refinement
+**Branch:** main + `search-animation` (feature branch)
+**Commits:** `dcf2210` (bottom fill), `ae67885` (top padding), `8a4a3a7`..`574661e` on `search-animation` (search slide animation)
+**Status:** Bottom fill may need further refinement; search animation on feature branch for testing
 
 ## Problem
 
@@ -49,6 +49,34 @@ Simply adding `padding-top: 16px` in CSS wasn't enough. The JS switching animati
 3. **JS animation** — Shorter-submenu case now starts at `paddingOffset + submenu_padding_top` and animates to `submenu_padding_top` (not 0). When cleanup removes the inline style, CSS 16px matches the animation end state — no jerk.
 
 No changes needed for the taller-submenu case (clip-path animation) or nav height calculations — `offsetHeight` naturally includes the CSS padding.
+
+## Search Form Slide Animation (branch `search-animation`, commits `8a4a3a7`..`574661e`)
+
+Added slide-down/slide-up animations for the search form, matching the submenu switching behaviour. Also added `padding-top: 16px` to `#search-form-container`.
+
+### Changes
+
+1. **`search.css`** — Added `padding-top: 16px` to `#search-form-container`
+2. **`showSearchForm(oldHeight = 0)`** — Rewrote desktop branch:
+   - Uses clip-path slide-down from behind header (like submenu taller case)
+   - Accepts `oldHeight` for heightDiff animation when switching from a submenu
+   - Shorter-than-old case uses padding-top animation (accounting for `submenu_padding_top`)
+3. **`hideSearchForm(instant, skipHeightReset)`** — Rewrote desktop non-instant branch:
+   - Keeps `visible-2l` class during animation (CSS `!important` on `.hidden-2l` would interfere)
+   - Slides up with clip-path + top animation (reverse of show)
+   - Swaps classes and cleans up after 550ms
+4. **`showSubmenu(aSubMenu, instant, oldHeight)`** — New `oldHeight` parameter:
+   - When `oldHeight > 0`, uses heightDiff slide animation (same as submenu-to-submenu switching)
+   - Enables smooth search-to-submenu transitions
+5. **Click handler updates:**
+   - Search button: captures old submenu height, instant-hides submenus, passes height to `showSearchForm`
+   - Menu button: captures old search height, instant-hides search, passes height to `toggleSubmenu`/`showSubmenu`
+
+### Nav Height Reset Bug
+
+When switching from search to a submenu, `hideSubmenu(aSubMenu, true, false)` was called for every non-clicked submenu in the `forEach` loop. Even though they were already hidden, `hideSubmenu` with `skipHeightReset=false` reset the nav to 96px — overwriting the correct height that `showSubmenu` had just set synchronously.
+
+**Fix:** When `oldSearchHeight > 0`, pass `skipHeightReset=true` to the other submenu hides. This doesn't affect the normal open/close path (where `showSubmenu` sets the nav height asynchronously via `requestAnimationFrame`).
 
 ## TODO / Further Refinement
 
