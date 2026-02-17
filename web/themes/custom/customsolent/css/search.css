@@ -260,6 +260,7 @@ button.search-menu-item-icon {
     transition-property: opacity, top;
     transition-timing-function: ease;
     transition-duration: .5s;
+    padding-top: 16px; /* submenu_padding_top in JS */
     padding-bottom: 16px;
   }
 
