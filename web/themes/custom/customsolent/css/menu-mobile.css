@@ -36,7 +36,7 @@
     /*height: 100px;*/
     opacity: 1.0;
     z-index: 10;
-    background-color: white;
+    background-color: var(--solent-blue);
   }
 
   main {
@@ -127,7 +127,7 @@
     */
 
   .slnt-menu-main-ul {
-    background: white;
+    background: var(--solent-blue);
   }
 
   .sub-menu-container.visible {
@@ -172,11 +172,11 @@
     height: 50px;
     margin-bottom: -50px;
     background: linear-gradient(
-      to bottom, 
-      rgba(255, 255, 255, 1) 0%,
-      rgba(255, 255, 255, 0.9) 20%,
-      rgba(255, 255, 255, 0.5) 60%,
-      rgba(255, 255, 255, 0) 100%
+      to bottom,
+      rgba(245, 243, 240, 1) 0%,
+      rgba(245, 243, 240, 0.9) 20%,
+      rgba(245, 243, 240, 0.5) 60%,
+      rgba(245, 243, 240, 0) 100%
     );
     pointer-events: none;
     opacity: 1;
@@ -196,11 +196,11 @@
     height: 50px;
     margin-top: -50px;
     background: linear-gradient(
-      to bottom, 
-      rgba(255, 255, 255, 0) 0%,
-      rgba(255, 255, 255, 0.5) 40%,
-      rgba(255, 255, 255, 0.9) 80%,
-      rgba(255, 255, 255, 1) 100%
+      to bottom,
+      rgba(245, 243, 240, 0) 0%,
+      rgba(245, 243, 240, 0.5) 40%,
+      rgba(245, 243, 240, 0.9) 80%,
+      rgba(245, 243, 240, 1) 100%
     );
     pointer-events: none;
     opacity: 1;
@@ -240,12 +240,49 @@
     text-decoration: none;
   }
 
-    .main-menu-item-wrapper > a.main_nav_link,
-    .main-menu-item-wrapper > .main_nav_link > span,
+    /* Mobile submenu text: keep dark blue */
     .sub-menu-item-container a,
     .sub-menu-container a.first-link,
     .sub-menu-container a {
         color: rgb(16, 60, 96);
+    }
+
+    /* Mobile main menu text: white on blue, matching desktop */
+    .main-menu-item-wrapper > a.main_nav_link,
+    .main-menu-item-wrapper > .main_nav_link > span {
+        color: rgba(255, 255, 255, 0.85);
+        transition: color 0.15s;
+    }
+
+    .main-menu-item-wrapper > a.main_nav_link:hover,
+    .main-menu-item-wrapper:hover > .main_nav_link > span {
+        color: #fff;
+    }
+
+    /* Mobile chevrons: white on blue */
+    .navigation__link__down-icon {
+        fill: rgba(255, 255, 255, 0.85);
+        stroke: rgba(255, 255, 255, 0.85);
+    }
+
+    button.main_nav_link:hover .navigation__link__down-icon {
+        fill: #fff;
+        stroke: #fff;
+    }
+
+    /* Mobile search icon: white on blue */
+    .search-menu-icon {
+        stroke: rgba(255, 255, 255, 0.85);
+    }
+
+    button.main_nav_link:hover .search-menu-icon {
+        stroke: #fff;
+    }
+
+    /* Mobile submenu background: warm grey (matching desktop) */
+    .sub-menu-container.visible,
+    .sub-menu-container.visible-2l {
+        background-color: var(--warm-grey);
     }
 
   /* Move chevrons to the left via flex ordering */
@@ -305,10 +342,10 @@ https://stackoverflow.com/questions/79791175/how-to-stop-tap-highlight-blink-on-
 }
 */
 
-/* Burger menu - adjusted for white background */
+/* Burger menu - adjusted for solent blue background */
 
 .slnt-togl-expand {
-  color: black;
+  color: rgba(255, 255, 255, 0.85);
   transition: all .5s ease-in-out;
   display: inline-block;
   text-decoration: none;
@@ -319,7 +356,7 @@ https://stackoverflow.com/questions/79791175/how-to-stop-tap-highlight-blink-on-
 }
 
 .slnt-togl-expand:hover {
-  color: #333;
+  color: #fff;
 }
 
 .slnt-togl-expand .menu-icon {
@@ -335,7 +372,7 @@ https://stackoverflow.com/questions/79791175/how-to-stop-tap-highlight-blink-on-
 }
 
 .slnt-togl-expand .menu-icon span {
-  background: #000;
+  background: rgba(255, 255, 255, 0.85);
   display: block;
   height: 4px;
   width: 30px;
@@ -358,7 +395,7 @@ https://stackoverflow.com/questions/79791175/how-to-stop-tap-highlight-blink-on-
 .slnt-togl-expand .menu-text {
   font-size: 1rem;
   line-height: 1em;
-  color: #000;
+  color: rgba(255, 255, 255, 0.85);
   transition: all .3s ease-in-out;
 }
 
@@ -372,16 +409,16 @@ https://stackoverflow.com/questions/79791175/how-to-stop-tap-highlight-blink-on-
 
 /* Hover states */
 .slnt-togl-expand:hover .menu-icon span {
-  background: #333;
+  background: #fff;
 }
 
 .slnt-togl-expand:hover .menu-text {
-  color: #333;
+  color: #fff;
 }
 
 /* Open state */
 .slnt-togl-expand.slnt-togl-expand--open .menu-icon span {
-  background: #000;
+  background: rgba(255, 255, 255, 0.85);
 }
 
 .slnt-togl-expand.slnt-togl-expand--open .menu-icon span.top {
@@ -399,7 +436,7 @@ https://stackoverflow.com/questions/79791175/how-to-stop-tap-highlight-blink-on-
 }
 
 .slnt-togl-expand.slnt-togl-expand--open .menu-text {
-  color: #000;
+  color: rgba(255, 255, 255, 0.85);
 }
 
 .slnt-togl-expand.slnt-togl-expand--open .menu-text .icon-burger {
@@ -411,16 +448,16 @@ https://stackoverflow.com/questions/79791175/how-to-stop-tap-highlight-blink-on-
 }
 
 .slnt-togl-expand.slnt-togl-expand--open:hover .menu-icon span {
-  background: #333;
+  background: #fff;
 }
 
 .slnt-togl-expand.slnt-togl-expand--open:hover .menu-text {
-  color: #333;
+  color: #fff;
 }
 
 /* Overlay - when menu is open */
 .slnt-overlay-menu-bg {
-  background-color: white;
+  background-color: var(--solent-blue);
   transition: all .5s ease-in-out;
   z-index: 100;
   height: 100vh;
