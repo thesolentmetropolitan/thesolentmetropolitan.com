@@ -99,6 +99,7 @@
     width: 100%;
     right: 0px;
     position: absolute;
+    padding-bottom: 16px; /* TODO: submenu-bottom-fill — warm-grey background extends to header border-bottom. May need further refinement. */
   }
 
   /* Desktop: Apply transition to submenu for slide animation */
