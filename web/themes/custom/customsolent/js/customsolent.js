@@ -11,6 +11,7 @@
       /* desktop height constants */
       const submenu_desktop_top_reveal = "96px";
       const menu_bar_height = "96px";
+      const submenu_padding_top = 16; /* matches CSS padding-top on .sub-menu-container */
       
       let currentMode = null; // Track current mode to detect changes
 
@@ -127,23 +128,23 @@
 
                     } else if (heightDiff < 0) {
                       // SHORTER new submenu: keep at finalTop (no white gap), use
-                      // padding-top to push content down, then animate padding to 0.
+                      // padding-top to push content down, then animate padding to base.
                       // The ::before background (height:100%) fills the padding area
-                      // so the #f0f0f0 background connects seamlessly with the menu bar.
+                      // so the warm-grey background connects seamlessly with the menu bar.
                       const paddingOffset = Math.abs(heightDiff);
 
                       // Keep submenu at final position - no gap between menu bar and submenu
                       newMenu.style.setProperty("top", finalTop + "px", "important");
-                      newMenu.style.setProperty("padding-top", paddingOffset + "px");
+                      newMenu.style.setProperty("padding-top", (paddingOffset + submenu_padding_top) + "px");
 
                       void newMenu.offsetHeight;
 
-                      // Animate padding-top to 0 (content slides up, background contracts from bottom)
+                      // Animate padding-top to base value (content slides up, background contracts from bottom)
                       newMenu.style.setProperty("transition", "padding-top 0.5s ease", "important");
 
                       void newMenu.offsetHeight;
 
-                      newMenu.style.setProperty("padding-top", "0px");
+                      newMenu.style.setProperty("padding-top", submenu_padding_top + "px");
                     }
 
                     // Animate nav container height in sync (nav has its own 0.5s height transition)
