@@ -172,8 +172,8 @@
                 }
               } else {
                 // Normal open/close (not switching)
-                // Close search form if open (skip height reset since submenu will set it)
-                hideSearchForm(false, true);
+                // Close search form if open (instant, skip height reset since submenu will set it)
+                hideSearchForm(true, true);
                 const searchBtn = document.querySelector('#search-in-menu');
                 if (searchBtn) searchBtn.classList.remove('navigation__link--selected');
 
@@ -604,9 +604,10 @@
       }
 
       /**
-       * Show the search form with animation (like showSubmenu)
+       * Show the search form with slide-down animation (like submenu switching)
+       * @param {number} oldHeight - Height of the previously open panel (submenu or 0 if none)
        */
-      function showSearchForm() {
+      function showSearchForm(oldHeight = 0) {
         const searchFormContainer = document.querySelector('#search-form-container');
         if (!searchFormContainer || searchFormContainer.classList.contains('visible-2l')) return;
 
@@ -614,33 +615,76 @@
         searchFormContainer.classList.add('visible-2l');
 
         if (!isMobile()) {
-          // Desktop: animate slide down like submenus
+          // Desktop: slide down from behind header (like submenu switching animation)
           const mainMenuNavContainer = get_mainMenuNavContainer();
+          const slntHeader = document.getElementById('slnt-header');
+          const desktop_offset_height = get_desktop_offset_height();
+          const finalTop = desktop_offset_height;
 
-          searchFormContainer.style.setProperty('z-index', '-1');
-          searchFormContainer.style.setProperty('visibility', 'visible');
-          searchFormContainer.style.setProperty('opacity', '0');
+          // Disable transitions to set up initial state instantly
+          searchFormContainer.style.setProperty("transition", "none", "important");
+
+          // Create stacking context so z-index:-1 renders behind header
+          slntHeader.style.setProperty("isolation", "isolate");
+
+          // Position at final position to measure natural height
+          searchFormContainer.style.setProperty("top", finalTop + "px", "important");
+          searchFormContainer.style.setProperty("z-index", "-1");
+          searchFormContainer.style.setProperty("visibility", "visible");
+          searchFormContainer.style.setProperty("opacity", "1");
 
           void searchFormContainer.offsetHeight;
+          const searchHeight = searchFormContainer.offsetHeight;
 
-          requestAnimationFrame(() => {
-            // Set nav height for search form
-            const offsetHeight = searchFormContainer.offsetHeight;
-            const desktop_offset_height = get_desktop_offset_height();
-            const navHeight = offsetHeight + desktop_offset_height;
-            mainMenuNavContainer.style.setProperty('height', navHeight + 'px');
+          const heightDiff = searchHeight - oldHeight;
 
-            requestAnimationFrame(() => {
-              searchFormContainer.style.setProperty('opacity', '1');
-            });
-          });
+          if (heightDiff >= 0) {
+            // TALLER (or opening from nothing): slide DOWN from behind header
+            const startTop = finalTop - heightDiff;
 
-          // After transition completes, set z-index for interactive content
+            searchFormContainer.style.setProperty("top", startTop + "px", "important");
+            searchFormContainer.style.setProperty("clip-path", "inset(" + heightDiff + "px -100vw 0 -100vw)");
+
+            void searchFormContainer.offsetHeight;
+
+            searchFormContainer.style.setProperty("transition", "top 0.5s ease, clip-path 0.5s ease", "important");
+
+            void searchFormContainer.offsetHeight;
+
+            searchFormContainer.style.setProperty("top", finalTop + "px", "important");
+            searchFormContainer.style.setProperty("clip-path", "inset(0 -100vw 0 -100vw)");
+          } else {
+            // SHORTER than old panel: padding-top animation
+            const paddingOffset = Math.abs(heightDiff);
+
+            searchFormContainer.style.setProperty("top", finalTop + "px", "important");
+            searchFormContainer.style.setProperty("padding-top", (paddingOffset + submenu_padding_top) + "px");
+
+            void searchFormContainer.offsetHeight;
+
+            searchFormContainer.style.setProperty("transition", "padding-top 0.5s ease", "important");
+
+            void searchFormContainer.offsetHeight;
+
+            searchFormContainer.style.setProperty("padding-top", submenu_padding_top + "px");
+          }
+
+          // Animate nav container height
+          const navHeight = searchHeight + desktop_offset_height;
+          mainMenuNavContainer.style.setProperty("height", navHeight + "px");
+
+          // Clean up after animation completes
           setTimeout(() => {
+            searchFormContainer.style.removeProperty("transition");
+            searchFormContainer.style.removeProperty("top");
+            searchFormContainer.style.removeProperty("clip-path");
+            searchFormContainer.style.removeProperty("padding-top");
+            slntHeader.style.removeProperty("isolation");
+            // Set z-index for interactive content (search input needs to be clickable)
             if (searchFormContainer.classList.contains('visible-2l')) {
               searchFormContainer.style.setProperty('z-index', '0');
             }
-          }, 500);
+          }, 550);
         } else {
           // Mobile: animate max-height
           searchFormContainer.style.setProperty('overflow', 'hidden');
@@ -661,7 +705,7 @@
       }
 
       /**
-       * Hide the search form with optional instant mode (like hideSubmenu)
+       * Hide the search form with optional instant mode
        * @param {boolean} instant - If true, hide without animation
        * @param {boolean} skipHeightReset - If true, don't reset nav height
        */
@@ -669,30 +713,58 @@
         const searchFormContainer = document.querySelector('#search-form-container');
         if (!searchFormContainer || !searchFormContainer.classList.contains('visible-2l')) return;
 
-        searchFormContainer.classList.add('hidden-2l');
-        searchFormContainer.classList.remove('visible-2l');
-
         if (!isMobile()) {
           // Desktop
-          if (!skipHeightReset) {
-            const mainMenuNavContainer = get_mainMenuNavContainer();
-            if (!check_submenu_open()) {
-              mainMenuNavContainer.style.setProperty('height', menu_bar_height);
-            }
-          }
-
-          searchFormContainer.style.setProperty('z-index', '-1');
+          const mainMenuNavContainer = get_mainMenuNavContainer();
+          const slntHeader = document.getElementById('slnt-header');
 
           if (instant) {
+            // Instant hide: swap classes and reset immediately
+            searchFormContainer.classList.add('hidden-2l');
+            searchFormContainer.classList.remove('visible-2l');
+
+            if (!skipHeightReset && !check_submenu_open()) {
+              mainMenuNavContainer.style.setProperty('height', menu_bar_height);
+            }
+
+            searchFormContainer.style.setProperty('z-index', '-1');
             searchFormContainer.style.setProperty('visibility', 'hidden');
             searchFormContainer.style.setProperty('opacity', '0');
           } else {
-            searchFormContainer.style.setProperty('opacity', '0');
+            // Animated hide: slide UP behind header (reverse of show)
+            const searchHeight = searchFormContainer.offsetHeight;
+            const currentTop = parseInt(getComputedStyle(searchFormContainer).top);
+            const endTop = currentTop - searchHeight;
+
+            // Keep visible-2l during animation so CSS !important doesn't interfere
+            slntHeader.style.setProperty("isolation", "isolate");
+            searchFormContainer.style.setProperty("z-index", "-1");
+
+            searchFormContainer.style.setProperty("transition", "top 0.5s ease, clip-path 0.5s ease", "important");
+
+            void searchFormContainer.offsetHeight;
+
+            // Slide up and clip from top simultaneously
+            searchFormContainer.style.setProperty("top", endTop + "px", "important");
+            searchFormContainer.style.setProperty("clip-path", "inset(" + searchHeight + "px -100vw 0 -100vw)");
+
+            // Animate nav height back
+            if (!skipHeightReset && !check_submenu_open()) {
+              mainMenuNavContainer.style.setProperty('height', menu_bar_height);
+            }
+
+            // Clean up after animation completes
             setTimeout(() => {
-              if (searchFormContainer.classList.contains('hidden-2l')) {
-                searchFormContainer.style.setProperty('visibility', 'hidden');
-              }
-            }, 500);
+              searchFormContainer.classList.add('hidden-2l');
+              searchFormContainer.classList.remove('visible-2l');
+
+              searchFormContainer.style.removeProperty("transition");
+              searchFormContainer.style.removeProperty("top");
+              searchFormContainer.style.removeProperty("clip-path");
+              searchFormContainer.style.setProperty('visibility', 'hidden');
+              searchFormContainer.style.setProperty('opacity', '0');
+              slntHeader.style.removeProperty("isolation");
+            }, 550);
           }
         } else {
           // Mobile
@@ -1004,14 +1076,20 @@
             hideSearchForm();
             searchMenuButton.classList.remove('navigation__link--selected');
           } else {
-            // Open search - first close any open submenus
+            // Open search - first measure and close any open submenus
+            let oldSubmenuHeight = 0;
+            const openSubmenu = document.querySelector('.sub-menu-container.visible-2l');
+            if (openSubmenu) {
+              oldSubmenuHeight = openSubmenu.offsetHeight;
+            }
+
             const allSubMenuContainers = document.querySelectorAll('.main-menu-item-container > * .sub-menu-container');
             allSubMenuContainers.forEach(aSubMenu => {
               unselectChevron(aSubMenu);
-              hideSubmenu(aSubMenu, false, true); // animated, skip height reset
+              hideSubmenu(aSubMenu, true, true); // instant hide, skip height reset
             });
 
-            showSearchForm();
+            showSearchForm(oldSubmenuHeight);
             searchMenuButton.classList.add('navigation__link--selected');
           }
         });
