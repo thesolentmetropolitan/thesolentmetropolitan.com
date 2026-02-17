@@ -99,6 +99,7 @@
     width: 100%;
     right: 0px;
     position: absolute;
+    padding-top: 16px; /* submenu_padding_top in JS */
     padding-bottom: 16px; /* TODO: submenu-bottom-fill — warm-grey background extends to header border-bottom. May need further refinement. */
   }
 
