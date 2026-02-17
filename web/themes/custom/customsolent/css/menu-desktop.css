@@ -283,4 +283,12 @@
     fill: var(--solent-blue);
     stroke: var(--solent-blue);
   }
+
+  ul.sub-menu-item-container {
+      padding-left: 0.4em;
+}
+
+.sub-menu-container > a.first-link {
+    padding-inline-start: 0.4em;
+}
 }

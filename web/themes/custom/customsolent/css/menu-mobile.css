@@ -313,7 +313,7 @@
   }
 
 
-}
+
 
 /*
 
@@ -492,16 +492,10 @@ https://stackoverflow.com/questions/79791175/how-to-stop-tap-highlight-blink-on-
 
 
 
-ul.sub-menu-item-container {
-      padding-left: 0.4em;
-}
 
-.sub-menu-container > a.first-link {
-    padding-inline-start: 0.4em;
-}
 
 /* Mobile submenu indentation - beneath main items, slightly more to the right */
-@media (max-width: 1199px) {
+
   ul.sub-menu-item-container {
     padding-left: 2em;
   }
