@@ -1,8 +1,9 @@
-# Submenu Bottom Fill — Extend Warm-Grey to Header Border
+# Submenu Padding — Extend Warm-Grey to Header Border + Top Breathing Room
 
 **Date:** 2026-02-17
 **Branch:** main
-**Status:** Partially complete — may need further refinement
+**Commits:** `dcf2210` (bottom fill), `ae67885` (top padding)
+**Status:** Partially complete — bottom fill may need further refinement
 
 ## Problem
 
@@ -30,8 +31,27 @@ Moved the 16px spacing from a JS offset into CSS `padding-bottom`, so the spacin
 
 The padding is now inside the measured `offsetHeight`, so the nav height target matches the submenu's visual height exactly. Both animate together over 0.5s — no flash or abrupt appearance.
 
+## Padding-Top Addition (commit `ae67885`)
+
+Added 16px padding-top to `.sub-menu-container` for breathing room between the blue header bar and the first submenu link.
+
+### The Jerk Problem
+
+Simply adding `padding-top: 16px` in CSS wasn't enough. The JS switching animation (shorter submenu case) manipulates `padding-top` inline:
+- Sets `padding-top` to a calculated offset to match the old submenu's height
+- Animates `padding-top` to `0px`
+- On cleanup, removes the inline style → CSS `16px` kicks in → **16px jerk**
+
+### Fix
+
+1. **`menu-desktop.css`** — Added `padding-top: 16px` to `.sub-menu-container`
+2. **`customsolent.js`** — Added `const submenu_padding_top = 16` constant
+3. **JS animation** — Shorter-submenu case now starts at `paddingOffset + submenu_padding_top` and animates to `submenu_padding_top` (not 0). When cleanup removes the inline style, CSS 16px matches the animation end state — no jerk.
+
+No changes needed for the taller-submenu case (clip-path animation) or nav height calculations — `offsetHeight` naturally includes the CSS padding.
+
 ## TODO / Further Refinement
 
 - Search tag: `submenu-bottom-fill`
-- The warm-grey fill is improved but may need fine-tuning for edge cases (e.g., submenus with very few items, search form).
+- The warm-grey bottom fill is improved but may need fine-tuning for edge cases (e.g., submenus with very few items, search form).
 - An earlier CSS-only attempt using `height: calc(100% + 16px)` on the `::before` worked but caused abrupt appearance during transitions.
