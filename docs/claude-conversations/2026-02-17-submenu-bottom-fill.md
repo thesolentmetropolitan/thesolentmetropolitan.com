@@ -129,6 +129,24 @@ Restructured `hideSubmenu` so the mobile path is handled differently from deskto
 
 For CSS transitions to fire, the browser must see two distinct computed states. A forced reflow between setting the starting state and the target state ensures the browser paints the starting state first, creating a transition. Without the reflow, synchronous style changes are batched into a single recalculation.
 
+## Mobile Submenu Inconsistent Height (2026-02-18)
+
+The same mobile submenu could appear at different heights depending on which submenu was previously open. For example: open a short submenu, switch to a tall one, close it, reopen it — the tall submenu was now taller than before.
+
+### Root Cause
+
+`calculateMobileSubmenuHeight()` used `li.offsetHeight` to sum the heights of all top-level menu items. Each `li` contains both a button and a `.sub-menu-container`. When a submenu was expanded (or had residual inline styles from a recent hide), `li.offsetHeight` included the submenu content, inflating `menuItemsHeight` and reducing the available `maxHeight` for the newly opened submenu.
+
+Two contributing factors:
+1. **DOM order**: the `forEach` loop processed submenus in DOM order. If the clicked submenu came before the currently-open one, `showSubmenu` (with its height calculation) ran before the open submenu was hidden.
+2. **Residual state**: even after instant-hiding, cleanup `setTimeout(0)` could leave brief windows where inline styles were inconsistent.
+
+### Fix
+
+Changed `calculateMobileSubmenuHeight()` to measure **button/link heights directly** (`navLink.offsetHeight`) instead of `li.offsetHeight`. The button height is constant regardless of submenu state. The li's padding, border, and margin are added separately via `getComputedStyle`. This makes the calculation completely immune to submenu expansion state.
+
+Also reordered the click handler to hide all non-clicked submenus before toggling the clicked one (defence in depth, though the new calculation doesn't depend on it).
+
 ## TODO / Further Refinement
 
 - Search tag: `submenu-bottom-fill`

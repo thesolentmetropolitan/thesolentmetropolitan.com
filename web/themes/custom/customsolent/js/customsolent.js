@@ -188,15 +188,19 @@
                 // (showSubmenu will set the correct nav height via slide animation)
                 const skipOtherReset = oldSearchHeight > 0;
 
+                // Hide all non-clicked submenus FIRST, before toggling the
+                // clicked one. On mobile, showSubmenu calls calculateMobileSubmenuHeight
+                // which measures all li heights — any still-expanded submenu would
+                // inflate menuItemsHeight and give the new submenu a wrong max-height.
                 allSubMenuContainers.forEach(aSubMenu => {
-                  if (aSubMenu.isEqualNode(subMenuContainerForClickedButton)) {
-                    toggleChevron(aSubMenu);
-                    toggleSubmenu(aSubMenu, false, oldSearchHeight);
-                  } else {
+                  if (!aSubMenu.isEqualNode(subMenuContainerForClickedButton)) {
                     unselectChevron(aSubMenu);
                     hideSubmenu(aSubMenu, true, skipOtherReset);
                   }
                 });
+
+                toggleChevron(subMenuContainerForClickedButton);
+                toggleSubmenu(subMenuContainerForClickedButton, false, oldSearchHeight);
               }
             }
           });
@@ -567,9 +571,9 @@
 
       /**
        * Calculate max-height for mobile submenu so all menu items stay on screen.
-       * Formula: viewport height - branding block height - all menu li heights
-       * Must be called AFTER the target submenu is collapsed (max-height:0 inline)
-       * so its parent li height doesn't include expanded submenu content.
+       * Formula: viewport height - branding block height - all menu button heights - bottom padding
+       * Measures button/link heights directly (not li.offsetHeight) so the result
+       * is immune to whether other submenus are currently expanded or collapsed.
        */
       function calculateMobileSubmenuHeight() {
         const viewportHeight = window.innerHeight;
@@ -579,15 +583,25 @@
                            || document.getElementById('slnt-logo');
         const brandingHeight = brandingBlock ? brandingBlock.offsetHeight : 0;
 
-        // Sum heights of all top-level menu li elements (including margins)
-        // All submenus are collapsed at this point so li heights = button heights only
+        // Sum the height each top-level li occupies when its submenu is collapsed:
+        // nav link height + li padding + li border + li margin.
+        // This avoids measuring li.offsetHeight which includes expanded submenu content.
         let menuItemsHeight = 0;
         const allLis = document.querySelectorAll('ul.main-menu-item-container.mobile > li');
         allLis.forEach(li => {
-          const style = window.getComputedStyle(li);
-          const marginTop = parseFloat(style.marginTop) || 0;
-          const marginBottom = parseFloat(style.marginBottom) || 0;
-          menuItemsHeight += li.offsetHeight + marginTop + marginBottom;
+          const liStyle = window.getComputedStyle(li);
+          const marginTop = parseFloat(liStyle.marginTop) || 0;
+          const marginBottom = parseFloat(liStyle.marginBottom) || 0;
+          const paddingTop = parseFloat(liStyle.paddingTop) || 0;
+          const paddingBottom = parseFloat(liStyle.paddingBottom) || 0;
+          const borderTop = parseFloat(liStyle.borderTopWidth) || 0;
+          const borderBottom = parseFloat(liStyle.borderBottomWidth) || 0;
+
+          // Measure just the nav link (button or anchor), not the whole li
+          const navLink = li.querySelector('.main_nav_link');
+          const linkHeight = navLink ? navLink.offsetHeight : 0;
+
+          menuItemsHeight += linkHeight + paddingTop + paddingBottom + borderTop + borderBottom + marginTop + marginBottom;
         });
 
         const bottomPadding = 160;
