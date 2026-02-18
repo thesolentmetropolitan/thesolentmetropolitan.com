@@ -623,12 +623,12 @@
           delete aSubMenu._hideTimeout;
         }
 
-        aSubMenu.classList.add("hidden-2l");
-        aSubMenu.classList.remove("visible-2l");
-        aSubMenu.classList.remove("text-hidden"); // Clean up text fade class
-
         if (!isMobile()) {
-          // Desktop behavior
+          // Desktop behavior — swap classes immediately
+          aSubMenu.classList.add("hidden-2l");
+          aSubMenu.classList.remove("visible-2l");
+          aSubMenu.classList.remove("text-hidden");
+
           // Reset nav container height when hiding submenu (unless switching)
           if (!skipHeightReset) {
             const mainMenuNavContainer = get_mainMenuNavContainer();
@@ -659,29 +659,53 @@
             }, 500); // Match your CSS transition duration
           }
         } else {
-          // Mobile behavior - animated hide
+          // Mobile behavior
           // Clear any pending show timeout
           if (aSubMenu._showTimeout) {
             clearTimeout(aSubMenu._showTimeout);
             delete aSubMenu._showTimeout;
           }
 
-          aSubMenu.style.setProperty("overflow", "hidden");
-          aSubMenu.style.setProperty("max-height", "0");
-          aSubMenu.style.setProperty("opacity", "0");
+          if (instant) {
+            // Instant hide: swap classes and set properties immediately
+            aSubMenu.classList.add("hidden-2l");
+            aSubMenu.classList.remove("visible-2l");
+            aSubMenu.classList.remove("text-hidden");
+            aSubMenu.style.setProperty("overflow", "hidden");
+            aSubMenu.style.setProperty("max-height", "0");
+            aSubMenu.style.setProperty("opacity", "0");
+          } else {
+            // Animated hide: keep visible-2l during animation so CSS
+            // hidden-2l doesn't interfere with the transition.
+            // Lock current overflow to hidden (disable scrolling during collapse)
+            aSubMenu.style.setProperty("overflow", "hidden");
 
-          // Clean up inline styles after animation completes
+            // Force reflow so browser registers the current max-height
+            // as the starting point for the transition
+            void aSubMenu.offsetHeight;
+
+            // Animate to collapsed state (CSS transition on .sub-menu-container
+            // handles max-height and opacity over 0.5s)
+            aSubMenu.style.setProperty("max-height", "0");
+            aSubMenu.style.setProperty("opacity", "0");
+          }
+
+          // Clean up after animation completes (or immediately for instant)
+          const cleanupDelay = instant ? 0 : 500;
           setTimeout(() => {
-            if (aSubMenu.classList.contains("hidden-2l")) {
-              aSubMenu.style.removeProperty("width");
-              aSubMenu.style.removeProperty("max-height");
-              aSubMenu.style.removeProperty("opacity");
-              aSubMenu.style.removeProperty("overflow");
-              aSubMenu.style.removeProperty("overflow-y");
-              aSubMenu.style.removeProperty("overflow-x");
-              aSubMenu.style.removeProperty("-webkit-overflow-scrolling");
-            }
-          }, 500); // Match CSS transition duration (0.5s)
+            // Swap classes after animation so CSS hidden-2l takes over
+            aSubMenu.classList.add("hidden-2l");
+            aSubMenu.classList.remove("visible-2l");
+            aSubMenu.classList.remove("text-hidden");
+            // Remove inline styles — CSS hidden-2l handles the collapsed state
+            aSubMenu.style.removeProperty("width");
+            aSubMenu.style.removeProperty("max-height");
+            aSubMenu.style.removeProperty("opacity");
+            aSubMenu.style.removeProperty("overflow");
+            aSubMenu.style.removeProperty("overflow-y");
+            aSubMenu.style.removeProperty("overflow-x");
+            aSubMenu.style.removeProperty("-webkit-overflow-scrolling");
+          }, cleanupDelay);
         }
       }
 
