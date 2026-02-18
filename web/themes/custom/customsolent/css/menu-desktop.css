@@ -176,11 +176,14 @@
     margin-right: auto;
   }
 
-  .sub-menu-container>.first-link {
-    max-width: 1200px;
-    margin-left: auto;
-    margin-right: auto;
+  .sub-menu-container > a.first-link {
     display: block;
+    width: fit-content;
+    /* Align with ul.sub-menu-item-container (max-width:1200px, margin:0 auto) */
+    margin-left: max(0px, calc((100% - 1200px) / 2));
+    padding-left: 0.4em; /* match ul.sub-menu-item-container padding-left */
+    padding-inline-start: 0.4em; /* override menu-common.css 40px */
+    padding-right: 0.2em; /* match submenu item padding */
   }
 
   /* Visible position - slides down to reveal */
@@ -291,6 +294,6 @@
 }
 
 .sub-menu-container > a.first-link {
-  padding-inline-start: 0.9em;
+  /* padding now set in .sub-menu-container>.first-link rule above */
 }
 }

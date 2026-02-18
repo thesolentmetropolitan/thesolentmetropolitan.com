@@ -78,6 +78,37 @@ When switching from search to a submenu, `hideSubmenu(aSubMenu, true, false)` wa
 
 **Fix:** When `oldSearchHeight > 0`, pass `skipHeightReset=true` to the other submenu hides. This doesn't affect the normal open/close path (where `showSubmenu` sets the nav height asynchronously via `requestAnimationFrame`).
 
+## First-Link Hover Fix (2026-02-18)
+
+The `a.first-link` element (the bold heading link above each submenu's item list) had a hover highlight that spanned the full 1200px width. The goal was to shrink the hover to wrap tightly around the text, with matching padding to other submenu items, and left-aligned with `ul.sub-menu-item-container`.
+
+### Attempts
+
+1. **`display: inline-block` at line 183** — No effect because a later rule at line 262 set `display: block`, winning in the cascade.
+2. **`display: inline-block` at line 267** (after the overriding rule) — Hover wrapped the text, but `margin: auto` doesn't centre inline-block elements, so it moved to the leftmost browser edge. Also lacked right padding.
+3. **`display: block; width: fit-content; margin-left: max(...)`** — Correct approach. `width: fit-content` shrinks the block to text width while keeping block-level margin behaviour. `margin-left: max(0px, calc((100% - 1200px) / 2))` replicates the same left offset as the `ul`'s `margin: 0 auto` centering.
+
+### Cascade Conflicts
+
+Two later rules in the file were overriding the fix:
+
+- **Line 269**: `display: inline-block` (from attempt #2) overrode `display: block`. Removed it.
+- **Line 297**: `.sub-menu-container > a.first-link { padding-inline-start: 0.9em }` overrode `padding-left: 0.4em`. Emptied the rule (padding now set in the main rule).
+- **`menu-common.css` line 119**: `.sub-menu-container > a.first-link { padding-inline-start: 40px }` — same selector with `a` element qualifier gave it higher specificity than `.sub-menu-container>.first-link`. Fixed by matching the selector to `.sub-menu-container > a.first-link` and adding explicit `padding-inline-start: 0.4em`.
+
+### Final CSS
+
+```css
+.sub-menu-container > a.first-link {
+  display: block;
+  width: fit-content;
+  margin-left: max(0px, calc((100% - 1200px) / 2));
+  padding-left: 0.4em;
+  padding-inline-start: 0.4em; /* override menu-common.css 40px */
+  padding-right: 0.2em;
+}
+```
+
 ## TODO / Further Refinement
 
 - Search tag: `submenu-bottom-fill`
