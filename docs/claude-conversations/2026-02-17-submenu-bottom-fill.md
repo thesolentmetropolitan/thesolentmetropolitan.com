@@ -109,6 +109,26 @@ Two later rules in the file were overriding the fix:
 }
 ```
 
+## Mobile Submenu Collapse Animation (2026-02-18)
+
+The mobile submenu expand animation worked (max-height transition from 0 to calculated value), but collapsing had no animation — the submenu disappeared instantly.
+
+### Root Cause
+
+In `hideSubmenu`, the class swap (`hidden-2l` added, `visible-2l` removed) happened at the top of the function, before the desktop/mobile branch. On mobile, the CSS `.sub-menu-container.hidden-2l` sets `max-height: 0; opacity: 0; overflow: hidden`. Although inline styles from `showSubmenu` (e.g. `max-height: <value>px`) override CSS class values, the class change and the subsequent inline `max-height: 0` (line 670) happened in the same synchronous execution frame. The browser batched them into one style recalculation and saw only the final state — no transition fired.
+
+### Fix
+
+Restructured `hideSubmenu` so the mobile path is handled differently from desktop:
+
+1. **Desktop**: class swap happens immediately (as before) — desktop uses opacity/visibility transitions, not max-height.
+2. **Mobile animated hide**: keeps `visible-2l` during the animation. Sets `overflow: hidden` to disable scrolling, forces a reflow (`void aSubMenu.offsetHeight`) so the browser registers the current expanded max-height, then sets `max-height: 0` and `opacity: 0` to trigger the CSS transition. Classes are swapped in a cleanup `setTimeout` after 500ms.
+3. **Mobile instant hide**: swaps classes and sets properties immediately (used when hiding other submenus while opening a new one).
+
+### Key Insight
+
+For CSS transitions to fire, the browser must see two distinct computed states. A forced reflow between setting the starting state and the target state ensures the browser paints the starting state first, creating a transition. Without the reflow, synchronous style changes are batched into a single recalculation.
+
 ## TODO / Further Refinement
 
 - Search tag: `submenu-bottom-fill`
