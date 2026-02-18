@@ -162,6 +162,17 @@ Applied the same pattern as the `hideSubmenu` mobile collapse fix:
 - **Animated hide**: keeps `visible-2l` during animation, forces reflow, animates to collapsed state, then swaps classes in the cleanup `setTimeout` after 500ms
 - **Cleanup**: swaps classes and removes inline styles so CSS `hidden-2l` takes over
 
+## Mobile Search Input Alignment (2026-02-18)
+
+Reduced the width of the mobile search input field and left-aligned it with the chevron on the menu button above.
+
+### Changes (`search.css`, mobile media query)
+
+- `#search-form-container form`: changed `justify-content` from `center` to `flex-start`, added `padding-left: 3em` to align with the chevron position
+- `#search-form-container input[type="text"]`: reduced width to `70%` (was 85-90%)
+
+The `3em` padding was verified in browser DevTools before applying — it accounts for the chevron width plus the button's internal padding.
+
 ## TODO / Further Refinement
 
 - Search tag: `submenu-bottom-fill`
