@@ -147,6 +147,21 @@ Changed `calculateMobileSubmenuHeight()` to measure **button/link heights direct
 
 Also reordered the click handler to hide all non-clicked submenus before toggling the clicked one (defence in depth, though the new calculation doesn't depend on it).
 
+## Mobile Search Form Reopen Bug (2026-02-18)
+
+On mobile, clicking the Search menu item opened the search form correctly. Clicking again closed it. But a third click did nothing — the search form wouldn't reopen.
+
+### Root Cause
+
+The mobile `hideSearchForm` path set inline styles (`max-height: 0; opacity: 0; overflow: hidden`) but never swapped the CSS classes — `visible-2l` was never removed, `hidden-2l` was never added. So on the next click, the check `searchFormContainer.classList.contains('visible-2l')` returned `true`, and the click handler thought the search was still open, calling `hideSearchForm` again instead of `showSearchForm`.
+
+### Fix
+
+Applied the same pattern as the `hideSubmenu` mobile collapse fix:
+- **Instant hide**: swaps classes immediately
+- **Animated hide**: keeps `visible-2l` during animation, forces reflow, animates to collapsed state, then swaps classes in the cleanup `setTimeout` after 500ms
+- **Cleanup**: swaps classes and removes inline styles so CSS `hidden-2l` takes over
+
 ## TODO / Further Refinement
 
 - Search tag: `submenu-bottom-fill`

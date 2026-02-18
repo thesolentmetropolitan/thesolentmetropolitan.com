@@ -888,17 +888,28 @@
           }
         } else {
           // Mobile
-          searchFormContainer.style.setProperty('overflow', 'hidden');
-          searchFormContainer.style.setProperty('max-height', '0');
-          searchFormContainer.style.setProperty('opacity', '0');
+          if (instant) {
+            searchFormContainer.classList.add('hidden-2l');
+            searchFormContainer.classList.remove('visible-2l');
+            searchFormContainer.style.setProperty('overflow', 'hidden');
+            searchFormContainer.style.setProperty('max-height', '0');
+            searchFormContainer.style.setProperty('opacity', '0');
+          } else {
+            // Animated: keep visible-2l during animation, swap after
+            searchFormContainer.style.setProperty('overflow', 'hidden');
+            void searchFormContainer.offsetHeight;
+            searchFormContainer.style.setProperty('max-height', '0');
+            searchFormContainer.style.setProperty('opacity', '0');
+          }
 
+          const cleanupDelay = instant ? 0 : 500;
           setTimeout(() => {
-            if (searchFormContainer.classList.contains('hidden-2l')) {
-              searchFormContainer.style.removeProperty('overflow');
-              searchFormContainer.style.removeProperty('max-height');
-              searchFormContainer.style.removeProperty('opacity');
-            }
-          }, 500);
+            searchFormContainer.classList.add('hidden-2l');
+            searchFormContainer.classList.remove('visible-2l');
+            searchFormContainer.style.removeProperty('overflow');
+            searchFormContainer.style.removeProperty('max-height');
+            searchFormContainer.style.removeProperty('opacity');
+          }, cleanupDelay);
         }
       }
 
