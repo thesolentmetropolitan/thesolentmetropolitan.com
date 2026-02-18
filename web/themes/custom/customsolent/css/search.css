@@ -324,6 +324,16 @@ button.search-menu-item-icon {
     opacity: 0;
     overflow: hidden;
   }
+
+  /* Left-align search form with chevron on button above */
+  #search-form-container form {
+    justify-content: flex-start;
+    padding-left: 3em;
+  }
+
+  #search-form-container input[type="text"] {
+    width: 70%;
+  }
 }
 
 #search-in-menu {
