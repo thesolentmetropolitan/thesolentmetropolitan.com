@@ -260,6 +260,17 @@
                   }, 50);
                 } else {
                   // Hide menu - fade out then clean up
+                  // Close search form and submenus so they're hidden when menu reopens
+                  hideSearchForm(true);
+                  const searchBtn = document.querySelector('#search-in-menu');
+                  if (searchBtn) searchBtn.classList.remove('navigation__link--selected');
+
+                  const allSubMenus = document.querySelectorAll('.sub-menu-container');
+                  allSubMenus.forEach(aSubMenu => {
+                    unselectChevron(aSubMenu);
+                    hideSubmenu(aSubMenu, true);
+                  });
+
                   $("nav[role=navigation]").css("opacity", "0");
                   setTimeout(() => {
                     $("body").css("overflow", "");

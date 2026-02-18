@@ -173,6 +173,19 @@ Reduced the width of the mobile search input field and left-aligned it with the 
 
 The `3em` padding was verified in browser DevTools before applying — it accounts for the chevron width plus the button's internal padding.
 
+## Mobile Burger Menu Close: Reset Search & Submenus (2026-02-19)
+
+When the search form was open on mobile and the burger menu was closed (via `.slnt-togl-expand`), the search bar remained visible. The burger menu's hide handler only faded out the nav and cleaned up overlay styles — it didn't reset search or submenu state.
+
+### Fix
+
+Added to the burger menu close handler (before the nav fade-out):
+- `hideSearchForm(true)` — instant-hides the search form
+- Removes `navigation__link--selected` from the search button
+- Iterates all `.sub-menu-container` elements: unselects chevrons and instant-hides submenus
+
+This ensures everything is in a clean collapsed state when the menu is reopened.
+
 ## TODO / Further Refinement
 
 - Search tag: `submenu-bottom-fill`
