@@ -73,8 +73,7 @@
   }
 
   nav[role=navigation] {
-    /* height: 90px; */
-    /*height: 96px;*/
+    /* height set by JS */
   }
 
   /* Submenu opacity and slide animation */
