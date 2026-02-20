@@ -1076,7 +1076,7 @@
       }
 
       function get_desktop_offset_height() {
-        return 96;
+        return 48; /* 48px, was 96px but logo moved above */
       }
 
       /**
