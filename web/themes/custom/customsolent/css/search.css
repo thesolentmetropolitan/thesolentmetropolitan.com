@@ -271,6 +271,8 @@ button.search-menu-item-icon {
   #search-form-container.hidden-2l {
     top: -50px !important;
     z-index: -1;
+    visibility: hidden;
+    opacity: 0;
   }
 
   /* Full-width background like regular submenus */

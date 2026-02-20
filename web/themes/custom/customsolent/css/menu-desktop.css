@@ -136,6 +136,8 @@
   /* Hidden position - slides up above the menu bar */
   .sub-menu-container.hidden-2l {
     top: -50px !important;
+    visibility: hidden;
+    opacity: 0;
   }
 
 
