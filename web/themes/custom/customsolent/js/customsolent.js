@@ -9,8 +9,10 @@
   Drupal.behaviors.customsolent = {
     attach: function (context, settings) {
       /* desktop height constants */
-      const submenu_desktop_top_reveal = "96px";
-      const menu_bar_height = "96px";
+      //const submenu_desktop_top_reveal = "96px";
+      const submenu_desktop_top_reveal = "48px";
+      //const menu_bar_height = "96px";
+      const menu_bar_height = "48px";
       const submenu_padding_top = 16; /* matches CSS padding-top on .sub-menu-container */
       
       let currentMode = null; // Track current mode to detect changes

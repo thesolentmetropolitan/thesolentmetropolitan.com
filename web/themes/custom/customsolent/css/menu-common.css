@@ -124,6 +124,11 @@ ul.sub-menu-item-container {
     padding-top: 0.3em;
 }
 
+
+#slnt-header-upper {
+  background-color: var(--solent-blue);
+}
+
 /*
 
 PERHAPS dont need to change "top" for mobile. I think so...

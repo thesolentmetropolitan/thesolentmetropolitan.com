@@ -7,8 +7,8 @@
   }
 
   #slnt-logo {
-    display: inline-block;
-    float: left;
+    display: block;
+    /*float: left; */
   }
 
   #slnt-prim-menu {
@@ -23,7 +23,8 @@
 
   #slnt-header {
     width: 100%;
-    height: 96px;
+    /* height: 96px; */
+    height: 48px;
     /* submenu_cover_height related: main_menu_section_height and submenu_desktop_hide_position_top */
 
     opacity: 1.0;
@@ -63,6 +64,7 @@
   nav[role=navigation] {
     /* height: 90px; */
     /*height: 96px;*/
+    height: 48px;
   }
 
   /* Submenu opacity and slide animation */
@@ -118,7 +120,8 @@
 
   /* Visible position - slides down to reveal */
   .sub-menu-container.visible-2l {
-    top: 96px !important;
+    /* top: 96px !important; */
+    top: 48px !important;
   }
 
   /* Hidden position - slides up above the menu bar */
@@ -188,7 +191,8 @@
 
   /* Visible position - slides down to reveal */
   .sub-menu-container.visible-2l {
-    top: 96px;
+    /* top: 96px; */
+    top: 48px;
     z-index: 100;
   }
 
@@ -201,7 +205,8 @@
   .main-menu-wrap {
     align-items: center;
     display: flex;
-    height: 96px;
+    /* height: 96px; */
+    height: 48px;
     /*height: 90px;*/
     /* main_menu_section_height - related: submenu_cover_height and submenu_desktop_hide_position_top*/
   }
