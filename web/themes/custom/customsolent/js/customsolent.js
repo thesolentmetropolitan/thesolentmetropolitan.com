@@ -160,13 +160,14 @@
                     // Clean up after slide animation completes - remove ALL inline
                     // overrides so CSS rules control the submenu again (critical for
                     // subsequent close animation which relies on CSS .hidden-2l { top: -50px })
-                    setTimeout(() => {
+                    newMenu._showCleanupTimeout = setTimeout(() => {
                       newMenu.style.removeProperty("transition");
                       newMenu.style.removeProperty("top");
                       newMenu.style.removeProperty("z-index");
                       newMenu.style.removeProperty("clip-path");
                       newMenu.style.removeProperty("padding-top");
                       slntHeader.style.removeProperty("isolation");
+                      delete newMenu._showCleanupTimeout;
                     }, 550);
                   }, 180); // Match CSS transition duration (0.18s)
                 }
@@ -380,21 +381,77 @@
        * @param {number} oldHeight - Height of the previously open panel (for slide animation)
        */
       function toggleSubmenu(aSubMenu, instantShow = false, oldHeight = 0) {
-        // Use the intended state, not the current class which changes immediately
-        // Check if we're currently animating to show or already shown
-        const isCurrentlyOrBecomingVisible = aSubMenu.classList.contains("visible-2l");
-
         console.log('toggleSubmenu called:', {
-          isCurrentlyOrBecomingVisible,
-          instantShow,
-          currentClasses: aSubMenu.className,
-          currentOpacity: aSubMenu.style.opacity,
-          currentVisibility: aSubMenu.style.visibility,
-          currentZIndex: aSubMenu.style.zIndex
+          hasHideTimeout: !!aSubMenu._hideTimeout,
+          hasShowCleanup: !!aSubMenu._showCleanupTimeout,
+          currentClasses: aSubMenu.className
         });
 
+        // Hide animation in progress — reverse it (re-open)
+        if (aSubMenu._hideTimeout) {
+          console.log('→ Reversing hide animation');
+          clearTimeout(aSubMenu._hideTimeout);
+          delete aSubMenu._hideTimeout;
+
+          const slntHeader = document.getElementById('slnt-header');
+          const mainMenuNavContainer = get_mainMenuNavContainer();
+
+          // Freeze the hide animation at its current position
+          aSubMenu.style.setProperty("transition", "none", "important");
+          void aSubMenu.offsetHeight;
+
+          const submenuHeight = aSubMenu.offsetHeight;
+          const currentTop = parseInt(getComputedStyle(aSubMenu).top);
+          const finalTop = get_desktop_offset_height();
+          const currentClipTop = Math.max(0, finalTop - currentTop);
+
+          // Remove parent menu item deselect overrides (re-highlight)
+          const parentLi = aSubMenu.closest('li');
+          const menuButton = parentLi ? parentLi.querySelector('button.main_nav_link') : null;
+          const menuSpan = menuButton ? menuButton.querySelector(':scope > span') : null;
+          const menuChevron = menuButton ? menuButton.querySelector('.navigation__link__down-icon') : null;
+          if (parentLi) parentLi.style.removeProperty("background-color");
+          if (menuButton) menuButton.style.removeProperty("background-color");
+          if (menuSpan) { menuSpan.style.removeProperty("color"); menuSpan.style.removeProperty("font-weight"); }
+          if (menuChevron) { menuChevron.style.removeProperty("fill"); menuChevron.style.removeProperty("stroke"); }
+
+          // Set starting state (matches current frozen position)
+          slntHeader.style.setProperty("isolation", "isolate");
+          aSubMenu.style.setProperty("z-index", "-1");
+          aSubMenu.style.setProperty("top", currentTop + "px", "important");
+          aSubMenu.style.setProperty("clip-path", "inset(" + currentClipTop + "px -100vw 0 -100vw)");
+
+          void aSubMenu.offsetHeight;
+
+          aSubMenu.style.setProperty("transition", "top 0.5s ease, clip-path 0.5s ease", "important");
+
+          void aSubMenu.offsetHeight;
+
+          // Animate to fully open
+          aSubMenu.style.setProperty("top", finalTop + "px", "important");
+          aSubMenu.style.setProperty("clip-path", "inset(0 -100vw 0 -100vw)");
+
+          // Animate nav height to full
+          const navHeight = submenuHeight + finalTop;
+          mainMenuNavContainer.style.setProperty("height", navHeight + "px");
+
+          // Clean up after animation
+          aSubMenu._showCleanupTimeout = setTimeout(() => {
+            aSubMenu.style.removeProperty("transition");
+            aSubMenu.style.removeProperty("top");
+            aSubMenu.style.removeProperty("z-index");
+            aSubMenu.style.removeProperty("clip-path");
+            slntHeader.style.removeProperty("isolation");
+            delete aSubMenu._showCleanupTimeout;
+          }, 550);
+
+          return;
+        }
+
+        const isCurrentlyOrBecomingVisible = aSubMenu.classList.contains("visible-2l");
+
         if (isCurrentlyOrBecomingVisible) {
-          // It's visible or becoming visible, so hide it (always animated)
+          // It's visible or becoming visible, so hide it
           console.log('→ Calling hideSubmenu');
           hideSubmenu(aSubMenu);
         } else {
@@ -416,11 +473,16 @@
         // IMPORTANT: Remove ALL existing listeners first to prevent conflicts
         removeTransitionListeners(aSubMenu);
 
-        // Clear any pending setTimeout from previous hide operations
+        // Clear any pending timeouts from previous operations
         if (aSubMenu._hideTimeout) {
           console.log('Clearing pending hide timeout');
           clearTimeout(aSubMenu._hideTimeout);
           delete aSubMenu._hideTimeout;
+        }
+        if (aSubMenu._showCleanupTimeout) {
+          console.log('Clearing pending show cleanup timeout');
+          clearTimeout(aSubMenu._showCleanupTimeout);
+          delete aSubMenu._showCleanupTimeout;
         }
 
         aSubMenu.classList.remove("hidden-2l");
@@ -518,13 +580,14 @@
             mainMenuNavContainer.style.setProperty("height", navHeight + "px");
 
             // Clean up after animation completes
-            setTimeout(() => {
+            aSubMenu._showCleanupTimeout = setTimeout(() => {
               aSubMenu.style.removeProperty("transition");
               aSubMenu.style.removeProperty("top");
               aSubMenu.style.removeProperty("z-index");
               aSubMenu.style.removeProperty("clip-path");
               aSubMenu.style.removeProperty("padding-top");
               slntHeader.style.removeProperty("isolation");
+              delete aSubMenu._showCleanupTimeout;
             }, 550);
           } else {
             // Normal animated show: slide down from behind menu bar
@@ -567,12 +630,13 @@
             mainMenuNavContainer.style.setProperty("height", navHeight + "px");
 
             // Clean up after animation completes
-            setTimeout(() => {
+            aSubMenu._showCleanupTimeout = setTimeout(() => {
               aSubMenu.style.removeProperty("transition");
               aSubMenu.style.removeProperty("top");
               aSubMenu.style.removeProperty("z-index");
               aSubMenu.style.removeProperty("clip-path");
               slntHeader.style.removeProperty("isolation");
+              delete aSubMenu._showCleanupTimeout;
             }, 550);
           }
         } else {
@@ -666,21 +730,35 @@
         // IMPORTANT: Remove ALL existing listeners first to prevent conflicts
         removeTransitionListeners(aSubMenu);
 
-        // Clear any pending setTimeout from previous operations
+        // Clear any pending timeouts from previous operations
         if (aSubMenu._hideTimeout) {
           console.log('Clearing pending hide timeout in hideSubmenu');
           clearTimeout(aSubMenu._hideTimeout);
           delete aSubMenu._hideTimeout;
+        }
+        if (aSubMenu._showCleanupTimeout) {
+          console.log('Clearing pending show cleanup timeout in hideSubmenu');
+          clearTimeout(aSubMenu._showCleanupTimeout);
+          delete aSubMenu._showCleanupTimeout;
         }
 
         if (!isMobile()) {
           aSubMenu.classList.remove("text-hidden");
 
           if (instant) {
-            // Instant hide: swap classes and set properties immediately
+            // Instant hide: cancel any running transition, swap classes, clean up
             console.log('hideSubmenu: Instant hide');
+            aSubMenu.style.setProperty("transition", "none", "important");
+            void aSubMenu.offsetHeight;
+
             aSubMenu.classList.add("hidden-2l");
             aSubMenu.classList.remove("visible-2l");
+
+            // Remove all animation inline styles (from show or hide)
+            aSubMenu.style.removeProperty("transition");
+            aSubMenu.style.removeProperty("top");
+            aSubMenu.style.removeProperty("clip-path");
+            aSubMenu.style.removeProperty("padding-top");
 
             if (!skipHeightReset) {
               const mainMenuNavContainer = get_mainMenuNavContainer();
@@ -690,21 +768,60 @@
             aSubMenu.style.setProperty("z-index", "-1");
             aSubMenu.style.setProperty("visibility", "hidden");
             aSubMenu.style.setProperty("opacity", "0");
+            document.getElementById('slnt-header').style.removeProperty("isolation");
           } else {
-            // Animated hide: slide up behind menu bar (reverse of open)
-            // Keep visible-2l during animation so CSS top !important stays correct
+            // Animated hide: slide up behind menu bar using clip-path
+            // Works for both normal hide and interrupting a show animation
             console.log('hideSubmenu: Animated hide, slide up');
             const slntHeader = document.getElementById('slnt-header');
             const mainMenuNavContainer = get_mainMenuNavContainer();
+
+            // Freeze any in-progress animation so measurements are accurate
+            aSubMenu.style.setProperty("transition", "none", "important");
+            void aSubMenu.offsetHeight;
+
             const submenuHeight = aSubMenu.offsetHeight;
             const currentTop = parseInt(getComputedStyle(aSubMenu).top);
-            const endTop = currentTop - submenuHeight;
+            const finalTop = get_desktop_offset_height(); // 48 = bottom of menu bar
+
+            // Calculate how much is currently clipped (hidden behind menu bar)
+            // During show animation: submenu slides down, top goes from (finalTop - height) to finalTop
+            // The visible top edge is always at finalTop, so clip = finalTop - currentTop
+            const currentClipTop = Math.max(0, finalTop - currentTop);
+            // How much of the submenu is currently visible
+            const visibleHeight = submenuHeight - currentClipTop;
+            // Slide up by exactly the visible height
+            const endTop = currentTop - visibleHeight;
+
+            // Visually deselect the parent menu item BEFORE animation starts
+            // (overrides CSS :has(.visible-2l) rules which don't use !important)
+            const parentLi = aSubMenu.closest('li');
+            const menuButton = parentLi ? parentLi.querySelector('button.main_nav_link') : null;
+            const menuSpan = menuButton ? menuButton.querySelector(':scope > span') : null;
+            const menuChevron = menuButton ? menuButton.querySelector('.navigation__link__down-icon') : null;
+
+            if (parentLi) {
+              parentLi.style.setProperty("background-color", "transparent");
+            }
+            if (menuButton) {
+              menuButton.style.setProperty("background-color", "transparent");
+            }
+            if (menuSpan) {
+              menuSpan.style.setProperty("color", "rgba(255, 255, 255, 0.85)");
+              menuSpan.style.setProperty("font-weight", "normal");
+            }
+            if (menuChevron) {
+              menuChevron.style.setProperty("fill", "rgba(255, 255, 255, 0.85)");
+              menuChevron.style.setProperty("stroke", "rgba(255, 255, 255, 0.85)");
+            }
 
             slntHeader.style.setProperty("isolation", "isolate");
             aSubMenu.style.setProperty("z-index", "-1");
 
-            // Set initial clip-path so transition interpolates between inset() values
-            aSubMenu.style.setProperty("clip-path", "inset(0 -100vw 0 -100vw)");
+            // Set starting position and clip matching current visible state
+            // (preserves frozen position; for normal hide currentTop=finalTop, currentClipTop=0)
+            aSubMenu.style.setProperty("top", currentTop + "px", "important");
+            aSubMenu.style.setProperty("clip-path", "inset(" + currentClipTop + "px -100vw 0 -100vw)");
 
             void aSubMenu.offsetHeight;
 
@@ -732,6 +849,23 @@
               aSubMenu.style.setProperty("visibility", "hidden");
               aSubMenu.style.setProperty("opacity", "0");
               slntHeader.style.removeProperty("isolation");
+
+              // Remove inline overrides from parent menu item
+              if (parentLi) {
+                parentLi.style.removeProperty("background-color");
+              }
+              if (menuButton) {
+                menuButton.style.removeProperty("background-color");
+              }
+              if (menuSpan) {
+                menuSpan.style.removeProperty("color");
+                menuSpan.style.removeProperty("font-weight");
+              }
+              if (menuChevron) {
+                menuChevron.style.removeProperty("fill");
+                menuChevron.style.removeProperty("stroke");
+              }
+
               delete aSubMenu._hideTimeout;
             }, 550);
           }
