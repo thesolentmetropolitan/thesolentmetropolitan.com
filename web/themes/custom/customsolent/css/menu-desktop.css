@@ -86,6 +86,7 @@
     display: inline-block;
     /*column-count: 5;*/
     /* mobile screen detection relies on this in customsolent.js */
+    padding-left: calc(2em - 12px); /*includes 2em for alignment with content */
     margin-top: 0px;
     margin-bottom: 0px;
   }
@@ -185,7 +186,8 @@
     /* Align with ul.sub-menu-item-container (max-width:1200px, margin:0 auto) */
     margin-left: max(0px, calc((100% - 1200px) / 2));
     padding-left: 0.4em; /* match ul.sub-menu-item-container padding-left */
-    padding-inline-start: 0.4em; /* override menu-common.css 40px */
+    /*padding-inline-start: 0.4em; */ /* override menu-common.css 40px */
+    padding-inline-start: 1.9em; /* align to main menu */ /* includes 2em margin used in content */
     padding-right: 0.2em; /* match submenu item padding */
   }
 
@@ -295,7 +297,8 @@
   }
 
   ul.sub-menu-item-container {
-      padding-left: 0.4em;
+      /* padding-left: 0.4em;*/
+      padding-left: 3.3em; /* align to main menu */ /*includes 2em for aligning to content */
 }
 
 .sub-menu-container > a.first-link {
