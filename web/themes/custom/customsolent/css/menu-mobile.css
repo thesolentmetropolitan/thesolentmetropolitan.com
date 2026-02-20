@@ -26,8 +26,12 @@
     display: block;
     /*
     display:inline-block;
-    float:left; 
+    float:left;
     */
+  }
+
+  #slnt-menu-bar {
+    display: block;
   }
 
   #slnt-header {

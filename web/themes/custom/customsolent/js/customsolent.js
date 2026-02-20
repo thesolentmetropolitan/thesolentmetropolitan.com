@@ -9,8 +9,8 @@
   Drupal.behaviors.customsolent = {
     attach: function (context, settings) {
       /* desktop height constants */
-      const submenu_desktop_top_reveal = "96px";
-      const menu_bar_height = "96px";
+      const submenu_desktop_top_reveal = "48px";
+      const menu_bar_height = "48px";
       const submenu_padding_top = 16; /* matches CSS padding-top on .sub-menu-container */
       
       let currentMode = null; // Track current mode to detect changes
@@ -295,6 +295,13 @@
         if (currentMode === 'desktop') {
           desktop_menu_initialise_container_height();
           desktop_menu_hide_all_submenus();
+          // Add animation class after initial state is set so height transitions animate
+          requestAnimationFrame(() => {
+            const mainMenuNavContainer = get_mainMenuNavContainer();
+            if (mainMenuNavContainer) {
+              mainMenuNavContainer.classList.add('animation');
+            }
+          });
         } else {
           // Mobile mode - hide menu initially and add initial header height class
           $("nav[role=navigation]").css("display", "none");
@@ -871,6 +878,10 @@
             slntHeader.style.setProperty("isolation", "isolate");
             searchFormContainer.style.setProperty("z-index", "-1");
 
+            // Set initial clip-path so transition can interpolate between inset() values
+            // (transitioning from 'none' to inset() is a discrete/instant change)
+            searchFormContainer.style.setProperty("clip-path", "inset(0 -100vw 0 -100vw)");
+
             searchFormContainer.style.setProperty("transition", "top 0.5s ease, clip-path 0.5s ease", "important");
 
             void searchFormContainer.offsetHeight;
@@ -1074,7 +1085,7 @@
       }
 
       function get_desktop_offset_height() {
-        return 96;
+        return 48;
       }
 
       /**
