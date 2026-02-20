@@ -15,7 +15,7 @@
   #slnt-header {
     max-width: none;
     box-sizing: border-box;
-    padding-left: max(2em, calc((100% - 1200px) / 2 + 2em));
+    padding-left: max(0em, calc((100% - 1200px) / 2 + 0em));
     padding-right: max(2em, calc((100% - 1200px) / 2 + 2em));
   }
 
