@@ -527,35 +527,53 @@
               slntHeader.style.removeProperty("isolation");
             }, 550);
           } else {
-            // Normal animated show: fade in with transition
-            // Position the submenu
-            aSubMenu.style.setProperty("top", submenu_desktop_top_reveal);
-            // Start with z-index -1 during animation
+            // Normal animated show: slide down from behind menu bar
+            const slntHeader = document.getElementById('slnt-header');
+            const desktop_offset_height = get_desktop_offset_height();
+            const finalTop = desktop_offset_height;
+
+            // Disable transitions to set up initial state instantly
+            aSubMenu.style.setProperty("transition", "none", "important");
+
+            // Create stacking context so z-index:-1 renders behind menu bar content
+            slntHeader.style.setProperty("isolation", "isolate");
+
+            // Position at final position to measure natural height
+            aSubMenu.style.setProperty("top", finalTop + "px", "important");
             aSubMenu.style.setProperty("z-index", "-1");
-
-            // Make visible first
             aSubMenu.style.setProperty("visibility", "visible");
+            aSubMenu.style.setProperty("opacity", "1");
 
-            // Start with opacity 0
-            aSubMenu.style.setProperty("opacity", "0");
+            void aSubMenu.offsetHeight;
+            const submenuHeight = aSubMenu.offsetHeight;
 
-            // Force reflow to ensure changes are applied
+            // Start position: above final, fully clipped behind menu bar
+            const startTop = finalTop - submenuHeight;
+            aSubMenu.style.setProperty("top", startTop + "px", "important");
+            aSubMenu.style.setProperty("clip-path", "inset(" + submenuHeight + "px -100vw 0 -100vw)");
+
             void aSubMenu.offsetHeight;
 
-            // Calculate and set new height, then fade in
-            // Use requestAnimationFrame to ensure the height change triggers transition
-            requestAnimationFrame(() => {
-              desktop_menu_drawer_show(aSubMenu, mainMenuNavContainer);
+            // Enable transition and animate to final position
+            aSubMenu.style.setProperty("transition", "top 0.5s ease, clip-path 0.5s ease", "important");
 
-              // Small delay to ensure height is set before opacity change
-              requestAnimationFrame(() => {
-                console.log('showSubmenu: Setting opacity to 1');
-                aSubMenu.style.setProperty("opacity", "1");
-              });
-            });
+            void aSubMenu.offsetHeight;
 
-            // Add transition listener for cleanup - will set z-index to 0 when done
-            addTransitionListeners(aSubMenu, true);
+            aSubMenu.style.setProperty("top", finalTop + "px", "important");
+            aSubMenu.style.setProperty("clip-path", "inset(0 -100vw 0 -100vw)");
+
+            // Animate nav container height
+            const navHeight = submenuHeight + desktop_offset_height;
+            mainMenuNavContainer.style.setProperty("height", navHeight + "px");
+
+            // Clean up after animation completes
+            setTimeout(() => {
+              aSubMenu.style.removeProperty("transition");
+              aSubMenu.style.removeProperty("top");
+              aSubMenu.style.removeProperty("z-index");
+              aSubMenu.style.removeProperty("clip-path");
+              slntHeader.style.removeProperty("isolation");
+            }, 550);
           }
         } else {
           // Mobile behavior - animated reveal with scrollable height
@@ -656,39 +674,66 @@
         }
 
         if (!isMobile()) {
-          // Desktop behavior — swap classes immediately
-          aSubMenu.classList.add("hidden-2l");
-          aSubMenu.classList.remove("visible-2l");
           aSubMenu.classList.remove("text-hidden");
 
-          // Reset nav container height when hiding submenu (unless switching)
-          if (!skipHeightReset) {
-            const mainMenuNavContainer = get_mainMenuNavContainer();
-            mainMenuNavContainer.style.setProperty("height", menu_bar_height);
-          }
-
-          // Set z-index to -1 BEFORE starting fade out animation
-          // This way the menu goes behind content during the fade
-          aSubMenu.style.setProperty("z-index", "-1");
-
           if (instant) {
-            // Instant hide: set properties immediately
+            // Instant hide: swap classes and set properties immediately
             console.log('hideSubmenu: Instant hide');
+            aSubMenu.classList.add("hidden-2l");
+            aSubMenu.classList.remove("visible-2l");
+
+            if (!skipHeightReset) {
+              const mainMenuNavContainer = get_mainMenuNavContainer();
+              mainMenuNavContainer.style.setProperty("height", menu_bar_height);
+            }
+
+            aSubMenu.style.setProperty("z-index", "-1");
             aSubMenu.style.setProperty("visibility", "hidden");
             aSubMenu.style.setProperty("opacity", "0");
           } else {
-            // Animated hide: fade out
-            console.log('hideSubmenu: Animated hide, setting opacity to 0');
-            addTransitionListeners(aSubMenu, false);
-            aSubMenu.style.setProperty("opacity", "0");
+            // Animated hide: slide up behind menu bar (reverse of open)
+            // Keep visible-2l during animation so CSS top !important stays correct
+            console.log('hideSubmenu: Animated hide, slide up');
+            const slntHeader = document.getElementById('slnt-header');
+            const mainMenuNavContainer = get_mainMenuNavContainer();
+            const submenuHeight = aSubMenu.offsetHeight;
+            const currentTop = parseInt(getComputedStyle(aSubMenu).top);
+            const endTop = currentTop - submenuHeight;
 
-            // After fade completes, hide visibility
-            // Store timeout ID so we can cancel it if needed
+            slntHeader.style.setProperty("isolation", "isolate");
+            aSubMenu.style.setProperty("z-index", "-1");
+
+            // Set initial clip-path so transition interpolates between inset() values
+            aSubMenu.style.setProperty("clip-path", "inset(0 -100vw 0 -100vw)");
+
+            void aSubMenu.offsetHeight;
+
+            aSubMenu.style.setProperty("transition", "top 0.5s ease, clip-path 0.5s ease", "important");
+
+            void aSubMenu.offsetHeight;
+
+            // Slide up and clip from top simultaneously
+            aSubMenu.style.setProperty("top", endTop + "px", "important");
+            aSubMenu.style.setProperty("clip-path", "inset(" + submenuHeight + "px -100vw 0 -100vw)");
+
+            // Animate nav height back
+            if (!skipHeightReset) {
+              mainMenuNavContainer.style.setProperty("height", menu_bar_height);
+            }
+
+            // Clean up after animation completes
             aSubMenu._hideTimeout = setTimeout(() => {
-              console.log('hideSubmenu: setTimeout fired, hiding visibility');
+              aSubMenu.classList.add("hidden-2l");
+              aSubMenu.classList.remove("visible-2l");
+
+              aSubMenu.style.removeProperty("transition");
+              aSubMenu.style.removeProperty("top");
+              aSubMenu.style.removeProperty("clip-path");
               aSubMenu.style.setProperty("visibility", "hidden");
+              aSubMenu.style.setProperty("opacity", "0");
+              slntHeader.style.removeProperty("isolation");
               delete aSubMenu._hideTimeout;
-            }, 500); // Match your CSS transition duration
+            }, 550);
           }
         } else {
           // Mobile behavior
