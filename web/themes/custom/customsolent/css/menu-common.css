@@ -129,6 +129,11 @@ ul.sub-menu-item-container {
   background-color: var(--solent-blue);
 }
 
+/* Prevent inline baseline gap below logo image */
+#slnt-header-upper img {
+  display: block;
+}
+
 /*
 
 PERHAPS dont need to change "top" for mobile. I think so...

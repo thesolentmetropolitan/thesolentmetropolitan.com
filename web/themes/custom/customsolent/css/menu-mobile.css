@@ -1,5 +1,10 @@
 @media (max-width: 1199px) {
 
+  header {
+    display: flex;
+    flex-direction: column;
+  }
+
   #mast-head {
     width: 15em;
     padding-left: 1.4em;
@@ -469,7 +474,7 @@ https://stackoverflow.com/questions/79791175/how-to-stop-tap-highlight-blink-on-
 }
 
 .slnt-hdr-hgt-init {
-  height: 8em;
+  height: auto;
 }
 
 /* Force scrollbar to be visible on mobile */
