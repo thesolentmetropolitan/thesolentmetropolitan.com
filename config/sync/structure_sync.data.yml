@@ -256,7 +256,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -70
+    weight: -68
     langcode: en
     uuid: e5e84f75-afd1-4ab4-9468-a21693975305
     options: {  }
@@ -269,7 +269,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -81
+    weight: -76
     langcode: en
     uuid: cd4c065b-6519-4899-8ee3-abe0c2356df3
     options: {  }
@@ -295,22 +295,9 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -84
+    weight: -79
     langcode: en
     uuid: b23ffe1c-300d-4c7b-a31a-55e120efb49d
-    options: {  }
-  -
-    menu_name: main
-    title: Materials
-    parent: 'menu_link_content:ca4916ec-7269-42dc-abf5-5864739fbddd'
-    uri: 'internal:/sectors/materials'
-    link_title: ''
-    description: null
-    enabled: true
-    expanded: false
-    weight: -68
-    langcode: en
-    uuid: b841ff01-b616-4e06-827e-3f866589c0bc
     options: {  }
   -
     menu_name: main
@@ -321,7 +308,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -90
+    weight: -86
     langcode: en
     uuid: 36d08377-3e2c-4b8a-880c-436af016f269
     options: {  }
@@ -334,7 +321,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -69
+    weight: -67
     langcode: en
     uuid: 0d619d7d-b548-4734-94f9-8ab767901178
     options: {  }
@@ -347,7 +334,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -86
+    weight: -81
     langcode: en
     uuid: f026cbda-7837-44a1-9dfa-d96fedae5281
     options: {  }
@@ -360,7 +347,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -77
+    weight: -74
     langcode: en
     uuid: 29e84fb0-4d60-4a5a-baf5-a7b24ae91010
     options: {  }
@@ -373,22 +360,9 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -76
+    weight: -73
     langcode: en
     uuid: 675facb3-2d62-4124-8ec5-0f0031488472
-    options: {  }
-  -
-    menu_name: main
-    title: 'Food & Drink'
-    parent: 'menu_link_content:ca4916ec-7269-42dc-abf5-5864739fbddd'
-    uri: 'internal:/sectors/food-drink'
-    link_title: ''
-    description: null
-    enabled: true
-    expanded: false
-    weight: -79
-    langcode: en
-    uuid: 817714c1-33c6-407c-82ae-e571badbc20e
     options: {  }
   -
     menu_name: main
@@ -399,7 +373,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -74
+    weight: -71
     langcode: en
     uuid: 1938fad3-f184-4b15-969a-c207510ecb0b
     options: {  }
@@ -412,7 +386,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -80
+    weight: -75
     langcode: en
     uuid: 54f61a44-6775-4619-b8bf-7d65f56a5f56
     options: {  }
@@ -425,7 +399,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -89
+    weight: -85
     langcode: en
     uuid: 9444b6b5-f978-42cb-937b-ce8f2eb6f81d
     options: {  }
@@ -451,7 +425,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -54
+    weight: -55
     langcode: en
     uuid: ba276cbf-52f0-4e61-9f1d-99fa65acb6cd
     options: {  }
@@ -464,7 +438,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -88
+    weight: -84
     langcode: en
     uuid: 84c852cb-79ca-416d-bafa-01ad85050918
     options: {  }
@@ -477,7 +451,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -85
+    weight: -80
     langcode: en
     uuid: 2f24a73a-8101-4865-a606-8f2adaf41608
     options: {  }
@@ -490,7 +464,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -67
+    weight: -66
     langcode: en
     uuid: 46040601-f8d3-42bd-aff8-55a347b770cf
     options: {  }
@@ -503,7 +477,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -65
+    weight: -64
     langcode: en
     uuid: 4f728897-4179-4a7a-badc-4b8567fb095d
     options: {  }
@@ -516,7 +490,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -83
+    weight: -78
     langcode: en
     uuid: 2194b58c-6143-4e7d-8e68-f59925b69aba
     options: {  }
@@ -555,7 +529,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -62
+    weight: -61
     langcode: en
     uuid: c1070c3a-500f-43b6-ad13-aebb517684e3
     options: {  }
@@ -571,19 +545,6 @@ menus:
     weight: -80
     langcode: en
     uuid: 4b28e4d3-d73d-495e-9e9e-efa4185a4dbf
-    options: {  }
-  -
-    menu_name: main
-    title: Machinery
-    parent: 'menu_link_content:ca4916ec-7269-42dc-abf5-5864739fbddd'
-    uri: 'internal:/sectors/machinery'
-    link_title: ''
-    description: null
-    enabled: true
-    expanded: false
-    weight: -72
-    langcode: en
-    uuid: 74b8480d-83ba-43ea-b5e4-c99bdc227a9e
     options: {  }
   -
     menu_name: main
@@ -639,19 +600,6 @@ menus:
     options: {  }
   -
     menu_name: main
-    title: Policing
-    parent: 'menu_link_content:ca4916ec-7269-42dc-abf5-5864739fbddd'
-    uri: 'internal:/policing-and-security'
-    link_title: ''
-    description: null
-    enabled: true
-    expanded: false
-    weight: -64
-    langcode: en
-    uuid: 3b6ab636-0c48-4efa-9029-1016b6f62e3a
-    options: {  }
-  -
-    menu_name: main
     title: Military
     parent: 'menu_link_content:ca4916ec-7269-42dc-abf5-5864739fbddd'
     uri: 'internal:/sectors/military'
@@ -659,7 +607,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -66
+    weight: -65
     langcode: en
     uuid: de946a40-4cd2-41a1-a116-0fb37f0ffd92
     options: {  }
@@ -678,42 +626,16 @@ menus:
     options: {  }
   -
     menu_name: main
-    title: 'Animal Care'
+    title: Design
     parent: 'menu_link_content:ca4916ec-7269-42dc-abf5-5864739fbddd'
-    uri: 'internal:/sector/animal-care'
+    uri: 'internal:/sector/design'
     link_title: ''
     description: null
     enabled: true
     expanded: false
-    weight: -93
-    langcode: en
-    uuid: 1eaf129c-d331-4633-9ac5-c7c1d9c40ab7
-    options: {  }
-  -
-    menu_name: main
-    title: Architecture
-    parent: 'menu_link_content:ca4916ec-7269-42dc-abf5-5864739fbddd'
-    uri: 'internal:/sector/architecture'
-    link_title: ''
-    description: null
-    enabled: true
-    expanded: false
-    weight: -92
+    weight: -82
     langcode: en
     uuid: 9bea57b9-6456-4047-a087-37280f07ebba
-    options: {  }
-  -
-    menu_name: main
-    title: Aerospace
-    parent: 'menu_link_content:ca4916ec-7269-42dc-abf5-5864739fbddd'
-    uri: 'internal:/sector/aerospace'
-    link_title: ''
-    description: null
-    enabled: true
-    expanded: false
-    weight: -94
-    langcode: en
-    uuid: 0619862f-7f23-413f-866a-f992ceebcc79
     options: {  }
   -
     menu_name: main
@@ -724,7 +646,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -71
+    weight: -69
     langcode: en
     uuid: b318acdf-64d7-41e1-85f6-09bf071343cd
     options: {  }
@@ -737,7 +659,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -73
+    weight: -70
     langcode: en
     uuid: 98629043-47e3-4f0f-ba9b-26f9fb2152ca
     options: {  }
@@ -750,7 +672,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -75
+    weight: -72
     langcode: en
     uuid: 427482d8-45ce-4cc1-ad7d-4caa14213825
     options: {  }
@@ -763,22 +685,9 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -53
+    weight: -54
     langcode: en
     uuid: f7e15ce4-ca68-4a11-bec6-43023f68e729
-    options: {  }
-  -
-    menu_name: main
-    title: Rescue
-    parent: 'menu_link_content:ca4916ec-7269-42dc-abf5-5864739fbddd'
-    uri: 'internal:/sector/rescue'
-    link_title: ''
-    description: null
-    enabled: true
-    expanded: false
-    weight: -61
-    langcode: en
-    uuid: 0baa4040-10f2-4624-8f1a-e77342e9be8c
     options: {  }
   -
     menu_name: main
@@ -789,7 +698,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -87
+    weight: -83
     langcode: en
     uuid: b3f0fd1c-c51e-4fa6-81ee-74b4a5d3b6a0
     options: {  }
@@ -802,7 +711,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -58
+    weight: -59
     langcode: en
     uuid: 7503090a-a5b4-4d6e-a05b-b0527736a3d2
     options: {  }
@@ -841,7 +750,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -57
+    weight: -58
     langcode: en
     uuid: 69f9170a-1b41-4d06-be27-3573e090f419
     options: {  }
@@ -1003,7 +912,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -56
+    weight: -57
     langcode: en
     uuid: f2008875-01af-4d0f-bf01-08e60d0cc3b5
     options: {  }
@@ -1016,7 +925,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -95
+    weight: -88
     langcode: en
     uuid: 773f7018-cd76-4c9d-b82b-473403b35c52
     options: {  }
@@ -1061,27 +970,14 @@ menus:
     options: {  }
   -
     menu_name: main
-    title: Security
+    title: 'Public Sector'
     parent: 'menu_link_content:ca4916ec-7269-42dc-abf5-5864739fbddd'
-    uri: 'internal:/sectors/security'
+    uri: 'internal:/sectors/public-sector'
     link_title: ''
     description: null
     enabled: true
     expanded: false
-    weight: -59
-    langcode: en
-    uuid: ffee2710-4038-4c01-8842-3a29f35f61db
-    options: {  }
-  -
-    menu_name: main
-    title: Government
-    parent: 'menu_link_content:ca4916ec-7269-42dc-abf5-5864739fbddd'
-    uri: 'internal:/sectors/government'
-    link_title: ''
-    description: null
-    enabled: true
-    expanded: false
-    weight: -78
+    weight: -62
     langcode: en
     uuid: 3c3010f4-a851-426e-a5e3-af26268d7a05
     options: {  }
@@ -1094,7 +990,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -82
+    weight: -77
     langcode: en
     uuid: 9aee40ee-53a6-4928-b836-8dc6c5fb23fd
     options: {  }
@@ -1156,19 +1052,6 @@ menus:
         target: _self
   -
     menu_name: main
-    title: Arts
-    parent: 'menu_link_content:ca4916ec-7269-42dc-abf5-5864739fbddd'
-    uri: 'internal:/sectors/arts'
-    link_title: ''
-    description: null
-    enabled: true
-    expanded: false
-    weight: -91
-    langcode: en
-    uuid: 81a9144c-e4d7-44dd-aaaa-6b1297e999d3
-    options: {  }
-  -
-    menu_name: main
     title: Maritime
     parent: 'menu_link_content:9548ba9b-5ae0-4248-8c2e-f76e52ef31f5'
     uri: 'internal:/culture/maritime'
@@ -1228,7 +1111,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -55
+    weight: -56
     langcode: en
     uuid: 6151b27a-276a-479e-b9c1-bd156d070715
     options: {  }
@@ -1244,6 +1127,19 @@ menus:
     weight: -73
     langcode: en
     uuid: 3f87f9ec-81ed-4b51-8bfc-25896a13dd17
+    options: {  }
+  -
+    menu_name: main
+    title: Arts
+    parent: 'menu_link_content:ca4916ec-7269-42dc-abf5-5864739fbddd'
+    uri: 'internal:/sectors/arts'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -87
+    langcode: en
+    uuid: 22fb3ede-66dd-4034-abf3-6dab47a59438
     options: {  }
 taxonomies:
   color:
