@@ -1038,13 +1038,21 @@
           const mainMenuNavContainer = get_mainMenuNavContainer();
           
           if (newMode === 'desktop') {
-            if (!check_submenu_open()) {
-              desktop_menu_initialise_container_height();
-            } else {
+            const searchFormEl = document.querySelector('#search-form-container');
+            const searchIsOpen = searchFormEl && searchFormEl.classList.contains('visible-2l');
+
+            if (check_submenu_open()) {
               const aSubMenu = document.querySelector(".sub-menu-container.visible-2l");
               if (aSubMenu) {
                 desktop_menu_drawer_show(aSubMenu, mainMenuNavContainer);
               }
+            } else if (searchIsOpen) {
+              // Recalculate nav height for visible search form
+              const searchHeight = searchFormEl.offsetHeight;
+              const desktop_offset_height = get_desktop_offset_height();
+              mainMenuNavContainer.style.setProperty("height", (searchHeight + desktop_offset_height) + "px");
+            } else {
+              desktop_menu_initialise_container_height();
             }
           } else {
             mainMenuNavContainer.style.setProperty("height", "auto");
