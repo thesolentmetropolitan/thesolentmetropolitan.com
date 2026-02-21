@@ -61,7 +61,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -78
+    weight: -79
     langcode: en
     uuid: 3691cd90-a8ea-49ae-8cdf-9cb8e438541a
     options: {  }
@@ -87,7 +87,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -83
+    weight: -84
     langcode: en
     uuid: e2aec3fc-c4d7-4d3c-a8e2-8e5424f731cc
     options: {  }
@@ -100,7 +100,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -77
+    weight: -78
     langcode: en
     uuid: b382d99f-6a38-4d1a-8641-b8e93bacec5e
     options: {  }
@@ -152,7 +152,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -86
+    weight: -87
     langcode: en
     uuid: 4b597611-3c69-49ab-a8f6-5d1ae184aeb1
     options: {  }
@@ -165,7 +165,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -81
+    weight: -82
     langcode: en
     uuid: 4b3fc748-1d7b-4dd2-9d23-a7a78c447b36
     options: {  }
@@ -178,7 +178,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -88
+    weight: -89
     langcode: en
     uuid: 5c470876-f6dd-4520-8992-82b583995442
     options: {  }
@@ -210,14 +210,14 @@ menus:
     options: {  }
   -
     menu_name: main
-    title: Fashion
+    title: Style
     parent: 'menu_link_content:9548ba9b-5ae0-4248-8c2e-f76e52ef31f5'
-    uri: 'internal:/culture/fashion'
+    uri: 'internal:/culture/style'
     link_title: ''
     description: null
     enabled: true
     expanded: false
-    weight: -89
+    weight: -77
     langcode: en
     uuid: db9c6fda-c2ce-49bc-8e5e-3327534174aa
     options: {  }
@@ -568,7 +568,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -79
+    weight: -80
     langcode: en
     uuid: 4b28e4d3-d73d-495e-9e9e-efa4185a4dbf
     options: {  }
@@ -672,7 +672,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -87
+    weight: -88
     langcode: en
     uuid: 04a753a4-c283-43d0-b1f9-247d6e8065b6
     options: {  }
@@ -828,7 +828,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -85
+    weight: -86
     langcode: en
     uuid: 703e35f8-8c77-486d-91ab-7353bae16341
     options: {  }
@@ -1176,7 +1176,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -84
+    weight: -85
     langcode: en
     uuid: d2c73747-6d31-47a2-a88a-260ca08e4003
     options: {  }
@@ -1189,7 +1189,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -80
+    weight: -81
     langcode: en
     uuid: 432cfe4f-c64f-403c-ac1d-774051b0be83
     options: {  }
@@ -1202,7 +1202,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -82
+    weight: -83
     langcode: en
     uuid: adfa97fb-e105-42c9-89aa-3357a415dc05
     options: {  }
