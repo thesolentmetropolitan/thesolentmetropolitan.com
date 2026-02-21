@@ -173,22 +173,19 @@
     background-color: var(--warm-grey);
   }
 
-  /* Constrain submenu content to 1200px */
+  /* Constrain submenu content to 1200px — explicit calc matches .first-link centering */
   .sub-menu-item-container {
     max-width: 1200px;
-    margin-left: auto;
+    margin-left: max(0px, calc((100% - 1200px) / 2));
     margin-right: auto;
   }
 
   .sub-menu-container > a.first-link {
     display: block;
     width: fit-content;
-    /* Align with ul.sub-menu-item-container (max-width:1200px, margin:0 auto) */
-    margin-left: max(0px, calc((100% - 1200px) / 2));
-    padding-left: 0.4em; /* match ul.sub-menu-item-container padding-left */
-    /*padding-inline-start: 0.4em; */ /* override menu-common.css 40px */
-    padding-inline-start: 2em; /* align to main menu text: container calc(2em - 12px) + button 12px = 2em */
-    padding-right: 0.2em; /* match submenu item padding */
+    /* Same centering calc as ul.sub-menu-item-container, plus 2em text offset minus 0.2em hover padding */
+    margin-left: max(0px, calc((100% - 1200px) / 2 + 2em - 0.2em));
+    padding: 0.16em 0.2em; /* symmetric hover highlight */
   }
 
   /* Visible position - slides down to reveal */
