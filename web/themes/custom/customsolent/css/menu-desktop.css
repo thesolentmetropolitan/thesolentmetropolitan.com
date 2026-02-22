@@ -130,9 +130,6 @@
     top: -50px !important;
   }
 
-
-  /* Desktop 1200px: constrain submenu content and add full-width background */
-
   /* Flex layout for menu items to enable column effect */
   .main-menu-item-container {
     height: 100%;
