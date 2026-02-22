@@ -259,13 +259,20 @@
   }
 
   /* Submenu item text — display:block so padding creates layout space (no overlap) */
-  .sub-menu-container .first-link,
+
   .sub-menu-item-container a {
     color: var(--solent-blue);
     transition: background-color 0.15s, color 0.15s;
-    padding: 0.16em 0.2em;
+    padding: 0.16em 0.0em 0.16em 0.5em; /* was 0.2em left */
     display: block;
   }
+
+    .sub-menu-container .first-link {
+    color: var(--solent-blue);
+    transition: background-color 0.15s, color 0.15s;
+    padding: 0.16em 0.0em 0.16em 0.2em; /* was 0.2em left */
+    display: block;
+    }
 
   .sub-menu-container .first-link {
     text-decoration: none;
@@ -309,16 +316,35 @@
 .sub-menu-container > a.first-link {
   /* padding now set in .sub-menu-container>.first-link rule above */
 }
+
+
+span.sub-menu-item.first-link,
+span.sub-menu-item
+/*
+ {
+  padding-inline-start: 0.3em;
+}
+  */
+
+
 }
 
 @media screen and (min-width: 1200px) {
     .sub-menu-item-container {
       columns: 6;
   }
+
+  span.sub-menu-item.first-link {
+  width: calc(16%);
+}
 }
 
 @media screen and (max-width: 1199px) {
     .sub-menu-item-container {
       columns: 4;
   }
+
+  span.sub-menu-item.first-link {
+  width: calc(23.5%);
+}
 }
