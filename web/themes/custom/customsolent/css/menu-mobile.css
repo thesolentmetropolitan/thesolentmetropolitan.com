@@ -1,4 +1,4 @@
-@media (max-width: 1199px) {
+@media (max-width: 799px) {
 
   header {
     display: flex;
@@ -512,5 +512,11 @@ https://stackoverflow.com/questions/79791175/how-to-stop-tap-highlight-blink-on-
   .navigation__link__down-icon {
     height: 0.8em;
     width: 1em;
+  }
+
+
+
+  .sub-menu-item-container {
+      columns: 1;
   }
 }

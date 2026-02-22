@@ -1,5 +1,5 @@
 
-@media screen and (min-width: 960px ) {
+@media screen and (min-width: 800px ) {
   .node--view-mode-full.news-center-content-group .body-container {
     /* use paragraph vertical height instead */
     
@@ -13,7 +13,7 @@
   }
 
   article.node--view-mode-full.news-center-content-group .inner {
-    /*width: 960px;*/
+    /*width: 800px;*/
     
     /*width: 800px;*/
     
@@ -31,7 +31,7 @@
 
 @media screen and (min-width: 512px ) {
   article.node--view-mode-full.news-center-content-group .inner {
-    /*width: 960px;*/
+    /*width: 800px;*/
     
     max-width: 800px;
     
@@ -62,7 +62,7 @@
   }
 
   article.node--view-mode-full.news-center-content-group .inner {
-    /*width: 960px;*/
+    /*width: 800px;*/
     
     /*width: 800px;*/
     
@@ -81,12 +81,12 @@
     display: flex;
     justify-content: center;
     */
-            /*width: 960px;*/
+            /*width: 800px;*/
   }
 
   /*
     .node--view-mode-full.news-center-content-group .outer {
-      width:960px;
+      width:800px;
     }
       */
 

@@ -10,7 +10,7 @@
 }
 
 /* Desktop: constrain site content to 1200px */
-@media screen and (min-width: 1200px) {
+@media screen and (min-width: 800px) {
   /* Header spans full width (blue background); content aligned to main + 2em grid */
   #slnt-header {
     max-width: none;

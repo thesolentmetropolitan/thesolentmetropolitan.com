@@ -7,7 +7,7 @@ footer[role="contentinfo"] {
 }
 
 /* Desktop: full-width footer background with 1200px constrained content */
-@media screen and (min-width: 1200px) {
+@media screen and (min-width: 800px) {
   /* Full-width wrapper for footer background color */
   .footer-full-width-wrapper {
     width: 100%;
