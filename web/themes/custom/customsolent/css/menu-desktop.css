@@ -1,4 +1,4 @@
-@media screen and (min-width: 1200px) {
+@media screen and (min-width: 800px) {
   #mast-head {
     width: 15em;
     padding-left: 1em;
@@ -302,4 +302,16 @@
 .sub-menu-container > a.first-link {
   /* padding now set in .sub-menu-container>.first-link rule above */
 }
+}
+
+@media screen and (min-width: 1200px) {
+    .sub-menu-item-container {
+      columns: 6;
+  }
+}
+
+@media screen and (max-width: 1199px) {
+    .sub-menu-item-container {
+      columns: 4;
+  }
 }

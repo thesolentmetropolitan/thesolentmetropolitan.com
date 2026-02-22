@@ -8,6 +8,10 @@
   --body-bg: #faf9f7;
   --text: #1a1a1a;
   --text-mid: #444444;
+
+  --breakpoint-mobile-max: 799px;
+  --breakpoint-desktop-all-min: 800px;
+  --breakpoint-desktop-large-min: 1200px;
 }
 
 .svg-defs {
