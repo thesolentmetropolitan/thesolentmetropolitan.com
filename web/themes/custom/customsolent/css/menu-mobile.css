@@ -237,8 +237,14 @@
     font-size: 1.2rem;
   }
 
-  .sub-menu-item-container a {
-    padding-left: 0.3em;
+  .sub-menu-item-container a,
+  .sub-menu-container a.first-link {
+   /* padding-left: 0.3em; */
+  }
+
+  .sub-menu-items-outer-container {
+  padding-left: 2.8em;
+  padding-top: 1em;
   }
 
   .sub-menu-container a.first-link {
@@ -502,7 +508,7 @@ https://stackoverflow.com/questions/79791175/how-to-stop-tap-highlight-blink-on-
 /* Mobile submenu indentation - beneath main items, slightly more to the right */
 
   ul.sub-menu-item-container {
-    padding-left: 2em;
+    /* padding-left: 2em; */
   }
 
   .sub-menu-container > a.first-link {

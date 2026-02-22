@@ -115,10 +115,14 @@ button.main_nav_link > span {
 }
 
 
-.sub-menu-container > a.first-link {
-    padding-inline-start: 40px;
+.sub-menu-container a.first-link {
+    /*padding-inline-start: 40px;*/
     font-weight: 800;
 }
+
+    ul.sub-menu-item-container {
+      padding-inline-start: 0px; /* overwrite browser default */
+    }
 
 ul.sub-menu-item-container {
     padding-top: 0.3em;
