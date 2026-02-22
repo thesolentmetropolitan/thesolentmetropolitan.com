@@ -48,6 +48,7 @@
 				    {% set item_leaves = items|slice(1) %}
 					<div class="sub-menu-container hidden-2l animated">
 					{% set first_item =items|first %}
+					    <div class="sub-menu-items-outer-container">
 					    {{ link(first_item.title, first_item.url, { 'class': ['first-link']}) }}
 						<ul class="sub-menu-item-container">
 						{% endif %}
@@ -107,6 +108,7 @@
 						{% endfor %}
 						{% if menu_level == 0 %}
 						</ul>
+						</div> {#sub-menu-items-outer-container#}
 					</div>
 					{# main menu wrap #}
 			{% else %}

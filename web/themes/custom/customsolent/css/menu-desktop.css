@@ -94,7 +94,6 @@
   .sub-menu-item-container {
     flex-direction: row;
     position: relative;
-    columns: 4;
     width: auto;
   }
 
@@ -173,16 +172,18 @@
   /* Constrain submenu content to 1200px — explicit calc matches .first-link centering */
   .sub-menu-item-container {
     max-width: 1200px;
+    /*
     margin-left: max(0px, calc((100% - 1200px) / 2));
+    */
     margin-right: auto;
   }
 
   .sub-menu-container > a.first-link {
-    display: block;
-    width: fit-content;
+    /* display: block; */
+    /* width: fit-content; */
     /* Same centering calc as ul.sub-menu-item-container, plus 2em text offset minus 0.2em hover padding */
-    margin-left: max(0px, calc((100% - 1200px) / 2 + 2em - 0.2em));
-    padding: 0.16em 0.2em; /* symmetric hover highlight */
+    /*  margin-left: max(0px, calc((100% - 1200px) / 2 + 2em - 0.2em)); */
+    /* padding: 0.16em 0.2em; */ /* symmetric hover highlight */ 
   }
 
   /* Visible position - slides down to reveal */
@@ -290,11 +291,20 @@
     stroke: var(--solent-blue);
   }
 
-  ul.sub-menu-item-container {
+  /*ul.sub-menu-item-container { */
+      /*box-sizing: border-box; */ /* so max-width:1200px includes padding — matches .first-link centering */
+      /* padding-left: 0.4em;*/
+      /*padding-left: calc(2em - 0.2em); */ /* align to main menu text: 2em total minus a padding-left 0.2em */
+  /* } */
+
+
+
+    .sub-menu-items-outer-container {
       box-sizing: border-box; /* so max-width:1200px includes padding — matches .first-link centering */
       /* padding-left: 0.4em;*/
       padding-left: calc(2em - 0.2em); /* align to main menu text: 2em total minus a padding-left 0.2em */
-}
+      margin-left: max(0px, calc((100% - 1200px) / 2));
+  }
 
 .sub-menu-container > a.first-link {
   /* padding now set in .sub-menu-container>.first-link rule above */
