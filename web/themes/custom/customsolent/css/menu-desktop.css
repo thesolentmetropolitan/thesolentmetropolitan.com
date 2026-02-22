@@ -94,7 +94,7 @@
   .sub-menu-item-container {
     flex-direction: row;
     position: relative;
-    columns: 6;
+    columns: 4;
     width: auto;
   }
 
