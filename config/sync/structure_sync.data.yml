@@ -1165,10 +1165,150 @@ taxonomies:
       description__format: null
       weight: '0'
       parent: '0'
-      uuid: d3cb7a35-7538-46c7-bfca-72a0cb60f075
+      uuid: 131ac732-66aa-4869-bc08-c9e9d49183cf
       field_color:
         -
           color: '#000000'
+          opacity: '1'
+    -
+      vid: color
+      tid: '20'
+      langcode: en
+      name: 'body bg'
+      description__value: null
+      description__format: null
+      weight: '0'
+      parent: '0'
+      uuid: a8e1cec9-7596-4585-8ea9-a4a25c6cc248
+      field_color:
+        -
+          color: '#FAF9F7'
+          opacity: '1'
+    -
+      vid: color
+      tid: '13'
+      langcode: en
+      name: deep-sea-blue-1
+      description__value: null
+      description__format: null
+      weight: '0'
+      parent: '0'
+      uuid: 06467f53-6d3b-4d50-b117-b5d795a76a73
+      field_color:
+        -
+          color: '#002970'
+          opacity: '1'
+    -
+      vid: color
+      tid: '17'
+      langcode: en
+      name: magenta
+      description__value: null
+      description__format: null
+      weight: '0'
+      parent: '0'
+      uuid: c9ae02fd-8589-48b4-9e39-f1da0428b82f
+      field_color:
+        -
+          color: '#C5007A'
+          opacity: '1'
+    -
+      vid: color
+      tid: '18'
+      langcode: en
+      name: magenta-dark
+      description__value: null
+      description__format: null
+      weight: '0'
+      parent: '0'
+      uuid: 3b7217ed-d649-41e8-8ad7-c2c0fbc8bf53
+      field_color:
+        -
+          color: '#A30065'
+          opacity: '1'
+    -
+      vid: color
+      tid: '14'
+      langcode: en
+      name: 'Solent Blue'
+      description__value: null
+      description__format: null
+      weight: '0'
+      parent: '0'
+      uuid: 39d3c20d-32a2-4385-9163-d0b25b9108f9
+      field_color:
+        -
+          color: '#2C4F6E'
+          opacity: '1'
+    -
+      vid: color
+      tid: '15'
+      langcode: en
+      name: 'solent blue light'
+      description__value: null
+      description__format: null
+      weight: '0'
+      parent: '0'
+      uuid: c88db76a-a01a-4c11-9b40-488b94fdd94f
+      field_color:
+        -
+          color: '#3A6489'
+          opacity: '1'
+    -
+      vid: color
+      tid: '16'
+      langcode: en
+      name: 'solent blue pale'
+      description__value: null
+      description__format: null
+      weight: '0'
+      parent: '0'
+      uuid: ec1ccd5a-3960-47c6-94e0-c6184b543850
+      field_color:
+        -
+          color: '#E8EEF3'
+          opacity: '1'
+    -
+      vid: color
+      tid: '21'
+      langcode: en
+      name: text
+      description__value: null
+      description__format: null
+      weight: '0'
+      parent: '0'
+      uuid: 1cf398b4-df1c-4ec3-b19d-df4090959513
+      field_color:
+        -
+          color: '#1A1A1A'
+          opacity: '1'
+    -
+      vid: color
+      tid: '22'
+      langcode: en
+      name: text-mid
+      description__value: null
+      description__format: null
+      weight: '0'
+      parent: '0'
+      uuid: ff67bdf5-7002-468c-8613-7319a459215e
+      field_color:
+        -
+          color: '#444444'
+          opacity: '1'
+    -
+      vid: color
+      tid: '19'
+      langcode: en
+      name: warm-grey
+      description__value: null
+      description__format: null
+      weight: '0'
+      parent: '0'
+      uuid: 7933764a-e8e1-4929-bbf5-5dd1b07c6f00
+      field_color:
+        -
+          color: '#F5F3F0'
           opacity: '1'
     -
       vid: color
@@ -1179,7 +1319,7 @@ taxonomies:
       description__format: null
       weight: '0'
       parent: '0'
-      uuid: 8e3ea472-51ce-44fe-807c-7de58a01217f
+      uuid: 6eb7ec4c-0f54-41ca-9575-7be193168395
       field_color:
         -
           color: '#FFFFFF'
