@@ -789,7 +789,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -87
+    weight: -91
     langcode: en
     uuid: f02fc052-6ec9-41cc-9ba5-085deaa6b83f
     options: {  }
@@ -802,7 +802,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -86
+    weight: -90
     langcode: en
     uuid: 711dee20-7fc0-4cfb-a5c3-f34db68762d0
     options: {  }
@@ -815,7 +815,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -89
+    weight: -94
     langcode: en
     uuid: 75433b24-523b-446d-bd92-58e071591eb9
     options: {  }
@@ -951,7 +951,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -90
+    weight: -95
     langcode: en
     uuid: 14e57aac-b7ef-4c80-9412-985b49927180
     options: {  }
@@ -1016,7 +1016,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -88
+    weight: -92
     langcode: en
     uuid: 9f453b52-0ec4-4037-80e1-66fcddf227db
     options: {  }
@@ -1218,6 +1218,45 @@ menus:
     weight: -90
     langcode: en
     uuid: 99de2cf5-cc60-4164-a3aa-7adecd445454
+    options: {  }
+  -
+    menu_name: main
+    title: 'Editorial Policy'
+    parent: 'menu_link_content:099ef8b8-72f0-4695-9fc1-c21684dba940'
+    uri: 'internal:/about/editorial-policy'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -93
+    langcode: en
+    uuid: 8d8575c7-2f40-41f1-8c9a-3000a54cd8f1
+    options: {  }
+  -
+    menu_name: main
+    title: 'Privacy policy'
+    parent: 'menu_link_content:099ef8b8-72f0-4695-9fc1-c21684dba940'
+    uri: 'internal:/about/privacy-policy'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: 0
+    langcode: en
+    uuid: 261134e6-f960-42c6-81eb-caad23657ca4
+    options: {  }
+  -
+    menu_name: main
+    title: 'Terms of use'
+    parent: 'menu_link_content:099ef8b8-72f0-4695-9fc1-c21684dba940'
+    uri: 'internal:/about/terms-of-use'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: 0
+    langcode: en
+    uuid: 4e8eabbe-8217-47c5-b5e2-6929c1ee5a46
     options: {  }
 taxonomies:
   color:
