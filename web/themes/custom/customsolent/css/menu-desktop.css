@@ -1,7 +1,7 @@
 @media screen and (min-width: 800px) {
   #mast-head {
     width: 15em;
-    padding-left: 1em;
+    padding-left: 1.4em;
     display: block;
     /* https://stackoverflow.com/a/11126701/227926 */
   }
