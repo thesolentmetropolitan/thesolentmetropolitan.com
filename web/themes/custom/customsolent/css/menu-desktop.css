@@ -326,8 +326,13 @@ span.sub-menu-item
 }
   */
 
+button.main_nav_link,
+a.main_nav_link {
+        padding: 15px 20px;
+}
 
 
+}
 
 @media screen and (min-width: 1200px) {
     .sub-menu-item-container {
@@ -346,6 +351,5 @@ span.sub-menu-item
 
   span.sub-menu-item.first-link {
   width: calc(23.5%);
-}
 }
 }
