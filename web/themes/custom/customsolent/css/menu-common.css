@@ -159,3 +159,7 @@ https://stackoverflow.com/questions/2460100/remove-the-complete-styling-of-an-ht
 https://stackoverflow.com/questions/51639828/how-to-select-class-and-tag-in-css
 
 */
+
+div#block-customsolent-sitebranding {
+    display: inline-block;
+}
