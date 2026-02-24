@@ -158,9 +158,9 @@ menus:
     options: {  }
   -
     menu_name: main
-    title: Podcasts
+    title: Photography
     parent: 'menu_link_content:9548ba9b-5ae0-4248-8c2e-f76e52ef31f5'
-    uri: 'internal:/culture/podcasts'
+    uri: 'internal:/culture/photography'
     link_title: ''
     description: null
     enabled: true
@@ -1065,9 +1065,9 @@ menus:
     options: {  }
   -
     menu_name: main
-    title: Radio
+    title: 'Radio & Podcast'
     parent: 'menu_link_content:9548ba9b-5ae0-4248-8c2e-f76e52ef31f5'
-    uri: 'internal:/culture/radio'
+    uri: 'internal:/culture/radio-podcast'
     link_title: ''
     description: null
     enabled: true
