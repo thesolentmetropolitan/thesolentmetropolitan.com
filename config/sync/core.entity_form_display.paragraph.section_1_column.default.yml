@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.paragraph.section_1_column.field_content_component
+    - field.field.paragraph.section_1_column.field_padding
     - paragraphs.paragraphs_type.section_1_column
   module:
     - paragraphs
@@ -29,6 +30,12 @@ content:
       features:
         collapse_edit_all: collapse_edit_all
         duplicate: duplicate
+    third_party_settings: {  }
+  field_padding:
+    type: options_select
+    weight: 4
+    region: content
+    settings: {  }
     third_party_settings: {  }
 hidden:
   created: true

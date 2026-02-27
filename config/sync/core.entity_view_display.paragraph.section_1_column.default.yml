@@ -4,9 +4,11 @@ status: true
 dependencies:
   config:
     - field.field.paragraph.section_1_column.field_content_component
+    - field.field.paragraph.section_1_column.field_padding
     - paragraphs.paragraphs_type.section_1_column
   module:
     - entity_reference_revisions
+    - options
 id: paragraph.section_1_column.default
 targetEntityType: paragraph
 bundle: section_1_column
@@ -20,5 +22,12 @@ content:
       link: ''
     third_party_settings: {  }
     weight: 3
+    region: content
+  field_padding:
+    type: list_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 4
     region: content
 hidden: {  }

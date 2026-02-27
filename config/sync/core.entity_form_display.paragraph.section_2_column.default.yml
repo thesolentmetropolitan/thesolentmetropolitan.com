@@ -5,6 +5,7 @@ dependencies:
   config:
     - field.field.paragraph.section_2_column.field_content_component_left
     - field.field.paragraph.section_2_column.field_content_component_right
+    - field.field.paragraph.section_2_column.field_padding
     - field.field.paragraph.section_2_column.field_style
     - paragraphs.paragraphs_type.section_2_column
   module:
@@ -49,6 +50,12 @@ content:
       features:
         collapse_edit_all: collapse_edit_all
         duplicate: duplicate
+    third_party_settings: {  }
+  field_padding:
+    type: options_select
+    weight: 4
+    region: content
+    settings: {  }
     third_party_settings: {  }
   field_style:
     type: entity_reference_autocomplete
