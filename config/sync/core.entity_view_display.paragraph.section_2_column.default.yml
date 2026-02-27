@@ -5,10 +5,12 @@ dependencies:
   config:
     - field.field.paragraph.section_2_column.field_content_component_left
     - field.field.paragraph.section_2_column.field_content_component_right
+    - field.field.paragraph.section_2_column.field_padding
     - field.field.paragraph.section_2_column.field_style
     - paragraphs.paragraphs_type.section_2_column
   module:
     - entity_reference_revisions
+    - options
 id: paragraph.section_2_column.default
 targetEntityType: paragraph
 bundle: section_2_column
@@ -29,6 +31,13 @@ content:
     settings:
       view_mode: default
       link: ''
+    third_party_settings: {  }
+    weight: 4
+    region: content
+  field_padding:
+    type: list_default
+    label: hidden
+    settings: {  }
     third_party_settings: {  }
     weight: 4
     region: content
