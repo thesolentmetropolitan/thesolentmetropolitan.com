@@ -30,6 +30,7 @@
         "drupal/page_specific_class": "^2.0",
         "drupal/paragraphs": "^1.19",
         "drupal/pathauto": "^1.14",
+        "drupal/quick_node_clone": "^1.22",
         "drupal/rabbit_hole": "^2.0@beta",
         "drupal/smart_date": "^4.2",
         "drupal/structure_sync": "^2.0",
