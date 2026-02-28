@@ -1249,7 +1249,7 @@ menus:
     menu_name: main
     title: 'Terms of use'
     parent: 'menu_link_content:099ef8b8-72f0-4695-9fc1-c21684dba940'
-    uri: 'internal:/about/terms-of-use'
+    uri: 'internal:/about/terms'
     link_title: ''
     description: null
     enabled: true
