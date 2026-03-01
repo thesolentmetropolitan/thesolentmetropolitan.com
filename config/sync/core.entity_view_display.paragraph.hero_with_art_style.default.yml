@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.paragraph.hero_with_art_style.field_classy
+    - field.field.paragraph.hero_with_art_style.field_title
     - paragraphs.paragraphs_type.hero_with_art_style
 id: paragraph.hero_with_art_style.default
 targetEntityType: paragraph
@@ -18,5 +19,13 @@ content:
       link: false
     third_party_settings: {  }
     weight: 0
+    region: content
+  field_title:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 1
     region: content
 hidden: {  }
