@@ -50,7 +50,7 @@
   ]
 %}
 {% block paragraph %}
-  <div{{ attributes.addClass(classes).addClass('slnt-text') }} style="background-color: {{ paragraph.field_color_background.0.entity.field_color.value.0.color }}; overflow: auto;">
+  <div{{ attributes.addClass(classes).addClass('slnt-text') }} style="background-color: {{ paragraph.field_color_background.0.entity.field_color.value.0.color }}; overflow: auto;{% if paragraph.field_padding.value %} padding: {{ paragraph.field_padding.value }};{% endif %}">
 
       {% block content %}
         {{ content.field_content_component }} 
