@@ -8,6 +8,7 @@ dependencies:
     - paragraphs.paragraphs_type.copyright
     - paragraphs.paragraphs_type.enclosure
     - paragraphs.paragraphs_type.heading
+    - paragraphs.paragraphs_type.hero_with_art_style
     - paragraphs.paragraphs_type.icon_with_link
     - paragraphs.paragraphs_type.image
     - paragraphs.paragraphs_type.image_with_link
@@ -40,6 +41,7 @@ settings:
       heading: heading
       image: image
       copyright: copyright
+      hero_with_art_style: hero_with_art_style
       icon_with_link: icon_with_link
       link: link
       section_1_column: section_1_column
@@ -62,6 +64,9 @@ settings:
         enabled: false
       heading:
         weight: 9
+        enabled: true
+      hero_with_art_style:
+        weight: 17
         enabled: true
       icon_with_link:
         weight: 18
