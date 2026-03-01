@@ -1,0 +1,7 @@
+uuid: 80abcf09-7caa-4fcc-b7f7-f4567302e9d2
+langcode: en
+status: true
+dependencies: {  }
+id: hero_art_style_1
+label: 'hero art style 1'
+classes: hero-art-style-1

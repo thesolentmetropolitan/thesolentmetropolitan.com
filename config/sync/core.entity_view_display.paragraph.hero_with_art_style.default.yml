@@ -1,0 +1,22 @@
+uuid: 00b50feb-81d2-41b4-8894-43640f9f0835
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.hero_with_art_style.field_classy
+    - paragraphs.paragraphs_type.hero_with_art_style
+id: paragraph.hero_with_art_style.default
+targetEntityType: paragraph
+bundle: hero_with_art_style
+mode: default
+content:
+  field_classy:
+    type: entity_reference_entity_view
+    label: hidden
+    settings:
+      view_mode: default
+      link: false
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden: {  }

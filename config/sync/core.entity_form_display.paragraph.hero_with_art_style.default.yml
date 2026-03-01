@@ -1,0 +1,25 @@
+uuid: ba46996b-5f69-45ce-911a-00c2c883aa12
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.hero_with_art_style.field_classy
+    - paragraphs.paragraphs_type.hero_with_art_style
+id: paragraph.hero_with_art_style.default
+targetEntityType: paragraph
+bundle: hero_with_art_style
+mode: default
+content:
+  field_classy:
+    type: entity_reference_autocomplete
+    weight: 0
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true
