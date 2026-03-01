@@ -1,0 +1,10 @@
+uuid: 4daab6cf-3933-4aa0-ae32-685ebd865ed0
+langcode: en
+status: true
+dependencies: {  }
+id: hero_with_art_style
+label: 'Hero with art style'
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }

@@ -1,0 +1,23 @@
+uuid: 89353943-7e8e-461c-935b-ed6ab1fa7abb
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_classy
+    - paragraphs.paragraphs_type.hero_with_art_style
+id: paragraph.hero_with_art_style.field_classy
+field_name: field_classy
+entity_type: paragraph
+bundle: hero_with_art_style
+label: classy
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:classy_paragraphs_style'
+  handler_settings:
+    target_bundles: null
+    auto_create: false
+field_type: entity_reference
