@@ -8,6 +8,7 @@ dependencies:
     - paragraphs.paragraphs_type.call_to_action
     - paragraphs.paragraphs_type.enclosure
     - paragraphs.paragraphs_type.heading
+    - paragraphs.paragraphs_type.hero_with_art_style
     - paragraphs.paragraphs_type.image
     - paragraphs.paragraphs_type.image_with_link
     - paragraphs.paragraphs_type.section_1_column
@@ -38,6 +39,7 @@ settings:
       heading: heading
       image: image
       image_with_link: image_with_link
+      hero_with_art_style: hero_with_art_style
       section_1_column: section_1_column
       section_2_column: section_2_column
       text: text
@@ -58,6 +60,9 @@ settings:
         enabled: true
       heading:
         weight: 17
+        enabled: true
+      hero_with_art_style:
+        weight: 21
         enabled: true
       icon_with_link:
         weight: 18
