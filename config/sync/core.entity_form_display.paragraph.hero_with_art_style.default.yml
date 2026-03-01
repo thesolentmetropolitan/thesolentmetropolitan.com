@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.paragraph.hero_with_art_style.field_classy
+    - field.field.paragraph.hero_with_art_style.field_title
     - paragraphs.paragraphs_type.hero_with_art_style
 id: paragraph.hero_with_art_style.default
 targetEntityType: paragraph
@@ -17,6 +18,14 @@ content:
     settings:
       match_operator: CONTAINS
       match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_title:
+    type: string_textfield
+    weight: 1
+    region: content
+    settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }
