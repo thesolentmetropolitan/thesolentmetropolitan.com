@@ -3,11 +3,19 @@
     padding: 2em;
 }
 
+/* Composite page: enclosure aligned to 1200px menu area */
+@media screen and (min-width: 800px) {
+  .field--name-field-content-component > .field__item > .paragraph--type--enclosure {
+    
+    /*
+    width: 100%;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    */
 
-
-.paragraph--type--enclosure {
-width: 100%; 
-max-width: 1200px;
-margin-left: auto; 
-margin-right: auto;
+        padding-left: max(0em, calc((100% - 1200px) / 2 + 0em));
+    padding-right: max(2em, calc((100% - 1200px) / 2 + 2em));
+  }
 }
+

@@ -1,0 +1,9 @@
+/* Hero art style: full browser width, content aligned to same 1200px area as enclosure */
+@media screen and (min-width: 800px) {
+  .paragraph--type--hero-with-art-style {
+    width: 100%;
+    box-sizing: border-box;
+    padding-left: max(0px, calc((100% - 1200px) / 2));
+    padding-right: max(0px, calc((100% - 1200px) / 2));
+  }
+}

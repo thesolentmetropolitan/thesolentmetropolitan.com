@@ -56,8 +56,10 @@
 
 {% block paragraph %}
   <div{{ attributes.addClass(classes).addClass(extra_classes) }}>
-    {% block content %}
-      {{ content.field_title }}
-    {% endblock %}
+    <div class="alignment-clamp">
+      {% block content %}
+        {{ content.field_title }}
+      {% endblock %}
+    </div>
   </div>
 {% endblock paragraph %}
