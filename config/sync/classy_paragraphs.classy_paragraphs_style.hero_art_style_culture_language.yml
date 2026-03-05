@@ -1,0 +1,6 @@
+langcode: en
+status: true
+dependencies: {}
+id: hero_art_style_culture_language
+label: Culture - Language
+classes: hero-art-style--culture-language

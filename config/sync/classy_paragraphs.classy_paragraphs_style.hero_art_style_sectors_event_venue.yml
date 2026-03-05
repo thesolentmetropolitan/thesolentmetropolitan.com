@@ -1,0 +1,6 @@
+langcode: en
+status: true
+dependencies: {}
+id: hero_art_style_sectors_event_venue
+label: Sectors - Event & Venue
+classes: hero-art-style--sectors-event-venue

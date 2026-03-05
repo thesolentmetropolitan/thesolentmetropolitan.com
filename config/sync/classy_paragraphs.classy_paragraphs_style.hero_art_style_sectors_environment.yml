@@ -1,0 +1,6 @@
+langcode: en
+status: true
+dependencies: {}
+id: hero_art_style_sectors_environment
+label: Sectors - Environment
+classes: hero-art-style--sectors-environment

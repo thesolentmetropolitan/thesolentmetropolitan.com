@@ -1,0 +1,6 @@
+langcode: en
+status: true
+dependencies: {}
+id: hero_art_style_living_home_garden
+label: Living - Home & Garden
+classes: hero-art-style--living-home-garden
