@@ -17,3 +17,14 @@
   align-self: flex-end;
   padding-left: 4em;
 }
+
+/* Cut-out title: solid body-bg background behind the text */
+.paragraph--type--hero-with-art-style .hero-art-style__title {
+  background-color: var(--body-bg);
+  padding-top: 0.5em;
+  padding-left: 0.6em;
+  padding-right: 0.6em;
+  margin: 0;
+  font-size: 1.8rem;
+  line-height: 1.2;
+}
