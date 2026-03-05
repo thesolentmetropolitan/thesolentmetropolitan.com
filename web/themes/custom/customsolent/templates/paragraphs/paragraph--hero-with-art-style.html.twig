@@ -58,7 +58,9 @@
   <div{{ attributes.addClass(classes).addClass(extra_classes) }}>
     <div class="alignment-clamp">
       {% block content %}
-        {{ content.field_title }}
+        {% if paragraph.field_title.value %}
+          <h2 class="hero-art-style__title">{{ paragraph.field_title.value }}</h2>
+        {% endif %}
       {% endblock %}
     </div>
   </div>
