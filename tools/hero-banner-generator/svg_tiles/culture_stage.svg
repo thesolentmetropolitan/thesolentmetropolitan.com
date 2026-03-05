@@ -1,10 +1,20 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120">
-  <g transform="translate(16.0,16.0)" fill="white" stroke="white" stroke-width="0" opacity="0.12">
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="103.92" viewBox="0 0 120 103.92">
+  <g transform="translate(-14.00,-14.00)" fill="white" stroke="white" stroke-width="0" opacity="0.12">
     <g transform="scale(0.109375)">
       404: Not Found
     </g>
   </g>
-  <g transform="translate(76.0,76.0)" fill="white" stroke="white" stroke-width="0" opacity="0.12">
+  <g transform="translate(46.00,-14.00)" fill="white" stroke="white" stroke-width="0" opacity="0.12">
+    <g transform="scale(0.109375)">
+      <path d="M168,12A75.9,75.9,0,0,0,92.49,96.33L23.91,189.85a19.89,19.89,0,0,0,2,26l14.29,14.29a19.89,19.89,0,0,0,26,2l93.52-68.58A76,76,0,1,0,168,12Zm52,76a51.66,51.66,0,0,1-7.75,27.27L140.74,43.75A52,52,0,0,1,220,88ZM54.72,210.71l-9.43-9.43,56.19-76.63a76.46,76.46,0,0,0,29.87,29.87ZM116,88a51.63,51.63,0,0,1,7.75-27.27l71.51,71.51A52,52,0,0,1,116,88Z"/>
+    </g>
+  </g>
+  <g transform="translate(16.00,37.96)" fill="white" stroke="white" stroke-width="0" opacity="0.12">
+    <g transform="scale(0.109375)">
+      404: Not Found
+    </g>
+  </g>
+  <g transform="translate(76.00,37.96)" fill="white" stroke="white" stroke-width="0" opacity="0.12">
     <g transform="scale(0.109375)">
       <path d="M168,12A75.9,75.9,0,0,0,92.49,96.33L23.91,189.85a19.89,19.89,0,0,0,2,26l14.29,14.29a19.89,19.89,0,0,0,26,2l93.52-68.58A76,76,0,1,0,168,12Zm52,76a51.66,51.66,0,0,1-7.75,27.27L140.74,43.75A52,52,0,0,1,220,88ZM54.72,210.71l-9.43-9.43,56.19-76.63a76.46,76.46,0,0,0,29.87,29.87ZM116,88a51.63,51.63,0,0,1,7.75-27.27l71.51,71.51A52,52,0,0,1,116,88Z"/>
     </g>

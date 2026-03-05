@@ -2,71 +2,93 @@
 """
 Build repeating SVG tile files from cached Phosphor icon SVGs.
 
-Icon positioning for seamless tiling:
-  1 icon:  centre of tile (0.5, 0.5)
-  2 icons: diagonal — (0.25, 0.25) and (0.75, 0.75)
-  3 icons: triangle — (0.5, 0.2), (0.2, 0.7), (0.8, 0.7)
+Uses a HEXAGONAL GRID for uniform spacing between all icons.
 
-Icons are rendered white with reduced opacity for subtle pattern effect.
+A hex grid guarantees every icon is exactly the same distance from its
+6 nearest neighbours — including across tile boundaries when CSS repeats.
+
+Tile geometry:
+  - Width  = 2 * spacing  (2 columns)
+  - Height = spacing * sqrt(3)  (2 hex rows)
+  - 4 icon positions per tile, arranged in hex pattern:
+
+    Row 0:  P0(0, 0)           P1(spacing, 0)
+    Row 1:       P2(spacing/2, h/2)      P3(3*spacing/2, h/2)
+
+  All nearest-neighbour distances = spacing (including across tile edges).
+
+  Icons at tile edges are intentional — CSS background-repeat completes
+  them from adjacent tiles, creating the seamless hex pattern.
+
+For N icon types, icons cycle across the 4 positions: A, B, C, A / A, B, A, B / A, A, A, A
 """
 
 import sys
 import os
 import re
+import math
 
 ICON_CACHE_DIR = sys.argv[1]
 TILE_OUTPUT_DIR = sys.argv[2]
-TILE_SIZE = int(sys.argv[3])
-ICON_SIZE = int(sys.argv[4])
+SPACING = int(sys.argv[3])      # Distance between icon centres (e.g. 60)
+ICON_SIZE = int(sys.argv[4])    # Rendered icon size in px (e.g. 28)
 
-# Positions as fraction of tile size (for centre of icon)
-POSITIONS = {
-    1: [(0.5, 0.5)],
-    2: [(0.25, 0.25), (0.75, 0.75)],
-    3: [(0.5, 0.22), (0.2, 0.72), (0.8, 0.72)],
-}
+TILE_WIDTH = 2 * SPACING
+TILE_HEIGHT = SPACING * math.sqrt(3)
+
+# 4 hex grid positions (as px coordinates of icon centres)
+HEX_POSITIONS = [
+    (0, 0),                                          # P0: top-left corner
+    (SPACING, 0),                                    # P1: top-centre
+    (SPACING / 2, TILE_HEIGHT / 2),                  # P2: mid-left
+    (SPACING + SPACING / 2, TILE_HEIGHT / 2),        # P3: mid-right
+]
 
 
 def extract_svg_paths(svg_file):
     """Extract the inner content of an SVG, stripping the outer <svg> tag."""
     with open(svg_file, 'r') as f:
         content = f.read()
-    # Remove the outer <svg ...> and </svg> tags, keep inner elements.
     inner = re.sub(r'<svg[^>]*>', '', content)
     inner = re.sub(r'</svg>', '', inner).strip()
     return inner
 
 
-def build_tile_svg(machine_name, icon_names, tile_size, icon_size):
-    """Build a single tile SVG with positioned icons."""
-    count = len(icon_names)
-    positions = POSITIONS.get(count, POSITIONS[3][:count])
-    half = icon_size / 2
+def build_tile_svg(machine_name, icon_names):
+    """Build a single tile SVG with icons on a hex grid."""
+    half = ICON_SIZE / 2
+    scale = ICON_SIZE / 256  # Phosphor icons use 256x256 viewBox
+
+    # Cycle icon types across the 4 hex positions
+    # e.g. 3 icons [A,B,C] -> positions get [A, B, C, A]
+    # e.g. 2 icons [A,B]   -> positions get [A, B, A, B]
+    # e.g. 1 icon  [A]     -> positions get [A, A, A, A]
+    icon_count = len(icon_names)
 
     parts = []
+    tw = f'{TILE_WIDTH:.2f}'.rstrip('0').rstrip('.')
+    th = f'{TILE_HEIGHT:.2f}'.rstrip('0').rstrip('.')
     parts.append(f'<svg xmlns="http://www.w3.org/2000/svg" '
-                 f'width="{tile_size}" height="{tile_size}" '
-                 f'viewBox="0 0 {tile_size} {tile_size}">')
+                 f'width="{tw}" height="{th}" '
+                 f'viewBox="0 0 {tw} {th}">')
 
-    for i, (icon_name, (fx, fy)) in enumerate(zip(icon_names, positions)):
+    for i, (cx, cy) in enumerate(HEX_POSITIONS):
+        icon_name = icon_names[i % icon_count]
         svg_file = os.path.join(ICON_CACHE_DIR, f'{icon_name}.svg')
         if not os.path.exists(svg_file):
             print(f'  WARNING: Icon {icon_name} not found, skipping')
             continue
 
         inner_svg = extract_svg_paths(svg_file)
-        cx = fx * tile_size - half
-        cy = fy * tile_size - half
+        tx = cx - half
+        ty = cy - half
 
-        # Wrap icon paths in a group with positioning and white fill.
         parts.append(
-            f'  <g transform="translate({cx},{cy})" '
+            f'  <g transform="translate({tx:.2f},{ty:.2f})" '
             f'fill="white" stroke="white" stroke-width="0" '
             f'opacity="0.12">'
         )
-        # Scale the 256x256 Phosphor viewBox down to icon_size.
-        scale = icon_size / 256
-        parts.append(f'    <g transform="scale({scale})">')
+        parts.append(f'    <g transform="scale({scale:.6f})">')
         parts.append(f'      {inner_svg}')
         parts.append('    </g>')
         parts.append('  </g>')
@@ -153,12 +175,17 @@ PAGE_MAP = {
 
 
 if __name__ == '__main__':
+    print(f'  Tile dimensions: {TILE_WIDTH}px x {TILE_HEIGHT:.2f}px')
+    print(f'  Icon spacing: {SPACING}px (uniform hex grid)')
+    print(f'  Icon size: {ICON_SIZE}px')
+    print()
+
     built = 0
     for machine_name, icon_names in PAGE_MAP.items():
-        svg_content = build_tile_svg(machine_name, icon_names, TILE_SIZE, ICON_SIZE)
+        svg_content = build_tile_svg(machine_name, icon_names)
         out_path = os.path.join(TILE_OUTPUT_DIR, f'{machine_name}.svg')
         with open(out_path, 'w') as f:
             f.write(svg_content)
-        print(f'  Built: {machine_name}.svg ({len(icon_names)} icons)')
+        print(f'  Built: {machine_name}.svg ({len(icon_names)} icon types, 4 positions)')
         built += 1
     print(f'\nBuilt {built} tile SVGs.')
