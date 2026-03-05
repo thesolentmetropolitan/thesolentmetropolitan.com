@@ -1,0 +1,6 @@
+langcode: en
+status: true
+dependencies: {}
+id: hero_art_style_sectors_health_care
+label: Sectors - Health & Care
+classes: hero-art-style--sectors-health-care

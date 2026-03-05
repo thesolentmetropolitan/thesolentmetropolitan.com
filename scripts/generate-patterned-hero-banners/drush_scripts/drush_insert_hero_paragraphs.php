@@ -1,0 +1,280 @@
+<?php
+
+/**
+ * @file
+ * Drush script to insert hero-with-art-style paragraphs into Composite Pages.
+ *
+ * Usage: drush php:script drush_insert_hero_paragraphs.php
+ *
+ * For each page (matched by URL alias), this script:
+ *   1. Finds the node by its path alias
+ *   2. Creates a hero-with-art-style paragraph
+ *   3. Sets field_classy to the matching classy paragraphs style
+ *   4. Inserts it as the FIRST item in field_content_component
+ *   5. Saves the node
+ *
+ * IMPORTANT: Review the $page_map array below and adjust if your
+ * node aliases or field names differ.
+ */
+
+use Drupal\node\Entity\Node;
+use Drupal\paragraphs\Entity\Paragraph;
+use Drupal\Core\Entity\EntityInterface;
+
+/**
+ * Map of URL alias => classy paragraph config ID.
+ *
+ * The config ID is used to look up the classy_paragraphs_style entity,
+ * which is then set as the value of field_classy on the hero paragraph.
+ */
+$page_map = [
+  // Culture - View All Culture
+  '/culture' => 'hero_art_style_culture_culture',
+  // Culture - Art & Design
+  '/culture/art-design' => 'hero_art_style_culture_art_design',
+  // Culture - Community
+  '/culture/community' => 'hero_art_style_culture_community',
+  // Culture - Dance
+  '/culture/dance' => 'hero_art_style_culture_dance',
+  // Culture - Enthusiasts
+  '/culture/enthusiasts' => 'hero_art_style_culture_enthusiasts',
+  // Culture - Faith
+  '/culture/faith' => 'hero_art_style_culture_faith',
+  // Culture - Food & Drink
+  '/culture/food-drink' => 'hero_art_style_culture_food_drink',
+  // Culture - Games
+  '/culture/games' => 'hero_art_style_culture_games',
+  // Culture - Heritage
+  '/culture/heritage' => 'hero_art_style_culture_heritage',
+  // Culture - Language
+  '/culture/language' => 'hero_art_style_culture_language',
+  // Culture - Maritime
+  '/culture/maritime' => 'hero_art_style_culture_maritime',
+  // Culture - Music
+  '/culture/music' => 'hero_art_style_culture_music',
+  // Culture - Outdoors
+  '/culture/outdoors' => 'hero_art_style_culture_outdoors',
+  // Culture - Photography
+  '/culture/photography' => 'hero_art_style_culture_photography',
+  // Culture - Radio & Podcast
+  '/culture/radio-podcast' => 'hero_art_style_culture_radio_podcast',
+  // Culture - Science
+  '/culture/science' => 'hero_art_style_culture_science',
+  // Culture - Screen
+  '/culture/screen' => 'hero_art_style_culture_screen',
+  // Culture - Sport
+  '/sport' => 'hero_art_style_culture_sport',
+  // Culture - Stage
+  '/culture/stage' => 'hero_art_style_culture_stage',
+  // Culture - Style
+  '/culture/style' => 'hero_art_style_culture_style',
+  // Culture - Talks
+  '/culture/talks' => 'hero_art_style_culture_talks',
+  // Culture - Technology
+  '/culture/technology' => 'hero_art_style_culture_technology',
+  // Culture - Writing
+  '/culture/writing' => 'hero_art_style_culture_writing',
+  // Culture - Workshops
+  '/culture/workshops' => 'hero_art_style_culture_workshops',
+  // Culture - Volunteering
+  '/culture/volunteering' => 'hero_art_style_culture_volunteering',
+  // Sectors - View All Sectors
+  '/sectors' => 'hero_art_style_sectors_sectors',
+  // Sectors - Arts
+  '/sectors/arts' => 'hero_art_style_sectors_arts',
+  // Sectors - Construction
+  '/sectors/construction' => 'hero_art_style_sectors_construction',
+  // Sectors - Consulting
+  '/sectors/consulting' => 'hero_art_style_sectors_consulting',
+  // Sectors - Creative
+  '/sectors/creative' => 'hero_art_style_sectors_creative',
+  // Sectors - Democracy
+  '/sector/democracy' => 'hero_art_style_sectors_democracy',
+  // Sectors - Design
+  '/sector/design' => 'hero_art_style_sectors_design',
+  // Sectors - Education
+  '/sectors/education' => 'hero_art_style_sectors_education',
+  // Sectors - Engineering
+  '/sectors/engineering' => 'hero_art_style_sectors_engineering',
+  // Sectors - Entrepreneur
+  '/sectors/entrepreneur' => 'hero_art_style_sectors_entrepreneur',
+  // Sectors - Environment
+  '/sectors/environment' => 'hero_art_style_sectors_environment',
+  // Sectors - Event & Venue
+  '/sectors/event-venue' => 'hero_art_style_sectors_event_venue',
+  // Sectors - Facilities
+  '/sectors/facilities' => 'hero_art_style_sectors_facilities',
+  // Sectors - Farming
+  '/sectors/farming' => 'hero_art_style_sectors_farming',
+  // Sectors - Finance
+  '/sectors/finance' => 'hero_art_style_sectors_finance',
+  // Sectors - Health & Care
+  '/sectors/health-care' => 'hero_art_style_sectors_health_care',
+  // Sectors - Hospitality
+  '/sectors/hospitality' => 'hero_art_style_sectors_hospitality',
+  // Sectors - Legal
+  '/sector/legal' => 'hero_art_style_sectors_legal',
+  // Sectors - Lifestyle
+  '/sectors/lifestyle' => 'hero_art_style_sectors_lifestyle',
+  // Sectors - Logistics
+  '/sector/logistics' => 'hero_art_style_sectors_logistics',
+  // Sectors - Manufacturing
+  '/sector/manufacturing' => 'hero_art_style_sectors_manufacturing',
+  // Sectors - Maritime
+  '/sectors/maritime' => 'hero_art_style_sectors_maritime',
+  // Sectors - Marketing
+  '/sectors/marketing' => 'hero_art_style_sectors_marketing',
+  // Sectors - Media
+  '/sectors/media' => 'hero_art_style_sectors_media',
+  // Sectors - Military
+  '/sectors/military' => 'hero_art_style_sectors_military',
+  // Sectors - Non-profit
+  '/sectors/non-profit' => 'hero_art_style_sectors_non_profit',
+  // Sectors - Property
+  '/sectors/property' => 'hero_art_style_sectors_property',
+  // Sectors - Public Sector
+  '/sectors/public-sector' => 'hero_art_style_sectors_public_sector',
+  // Sectors - Retail
+  '/sectors/retail' => 'hero_art_style_sectors_retail',
+  // Sectors - Science
+  '/sectors/science' => 'hero_art_style_sectors_science',
+  // Sectors - Sport & Fitness
+  '/sectors/sport-fitness' => 'hero_art_style_sectors_sport_fitness',
+  // Sectors - Technology
+  '/sectors/tech' => 'hero_art_style_sectors_technology',
+  // Sectors - Tourism
+  '/sectors/tourism' => 'hero_art_style_sectors_tourism',
+  // Sectors - Trades
+  '/sectors/trades' => 'hero_art_style_sectors_trades',
+  // Sectors - Transport
+  '/sectors/transport' => 'hero_art_style_sectors_transport',
+  // Sectors - Utilities
+  '/sector/utilities' => 'hero_art_style_sectors_utilities',
+  // Living - View All Living
+  '/living' => 'hero_art_style_living_living',
+  // Living - Advice
+  '/living/advice' => 'hero_art_style_living_advice',
+  // Living - Education
+  '/living/education' => 'hero_art_style_living_education',
+  // Living - Family
+  '/living/family' => 'hero_art_style_living_family',
+  // Living - Fitness
+  '/living/fitness' => 'hero_art_style_living_fitness',
+  // Living - Health
+  '/living/health' => 'hero_art_style_living_health',
+  // Living - Home & Garden
+  '/living/home-garden' => 'hero_art_style_living_home_garden',
+  // Living - Housing
+  '/living/housing' => 'hero_art_style_living_housing',
+  // Living - Mental Health
+  '/living/mental-health' => 'hero_art_style_living_mental_health',
+  // Living - Outreach
+  '/living/outreach' => 'hero_art_style_living_outreach',
+  // Living - Work
+  '/living/work' => 'hero_art_style_living_work',
+];
+
+$alias_manager = \Drupal::service('path_alias.manager');
+$entity_type_manager = \Drupal::entityTypeManager();
+$path_validator = \Drupal::service('path.validator');
+
+$inserted = 0;
+$skipped = 0;
+$errors = 0;
+
+foreach ($page_map as $alias => $classy_id) {
+  echo "\nProcessing: $alias => $classy_id\n";
+
+  // Resolve alias to internal path.
+  $internal_path = \Drupal::service('path_alias.manager')->getPathByAlias($alias);
+
+  if (!$internal_path || $internal_path === $alias) {
+    echo "  ERROR: No node found for alias '$alias'. Skipping.\n";
+    $errors++;
+    continue;
+  }
+
+  // Extract node ID from /node/123.
+  if (!preg_match('/^\/node\/(\d+)$/', $internal_path, $matches)) {
+    echo "  ERROR: Internal path '$internal_path' is not a node. Skipping.\n";
+    $errors++;
+    continue;
+  }
+
+  $nid = $matches[1];
+  $node = Node::load($nid);
+
+  if (!$node) {
+    echo "  ERROR: Could not load node $nid. Skipping.\n";
+    $errors++;
+    continue;
+  }
+
+  // Check this is a composite_page.
+  if ($node->bundle() !== 'composite_page') {
+    echo "  SKIP: Node $nid ({$node->getTitle()}) is type '{$node->bundle()}', not composite_page.\n";
+    $skipped++;
+    continue;
+  }
+
+  // Check if node already has a hero-with-art-style as first paragraph.
+  if ($node->hasField('field_content_component')) {
+    $existing_paragraphs = $node->get('field_content_component')->referencedEntities();
+    if (!empty($existing_paragraphs)) {
+      $first = reset($existing_paragraphs);
+      if ($first->bundle() === 'hero_with_art_style') {
+        echo "  SKIP: Node {$nid} ({$node->getTitle()}) already has hero_with_art_style as first paragraph.\n";
+        $skipped++;
+        continue;
+      }
+    }
+  }
+  else {
+    echo "  ERROR: Node $nid does not have field_content_component. Skipping.\n";
+    $errors++;
+    continue;
+  }
+
+  // Verify the classy paragraphs style exists.
+  $classy_style = $entity_type_manager
+    ->getStorage('classy_paragraphs_style')
+    ->load($classy_id);
+
+  if (!$classy_style) {
+    echo "  ERROR: Classy paragraph style '$classy_id' not found. Run import script first. Skipping.\n";
+    $errors++;
+    continue;
+  }
+
+  // Create the hero paragraph.
+  $hero_paragraph = Paragraph::create([
+    'type' => 'hero_with_art_style',
+    'field_classy' => [
+      'target_id' => $classy_id,
+    ],
+  ]);
+  $hero_paragraph->save();
+
+  // Get current paragraph references.
+  $current_values = $node->get('field_content_component')->getValue();
+
+  // Prepend the new hero paragraph.
+  $new_ref = [
+    'target_id' => $hero_paragraph->id(),
+    'target_revision_id' => $hero_paragraph->getRevisionId(),
+  ];
+  array_unshift($current_values, $new_ref);
+
+  // Set and save.
+  $node->set('field_content_component', $current_values);
+  $node->save();
+
+  echo "  OK: Inserted hero paragraph (style: $classy_id) into node $nid ({$node->getTitle()})\n";
+  $inserted++;
+}
+
+echo "\n=== Insertion complete ===\n";
+echo "Inserted: $inserted\n";
+echo "Skipped (already had hero): $skipped\n";
+echo "Errors: $errors\n";
+echo "\nRun 'drush cr' to clear caches.\n";

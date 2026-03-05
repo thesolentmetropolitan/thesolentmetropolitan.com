@@ -1,0 +1,6 @@
+langcode: en
+status: true
+dependencies: {}
+id: hero_art_style_culture_games
+label: Culture - Games
+classes: hero-art-style--culture-games

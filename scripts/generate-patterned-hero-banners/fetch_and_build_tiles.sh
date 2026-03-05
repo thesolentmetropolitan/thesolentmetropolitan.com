@@ -1,0 +1,190 @@
+#!/bin/bash
+
+# ============================================================
+# fetch_and_build_tiles.sh
+# ============================================================
+# Downloads Phosphor Bold SVGs and builds repeating tile SVGs.
+#
+# Usage: bash fetch_and_build_tiles.sh
+#
+# Requires: curl, python3
+#
+# Run this on a machine with internet access.
+# Output: svg_tiles/ directory with one .svg per page.
+# ============================================================
+
+set -e
+
+ICON_CACHE_DIR="./phosphor_icons_cache"
+TILE_OUTPUT_DIR="./svg_tiles"
+TILE_SIZE=120
+ICON_SIZE=28
+
+mkdir -p "$ICON_CACHE_DIR" "$TILE_OUTPUT_DIR"
+
+# Unique icon names to fetch
+ICONS=(
+  "airplane"
+  "anchor"
+  "aperture"
+  "atom"
+  "baby"
+  "bank"
+  "barbell"
+  "bed"
+  "bell-simple"
+  "binoculars"
+  "boat"
+  "book-open"
+  "brain"
+  "briefcase"
+  "broadcast"
+  "building-office"
+  "buildings"
+  "bus"
+  "calculator"
+  "calendar"
+  "camera"
+  "car"
+  "castle-turret"
+  "chalkboard-teacher"
+  "chart-bar"
+  "chart-line"
+  "chart-line-up"
+  "chat-circle"
+  "chat-text"
+  "chats"
+  "church"
+  "circuit-board"
+  "clipboard-text"
+  "clock"
+  "coat-hanger"
+  "code"
+  "coffee"
+  "compass"
+  "compass-tool"
+  "conveyor-belt"
+  "cpu"
+  "crane"
+  "cross"
+  "currency-gbp"
+  "dice-five"
+  "dna"
+  "drop"
+  "factory"
+  "film-strip"
+  "first-aid-kit"
+  "flag"
+  "flask"
+  "flower-lotus"
+  "football"
+  "fork-knife"
+  "game-controller"
+  "gavel"
+  "gear"
+  "globe-simple"
+  "graduation-cap"
+  "grain"
+  "hammer"
+  "hand-heart"
+  "hands-clapping"
+  "hands-praying"
+  "handshake"
+  "hard-hat"
+  "headphones"
+  "heart"
+  "heartbeat"
+  "house"
+  "image"
+  "key"
+  "laptop"
+  "leaf"
+  "lightbulb"
+  "lightning"
+  "map-pin"
+  "map-trifold"
+  "masks-theater"
+  "medal"
+  "medal-military"
+  "megaphone"
+  "microphone"
+  "microphone-stage"
+  "microscope"
+  "monitor"
+  "monitor-play"
+  "mountains"
+  "music-notes"
+  "newspaper"
+  "notebook"
+  "package"
+  "paint-brush"
+  "palette"
+  "pen-nib"
+  "pencil-ruler"
+  "pencil-simple"
+  "person-arms-spread"
+  "person-simple-run"
+  "pill"
+  "plant"
+  "plug"
+  "presentation-chart"
+  "puzzle-piece"
+  "recycle"
+  "rocket"
+  "ruler"
+  "sailboat"
+  "scales"
+  "scissors"
+  "scroll"
+  "shield"
+  "shield-check"
+  "shopping-cart"
+  "sparkle"
+  "star"
+  "stethoscope"
+  "storefront"
+  "sun"
+  "t-shirt"
+  "tag"
+  "target"
+  "ticket"
+  "toolbox"
+  "train-simple"
+  "translate"
+  "tree"
+  "trophy"
+  "truck"
+  "users"
+  "users-three"
+  "video-camera"
+  "vinyl-record"
+  "warehouse"
+  "waves"
+  "wine"
+  "wrench"
+)
+
+echo "Fetching ${#ICONS[@]} unique Phosphor Bold icons..."
+for icon in "${ICONS[@]}"; do
+  if [ ! -f "$ICON_CACHE_DIR/$icon.svg" ]; then
+    url="https://raw.githubusercontent.com/phosphor-icons/core/main/assets/bold/$icon-bold.svg"
+    echo "  Downloading: $icon"
+    curl -sL "$url" -o "$ICON_CACHE_DIR/$icon.svg"
+    if [ ! -s "$ICON_CACHE_DIR/$icon.svg" ]; then
+      echo "    WARNING: Failed to download $icon"
+      rm -f "$ICON_CACHE_DIR/$icon.svg"
+    fi
+  else
+    echo "  Cached: $icon"
+  fi
+done
+
+echo ""
+echo "Building tile SVGs..."
+
+# Python script to build the actual tile SVGs
+python3 build_tiles.py "$ICON_CACHE_DIR" "$TILE_OUTPUT_DIR" $TILE_SIZE $ICON_SIZE
+
+echo ""
+echo "Done. Tile SVGs are in: $TILE_OUTPUT_DIR/"
+echo "Copy these to your Drupal theme: themes/custom/customsolent/images/hero-tiles/"

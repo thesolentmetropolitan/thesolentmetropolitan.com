@@ -1,0 +1,6 @@
+langcode: en
+status: true
+dependencies: {}
+id: hero_art_style_living_advice
+label: Living - Advice
+classes: hero-art-style--living-advice

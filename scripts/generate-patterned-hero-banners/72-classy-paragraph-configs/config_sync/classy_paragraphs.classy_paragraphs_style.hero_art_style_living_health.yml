@@ -1,0 +1,6 @@
+langcode: en
+status: true
+dependencies: {}
+id: hero_art_style_living_health
+label: Living - Health
+classes: hero-art-style--living-health
