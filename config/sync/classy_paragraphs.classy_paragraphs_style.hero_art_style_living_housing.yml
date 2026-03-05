@@ -1,6 +1,6 @@
 langcode: en
 status: true
-dependencies: {}
+dependencies: {  }
 id: hero_art_style_living_housing
-label: Living - Housing
+label: 'Living - Housing'
 classes: hero-art-style--living-housing

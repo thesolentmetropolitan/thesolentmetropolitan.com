@@ -1,6 +1,6 @@
 langcode: en
 status: true
-dependencies: {}
+dependencies: {  }
 id: hero_art_style_sectors_democracy
-label: Sectors - Democracy
+label: 'Sectors - Democracy'
 classes: hero-art-style--sectors-democracy

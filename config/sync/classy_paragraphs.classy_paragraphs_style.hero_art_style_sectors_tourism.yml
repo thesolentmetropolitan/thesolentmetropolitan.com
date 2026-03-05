@@ -1,6 +1,6 @@
 langcode: en
 status: true
-dependencies: {}
+dependencies: {  }
 id: hero_art_style_sectors_tourism
-label: Sectors - Tourism
+label: 'Sectors - Tourism'
 classes: hero-art-style--sectors-tourism

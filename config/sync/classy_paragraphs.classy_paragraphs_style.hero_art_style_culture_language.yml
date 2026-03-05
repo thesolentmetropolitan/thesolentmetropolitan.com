@@ -1,6 +1,6 @@
 langcode: en
 status: true
-dependencies: {}
+dependencies: {  }
 id: hero_art_style_culture_language
-label: Culture - Language
+label: 'Culture - Language'
 classes: hero-art-style--culture-language

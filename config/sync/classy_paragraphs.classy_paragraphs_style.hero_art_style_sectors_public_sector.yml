@@ -1,6 +1,6 @@
 langcode: en
 status: true
-dependencies: {}
+dependencies: {  }
 id: hero_art_style_sectors_public_sector
-label: Sectors - Public Sector
+label: 'Sectors - Public Sector'
 classes: hero-art-style--sectors-public-sector

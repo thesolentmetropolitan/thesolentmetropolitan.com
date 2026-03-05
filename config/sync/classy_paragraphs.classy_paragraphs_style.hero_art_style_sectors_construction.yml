@@ -1,6 +1,6 @@
 langcode: en
 status: true
-dependencies: {}
+dependencies: {  }
 id: hero_art_style_sectors_construction
-label: Sectors - Construction
+label: 'Sectors - Construction'
 classes: hero-art-style--sectors-construction

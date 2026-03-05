@@ -1,6 +1,6 @@
 langcode: en
 status: true
-dependencies: {}
+dependencies: {  }
 id: hero_art_style_sectors_maritime
-label: Sectors - Maritime
+label: 'Sectors - Maritime'
 classes: hero-art-style--sectors-maritime

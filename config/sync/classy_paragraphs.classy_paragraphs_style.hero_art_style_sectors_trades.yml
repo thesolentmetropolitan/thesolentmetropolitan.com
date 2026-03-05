@@ -1,6 +1,6 @@
 langcode: en
 status: true
-dependencies: {}
+dependencies: {  }
 id: hero_art_style_sectors_trades
-label: Sectors - Trades
+label: 'Sectors - Trades'
 classes: hero-art-style--sectors-trades

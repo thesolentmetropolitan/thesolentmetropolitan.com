@@ -1,6 +1,6 @@
 langcode: en
 status: true
-dependencies: {}
+dependencies: {  }
 id: hero_art_style_sectors_media
-label: Sectors - Media
+label: 'Sectors - Media'
 classes: hero-art-style--sectors-media

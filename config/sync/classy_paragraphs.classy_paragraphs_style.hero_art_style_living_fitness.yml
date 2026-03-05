@@ -1,6 +1,6 @@
 langcode: en
 status: true
-dependencies: {}
+dependencies: {  }
 id: hero_art_style_living_fitness
-label: Living - Fitness
+label: 'Living - Fitness'
 classes: hero-art-style--living-fitness

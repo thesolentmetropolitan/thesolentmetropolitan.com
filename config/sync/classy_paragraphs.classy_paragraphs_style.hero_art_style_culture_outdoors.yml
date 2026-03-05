@@ -1,6 +1,6 @@
 langcode: en
 status: true
-dependencies: {}
+dependencies: {  }
 id: hero_art_style_culture_outdoors
-label: Culture - Outdoors
+label: 'Culture - Outdoors'
 classes: hero-art-style--culture-outdoors

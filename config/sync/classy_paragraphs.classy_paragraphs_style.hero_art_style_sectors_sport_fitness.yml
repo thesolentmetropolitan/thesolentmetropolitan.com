@@ -1,6 +1,6 @@
 langcode: en
 status: true
-dependencies: {}
+dependencies: {  }
 id: hero_art_style_sectors_sport_fitness
-label: Sectors - Sport & Fitness
+label: 'Sectors - Sport & Fitness'
 classes: hero-art-style--sectors-sport-fitness

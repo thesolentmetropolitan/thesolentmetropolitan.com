@@ -1,6 +1,6 @@
 langcode: en
 status: true
-dependencies: {}
+dependencies: {  }
 id: hero_art_style_sectors_military
-label: Sectors - Military
+label: 'Sectors - Military'
 classes: hero-art-style--sectors-military

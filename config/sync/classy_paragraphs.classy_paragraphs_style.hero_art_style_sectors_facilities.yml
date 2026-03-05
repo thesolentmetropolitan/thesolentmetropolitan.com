@@ -1,6 +1,6 @@
 langcode: en
 status: true
-dependencies: {}
+dependencies: {  }
 id: hero_art_style_sectors_facilities
-label: Sectors - Facilities
+label: 'Sectors - Facilities'
 classes: hero-art-style--sectors-facilities

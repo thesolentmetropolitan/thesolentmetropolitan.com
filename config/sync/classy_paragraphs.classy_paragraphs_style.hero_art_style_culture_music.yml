@@ -1,6 +1,6 @@
 langcode: en
 status: true
-dependencies: {}
+dependencies: {  }
 id: hero_art_style_culture_music
-label: Culture - Music
+label: 'Culture - Music'
 classes: hero-art-style--culture-music
