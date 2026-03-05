@@ -17,8 +17,8 @@ set -e
 
 ICON_CACHE_DIR="./phosphor_icons_cache"
 TILE_OUTPUT_DIR="./svg_tiles"
-TILE_SIZE=120
-ICON_SIZE=28
+SPACING=60       # Distance between icon centres (hex grid)
+ICON_SIZE=28     # Tile width = 2*SPACING = 120px, height = SPACING*sqrt(3) ≈ 104px
 
 mkdir -p "$ICON_CACHE_DIR" "$TILE_OUTPUT_DIR"
 
@@ -183,7 +183,7 @@ echo ""
 echo "Building tile SVGs..."
 
 # Python script to build the actual tile SVGs
-python3 build_tiles.py "$ICON_CACHE_DIR" "$TILE_OUTPUT_DIR" $TILE_SIZE $ICON_SIZE
+python3 build_tiles.py "$ICON_CACHE_DIR" "$TILE_OUTPUT_DIR" $SPACING $ICON_SIZE
 
 echo ""
 echo "Done. Tile SVGs are in: $TILE_OUTPUT_DIR/"

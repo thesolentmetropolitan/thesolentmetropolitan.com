@@ -68,15 +68,25 @@ drush cr
 | Sectors  | #1D4ED8       | #2563EB     | #3B82F6     |
 | Living   | #047857       | #059669     | #10B981     |
 
-## Icon Positioning (Tile Size: 120x120px, Icon Size: 28x28px)
+## Icon Positioning (Hex Grid — Tile: 120px × 103.92px, Icon Size: 28px)
 
-- **1 icon**: Centre (50%, 50%)
-- **2 icons**: Diagonal (25%, 25%) and (75%, 75%)
-- **3 icons**: Triangle (50%, 22%), (20%, 72%), (80%, 72%)
+Uses a hexagonal grid with 4 icon positions per tile. Every icon is exactly
+60px from its 6 nearest neighbours, including across tile boundaries.
+
+```
+    Row 0:  icon           icon
+    Row 1:       icon            icon
+    Row 0:  icon           icon        ← next tile
+```
+
+For 3 icon types (A, B, C): positions cycle A, B, C, A.
+For 2 icon types (A, B): positions cycle A, B, A, B.
+For 1 icon type (A): all 4 positions use A.
 
 ## Adjusting
 
-- **Tile size**: Change `background-size` in CSS (default: 120px 120px)
+- **Icon spacing**: Change `SPACING` in fetch_and_build_tiles.sh (default: 60px, tile = 2×spacing wide)
+- **Tile size**: CSS `background-size` should match: width = 2×spacing, height = spacing×√3
 - **Icon opacity**: Change `opacity` value in build_tiles.py (default: 0.12)
 - **Icon size**: Change `ICON_SIZE` in fetch_and_build_tiles.sh (default: 28px)
 - **Gradient colours**: Edit the CSS directly or re-run with modified GRADIENTS

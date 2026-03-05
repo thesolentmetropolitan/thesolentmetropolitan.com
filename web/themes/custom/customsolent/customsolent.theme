@@ -27,3 +27,15 @@ function customsolent_preprocess_page(array &$variables): void {
 function customsolent_preprocess_node(array &$variables): void {
 
 }
+
+
+
+function customsolent_preprocess_paragraph__hero_with_art_style(&$variables) {
+  $paragraph = $variables['paragraph'];
+  if ($paragraph->hasField('field_classy') && !$paragraph->get('field_classy')->isEmpty()) {
+    $classy_style = $paragraph->get('field_classy')->entity;
+    if ($classy_style) {
+      $variables['attributes']['class'][] = $classy_style->get('classes');
+    }
+  }
+}
