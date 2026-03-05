@@ -1,6 +1,6 @@
 langcode: en
 status: true
-dependencies: {}
+dependencies: {  }
 id: hero_art_style_sectors_science
-label: Sectors - Science
+label: 'Sectors - Science'
 classes: hero-art-style--sectors-science

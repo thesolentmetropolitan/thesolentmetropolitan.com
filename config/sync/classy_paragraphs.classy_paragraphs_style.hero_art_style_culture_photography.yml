@@ -1,6 +1,6 @@
 langcode: en
 status: true
-dependencies: {}
+dependencies: {  }
 id: hero_art_style_culture_photography
-label: Culture - Photography
+label: 'Culture - Photography'
 classes: hero-art-style--culture-photography

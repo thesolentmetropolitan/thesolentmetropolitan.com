@@ -1,6 +1,6 @@
 langcode: en
 status: true
-dependencies: {}
+dependencies: {  }
 id: hero_art_style_culture_enthusiasts
-label: Culture - Enthusiasts
+label: 'Culture - Enthusiasts'
 classes: hero-art-style--culture-enthusiasts

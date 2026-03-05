@@ -1,6 +1,6 @@
 langcode: en
 status: true
-dependencies: {}
+dependencies: {  }
 id: hero_art_style_culture_radio_podcast
-label: Culture - Radio & Podcast
+label: 'Culture - Radio & Podcast'
 classes: hero-art-style--culture-radio-podcast

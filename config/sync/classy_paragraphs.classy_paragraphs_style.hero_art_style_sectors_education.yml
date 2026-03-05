@@ -1,6 +1,6 @@
 langcode: en
 status: true
-dependencies: {}
+dependencies: {  }
 id: hero_art_style_sectors_education
-label: Sectors - Education
+label: 'Sectors - Education'
 classes: hero-art-style--sectors-education

@@ -1,6 +1,6 @@
 langcode: en
 status: true
-dependencies: {}
+dependencies: {  }
 id: hero_art_style_culture_faith
-label: Culture - Faith
+label: 'Culture - Faith'
 classes: hero-art-style--culture-faith

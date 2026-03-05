@@ -1,6 +1,6 @@
 langcode: en
 status: true
-dependencies: {}
+dependencies: {  }
 id: hero_art_style_sectors_engineering
-label: Sectors - Engineering
+label: 'Sectors - Engineering'
 classes: hero-art-style--sectors-engineering

@@ -1,6 +1,6 @@
 langcode: en
 status: true
-dependencies: {}
+dependencies: {  }
 id: hero_art_style_sectors_farming
-label: Sectors - Farming
+label: 'Sectors - Farming'
 classes: hero-art-style--sectors-farming

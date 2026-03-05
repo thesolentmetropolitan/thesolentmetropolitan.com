@@ -1,6 +1,6 @@
 langcode: en
 status: true
-dependencies: {}
+dependencies: {  }
 id: hero_art_style_sectors_entrepreneur
-label: Sectors - Entrepreneur
+label: 'Sectors - Entrepreneur'
 classes: hero-art-style--sectors-entrepreneur

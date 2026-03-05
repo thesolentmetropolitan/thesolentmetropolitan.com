@@ -1,6 +1,6 @@
 langcode: en
 status: true
-dependencies: {}
+dependencies: {  }
 id: hero_art_style_sectors_hospitality
-label: Sectors - Hospitality
+label: 'Sectors - Hospitality'
 classes: hero-art-style--sectors-hospitality

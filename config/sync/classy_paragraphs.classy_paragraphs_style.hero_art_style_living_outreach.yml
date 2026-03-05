@@ -1,6 +1,6 @@
 langcode: en
 status: true
-dependencies: {}
+dependencies: {  }
 id: hero_art_style_living_outreach
-label: Living - Outreach
+label: 'Living - Outreach'
 classes: hero-art-style--living-outreach
