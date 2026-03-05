@@ -1,0 +1,6 @@
+langcode: en
+status: true
+dependencies: {}
+id: hero_art_style_living_family
+label: Living - Family
+classes: hero-art-style--living-family

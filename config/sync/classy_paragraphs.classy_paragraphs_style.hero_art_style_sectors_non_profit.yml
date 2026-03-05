@@ -1,0 +1,6 @@
+langcode: en
+status: true
+dependencies: {}
+id: hero_art_style_sectors_non_profit
+label: Sectors - Non-profit
+classes: hero-art-style--sectors-non-profit

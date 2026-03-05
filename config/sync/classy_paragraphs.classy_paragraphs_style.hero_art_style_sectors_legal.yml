@@ -1,0 +1,6 @@
+langcode: en
+status: true
+dependencies: {}
+id: hero_art_style_sectors_legal
+label: Sectors - Legal
+classes: hero-art-style--sectors-legal

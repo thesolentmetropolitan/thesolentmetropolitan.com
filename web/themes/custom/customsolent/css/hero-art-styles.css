@@ -1,0 +1,668 @@
+/**
+ * Hero banner art styles - repeating icon pattern tiles on gradient.
+ * Generated for The Solent Metropolitan.
+ *
+ * Each class applies:
+ *   - A section-coloured gradient background
+ *   - A repeating SVG tile pattern overlay
+ *
+ * SVG tile files are expected at:
+ *   /themes/custom/customsolent/images/hero-tiles/<machine-name>.svg
+ */
+
+/* Base hero banner dimensions */
+[class*='hero-art-style--'] {
+  width: 100%;
+  min-height: 300px;
+  max-height: 400px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Culture - View All Culture */
+/* Icons: palette, music-notes, masks-theater */
+.hero-art-style--culture-culture {
+  background:
+    url('../images/hero-tiles/culture_culture.svg') repeat,
+    linear-gradient(135deg, #6B21A8 0%, #7C3AED 50%, #A855F7 100%);
+  background-size: 120px 120px, cover;
+}
+
+/* Culture - Art & Design */
+/* Icons: palette, paint-brush, pencil-ruler */
+.hero-art-style--culture-art-design {
+  background:
+    url('../images/hero-tiles/culture_art_design.svg') repeat,
+    linear-gradient(135deg, #6B21A8 0%, #7C3AED 50%, #A855F7 100%);
+  background-size: 120px 120px, cover;
+}
+
+/* Culture - Community */
+/* Icons: users-three, hands-clapping */
+.hero-art-style--culture-community {
+  background:
+    url('../images/hero-tiles/culture_community.svg') repeat,
+    linear-gradient(135deg, #6B21A8 0%, #7C3AED 50%, #A855F7 100%);
+  background-size: 120px 120px, cover;
+}
+
+/* Culture - Dance */
+/* Icons: person-arms-spread, music-notes */
+.hero-art-style--culture-dance {
+  background:
+    url('../images/hero-tiles/culture_dance.svg') repeat,
+    linear-gradient(135deg, #6B21A8 0%, #7C3AED 50%, #A855F7 100%);
+  background-size: 120px 120px, cover;
+}
+
+/* Culture - Enthusiasts */
+/* Icons: binoculars, heart, star */
+.hero-art-style--culture-enthusiasts {
+  background:
+    url('../images/hero-tiles/culture_enthusiasts.svg') repeat,
+    linear-gradient(135deg, #6B21A8 0%, #7C3AED 50%, #A855F7 100%);
+  background-size: 120px 120px, cover;
+}
+
+/* Culture - Faith */
+/* Icons: church, hands-praying, cross */
+.hero-art-style--culture-faith {
+  background:
+    url('../images/hero-tiles/culture_faith.svg') repeat,
+    linear-gradient(135deg, #6B21A8 0%, #7C3AED 50%, #A855F7 100%);
+  background-size: 120px 120px, cover;
+}
+
+/* Culture - Food & Drink */
+/* Icons: fork-knife, coffee, wine */
+.hero-art-style--culture-food-drink {
+  background:
+    url('../images/hero-tiles/culture_food_drink.svg') repeat,
+    linear-gradient(135deg, #6B21A8 0%, #7C3AED 50%, #A855F7 100%);
+  background-size: 120px 120px, cover;
+}
+
+/* Culture - Games */
+/* Icons: game-controller, puzzle-piece, dice-five */
+.hero-art-style--culture-games {
+  background:
+    url('../images/hero-tiles/culture_games.svg') repeat,
+    linear-gradient(135deg, #6B21A8 0%, #7C3AED 50%, #A855F7 100%);
+  background-size: 120px 120px, cover;
+}
+
+/* Culture - Heritage */
+/* Icons: bank, scroll, castle-turret */
+.hero-art-style--culture-heritage {
+  background:
+    url('../images/hero-tiles/culture_heritage.svg') repeat,
+    linear-gradient(135deg, #6B21A8 0%, #7C3AED 50%, #A855F7 100%);
+  background-size: 120px 120px, cover;
+}
+
+/* Culture - Language */
+/* Icons: translate, chat-text, globe-simple */
+.hero-art-style--culture-language {
+  background:
+    url('../images/hero-tiles/culture_language.svg') repeat,
+    linear-gradient(135deg, #6B21A8 0%, #7C3AED 50%, #A855F7 100%);
+  background-size: 120px 120px, cover;
+}
+
+/* Culture - Maritime */
+/* Icons: anchor, sailboat, waves */
+.hero-art-style--culture-maritime {
+  background:
+    url('../images/hero-tiles/culture_maritime.svg') repeat,
+    linear-gradient(135deg, #6B21A8 0%, #7C3AED 50%, #A855F7 100%);
+  background-size: 120px 120px, cover;
+}
+
+/* Culture - Music */
+/* Icons: music-notes, vinyl-record, microphone */
+.hero-art-style--culture-music {
+  background:
+    url('../images/hero-tiles/culture_music.svg') repeat,
+    linear-gradient(135deg, #6B21A8 0%, #7C3AED 50%, #A855F7 100%);
+  background-size: 120px 120px, cover;
+}
+
+/* Culture - Outdoors */
+/* Icons: tree, mountains, compass */
+.hero-art-style--culture-outdoors {
+  background:
+    url('../images/hero-tiles/culture_outdoors.svg') repeat,
+    linear-gradient(135deg, #6B21A8 0%, #7C3AED 50%, #A855F7 100%);
+  background-size: 120px 120px, cover;
+}
+
+/* Culture - Photography */
+/* Icons: camera, aperture, image */
+.hero-art-style--culture-photography {
+  background:
+    url('../images/hero-tiles/culture_photography.svg') repeat,
+    linear-gradient(135deg, #6B21A8 0%, #7C3AED 50%, #A855F7 100%);
+  background-size: 120px 120px, cover;
+}
+
+/* Culture - Radio & Podcast */
+/* Icons: microphone, broadcast, headphones */
+.hero-art-style--culture-radio-podcast {
+  background:
+    url('../images/hero-tiles/culture_radio_podcast.svg') repeat,
+    linear-gradient(135deg, #6B21A8 0%, #7C3AED 50%, #A855F7 100%);
+  background-size: 120px 120px, cover;
+}
+
+/* Culture - Science */
+/* Icons: atom, flask, microscope */
+.hero-art-style--culture-science {
+  background:
+    url('../images/hero-tiles/culture_science.svg') repeat,
+    linear-gradient(135deg, #6B21A8 0%, #7C3AED 50%, #A855F7 100%);
+  background-size: 120px 120px, cover;
+}
+
+/* Culture - Screen */
+/* Icons: film-strip, monitor-play, video-camera */
+.hero-art-style--culture-screen {
+  background:
+    url('../images/hero-tiles/culture_screen.svg') repeat,
+    linear-gradient(135deg, #6B21A8 0%, #7C3AED 50%, #A855F7 100%);
+  background-size: 120px 120px, cover;
+}
+
+/* Culture - Sport */
+/* Icons: trophy, football, medal */
+.hero-art-style--culture-sport {
+  background:
+    url('../images/hero-tiles/culture_sport.svg') repeat,
+    linear-gradient(135deg, #6B21A8 0%, #7C3AED 50%, #A855F7 100%);
+  background-size: 120px 120px, cover;
+}
+
+/* Culture - Stage */
+/* Icons: masks-theater, microphone-stage */
+.hero-art-style--culture-stage {
+  background:
+    url('../images/hero-tiles/culture_stage.svg') repeat,
+    linear-gradient(135deg, #6B21A8 0%, #7C3AED 50%, #A855F7 100%);
+  background-size: 120px 120px, cover;
+}
+
+/* Culture - Style */
+/* Icons: t-shirt, scissors, coat-hanger */
+.hero-art-style--culture-style {
+  background:
+    url('../images/hero-tiles/culture_style.svg') repeat,
+    linear-gradient(135deg, #6B21A8 0%, #7C3AED 50%, #A855F7 100%);
+  background-size: 120px 120px, cover;
+}
+
+/* Culture - Talks */
+/* Icons: chats, megaphone, presentation-chart */
+.hero-art-style--culture-talks {
+  background:
+    url('../images/hero-tiles/culture_talks.svg') repeat,
+    linear-gradient(135deg, #6B21A8 0%, #7C3AED 50%, #A855F7 100%);
+  background-size: 120px 120px, cover;
+}
+
+/* Culture - Technology */
+/* Icons: cpu, code, circuit-board */
+.hero-art-style--culture-technology {
+  background:
+    url('../images/hero-tiles/culture_technology.svg') repeat,
+    linear-gradient(135deg, #6B21A8 0%, #7C3AED 50%, #A855F7 100%);
+  background-size: 120px 120px, cover;
+}
+
+/* Culture - Writing */
+/* Icons: pen-nib, book-open, notebook */
+.hero-art-style--culture-writing {
+  background:
+    url('../images/hero-tiles/culture_writing.svg') repeat,
+    linear-gradient(135deg, #6B21A8 0%, #7C3AED 50%, #A855F7 100%);
+  background-size: 120px 120px, cover;
+}
+
+/* Culture - Workshops */
+/* Icons: wrench, hammer, lightbulb */
+.hero-art-style--culture-workshops {
+  background:
+    url('../images/hero-tiles/culture_workshops.svg') repeat,
+    linear-gradient(135deg, #6B21A8 0%, #7C3AED 50%, #A855F7 100%);
+  background-size: 120px 120px, cover;
+}
+
+/* Culture - Volunteering */
+/* Icons: hand-heart, handshake, heart */
+.hero-art-style--culture-volunteering {
+  background:
+    url('../images/hero-tiles/culture_volunteering.svg') repeat,
+    linear-gradient(135deg, #6B21A8 0%, #7C3AED 50%, #A855F7 100%);
+  background-size: 120px 120px, cover;
+}
+
+/* Sectors - View All Sectors */
+/* Icons: buildings, briefcase, chart-line-up */
+.hero-art-style--sectors-sectors {
+  background:
+    url('../images/hero-tiles/sectors_sectors.svg') repeat,
+    linear-gradient(135deg, #1D4ED8 0%, #2563EB 50%, #3B82F6 100%);
+  background-size: 120px 120px, cover;
+}
+
+/* Sectors - Arts */
+/* Icons: palette, paint-brush */
+.hero-art-style--sectors-arts {
+  background:
+    url('../images/hero-tiles/sectors_arts.svg') repeat,
+    linear-gradient(135deg, #1D4ED8 0%, #2563EB 50%, #3B82F6 100%);
+  background-size: 120px 120px, cover;
+}
+
+/* Sectors - Construction */
+/* Icons: hard-hat, crane, hammer */
+.hero-art-style--sectors-construction {
+  background:
+    url('../images/hero-tiles/sectors_construction.svg') repeat,
+    linear-gradient(135deg, #1D4ED8 0%, #2563EB 50%, #3B82F6 100%);
+  background-size: 120px 120px, cover;
+}
+
+/* Sectors - Consulting */
+/* Icons: chart-bar, handshake, presentation-chart */
+.hero-art-style--sectors-consulting {
+  background:
+    url('../images/hero-tiles/sectors_consulting.svg') repeat,
+    linear-gradient(135deg, #1D4ED8 0%, #2563EB 50%, #3B82F6 100%);
+  background-size: 120px 120px, cover;
+}
+
+/* Sectors - Creative */
+/* Icons: lightbulb, paint-brush, sparkle */
+.hero-art-style--sectors-creative {
+  background:
+    url('../images/hero-tiles/sectors_creative.svg') repeat,
+    linear-gradient(135deg, #1D4ED8 0%, #2563EB 50%, #3B82F6 100%);
+  background-size: 120px 120px, cover;
+}
+
+/* Sectors - Democracy */
+/* Icons: bank, scales, megaphone */
+.hero-art-style--sectors-democracy {
+  background:
+    url('../images/hero-tiles/sectors_democracy.svg') repeat,
+    linear-gradient(135deg, #1D4ED8 0%, #2563EB 50%, #3B82F6 100%);
+  background-size: 120px 120px, cover;
+}
+
+/* Sectors - Design */
+/* Icons: pen-nib, ruler, compass-tool */
+.hero-art-style--sectors-design {
+  background:
+    url('../images/hero-tiles/sectors_design.svg') repeat,
+    linear-gradient(135deg, #1D4ED8 0%, #2563EB 50%, #3B82F6 100%);
+  background-size: 120px 120px, cover;
+}
+
+/* Sectors - Education */
+/* Icons: graduation-cap, book-open, chalkboard-teacher */
+.hero-art-style--sectors-education {
+  background:
+    url('../images/hero-tiles/sectors_education.svg') repeat,
+    linear-gradient(135deg, #1D4ED8 0%, #2563EB 50%, #3B82F6 100%);
+  background-size: 120px 120px, cover;
+}
+
+/* Sectors - Engineering */
+/* Icons: gear, wrench, calculator */
+.hero-art-style--sectors-engineering {
+  background:
+    url('../images/hero-tiles/sectors_engineering.svg') repeat,
+    linear-gradient(135deg, #1D4ED8 0%, #2563EB 50%, #3B82F6 100%);
+  background-size: 120px 120px, cover;
+}
+
+/* Sectors - Entrepreneur */
+/* Icons: rocket, lightbulb, chart-line-up */
+.hero-art-style--sectors-entrepreneur {
+  background:
+    url('../images/hero-tiles/sectors_entrepreneur.svg') repeat,
+    linear-gradient(135deg, #1D4ED8 0%, #2563EB 50%, #3B82F6 100%);
+  background-size: 120px 120px, cover;
+}
+
+/* Sectors - Environment */
+/* Icons: leaf, globe-simple, recycle */
+.hero-art-style--sectors-environment {
+  background:
+    url('../images/hero-tiles/sectors_environment.svg') repeat,
+    linear-gradient(135deg, #1D4ED8 0%, #2563EB 50%, #3B82F6 100%);
+  background-size: 120px 120px, cover;
+}
+
+/* Sectors - Event & Venue */
+/* Icons: calendar, map-pin, ticket */
+.hero-art-style--sectors-event-venue {
+  background:
+    url('../images/hero-tiles/sectors_event_venue.svg') repeat,
+    linear-gradient(135deg, #1D4ED8 0%, #2563EB 50%, #3B82F6 100%);
+  background-size: 120px 120px, cover;
+}
+
+/* Sectors - Facilities */
+/* Icons: building-office, toolbox, clipboard-text */
+.hero-art-style--sectors-facilities {
+  background:
+    url('../images/hero-tiles/sectors_facilities.svg') repeat,
+    linear-gradient(135deg, #1D4ED8 0%, #2563EB 50%, #3B82F6 100%);
+  background-size: 120px 120px, cover;
+}
+
+/* Sectors - Farming */
+/* Icons: plant, sun, grain */
+.hero-art-style--sectors-farming {
+  background:
+    url('../images/hero-tiles/sectors_farming.svg') repeat,
+    linear-gradient(135deg, #1D4ED8 0%, #2563EB 50%, #3B82F6 100%);
+  background-size: 120px 120px, cover;
+}
+
+/* Sectors - Finance */
+/* Icons: currency-gbp, chart-line, bank */
+.hero-art-style--sectors-finance {
+  background:
+    url('../images/hero-tiles/sectors_finance.svg') repeat,
+    linear-gradient(135deg, #1D4ED8 0%, #2563EB 50%, #3B82F6 100%);
+  background-size: 120px 120px, cover;
+}
+
+/* Sectors - Health & Care */
+/* Icons: heartbeat, stethoscope, first-aid-kit */
+.hero-art-style--sectors-health-care {
+  background:
+    url('../images/hero-tiles/sectors_health_care.svg') repeat,
+    linear-gradient(135deg, #1D4ED8 0%, #2563EB 50%, #3B82F6 100%);
+  background-size: 120px 120px, cover;
+}
+
+/* Sectors - Hospitality */
+/* Icons: bed, fork-knife, bell-simple */
+.hero-art-style--sectors-hospitality {
+  background:
+    url('../images/hero-tiles/sectors_hospitality.svg') repeat,
+    linear-gradient(135deg, #1D4ED8 0%, #2563EB 50%, #3B82F6 100%);
+  background-size: 120px 120px, cover;
+}
+
+/* Sectors - Legal */
+/* Icons: scales, gavel, scroll */
+.hero-art-style--sectors-legal {
+  background:
+    url('../images/hero-tiles/sectors_legal.svg') repeat,
+    linear-gradient(135deg, #1D4ED8 0%, #2563EB 50%, #3B82F6 100%);
+  background-size: 120px 120px, cover;
+}
+
+/* Sectors - Lifestyle */
+/* Icons: sun, coffee, sparkle */
+.hero-art-style--sectors-lifestyle {
+  background:
+    url('../images/hero-tiles/sectors_lifestyle.svg') repeat,
+    linear-gradient(135deg, #1D4ED8 0%, #2563EB 50%, #3B82F6 100%);
+  background-size: 120px 120px, cover;
+}
+
+/* Sectors - Logistics */
+/* Icons: truck, package, warehouse */
+.hero-art-style--sectors-logistics {
+  background:
+    url('../images/hero-tiles/sectors_logistics.svg') repeat,
+    linear-gradient(135deg, #1D4ED8 0%, #2563EB 50%, #3B82F6 100%);
+  background-size: 120px 120px, cover;
+}
+
+/* Sectors - Manufacturing */
+/* Icons: factory, gear, conveyor-belt */
+.hero-art-style--sectors-manufacturing {
+  background:
+    url('../images/hero-tiles/sectors_manufacturing.svg') repeat,
+    linear-gradient(135deg, #1D4ED8 0%, #2563EB 50%, #3B82F6 100%);
+  background-size: 120px 120px, cover;
+}
+
+/* Sectors - Maritime */
+/* Icons: anchor, boat, waves */
+.hero-art-style--sectors-maritime {
+  background:
+    url('../images/hero-tiles/sectors_maritime.svg') repeat,
+    linear-gradient(135deg, #1D4ED8 0%, #2563EB 50%, #3B82F6 100%);
+  background-size: 120px 120px, cover;
+}
+
+/* Sectors - Marketing */
+/* Icons: megaphone, target, chart-bar */
+.hero-art-style--sectors-marketing {
+  background:
+    url('../images/hero-tiles/sectors_marketing.svg') repeat,
+    linear-gradient(135deg, #1D4ED8 0%, #2563EB 50%, #3B82F6 100%);
+  background-size: 120px 120px, cover;
+}
+
+/* Sectors - Media */
+/* Icons: newspaper, broadcast, video-camera */
+.hero-art-style--sectors-media {
+  background:
+    url('../images/hero-tiles/sectors_media.svg') repeat,
+    linear-gradient(135deg, #1D4ED8 0%, #2563EB 50%, #3B82F6 100%);
+  background-size: 120px 120px, cover;
+}
+
+/* Sectors - Military */
+/* Icons: shield, medal-military, flag */
+.hero-art-style--sectors-military {
+  background:
+    url('../images/hero-tiles/sectors_military.svg') repeat,
+    linear-gradient(135deg, #1D4ED8 0%, #2563EB 50%, #3B82F6 100%);
+  background-size: 120px 120px, cover;
+}
+
+/* Sectors - Non-profit */
+/* Icons: hand-heart, globe-simple, users-three */
+.hero-art-style--sectors-non-profit {
+  background:
+    url('../images/hero-tiles/sectors_non_profit.svg') repeat,
+    linear-gradient(135deg, #1D4ED8 0%, #2563EB 50%, #3B82F6 100%);
+  background-size: 120px 120px, cover;
+}
+
+/* Sectors - Property */
+/* Icons: house, key, buildings */
+.hero-art-style--sectors-property {
+  background:
+    url('../images/hero-tiles/sectors_property.svg') repeat,
+    linear-gradient(135deg, #1D4ED8 0%, #2563EB 50%, #3B82F6 100%);
+  background-size: 120px 120px, cover;
+}
+
+/* Sectors - Public Sector */
+/* Icons: bank, users, shield-check */
+.hero-art-style--sectors-public-sector {
+  background:
+    url('../images/hero-tiles/sectors_public_sector.svg') repeat,
+    linear-gradient(135deg, #1D4ED8 0%, #2563EB 50%, #3B82F6 100%);
+  background-size: 120px 120px, cover;
+}
+
+/* Sectors - Retail */
+/* Icons: shopping-cart, storefront, tag */
+.hero-art-style--sectors-retail {
+  background:
+    url('../images/hero-tiles/sectors_retail.svg') repeat,
+    linear-gradient(135deg, #1D4ED8 0%, #2563EB 50%, #3B82F6 100%);
+  background-size: 120px 120px, cover;
+}
+
+/* Sectors - Science */
+/* Icons: atom, flask, dna */
+.hero-art-style--sectors-science {
+  background:
+    url('../images/hero-tiles/sectors_science.svg') repeat,
+    linear-gradient(135deg, #1D4ED8 0%, #2563EB 50%, #3B82F6 100%);
+  background-size: 120px 120px, cover;
+}
+
+/* Sectors - Sport & Fitness */
+/* Icons: barbell, trophy, person-simple-run */
+.hero-art-style--sectors-sport-fitness {
+  background:
+    url('../images/hero-tiles/sectors_sport_fitness.svg') repeat,
+    linear-gradient(135deg, #1D4ED8 0%, #2563EB 50%, #3B82F6 100%);
+  background-size: 120px 120px, cover;
+}
+
+/* Sectors - Technology */
+/* Icons: cpu, code, monitor */
+.hero-art-style--sectors-technology {
+  background:
+    url('../images/hero-tiles/sectors_technology.svg') repeat,
+    linear-gradient(135deg, #1D4ED8 0%, #2563EB 50%, #3B82F6 100%);
+  background-size: 120px 120px, cover;
+}
+
+/* Sectors - Tourism */
+/* Icons: airplane, map-trifold, camera */
+.hero-art-style--sectors-tourism {
+  background:
+    url('../images/hero-tiles/sectors_tourism.svg') repeat,
+    linear-gradient(135deg, #1D4ED8 0%, #2563EB 50%, #3B82F6 100%);
+  background-size: 120px 120px, cover;
+}
+
+/* Sectors - Trades */
+/* Icons: wrench, hammer, plug */
+.hero-art-style--sectors-trades {
+  background:
+    url('../images/hero-tiles/sectors_trades.svg') repeat,
+    linear-gradient(135deg, #1D4ED8 0%, #2563EB 50%, #3B82F6 100%);
+  background-size: 120px 120px, cover;
+}
+
+/* Sectors - Transport */
+/* Icons: train-simple, car, bus */
+.hero-art-style--sectors-transport {
+  background:
+    url('../images/hero-tiles/sectors_transport.svg') repeat,
+    linear-gradient(135deg, #1D4ED8 0%, #2563EB 50%, #3B82F6 100%);
+  background-size: 120px 120px, cover;
+}
+
+/* Sectors - Utilities */
+/* Icons: lightning, drop, plug */
+.hero-art-style--sectors-utilities {
+  background:
+    url('../images/hero-tiles/sectors_utilities.svg') repeat,
+    linear-gradient(135deg, #1D4ED8 0%, #2563EB 50%, #3B82F6 100%);
+  background-size: 120px 120px, cover;
+}
+
+/* Living - View All Living */
+/* Icons: house, heart, sun */
+.hero-art-style--living-living {
+  background:
+    url('../images/hero-tiles/living_living.svg') repeat,
+    linear-gradient(135deg, #047857 0%, #059669 50%, #10B981 100%);
+  background-size: 120px 120px, cover;
+}
+
+/* Living - Advice */
+/* Icons: lightbulb, chat-circle, compass */
+.hero-art-style--living-advice {
+  background:
+    url('../images/hero-tiles/living_advice.svg') repeat,
+    linear-gradient(135deg, #047857 0%, #059669 50%, #10B981 100%);
+  background-size: 120px 120px, cover;
+}
+
+/* Living - Education */
+/* Icons: graduation-cap, book-open, pencil-simple */
+.hero-art-style--living-education {
+  background:
+    url('../images/hero-tiles/living_education.svg') repeat,
+    linear-gradient(135deg, #047857 0%, #059669 50%, #10B981 100%);
+  background-size: 120px 120px, cover;
+}
+
+/* Living - Family */
+/* Icons: users, baby, house */
+.hero-art-style--living-family {
+  background:
+    url('../images/hero-tiles/living_family.svg') repeat,
+    linear-gradient(135deg, #047857 0%, #059669 50%, #10B981 100%);
+  background-size: 120px 120px, cover;
+}
+
+/* Living - Fitness */
+/* Icons: barbell, heartbeat, person-simple-run */
+.hero-art-style--living-fitness {
+  background:
+    url('../images/hero-tiles/living_fitness.svg') repeat,
+    linear-gradient(135deg, #047857 0%, #059669 50%, #10B981 100%);
+  background-size: 120px 120px, cover;
+}
+
+/* Living - Health */
+/* Icons: heartbeat, stethoscope, pill */
+.hero-art-style--living-health {
+  background:
+    url('../images/hero-tiles/living_health.svg') repeat,
+    linear-gradient(135deg, #047857 0%, #059669 50%, #10B981 100%);
+  background-size: 120px 120px, cover;
+}
+
+/* Living - Home & Garden */
+/* Icons: house, flower-lotus, plant */
+.hero-art-style--living-home-garden {
+  background:
+    url('../images/hero-tiles/living_home_garden.svg') repeat,
+    linear-gradient(135deg, #047857 0%, #059669 50%, #10B981 100%);
+  background-size: 120px 120px, cover;
+}
+
+/* Living - Housing */
+/* Icons: house, key, buildings */
+.hero-art-style--living-housing {
+  background:
+    url('../images/hero-tiles/living_housing.svg') repeat,
+    linear-gradient(135deg, #047857 0%, #059669 50%, #10B981 100%);
+  background-size: 120px 120px, cover;
+}
+
+/* Living - Mental Health */
+/* Icons: brain, heart, chat-circle */
+.hero-art-style--living-mental-health {
+  background:
+    url('../images/hero-tiles/living_mental_health.svg') repeat,
+    linear-gradient(135deg, #047857 0%, #059669 50%, #10B981 100%);
+  background-size: 120px 120px, cover;
+}
+
+/* Living - Outreach */
+/* Icons: hand-heart, megaphone, users-three */
+.hero-art-style--living-outreach {
+  background:
+    url('../images/hero-tiles/living_outreach.svg') repeat,
+    linear-gradient(135deg, #047857 0%, #059669 50%, #10B981 100%);
+  background-size: 120px 120px, cover;
+}
+
+/* Living - Work */
+/* Icons: briefcase, laptop, clock */
+.hero-art-style--living-work {
+  background:
+    url('../images/hero-tiles/living_work.svg') repeat,
+    linear-gradient(135deg, #047857 0%, #059669 50%, #10B981 100%);
+  background-size: 120px 120px, cover;
+}

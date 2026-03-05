@@ -8,10 +8,9 @@
  *
  * For each page (matched by URL alias), this script:
  *   1. Finds the node by its path alias
- *   2. Creates a hero-with-art-style paragraph
- *   3. Sets field_classy to the matching classy paragraphs style
- *   4. Inserts it as the FIRST item in field_content_component
- *   5. Saves the node
+ *   2. Looks for an existing hero_with_art_style paragraph
+ *   3a. If found: updates its field_classy to the correct style
+ *   3b. If not found: creates one and prepends it to field_content_component
  *
  * IMPORTANT: Review the $page_map array below and adjust if your
  * node aliases or field names differ.
@@ -179,6 +178,7 @@ $entity_type_manager = \Drupal::entityTypeManager();
 $path_validator = \Drupal::service('path.validator');
 
 $inserted = 0;
+$updated = 0;
 $skipped = 0;
 $errors = 0;
 
@@ -217,15 +217,14 @@ foreach ($page_map as $alias => $classy_id) {
     continue;
   }
 
-  // Check if node already has a hero-with-art-style as first paragraph.
+  // Check if node already has a hero-with-art-style paragraph.
+  $existing_hero = NULL;
   if ($node->hasField('field_content_component')) {
     $existing_paragraphs = $node->get('field_content_component')->referencedEntities();
-    if (!empty($existing_paragraphs)) {
-      $first = reset($existing_paragraphs);
-      if ($first->bundle() === 'hero_with_art_style') {
-        echo "  SKIP: Node {$nid} ({$node->getTitle()}) already has hero_with_art_style as first paragraph.\n";
-        $skipped++;
-        continue;
+    foreach ($existing_paragraphs as $paragraph) {
+      if ($paragraph->bundle() === 'hero_with_art_style') {
+        $existing_hero = $paragraph;
+        break;
       }
     }
   }
@@ -246,35 +245,43 @@ foreach ($page_map as $alias => $classy_id) {
     continue;
   }
 
-  // Create the hero paragraph.
-  $hero_paragraph = Paragraph::create([
-    'type' => 'hero_with_art_style',
-    'field_classy' => [
-      'target_id' => $classy_id,
-    ],
-  ]);
-  $hero_paragraph->save();
+  if ($existing_hero) {
+    // Update the existing hero paragraph's field_classy.
+    $existing_hero->set('field_classy', ['target_id' => $classy_id]);
+    $existing_hero->save();
+    $node->save();
 
-  // Get current paragraph references.
-  $current_values = $node->get('field_content_component')->getValue();
+    echo "  UPDATED: Hero paragraph on node $nid ({$node->getTitle()}) set to style: $classy_id\n";
+    $updated++;
+  }
+  else {
+    // No existing hero — create one and prepend it.
+    $hero_paragraph = Paragraph::create([
+      'type' => 'hero_with_art_style',
+      'field_classy' => [
+        'target_id' => $classy_id,
+      ],
+    ]);
+    $hero_paragraph->save();
 
-  // Prepend the new hero paragraph.
-  $new_ref = [
-    'target_id' => $hero_paragraph->id(),
-    'target_revision_id' => $hero_paragraph->getRevisionId(),
-  ];
-  array_unshift($current_values, $new_ref);
+    $current_values = $node->get('field_content_component')->getValue();
+    $new_ref = [
+      'target_id' => $hero_paragraph->id(),
+      'target_revision_id' => $hero_paragraph->getRevisionId(),
+    ];
+    array_unshift($current_values, $new_ref);
 
-  // Set and save.
-  $node->set('field_content_component', $current_values);
-  $node->save();
+    $node->set('field_content_component', $current_values);
+    $node->save();
 
-  echo "  OK: Inserted hero paragraph (style: $classy_id) into node $nid ({$node->getTitle()})\n";
-  $inserted++;
+    echo "  INSERTED: New hero paragraph (style: $classy_id) into node $nid ({$node->getTitle()})\n";
+    $inserted++;
+  }
 }
 
-echo "\n=== Insertion complete ===\n";
-echo "Inserted: $inserted\n";
-echo "Skipped (already had hero): $skipped\n";
+echo "\n=== Complete ===\n";
+echo "Updated: $updated\n";
+echo "Inserted (new): $inserted\n";
+echo "Skipped: $skipped\n";
 echo "Errors: $errors\n";
 echo "\nRun 'drush cr' to clear caches.\n";

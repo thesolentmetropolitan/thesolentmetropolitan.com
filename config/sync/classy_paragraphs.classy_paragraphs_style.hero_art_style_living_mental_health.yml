@@ -1,0 +1,6 @@
+langcode: en
+status: true
+dependencies: {}
+id: hero_art_style_living_mental_health
+label: Living - Mental Health
+classes: hero-art-style--living-mental-health

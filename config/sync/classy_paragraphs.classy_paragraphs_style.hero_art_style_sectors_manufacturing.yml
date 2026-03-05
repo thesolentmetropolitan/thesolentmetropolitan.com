@@ -1,0 +1,6 @@
+langcode: en
+status: true
+dependencies: {}
+id: hero_art_style_sectors_manufacturing
+label: Sectors - Manufacturing
+classes: hero-art-style--sectors-manufacturing
