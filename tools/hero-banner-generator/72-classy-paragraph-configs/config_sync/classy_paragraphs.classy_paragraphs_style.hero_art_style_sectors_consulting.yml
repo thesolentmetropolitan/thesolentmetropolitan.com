@@ -1,0 +1,6 @@
+langcode: en
+status: true
+dependencies: {}
+id: hero_art_style_sectors_consulting
+label: Sectors - Consulting
+classes: hero-art-style--sectors-consulting

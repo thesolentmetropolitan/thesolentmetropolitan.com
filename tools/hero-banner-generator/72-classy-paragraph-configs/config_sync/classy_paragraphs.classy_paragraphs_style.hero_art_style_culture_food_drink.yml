@@ -1,0 +1,6 @@
+langcode: en
+status: true
+dependencies: {}
+id: hero_art_style_culture_food_drink
+label: Culture - Food & Drink
+classes: hero-art-style--culture-food-drink

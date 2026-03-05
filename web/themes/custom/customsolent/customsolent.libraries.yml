@@ -17,6 +17,7 @@ global:
       css/form.css: {}
       css/front.css: {}
       css/header.css: {}
+      css/hero-art-styles.css: {}
       css/menu-common.css: {}
       css/menu-desktop.css: {}
       css/menu-mobile.css: {}
