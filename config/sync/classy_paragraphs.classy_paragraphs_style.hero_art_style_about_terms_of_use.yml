@@ -1,0 +1,6 @@
+langcode: en
+status: true
+dependencies: {}
+id: hero_art_style_about_terms_of_use
+label: About - Terms of use
+classes: hero-art-style--about-terms-of-use

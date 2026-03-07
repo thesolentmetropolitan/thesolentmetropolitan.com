@@ -25,7 +25,7 @@
   background:
     url('../images/hero-tiles/culture_culture.svg') repeat,
     linear-gradient(135deg, #6B21A8 0%, #7C3AED 50%, #A855F7 100%);
-  background-size: 120px 120px, cover;
+  background-size: 120px 103.92px, cover;
 }
 
 /* Culture - Art & Design */
@@ -34,7 +34,7 @@
   background:
     url('../images/hero-tiles/culture_art_design.svg') repeat,
     linear-gradient(135deg, #6B21A8 0%, #7C3AED 50%, #A855F7 100%);
-  background-size: 120px 120px, cover;
+  background-size: 120px 103.92px, cover;
 }
 
 /* Culture - Community */
@@ -43,7 +43,7 @@
   background:
     url('../images/hero-tiles/culture_community.svg') repeat,
     linear-gradient(135deg, #6B21A8 0%, #7C3AED 50%, #A855F7 100%);
-  background-size: 120px 120px, cover;
+  background-size: 120px 103.92px, cover;
 }
 
 /* Culture - Dance */
@@ -52,7 +52,7 @@
   background:
     url('../images/hero-tiles/culture_dance.svg') repeat,
     linear-gradient(135deg, #6B21A8 0%, #7C3AED 50%, #A855F7 100%);
-  background-size: 120px 120px, cover;
+  background-size: 120px 103.92px, cover;
 }
 
 /* Culture - Enthusiasts */
@@ -61,7 +61,7 @@
   background:
     url('../images/hero-tiles/culture_enthusiasts.svg') repeat,
     linear-gradient(135deg, #6B21A8 0%, #7C3AED 50%, #A855F7 100%);
-  background-size: 120px 120px, cover;
+  background-size: 120px 103.92px, cover;
 }
 
 /* Culture - Faith */
@@ -70,7 +70,7 @@
   background:
     url('../images/hero-tiles/culture_faith.svg') repeat,
     linear-gradient(135deg, #6B21A8 0%, #7C3AED 50%, #A855F7 100%);
-  background-size: 120px 120px, cover;
+  background-size: 120px 103.92px, cover;
 }
 
 /* Culture - Food & Drink */
@@ -79,7 +79,7 @@
   background:
     url('../images/hero-tiles/culture_food_drink.svg') repeat,
     linear-gradient(135deg, #6B21A8 0%, #7C3AED 50%, #A855F7 100%);
-  background-size: 120px 120px, cover;
+  background-size: 120px 103.92px, cover;
 }
 
 /* Culture - Games */
@@ -88,7 +88,7 @@
   background:
     url('../images/hero-tiles/culture_games.svg') repeat,
     linear-gradient(135deg, #6B21A8 0%, #7C3AED 50%, #A855F7 100%);
-  background-size: 120px 120px, cover;
+  background-size: 120px 103.92px, cover;
 }
 
 /* Culture - Heritage */
@@ -97,7 +97,7 @@
   background:
     url('../images/hero-tiles/culture_heritage.svg') repeat,
     linear-gradient(135deg, #6B21A8 0%, #7C3AED 50%, #A855F7 100%);
-  background-size: 120px 120px, cover;
+  background-size: 120px 103.92px, cover;
 }
 
 /* Culture - Language */
@@ -106,7 +106,7 @@
   background:
     url('../images/hero-tiles/culture_language.svg') repeat,
     linear-gradient(135deg, #6B21A8 0%, #7C3AED 50%, #A855F7 100%);
-  background-size: 120px 120px, cover;
+  background-size: 120px 103.92px, cover;
 }
 
 /* Culture - Maritime */
@@ -115,7 +115,7 @@
   background:
     url('../images/hero-tiles/culture_maritime.svg') repeat,
     linear-gradient(135deg, #6B21A8 0%, #7C3AED 50%, #A855F7 100%);
-  background-size: 120px 120px, cover;
+  background-size: 120px 103.92px, cover;
 }
 
 /* Culture - Music */
@@ -124,7 +124,7 @@
   background:
     url('../images/hero-tiles/culture_music.svg') repeat,
     linear-gradient(135deg, #6B21A8 0%, #7C3AED 50%, #A855F7 100%);
-  background-size: 120px 120px, cover;
+  background-size: 120px 103.92px, cover;
 }
 
 /* Culture - Outdoors */
@@ -133,7 +133,7 @@
   background:
     url('../images/hero-tiles/culture_outdoors.svg') repeat,
     linear-gradient(135deg, #6B21A8 0%, #7C3AED 50%, #A855F7 100%);
-  background-size: 120px 120px, cover;
+  background-size: 120px 103.92px, cover;
 }
 
 /* Culture - Photography */
@@ -142,7 +142,7 @@
   background:
     url('../images/hero-tiles/culture_photography.svg') repeat,
     linear-gradient(135deg, #6B21A8 0%, #7C3AED 50%, #A855F7 100%);
-  background-size: 120px 120px, cover;
+  background-size: 120px 103.92px, cover;
 }
 
 /* Culture - Radio & Podcast */
@@ -151,7 +151,7 @@
   background:
     url('../images/hero-tiles/culture_radio_podcast.svg') repeat,
     linear-gradient(135deg, #6B21A8 0%, #7C3AED 50%, #A855F7 100%);
-  background-size: 120px 120px, cover;
+  background-size: 120px 103.92px, cover;
 }
 
 /* Culture - Science */
@@ -160,7 +160,7 @@
   background:
     url('../images/hero-tiles/culture_science.svg') repeat,
     linear-gradient(135deg, #6B21A8 0%, #7C3AED 50%, #A855F7 100%);
-  background-size: 120px 120px, cover;
+  background-size: 120px 103.92px, cover;
 }
 
 /* Culture - Screen */
@@ -169,7 +169,7 @@
   background:
     url('../images/hero-tiles/culture_screen.svg') repeat,
     linear-gradient(135deg, #6B21A8 0%, #7C3AED 50%, #A855F7 100%);
-  background-size: 120px 120px, cover;
+  background-size: 120px 103.92px, cover;
 }
 
 /* Culture - Sport */
@@ -178,7 +178,7 @@
   background:
     url('../images/hero-tiles/culture_sport.svg') repeat,
     linear-gradient(135deg, #6B21A8 0%, #7C3AED 50%, #A855F7 100%);
-  background-size: 120px 120px, cover;
+  background-size: 120px 103.92px, cover;
 }
 
 /* Culture - Stage */
@@ -187,7 +187,7 @@
   background:
     url('../images/hero-tiles/culture_stage.svg') repeat,
     linear-gradient(135deg, #6B21A8 0%, #7C3AED 50%, #A855F7 100%);
-  background-size: 120px 120px, cover;
+  background-size: 120px 103.92px, cover;
 }
 
 /* Culture - Style */
@@ -196,7 +196,7 @@
   background:
     url('../images/hero-tiles/culture_style.svg') repeat,
     linear-gradient(135deg, #6B21A8 0%, #7C3AED 50%, #A855F7 100%);
-  background-size: 120px 120px, cover;
+  background-size: 120px 103.92px, cover;
 }
 
 /* Culture - Talks */
@@ -205,7 +205,7 @@
   background:
     url('../images/hero-tiles/culture_talks.svg') repeat,
     linear-gradient(135deg, #6B21A8 0%, #7C3AED 50%, #A855F7 100%);
-  background-size: 120px 120px, cover;
+  background-size: 120px 103.92px, cover;
 }
 
 /* Culture - Technology */
@@ -214,7 +214,7 @@
   background:
     url('../images/hero-tiles/culture_technology.svg') repeat,
     linear-gradient(135deg, #6B21A8 0%, #7C3AED 50%, #A855F7 100%);
-  background-size: 120px 120px, cover;
+  background-size: 120px 103.92px, cover;
 }
 
 /* Culture - Writing */
@@ -223,7 +223,7 @@
   background:
     url('../images/hero-tiles/culture_writing.svg') repeat,
     linear-gradient(135deg, #6B21A8 0%, #7C3AED 50%, #A855F7 100%);
-  background-size: 120px 120px, cover;
+  background-size: 120px 103.92px, cover;
 }
 
 /* Culture - Workshops */
@@ -232,7 +232,7 @@
   background:
     url('../images/hero-tiles/culture_workshops.svg') repeat,
     linear-gradient(135deg, #6B21A8 0%, #7C3AED 50%, #A855F7 100%);
-  background-size: 120px 120px, cover;
+  background-size: 120px 103.92px, cover;
 }
 
 /* Culture - Volunteering */
@@ -241,7 +241,7 @@
   background:
     url('../images/hero-tiles/culture_volunteering.svg') repeat,
     linear-gradient(135deg, #6B21A8 0%, #7C3AED 50%, #A855F7 100%);
-  background-size: 120px 120px, cover;
+  background-size: 120px 103.92px, cover;
 }
 
 /* Sectors - View All Sectors */
@@ -250,7 +250,7 @@
   background:
     url('../images/hero-tiles/sectors_sectors.svg') repeat,
     linear-gradient(135deg, #1D4ED8 0%, #2563EB 50%, #3B82F6 100%);
-  background-size: 120px 120px, cover;
+  background-size: 120px 103.92px, cover;
 }
 
 /* Sectors - Arts */
@@ -259,7 +259,7 @@
   background:
     url('../images/hero-tiles/sectors_arts.svg') repeat,
     linear-gradient(135deg, #1D4ED8 0%, #2563EB 50%, #3B82F6 100%);
-  background-size: 120px 120px, cover;
+  background-size: 120px 103.92px, cover;
 }
 
 /* Sectors - Construction */
@@ -268,7 +268,7 @@
   background:
     url('../images/hero-tiles/sectors_construction.svg') repeat,
     linear-gradient(135deg, #1D4ED8 0%, #2563EB 50%, #3B82F6 100%);
-  background-size: 120px 120px, cover;
+  background-size: 120px 103.92px, cover;
 }
 
 /* Sectors - Consulting */
@@ -277,7 +277,7 @@
   background:
     url('../images/hero-tiles/sectors_consulting.svg') repeat,
     linear-gradient(135deg, #1D4ED8 0%, #2563EB 50%, #3B82F6 100%);
-  background-size: 120px 120px, cover;
+  background-size: 120px 103.92px, cover;
 }
 
 /* Sectors - Creative */
@@ -286,7 +286,7 @@
   background:
     url('../images/hero-tiles/sectors_creative.svg') repeat,
     linear-gradient(135deg, #1D4ED8 0%, #2563EB 50%, #3B82F6 100%);
-  background-size: 120px 120px, cover;
+  background-size: 120px 103.92px, cover;
 }
 
 /* Sectors - Democracy */
@@ -295,7 +295,7 @@
   background:
     url('../images/hero-tiles/sectors_democracy.svg') repeat,
     linear-gradient(135deg, #1D4ED8 0%, #2563EB 50%, #3B82F6 100%);
-  background-size: 120px 120px, cover;
+  background-size: 120px 103.92px, cover;
 }
 
 /* Sectors - Design */
@@ -304,7 +304,7 @@
   background:
     url('../images/hero-tiles/sectors_design.svg') repeat,
     linear-gradient(135deg, #1D4ED8 0%, #2563EB 50%, #3B82F6 100%);
-  background-size: 120px 120px, cover;
+  background-size: 120px 103.92px, cover;
 }
 
 /* Sectors - Education */
@@ -313,7 +313,7 @@
   background:
     url('../images/hero-tiles/sectors_education.svg') repeat,
     linear-gradient(135deg, #1D4ED8 0%, #2563EB 50%, #3B82F6 100%);
-  background-size: 120px 120px, cover;
+  background-size: 120px 103.92px, cover;
 }
 
 /* Sectors - Engineering */
@@ -322,7 +322,7 @@
   background:
     url('../images/hero-tiles/sectors_engineering.svg') repeat,
     linear-gradient(135deg, #1D4ED8 0%, #2563EB 50%, #3B82F6 100%);
-  background-size: 120px 120px, cover;
+  background-size: 120px 103.92px, cover;
 }
 
 /* Sectors - Entrepreneur */
@@ -331,7 +331,7 @@
   background:
     url('../images/hero-tiles/sectors_entrepreneur.svg') repeat,
     linear-gradient(135deg, #1D4ED8 0%, #2563EB 50%, #3B82F6 100%);
-  background-size: 120px 120px, cover;
+  background-size: 120px 103.92px, cover;
 }
 
 /* Sectors - Environment */
@@ -340,7 +340,7 @@
   background:
     url('../images/hero-tiles/sectors_environment.svg') repeat,
     linear-gradient(135deg, #1D4ED8 0%, #2563EB 50%, #3B82F6 100%);
-  background-size: 120px 120px, cover;
+  background-size: 120px 103.92px, cover;
 }
 
 /* Sectors - Event & Venue */
@@ -349,7 +349,7 @@
   background:
     url('../images/hero-tiles/sectors_event_venue.svg') repeat,
     linear-gradient(135deg, #1D4ED8 0%, #2563EB 50%, #3B82F6 100%);
-  background-size: 120px 120px, cover;
+  background-size: 120px 103.92px, cover;
 }
 
 /* Sectors - Facilities */
@@ -358,7 +358,7 @@
   background:
     url('../images/hero-tiles/sectors_facilities.svg') repeat,
     linear-gradient(135deg, #1D4ED8 0%, #2563EB 50%, #3B82F6 100%);
-  background-size: 120px 120px, cover;
+  background-size: 120px 103.92px, cover;
 }
 
 /* Sectors - Farming */
@@ -367,7 +367,7 @@
   background:
     url('../images/hero-tiles/sectors_farming.svg') repeat,
     linear-gradient(135deg, #1D4ED8 0%, #2563EB 50%, #3B82F6 100%);
-  background-size: 120px 120px, cover;
+  background-size: 120px 103.92px, cover;
 }
 
 /* Sectors - Finance */
@@ -376,7 +376,7 @@
   background:
     url('../images/hero-tiles/sectors_finance.svg') repeat,
     linear-gradient(135deg, #1D4ED8 0%, #2563EB 50%, #3B82F6 100%);
-  background-size: 120px 120px, cover;
+  background-size: 120px 103.92px, cover;
 }
 
 /* Sectors - Health & Care */
@@ -385,7 +385,7 @@
   background:
     url('../images/hero-tiles/sectors_health_care.svg') repeat,
     linear-gradient(135deg, #1D4ED8 0%, #2563EB 50%, #3B82F6 100%);
-  background-size: 120px 120px, cover;
+  background-size: 120px 103.92px, cover;
 }
 
 /* Sectors - Hospitality */
@@ -394,7 +394,7 @@
   background:
     url('../images/hero-tiles/sectors_hospitality.svg') repeat,
     linear-gradient(135deg, #1D4ED8 0%, #2563EB 50%, #3B82F6 100%);
-  background-size: 120px 120px, cover;
+  background-size: 120px 103.92px, cover;
 }
 
 /* Sectors - Legal */
@@ -403,7 +403,7 @@
   background:
     url('../images/hero-tiles/sectors_legal.svg') repeat,
     linear-gradient(135deg, #1D4ED8 0%, #2563EB 50%, #3B82F6 100%);
-  background-size: 120px 120px, cover;
+  background-size: 120px 103.92px, cover;
 }
 
 /* Sectors - Lifestyle */
@@ -412,7 +412,7 @@
   background:
     url('../images/hero-tiles/sectors_lifestyle.svg') repeat,
     linear-gradient(135deg, #1D4ED8 0%, #2563EB 50%, #3B82F6 100%);
-  background-size: 120px 120px, cover;
+  background-size: 120px 103.92px, cover;
 }
 
 /* Sectors - Logistics */
@@ -421,7 +421,7 @@
   background:
     url('../images/hero-tiles/sectors_logistics.svg') repeat,
     linear-gradient(135deg, #1D4ED8 0%, #2563EB 50%, #3B82F6 100%);
-  background-size: 120px 120px, cover;
+  background-size: 120px 103.92px, cover;
 }
 
 /* Sectors - Manufacturing */
@@ -430,7 +430,7 @@
   background:
     url('../images/hero-tiles/sectors_manufacturing.svg') repeat,
     linear-gradient(135deg, #1D4ED8 0%, #2563EB 50%, #3B82F6 100%);
-  background-size: 120px 120px, cover;
+  background-size: 120px 103.92px, cover;
 }
 
 /* Sectors - Maritime */
@@ -439,7 +439,7 @@
   background:
     url('../images/hero-tiles/sectors_maritime.svg') repeat,
     linear-gradient(135deg, #1D4ED8 0%, #2563EB 50%, #3B82F6 100%);
-  background-size: 120px 120px, cover;
+  background-size: 120px 103.92px, cover;
 }
 
 /* Sectors - Marketing */
@@ -448,7 +448,7 @@
   background:
     url('../images/hero-tiles/sectors_marketing.svg') repeat,
     linear-gradient(135deg, #1D4ED8 0%, #2563EB 50%, #3B82F6 100%);
-  background-size: 120px 120px, cover;
+  background-size: 120px 103.92px, cover;
 }
 
 /* Sectors - Media */
@@ -457,7 +457,7 @@
   background:
     url('../images/hero-tiles/sectors_media.svg') repeat,
     linear-gradient(135deg, #1D4ED8 0%, #2563EB 50%, #3B82F6 100%);
-  background-size: 120px 120px, cover;
+  background-size: 120px 103.92px, cover;
 }
 
 /* Sectors - Military */
@@ -466,7 +466,7 @@
   background:
     url('../images/hero-tiles/sectors_military.svg') repeat,
     linear-gradient(135deg, #1D4ED8 0%, #2563EB 50%, #3B82F6 100%);
-  background-size: 120px 120px, cover;
+  background-size: 120px 103.92px, cover;
 }
 
 /* Sectors - Non-profit */
@@ -475,7 +475,7 @@
   background:
     url('../images/hero-tiles/sectors_non_profit.svg') repeat,
     linear-gradient(135deg, #1D4ED8 0%, #2563EB 50%, #3B82F6 100%);
-  background-size: 120px 120px, cover;
+  background-size: 120px 103.92px, cover;
 }
 
 /* Sectors - Property */
@@ -484,7 +484,7 @@
   background:
     url('../images/hero-tiles/sectors_property.svg') repeat,
     linear-gradient(135deg, #1D4ED8 0%, #2563EB 50%, #3B82F6 100%);
-  background-size: 120px 120px, cover;
+  background-size: 120px 103.92px, cover;
 }
 
 /* Sectors - Public Sector */
@@ -493,7 +493,7 @@
   background:
     url('../images/hero-tiles/sectors_public_sector.svg') repeat,
     linear-gradient(135deg, #1D4ED8 0%, #2563EB 50%, #3B82F6 100%);
-  background-size: 120px 120px, cover;
+  background-size: 120px 103.92px, cover;
 }
 
 /* Sectors - Retail */
@@ -502,7 +502,7 @@
   background:
     url('../images/hero-tiles/sectors_retail.svg') repeat,
     linear-gradient(135deg, #1D4ED8 0%, #2563EB 50%, #3B82F6 100%);
-  background-size: 120px 120px, cover;
+  background-size: 120px 103.92px, cover;
 }
 
 /* Sectors - Science */
@@ -511,7 +511,7 @@
   background:
     url('../images/hero-tiles/sectors_science.svg') repeat,
     linear-gradient(135deg, #1D4ED8 0%, #2563EB 50%, #3B82F6 100%);
-  background-size: 120px 120px, cover;
+  background-size: 120px 103.92px, cover;
 }
 
 /* Sectors - Sport & Fitness */
@@ -520,7 +520,7 @@
   background:
     url('../images/hero-tiles/sectors_sport_fitness.svg') repeat,
     linear-gradient(135deg, #1D4ED8 0%, #2563EB 50%, #3B82F6 100%);
-  background-size: 120px 120px, cover;
+  background-size: 120px 103.92px, cover;
 }
 
 /* Sectors - Technology */
@@ -529,7 +529,7 @@
   background:
     url('../images/hero-tiles/sectors_technology.svg') repeat,
     linear-gradient(135deg, #1D4ED8 0%, #2563EB 50%, #3B82F6 100%);
-  background-size: 120px 120px, cover;
+  background-size: 120px 103.92px, cover;
 }
 
 /* Sectors - Tourism */
@@ -538,7 +538,7 @@
   background:
     url('../images/hero-tiles/sectors_tourism.svg') repeat,
     linear-gradient(135deg, #1D4ED8 0%, #2563EB 50%, #3B82F6 100%);
-  background-size: 120px 120px, cover;
+  background-size: 120px 103.92px, cover;
 }
 
 /* Sectors - Trades */
@@ -547,7 +547,7 @@
   background:
     url('../images/hero-tiles/sectors_trades.svg') repeat,
     linear-gradient(135deg, #1D4ED8 0%, #2563EB 50%, #3B82F6 100%);
-  background-size: 120px 120px, cover;
+  background-size: 120px 103.92px, cover;
 }
 
 /* Sectors - Transport */
@@ -556,7 +556,7 @@
   background:
     url('../images/hero-tiles/sectors_transport.svg') repeat,
     linear-gradient(135deg, #1D4ED8 0%, #2563EB 50%, #3B82F6 100%);
-  background-size: 120px 120px, cover;
+  background-size: 120px 103.92px, cover;
 }
 
 /* Sectors - Utilities */
@@ -565,7 +565,7 @@
   background:
     url('../images/hero-tiles/sectors_utilities.svg') repeat,
     linear-gradient(135deg, #1D4ED8 0%, #2563EB 50%, #3B82F6 100%);
-  background-size: 120px 120px, cover;
+  background-size: 120px 103.92px, cover;
 }
 
 /* Living - View All Living */
@@ -574,7 +574,7 @@
   background:
     url('../images/hero-tiles/living_living.svg') repeat,
     linear-gradient(135deg, #047857 0%, #059669 50%, #10B981 100%);
-  background-size: 120px 120px, cover;
+  background-size: 120px 103.92px, cover;
 }
 
 /* Living - Advice */
@@ -583,7 +583,7 @@
   background:
     url('../images/hero-tiles/living_advice.svg') repeat,
     linear-gradient(135deg, #047857 0%, #059669 50%, #10B981 100%);
-  background-size: 120px 120px, cover;
+  background-size: 120px 103.92px, cover;
 }
 
 /* Living - Education */
@@ -592,7 +592,7 @@
   background:
     url('../images/hero-tiles/living_education.svg') repeat,
     linear-gradient(135deg, #047857 0%, #059669 50%, #10B981 100%);
-  background-size: 120px 120px, cover;
+  background-size: 120px 103.92px, cover;
 }
 
 /* Living - Family */
@@ -601,7 +601,7 @@
   background:
     url('../images/hero-tiles/living_family.svg') repeat,
     linear-gradient(135deg, #047857 0%, #059669 50%, #10B981 100%);
-  background-size: 120px 120px, cover;
+  background-size: 120px 103.92px, cover;
 }
 
 /* Living - Fitness */
@@ -610,7 +610,7 @@
   background:
     url('../images/hero-tiles/living_fitness.svg') repeat,
     linear-gradient(135deg, #047857 0%, #059669 50%, #10B981 100%);
-  background-size: 120px 120px, cover;
+  background-size: 120px 103.92px, cover;
 }
 
 /* Living - Health */
@@ -619,7 +619,7 @@
   background:
     url('../images/hero-tiles/living_health.svg') repeat,
     linear-gradient(135deg, #047857 0%, #059669 50%, #10B981 100%);
-  background-size: 120px 120px, cover;
+  background-size: 120px 103.92px, cover;
 }
 
 /* Living - Home & Garden */
@@ -628,7 +628,7 @@
   background:
     url('../images/hero-tiles/living_home_garden.svg') repeat,
     linear-gradient(135deg, #047857 0%, #059669 50%, #10B981 100%);
-  background-size: 120px 120px, cover;
+  background-size: 120px 103.92px, cover;
 }
 
 /* Living - Housing */
@@ -637,7 +637,7 @@
   background:
     url('../images/hero-tiles/living_housing.svg') repeat,
     linear-gradient(135deg, #047857 0%, #059669 50%, #10B981 100%);
-  background-size: 120px 120px, cover;
+  background-size: 120px 103.92px, cover;
 }
 
 /* Living - Mental Health */
@@ -646,7 +646,7 @@
   background:
     url('../images/hero-tiles/living_mental_health.svg') repeat,
     linear-gradient(135deg, #047857 0%, #059669 50%, #10B981 100%);
-  background-size: 120px 120px, cover;
+  background-size: 120px 103.92px, cover;
 }
 
 /* Living - Outreach */
@@ -655,7 +655,7 @@
   background:
     url('../images/hero-tiles/living_outreach.svg') repeat,
     linear-gradient(135deg, #047857 0%, #059669 50%, #10B981 100%);
-  background-size: 120px 120px, cover;
+  background-size: 120px 103.92px, cover;
 }
 
 /* Living - Work */
@@ -664,5 +664,180 @@
   background:
     url('../images/hero-tiles/living_work.svg') repeat,
     linear-gradient(135deg, #047857 0%, #059669 50%, #10B981 100%);
-  background-size: 120px 120px, cover;
+  background-size: 120px 103.92px, cover;
+}
+
+/* ============================================================ */
+/* About & Explore sections — append to hero-art-styles.css     */
+/* ============================================================ */
+
+/* About - View All About */
+/* Icons: info, book-open, question */
+.hero-art-style--about-about {
+  background:
+    url('../images/hero-tiles/about_about.svg') repeat,
+    linear-gradient(135deg, #334155 0%, #475569 50%, #64748B 100%);
+  background-size: 120px 103.92px, cover;
+}
+
+/* About - Why? */
+/* Icons: question, lightbulb */
+.hero-art-style--about-why {
+  background:
+    url('../images/hero-tiles/about_why.svg') repeat,
+    linear-gradient(135deg, #334155 0%, #475569 50%, #64748B 100%);
+  background-size: 120px 103.92px, cover;
+}
+
+/* About - Editorial Policy */
+/* Icons: newspaper, shield, pen-nib */
+.hero-art-style--about-editorial-policy {
+  background:
+    url('../images/hero-tiles/about_editorial_policy.svg') repeat,
+    linear-gradient(135deg, #334155 0%, #475569 50%, #64748B 100%);
+  background-size: 120px 103.92px, cover;
+}
+
+/* About - Our Services */
+/* Icons: briefcase, gear, handshake */
+.hero-art-style--about-our-services {
+  background:
+    url('../images/hero-tiles/about_our_services.svg') repeat,
+    linear-gradient(135deg, #334155 0%, #475569 50%, #64748B 100%);
+  background-size: 120px 103.92px, cover;
+}
+
+/* About - Our team */
+/* Icons: users, users-three */
+.hero-art-style--about-our-team {
+  background:
+    url('../images/hero-tiles/about_our_team.svg') repeat,
+    linear-gradient(135deg, #334155 0%, #475569 50%, #64748B 100%);
+  background-size: 120px 103.92px, cover;
+}
+
+/* About - Contact us */
+/* Icons: envelope-simple, phone, chat-circle */
+.hero-art-style--about-contact-us {
+  background:
+    url('../images/hero-tiles/about_contact_us.svg') repeat,
+    linear-gradient(135deg, #334155 0%, #475569 50%, #64748B 100%);
+  background-size: 120px 103.92px, cover;
+}
+
+/* About - Privacy policy */
+/* Icons: lock, shield, eye-slash */
+.hero-art-style--about-privacy-policy {
+  background:
+    url('../images/hero-tiles/about_privacy_policy.svg') repeat,
+    linear-gradient(135deg, #334155 0%, #475569 50%, #64748B 100%);
+  background-size: 120px 103.92px, cover;
+}
+
+/* About - Terms of use */
+/* Icons: scroll, file-text, clipboard-text */
+.hero-art-style--about-terms-of-use {
+  background:
+    url('../images/hero-tiles/about_terms_of_use.svg') repeat,
+    linear-gradient(135deg, #334155 0%, #475569 50%, #64748B 100%);
+  background-size: 120px 103.92px, cover;
+}
+
+/* Explore - View All Explore */
+/* Icons: compass, magnifying-glass, binoculars */
+.hero-art-style--explore-explore {
+  background:
+    url('../images/hero-tiles/explore_explore.svg') repeat,
+    linear-gradient(135deg, #B45309 0%, #D97706 50%, #F59E0B 100%);
+  background-size: 120px 103.92px, cover;
+}
+
+/* Explore - Archive */
+/* Icons: archive, clock-countdown, folder */
+.hero-art-style--explore-archive {
+  background:
+    url('../images/hero-tiles/explore_archive.svg') repeat,
+    linear-gradient(135deg, #B45309 0%, #D97706 50%, #F59E0B 100%);
+  background-size: 120px 103.92px, cover;
+}
+
+/* Explore - Articles */
+/* Icons: article, newspaper, book-open */
+.hero-art-style--explore-articles {
+  background:
+    url('../images/hero-tiles/explore_articles.svg') repeat,
+    linear-gradient(135deg, #B45309 0%, #D97706 50%, #F59E0B 100%);
+  background-size: 120px 103.92px, cover;
+}
+
+/* Explore - Collaborations */
+/* Icons: handshake, users-three, puzzle-piece */
+.hero-art-style--explore-collaborations {
+  background:
+    url('../images/hero-tiles/explore_collaborations.svg') repeat,
+    linear-gradient(135deg, #B45309 0%, #D97706 50%, #F59E0B 100%);
+  background-size: 120px 103.92px, cover;
+}
+
+/* Explore - Data */
+/* Icons: chart-bar, database, table */
+.hero-art-style--explore-data {
+  background:
+    url('../images/hero-tiles/explore_data.svg') repeat,
+    linear-gradient(135deg, #B45309 0%, #D97706 50%, #F59E0B 100%);
+  background-size: 120px 103.92px, cover;
+}
+
+/* Explore - Events */
+/* Icons: calendar, map-pin, ticket */
+.hero-art-style--explore-events {
+  background:
+    url('../images/hero-tiles/explore_events.svg') repeat,
+    linear-gradient(135deg, #B45309 0%, #D97706 50%, #F59E0B 100%);
+  background-size: 120px 103.92px, cover;
+}
+
+/* Explore - Jobs boards */
+/* Icons: briefcase, magnifying-glass, user */
+.hero-art-style--explore-jobs-boards {
+  background:
+    url('../images/hero-tiles/explore_jobs_boards.svg') repeat,
+    linear-gradient(135deg, #B45309 0%, #D97706 50%, #F59E0B 100%);
+  background-size: 120px 103.92px, cover;
+}
+
+/* Explore - Maps */
+/* Icons: map-trifold, map-pin, globe */
+.hero-art-style--explore-maps {
+  background:
+    url('../images/hero-tiles/explore_maps.svg') repeat,
+    linear-gradient(135deg, #B45309 0%, #D97706 50%, #F59E0B 100%);
+  background-size: 120px 103.92px, cover;
+}
+
+/* Explore - Opinion */
+/* Icons: chat-circle, megaphone, pen-nib */
+.hero-art-style--explore-opinion {
+  background:
+    url('../images/hero-tiles/explore_opinion.svg') repeat,
+    linear-gradient(135deg, #B45309 0%, #D97706 50%, #F59E0B 100%);
+  background-size: 120px 103.92px, cover;
+}
+
+/* Explore - Organisations */
+/* Icons: buildings, users, building-office */
+.hero-art-style--explore-organisations {
+  background:
+    url('../images/hero-tiles/explore_organisations.svg') repeat,
+    linear-gradient(135deg, #B45309 0%, #D97706 50%, #F59E0B 100%);
+  background-size: 120px 103.92px, cover;
+}
+
+/* Explore - Themes */
+/* Icons: swatches, tag, grid-four */
+.hero-art-style--explore-themes {
+  background:
+    url('../images/hero-tiles/explore_themes.svg') repeat,
+    linear-gradient(135deg, #B45309 0%, #D97706 50%, #F59E0B 100%);
+  background-size: 120px 103.92px, cover;
 }

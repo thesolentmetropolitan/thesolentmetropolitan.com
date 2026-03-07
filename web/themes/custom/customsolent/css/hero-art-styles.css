@@ -666,3 +666,178 @@
     linear-gradient(135deg, #047857 0%, #059669 50%, #10B981 100%);
   background-size: 120px 103.92px, cover;
 }
+
+/* ============================================================ */
+/* About & Explore sections — append to hero-art-styles.css     */
+/* ============================================================ */
+
+/* About - View All About */
+/* Icons: info, book-open, question */
+.hero-art-style--about-about {
+  background:
+    url('../images/hero-tiles/about_about.svg') repeat,
+    linear-gradient(135deg, #334155 0%, #475569 50%, #64748B 100%);
+  background-size: 120px 103.92px, cover;
+}
+
+/* About - Why? */
+/* Icons: question, lightbulb */
+.hero-art-style--about-why {
+  background:
+    url('../images/hero-tiles/about_why.svg') repeat,
+    linear-gradient(135deg, #334155 0%, #475569 50%, #64748B 100%);
+  background-size: 120px 103.92px, cover;
+}
+
+/* About - Editorial Policy */
+/* Icons: newspaper, shield, pen-nib */
+.hero-art-style--about-editorial-policy {
+  background:
+    url('../images/hero-tiles/about_editorial_policy.svg') repeat,
+    linear-gradient(135deg, #334155 0%, #475569 50%, #64748B 100%);
+  background-size: 120px 103.92px, cover;
+}
+
+/* About - Our Services */
+/* Icons: briefcase, gear, handshake */
+.hero-art-style--about-our-services {
+  background:
+    url('../images/hero-tiles/about_our_services.svg') repeat,
+    linear-gradient(135deg, #334155 0%, #475569 50%, #64748B 100%);
+  background-size: 120px 103.92px, cover;
+}
+
+/* About - Our team */
+/* Icons: users, users-three */
+.hero-art-style--about-our-team {
+  background:
+    url('../images/hero-tiles/about_our_team.svg') repeat,
+    linear-gradient(135deg, #334155 0%, #475569 50%, #64748B 100%);
+  background-size: 120px 103.92px, cover;
+}
+
+/* About - Contact us */
+/* Icons: envelope-simple, phone, chat-circle */
+.hero-art-style--about-contact-us {
+  background:
+    url('../images/hero-tiles/about_contact_us.svg') repeat,
+    linear-gradient(135deg, #334155 0%, #475569 50%, #64748B 100%);
+  background-size: 120px 103.92px, cover;
+}
+
+/* About - Privacy policy */
+/* Icons: lock, shield, eye-slash */
+.hero-art-style--about-privacy-policy {
+  background:
+    url('../images/hero-tiles/about_privacy_policy.svg') repeat,
+    linear-gradient(135deg, #334155 0%, #475569 50%, #64748B 100%);
+  background-size: 120px 103.92px, cover;
+}
+
+/* About - Terms of use */
+/* Icons: scroll, file-text, clipboard-text */
+.hero-art-style--about-terms-of-use {
+  background:
+    url('../images/hero-tiles/about_terms_of_use.svg') repeat,
+    linear-gradient(135deg, #334155 0%, #475569 50%, #64748B 100%);
+  background-size: 120px 103.92px, cover;
+}
+
+/* Explore - View All Explore */
+/* Icons: compass, magnifying-glass, binoculars */
+.hero-art-style--explore-explore {
+  background:
+    url('../images/hero-tiles/explore_explore.svg') repeat,
+    linear-gradient(135deg, #B45309 0%, #D97706 50%, #F59E0B 100%);
+  background-size: 120px 103.92px, cover;
+}
+
+/* Explore - Archive */
+/* Icons: archive, clock-countdown, folder */
+.hero-art-style--explore-archive {
+  background:
+    url('../images/hero-tiles/explore_archive.svg') repeat,
+    linear-gradient(135deg, #B45309 0%, #D97706 50%, #F59E0B 100%);
+  background-size: 120px 103.92px, cover;
+}
+
+/* Explore - Articles */
+/* Icons: article, newspaper, book-open */
+.hero-art-style--explore-articles {
+  background:
+    url('../images/hero-tiles/explore_articles.svg') repeat,
+    linear-gradient(135deg, #B45309 0%, #D97706 50%, #F59E0B 100%);
+  background-size: 120px 103.92px, cover;
+}
+
+/* Explore - Collaborations */
+/* Icons: handshake, users-three, puzzle-piece */
+.hero-art-style--explore-collaborations {
+  background:
+    url('../images/hero-tiles/explore_collaborations.svg') repeat,
+    linear-gradient(135deg, #B45309 0%, #D97706 50%, #F59E0B 100%);
+  background-size: 120px 103.92px, cover;
+}
+
+/* Explore - Data */
+/* Icons: chart-bar, database, table */
+.hero-art-style--explore-data {
+  background:
+    url('../images/hero-tiles/explore_data.svg') repeat,
+    linear-gradient(135deg, #B45309 0%, #D97706 50%, #F59E0B 100%);
+  background-size: 120px 103.92px, cover;
+}
+
+/* Explore - Events */
+/* Icons: calendar, map-pin, ticket */
+.hero-art-style--explore-events {
+  background:
+    url('../images/hero-tiles/explore_events.svg') repeat,
+    linear-gradient(135deg, #B45309 0%, #D97706 50%, #F59E0B 100%);
+  background-size: 120px 103.92px, cover;
+}
+
+/* Explore - Jobs boards */
+/* Icons: briefcase, magnifying-glass, user */
+.hero-art-style--explore-jobs-boards {
+  background:
+    url('../images/hero-tiles/explore_jobs_boards.svg') repeat,
+    linear-gradient(135deg, #B45309 0%, #D97706 50%, #F59E0B 100%);
+  background-size: 120px 103.92px, cover;
+}
+
+/* Explore - Maps */
+/* Icons: map-trifold, map-pin, globe */
+.hero-art-style--explore-maps {
+  background:
+    url('../images/hero-tiles/explore_maps.svg') repeat,
+    linear-gradient(135deg, #B45309 0%, #D97706 50%, #F59E0B 100%);
+  background-size: 120px 103.92px, cover;
+}
+
+/* Explore - Opinion */
+/* Icons: chat-circle, megaphone, pen-nib */
+.hero-art-style--explore-opinion {
+  background:
+    url('../images/hero-tiles/explore_opinion.svg') repeat,
+    linear-gradient(135deg, #B45309 0%, #D97706 50%, #F59E0B 100%);
+  background-size: 120px 103.92px, cover;
+}
+
+/* Explore - Organisations */
+/* Icons: buildings, users, building-office */
+.hero-art-style--explore-organisations {
+  background:
+    url('../images/hero-tiles/explore_organisations.svg') repeat,
+    linear-gradient(135deg, #B45309 0%, #D97706 50%, #F59E0B 100%);
+  background-size: 120px 103.92px, cover;
+}
+
+/* Explore - Themes */
+/* Icons: swatches, tag, grid-four */
+.hero-art-style--explore-themes {
+  background:
+    url('../images/hero-tiles/explore_themes.svg') repeat,
+    linear-gradient(135deg, #B45309 0%, #D97706 50%, #F59E0B 100%);
+  background-size: 120px 103.92px, cover;
+}
