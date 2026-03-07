@@ -1,0 +1,31 @@
+uuid: 904c27f8-b480-46bd-916b-f126ebef105c
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:composite_block_type:295b73cf-5acf-4758-a6d6-ada7c2aee239'
+  module:
+    - block_classes
+    - block_content
+    - system
+  theme:
+    - customsolent
+id: customsolent_contenttoappearhere
+theme: customsolent
+region: content
+weight: -5
+provider: null
+plugin: 'block_content:295b73cf-5acf-4758-a6d6-ada7c2aee239'
+settings:
+  id: 'block_content:295b73cf-5acf-4758-a6d6-ada7c2aee239'
+  label: 'Content to appear here'
+  label_display: '0'
+  provider: block_content
+  status: true
+  info: ''
+  view_mode: full
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: "/culture*\r\n/sectors*\r\n/living*\r\n/about*\r\n/explore*"
