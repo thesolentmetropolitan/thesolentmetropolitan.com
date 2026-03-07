@@ -1,0 +1,6 @@
+langcode: en
+status: true
+dependencies: {}
+id: hero_art_style_about_about
+label: About - View All About
+classes: hero-art-style--about-about

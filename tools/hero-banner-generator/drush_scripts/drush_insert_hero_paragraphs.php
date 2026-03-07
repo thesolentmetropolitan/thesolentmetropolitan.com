@@ -171,6 +171,46 @@ $page_map = [
   '/living/outreach' => 'hero_art_style_living_outreach',
   // Living - Work
   '/living/work' => 'hero_art_style_living_work',
+  // === About section ===
+  // About - View All About
+  '/about' => 'hero_art_style_about_about',
+  // About - Why?
+  '/about/why' => 'hero_art_style_about_why',
+  // About - Editorial Policy
+  '/about/editorial-policy' => 'hero_art_style_about_editorial_policy',
+  // About - Our Services
+  '/about/our-services' => 'hero_art_style_about_our_services',
+  // About - Our team
+  '/about/team' => 'hero_art_style_about_our_team',
+  // About - Contact us
+  '/contact' => 'hero_art_style_about_contact_us',
+  // About - Privacy policy
+  '/about/privacy-policy' => 'hero_art_style_about_privacy_policy',
+  // About - Terms of use
+  '/about/terms' => 'hero_art_style_about_terms_of_use',
+  // === Explore section ===
+  // Explore - View All Explore
+  '/explore' => 'hero_art_style_explore_explore',
+  // Explore - Archive
+  '/explore/archive' => 'hero_art_style_explore_archive',
+  // Explore - Articles
+  '/explore/articles' => 'hero_art_style_explore_articles',
+  // Explore - Collaborations
+  '/explore/collaborations' => 'hero_art_style_explore_collaborations',
+  // Explore - Data
+  '/explore/data' => 'hero_art_style_explore_data',
+  // Explore - Events
+  '/explore/events' => 'hero_art_style_explore_events',
+  // Explore - Jobs boards
+  '/explore/jobs-boards' => 'hero_art_style_explore_jobs_boards',
+  // Explore - Maps
+  '/explore/maps' => 'hero_art_style_explore_maps',
+  // Explore - Opinion
+  '/explore/opinion' => 'hero_art_style_explore_opinion',
+  // Explore - Organisations
+  '/explore/organisations' => 'hero_art_style_explore_organisations',
+  // Explore - Themes
+  '/explore/themes' => 'hero_art_style_explore_themes',
 ];
 
 $alias_manager = \Drupal::service('path_alias.manager');

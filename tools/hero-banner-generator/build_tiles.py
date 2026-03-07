@@ -171,6 +171,27 @@ PAGE_MAP = {
     'living_mental_health': ['brain', 'heart', 'chat-circle'],
     'living_outreach': ['hand-heart', 'megaphone', 'users-three'],
     'living_work': ['briefcase', 'laptop', 'clock'],
+    # --- About section ---
+    'about_about': ['info', 'book-open', 'question'],
+    'about_why': ['question', 'lightbulb'],
+    'about_editorial_policy': ['newspaper', 'shield', 'pen-nib'],
+    'about_our_services': ['briefcase', 'gear', 'handshake'],
+    'about_our_team': ['users', 'users-three'],
+    'about_contact_us': ['envelope-simple', 'phone', 'chat-circle'],
+    'about_privacy_policy': ['lock', 'shield', 'eye-slash'],
+    'about_terms_of_use': ['scroll', 'file-text', 'clipboard-text'],
+    # --- Explore section ---
+    'explore_explore': ['compass', 'magnifying-glass', 'binoculars'],
+    'explore_archive': ['archive', 'clock-countdown', 'folder'],
+    'explore_articles': ['article', 'newspaper', 'book-open'],
+    'explore_collaborations': ['handshake', 'users-three', 'puzzle-piece'],
+    'explore_data': ['chart-bar', 'database', 'table'],
+    'explore_events': ['calendar', 'map-pin', 'ticket'],
+    'explore_jobs_boards': ['briefcase', 'magnifying-glass', 'user'],
+    'explore_maps': ['map-trifold', 'map-pin', 'globe'],
+    'explore_opinion': ['chat-circle', 'megaphone', 'pen-nib'],
+    'explore_organisations': ['buildings', 'users', 'building-office'],
+    'explore_themes': ['swatches', 'tag', 'grid-four'],
 }
 
 
