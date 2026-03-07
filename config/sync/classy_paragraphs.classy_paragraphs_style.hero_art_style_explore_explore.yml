@@ -1,6 +1,7 @@
+uuid: 644a118f-ca69-4f42-85bf-f93f44239f9e
 langcode: en
 status: true
-dependencies: {}
+dependencies: {  }
 id: hero_art_style_explore_explore
-label: Explore - View All Explore
+label: 'Explore - View All Explore'
 classes: hero-art-style--explore-explore

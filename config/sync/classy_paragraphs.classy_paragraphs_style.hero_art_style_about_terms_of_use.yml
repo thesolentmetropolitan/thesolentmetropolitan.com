@@ -1,6 +1,7 @@
+uuid: 6b7d6ac2-15e5-4419-99bc-ee81f3f75010
 langcode: en
 status: true
-dependencies: {}
+dependencies: {  }
 id: hero_art_style_about_terms_of_use
-label: About - Terms of use
+label: 'About - Terms of use'
 classes: hero-art-style--about-terms-of-use

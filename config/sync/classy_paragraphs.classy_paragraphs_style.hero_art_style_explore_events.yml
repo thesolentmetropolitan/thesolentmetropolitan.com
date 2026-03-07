@@ -1,6 +1,7 @@
+uuid: bb8e2531-789b-449b-8e64-cd87bbeb1428
 langcode: en
 status: true
-dependencies: {}
+dependencies: {  }
 id: hero_art_style_explore_events
-label: Explore - Events
+label: 'Explore - Events'
 classes: hero-art-style--explore-events

@@ -1,6 +1,7 @@
+uuid: 88482b45-2b15-4afe-90a0-1fcac8b9b76f
 langcode: en
 status: true
-dependencies: {}
+dependencies: {  }
 id: hero_art_style_explore_data
-label: Explore - Data
+label: 'Explore - Data'
 classes: hero-art-style--explore-data

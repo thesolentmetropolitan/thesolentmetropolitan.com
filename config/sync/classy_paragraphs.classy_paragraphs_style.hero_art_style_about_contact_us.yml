@@ -1,6 +1,7 @@
+uuid: cca2af14-5458-4128-a7bb-3df9922e36c3
 langcode: en
 status: true
-dependencies: {}
+dependencies: {  }
 id: hero_art_style_about_contact_us
-label: About - Contact us
+label: 'About - Contact us'
 classes: hero-art-style--about-contact-us

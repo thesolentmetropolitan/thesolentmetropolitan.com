@@ -1,6 +1,7 @@
+uuid: ee47d98e-6847-465a-a562-a493d807b422
 langcode: en
 status: true
-dependencies: {}
+dependencies: {  }
 id: hero_art_style_explore_organisations
-label: Explore - Organisations
+label: 'Explore - Organisations'
 classes: hero-art-style--explore-organisations

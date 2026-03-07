@@ -1,6 +1,7 @@
+uuid: e77e1296-fced-4ea2-8475-0d5bb4e5774c
 langcode: en
 status: true
-dependencies: {}
+dependencies: {  }
 id: hero_art_style_about_about
-label: About - View All About
+label: 'About - View All About'
 classes: hero-art-style--about-about
