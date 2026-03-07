@@ -1,6 +1,7 @@
+uuid: a1b4f549-58c4-487d-9665-49f9cc6192d1
 langcode: en
 status: true
-dependencies: {}
+dependencies: {  }
 id: hero_art_style_explore_collaborations
-label: Explore - Collaborations
+label: 'Explore - Collaborations'
 classes: hero-art-style--explore-collaborations

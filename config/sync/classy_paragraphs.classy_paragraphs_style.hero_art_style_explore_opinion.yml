@@ -1,6 +1,7 @@
+uuid: a56aac6f-4d3e-4ccd-b554-b3738f27bd28
 langcode: en
 status: true
-dependencies: {}
+dependencies: {  }
 id: hero_art_style_explore_opinion
-label: Explore - Opinion
+label: 'Explore - Opinion'
 classes: hero-art-style--explore-opinion

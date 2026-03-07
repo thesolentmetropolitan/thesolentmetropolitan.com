@@ -1,6 +1,7 @@
+uuid: b1ac125c-05f1-4a82-81f8-22f2c022b05e
 langcode: en
 status: true
-dependencies: {}
+dependencies: {  }
 id: hero_art_style_about_why
-label: About - Why?
+label: 'About - Why?'
 classes: hero-art-style--about-why

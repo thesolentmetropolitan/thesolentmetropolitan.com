@@ -1,6 +1,7 @@
+uuid: 9638fe44-178e-46ca-bde2-c432d7047d5f
 langcode: en
 status: true
-dependencies: {}
+dependencies: {  }
 id: hero_art_style_explore_articles
-label: Explore - Articles
+label: 'Explore - Articles'
 classes: hero-art-style--explore-articles

@@ -1,6 +1,7 @@
+uuid: 34598e41-a73c-4a6a-84c7-1feb57135fd8
 langcode: en
 status: true
-dependencies: {}
+dependencies: {  }
 id: hero_art_style_about_our_services
-label: About - Our Services
+label: 'About - Our Services'
 classes: hero-art-style--about-our-services

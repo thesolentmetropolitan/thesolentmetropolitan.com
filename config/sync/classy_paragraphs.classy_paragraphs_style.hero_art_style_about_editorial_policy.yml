@@ -1,6 +1,7 @@
+uuid: e62d11ba-645b-4a6b-8207-c4db4026c8cd
 langcode: en
 status: true
-dependencies: {}
+dependencies: {  }
 id: hero_art_style_about_editorial_policy
-label: About - Editorial Policy
+label: 'About - Editorial Policy'
 classes: hero-art-style--about-editorial-policy

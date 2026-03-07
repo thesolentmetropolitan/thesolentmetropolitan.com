@@ -256,7 +256,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -77
+    weight: -76
     langcode: en
     uuid: e5e84f75-afd1-4ab4-9468-a21693975305
     options: {  }
@@ -269,7 +269,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -85
+    weight: -84
     langcode: en
     uuid: cd4c065b-6519-4899-8ee3-abe0c2356df3
     options: {  }
@@ -295,7 +295,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -90
+    weight: -89
     langcode: en
     uuid: b23ffe1c-300d-4c7b-a31a-55e120efb49d
     options: {  }
@@ -321,7 +321,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -76
+    weight: -75
     langcode: en
     uuid: 0d619d7d-b548-4734-94f9-8ab767901178
     options: {  }
@@ -334,7 +334,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -91
+    weight: -90
     langcode: en
     uuid: f026cbda-7837-44a1-9dfa-d96fedae5281
     options: {  }
@@ -347,7 +347,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -83
+    weight: -82
     langcode: en
     uuid: 29e84fb0-4d60-4a5a-baf5-a7b24ae91010
     options: {  }
@@ -360,7 +360,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -82
+    weight: -81
     langcode: en
     uuid: 675facb3-2d62-4124-8ec5-0f0031488472
     options: {  }
@@ -373,7 +373,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -80
+    weight: -79
     langcode: en
     uuid: 1938fad3-f184-4b15-969a-c207510ecb0b
     options: {  }
@@ -386,7 +386,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -84
+    weight: -83
     langcode: en
     uuid: 54f61a44-6775-4619-b8bf-7d65f56a5f56
     options: {  }
@@ -451,7 +451,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -88
+    weight: -87
     langcode: en
     uuid: 2f24a73a-8101-4865-a606-8f2adaf41608
     options: {  }
@@ -464,7 +464,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -75
+    weight: -74
     langcode: en
     uuid: 46040601-f8d3-42bd-aff8-55a347b770cf
     options: {  }
@@ -490,7 +490,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -87
+    weight: -86
     langcode: en
     uuid: 2194b58c-6143-4e7d-8e68-f59925b69aba
     options: {  }
@@ -600,14 +600,14 @@ menus:
     options: {  }
   -
     menu_name: main
-    title: Military
+    title: 'Defence & Military'
     parent: 'menu_link_content:ca4916ec-7269-42dc-abf5-5864739fbddd'
-    uri: 'internal:/sectors/military'
+    uri: 'internal:/sectors/defence-and-military'
     link_title: ''
     description: null
     enabled: true
     expanded: false
-    weight: -74
+    weight: -93
     langcode: en
     uuid: de946a40-4cd2-41a1-a116-0fb37f0ffd92
     options: {  }
@@ -633,7 +633,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -92
+    weight: -91
     langcode: en
     uuid: 9bea57b9-6456-4047-a087-37280f07ebba
     options: {  }
@@ -646,7 +646,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -78
+    weight: -77
     langcode: en
     uuid: b318acdf-64d7-41e1-85f6-09bf071343cd
     options: {  }
@@ -659,7 +659,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -79
+    weight: -78
     langcode: en
     uuid: 98629043-47e3-4f0f-ba9b-26f9fb2152ca
     options: {  }
@@ -672,7 +672,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -81
+    weight: -80
     langcode: en
     uuid: 427482d8-45ce-4cc1-ad7d-4caa14213825
     options: {  }
@@ -698,7 +698,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -93
+    weight: -92
     langcode: en
     uuid: b3f0fd1c-c51e-4fa6-81ee-74b4a5d3b6a0
     options: {  }
@@ -745,7 +745,7 @@ menus:
     menu_name: main
     title: Technology
     parent: 'menu_link_content:ca4916ec-7269-42dc-abf5-5864739fbddd'
-    uri: 'internal:/sectors/tech'
+    uri: 'internal:/sectors/technology'
     link_title: ''
     description: null
     enabled: true
@@ -990,7 +990,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -86
+    weight: -85
     langcode: en
     uuid: 9aee40ee-53a6-4928-b836-8dc6c5fb23fd
     options: {  }
@@ -1267,7 +1267,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -89
+    weight: -88
     langcode: en
     uuid: eb4a964d-6b6c-4783-bcf2-7a67158fdb8e
     options: {  }
