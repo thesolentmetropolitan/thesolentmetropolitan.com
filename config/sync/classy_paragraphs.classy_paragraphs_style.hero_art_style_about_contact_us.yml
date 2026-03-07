@@ -1,6 +1,6 @@
 langcode: en
 status: true
-dependencies: {}
+dependencies: {  }
 id: hero_art_style_about_contact_us
-label: About - Contact us
+label: 'About - Contact us'
 classes: hero-art-style--about-contact-us
