@@ -1,6 +1,6 @@
 langcode: en
 status: true
-dependencies: {}
+dependencies: {  }
 id: hero_art_style_explore_events
-label: Explore - Events
+label: 'Explore - Events'
 classes: hero-art-style--explore-events

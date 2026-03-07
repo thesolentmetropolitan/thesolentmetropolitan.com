@@ -1,6 +1,6 @@
 langcode: en
 status: true
-dependencies: {}
+dependencies: {  }
 id: hero_art_style_about_why
-label: About - Why?
+label: 'About - Why?'
 classes: hero-art-style--about-why

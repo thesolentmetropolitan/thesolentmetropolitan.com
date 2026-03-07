@@ -1,6 +1,6 @@
 langcode: en
 status: true
-dependencies: {}
+dependencies: {  }
 id: hero_art_style_explore_jobs_boards
-label: Explore - Jobs boards
+label: 'Explore - Jobs boards'
 classes: hero-art-style--explore-jobs-boards

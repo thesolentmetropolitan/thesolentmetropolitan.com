@@ -1,6 +1,6 @@
 langcode: en
 status: true
-dependencies: {}
+dependencies: {  }
 id: hero_art_style_about_privacy_policy
-label: About - Privacy policy
+label: 'About - Privacy policy'
 classes: hero-art-style--about-privacy-policy
