@@ -1,17 +1,42 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120">
-  <g transform="translate(46.0,12.399999999999999)" fill="white" stroke="white" stroke-width="0" opacity="0.12">
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="103.92" viewBox="0 0 120 103.92">
+  <g transform="translate(-14.00,-14.00)" fill="white" stroke="white" stroke-width="0" opacity="0.12">
     <g transform="scale(0.109375)">
       <path d="M216,36H40A20,20,0,0,0,20,56V200a20,20,0,0,0,20,20H216a20,20,0,0,0,20-20V56A20,20,0,0,0,216,36ZM44,100h72v56H44Zm96-24V60h24V76Zm-24,0H92V60h24Zm0,104v16H92V180Zm24,0h24v16H140Zm0-24V100h72v56Zm72-80H188V60h24ZM68,60V76H44V60ZM44,180H68v16H44Zm144,16V180h24v16Z"/>
     </g>
   </g>
-  <g transform="translate(10.0,72.39999999999999)" fill="white" stroke="white" stroke-width="0" opacity="0.12">
+  <g transform="translate(-14.00,89.92)" fill="white" stroke="white" stroke-width="0" opacity="0.12">
+    <g transform="scale(0.109375)">
+      <path d="M216,36H40A20,20,0,0,0,20,56V200a20,20,0,0,0,20,20H216a20,20,0,0,0,20-20V56A20,20,0,0,0,216,36ZM44,100h72v56H44Zm96-24V60h24V76Zm-24,0H92V60h24Zm0,104v16H92V180Zm24,0h24v16H140Zm0-24V100h72v56Zm72-80H188V60h24ZM68,60V76H44V60ZM44,180H68v16H44Zm144,16V180h24v16Z"/>
+    </g>
+  </g>
+  <g transform="translate(106.00,-14.00)" fill="white" stroke="white" stroke-width="0" opacity="0.12">
+    <g transform="scale(0.109375)">
+      <path d="M216,36H40A20,20,0,0,0,20,56V200a20,20,0,0,0,20,20H216a20,20,0,0,0,20-20V56A20,20,0,0,0,216,36ZM44,100h72v56H44Zm96-24V60h24V76Zm-24,0H92V60h24Zm0,104v16H92V180Zm24,0h24v16H140Zm0-24V100h72v56Zm72-80H188V60h24ZM68,60V76H44V60ZM44,180H68v16H44Zm144,16V180h24v16Z"/>
+    </g>
+  </g>
+  <g transform="translate(106.00,89.92)" fill="white" stroke="white" stroke-width="0" opacity="0.12">
+    <g transform="scale(0.109375)">
+      <path d="M216,36H40A20,20,0,0,0,20,56V200a20,20,0,0,0,20,20H216a20,20,0,0,0,20-20V56A20,20,0,0,0,216,36ZM44,100h72v56H44Zm96-24V60h24V76Zm-24,0H92V60h24Zm0,104v16H92V180Zm24,0h24v16H140Zm0-24V100h72v56Zm72-80H188V60h24ZM68,60V76H44V60ZM44,180H68v16H44Zm144,16V180h24v16Z"/>
+    </g>
+  </g>
+  <g transform="translate(46.00,-14.00)" fill="white" stroke="white" stroke-width="0" opacity="0.12">
     <g transform="scale(0.109375)">
       <path d="M168,120a12,12,0,0,1-5.12,9.83l-40,28A12,12,0,0,1,104,148V92a12,12,0,0,1,18.88-9.83l40,28A12,12,0,0,1,168,120Zm68-56V176a28,28,0,0,1-28,28H48a28,28,0,0,1-28-28V64A28,28,0,0,1,48,36H208A28,28,0,0,1,236,64Zm-24,0a4,4,0,0,0-4-4H48a4,4,0,0,0-4,4V176a4,4,0,0,0,4,4H208a4,4,0,0,0,4-4ZM160,216H96a12,12,0,0,0,0,24h64a12,12,0,0,0,0-24Z"/>
     </g>
   </g>
-  <g transform="translate(82.0,72.39999999999999)" fill="white" stroke="white" stroke-width="0" opacity="0.12">
+  <g transform="translate(46.00,89.92)" fill="white" stroke="white" stroke-width="0" opacity="0.12">
+    <g transform="scale(0.109375)">
+      <path d="M168,120a12,12,0,0,1-5.12,9.83l-40,28A12,12,0,0,1,104,148V92a12,12,0,0,1,18.88-9.83l40,28A12,12,0,0,1,168,120Zm68-56V176a28,28,0,0,1-28,28H48a28,28,0,0,1-28-28V64A28,28,0,0,1,48,36H208A28,28,0,0,1,236,64Zm-24,0a4,4,0,0,0-4-4H48a4,4,0,0,0-4,4V176a4,4,0,0,0,4,4H208a4,4,0,0,0,4-4ZM160,216H96a12,12,0,0,0,0,24h64a12,12,0,0,0,0-24Z"/>
+    </g>
+  </g>
+  <g transform="translate(16.00,37.96)" fill="white" stroke="white" stroke-width="0" opacity="0.12">
     <g transform="scale(0.109375)">
       <path d="M249.45,69.31a12,12,0,0,0-12.51,1L212,88.43V72a20,20,0,0,0-20-20H32A20,20,0,0,0,12,72V184a20,20,0,0,0,20,20H192a20,20,0,0,0,20-20V167.57l24.94,18.14A12,12,0,0,0,256,176V80A12,12,0,0,0,249.45,69.31ZM188,180H36V76H188Zm44-27.57-20-14.54V118.11l20-14.54Z"/>
+    </g>
+  </g>
+  <g transform="translate(76.00,37.96)" fill="white" stroke="white" stroke-width="0" opacity="0.12">
+    <g transform="scale(0.109375)">
+      <path d="M216,36H40A20,20,0,0,0,20,56V200a20,20,0,0,0,20,20H216a20,20,0,0,0,20-20V56A20,20,0,0,0,216,36ZM44,100h72v56H44Zm96-24V60h24V76Zm-24,0H92V60h24Zm0,104v16H92V180Zm24,0h24v16H140Zm0-24V100h72v56Zm72-80H188V60h24ZM68,60V76H44V60ZM44,180H68v16H44Zm144,16V180h24v16Z"/>
     </g>
   </g>
 </svg>

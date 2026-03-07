@@ -55,14 +55,16 @@ def extract_svg_paths(svg_file):
 
 
 def build_tile_svg(machine_name, icon_names):
-    """Build a single tile SVG with icons on a hex grid."""
+    """Build a single tile SVG with icons on a hex grid.
+
+    Icons placed at tile edges get DUPLICATED at wrapped positions so that
+    CSS background-repeat produces seamless tiling. For example, an icon
+    centred at (0, 0) extends outside the top-left corner — we render
+    additional copies at (TILE_WIDTH, 0), (0, TILE_HEIGHT), and
+    (TILE_WIDTH, TILE_HEIGHT) so each edge has the completing half.
+    """
     half = ICON_SIZE / 2
     scale = ICON_SIZE / 256  # Phosphor icons use 256x256 viewBox
-
-    # Cycle icon types across the 4 hex positions
-    # e.g. 3 icons [A,B,C] -> positions get [A, B, C, A]
-    # e.g. 2 icons [A,B]   -> positions get [A, B, A, B]
-    # e.g. 1 icon  [A]     -> positions get [A, A, A, A]
     icon_count = len(icon_names)
 
     parts = []
@@ -80,18 +82,40 @@ def build_tile_svg(machine_name, icon_names):
             continue
 
         inner_svg = extract_svg_paths(svg_file)
-        tx = cx - half
-        ty = cy - half
 
-        parts.append(
-            f'  <g transform="translate({tx:.2f},{ty:.2f})" '
-            f'fill="white" stroke="white" stroke-width="0" '
-            f'opacity="0.12">'
-        )
-        parts.append(f'    <g transform="scale({scale:.6f})">')
-        parts.append(f'      {inner_svg}')
-        parts.append('    </g>')
-        parts.append('  </g>')
+        # Generate all wrapped copies of this icon position.
+        # For each offset (dx, dy) in the 3x3 tile neighbourhood,
+        # check if the icon would be at least partially visible
+        # within the tile bounds (0,0 to TILE_WIDTH,TILE_HEIGHT).
+        for dx in [-1, 0, 1]:
+            for dy in [-1, 0, 1]:
+                wx = cx + dx * TILE_WIDTH
+                wy = cy + dy * TILE_HEIGHT
+
+                # Icon bounding box at this wrapped position
+                left = wx - half
+                right = wx + half
+                top = wy - half
+                bottom = wy + half
+
+                # Skip if entirely outside the tile
+                if right <= 0 or left >= TILE_WIDTH:
+                    continue
+                if bottom <= 0 or top >= TILE_HEIGHT:
+                    continue
+
+                tx = wx - half
+                ty = wy - half
+
+                parts.append(
+                    f'  <g transform="translate({tx:.2f},{ty:.2f})" '
+                    f'fill="white" stroke="white" stroke-width="0" '
+                    f'opacity="0.12">'
+                )
+                parts.append(f'    <g transform="scale({scale:.6f})">')
+                parts.append(f'      {inner_svg}')
+                parts.append('    </g>')
+                parts.append('  </g>')
 
     parts.append('</svg>')
     return '\n'.join(parts)
