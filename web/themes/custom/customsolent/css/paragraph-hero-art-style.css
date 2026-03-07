@@ -15,15 +15,16 @@
 
 .paragraph--type--hero-with-art-style > .alignment-clamp {
   align-self: flex-end;
-  padding-left: 4em;
+  padding-left: 2em;
 }
 
 /* Cut-out title: solid body-bg background behind the text */
 .paragraph--type--hero-with-art-style .hero-art-style__title {
   background-color: var(--body-bg);
-  padding-top: 0.5em;
+  padding-top: 0.3em;
   padding-left: 0.6em;
   padding-right: 0.6em;
+  padding-bottom: 0.1em;
   margin: 0;
   font-size: 1.8rem;
   line-height: 1.2;

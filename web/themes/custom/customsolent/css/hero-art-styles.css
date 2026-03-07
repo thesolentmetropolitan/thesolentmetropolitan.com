@@ -13,8 +13,8 @@
 /* Base hero banner dimensions */
 [class*='hero-art-style--'] {
   width: 100%;
-  min-height: 300px;
-  max-height: 400px;
+  min-height: 150px;
+  max-height: 150px;
   position: relative;
   overflow: hidden;
 }
