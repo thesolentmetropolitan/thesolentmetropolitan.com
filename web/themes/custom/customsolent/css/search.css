@@ -359,7 +359,7 @@ button.search-menu-item-icon {
 #search-form-container h2,
 body.search-results-page #block-slnt-content h2 {
   padding-left: 1.2em;
-  color: #471E82;
+  color: var(--solent-blue);
 }
 
 .search-results h3 a {
@@ -373,4 +373,59 @@ body.search-results-page #block-slnt-content h2 {
     padding-left: 2em !important;
     font-weight: 400;
   }
+}
+
+/* ===========================
+   Search results page layout
+   =========================== */
+
+/* Centre the results within a max-width container */
+body.search-results-page .layout-content {
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 2em;
+  padding-right: 2em;
+}
+
+/* "Search Results" page title */
+body.search-results-page #block-slnt-content h2 {
+  font-size: 1.4rem;
+  padding-left: 0;
+  margin-bottom: 0.5em;
+}
+
+/* Results list: remove default ol indentation, balanced spacing */
+.search-results-wrapper .search-results {
+  list-style-position: inside;
+  padding-left: 0;
+  margin: 0;
+}
+
+/* Individual result items */
+.search-results-wrapper .search-results li {
+  padding: 1em 0;
+  border-bottom: 1px solid #e0e0e0;
+  font-size: 0.95rem;
+}
+
+/* Result title link */
+.search-results-wrapper .search-results h3 {
+  font-size: 1.1rem;
+  margin: 0.2em 0 0.3em;
+  display: inline;
+}
+
+/* Result snippet */
+.search-results-wrapper .search-results p {
+  font-size: 0.95rem;
+  margin: 0.3em 0 0;
+  color: var(--text-mid);
+  line-height: 1.5;
+}
+
+/* Result meta info (type, date, etc.) */
+.search-results-wrapper .search-results li > p:last-child {
+  font-size: 0.85rem;
+  color: #888;
 }
