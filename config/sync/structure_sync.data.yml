@@ -628,7 +628,7 @@ menus:
     menu_name: main
     title: Design
     parent: 'menu_link_content:ca4916ec-7269-42dc-abf5-5864739fbddd'
-    uri: 'internal:/sector/design'
+    uri: 'internal:/sectors/design'
     link_title: ''
     description: null
     enabled: true
@@ -641,7 +641,7 @@ menus:
     menu_name: main
     title: Manufacturing
     parent: 'menu_link_content:ca4916ec-7269-42dc-abf5-5864739fbddd'
-    uri: 'internal:/sector/manufacturing'
+    uri: 'internal:/sectors/manufacturing'
     link_title: ''
     description: null
     enabled: true
@@ -654,7 +654,7 @@ menus:
     menu_name: main
     title: Logistics
     parent: 'menu_link_content:ca4916ec-7269-42dc-abf5-5864739fbddd'
-    uri: 'internal:/sector/logistics'
+    uri: 'internal:/sectors/logistics'
     link_title: ''
     description: null
     enabled: true
@@ -667,7 +667,7 @@ menus:
     menu_name: main
     title: Legal
     parent: 'menu_link_content:ca4916ec-7269-42dc-abf5-5864739fbddd'
-    uri: 'internal:/sector/legal'
+    uri: 'internal:/sectors/legal'
     link_title: ''
     description: null
     enabled: true
@@ -680,7 +680,7 @@ menus:
     menu_name: main
     title: Utilities
     parent: 'menu_link_content:ca4916ec-7269-42dc-abf5-5864739fbddd'
-    uri: 'internal:/sector/utilities'
+    uri: 'internal:/sectors/utilities'
     link_title: ''
     description: null
     enabled: true
@@ -693,7 +693,7 @@ menus:
     menu_name: main
     title: Democracy
     parent: 'menu_link_content:ca4916ec-7269-42dc-abf5-5864739fbddd'
-    uri: 'internal:/sector/democracy'
+    uri: 'internal:/sectors/democracy'
     link_title: ''
     description: null
     enabled: true
