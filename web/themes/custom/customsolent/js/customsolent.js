@@ -210,6 +210,26 @@
 
         // Mobile burger menu setup
         setupMobileBurgerMenu();
+
+        // insert search term in search box on search page
+        if (window.location.href.includes('/search/node') ) {
+          const url = window.location.href;
+
+          const regex = /\/search\/node\?keys=(.*)/;
+          const match = url.match(regex);
+
+          if (match && match[1]) {
+            const result = decodeURI(match[1]);
+
+            const inputField = document.getElementById('searchpageinputfield');
+            inputField.value = result;
+
+            console.log(result); 
+
+            console.log("No match found.");
+          }
+        }
+
       });
 
       /**
