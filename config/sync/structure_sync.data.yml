@@ -1078,9 +1078,9 @@ menus:
     options: {  }
   -
     menu_name: main
-    title: Outdoors
+    title: 'Outdoor & Active'
     parent: 'menu_link_content:9548ba9b-5ae0-4248-8c2e-f76e52ef31f5'
-    uri: 'internal:/culture/outdoors'
+    uri: 'internal:/culture/outdoor-active'
     link_title: ''
     description: null
     enabled: true
