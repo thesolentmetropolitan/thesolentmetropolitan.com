@@ -39,3 +39,10 @@ function customsolent_preprocess_paragraph__hero_with_art_style(&$variables) {
     }
   }
 }
+
+
+function customsolent_theme_suggestions_form_alter(array &$suggestions, array $variables) {
+  if (isset($variables['element']['#form_id'])) {
+    $suggestions[] = 'form__' . $variables['element']['#form_id'];
+  }
+}
