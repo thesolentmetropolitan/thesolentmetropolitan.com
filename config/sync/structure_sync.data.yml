@@ -828,7 +828,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -89
+    weight: -95
     langcode: en
     uuid: 216896dd-bf5a-4ac9-9e6d-4afdbc5a3410
     options: {  }
@@ -841,7 +841,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -92
+    weight: -98
     langcode: en
     uuid: 4368da11-419c-4f37-8c3c-9605727f5ebc
     options: {  }
@@ -854,7 +854,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -85
+    weight: -91
     langcode: en
     uuid: e9242771-d104-47d0-81cc-d6890672b587
     options: {  }
@@ -867,7 +867,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -84
+    weight: -90
     langcode: en
     uuid: 57a663cd-b989-4cfe-b53f-89ceebbc35b3
     options: {  }
@@ -880,7 +880,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -91
+    weight: -97
     langcode: en
     uuid: 14c70397-a1ec-4066-9964-8dd1b23a3248
     options: {  }
@@ -964,7 +964,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -94
+    weight: -99
     langcode: en
     uuid: 0bc867ba-b710-491d-aebc-aacbad3005a4
     options: {  }
@@ -1029,7 +1029,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -88
+    weight: -94
     langcode: en
     uuid: ca86fef9-5848-430f-b06c-af844b3b2f03
     options: {  }
@@ -1176,7 +1176,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -93
+    weight: -89
     langcode: en
     uuid: a4bbbd49-4bd9-4523-98a8-c802ce216dba
     options: {  }
@@ -1189,7 +1189,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -86
+    weight: -92
     langcode: en
     uuid: 3ea19482-0fe4-483f-b401-ab61271efaab
     options: {  }
@@ -1202,7 +1202,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -87
+    weight: -93
     langcode: en
     uuid: 12a3a96a-45c4-4eb9-8fce-3a9cfc9c21fc
     options: {  }
@@ -1215,7 +1215,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -90
+    weight: -96
     langcode: en
     uuid: 99de2cf5-cc60-4164-a3aa-7adecd445454
     options: {  }
@@ -1270,6 +1270,19 @@ menus:
     weight: -88
     langcode: en
     uuid: eb4a964d-6b6c-4783-bcf2-7a67158fdb8e
+    options: {  }
+  -
+    menu_name: main
+    title: Accessibility
+    parent: 'menu_link_content:099ef8b8-72f0-4695-9fc1-c21684dba940'
+    uri: 'internal:/about/accessibility'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: 0
+    langcode: en
+    uuid: a68549df-dbd2-435e-8ffd-c072b144cc3d
     options: {  }
 taxonomies:
   color:
