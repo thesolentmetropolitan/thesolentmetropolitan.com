@@ -45,28 +45,5 @@ main, .main-container {
 }
   */
 
-.sub-menu-item-container a {
-  text-decoration: none;
-}
 
-/* Body content links */
-.layout-content a {
-  color: var(--text);
-  font-weight: 700;
-  text-decoration: underline;
-  text-decoration-color: var(--magenta);
-  text-underline-offset: 3px;
-  text-decoration-thickness: 2px;
-  transition: color 0.15s;
-}
 
-.layout-content a:hover {
-  color: var(--magenta);
-}
-
-/* Body content headings */
-.layout-content h1,
-.layout-content h2,
-.layout-content h3 {
-  color: var(--solent-blue);
-}
