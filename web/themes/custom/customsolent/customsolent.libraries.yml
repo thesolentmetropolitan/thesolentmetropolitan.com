@@ -7,24 +7,13 @@ global:
       css/elements.css: {}
       css/fonts.css: {}
     component:
-      css/block.css: {}
-      css/breadcrumb.css: {}
-      css/buttons.css: {}
-      css/cta.css: {}
-      css/field.css: {}
       css/footer-base.css: {}
       css/footer-end.css: {}
-      css/form.css: {}
-      css/front.css: {}
       css/header.css: {}
       css/hero-art-styles.css: {}
       css/menu-common.css: {}
       css/menu-desktop.css: {}
       css/menu-mobile.css: {}
-      css/messages.css: {}
-      css/node.css: {}
-      css/node-view-mode-full-news-center-group-item.css: {}
-      css/node-view-mode-teaser-news-center-group-item.css: {}
       css/page.css: {}
       css/paragraph-enclosure.css: {}
       css/paragraph-image.css: {}
@@ -32,11 +21,7 @@ global:
       css/paragraph-section-2-column.css: {}
       css/paragraph-section-3-column.css: {}
       css/paragraph-hero-art-style.css: {}
-      css/paragraph-text.css: {}
       css/search.css: {}
-      css/sidebar.css: {}
-      css/table.css: {}
-      css/tabs.css: {}
     layout:
       css/layout.css: {}
     theme:
