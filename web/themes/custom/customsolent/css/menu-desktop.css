@@ -265,6 +265,7 @@
     transition: background-color 0.15s, color 0.15s;
     padding: 0.16em 0.0em 0.16em 0.5em; /* was 0.2em left */
     display: block;
+    line-height: 1.2;
   }
 
     .sub-menu-container .first-link {
@@ -272,6 +273,7 @@
     transition: background-color 0.15s, color 0.15s;
     padding: 0.16em 0.0em 0.16em 0.2em; /* was 0.2em left */
     display: block;
+    line-height: 1.2;
     }
 
   .sub-menu-container .first-link {
