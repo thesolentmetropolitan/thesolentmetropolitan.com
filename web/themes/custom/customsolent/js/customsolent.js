@@ -1266,6 +1266,17 @@
           }
         });
       }
+
+      // Search clear buttons — clear input and refocus
+      document.querySelectorAll('.search-clear-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          var input = this.previousElementSibling;
+          if (input) {
+            input.value = '';
+            input.focus();
+          }
+        });
+      });
     }
   };
 
