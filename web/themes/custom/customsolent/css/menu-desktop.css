@@ -283,13 +283,11 @@
   .sub-menu-item-container a:hover {
     background-color: var(--magenta);
     color: #ffffff;
-    font-weight: 700;
   }
 
   /* Active menu item text: solent blue, bold — after white text rules so cascade wins */
   .main-menu-item-container>li:has(.sub-menu-container.visible-2l) button.main_nav_link > span {
     color: var(--solent-blue);
-    font-weight: 700;
   }
 
   /* Active chevron: solent blue */

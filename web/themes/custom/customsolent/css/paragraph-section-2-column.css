@@ -1,23 +1,16 @@
 
-@media screen and (min-width: 768px ) {
-
-}
-
 .slnt-content-2-column {
-  padding-top: 2em;
-  padding-left: 2em;
-}
-
-.slnt-content-2-column {
-  padding-right: 2em;
+  padding-top: var(--content-pad);
+  padding-left: var(--content-pad);
+  padding-right: var(--content-pad);
 }
 
 .slnt-content-2-column .slnt-column-left,
 .slnt-content-2-column .slnt-column-right {
-  padding-bottom: 2em;
+  padding-bottom: var(--content-pad);
 }
 
-@media screen and (max-width: 1023px ) {
+@media screen and (max-width: 799px ) {
   .slnt-content-2-column .slnt-column-left {
     /*float: left;*/
     width: auto;
@@ -31,7 +24,7 @@
   }
 }
 
-@media screen and (min-width: 1024px ) {
+@media screen and (min-width: 800px ) {
   .slnt-content-2-column .slnt-column-left > .field {
     padding-right: 1em;
   }
