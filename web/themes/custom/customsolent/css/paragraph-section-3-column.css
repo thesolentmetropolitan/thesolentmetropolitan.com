@@ -10,41 +10,41 @@
 
 
 .slnt-content-3-column {
-  padding-left: 2em;
-  padding-right: 2em;  
+  padding-left: var(--content-pad);
+  padding-right: var(--content-pad);
 }
 
 
 
 .slnt-content-3-column .slnt-column-left,
 .slnt-content-3-column .slnt-column-right {
-  padding-bottom: 2em;
+  padding-bottom: var(--content-pad);
 }
 
-@media screen and (max-width: 1023px ) {
+@media screen and (max-width: 799px ) {
   .slnt-content-3-column .slnt-column-left {
     /*float: left;*/
     clear: both;
     width: 100%;
-    padding-bottom: 2em;
+    padding-bottom: var(--content-pad);
   }
 
   .slnt-content-3-column .slnt-column-middle {
     /*float: left;*/
     clear: both;
     width: 100%;
-    padding-bottom: 2em;
+    padding-bottom: var(--content-pad);
   }
-    
+
   .slnt-content-3-column .slnt-column-right {
     /*float: left;*/
     clear: both;
     width: 100%;
-    padding-bottom: 2em;
+    padding-bottom: var(--content-pad);
   }
 }
 
-@media screen and (min-width: 1024px ) {
+@media screen and (min-width: 800px ) {
   .slnt-content-3-column .slnt-column-left {
     float: left;
     width: 30%;

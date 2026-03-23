@@ -390,7 +390,6 @@ body.search-results-page .layout-content {
 
 /* "Search Results" page title */
 body.search-results-page #block-slnt-content h2 {
-  font-size: 1.4rem;
   padding-left: 0;
   margin-bottom: 0.5em;
 }
@@ -406,26 +405,21 @@ body.search-results-page #block-slnt-content h2 {
 .search-results-wrapper .search-results li {
   padding: 1em 0;
   border-bottom: 1px solid #e0e0e0;
-  font-size: 0.95rem;
 }
 
 /* Result title link */
 .search-results-wrapper .search-results h3 {
-  font-size: 1.1rem;
   margin: 0.2em 0 0.3em;
   display: inline;
 }
 
 /* Result snippet */
 .search-results-wrapper .search-results p {
-  font-size: 0.95rem;
   margin: 0.3em 0 0;
   color: var(--text-mid);
-  line-height: 1.5;
 }
 
 /* Result meta info (type, date, etc.) */
 .search-results-wrapper .search-results li > p:last-child {
-  font-size: 0.85rem;
   color: #888;
 }

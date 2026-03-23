@@ -1,6 +1,6 @@
 .field--name-field-page-builder,
 .field--name-field-block-builder {
-    padding: 2em;
+    padding: var(--content-pad);
 }
 
 /* Composite page: enclosure aligned to 1200px menu area */

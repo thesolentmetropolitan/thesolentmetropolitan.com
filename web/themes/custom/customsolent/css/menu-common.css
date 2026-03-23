@@ -108,7 +108,6 @@ a.main_nav_link:focus {
 button.main_nav_link,
 a.main_nav_link {
   font-family: "Atkinson Hyperlegible Next";
-  font-size: 1em;
   display: flex;
   align-items: center;
 }
@@ -121,7 +120,6 @@ button.main_nav_link > span {
 
 .sub-menu-container a.first-link {
     /*padding-inline-start: 40px;*/
-    font-weight: 800;
 }
 
     ul.sub-menu-item-container {

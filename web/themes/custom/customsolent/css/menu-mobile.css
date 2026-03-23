@@ -226,16 +226,8 @@
   */
 
   /* Bigger mobile text (chevrons auto-scale via 1em units) */
-  button.main_nav_link,
-  a.main_nav_link {
-    font-size: 1.6rem;
-  }
 
   /* Submenu items: 80% of main menu size */
-  .sub-menu-container a.first-link,
-  .sub-menu-item-container a {
-    font-size: 1.2rem;
-  }
 
   .sub-menu-item-container a,
   .sub-menu-container a.first-link {
@@ -404,8 +396,6 @@ https://stackoverflow.com/questions/79791175/how-to-stop-tap-highlight-blink-on-
 }
 
 .slnt-togl-expand .menu-text {
-  font-size: 1rem;
-  line-height: 1em;
   color: rgba(255, 255, 255, 0.85);
   transition: all .3s ease-in-out;
 }
