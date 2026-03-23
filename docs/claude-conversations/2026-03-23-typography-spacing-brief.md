@@ -160,9 +160,9 @@ These rules move INTO `fonts.css` FROM the files listed. **Remove the original `
 
 **From `menu-common.css`** (lines 111, 124):
 ```css
-.main_nav_link {
-  font-size: 0.85rem;
-}
+/* NOTE: .main_nav_link font-size: 0.85rem was initially moved here but reverted —
+   desktop main menu items were too small at 0.85rem. The original 1em (= 1rem after
+   the em→rem migration) is correct. No font-size override is needed for .main_nav_link. */
 
 .main-menu-item-container li.main-menu-item-wrapper > ul {
   font-weight: 800;

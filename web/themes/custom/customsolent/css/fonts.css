@@ -115,9 +115,6 @@ h4 {
 }
 
 /* Menu typography */
-.main_nav_link {
-  font-size: 0.85rem;
-}
 
 .main-menu-item-container li.main-menu-item-wrapper > ul {
   font-weight: 800;
@@ -143,11 +140,6 @@ h4 {
 @media (min-width: 800px) {
   .sub-menu-container .first-link:hover,
   .sub-menu-item-container a:hover {
-    font-weight: 700;
-  }
-
-  .main-menu-item-container > li:has(.sub-menu-container.visible-2l) button.main_nav_link > span {
-    font-weight: 700;
   }
 }
 
