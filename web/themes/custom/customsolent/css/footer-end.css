@@ -119,3 +119,29 @@ block_classes-end-footer
 */
   margin-top: auto;
 }
+
+/* Menu paragraph in footer context */
+footer .paragraph-menu__heading {
+  color: rgba(255, 255, 255, 0.85);
+  margin-bottom: var(--space-sm, 1rem);
+}
+
+footer .paragraph-menu__nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+footer .paragraph-menu__nav li {
+  margin-bottom: 0.4rem;
+}
+
+footer .paragraph-menu__nav a {
+  color: rgba(255, 255, 255, 0.65);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+
+footer .paragraph-menu__nav a:hover {
+  color: white;
+}
