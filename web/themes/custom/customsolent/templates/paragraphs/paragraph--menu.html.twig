@@ -1,0 +1,33 @@
+{#
+/**
+ * @file
+ * Theme for the Menu paragraph type.
+ *
+ * Renders a filtered menu as a vertical list. The menu tree is built
+ * and filtered in customsolent_preprocess_paragraph__menu() which
+ * removes the search item and passes menu_items to this template.
+ *
+ * The aria-label is set from field_menu_aria_label if provided,
+ * falling back to "Site navigation" for accessibility.
+ */
+#}
+
+{% set nav_label = paragraph.field_menu_aria_label.value|default('Site navigation') %}
+
+<div{{ attributes.addClass('paragraph-menu') }}>
+
+  {% if content.field_menu_heading.0 %}
+    <h3 class="paragraph-menu__heading">{{ content.field_menu_heading }}</h3>
+  {% endif %}
+
+  <nav class="paragraph-menu__nav" aria-label="{{ nav_label }}">
+    {% if menu_items %}
+      <ul>
+        {% for item in menu_items %}
+          <li>{{ link(item.title, item.url) }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  </nav>
+
+</div>
