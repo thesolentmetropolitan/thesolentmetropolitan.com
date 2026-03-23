@@ -31,7 +31,7 @@ body,
 .slnt-text > * a {
   font-family: 'Atkinson Hyperlegible Next', sans-serif;
   font-size: 1rem;
-  line-height: 1.65;
+  line-height: 1.4;
 }
 
 h1 {
@@ -68,9 +68,12 @@ h4 {
 @media (max-width: 799px) {
   h1 {
     font-size: 1.75rem;
+    line-height: 1;
+    padding-bottom: 0.5em;
   }
   h2 {
     font-size: 1.4rem;
+    line-height: 1;
   }
   h3 {
     font-size: 1.15rem;
