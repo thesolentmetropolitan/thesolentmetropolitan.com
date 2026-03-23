@@ -278,10 +278,15 @@
     text-decoration: none;
   }
 
-  /* Submenu item hover: magenta */
+  /* Submenu item hover: solent blue background, white text */
   .sub-menu-container .first-link:hover,
   .sub-menu-item-container a:hover {
-    background-color: var(--magenta);
+    background-color: var(--solent-blue);
+    color: #ffffff;
+  }
+
+  /* When hovering the span.first-link wrapper, force the child <a> text white too */
+  .sub-menu-container span.first-link:hover a {
     color: #ffffff;
   }
 
