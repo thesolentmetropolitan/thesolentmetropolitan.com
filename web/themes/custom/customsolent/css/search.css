@@ -218,30 +218,74 @@ admin/structure/block/manage/searchform_2
 */
 
 @media screen and (max-width: 579px) {
-  #search-form-container input[type="text"] {
+  #search-form-container .search-input-wrapper {
     width: 85%;
   }
 }
 
 @media screen and (min-width: 580px) {
-  #search-form-container input[type="text"] {
+  #search-form-container .search-input-wrapper {
     width: 90%;
   }
 }
 
 @media screen and (min-width: 980px) {
-  #search-form-container input[type="text"] {
+  #search-form-container .search-input-wrapper {
     width: 62em;
   }
 }
 
-#search-form-container input[type="text"] {
+#search-form-container input[type="text"],
+#search-page-form-container input[type="text"] {
   height: 2em;
+  border: 2px solid var(--solent-blue);
+  font-family: 'Atkinson Hyperlegible Next', sans-serif;
+  font-size: 1rem;
+}
+
+#search-form-container input[type="text"]:focus,
+#search-page-form-container input[type="text"]:focus {
   border: 2px solid var(--solent-blue);
 }
 
-#search-form-container input[type="text"]:focus {
-  border: 2px solid var(--solent-blue);
+#search-form-container input[type="text"]::placeholder,
+#search-page-form-container input[type="text"]::placeholder {
+  font-family: 'Atkinson Hyperlegible Next', sans-serif;
+}
+
+/* Clear button inside search input wrapper */
+.search-input-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.search-input-wrapper input[type="text"] {
+  width: 100%;
+  box-sizing: border-box;
+  padding-right: 2em;
+}
+
+.search-clear-btn {
+  position: absolute;
+  right: 0.4em;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.2rem;
+  color: var(--text-mid);
+  padding: 0 0.2em;
+  line-height: 1;
+  display: none;
+}
+
+.search-clear-btn:hover {
+  color: var(--text);
+}
+
+.search-input-wrapper input:not(:placeholder-shown) ~ .search-clear-btn {
+  display: block;
 }
 
 button.search-menu-item-icon {
@@ -346,7 +390,7 @@ button.search-menu-item-icon {
     padding-left: 3em;
   }
 
-  #search-form-container input[type="text"] {
+  #search-form-container .search-input-wrapper {
     width: 70%;
   }
 }
