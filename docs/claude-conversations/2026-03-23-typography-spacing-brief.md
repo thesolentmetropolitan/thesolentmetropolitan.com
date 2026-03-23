@@ -202,6 +202,11 @@ These rules move INTO `fonts.css` FROM the files listed. **Remove the original `
 }
 ```
 
+**NOTE — post-brief fix in `menu-desktop.css`:** The body `line-height: 1.65` was
+inherited by submenu items, making them more spaced out than before. Explicit
+`line-height: 1.2` was added to `.sub-menu-item-container a` and
+`.sub-menu-container .first-link` in menu-desktop.css to restore original spacing.
+
 **From `search.css`** — consolidate all search typography:
 ```css
 /* Search page typography */
