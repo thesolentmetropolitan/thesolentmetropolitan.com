@@ -1,0 +1,25 @@
+uuid: 60832d9e-65eb-405e-814a-177bca47285a
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:composite_block_type:bfe8f1b1-4960-4e73-b520-d0fda2861ea7'
+  module:
+    - block_content
+  theme:
+    - customsolent
+id: customsolent_footermenuandsocial
+theme: customsolent
+region: footer
+weight: 0
+provider: null
+plugin: 'block_content:bfe8f1b1-4960-4e73-b520-d0fda2861ea7'
+settings:
+  id: 'block_content:bfe8f1b1-4960-4e73-b520-d0fda2861ea7'
+  label: 'Footer menu and social'
+  label_display: '0'
+  provider: block_content
+  status: true
+  info: ''
+  view_mode: full
+visibility: {  }
