@@ -1,0 +1,19 @@
+uuid: 8f625625-8b07-4cb5-b878-b0fa5c0c05b2
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_menu_aria_label
+    - paragraphs.paragraphs_type.menu
+id: paragraph.menu.field_menu_aria_label
+field_name: field_menu_aria_label
+entity_type: paragraph
+bundle: menu
+label: 'Accessibility Label'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string
