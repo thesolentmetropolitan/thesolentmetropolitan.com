@@ -41,6 +41,50 @@ function customsolent_preprocess_paragraph__hero_with_art_style(&$variables) {
 }
 
 
+/**
+ * Implements hook_preprocess_HOOK() for paragraph--menu.html.twig.
+ *
+ * Builds the menu tree, filters out the search item, and passes
+ * the remaining items to the template for rendering.
+ */
+function customsolent_preprocess_paragraph__menu(&$variables) {
+  $paragraph = $variables['paragraph'];
+
+  $menu_name = 'main';
+  if ($paragraph->hasField('field_menu_name') && !$paragraph->get('field_menu_name')->isEmpty()) {
+    $menu_name = $paragraph->get('field_menu_name')->value;
+  }
+
+  $menu_tree_service = \Drupal::menuTree();
+  $parameters = new \Drupal\Core\Menu\MenuTreeParameters();
+  $parameters->setMinDepth(1);
+  $parameters->setMaxDepth(1);
+  $tree = $menu_tree_service->load($menu_name, $parameters);
+
+  $manipulators = [
+    ['callable' => 'menu.default_tree_manipulators:checkAccess'],
+    ['callable' => 'menu.default_tree_manipulators:generateIndexAndSort'],
+  ];
+  $tree = $menu_tree_service->transform($tree, $manipulators);
+
+  // Filter out the search menu item (identified by menu-link-attributes-search class).
+  $filtered_items = [];
+  foreach ($tree as $element) {
+    $url = $element->link->getUrlObject();
+    $options = $url->getOptions();
+    $classes = $options['attributes']['class'] ?? [];
+    if (in_array('menu-link-attributes-search', $classes)) {
+      continue;
+    }
+    $filtered_items[] = [
+      'title' => $element->link->getTitle(),
+      'url' => $url,
+    ];
+  }
+
+  $variables['menu_items'] = $filtered_items;
+}
+
 function customsolent_theme_suggestions_form_alter(array &$suggestions, array $variables) {
   if (isset($variables['element']['#form_id'])) {
     $suggestions[] = 'form__' . $variables['element']['#form_id'];

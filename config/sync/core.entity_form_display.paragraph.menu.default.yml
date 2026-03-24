@@ -1,0 +1,39 @@
+uuid: 70aebb5c-21a5-4f12-88bb-d2202dd3cd07
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.menu.field_menu_aria_label
+    - field.field.paragraph.menu.field_menu_heading
+    - field.field.paragraph.menu.field_menu_name
+    - paragraphs.paragraphs_type.menu
+id: paragraph.menu.default
+targetEntityType: paragraph
+bundle: menu
+mode: default
+content:
+  field_menu_aria_label:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_menu_heading:
+    type: string_textfield
+    weight: 1
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_menu_name:
+    type: options_select
+    weight: 2
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true
