@@ -13,6 +13,7 @@ global:
       css/menu-common.css: {}
       css/menu-desktop.css: {}
       css/menu-mobile.css: {}
+      css/menu-footer.css: {}
       css/page.css: {}
       css/paragraph-enclosure.css: {}
       css/paragraph-image.css: {}

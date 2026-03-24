@@ -127,7 +127,7 @@ footer .paragraph-menu__nav li {
 }
 
 footer .paragraph-menu__nav a {
-  color: rgba(255, 255, 255, 0.65);
+  color: rgba(255, 255, 255, 0.85);
   text-decoration: none;
   font-size: 0.9rem;
   font-weight: 400;
