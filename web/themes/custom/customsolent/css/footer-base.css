@@ -4,6 +4,7 @@
 
 footer[role="contentinfo"] {
   background-color: var(--solent-blue);
+  color: rgba(255, 255, 255, 0.85);
 }
 
 /* Desktop: full-width footer background with 1200px constrained content */
