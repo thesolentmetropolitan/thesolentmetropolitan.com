@@ -1,0 +1,26 @@
+uuid: a4c81d74-34f8-47df-86bb-d41f954ab3f0
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:composite_block_type:3db54029-88e3-4f22-84bb-3d6ef82a42f5'
+  module:
+    - block_classes
+    - block_content
+  theme:
+    - customsolent
+id: customsolent_footercopyrightandopensource
+theme: customsolent
+region: footer
+weight: -6
+provider: null
+plugin: 'block_content:3db54029-88e3-4f22-84bb-3d6ef82a42f5'
+settings:
+  id: 'block_content:3db54029-88e3-4f22-84bb-3d6ef82a42f5'
+  label: 'Footer copyright and open source'
+  label_display: '0'
+  provider: block_content
+  status: true
+  info: ''
+  view_mode: full
+visibility: {  }
