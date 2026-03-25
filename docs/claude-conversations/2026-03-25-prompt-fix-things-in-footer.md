@@ -10,3 +10,5 @@ Also in footer, "clearfix text-formatted field field--name-field-copyright-messa
 The "paragraph paragraph--type--icon-with-link paragraph--view-mode--default", the "Drupal Drop_White.svg" is missing and needs to be there and white.
 
 Related to alignment issues is, in web/themes/custom/customsolent/templates/paragraphs/paragraph--enclosure.html.twig lines 59-64 some padding calculations - I need these - but only for the first outermost enclosure - not for any nested enclosures. For nested enclosures I just need to use the padding_value_incr on its own.
+
+We're now on a branch "2026-03-25-fix-footer-issues" for troubleshooting and fixing issues then testing.
