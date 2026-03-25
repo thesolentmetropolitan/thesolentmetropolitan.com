@@ -50,6 +50,14 @@ block_classes-end-footer
   height: 2em;
 }
 
+/* Social icons: display inline side by side in footer */
+footer .paragraph--type--enclosure .field--name-field-content-component.field__items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5em;
+  align-items: center;
+}
+
 @media screen and (min-width: 768px ) {
 
 }
