@@ -117,7 +117,7 @@ https://gemini.google.com/share/45fdc5c9ff07
 		<a href="{{ paragraph.field_link.0.url }}">
 			{% if file_entity %}
 				<div id="{{ instance_id }}" {{attributes.addClass(classes) }}>
-					{{ source( file_url(file_entity.uri.value), ignore_missing = true) }}
+					{{ source( file_url(file_entity.uri.value)|replace({'%20': ' '}), ignore_missing = true) }}
 				</div>
 			{% endif %}
 		</a>

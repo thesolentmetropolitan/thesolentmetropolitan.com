@@ -50,7 +50,29 @@ block_classes-end-footer
   height: 2em;
 }
 
-/* Social icons: display inline side by side in footer */
+/* Footer menu section: spacing for the menu nav */
+.classy_footer_menu .paragraph-menu__nav ul {
+  columns: 2;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.classy_footer_menu .paragraph-menu__nav li {
+  margin-bottom: 0.4rem;
+}
+
+.classy_footer_menu .paragraph-menu__nav a {
+  color: rgba(255, 255, 255, 0.85);
+  text-decoration: none;
+}
+
+.classy_footer_menu .paragraph-menu__nav a:hover {
+  color: white;
+}
+
+/* Footer social icons: inline and close together */
+.classy_footer_social_icons .field--name-field-content-component.field__items,
 footer .paragraph--type--enclosure .field--name-field-content-component.field__items {
   display: flex;
   flex-wrap: wrap;
