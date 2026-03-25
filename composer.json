@@ -32,6 +32,7 @@
         "drupal/pathauto": "^1.14",
         "drupal/quick_node_clone": "^1.22",
         "drupal/rabbit_hole": "^2.0@beta",
+        "drupal/single_content_sync": "^1.4",
         "drupal/smart_date": "^4.2",
         "drupal/structure_sync": "^2.0",
         "drupal/superfish": "^1.13",
