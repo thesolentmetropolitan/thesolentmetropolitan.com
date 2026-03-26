@@ -1,0 +1,7 @@
+uuid: a6a97d22-9f47-414f-a94d-2a75f8f66bea
+langcode: en
+status: true
+dependencies: {  }
+id: footer_copyright_and_open_source
+label: 'Footer copyright and open source'
+classes: classy_footer_copyright_open_source

@@ -1,0 +1,7 @@
+uuid: 2fda658e-c52f-4578-8d27-32995729a40c
+langcode: en
+status: true
+dependencies: {  }
+id: footer_menu
+label: 'Footer Menu'
+classes: classy_footer_menu
