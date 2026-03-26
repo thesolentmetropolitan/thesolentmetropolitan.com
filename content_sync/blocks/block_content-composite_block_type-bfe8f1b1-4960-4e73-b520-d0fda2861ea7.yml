@@ -1,0 +1,199 @@
+site_uuid: 29478e80-b12f-4df7-96ff-1d604384bf38
+uuid: bfe8f1b1-4960-4e73-b520-d0fda2861ea7
+entity_type: block_content
+bundle: composite_block_type
+base_fields:
+  info: 'Footer menu and social'
+  reusable: true
+  langcode: en
+  block_revision_id: '4'
+  enforce_new_revision: true
+custom_fields:
+  field_content_component:
+    -
+      uuid: f5ab1cef-6818-4803-ae82-c7b4f136c5bb
+      entity_type: paragraph
+      bundle: enclosure
+      base_fields:
+        status: true
+        langcode: en
+        created: '1774387491'
+        behavior_settings: {  }
+      custom_fields:
+        field_color_background: null
+        field_content_component:
+          -
+            uuid: 7e1e6716-4962-4862-9a0e-3ea32bbe0558
+            entity_type: paragraph
+            bundle: section_2_column
+            base_fields:
+              status: true
+              langcode: en
+              created: '1774387512'
+              behavior_settings: {  }
+            custom_fields:
+              field_content_component_left:
+                -
+                  uuid: 5c647467-7922-4044-aee5-afd4219f907c
+                  entity_type: paragraph
+                  bundle: menu
+                  base_fields:
+                    status: true
+                    langcode: en
+                    created: '1774387915'
+                    behavior_settings: {  }
+                  custom_fields:
+                    field_menu_aria_label:
+                      -
+                        value: 'Footer navigation'
+                    field_menu_heading: null
+                    field_menu_name:
+                      -
+                        value: main
+              field_content_component_right:
+                -
+                  uuid: 5e1289fc-50cc-4aa8-9f01-c803f4f3ee21
+                  entity_type: paragraph
+                  bundle: enclosure
+                  base_fields:
+                    status: true
+                    langcode: en
+                    created: '1774387586'
+                    behavior_settings: {  }
+                  custom_fields:
+                    field_color_background: null
+                    field_content_component:
+                      -
+                        uuid: dcd2c9e3-adc6-4dce-bfc5-9d46632d4d6f
+                        entity_type: paragraph
+                        bundle: icon_with_link
+                        base_fields:
+                          status: true
+                          langcode: en
+                          created: '1774387602'
+                          behavior_settings: {  }
+                        custom_fields:
+                          field_color_text:
+                            -
+                              uuid: 6eb7ec4c-0f54-41ca-9575-7be193168395
+                              entity_type: taxonomy_term
+                              base_fields:
+                                name: white
+                                weight: 0
+                                langcode: en
+                                description: null
+                                parent: 0
+                                url: null
+                              bundle: color
+                          field_icon:
+                            -
+                              uuid: cd5c2ad5-89ef-44da-9260-4bd7e3d026d7
+                              entity_type: media
+                              base_fields:
+                                name: linkedin-icon.svg
+                                created: '1765487406'
+                                status: true
+                                langcode: en
+                                url: null
+                              bundle: image
+                          field_link:
+                            -
+                              uri: 'https://linkedin.com/company/thesolentmetropolitan'
+                              title: 'TheSolentMetropolitan LinkedIn'
+                              options: {  }
+                      -
+                        uuid: 711edc91-8c01-41bb-83af-48bbced36e75
+                        entity_type: paragraph
+                        bundle: icon_with_link
+                        base_fields:
+                          status: true
+                          langcode: en
+                          created: '1774387668'
+                          behavior_settings: {  }
+                        custom_fields:
+                          field_color_text:
+                            -
+                              uuid: 6eb7ec4c-0f54-41ca-9575-7be193168395
+                              entity_type: taxonomy_term
+                              base_fields:
+                                name: white
+                                weight: 0
+                                langcode: en
+                                description: null
+                                parent: 0
+                                url: null
+                              bundle: color
+                          field_icon:
+                            -
+                              uuid: f3b98a6c-6551-498e-b1a1-951b5aff4060
+                              entity_type: media
+                              base_fields:
+                                name: Instagram_Glyph_White.svg
+                                created: '1766957048'
+                                status: true
+                                langcode: en
+                                url: null
+                              bundle: image
+                          field_link:
+                            -
+                              uri: 'https://instagram.com/thesolentmetropolitan'
+                              title: 'TheSolentMetropolitan Instagram page'
+                              options: {  }
+                      -
+                        uuid: bb4bb213-4dd1-4efb-a359-de998472f356
+                        entity_type: paragraph
+                        bundle: icon_with_link
+                        base_fields:
+                          status: true
+                          langcode: en
+                          created: '1774387713'
+                          behavior_settings: {  }
+                        custom_fields:
+                          field_color_text:
+                            -
+                              uuid: 6eb7ec4c-0f54-41ca-9575-7be193168395
+                              entity_type: taxonomy_term
+                              base_fields:
+                                name: white
+                                weight: 0
+                                langcode: en
+                                description: null
+                                parent: 0
+                                url: null
+                              bundle: color
+                          field_icon:
+                            -
+                              uuid: 3217ade9-73c3-47ba-ad1b-73d03fccd2fe
+                              entity_type: media
+                              base_fields:
+                                name: bluesky_media_kit_logo_transparent_4_white.svg
+                                created: '1766956888'
+                                status: true
+                                langcode: en
+                                url: null
+                              bundle: image
+                          field_link:
+                            -
+                              uri: 'https://bsky.app/profile/solentmetropolitan.bsky.social'
+                              title: 'The Solent Metropolitan Bluesky page'
+                              options: {  }
+                    field_padding:
+                      -
+                        value: '0'
+                    field_style:
+                      -
+                        type: config
+                        dependency_name: classy_paragraphs.classy_paragraphs_style.footer_social_icons
+                        value: footer_social_icons
+              field_padding:
+                -
+                  value: '0'
+              field_style:
+                -
+                  type: config
+                  dependency_name: classy_paragraphs.classy_paragraphs_style.footer_menu
+                  value: footer_menu
+        field_padding:
+          -
+            value: '0'
+        field_style: null

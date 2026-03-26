@@ -1,4 +1,52 @@
-blocks: {  }
+blocks:
+  -
+    info: 'Footer end custom block'
+    langcode: en
+    uuid: cfecf2a5-43d2-4c0f-a961-07547c87bbce
+    bundle: composite_block_type
+    revision_id: null
+    rev_id_current: null
+    fields:
+      field_content_component:
+        -
+          target_id: '6'
+          target_revision_id: '14'
+  -
+    info: 'Search hero'
+    langcode: en
+    uuid: 5fc3b023-1a0f-47d5-9ec3-5aa4fa927238
+    bundle: composite_block_type
+    revision_id: null
+    rev_id_current: null
+    fields:
+      field_content_component:
+        -
+          target_id: '487'
+          target_revision_id: '884'
+  -
+    info: 'Footer menu and social'
+    langcode: en
+    uuid: bfe8f1b1-4960-4e73-b520-d0fda2861ea7
+    bundle: composite_block_type
+    revision_id: null
+    rev_id_current: null
+    fields:
+      field_content_component:
+        -
+          target_id: '495'
+          target_revision_id: '897'
+  -
+    info: 'Footer copyright and open source'
+    langcode: en
+    uuid: 3db54029-88e3-4f22-84bb-3d6ef82a42f5
+    bundle: composite_block_type
+    revision_id: null
+    rev_id_current: null
+    fields:
+      field_content_component:
+        -
+          target_id: '502'
+          target_revision_id: '904'
 menus:
   -
     menu_name: main

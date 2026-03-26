@@ -1,0 +1,320 @@
+site_uuid: 29478e80-b12f-4df7-96ff-1d604384bf38
+uuid: cfecf2a5-43d2-4c0f-a961-07547c87bbce
+entity_type: block_content
+bundle: composite_block_type
+base_fields:
+  info: 'Footer end custom block'
+  reusable: true
+  langcode: en
+  block_revision_id: '1'
+  enforce_new_revision: true
+custom_fields:
+  field_content_component:
+    -
+      uuid: dda7160e-364f-4446-8349-449aeceeddcb
+      entity_type: paragraph
+      bundle: enclosure
+      base_fields:
+        status: true
+        langcode: en
+        created: '1765480418'
+        behavior_settings: {  }
+      custom_fields:
+        field_color_background:
+          -
+            uuid: 39d3c20d-32a2-4385-9163-d0b25b9108f9
+            entity_type: taxonomy_term
+            bundle: color
+            base_fields:
+              name: 'Solent Blue'
+              weight: 0
+              langcode: en
+              description: null
+              parent: 0
+              url: null
+            custom_fields:
+              field_color:
+                -
+                  color: '#2C4F6E'
+                  opacity: '1'
+                -
+                  color: '#2C4F6E'
+        field_content_component:
+          -
+            uuid: eaf6edf9-6bfb-4173-b231-fece1b39ce84
+            entity_type: paragraph
+            bundle: section_2_column
+            base_fields:
+              status: true
+              langcode: en
+              created: '1765480429'
+              behavior_settings: {  }
+            custom_fields:
+              field_content_component_left:
+                -
+                  uuid: 7a8d5f18-4531-4097-8de1-93334b211c75
+                  entity_type: paragraph
+                  bundle: copyright
+                  base_fields:
+                    status: true
+                    langcode: en
+                    created: '1765486601'
+                    behavior_settings: {  }
+                  custom_fields:
+                    field_copyright_message:
+                      -
+                        value: 'Copyright (c) The Solent Metropolitan'
+                        format: full_html
+                    field_year:
+                      -
+                        value: '2026-01-01'
+              field_content_component_right:
+                -
+                  uuid: 2656dad2-6ecd-48ff-b1c8-cea83a2c9b3e
+                  entity_type: paragraph
+                  bundle: enclosure
+                  base_fields:
+                    status: true
+                    langcode: en
+                    created: '1765486622'
+                    behavior_settings: {  }
+                  custom_fields:
+                    field_color_background: null
+                    field_content_component:
+                      -
+                        uuid: e2373eca-6c3b-46a8-a653-a4999962755c
+                        entity_type: paragraph
+                        bundle: icon_with_link
+                        base_fields:
+                          status: true
+                          langcode: en
+                          created: '1765487335'
+                          behavior_settings: {  }
+                        custom_fields:
+                          field_color_text:
+                            -
+                              uuid: 6eb7ec4c-0f54-41ca-9575-7be193168395
+                              entity_type: taxonomy_term
+                              bundle: color
+                              base_fields:
+                                name: white
+                                weight: 0
+                                langcode: en
+                                description: null
+                                parent: 0
+                                url: null
+                              custom_fields:
+                                field_color:
+                                  -
+                                    color: '#FFFFFF'
+                                    opacity: '1'
+                                  -
+                                    color: '#FFFFFF'
+                          field_icon:
+                            -
+                              uuid: cd5c2ad5-89ef-44da-9260-4bd7e3d026d7
+                              entity_type: media
+                              bundle: image
+                              base_fields:
+                                name: linkedin-icon.svg
+                                created: '1765487406'
+                                status: true
+                                langcode: en
+                                url: null
+                              custom_fields:
+                                field_media_image:
+                                  -
+                                    alt: LinkedIn
+                                    title: ''
+                                    target_entity:
+                                      uuid: 4102175d-b675-4a03-8ee4-a44c9943a49b
+                                      entity_type: file
+                                      bundle: file
+                                      base_fields:
+                                        name: linkedin-icon.svg
+                                        uri: 'public://2025-12/linkedin-icon.svg'
+                                        url: 'https://thesolentmetropolitan.ddev.site/sites/default/files/2025-12/linkedin-icon.svg'
+                                        status: '1'
+                                        created: 1765487406
+                                        changed: 1765487430
+                                        mimetype: image/svg+xml
+                                      custom_fields: {  }
+                          field_link:
+                            -
+                              uri: 'https://linkedin.com/company/thesolentmetropolitan'
+                              title: 'TheSolentMetropolitan LinkedIn'
+                              options: {  }
+                      -
+                        uuid: c308a4eb-1f4e-4f7d-bf65-05988bf75e91
+                        entity_type: paragraph
+                        bundle: icon_with_link
+                        base_fields:
+                          status: true
+                          langcode: en
+                          created: '1766801300'
+                          behavior_settings: {  }
+                        custom_fields:
+                          field_color_text:
+                            -
+                              uuid: 6eb7ec4c-0f54-41ca-9575-7be193168395
+                              entity_type: taxonomy_term
+                              base_fields:
+                                name: white
+                                weight: 0
+                                langcode: en
+                                description: null
+                                parent: 0
+                                url: null
+                              bundle: color
+                          field_icon:
+                            -
+                              uuid: 10153981-05b5-4be3-b27f-bfac86d44879
+                              entity_type: media
+                              bundle: image
+                              base_fields:
+                                name: github-mark-white-viewbox.svg
+                                created: '1766933237'
+                                status: true
+                                langcode: en
+                                url: null
+                              custom_fields:
+                                field_media_image:
+                                  -
+                                    alt: 'GitHub logo'
+                                    title: ''
+                                    target_entity:
+                                      uuid: a71b1bf7-895d-4405-8edc-1ca4d628cd31
+                                      entity_type: file
+                                      bundle: file
+                                      base_fields:
+                                        name: github-mark-white-viewbox.svg
+                                        uri: 'public://2025-12/github-mark-white-viewbox.svg'
+                                        url: 'https://thesolentmetropolitan.ddev.site/sites/default/files/2025-12/github-mark-white-viewbox.svg'
+                                        status: '1'
+                                        created: 1766933237
+                                        changed: 1766933241
+                                        mimetype: image/svg+xml
+                                      custom_fields: {  }
+                          field_link:
+                            -
+                              uri: 'https://github.com/thesolentmetropolitan/thesolentmetropolitan.com'
+                              title: 'TheSolentMetropolitan source code'
+                              options: {  }
+                      -
+                        uuid: a970a532-b1b5-421e-9741-791f6ccf4ad0
+                        entity_type: paragraph
+                        bundle: icon_with_link
+                        base_fields:
+                          status: true
+                          langcode: en
+                          created: '1766956389'
+                          behavior_settings: {  }
+                        custom_fields:
+                          field_color_text:
+                            -
+                              uuid: 6eb7ec4c-0f54-41ca-9575-7be193168395
+                              entity_type: taxonomy_term
+                              base_fields:
+                                name: white
+                                weight: 0
+                                langcode: en
+                                description: null
+                                parent: 0
+                                url: null
+                              bundle: color
+                          field_icon:
+                            -
+                              uuid: 3217ade9-73c3-47ba-ad1b-73d03fccd2fe
+                              entity_type: media
+                              bundle: image
+                              base_fields:
+                                name: bluesky_media_kit_logo_transparent_4_white.svg
+                                created: '1766956888'
+                                status: true
+                                langcode: en
+                                url: null
+                              custom_fields:
+                                field_media_image:
+                                  -
+                                    alt: 'Bluesky logo'
+                                    title: ''
+                                    target_entity:
+                                      uuid: cbbf6673-ac13-4300-87d7-919fbdc58579
+                                      entity_type: file
+                                      bundle: file
+                                      base_fields:
+                                        name: bluesky_media_kit_logo_transparent_4_white.svg
+                                        uri: 'public://2025-12/bluesky_media_kit_logo_transparent_4_white.svg'
+                                        url: 'https://thesolentmetropolitan.ddev.site/sites/default/files/2025-12/bluesky_media_kit_logo_transparent_4_white.svg'
+                                        status: '1'
+                                        created: 1766956888
+                                        changed: 1766956896
+                                        mimetype: image/svg+xml
+                                      custom_fields: {  }
+                          field_link:
+                            -
+                              uri: 'https://bsky.app/profile/solentmetropolitan.bsky.social'
+                              title: 'The Solent Metropolitan Bluesky page'
+                              options: {  }
+                      -
+                        uuid: 2da351f9-29db-420c-b9e3-188aed67a0fa
+                        entity_type: paragraph
+                        bundle: icon_with_link
+                        base_fields:
+                          status: true
+                          langcode: en
+                          created: '1766957098'
+                          behavior_settings: {  }
+                        custom_fields:
+                          field_color_text:
+                            -
+                              uuid: 6eb7ec4c-0f54-41ca-9575-7be193168395
+                              entity_type: taxonomy_term
+                              base_fields:
+                                name: white
+                                weight: 0
+                                langcode: en
+                                description: null
+                                parent: 0
+                                url: null
+                              bundle: color
+                          field_icon:
+                            -
+                              uuid: f3b98a6c-6551-498e-b1a1-951b5aff4060
+                              entity_type: media
+                              bundle: image
+                              base_fields:
+                                name: Instagram_Glyph_White.svg
+                                created: '1766957048'
+                                status: true
+                                langcode: en
+                                url: null
+                              custom_fields:
+                                field_media_image:
+                                  -
+                                    alt: Instagram
+                                    title: ''
+                                    target_entity:
+                                      uuid: 788e4e27-2d19-4c11-afa6-4eac2392c93a
+                                      entity_type: file
+                                      bundle: file
+                                      base_fields:
+                                        name: Instagram_Glyph_White.svg
+                                        uri: 'public://2025-12/Instagram_Glyph_White.svg'
+                                        url: 'https://thesolentmetropolitan.ddev.site/sites/default/files/2025-12/Instagram_Glyph_White.svg'
+                                        status: '1'
+                                        created: 1766957048
+                                        changed: 1766957054
+                                        mimetype: image/svg+xml
+                                      custom_fields: {  }
+                          field_link:
+                            -
+                              uri: 'https://instagram.com/thesolentmetropolitan'
+                              title: 'TheSolentMetropolitan Instagram page'
+                              options: {  }
+                    field_padding: null
+                    field_style: null
+              field_padding: null
+              field_style: null
+        field_padding: null
+        field_style: null
