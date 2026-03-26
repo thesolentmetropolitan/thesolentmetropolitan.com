@@ -81,8 +81,8 @@ block_classes-end-footer
 
 /* Footer social icons: inline and close together */
 .classy_footer_social_icons .field--name-field-content-component.field__items,
-.classy_footer_copyright_open_source .field--name-field-content-component.field__items,
-footer .slnt-column-right .paragraph--type--enclosure > .field--name-field-content-component.field__items {
+footer .slnt-column-right .paragraph--type--enclosure > .field--name-field-content-component.field__items,
+footer .slnt-column-left .paragraph--type--enclosure .paragraph--type--enclosure > .field--name-field-content-component.field__items {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5em;
@@ -93,13 +93,50 @@ footer .slnt-column-right .paragraph--type--enclosure > .field--name-field-conte
   justify-content: flex-end;
 }
 
-/* Mobile: footer menu columns stack full-width */
+/* Copyright/open-source section: 50/50 columns, top-aligned */
+.classy_footer_copyright_open_source .slnt-content-2-column {
+  display: flex;
+  align-items: flex-start;
+}
+
+.classy_footer_copyright_open_source .slnt-content-2-column .slnt-column-left,
+.classy_footer_copyright_open_source .slnt-content-2-column .slnt-column-right {
+  flex: 0 0 50%;
+  width: 50%;
+  float: none;
+  box-sizing: border-box;
+  padding-bottom: 0;
+}
+
+.classy_footer_copyright_open_source p:first-child {
+  margin-top: 0;
+}
+
+/* Copyright text: right-aligned, year on same line */
+.classy_footer_copyright_open_source .slnt-column-right {
+  text-align: right;
+}
+
+.classy_footer_copyright_open_source .paragraph--type--copyright {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 0.5em;
+  justify-content: flex-end;
+}
+
+/* Mobile: footer columns stack full-width */
 @media screen and (max-width: 799px) {
   .classy_footer_menu .slnt-column-left,
-  .classy_footer_menu .slnt-column-right {
+  .classy_footer_menu .slnt-column-right,
+  .classy_footer_copyright_open_source .slnt-content-2-column .slnt-column-left,
+  .classy_footer_copyright_open_source .slnt-content-2-column .slnt-column-right {
     width: 100%;
     float: none;
     text-align: left;
+  }
+
+  .classy_footer_copyright_open_source .slnt-content-2-column {
+    flex-direction: column;
   }
 
   .classy_footer_social_icons .field--name-field-content-component.field__items {
