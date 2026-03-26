@@ -81,6 +81,7 @@ block_classes-end-footer
 
 /* Footer social icons: inline and close together */
 .classy_footer_social_icons .field--name-field-content-component.field__items,
+.classy_footer_copyright_open_source .field--name-field-content-component.field__items,
 footer .slnt-column-right .paragraph--type--enclosure > .field--name-field-content-component.field__items {
   display: flex;
   flex-wrap: wrap;
