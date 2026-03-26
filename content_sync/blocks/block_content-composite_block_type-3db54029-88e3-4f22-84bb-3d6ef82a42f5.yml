@@ -1,0 +1,241 @@
+site_uuid: 29478e80-b12f-4df7-96ff-1d604384bf38
+uuid: 3db54029-88e3-4f22-84bb-3d6ef82a42f5
+entity_type: block_content
+bundle: composite_block_type
+base_fields:
+  info: 'Footer copyright and open source'
+  reusable: true
+  langcode: en
+  block_revision_id: '5'
+  enforce_new_revision: true
+custom_fields:
+  field_content_component:
+    -
+      uuid: 107e7222-26b8-4322-832d-87ceb851aea5
+      entity_type: paragraph
+      bundle: enclosure
+      base_fields:
+        status: true
+        langcode: en
+        created: '1774402649'
+        behavior_settings: {  }
+      custom_fields:
+        field_color_background:
+          -
+            uuid: 39d3c20d-32a2-4385-9163-d0b25b9108f9
+            entity_type: taxonomy_term
+            base_fields:
+              name: 'Solent Blue'
+              weight: 0
+              langcode: en
+              description: null
+              parent: 0
+              url: null
+            bundle: color
+        field_content_component:
+          -
+            uuid: 36dbedd9-008d-4ea8-8d31-ebf86bdcc641
+            entity_type: paragraph
+            bundle: section_2_column
+            base_fields:
+              status: true
+              langcode: en
+              created: '1774402660'
+              behavior_settings: {  }
+            custom_fields:
+              field_content_component_left:
+                -
+                  uuid: a32260bf-1771-4958-9864-18f3186e2c40
+                  entity_type: paragraph
+                  bundle: enclosure
+                  base_fields:
+                    status: true
+                    langcode: en
+                    created: '1774402696'
+                    behavior_settings: {  }
+                  custom_fields:
+                    field_color_background: null
+                    field_content_component:
+                      -
+                        uuid: ed887fd1-7f00-4fbf-bdd9-6e4e05820427
+                        entity_type: paragraph
+                        bundle: section_1_column
+                        base_fields:
+                          status: true
+                          langcode: en
+                          created: '1774402865'
+                          behavior_settings: {  }
+                        custom_fields:
+                          field_content_component:
+                            -
+                              uuid: 99e6386d-842b-4251-a535-d0c1ee6b537a
+                              entity_type: paragraph
+                              bundle: text
+                              base_fields:
+                                status: true
+                                langcode: en
+                                created: '1774402770'
+                                behavior_settings: {  }
+                              custom_fields:
+                                field_color_text:
+                                  -
+                                    uuid: 6eb7ec4c-0f54-41ca-9575-7be193168395
+                                    entity_type: taxonomy_term
+                                    base_fields:
+                                      name: white
+                                      weight: 0
+                                      langcode: en
+                                      description: null
+                                      parent: 0
+                                      url: null
+                                    bundle: color
+                                field_text:
+                                  -
+                                    value: '<p>This site source code is open source.</p>'
+                                    format: basic_html
+                                    embed_entities: {  }
+                            -
+                              uuid: 1d430437-932e-4407-86a4-cda751c5bc25
+                              entity_type: paragraph
+                              bundle: enclosure
+                              base_fields:
+                                status: true
+                                langcode: en
+                                created: '1774402901'
+                                behavior_settings: {  }
+                              custom_fields:
+                                field_color_background: null
+                                field_content_component:
+                                  -
+                                    uuid: 2b230d23-ec51-4f5a-abc9-374fffd99782
+                                    entity_type: paragraph
+                                    bundle: icon_with_link
+                                    base_fields:
+                                      status: true
+                                      langcode: en
+                                      created: '1774402924'
+                                      behavior_settings: {  }
+                                    custom_fields:
+                                      field_color_text:
+                                        -
+                                          uuid: 6eb7ec4c-0f54-41ca-9575-7be193168395
+                                          entity_type: taxonomy_term
+                                          base_fields:
+                                            name: white
+                                            weight: 0
+                                            langcode: en
+                                            description: null
+                                            parent: 0
+                                            url: null
+                                          bundle: color
+                                      field_icon:
+                                        -
+                                          uuid: 10153981-05b5-4be3-b27f-bfac86d44879
+                                          entity_type: media
+                                          base_fields:
+                                            name: github-mark-white-viewbox.svg
+                                            created: '1766933237'
+                                            status: true
+                                            langcode: en
+                                            url: null
+                                          bundle: image
+                                      field_link:
+                                        -
+                                          uri: 'https://github.com/thesolentmetropolitan/thesolentmetropolitan.com'
+                                          title: 'TheSolentMetropolitan source code'
+                                          options: {  }
+                                  -
+                                    uuid: 092003bd-cf90-42cd-a48f-b818e83483cd
+                                    entity_type: paragraph
+                                    bundle: icon_with_link
+                                    base_fields:
+                                      status: true
+                                      langcode: en
+                                      created: '1774403043'
+                                      behavior_settings: {  }
+                                    custom_fields:
+                                      field_color_text:
+                                        -
+                                          uuid: 6eb7ec4c-0f54-41ca-9575-7be193168395
+                                          entity_type: taxonomy_term
+                                          base_fields:
+                                            name: white
+                                            weight: 0
+                                            langcode: en
+                                            description: null
+                                            parent: 0
+                                            url: null
+                                          bundle: color
+                                      field_icon:
+                                        -
+                                          uuid: 1dee9c48-7abe-4adf-8490-cf8fe7a42f9f
+                                          entity_type: media
+                                          bundle: image
+                                          base_fields:
+                                            name: 'Drupal Drop_White.svg'
+                                            created: '1774403127'
+                                            status: true
+                                            langcode: en
+                                            url: null
+                                          custom_fields:
+                                            field_media_image:
+                                              -
+                                                alt: 'Drupal logo'
+                                                title: ''
+                                                target_entity:
+                                                  uuid: a303157a-1730-4759-ad2d-83e7c4676648
+                                                  entity_type: file
+                                                  bundle: file
+                                                  base_fields:
+                                                    name: 'Drupal Drop_White.svg'
+                                                    uri: 'public://2026-03/Drupal Drop_White.svg'
+                                                    url: 'https://thesolentmetropolitan.ddev.site/sites/default/files/2026-03/Drupal%20Drop_White.svg'
+                                                    status: '1'
+                                                    created: 1774403127
+                                                    changed: 1774403226
+                                                    mimetype: image/svg+xml
+                                                  custom_fields: {  }
+                                      field_link:
+                                        -
+                                          uri: 'https://drupal.org'
+                                          title: Drupal
+                                          options: {  }
+                                field_padding:
+                                  -
+                                    value: '0'
+                                field_style: null
+                          field_padding:
+                            -
+                              value: '0'
+                    field_padding: null
+                    field_style: null
+              field_content_component_right:
+                -
+                  uuid: d2f934f1-1285-46f8-8235-493f3cddb35c
+                  entity_type: paragraph
+                  bundle: copyright
+                  base_fields:
+                    status: true
+                    langcode: en
+                    created: '1774402681'
+                    behavior_settings: {  }
+                  custom_fields:
+                    field_copyright_message:
+                      -
+                        value: 'Copyright (c) The Solent Metropolitan'
+                        format: full_html
+                    field_year:
+                      -
+                        value: '2026-03-25'
+              field_padding:
+                -
+                  value: '0'
+              field_style: null
+        field_padding:
+          -
+            value: '0'
+        field_style:
+          -
+            type: config
+            dependency_name: classy_paragraphs.classy_paragraphs_style.footer_copyright_and_open_source
+            value: footer_copyright_and_open_source

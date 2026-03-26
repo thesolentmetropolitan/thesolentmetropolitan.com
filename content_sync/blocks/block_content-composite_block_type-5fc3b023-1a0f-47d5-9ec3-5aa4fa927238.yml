@@ -1,0 +1,30 @@
+site_uuid: 29478e80-b12f-4df7-96ff-1d604384bf38
+uuid: 5fc3b023-1a0f-47d5-9ec3-5aa4fa927238
+entity_type: block_content
+bundle: composite_block_type
+base_fields:
+  info: 'Search hero'
+  reusable: true
+  langcode: en
+  block_revision_id: '2'
+  enforce_new_revision: true
+custom_fields:
+  field_content_component:
+    -
+      uuid: a91ffd84-53f8-479b-9e6e-01fd490c02bf
+      entity_type: paragraph
+      bundle: hero_with_art_style
+      base_fields:
+        status: true
+        langcode: en
+        created: '1773051152'
+        behavior_settings: {  }
+      custom_fields:
+        field_classy:
+          -
+            type: config
+            dependency_name: classy_paragraphs.classy_paragraphs_style.hero_art_style_explore_explore
+            value: hero_art_style_explore_explore
+        field_title:
+          -
+            value: Search
