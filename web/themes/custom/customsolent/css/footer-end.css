@@ -50,7 +50,15 @@ block_classes-end-footer
   height: 2em;
 }
 
-/* Footer menu section: spacing for the menu nav */
+/* Footer menu section: menu left-justified, icons right-justified */
+.classy_footer_menu .slnt-column-left {
+  text-align: left;
+}
+
+.classy_footer_menu .slnt-column-right {
+  text-align: right;
+}
+
 .classy_footer_menu .paragraph-menu__nav ul {
   columns: 2;
   list-style: none;
@@ -73,11 +81,29 @@ block_classes-end-footer
 
 /* Footer social icons: inline and close together */
 .classy_footer_social_icons .field--name-field-content-component.field__items,
-footer .paragraph--type--enclosure .field--name-field-content-component.field__items {
+footer .slnt-column-right .paragraph--type--enclosure > .field--name-field-content-component.field__items {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5em;
   align-items: center;
+}
+
+.classy_footer_social_icons .field--name-field-content-component.field__items {
+  justify-content: flex-end;
+}
+
+/* Mobile: footer menu columns stack full-width */
+@media screen and (max-width: 799px) {
+  .classy_footer_menu .slnt-column-left,
+  .classy_footer_menu .slnt-column-right {
+    width: 100%;
+    float: none;
+    text-align: left;
+  }
+
+  .classy_footer_social_icons .field--name-field-content-component.field__items {
+    justify-content: flex-start;
+  }
 }
 
 @media screen and (min-width: 768px ) {
