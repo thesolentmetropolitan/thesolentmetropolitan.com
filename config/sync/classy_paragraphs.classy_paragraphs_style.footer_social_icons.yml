@@ -1,0 +1,7 @@
+uuid: fb7eecb9-426b-4016-860c-6dd2e156f730
+langcode: en
+status: true
+dependencies: {  }
+id: footer_social_icons
+label: 'Footer social icons'
+classes: classy_footer_social_icons

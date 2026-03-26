@@ -7,6 +7,9 @@
 share/*
 !share/purpose.txt
 
+.playwright-mcp
+.claude
+
 databases/*sql*
 
 data/db*
