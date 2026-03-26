@@ -112,6 +112,10 @@ footer .slnt-column-left .paragraph--type--enclosure .paragraph--type--enclosure
   margin-top: 0;
 }
 
+.classy_footer_copyright_open_source {
+  padding-bottom: 2em;
+}
+
 /* Copyright text: right-aligned, year on same line */
 .classy_footer_copyright_open_source .slnt-column-right {
   text-align: right;
