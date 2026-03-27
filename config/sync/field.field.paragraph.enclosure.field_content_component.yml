@@ -39,6 +39,7 @@ settings:
     target_bundles:
       image_with_link: image_with_link
       call_to_action: call_to_action
+      enclosure: enclosure
       heading: heading
       image: image
       copyright: copyright
@@ -63,7 +64,7 @@ settings:
         enabled: true
       enclosure:
         weight: 8
-        enabled: false
+        enabled: true
       heading:
         weight: 9
         enabled: true
