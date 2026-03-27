@@ -6,7 +6,7 @@ base_fields:
   info: 'Footer menu and social'
   reusable: true
   langcode: en
-  block_revision_id: '4'
+  block_revision_id: '8'
   enforce_new_revision: true
 custom_fields:
   field_content_component:

@@ -6,7 +6,7 @@ base_fields:
   info: 'Footer copyright and open source'
   reusable: true
   langcode: en
-  block_revision_id: '5'
+  block_revision_id: '6'
   enforce_new_revision: true
 custom_fields:
   field_content_component:
