@@ -67,28 +67,32 @@
 {% else %}
   {# Detect if this enclosure is nested inside another enclosure (check up to 2 ancestor levels) #}
   {% set is_nested = false %}
+  {% set parent_enclosure_is_full_width = false %}
   {% set parent_entity = paragraph.getParentEntity() %}
   {% if parent_entity.getEntityTypeId is defined and parent_entity.getEntityTypeId() == 'paragraph' %}
     {% if parent_entity.bundle() == 'enclosure' %}
       {% set is_nested = true %}
+      {% set parent_enclosure_is_full_width = parent_entity.field_padding.value == 'full_width' %}
     {% else %}
       {% set grandparent = parent_entity.getParentEntity() %}
       {% if grandparent.getEntityTypeId is defined and grandparent.getEntityTypeId() == 'paragraph' and grandparent.bundle() == 'enclosure' %}
         {% set is_nested = true %}
+        {% set parent_enclosure_is_full_width = grandparent.field_padding.value == 'full_width' %}
       {% endif %}
     {% endif %}
   {% endif %}
 
-  {% if is_nested %}
-    {% set padding_value_left_css_style = padding_value_incr %}
-    {% set padding_value_right_css_style = padding_value_incr %}
-  {% else %}
+  {# Use max() centering formula if: not nested, OR nested inside a full_width parent #}
+  {% if not is_nested or parent_enclosure_is_full_width %}
     {%
       set padding_value_left_css_style = "max(2em, calc((100% - 1200px) / 2 + " ~ padding_value_incr ~ "))"
     %}
     {%
       set padding_value_right_css_style = "max(2em, calc((100% - 1200px) / 2 + " ~ padding_value_incr ~ "))"
     %}
+  {% else %}
+    {% set padding_value_left_css_style = padding_value_incr %}
+    {% set padding_value_right_css_style = padding_value_incr %}
   {% endif %}
 {% endif %}
 
