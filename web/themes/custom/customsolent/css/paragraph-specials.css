@@ -1,0 +1,15 @@
+/* Warm gradient — gold to magenta-pink */
+/* Escape the dot because Classy Paragraphs outputs a single class with a literal dot */
+.paragraph--type--enclosure\.gradient-warm {
+  background: linear-gradient(135deg,
+    #f5c842 0%,
+    #f0a030 25%,
+    #e8507a 60%,
+    #f0a0b8 100%
+  ) !important;
+}
+
+/* Alternative angles */
+/* horizontal:  linear-gradient(to right, ...) */
+/* steeper:     linear-gradient(160deg, ...) */
+/* top-to-bottom: linear-gradient(to bottom, ...) */
