@@ -13,14 +13,12 @@ set -euo pipefail
 
 IMPORT_DIR="content_sync/blocks"
 
-# Detect environment
-if [ -f /.dockerenv ] || [ -d /var/www/html ]; then
-  DOCROOT="/var/www/html"
-else
-  DOCROOT="$(pwd)"
-fi
+# Resolve project root from the script's own location
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 
-cd "$DOCROOT"
+cd "$PROJECT_ROOT"
+echo "==> Working directory: $(pwd)"
 
 shopt -s nullglob
 YML_FILES=("$IMPORT_DIR"/*.yml)
@@ -28,6 +26,8 @@ shopt -u nullglob
 
 if [ ${#YML_FILES[@]} -eq 0 ]; then
   echo "ERROR: No yml files found in $IMPORT_DIR/"
+  echo "       Looking in: $(pwd)/$IMPORT_DIR/"
+  ls -la "$IMPORT_DIR/" 2>/dev/null || echo "       Directory does not exist."
   exit 1
 fi
 
