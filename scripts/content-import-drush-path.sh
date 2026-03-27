@@ -9,6 +9,16 @@
 # Usage (production, where drush is in PATH):
 #   bash scripts/content-import.sh
 #
+
+# deploy steps
+#
+# git pull origin main
+# ./composer install --no-dev
+# optional -  following if not already enabled:
+#   ./drush-dir/drush en single_content_sync
+# bash scripts/content-import-drush-path.sh
+
+
 set -euo pipefail
 
 IMPORT_DIR="content_sync/blocks"
