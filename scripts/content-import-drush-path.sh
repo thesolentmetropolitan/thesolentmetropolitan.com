@@ -38,11 +38,11 @@ for yml in "${YML_FILES[@]}"; do
   FILENAME=$(basename "$yml")
   echo "  Importing: $FILENAME"
   # Note: drush content:import path is relative to the Drupal docroot (web/), so use ../
-  drush content:import "../$IMPORT_DIR/$FILENAME" -y
+  ./drush-dir/drush content:import "../$IMPORT_DIR/$FILENAME" -y
 done
 
 echo ""
 echo "==> Clearing caches..."
-drush cr
+./drush-dir/drush cr
 
 echo "==> Done. All block content imported."
