@@ -50,36 +50,46 @@
   ]
 %}
 
-{% if paragraph.field_padding.value %} 
+{% set is_full_width = paragraph.field_padding.value == 'full_width' %}
+
+{% if is_full_width %}
+  {% set padding_value_incr = '0' %}
+{% elseif paragraph.field_padding.value %}
   {% set padding_value_incr = paragraph.field_padding.value %}
 {% else %}
   {% set padding_value_incr = '0em' %}
 {% endif %}
 
-{# Detect if this enclosure is nested inside another enclosure (check up to 2 ancestor levels) #}
-{% set is_nested = false %}
-{% set parent_entity = paragraph.getParentEntity() %}
-{% if parent_entity.getEntityTypeId is defined and parent_entity.getEntityTypeId() == 'paragraph' %}
-  {% if parent_entity.bundle() == 'enclosure' %}
-    {% set is_nested = true %}
-  {% else %}
-    {% set grandparent = parent_entity.getParentEntity() %}
-    {% if grandparent.getEntityTypeId is defined and grandparent.getEntityTypeId() == 'paragraph' and grandparent.bundle() == 'enclosure' %}
+{# Full width: no padding, content spans entire browser width #}
+{% if is_full_width %}
+  {% set padding_value_left_css_style = "0" %}
+  {% set padding_value_right_css_style = "0" %}
+{% else %}
+  {# Detect if this enclosure is nested inside another enclosure (check up to 2 ancestor levels) #}
+  {% set is_nested = false %}
+  {% set parent_entity = paragraph.getParentEntity() %}
+  {% if parent_entity.getEntityTypeId is defined and parent_entity.getEntityTypeId() == 'paragraph' %}
+    {% if parent_entity.bundle() == 'enclosure' %}
       {% set is_nested = true %}
+    {% else %}
+      {% set grandparent = parent_entity.getParentEntity() %}
+      {% if grandparent.getEntityTypeId is defined and grandparent.getEntityTypeId() == 'paragraph' and grandparent.bundle() == 'enclosure' %}
+        {% set is_nested = true %}
+      {% endif %}
     {% endif %}
   {% endif %}
-{% endif %}
 
-{% if is_nested %}
-  {% set padding_value_left_css_style = padding_value_incr %}
-  {% set padding_value_right_css_style = padding_value_incr %}
-{% else %}
-  {%
-    set padding_value_left_css_style = "max(2em, calc((100% - 1200px) / 2 + " ~ padding_value_incr ~ "))"
-  %}
-  {%
-    set padding_value_right_css_style = "max(2em, calc((100% - 1200px) / 2 + " ~ padding_value_incr ~ "))"
-  %}
+  {% if is_nested %}
+    {% set padding_value_left_css_style = padding_value_incr %}
+    {% set padding_value_right_css_style = padding_value_incr %}
+  {% else %}
+    {%
+      set padding_value_left_css_style = "max(2em, calc((100% - 1200px) / 2 + " ~ padding_value_incr ~ "))"
+    %}
+    {%
+      set padding_value_right_css_style = "max(2em, calc((100% - 1200px) / 2 + " ~ padding_value_incr ~ "))"
+    %}
+  {% endif %}
 {% endif %}
 
 {% block paragraph %}

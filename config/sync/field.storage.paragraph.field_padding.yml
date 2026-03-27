@@ -17,6 +17,9 @@ settings:
     -
       value: '0'
       label: '0'
+    -
+      value: full_width
+      label: 'Full horizontal browser width'
   allowed_values_function: ''
 module: options
 locked: false
