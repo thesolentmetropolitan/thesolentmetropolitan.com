@@ -6,7 +6,7 @@ base_fields:
   info: 'Footer end custom block'
   reusable: true
   langcode: en
-  block_revision_id: '1'
+  block_revision_id: '9'
   enforce_new_revision: true
 custom_fields:
   field_content_component:

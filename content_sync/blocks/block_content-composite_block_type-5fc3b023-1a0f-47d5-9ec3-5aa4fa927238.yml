@@ -6,7 +6,7 @@ base_fields:
   info: 'Search hero'
   reusable: true
   langcode: en
-  block_revision_id: '2'
+  block_revision_id: '7'
   enforce_new_revision: true
 custom_fields:
   field_content_component:
