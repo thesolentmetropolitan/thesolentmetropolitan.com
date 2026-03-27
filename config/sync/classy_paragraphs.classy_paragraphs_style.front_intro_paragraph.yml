@@ -1,0 +1,7 @@
+uuid: ca3736a5-499e-48c3-b6fd-c833eb1c6d29
+langcode: en
+status: true
+dependencies: {  }
+id: front_intro_paragraph
+label: 'Front Intro Paragraph'
+classes: paragraph--type--enclosure.gradient-warm
