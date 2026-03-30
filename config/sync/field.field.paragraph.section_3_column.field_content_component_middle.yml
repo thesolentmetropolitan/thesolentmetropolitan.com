@@ -8,8 +8,10 @@ dependencies:
     - paragraphs.paragraphs_type.copyright
     - paragraphs.paragraphs_type.enclosure
     - paragraphs.paragraphs_type.heading
+    - paragraphs.paragraphs_type.icon_with_link
     - paragraphs.paragraphs_type.image
     - paragraphs.paragraphs_type.image_with_link
+    - paragraphs.paragraphs_type.intro
     - paragraphs.paragraphs_type.link
     - paragraphs.paragraphs_type.menu
     - paragraphs.paragraphs_type.section_3_column
@@ -34,10 +36,12 @@ settings:
   handler: 'default:paragraph'
   handler_settings:
     target_bundles:
+      intro: intro
       call_to_action: call_to_action
       copyright: copyright
       enclosure: enclosure
       heading: heading
+      icon_with_link: icon_with_link
       image: image
       image_with_link: image_with_link
       link: link
@@ -66,12 +70,15 @@ settings:
         enabled: false
       icon_with_link:
         weight: 25
-        enabled: false
+        enabled: true
       image:
         weight: 26
         enabled: true
       image_with_link:
         weight: 27
+        enabled: true
+      intro:
+        weight: 20
         enabled: true
       link:
         weight: 28

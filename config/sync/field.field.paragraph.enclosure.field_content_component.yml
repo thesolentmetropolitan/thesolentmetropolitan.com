@@ -16,6 +16,7 @@ dependencies:
     - paragraphs.paragraphs_type.menu
     - paragraphs.paragraphs_type.section_1_column
     - paragraphs.paragraphs_type.section_2_column
+    - paragraphs.paragraphs_type.section_3_column
     - paragraphs.paragraphs_type.text
     - paragraphs.paragraphs_type.vertical_space
     - paragraphs.paragraphs_type.video
@@ -54,6 +55,7 @@ settings:
       menu: menu
       view_display: view_display
       webform: webform
+      section_3_column: section_3_column
     negate: 0
     target_bundles_drag_drop:
       call_to_action:
@@ -80,6 +82,9 @@ settings:
       image_with_link:
         weight: 6
         enabled: true
+      intro:
+        weight: 20
+        enabled: false
       link:
         weight: 21
         enabled: true
@@ -91,6 +96,9 @@ settings:
         enabled: true
       section_2_column:
         weight: 23
+        enabled: true
+      section_3_column:
+        weight: 33
         enabled: true
       text:
         weight: 24
