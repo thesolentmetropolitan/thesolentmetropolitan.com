@@ -63,5 +63,58 @@
   }
 }
 
+/* ══════════════════════════════════════
+   3-column CTA layout (classy: slnt-3col-cta)
+   ══════════════════════════════════════ */
 
- 
+/* ── Desktop: centred flex row with fixed-width buttons ── */
+@media (min-width: 800px) {
+  /* Override the float layout for this specific use */
+  .slnt-3col-cta .slnt-content-3-column {
+    display: flex;
+    justify-content: center;
+    gap: 0.8rem;
+  }
+
+  /* Remove the float and percentage width from columns */
+  .slnt-3col-cta .slnt-content-3-column .slnt-column-left,
+  .slnt-3col-cta .slnt-content-3-column .slnt-column-middle,
+  .slnt-3col-cta .slnt-content-3-column .slnt-column-right {
+    float: none;
+    width: auto;
+    padding-right: 0;
+    padding-bottom: 0;
+  }
+
+  /* Fixed width on the CTA buttons for uniformity */
+  .slnt-3col-cta .slnt-cta {
+    min-width: 180px;
+    justify-content: center;  /* centres text+chevron within the button */
+  }
+}
+
+/* ── Mobile: vertical stack ── */
+@media (max-width: 799px) {
+  .slnt-3col-cta .slnt-content-3-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.8rem;
+  }
+
+  /* Remove the float and full-width from columns */
+  .slnt-3col-cta .slnt-content-3-column .slnt-column-left,
+  .slnt-3col-cta .slnt-content-3-column .slnt-column-middle,
+  .slnt-3col-cta .slnt-content-3-column .slnt-column-right {
+    float: none;
+    width: auto;
+    clear: none;
+    padding-bottom: 0;
+  }
+
+  /* On mobile, buttons can be slightly wider for easy tap targets */
+  .slnt-3col-cta .slnt-cta {
+    min-width: 200px;
+    justify-content: center;
+  }
+}

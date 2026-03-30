@@ -46,8 +46,10 @@
     not paragraph.isPublished() ? 'paragraph--unpublished'
   ]
 %}
+{% set classy_class = paragraph.field_classy.value|default('') %}
+
 {% block paragraph %}
-  <div{{ attributes.addClass(classes) }}>
+  <div{{ attributes.addClass(classes).addClass(classy_class) }}>
     <div class="slnt-encl">
       {% block content %}
         <div class="slnt-content-3-column">

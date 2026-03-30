@@ -1,0 +1,7 @@
+uuid: 2b3c71c2-0b14-4604-b860-aac38f52596a
+langcode: en
+status: true
+dependencies: {  }
+id: solent_dna_triple_helix
+label: 'Solent DNA Triple Helix'
+classes: slnt-3col-cta
