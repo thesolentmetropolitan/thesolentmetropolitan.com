@@ -1336,6 +1336,20 @@ taxonomies:
   color:
     -
       vid: color
+      tid: '27'
+      langcode: en
+      name: About
+      description__value: null
+      description__format: null
+      weight: '0'
+      parent: '0'
+      uuid: 5611f77d-27c1-454f-ac8b-f1273bc910e1
+      field_color:
+        -
+          color: '#475569'
+          opacity: '1'
+    -
+      vid: color
       tid: '11'
       langcode: en
       name: black
@@ -1364,17 +1378,59 @@ taxonomies:
           opacity: '1'
     -
       vid: color
-      tid: '13'
+      tid: '24'
       langcode: en
-      name: deep-sea-blue-1
+      name: Culture
       description__value: null
       description__format: null
       weight: '0'
       parent: '0'
-      uuid: 06467f53-6d3b-4d50-b117-b5d795a76a73
+      uuid: 23101807-62ba-41dd-8255-fa875b0d08fa
       field_color:
         -
-          color: '#002970'
+          color: '#7C3AED'
+          opacity: '1'
+    -
+      vid: color
+      tid: '23'
+      langcode: en
+      name: 'Deep Charcoal'
+      description__value: null
+      description__format: null
+      weight: '0'
+      parent: '0'
+      uuid: 41a04a62-c3c1-4cfb-a09d-e47e202481b2
+      field_color:
+        -
+          color: '#2A2A2A'
+          opacity: '1'
+    -
+      vid: color
+      tid: '28'
+      langcode: en
+      name: Explore
+      description__value: null
+      description__format: null
+      weight: '0'
+      parent: '0'
+      uuid: 604e46d2-ee55-404a-8a6f-3f71538e2816
+      field_color:
+        -
+          color: '#D97706'
+          opacity: '1'
+    -
+      vid: color
+      tid: '26'
+      langcode: en
+      name: Living
+      description__value: null
+      description__format: null
+      weight: '0'
+      parent: '0'
+      uuid: 1e84d36a-7662-4f00-84c0-37bb7b8492aa
+      field_color:
+        -
+          color: '#059669'
           opacity: '1'
     -
       vid: color
@@ -1403,6 +1459,20 @@ taxonomies:
       field_color:
         -
           color: '#A30065'
+          opacity: '1'
+    -
+      vid: color
+      tid: '25'
+      langcode: en
+      name: Sectors
+      description__value: null
+      description__format: null
+      weight: '0'
+      parent: '0'
+      uuid: 711d7434-c065-4889-9fde-cc1f1de2a251
+      field_color:
+        -
+          color: '#2563EB'
           opacity: '1'
     -
       vid: color
