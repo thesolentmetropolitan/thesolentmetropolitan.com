@@ -19,6 +19,7 @@ global:
       css/paragraph-image.css: {}
       css/paragraph-section-1-column.css: {}
       css/paragraph-section-2-column.css: {}
+      css/cta.css: {}
       css/paragraph-section-3-column.css: {}
       css/paragraph-hero-art-style.css: {}
       css/paragraph-specials.css: {}

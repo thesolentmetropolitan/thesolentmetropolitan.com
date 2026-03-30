@@ -46,16 +46,19 @@
     not paragraph.isPublished() ? 'paragraph--unpublished'
   ]
 %}
+{% set text_color = paragraph.field_color_text.0.entity.field_color.value.0.color|default('inherit') %}
+{% set bg_color = paragraph.field_color_background.0.entity.field_color.value.0.color|default('transparent') %}
+
 {% block paragraph %}
-
-  <div{{ attributes.addClass(classes).addClass('slnt-cta-outer') }}">
-  <a href="{{ paragraph.field_link.0.url }}">
-    <span class="slnt-cta" style="color: {{ paragraph.field_color_text.0.entity.field_color.value.0.color|default('inherit') }}; background-color: {{ paragraph.field_color_background.0.entity.field_color.value.0.color|default('transparent') }};">
+  <div{{ attributes.addClass(classes).addClass('slnt-cta-outer') }}>
+    <a href="{{ paragraph.field_link.0.url }}" class="slnt-cta"
+       style="color: {{ text_color }}; background-color: {{ bg_color }}; border-color: {{ bg_color }};">
       {% block content %}
-        {{ paragraph.field_link.0.title }}
+        <span class="slnt-cta__text">{{ paragraph.field_link.0.title }}</span>
+        <svg class="slnt-cta__chevron" role="presentation" focusable="false">
+          <use href="#tvip-down-triangle"></use>
+        </svg>
       {% endblock %}
-    </span>
-  </a>
+    </a>
   </div>
-
 {% endblock paragraph %}
