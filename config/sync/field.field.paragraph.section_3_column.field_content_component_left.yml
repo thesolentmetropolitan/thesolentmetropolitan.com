@@ -11,6 +11,7 @@ dependencies:
     - paragraphs.paragraphs_type.icon_with_link
     - paragraphs.paragraphs_type.image
     - paragraphs.paragraphs_type.image_with_link
+    - paragraphs.paragraphs_type.intro
     - paragraphs.paragraphs_type.link
     - paragraphs.paragraphs_type.menu
     - paragraphs.paragraphs_type.section_3_column
@@ -43,6 +44,7 @@ settings:
       copyright: copyright
       link: link
       text: text
+      intro: intro
       icon_with_link: icon_with_link
       menu: menu
       vertical_space: vertical_space
@@ -74,6 +76,9 @@ settings:
         enabled: true
       image_with_link:
         weight: 15
+        enabled: true
+      intro:
+        weight: 20
         enabled: true
       link:
         weight: 16
