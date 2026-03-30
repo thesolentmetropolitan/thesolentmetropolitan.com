@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Solent Metropolitan — CTA Button System</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@200..800&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --solent: #2c4f6e;
+    --solent-light: #3a6489;
+    --magenta: #c5007a;
+    --magenta-dark: #a30065;
+    --warm-grey: #f5f3f0;
+    --body-bg: #faf9f7;
+    --text: #1a1a1a;
+    --text-mid: #444;
+  }
+
+  body {
+    font-family: 'Atkinson Hyperlegible Next', sans-serif;
+    background: #e8e5e0;
+    color: var(--text);
+    line-height: 1.6;
+  }
+
+  .page-header {
+    background: var(--solent);
+    color: white;
+    padding: 2rem;
+    text-align: center;
+  }
+  .page-header h1 { font-size: 1.6rem; font-weight: 700; margin-bottom: 0.3rem; }
+  .page-header p { font-size: 0.9rem; opacity: 0.8; }
+
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+  }
+  .section-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--solent);
+    margin-bottom: 0.3rem;
+  }
+  .section-desc {
+    color: #6b6b6b;
+    font-size: 0.88rem;
+    margin-bottom: 1.5rem;
+    max-width: 700px;
+  }
+
+  /* ══════════ BUTTON BASE STYLES ══════════ */
+  .cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5em;
+    font-family: 'Atkinson Hyperlegible Next', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    padding: 0.75em 1.5em;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: 3px solid transparent;
+    line-height: 1.2;
+  }
+
+  /* Caret */
+  .cta-caret {
+    display: inline-block;
+    width: 0;
+    height: 0;
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    border-left: 6px solid currentColor;
+    margin-left: 0.2em;
+    transition: transform 0.2s ease;
+  }
+
+  .cta:hover .cta-caret {
+    transform: translateX(3px);
+  }
+
+  /* Chevron alternative */
+  .cta-chevron::after {
+    content: '›';
+    font-size: 1.3em;
+    line-height: 1;
+    margin-left: 0.3em;
+    transition: transform 0.2s ease;
+    display: inline-block;
+  }
+  .cta-chevron:hover::after {
+    transform: translateX(3px);
+  }
+
+  /* ── Corner variants ── */
+  .cta-sharp { border-radius: 0; }
+  .cta-rounded { border-radius: 4px; }
+  .cta-rounder { border-radius: 8px; }
+  .cta-pill { border-radius: 100px; }
+
+  /* ══════════ CONTEXT CARDS ══════════ */
+  .context-card {
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    margin-bottom: 2rem;
+  }
+  .context-label {
+    background: white;
+    padding: 1.2rem 1.5rem 0.3rem;
+    font-weight: 700;
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #6b6b6b;
+  }
+  .context-sublabel {
+    background: white;
+    padding: 0 1.5rem 1rem;
+    font-size: 0.82rem;
+    color: #999;
+  }
+  .context-preview {
+    padding: 2.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  /* ── On gradient ── */
+  .bg-gradient {
+    background: linear-gradient(135deg, #f5c842 0%, #f0a030 25%, #e8507a 60%, #f0a0b8 100%);
+  }
+
+  .cta-gradient-primary {
+    background: var(--solent);
+    border-color: white;
+    color: white;
+  }
+  .cta-gradient-primary:hover {
+    background: var(--solent-light);
+    border-color: white;
+  }
+
+  .cta-gradient-secondary {
+    background: transparent;
+    border-color: white;
+    color: white;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.15);
+  }
+  .cta-gradient-secondary:hover {
+    background: rgba(255,255,255,0.2);
+  }
+
+  .cta-gradient-dark {
+    background: transparent;
+    border-color: #2a2a2a;
+    color: #2a2a2a;
+  }
+  .cta-gradient-dark:hover {
+    background: rgba(0,0,0,0.08);
+  }
+
+  .cta-gradient-filled-white {
+    background: white;
+    border-color: white;
+    color: var(--solent);
+  }
+  .cta-gradient-filled-white:hover {
+    background: var(--warm-grey);
+    border-color: var(--warm-grey);
+  }
+
+  /* ── On off-white body ── */
+  .bg-body {
+    background: var(--body-bg);
+  }
+
+  .cta-body-primary {
+    background: var(--solent);
+    border-color: var(--solent);
+    color: white;
+  }
+  .cta-body-primary:hover {
+    background: var(--solent-light);
+    border-color: var(--solent-light);
+  }
+
+  .cta-body-secondary {
+    background: transparent;
+    border-color: var(--solent);
+    color: var(--solent);
+  }
+  .cta-body-secondary:hover {
+    background: var(--solent);
+    color: white;
+  }
+
+  .cta-body-magenta {
+    background: var(--magenta);
+    border-color: var(--magenta);
+    color: white;
+  }
+  .cta-body-magenta:hover {
+    background: var(--magenta-dark);
+    border-color: var(--magenta-dark);
+  }
+
+  .cta-body-magenta-ghost {
+    background: transparent;
+    border-color: var(--magenta);
+    color: var(--magenta);
+  }
+  .cta-body-magenta-ghost:hover {
+    background: var(--magenta);
+    color: white;
+  }
+
+  /* ── On solent blue (footer/header) ── */
+  .bg-solent {
+    background: var(--solent);
+  }
+
+  .cta-dark-primary {
+    background: white;
+    border-color: white;
+    color: var(--solent);
+  }
+  .cta-dark-primary:hover {
+    background: var(--warm-grey);
+    border-color: var(--warm-grey);
+  }
+
+  .cta-dark-ghost {
+    background: transparent;
+    border-color: rgba(255,255,255,0.6);
+    color: white;
+  }
+  .cta-dark-ghost:hover {
+    background: rgba(255,255,255,0.1);
+    border-color: white;
+  }
+
+  .cta-dark-magenta {
+    background: var(--magenta);
+    border-color: var(--magenta);
+    color: white;
+  }
+  .cta-dark-magenta:hover {
+    background: var(--magenta-dark);
+    border-color: var(--magenta-dark);
+  }
+
+  /* ── On warm grey ── */
+  .bg-warm-grey {
+    background: var(--warm-grey);
+  }
+
+  .cta-grey-primary {
+    background: var(--solent);
+    border-color: var(--solent);
+    color: white;
+  }
+  .cta-grey-primary:hover {
+    background: var(--solent-light);
+    border-color: var(--solent-light);
+  }
+
+  .cta-grey-secondary {
+    background: white;
+    border-color: var(--solent);
+    color: var(--solent);
+  }
+  .cta-grey-secondary:hover {
+    background: var(--solent);
+    color: white;
+  }
+
+  /* ══════════ CORNER COMPARISON ══════════ */
+  .corners-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    margin-bottom: 2.5rem;
+  }
+  @media (max-width: 700px) {
+    .corners-grid { grid-template-columns: 1fr 1fr; }
+  }
+  .corner-card {
+    background: white;
+    border-radius: 10px;
+    padding: 1.2rem;
+    text-align: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+  }
+  .corner-label {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #999;
+    font-weight: 700;
+    margin-bottom: 0.8rem;
+  }
+  .corner-card .cta {
+    font-size: 0.85rem;
+  }
+
+  /* ══════════ CARET COMPARISON ══════════ */
+  .caret-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-bottom: 2.5rem;
+  }
+  @media (max-width: 700px) {
+    .caret-grid { grid-template-columns: 1fr; }
+  }
+  .caret-card {
+    background: var(--body-bg);
+    border-radius: 10px;
+    padding: 1.5rem;
+    text-align: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+  }
+  .caret-label {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #999;
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+
+  /* ══════════ HIERARCHY DEMO ══════════ */
+  .hierarchy-demo {
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    margin-bottom: 2.5rem;
+  }
+  .hierarchy-label {
+    background: white;
+    padding: 1.2rem 1.5rem 0.3rem;
+    font-weight: 700;
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #6b6b6b;
+  }
+  .hierarchy-sublabel {
+    background: white;
+    padding: 0 1.5rem 1rem;
+    font-size: 0.82rem;
+    color: #999;
+  }
+  .hierarchy-preview {
+    padding: 2.5rem;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .hierarchy-preview .cta { font-size: 0.9rem; }
+
+  /* ══════════ FULL PAGE PREVIEW ══════════ */
+  .full-preview {
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    margin-bottom: 2.5rem;
+  }
+  .fp-header {
+    background: var(--solent);
+    padding: 0.8rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .fp-logo {
+    color: white;
+    font-weight: 700;
+    font-size: 0.95rem;
+  }
+  .fp-nav {
+    display: flex;
+    gap: 0;
+  }
+  .fp-nav span {
+    padding: 0.5rem 0.8rem;
+    color: rgba(255,255,255,0.85);
+    font-size: 0.8rem;
+  }
+
+  .fp-hero {
+    background: linear-gradient(135deg, #f5c842 0%, #f0a030 25%, #e8507a 60%, #f0a0b8 100%);
+    padding: 3rem 2rem;
+  }
+  .fp-hero h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #2a2a2a;
+    margin-bottom: 0.4rem;
+  }
+  .fp-hero p {
+    font-size: 1rem;
+    color: #2a2a2a;
+    margin-bottom: 1.5rem;
+    max-width: 500px;
+  }
+  .fp-hero .cta { font-size: 0.9rem; }
+
+  .fp-body {
+    background: var(--body-bg);
+    padding: 2.5rem 2rem;
+  }
+  .fp-body h3 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--solent);
+    margin-bottom: 0.5rem;
+  }
+  .fp-body p {
+    font-size: 0.95rem;
+    color: var(--text-mid);
+    margin-bottom: 1.2rem;
+    max-width: 600px;
+    line-height: 1.7;
+  }
+  .fp-body .cta { font-size: 0.9rem; }
+
+  .fp-cta-section {
+    background: var(--warm-grey);
+    padding: 2rem;
+    text-align: center;
+  }
+  .fp-cta-section p {
+    font-size: 1.1rem;
+    color: var(--text);
+    margin-bottom: 1rem;
+    font-weight: 500;
+  }
+  .fp-cta-section .cta { font-size: 0.9rem; }
+
+  .fp-footer {
+    background: var(--solent);
+    padding: 1.5rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  .fp-footer-text {
+    color: rgba(255,255,255,0.5);
+    font-size: 0.78rem;
+  }
+  .fp-footer .cta { font-size: 0.82rem; padding: 0.5em 1em; }
+
+  /* ══════════ NOTES ══════════ */
+  .notes-box {
+    background: #e8eef3;
+    border-left: 4px solid var(--solent);
+    border-radius: 0 8px 8px 0;
+    padding: 1.2rem 1.5rem;
+    margin: 2rem 0;
+    font-size: 0.88rem;
+    line-height: 1.65;
+    color: #333;
+  }
+  .notes-box strong { color: var(--solent); }
+
+  /* ══════════ CSS OUTPUT ══════════ */
+  .css-output {
+    background: #1e1e2e;
+    color: #cdd6f4;
+    border-radius: 10px;
+    padding: 1.5rem;
+    font-family: 'Courier New', monospace;
+    font-size: 0.78rem;
+    line-height: 1.7;
+    overflow-x: auto;
+    margin-bottom: 2rem;
+    white-space: pre;
+  }
+  .cm { color: #6c7086; }
+  .pr { color: #89b4fa; }
+  .vl { color: #a6e3a1; }
+  .sl { color: #f38ba8; }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>CTA Button System</h1>
+  <p>Styles across all site contexts — gradient, body, header/footer, warm grey</p>
+</div>
+
+<div class="container">
+
+  <!-- ══════════ CORNER RADIUS ══════════ -->
+  <h2 class="section-title">Corner Radius Options</h2>
+  <p class="section-desc">Pick one and use it consistently across all CTAs.</p>
+
+  <div class="corners-grid">
+    <div class="corner-card">
+      <div class="corner-label">Sharp (0px)</div>
+      <a class="cta cta-sharp cta-body-primary" href="#">Explore <span class="cta-caret"></span></a>
+    </div>
+    <div class="corner-card">
+      <div class="corner-label">Rounded (4px) ★</div>
+      <a class="cta cta-rounded cta-body-primary" href="#">Explore <span class="cta-caret"></span></a>
+    </div>
+    <div class="corner-card">
+      <div class="corner-label">Rounder (8px)</div>
+      <a class="cta cta-rounded cta-body-primary" href="#" style="border-radius:8px;">Explore <span class="cta-caret"></span></a>
+    </div>
+    <div class="corner-card">
+      <div class="corner-label">Pill</div>
+      <a class="cta cta-pill cta-body-primary" href="#">Explore <span class="cta-caret"></span></a>
+    </div>
+  </div>
+
+  <!-- ══════════ CARET STYLES ══════════ -->
+  <h2 class="section-title">Caret / Arrow Styles</h2>
+  <p class="section-desc">The arrow moves slightly right on hover. All examples use 4px border-radius.</p>
+
+  <div class="caret-grid">
+    <div class="caret-card">
+      <div class="caret-label">CSS Triangle</div>
+      <a class="cta cta-rounded cta-body-primary" href="#">Read more <span class="cta-caret"></span></a>
+    </div>
+    <div class="caret-card">
+      <div class="caret-label">Chevron character</div>
+      <a class="cta cta-rounded cta-body-primary cta-chevron" href="#">Read more</a>
+    </div>
+    <div class="caret-card">
+      <div class="caret-label">No caret</div>
+      <a class="cta cta-rounded cta-body-primary" href="#">Read more</a>
+    </div>
+  </div>
+
+  <!-- ══════════ ON GRADIENT ══════════ -->
+  <div class="context-card">
+    <div class="context-label">On Gradient Background</div>
+    <div class="context-sublabel">The warm gold-to-magenta gradient. White border is needed to separate button from the background.</div>
+    <div class="context-preview bg-gradient">
+      <a class="cta cta-rounded cta-gradient-primary" href="#">Primary — Blue fill <span class="cta-caret"></span></a>
+      <a class="cta cta-rounded cta-gradient-filled-white" href="#">White fill <span class="cta-caret"></span></a>
+      <a class="cta cta-rounded cta-gradient-secondary" href="#">Ghost — White border <span class="cta-caret"></span></a>
+      <a class="cta cta-rounded cta-gradient-dark" href="#">Ghost — Dark border <span class="cta-caret"></span></a>
+    </div>
+  </div>
+
+  <!-- ══════════ ON BODY ══════════ -->
+  <div class="context-card">
+    <div class="context-label">On Body Background (#faf9f7)</div>
+    <div class="context-sublabel">Standard content pages — articles, listings, section pages.</div>
+    <div class="context-preview bg-body">
+      <a class="cta cta-rounded cta-body-primary" href="#">Primary — Blue fill <span class="cta-caret"></span></a>
+      <a class="cta cta-rounded cta-body-secondary" href="#">Secondary — Blue ghost <span class="cta-caret"></span></a>
+      <a class="cta cta-rounded cta-body-magenta" href="#">Magenta fill <span class="cta-caret"></span></a>
+      <a class="cta cta-rounded cta-body-magenta-ghost" href="#">Magenta ghost <span class="cta-caret"></span></a>
+    </div>
+  </div>
+
+  <!-- ══════════ ON SOLENT BLUE ══════════ -->
+  <div class="context-card">
+    <div class="context-label">On Solent Blue (Header / Footer)</div>
+    <div class="context-sublabel">Dark background contexts.</div>
+    <div class="context-preview bg-solent">
+      <a class="cta cta-rounded cta-dark-primary" href="#">White fill <span class="cta-caret"></span></a>
+      <a class="cta cta-rounded cta-dark-ghost" href="#">Ghost — White border <span class="cta-caret"></span></a>
+      <a class="cta cta-rounded cta-dark-magenta" href="#">Magenta fill <span class="cta-caret"></span></a>
+    </div>
+  </div>
+
+  <!-- ══════════ ON WARM GREY ══════════ -->
+  <div class="context-card">
+    <div class="context-label">On Warm Grey (#f5f3f0)</div>
+    <div class="context-sublabel">Callout bands, sidebar panels, highlighted sections.</div>
+    <div class="context-preview bg-warm-grey">
+      <a class="cta cta-rounded cta-grey-primary" href="#">Primary — Blue fill <span class="cta-caret"></span></a>
+      <a class="cta cta-rounded cta-grey-secondary" href="#">Secondary — White fill <span class="cta-caret"></span></a>
+    </div>
+  </div>
+
+  <!-- ══════════ HIERARCHY ══════════ -->
+  <h2 class="section-title">Button Hierarchy — Primary + Secondary Together</h2>
+  <p class="section-desc">When two CTAs appear side by side, use primary (filled) for the main action and secondary (ghost) for the alternative.</p>
+
+  <div class="hierarchy-demo">
+    <div class="hierarchy-label">On body background</div>
+    <div class="hierarchy-sublabel">Primary action + secondary alternative</div>
+    <div class="hierarchy-preview bg-body">
+      <a class="cta cta-rounded cta-body-primary" href="#">Get involved <span class="cta-caret"></span></a>
+      <a class="cta cta-rounded cta-body-secondary" href="#">Learn more <span class="cta-caret"></span></a>
+    </div>
+  </div>
+
+  <div class="hierarchy-demo">
+    <div class="hierarchy-label">On gradient</div>
+    <div class="hierarchy-sublabel">Primary action + secondary alternative</div>
+    <div class="hierarchy-preview bg-gradient">
+      <a class="cta cta-rounded cta-gradient-primary" href="#">Explore the Solent <span class="cta-caret"></span></a>
+      <a class="cta cta-rounded cta-gradient-secondary" href="#">About us <span class="cta-caret"></span></a>
+    </div>
+  </div>
+
+  <div class="hierarchy-demo">
+    <div class="hierarchy-label">On solent blue</div>
+    <div class="hierarchy-sublabel">Primary action + secondary alternative</div>
+    <div class="hierarchy-preview bg-solent">
+      <a class="cta cta-rounded cta-dark-primary" href="#">Contact us <span class="cta-caret"></span></a>
+      <a class="cta cta-rounded cta-dark-ghost" href="#">Our mission <span class="cta-caret"></span></a>
+    </div>
+  </div>
+
+  <!-- ══════════ FULL PAGE PREVIEW ══════════ -->
+  <h2 class="section-title">Full Page Context</h2>
+  <p class="section-desc">How the buttons feel in a realistic page layout.</p>
+
+  <div class="full-preview">
+    <div class="fp-header">
+      <div class="fp-logo">The Solent Metropolitan</div>
+      <div class="fp-nav">
+        <span>Home</span>
+        <span>Culture</span>
+        <span>Sectors</span>
+        <span>Living</span>
+      </div>
+    </div>
+
+    <div class="fp-hero">
+      <h2>Welcome to The Solent Metropolitan</h2>
+      <p>The broader perspective, for a distinct region. We are building a distinct global identity for the Solent.</p>
+      <a class="cta cta-rounded cta-gradient-primary" href="#">Explore the region <span class="cta-caret"></span></a>
+      <a class="cta cta-rounded cta-gradient-secondary" href="#" style="margin-left:0.5rem;">About us <span class="cta-caret"></span></a>
+    </div>
+
+    <div class="fp-body">
+      <h3>Maritime Culture in the Greater Solent</h3>
+      <p>The Solent region's identity is inseparable from the water. From the Royal Navy in Portsmouth to Southampton's cruise heritage, the waters have shaped everything.</p>
+      <a class="cta cta-rounded cta-body-primary" href="#">Read more <span class="cta-caret"></span></a>
+      <a class="cta cta-rounded cta-body-secondary" href="#" style="margin-left:0.5rem;">View all articles <span class="cta-caret"></span></a>
+    </div>
+
+    <div class="fp-cta-section">
+      <p>Want to collaborate with The Solent Metropolitan?</p>
+      <a class="cta cta-rounded cta-grey-primary" href="#">Get involved <span class="cta-caret"></span></a>
+    </div>
+
+    <div class="fp-footer">
+      <div class="fp-footer-text">© 2026 The Solent Metropolitan</div>
+      <a class="cta cta-rounded cta-dark-ghost" href="#">Contact us <span class="cta-caret"></span></a>
+    </div>
+  </div>
+
+  <!-- ══════════ CSS ══════════ -->
+  <h2 class="section-title">Implementation CSS</h2>
+  <p class="section-desc">Complete button system using CSS custom properties.</p>
+
+  <div class="css-output"><span class="cm">/* ═══════════════════════════════════════
+   CTA Button System
+   ═══════════════════════════════════════ */</span>
+
+<span class="cm">/* ── Base button ── */</span>
+<span class="sl">.cta</span> {
+  <span class="pr">display</span>: <span class="vl">inline-flex</span>;
+  <span class="pr">align-items</span>: <span class="vl">center</span>;
+  <span class="pr">gap</span>: <span class="vl">0.5em</span>;
+  <span class="pr">font-family</span>: <span class="vl">'Atkinson Hyperlegible Next', sans-serif</span>;
+  <span class="pr">font-size</span>: <span class="vl">1rem</span>;
+  <span class="pr">font-weight</span>: <span class="vl">700</span>;
+  <span class="pr">padding</span>: <span class="vl">0.75em 1.5em</span>;
+  <span class="pr">border</span>: <span class="vl">3px solid transparent</span>;
+  <span class="pr">border-radius</span>: <span class="vl">4px</span>;
+  <span class="pr">text-decoration</span>: <span class="vl">none</span>;
+  <span class="pr">cursor</span>: <span class="vl">pointer</span>;
+  <span class="pr">transition</span>: <span class="vl">all 0.2s ease</span>;
+  <span class="pr">line-height</span>: <span class="vl">1.2</span>;
+}
+
+<span class="cm">/* ── Caret (right-facing triangle) ── */</span>
+<span class="sl">.cta-caret</span> {
+  <span class="pr">display</span>: <span class="vl">inline-block</span>;
+  <span class="pr">width</span>: <span class="vl">0</span>;
+  <span class="pr">height</span>: <span class="vl">0</span>;
+  <span class="pr">border-top</span>: <span class="vl">5px solid transparent</span>;
+  <span class="pr">border-bottom</span>: <span class="vl">5px solid transparent</span>;
+  <span class="pr">border-left</span>: <span class="vl">6px solid currentColor</span>;
+  <span class="pr">margin-left</span>: <span class="vl">0.2em</span>;
+  <span class="pr">transition</span>: <span class="vl">transform 0.2s ease</span>;
+}
+<span class="sl">.cta:hover .cta-caret</span> {
+  <span class="pr">transform</span>: <span class="vl">translateX(3px)</span>;
+}
+
+<span class="cm">/* ── Primary: solent blue fill, white text ── */</span>
+<span class="sl">.cta-primary</span> {
+  <span class="pr">background</span>: <span class="vl">var(--solent-blue)</span>;
+  <span class="pr">border-color</span>: <span class="vl">var(--solent-blue)</span>;
+  <span class="pr">color</span>: <span class="vl">white</span>;
+}
+<span class="sl">.cta-primary:hover</span> {
+  <span class="pr">background</span>: <span class="vl">var(--solent-blue-light)</span>;
+  <span class="pr">border-color</span>: <span class="vl">var(--solent-blue-light)</span>;
+}
+
+<span class="cm">/* ── Secondary: ghost with solent blue border ── */</span>
+<span class="sl">.cta-secondary</span> {
+  <span class="pr">background</span>: <span class="vl">transparent</span>;
+  <span class="pr">border-color</span>: <span class="vl">var(--solent-blue)</span>;
+  <span class="pr">color</span>: <span class="vl">var(--solent-blue)</span>;
+}
+<span class="sl">.cta-secondary:hover</span> {
+  <span class="pr">background</span>: <span class="vl">var(--solent-blue)</span>;
+  <span class="pr">color</span>: <span class="vl">white</span>;
+}
+
+<span class="cm">/* ── On gradient: white border + solent fill ── */</span>
+<span class="sl">.cta-on-gradient</span> {
+  <span class="pr">background</span>: <span class="vl">var(--solent-blue)</span>;
+  <span class="pr">border-color</span>: <span class="vl">white</span>;
+  <span class="pr">color</span>: <span class="vl">white</span>;
+}
+<span class="sl">.cta-on-gradient:hover</span> {
+  <span class="pr">background</span>: <span class="vl">var(--solent-blue-light)</span>;
+}
+
+<span class="cm">/* ── On gradient ghost: white border ── */</span>
+<span class="sl">.cta-on-gradient-ghost</span> {
+  <span class="pr">background</span>: <span class="vl">transparent</span>;
+  <span class="pr">border-color</span>: <span class="vl">white</span>;
+  <span class="pr">color</span>: <span class="vl">white</span>;
+  <span class="pr">text-shadow</span>: <span class="vl">0 1px 3px rgba(0,0,0,0.15)</span>;
+}
+<span class="sl">.cta-on-gradient-ghost:hover</span> {
+  <span class="pr">background</span>: <span class="vl">rgba(255,255,255,0.2)</span>;
+}
+
+<span class="cm">/* ── On dark bg: white fill ── */</span>
+<span class="sl">.cta-on-dark</span> {
+  <span class="pr">background</span>: <span class="vl">white</span>;
+  <span class="pr">border-color</span>: <span class="vl">white</span>;
+  <span class="pr">color</span>: <span class="vl">var(--solent-blue)</span>;
+}
+<span class="sl">.cta-on-dark:hover</span> {
+  <span class="pr">background</span>: <span class="vl">var(--warm-grey)</span>;
+  <span class="pr">border-color</span>: <span class="vl">var(--warm-grey)</span>;
+}
+
+<span class="cm">/* ── On dark bg ghost: white border ── */</span>
+<span class="sl">.cta-on-dark-ghost</span> {
+  <span class="pr">background</span>: <span class="vl">transparent</span>;
+  <span class="pr">border-color</span>: <span class="vl">rgba(255,255,255,0.6)</span>;
+  <span class="pr">color</span>: <span class="vl">white</span>;
+}
+<span class="sl">.cta-on-dark-ghost:hover</span> {
+  <span class="pr">background</span>: <span class="vl">rgba(255,255,255,0.1)</span>;
+  <span class="pr">border-color</span>: <span class="vl">white</span>;
+}</div>
+
+  <div class="notes-box">
+    <strong>Recommendations:</strong>
+    <br><br>• <strong>Border radius:</strong> 4px. Friendly without being casual.
+    <br>• <strong>Border width:</strong> 3px throughout. Creates a confident, visible edge without feeling heavy.
+    <br>• <strong>Primary action:</strong> Solent blue fill everywhere except on solent blue backgrounds (where it inverts to white fill).
+    <br>• <strong>Secondary action:</strong> Ghost (border only) in the same colour as the primary — fill on hover creates a satisfying interaction.
+    <br>• <strong>On gradient:</strong> Always include the white border. Without it, the button disappears into the magenta section of the gradient.
+    <br>• <strong>Magenta CTAs:</strong> Available in the system but use sparingly. If magenta is reserved for link underlines and menu selected state, using it for CTAs too could dilute its meaning. Solent blue as the primary CTA colour keeps it distinct from the magenta "interactive text" signal.
+    <br>• <strong>Caret:</strong> The CSS triangle is cleaner than the chevron character, which can render differently across fonts. The subtle rightward nudge on hover gives a satisfying sense of forward motion.
+    <br>• <strong>Override body link styles:</strong> CTAs should NOT inherit the magenta underline from <code>.layout-content a</code>. The <code>text-decoration: none</code> in the base <code>.cta</code> class handles this, but check specificity.
+  </div>
+
+</div>
+</body>
+</html>

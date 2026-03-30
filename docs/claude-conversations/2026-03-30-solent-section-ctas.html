@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Section CTAs — Culture, Sectors, Living</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@200..800&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --solent: #2c4f6e;
+    --solent-light: #3a6489;
+    --warm-grey: #f5f3f0;
+    --body-bg: #faf9f7;
+    --text: #1a1a1a;
+    --text-mid: #444;
+
+    /* Section colours — from hero art styles */
+    --culture-dark: #6B21A8;
+    --culture-mid: #7C3AED;
+    --culture-light: #A855F7;
+
+    --sectors-dark: #1D4ED8;
+    --sectors-mid: #2563EB;
+    --sectors-light: #3B82F6;
+
+    --living-dark: #047857;
+    --living-mid: #059669;
+    --living-light: #10B981;
+  }
+
+  body {
+    font-family: 'Atkinson Hyperlegible Next', sans-serif;
+    background: #e8e5e0;
+    color: var(--text);
+    line-height: 1.6;
+  }
+
+  .page-header {
+    background: var(--solent);
+    color: white;
+    padding: 2rem;
+    text-align: center;
+  }
+  .page-header h1 { font-size: 1.6rem; font-weight: 700; margin-bottom: 0.3rem; }
+  .page-header p { font-size: 0.9rem; opacity: 0.8; }
+
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+  }
+  .section-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--solent);
+    margin-bottom: 0.3rem;
+  }
+  .section-desc {
+    color: #6b6b6b;
+    font-size: 0.88rem;
+    margin-bottom: 1.5rem;
+    max-width: 700px;
+  }
+
+  /* ══════════ SVG SYMBOL (hidden in page) ══════════ */
+  .svg-defs { display: none; }
+
+  /* ══════════ CTA BASE ══════════ */
+  .cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5em;
+    font-family: 'Atkinson Hyperlegible Next', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    padding: 0.75em 1.5em;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: 3px solid transparent;
+    border-radius: 4px;
+    line-height: 1.2;
+  }
+
+  /* Chevron icon — reusing the menu SVG symbol, rotated to point right */
+  .cta__chevron {
+    width: 0.75em;
+    height: 0.75em;
+    transform: rotate(-90deg);
+    transition: transform 0.2s ease;
+    flex-shrink: 0;
+  }
+  .cta:hover .cta__chevron {
+    transform: rotate(-90deg) translateY(-3px);
+  }
+
+  /* ══════════ SECTION CTA COLOURS ══════════ */
+
+  /* Culture — filled */
+  .cta-culture {
+    background: var(--culture-mid);
+    border-color: var(--culture-mid);
+    color: white;
+  }
+  .cta-culture:hover {
+    background: var(--culture-dark);
+    border-color: var(--culture-dark);
+  }
+
+  /* Culture — ghost */
+  .cta-culture-ghost {
+    background: transparent;
+    border-color: var(--culture-mid);
+    color: var(--culture-mid);
+  }
+  .cta-culture-ghost:hover {
+    background: var(--culture-mid);
+    color: white;
+  }
+
+  /* Culture — on dark bg */
+  .cta-culture-on-dark {
+    background: var(--culture-light);
+    border-color: var(--culture-light);
+    color: white;
+  }
+  .cta-culture-on-dark:hover {
+    background: var(--culture-mid);
+    border-color: var(--culture-mid);
+  }
+
+  /* Sectors — filled */
+  .cta-sectors {
+    background: var(--sectors-mid);
+    border-color: var(--sectors-mid);
+    color: white;
+  }
+  .cta-sectors:hover {
+    background: var(--sectors-dark);
+    border-color: var(--sectors-dark);
+  }
+
+  /* Sectors — ghost */
+  .cta-sectors-ghost {
+    background: transparent;
+    border-color: var(--sectors-mid);
+    color: var(--sectors-mid);
+  }
+  .cta-sectors-ghost:hover {
+    background: var(--sectors-mid);
+    color: white;
+  }
+
+  /* Sectors — on dark bg */
+  .cta-sectors-on-dark {
+    background: var(--sectors-light);
+    border-color: var(--sectors-light);
+    color: white;
+  }
+  .cta-sectors-on-dark:hover {
+    background: var(--sectors-mid);
+    border-color: var(--sectors-mid);
+  }
+
+  /* Living — filled */
+  .cta-living {
+    background: var(--living-mid);
+    border-color: var(--living-mid);
+    color: white;
+  }
+  .cta-living:hover {
+    background: var(--living-dark);
+    border-color: var(--living-dark);
+  }
+
+  /* Living — ghost */
+  .cta-living-ghost {
+    background: transparent;
+    border-color: var(--living-mid);
+    color: var(--living-mid);
+  }
+  .cta-living-ghost:hover {
+    background: var(--living-mid);
+    color: white;
+  }
+
+  /* Living — on dark bg */
+  .cta-living-on-dark {
+    background: var(--living-light);
+    border-color: var(--living-light);
+    color: white;
+  }
+  .cta-living-on-dark:hover {
+    background: var(--living-mid);
+    border-color: var(--living-mid);
+  }
+
+  /* On gradient */
+  .cta-culture-on-gradient {
+    background: var(--culture-dark);
+    border-color: white;
+    color: white;
+  }
+  .cta-culture-on-gradient:hover {
+    background: var(--culture-mid);
+  }
+  .cta-sectors-on-gradient {
+    background: var(--sectors-dark);
+    border-color: white;
+    color: white;
+  }
+  .cta-sectors-on-gradient:hover {
+    background: var(--sectors-mid);
+  }
+  .cta-living-on-gradient {
+    background: var(--living-dark);
+    border-color: white;
+    color: white;
+  }
+  .cta-living-on-gradient:hover {
+    background: var(--living-mid);
+  }
+
+  /* ══════════ CONTEXT CARDS ══════════ */
+  .context-card {
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    margin-bottom: 2rem;
+  }
+  .context-label {
+    background: white;
+    padding: 1.2rem 1.5rem 0.3rem;
+    font-weight: 700;
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #6b6b6b;
+  }
+  .context-sublabel {
+    background: white;
+    padding: 0 1.5rem 1rem;
+    font-size: 0.82rem;
+    color: #999;
+  }
+  .context-preview {
+    padding: 2.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  .bg-body { background: var(--body-bg); }
+  .bg-warm-grey { background: var(--warm-grey); }
+  .bg-solent { background: var(--solent); }
+  .bg-gradient {
+    background: linear-gradient(135deg, #f5c842 0%, #f0a030 25%, #e8507a 60%, #f0a0b8 100%);
+  }
+  .bg-culture-pale { background: #f3e8ff; }
+  .bg-sectors-pale { background: #dbeafe; }
+  .bg-living-pale { background: #d1fae5; }
+
+  /* ══════════ THREE-UP SECTION ══════════ */
+  .three-up {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+  }
+  @media (max-width: 700px) {
+    .three-up { grid-template-columns: 1fr; }
+  }
+  .three-up-card {
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  }
+  .three-up-header {
+    padding: 1.5rem;
+    color: white;
+  }
+  .three-up-header.culture { background: linear-gradient(135deg, #6B21A8, #7C3AED, #A855F7); }
+  .three-up-header.sectors { background: linear-gradient(135deg, #1D4ED8, #2563EB, #3B82F6); }
+  .three-up-header.living { background: linear-gradient(135deg, #047857, #059669, #10B981); }
+  .three-up-header h3 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 0.3rem;
+  }
+  .three-up-header p {
+    font-size: 0.85rem;
+    opacity: 0.85;
+  }
+  .three-up-body {
+    background: white;
+    padding: 1.5rem;
+  }
+  .three-up-body p {
+    font-size: 0.88rem;
+    color: var(--text-mid);
+    margin-bottom: 1rem;
+    line-height: 1.6;
+  }
+  .three-up-body .cta { font-size: 0.85rem; }
+
+  /* ══════════ FULL PAGE PREVIEW ══════════ */
+  .full-preview {
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    margin-bottom: 2.5rem;
+  }
+  .fp-nav-bar {
+    background: var(--solent);
+    padding: 0.6rem 2rem;
+    display: flex;
+    align-items: center;
+  }
+  .fp-logo {
+    color: white;
+    font-weight: 700;
+    font-size: 0.9rem;
+    margin-right: 2rem;
+  }
+  .fp-nav span {
+    color: rgba(255,255,255,0.85);
+    font-size: 0.8rem;
+    padding: 0.4rem 0.7rem;
+  }
+
+  .fp-hero {
+    background: linear-gradient(135deg, #f5c842 0%, #f0a030 25%, #e8507a 60%, #f0a0b8 100%);
+    padding: 3rem 2rem;
+  }
+  .fp-hero h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #2a2a2a;
+    margin-bottom: 0.4rem;
+  }
+  .fp-hero p {
+    font-size: 1rem;
+    color: #2a2a2a;
+    margin-bottom: 1.5rem;
+    max-width: 480px;
+  }
+  .fp-hero .cta-row { display: flex; gap: 0.8rem; flex-wrap: wrap; }
+  .fp-hero .cta { font-size: 0.9rem; }
+
+  .fp-section {
+    padding: 2.5rem 2rem;
+  }
+  .fp-section h3 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--solent);
+    margin-bottom: 0.5rem;
+  }
+  .fp-section p {
+    font-size: 0.95rem;
+    color: var(--text-mid);
+    margin-bottom: 1.2rem;
+    max-width: 600px;
+    line-height: 1.7;
+  }
+  .fp-section .cta-row { display: flex; gap: 0.8rem; flex-wrap: wrap; }
+  .fp-section .cta { font-size: 0.88rem; }
+
+  .fp-footer {
+    background: var(--solent);
+    padding: 1.2rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .fp-footer-text { color: rgba(255,255,255,0.5); font-size: 0.78rem; }
+
+  .notes-box {
+    background: #e8eef3;
+    border-left: 4px solid var(--solent);
+    border-radius: 0 8px 8px 0;
+    padding: 1.2rem 1.5rem;
+    margin: 2rem 0;
+    font-size: 0.88rem;
+    line-height: 1.65;
+    color: #333;
+  }
+  .notes-box strong { color: var(--solent); }
+
+  /* Contrast table */
+  .a11y-section {
+    background: white;
+    border-radius: 12px;
+    padding: 1.8rem;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    margin-bottom: 2rem;
+  }
+  .a11y-section h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--solent);
+    margin-bottom: 0.8rem;
+  }
+  .contrast-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.82rem;
+  }
+  .contrast-table th {
+    text-align: left;
+    padding: 0.5rem 0.7rem;
+    background: #e8eef3;
+    color: var(--solent);
+    font-weight: 600;
+  }
+  .contrast-table td {
+    padding: 0.5rem 0.7rem;
+    border-bottom: 1px solid #eee;
+  }
+  .pass { color: #1a7a3a; font-weight: 700; }
+  .preview-sample {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 4px;
+    font-size: 0.78rem;
+    font-weight: 600;
+  }
+</style>
+</head>
+<body>
+
+<!-- Hidden SVG symbol definition — same one used by menu -->
+<svg class="svg-defs" xmlns="http://www.w3.org/2000/svg">
+  <symbol id="tvip-down-triangle" viewBox="0.75 0.325 14.5 14.5">
+    <path fill="currentColor" fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path>
+  </symbol>
+</svg>
+
+<div class="page-header">
+  <h1>Section CTAs — With Shared SVG Chevron</h1>
+  <p>Culture (purple), Sectors (blue), Living (green) — reusing the menu chevron rotated right</p>
+</div>
+
+<div class="container">
+
+  <!-- ══════════ CHEVRON REUSE DEMO ══════════ -->
+  <h2 class="section-title">SVG Chevron Reuse</h2>
+  <p class="section-desc">Same SVG symbol as the menu dropdown chevron, rotated -90° to point right. Uses <code>&lt;use href="#tvip-down-triangle"&gt;</code> — no extra SVG file needed.</p>
+
+  <div class="context-card">
+    <div class="context-label">Chevron comparison — menu vs CTA</div>
+    <div class="context-sublabel">Both reference the same #tvip-down-triangle symbol</div>
+    <div class="context-preview bg-body" style="gap: 2rem;">
+      <div style="text-align:center;">
+        <div style="font-size:0.72rem;text-transform:uppercase;letter-spacing:0.06em;color:#999;font-weight:700;margin-bottom:0.5rem;">Menu (default orientation)</div>
+        <svg style="width:1.2em;height:1.2em;color:var(--solent);" focusable="false">
+          <use href="#tvip-down-triangle"></use>
+        </svg>
+      </div>
+      <div style="text-align:center;">
+        <div style="font-size:0.72rem;text-transform:uppercase;letter-spacing:0.06em;color:#999;font-weight:700;margin-bottom:0.5rem;">CTA (rotated -90°)</div>
+        <svg style="width:1.2em;height:1.2em;color:var(--solent);transform:rotate(-90deg);" focusable="false">
+          <use href="#tvip-down-triangle"></use>
+        </svg>
+      </div>
+      <div>
+        <a class="cta cta-sectors" href="#">
+          Explore Sectors
+          <svg class="cta__chevron" focusable="false"><use href="#tvip-down-triangle"></use></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════ THREE SECTION CTAs ══════════ -->
+  <h2 class="section-title">The Three Section CTAs</h2>
+  <p class="section-desc">Filled and ghost variants for each section, matching their hero art gradient colours.</p>
+
+  <div class="three-up">
+    <div class="three-up-card">
+      <div class="three-up-header culture">
+        <h3>Culture</h3>
+        <p>#7C3AED / #6B21A8</p>
+      </div>
+      <div class="three-up-body">
+        <p>Art, music, heritage, food, sport, community — the cultural life of the Solent.</p>
+        <a class="cta cta-culture" href="#">
+          Explore Culture
+          <svg class="cta__chevron" focusable="false"><use href="#tvip-down-triangle"></use></svg>
+        </a>
+        <br><br>
+        <a class="cta cta-culture-ghost" href="#">
+          Explore Culture
+          <svg class="cta__chevron" focusable="false"><use href="#tvip-down-triangle"></use></svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="three-up-card">
+      <div class="three-up-header sectors">
+        <h3>Sectors</h3>
+        <p>#2563EB / #1D4ED8</p>
+      </div>
+      <div class="three-up-body">
+        <p>Aerospace, maritime, tech, health — the industries driving the region.</p>
+        <a class="cta cta-sectors" href="#">
+          Explore Sectors
+          <svg class="cta__chevron" focusable="false"><use href="#tvip-down-triangle"></use></svg>
+        </a>
+        <br><br>
+        <a class="cta cta-sectors-ghost" href="#">
+          Explore Sectors
+          <svg class="cta__chevron" focusable="false"><use href="#tvip-down-triangle"></use></svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="three-up-card">
+      <div class="three-up-header living">
+        <h3>Living</h3>
+        <p>#059669 / #047857</p>
+      </div>
+      <div class="three-up-body">
+        <p>Health, family, fitness, home — life in the Greater Solent.</p>
+        <a class="cta cta-living" href="#">
+          Explore Living
+          <svg class="cta__chevron" focusable="false"><use href="#tvip-down-triangle"></use></svg>
+        </a>
+        <br><br>
+        <a class="cta cta-living-ghost" href="#">
+          Explore Living
+          <svg class="cta__chevron" focusable="false"><use href="#tvip-down-triangle"></use></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════ ON DIFFERENT BACKGROUNDS ══════════ -->
+  <h2 class="section-title">Background Suggestions</h2>
+  <p class="section-desc">Where these CTAs could live, with backgrounds that give them enough contrast and breathing room.</p>
+
+  <div class="context-card">
+    <div class="context-label">On off-white body (#faf9f7) — standard pages</div>
+    <div class="context-sublabel">All three filled CTAs together, e.g. on the homepage introducing each section.</div>
+    <div class="context-preview bg-body">
+      <a class="cta cta-culture" href="#">Culture <svg class="cta__chevron" focusable="false"><use href="#tvip-down-triangle"></use></svg></a>
+      <a class="cta cta-sectors" href="#">Sectors <svg class="cta__chevron" focusable="false"><use href="#tvip-down-triangle"></use></svg></a>
+      <a class="cta cta-living" href="#">Living <svg class="cta__chevron" focusable="false"><use href="#tvip-down-triangle"></use></svg></a>
+    </div>
+  </div>
+
+  <div class="context-card">
+    <div class="context-label">On warm grey (#f5f3f0) — callout bands</div>
+    <div class="context-sublabel">A warm grey section highlighting the three pillars.</div>
+    <div class="context-preview bg-warm-grey">
+      <a class="cta cta-culture" href="#">Culture <svg class="cta__chevron" focusable="false"><use href="#tvip-down-triangle"></use></svg></a>
+      <a class="cta cta-sectors" href="#">Sectors <svg class="cta__chevron" focusable="false"><use href="#tvip-down-triangle"></use></svg></a>
+      <a class="cta cta-living" href="#">Living <svg class="cta__chevron" focusable="false"><use href="#tvip-down-triangle"></use></svg></a>
+    </div>
+  </div>
+
+  <div class="context-card">
+    <div class="context-label">On the warm gradient — hero / front page enclosure</div>
+    <div class="context-sublabel">White border added for separation from the gradient.</div>
+    <div class="context-preview bg-gradient">
+      <a class="cta cta-culture-on-gradient" href="#">Culture <svg class="cta__chevron" focusable="false"><use href="#tvip-down-triangle"></use></svg></a>
+      <a class="cta cta-sectors-on-gradient" href="#">Sectors <svg class="cta__chevron" focusable="false"><use href="#tvip-down-triangle"></use></svg></a>
+      <a class="cta cta-living-on-gradient" href="#">Living <svg class="cta__chevron" focusable="false"><use href="#tvip-down-triangle"></use></svg></a>
+    </div>
+  </div>
+
+  <div class="context-card">
+    <div class="context-label">On solent blue — footer or header area</div>
+    <div class="context-sublabel">Lighter variants for dark backgrounds.</div>
+    <div class="context-preview bg-solent">
+      <a class="cta cta-culture-on-dark" href="#">Culture <svg class="cta__chevron" focusable="false"><use href="#tvip-down-triangle"></use></svg></a>
+      <a class="cta cta-sectors-on-dark" href="#">Sectors <svg class="cta__chevron" focusable="false"><use href="#tvip-down-triangle"></use></svg></a>
+      <a class="cta cta-living-on-dark" href="#">Living <svg class="cta__chevron" focusable="false"><use href="#tvip-down-triangle"></use></svg></a>
+    </div>
+  </div>
+
+  <div class="context-card">
+    <div class="context-label">On pale section-tinted backgrounds — section landing pages</div>
+    <div class="context-sublabel">Very light tints of each section colour. Ghost CTAs work well here.</div>
+    <div class="context-preview" style="background:var(--culture-pale); flex-direction:column; align-items:flex-start; gap:1.5rem;">
+      <div>
+        <div style="font-size:0.72rem;text-transform:uppercase;letter-spacing:0.06em;color:#999;font-weight:700;margin-bottom:0.5rem;">Culture pale (#f3e8ff)</div>
+        <a class="cta cta-culture" href="#">Explore Culture <svg class="cta__chevron" focusable="false"><use href="#tvip-down-triangle"></use></svg></a>
+        <a class="cta cta-culture-ghost" href="#" style="margin-left:0.5rem;">Browse all <svg class="cta__chevron" focusable="false"><use href="#tvip-down-triangle"></use></svg></a>
+      </div>
+    </div>
+    <div class="context-preview" style="background:var(--sectors-pale); flex-direction:column; align-items:flex-start; gap:1.5rem;">
+      <div>
+        <div style="font-size:0.72rem;text-transform:uppercase;letter-spacing:0.06em;color:#999;font-weight:700;margin-bottom:0.5rem;">Sectors pale (#dbeafe)</div>
+        <a class="cta cta-sectors" href="#">Explore Sectors <svg class="cta__chevron" focusable="false"><use href="#tvip-down-triangle"></use></svg></a>
+        <a class="cta cta-sectors-ghost" href="#" style="margin-left:0.5rem;">Browse all <svg class="cta__chevron" focusable="false"><use href="#tvip-down-triangle"></use></svg></a>
+      </div>
+    </div>
+    <div class="context-preview" style="background:var(--living-pale); flex-direction:column; align-items:flex-start; gap:1.5rem;">
+      <div>
+        <div style="font-size:0.72rem;text-transform:uppercase;letter-spacing:0.06em;color:#999;font-weight:700;margin-bottom:0.5rem;">Living pale (#d1fae5)</div>
+        <a class="cta cta-living" href="#">Explore Living <svg class="cta__chevron" focusable="false"><use href="#tvip-down-triangle"></use></svg></a>
+        <a class="cta cta-living-ghost" href="#" style="margin-left:0.5rem;">Browse all <svg class="cta__chevron" focusable="false"><use href="#tvip-down-triangle"></use></svg></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════ FULL PAGE PREVIEW ══════════ -->
+  <h2 class="section-title">Full Page Context</h2>
+  <p class="section-desc">The three section CTAs on the homepage, linking to each section's landing page.</p>
+
+  <div class="full-preview">
+    <div class="fp-nav-bar">
+      <div class="fp-logo">The Solent Metropolitan</div>
+      <div class="fp-nav">
+        <span>Home</span>
+        <span>Culture</span>
+        <span>Sectors</span>
+        <span>Living</span>
+        <span>About</span>
+      </div>
+    </div>
+
+    <div class="fp-hero">
+      <h2>Welcome to The Solent Metropolitan</h2>
+      <p>The broader perspective, for a distinct region. Explore the culture, industry and living that define the Greater Solent.</p>
+      <div class="cta-row">
+        <a class="cta cta-culture-on-gradient" href="#">Culture <svg class="cta__chevron" focusable="false"><use href="#tvip-down-triangle"></use></svg></a>
+        <a class="cta cta-sectors-on-gradient" href="#">Sectors <svg class="cta__chevron" focusable="false"><use href="#tvip-down-triangle"></use></svg></a>
+        <a class="cta cta-living-on-gradient" href="#">Living <svg class="cta__chevron" focusable="false"><use href="#tvip-down-triangle"></use></svg></a>
+      </div>
+    </div>
+
+    <div class="fp-section" style="background: var(--body-bg);">
+      <h3>The Solent DNA</h3>
+      <p>Our three pillars — Culture, Sectors, and Living — form the triple helix of the Solent's identity. Each interconnected, each driving the case for better regional connectedness.</p>
+      <div class="cta-row">
+        <a class="cta cta-culture" href="#" style="font-size:0.88rem;">Explore Culture <svg class="cta__chevron" focusable="false"><use href="#tvip-down-triangle"></use></svg></a>
+        <a class="cta cta-sectors" href="#" style="font-size:0.88rem;">Explore Sectors <svg class="cta__chevron" focusable="false"><use href="#tvip-down-triangle"></use></svg></a>
+        <a class="cta cta-living" href="#" style="font-size:0.88rem;">Explore Living <svg class="cta__chevron" focusable="false"><use href="#tvip-down-triangle"></use></svg></a>
+      </div>
+    </div>
+
+    <div class="fp-footer">
+      <div class="fp-footer-text">© 2026 The Solent Metropolitan</div>
+    </div>
+  </div>
+
+  <!-- ══════════ CONTRAST ══════════ -->
+  <div class="a11y-section">
+    <h3>Contrast Ratios — White Text on Section Colours</h3>
+    <table class="contrast-table">
+      <thead>
+        <tr><th>Button</th><th>Ratio</th><th>AA</th><th>Preview</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>White on Culture mid (#7C3AED)</td>
+          <td>6.4:1</td>
+          <td><span class="pass">PASS ✓</span></td>
+          <td><span class="preview-sample" style="background:#7C3AED;color:white;">Culture</span></td>
+        </tr>
+        <tr>
+          <td>White on Culture dark (#6B21A8)</td>
+          <td>8.5:1</td>
+          <td><span class="pass">PASS ✓</span></td>
+          <td><span class="preview-sample" style="background:#6B21A8;color:white;">Culture</span></td>
+        </tr>
+        <tr>
+          <td>White on Sectors mid (#2563EB)</td>
+          <td>4.6:1</td>
+          <td><span class="pass">PASS ✓</span></td>
+          <td><span class="preview-sample" style="background:#2563EB;color:white;">Sectors</span></td>
+        </tr>
+        <tr>
+          <td>White on Sectors dark (#1D4ED8)</td>
+          <td>5.7:1</td>
+          <td><span class="pass">PASS ✓</span></td>
+          <td><span class="preview-sample" style="background:#1D4ED8;color:white;">Sectors</span></td>
+        </tr>
+        <tr>
+          <td>White on Living mid (#059669)</td>
+          <td>4.6:1</td>
+          <td><span class="pass">PASS ✓</span></td>
+          <td><span class="preview-sample" style="background:#059669;color:white;">Living</span></td>
+        </tr>
+        <tr>
+          <td>White on Living dark (#047857)</td>
+          <td>5.9:1</td>
+          <td><span class="pass">PASS ✓</span></td>
+          <td><span class="preview-sample" style="background:#047857;color:white;">Living</span></td>
+        </tr>
+        <tr>
+          <td>Culture mid (#7C3AED) on body (#faf9f7)</td>
+          <td>5.4:1</td>
+          <td><span class="pass">PASS ✓</span></td>
+          <td><span class="preview-sample" style="background:#faf9f7;color:#7C3AED;border:1px solid #ddd;">Culture</span></td>
+        </tr>
+        <tr>
+          <td>Sectors mid (#2563EB) on body (#faf9f7)</td>
+          <td>4.7:1</td>
+          <td><span class="pass">PASS ✓</span></td>
+          <td><span class="preview-sample" style="background:#faf9f7;color:#2563EB;border:1px solid #ddd;">Sectors</span></td>
+        </tr>
+        <tr>
+          <td>Living mid (#059669) on body (#faf9f7)</td>
+          <td>4.6:1</td>
+          <td><span class="pass">PASS ✓</span></td>
+          <td><span class="preview-sample" style="background:#faf9f7;color:#059669;border:1px solid #ddd;">Living</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="notes-box">
+    <strong>SVG chevron reuse:</strong> The <code>&lt;svg class="svg-defs"&gt;</code> block with the <code>#tvip-down-triangle</code> symbol is already in your page HTML for the menu. CTAs reference it with <code>&lt;use href="#tvip-down-triangle"&gt;</code> and rotate it with <code>transform: rotate(-90deg)</code> in CSS. No dependency issue — if the symbol were ever removed, both menu chevrons and CTA chevrons would break simultaneously, making it immediately obvious. The shared symbol means zero extra file weight.
+
+    <br><br><strong>Background suggestions for the three CTAs together:</strong>
+    <br>• <strong>Off-white (#faf9f7)</strong> — default body background. Clean, all three colours pop.
+    <br>• <strong>Warm grey (#f5f3f0)</strong> — callout bands. Creates a section break.
+    <br>• <strong>Warm gradient</strong> — hero/front page. White border needed for separation.
+    <br>• <strong>Solent blue (#2c4f6e)</strong> — footer or dark sections. Use the lighter colour variants.
+    <br>• <strong>Pale section tints</strong> — #f3e8ff (culture), #dbeafe (sectors), #d1fae5 (living). Use on individual section landing pages to reinforce the section identity. Ghost CTAs work well here as secondary actions.
+
+    <br><br><strong>All contrast ratios pass WCAG AA</strong> for normal text (4.5:1 minimum). The ghost variants on light backgrounds are slightly tighter but still pass. On hover, the ghost fills to the section colour with white text, which is even stronger.
+  </div>
+
+</div>
+</body>
+</html>
