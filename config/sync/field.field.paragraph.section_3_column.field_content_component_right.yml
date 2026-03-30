@@ -1,0 +1,106 @@
+uuid: 586c21f4-ee72-4c04-b1b4-f85fcf54fc27
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_content_component_right
+    - paragraphs.paragraphs_type.call_to_action
+    - paragraphs.paragraphs_type.copyright
+    - paragraphs.paragraphs_type.enclosure
+    - paragraphs.paragraphs_type.heading
+    - paragraphs.paragraphs_type.image
+    - paragraphs.paragraphs_type.image_with_link
+    - paragraphs.paragraphs_type.link
+    - paragraphs.paragraphs_type.menu
+    - paragraphs.paragraphs_type.section_3_column
+    - paragraphs.paragraphs_type.text
+    - paragraphs.paragraphs_type.vertical_space
+    - paragraphs.paragraphs_type.video
+    - paragraphs.paragraphs_type.view_display
+    - paragraphs.paragraphs_type.webform
+  module:
+    - entity_reference_revisions
+id: paragraph.section_3_column.field_content_component_right
+field_name: field_content_component_right
+entity_type: paragraph
+bundle: section_3_column
+label: 'Content Component right'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      call_to_action: call_to_action
+      enclosure: enclosure
+      heading: heading
+      image: image
+      image_with_link: image_with_link
+      copyright: copyright
+      link: link
+      text: text
+      menu: menu
+      vertical_space: vertical_space
+      video: video
+      view_display: view_display
+      webform: webform
+    negate: 0
+    target_bundles_drag_drop:
+      call_to_action:
+        weight: 11
+        enabled: true
+      copyright:
+        weight: 16
+        enabled: true
+      enclosure:
+        weight: 12
+        enabled: true
+      heading:
+        weight: 13
+        enabled: true
+      hero_with_art_style:
+        weight: 22
+        enabled: false
+      icon_with_link:
+        weight: 20
+        enabled: false
+      image:
+        weight: 14
+        enabled: true
+      image_with_link:
+        weight: 15
+        enabled: true
+      link:
+        weight: 16
+        enabled: true
+      menu:
+        weight: 27
+        enabled: true
+      section_1_column:
+        weight: 17
+        enabled: false
+      section_2_column:
+        weight: 10
+        enabled: false
+      section_3_column:
+        weight: 19
+        enabled: false
+      text:
+        weight: 18
+        enabled: true
+      vertical_space:
+        weight: 27
+        enabled: true
+      video:
+        weight: 28
+        enabled: true
+      view_display:
+        weight: 29
+        enabled: true
+      webform:
+        weight: 30
+        enabled: true
+field_type: entity_reference_revisions
