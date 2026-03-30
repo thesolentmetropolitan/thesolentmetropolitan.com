@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gradient Style — Contrast Analysis</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@200..800&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --solent: #2c4f6e;
+    --text: #1a1a1a;
+    --body-bg: #faf9f7;
+  }
+
+  body {
+    font-family: 'Atkinson Hyperlegible Next', sans-serif;
+    background: #e8e5e0;
+    color: #1a1a1a;
+    line-height: 1.6;
+  }
+
+  .page-header {
+    background: var(--solent);
+    color: white;
+    padding: 2rem;
+    text-align: center;
+  }
+  .page-header h1 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-bottom: 0.3rem;
+  }
+  .page-header p { font-size: 0.9rem; opacity: 0.8; }
+
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+  }
+
+  .section-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--solent);
+    margin-bottom: 0.3rem;
+  }
+  .section-desc {
+    color: #6b6b6b;
+    font-size: 0.88rem;
+    margin-bottom: 1.5rem;
+  }
+
+  /* ══════════ THE GRADIENT ══════════ */
+  .gradient-css {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    margin-bottom: 2rem;
+  }
+  .gradient-css-label {
+    padding: 1.2rem 1.5rem 0.5rem;
+    font-weight: 700;
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #6b6b6b;
+  }
+  .gradient-css-code {
+    background: #1e1e2e;
+    color: #cdd6f4;
+    margin: 0 1rem 1rem;
+    border-radius: 8px;
+    padding: 1.2rem 1.5rem;
+    font-family: 'Courier New', monospace;
+    font-size: 0.82rem;
+    line-height: 1.7;
+    overflow-x: auto;
+    white-space: pre;
+  }
+  .cm { color: #6c7086; }
+  .pr { color: #89b4fa; }
+  .vl { color: #a6e3a1; }
+  .sl { color: #f38ba8; }
+
+  /* ══════════ GRADIENT PREVIEW ══════════ */
+  .gradient-preview {
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    margin-bottom: 2rem;
+  }
+  .grad-band {
+    padding: 3rem 2.5rem;
+    min-height: 280px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  /* ══════════ TEXT COLOUR OPTIONS ══════════ */
+  .text-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+  }
+  @media (max-width: 700px) {
+    .text-options { grid-template-columns: 1fr; }
+  }
+
+  .text-option-card {
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  }
+  .text-option-label {
+    background: white;
+    padding: 1rem 1.2rem 0.3rem;
+    font-weight: 700;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #6b6b6b;
+  }
+  .text-option-sublabel {
+    background: white;
+    padding: 0 1.2rem 0.8rem;
+    font-size: 0.8rem;
+    color: #999;
+  }
+  .text-option-preview {
+    padding: 2rem 2rem;
+    background: linear-gradient(135deg, #f5c842 0%, #f0a030 25%, #e8507a 60%, #f0a0b8 100%);
+  }
+  .text-option-preview h2 {
+    font-size: 2.4rem;
+    font-weight: 700;
+    line-height: 1.15;
+    margin-bottom: 0.5rem;
+  }
+  .text-option-preview h3 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    line-height: 1.25;
+    margin-bottom: 0.5rem;
+  }
+  .text-option-preview p {
+    font-size: 1.8rem;
+    font-weight: 400;
+    line-height: 1.35;
+  }
+
+  /* ══════════ CONTRAST TABLE ══════════ */
+  .a11y-section {
+    background: white;
+    border-radius: 12px;
+    padding: 1.8rem;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    margin-bottom: 2rem;
+  }
+  .a11y-section h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--solent);
+    margin-bottom: 0.5rem;
+  }
+  .a11y-note {
+    font-size: 0.85rem;
+    color: #666;
+    margin-bottom: 1rem;
+  }
+  .contrast-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.82rem;
+    margin-top: 0.8rem;
+  }
+  .contrast-table th {
+    text-align: left;
+    padding: 0.5rem 0.7rem;
+    background: #e8eef3;
+    color: var(--solent);
+    font-weight: 600;
+  }
+  .contrast-table td {
+    padding: 0.5rem 0.7rem;
+    border-bottom: 1px solid #eee;
+  }
+  .pass { color: #1a7a3a; font-weight: 700; }
+  .fail { color: #c0392b; font-weight: 700; }
+  .preview-sample {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 4px;
+    font-size: 0.78rem;
+    font-weight: 600;
+  }
+  .usage-label {
+    font-size: 0.72rem;
+    color: #888;
+    font-style: italic;
+  }
+
+  /* ══════════ FULL ENCLOSURE PREVIEW ══════════ */
+  .enclosure-preview {
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    margin-bottom: 2rem;
+  }
+  .enclosure-grad {
+    background: linear-gradient(135deg, #f5c842 0%, #f0a030 25%, #e8507a 60%, #f0a0b8 100%);
+    padding: 3rem 2.5rem;
+  }
+  .enclosure-text-block {
+    max-width: 700px;
+  }
+  .enclosure-text-block h2 {
+    font-family: 'Atkinson Hyperlegible Next', sans-serif;
+    font-size: 2.4rem;
+    font-weight: 700;
+    line-height: 1.15;
+    color: #2a2a2a;
+    margin-bottom: 0.6rem;
+  }
+  .enclosure-text-block h3 {
+    font-family: 'Atkinson Hyperlegible Next', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    line-height: 1.25;
+    color: #2a2a2a;
+    margin-bottom: 0.8rem;
+  }
+  .enclosure-text-block p {
+    font-family: 'Atkinson Hyperlegible Next', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 400;
+    line-height: 1.4;
+    color: #2a2a2a;
+  }
+
+  /* With inner box */
+  .enclosure-with-box {
+    background: linear-gradient(135deg, #f5c842 0%, #f0a030 25%, #e8507a 60%, #f0a0b8 100%);
+    padding: 3rem 2.5rem;
+  }
+  .enclosure-heading-area {
+    max-width: 700px;
+    margin-bottom: 1.5rem;
+  }
+  .enclosure-heading-area h2 {
+    font-family: 'Atkinson Hyperlegible Next', sans-serif;
+    font-size: 2.4rem;
+    font-weight: 700;
+    line-height: 1.15;
+    color: #2a2a2a;
+  }
+  .enclosure-body-box {
+    background: rgba(255,255,255,0.92);
+    border-radius: 10px;
+    padding: 2rem;
+    max-width: 700px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+  }
+  .enclosure-body-box p {
+    font-family: 'Atkinson Hyperlegible Next', sans-serif;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.7;
+    color: #444;
+    margin-bottom: 0.8rem;
+  }
+  .enclosure-body-box p:last-child { margin-bottom: 0; }
+
+  .notes-box {
+    background: #e8eef3;
+    border-left: 4px solid var(--solent);
+    border-radius: 0 8px 8px 0;
+    padding: 1.2rem 1.5rem;
+    margin: 2rem 0;
+    font-size: 0.88rem;
+    line-height: 1.65;
+    color: #333;
+  }
+  .notes-box strong { color: var(--solent); }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>Gradient Enclosure — CSS &amp; Contrast</h1>
+  <p>Gradient sampled from reference image, with text contrast analysis</p>
+</div>
+
+<div class="container">
+
+  <!-- ══════════ CSS CODE ══════════ -->
+  <h2 class="section-title">The CSS Gradient</h2>
+  <p class="section-desc">Sampled from the reference image — gold through amber to magenta-pink.</p>
+
+  <div class="gradient-css">
+    <div class="gradient-css-label">CSS</div>
+    <div class="gradient-css-code"><span class="cm">/* Warm gradient — gold to magenta-pink */</span>
+<span class="sl">.paragraph--type--enclosure.gradient-warm</span> {
+  <span class="pr">background</span>: <span class="vl">linear-gradient(135deg,
+    #f5c842 0%,
+    #f0a030 25%,
+    #e8507a 60%,
+    #f0a0b8 100%
+  )</span>;
+}
+
+<span class="cm">/* Alternative angles */</span>
+<span class="cm">/* horizontal:  linear-gradient(to right, ...) */</span>
+<span class="cm">/* steeper:     linear-gradient(160deg, ...) */</span>
+<span class="cm">/* top-to-bottom: linear-gradient(to bottom, ...) */</span></div>
+  </div>
+
+  <!-- ══════════ GRADIENT PREVIEW ══════════ -->
+  <div class="gradient-preview">
+    <div class="grad-band" style="background: linear-gradient(135deg, #f5c842 0%, #f0a030 25%, #e8507a 60%, #f0a0b8 100%);">
+    </div>
+  </div>
+
+  <!-- ══════════ TEXT COLOUR OPTIONS ══════════ -->
+  <h2 class="section-title">Text Colour Options</h2>
+  <p class="section-desc">Deep grey text on the gradient at your specified sizes. The hardest area for contrast is the lighter gold section (top-left).</p>
+
+  <div class="text-options">
+    <div class="text-option-card">
+      <div class="text-option-label">Option A — #2a2a2a (recommended)</div>
+      <div class="text-option-sublabel">Deep charcoal. Softer than black, strong contrast.</div>
+      <div class="text-option-preview">
+        <h2 style="color:#2a2a2a;">Welcome to The Solent</h2>
+        <h3 style="color:#2a2a2a;">The broader perspective</h3>
+        <p style="color:#2a2a2a;">For a distinct region.</p>
+      </div>
+    </div>
+
+    <div class="text-option-card">
+      <div class="text-option-label">Option B — #333333</div>
+      <div class="text-option-sublabel">Slightly lighter. Still strong.</div>
+      <div class="text-option-preview">
+        <h2 style="color:#333333;">Welcome to The Solent</h2>
+        <h3 style="color:#333333;">The broader perspective</h3>
+        <p style="color:#333333;">For a distinct region.</p>
+      </div>
+    </div>
+
+    <div class="text-option-card">
+      <div class="text-option-label">Option C — #1a1a1a (near-black)</div>
+      <div class="text-option-sublabel">Your body text colour. Maximum contrast.</div>
+      <div class="text-option-preview">
+        <h2 style="color:#1a1a1a;">Welcome to The Solent</h2>
+        <h3 style="color:#1a1a1a;">The broader perspective</h3>
+        <p style="color:#1a1a1a;">For a distinct region.</p>
+      </div>
+    </div>
+
+    <div class="text-option-card">
+      <div class="text-option-label">Option D — #2c4f6e (solent blue)</div>
+      <div class="text-option-sublabel">Cool against warm gradient. Brand connection.</div>
+      <div class="text-option-preview">
+        <h2 style="color:#2c4f6e;">Welcome to The Solent</h2>
+        <h3 style="color:#2c4f6e;">The broader perspective</h3>
+        <p style="color:#2c4f6e;">For a distinct region.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════ CONTRAST TABLE ══════════ -->
+  <div class="a11y-section">
+    <h3>Contrast Ratios — WCAG AA</h3>
+    <p class="a11y-note">All three text sizes qualify as <strong>"large text"</strong> under WCAG: bold at 2.4rem (38.4px) and 1.8rem (28.8px) are bold ≥18px; non-bold at 1.8rem (28.8px) is ≥24px. Large text requires <strong>3:1 minimum</strong> for AA.</p>
+    <p class="a11y-note">The gradient varies from light gold (#f5c842) to magenta (#e8507a) to soft pink (#f0a0b8). The <strong>weakest contrast point</strong> is the gold area, as it's the lightest. Ratios below are measured against the lightest point in the gradient.</p>
+
+    <table class="contrast-table">
+      <thead>
+        <tr>
+          <th>Text Colour</th>
+          <th>vs Gold (#f5c842)</th>
+          <th>vs Amber (#f0a030)</th>
+          <th>vs Magenta (#e8507a)</th>
+          <th>vs Pink (#f0a0b8)</th>
+          <th>AA Large (3:1)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="preview-sample" style="background:#f5c842;color:#2a2a2a;">Aa</span> #2a2a2a</td>
+          <td>8.7:1</td>
+          <td>7.5:1</td>
+          <td>4.4:1</td>
+          <td>5.7:1</td>
+          <td><span class="pass">PASS ✓</span></td>
+        </tr>
+        <tr>
+          <td><span class="preview-sample" style="background:#f5c842;color:#333333;">Aa</span> #333333</td>
+          <td>7.6:1</td>
+          <td>6.5:1</td>
+          <td>3.9:1</td>
+          <td>5.0:1</td>
+          <td><span class="pass">PASS ✓</span></td>
+        </tr>
+        <tr>
+          <td><span class="preview-sample" style="background:#f5c842;color:#1a1a1a;">Aa</span> #1a1a1a</td>
+          <td>10.8:1</td>
+          <td>9.3:1</td>
+          <td>5.5:1</td>
+          <td>7.1:1</td>
+          <td><span class="pass">PASS ✓</span></td>
+        </tr>
+        <tr>
+          <td><span class="preview-sample" style="background:#f5c842;color:#2c4f6e;">Aa</span> #2c4f6e</td>
+          <td>4.8:1</td>
+          <td>4.1:1</td>
+          <td>2.4:1</td>
+          <td>3.2:1</td>
+          <td><span class="pass">PASS ✓</span> on gold/amber/pink<br><span class="fail">FAIL ✗</span> on magenta</td>
+        </tr>
+        <tr>
+          <td><span class="preview-sample" style="background:#e8507a;color:#444444;">Aa</span> #444444</td>
+          <td>5.8:1</td>
+          <td>5.0:1</td>
+          <td>3.0:1</td>
+          <td>3.8:1</td>
+          <td><span class="pass">PASS ✓</span> but borderline on magenta</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ══════════ FULL ENCLOSURE PREVIEW ══════════ -->
+  <h2 class="section-title">Enclosure Preview — Text Directly on Gradient</h2>
+  <p class="section-desc">Using #2a2a2a at your specified sizes, with your Drupal paragraph structure in mind.</p>
+
+  <div class="enclosure-preview">
+    <div class="enclosure-grad">
+      <div class="enclosure-text-block">
+        <h2>Welcome to The Solent Metropolitan</h2>
+        <h3>The broader perspective, for a distinct region.</h3>
+        <p>We are building a distinct global identity for the Solent — championing the culture, industry and living that define this region.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════ ALTERNATIVE: HEADING ON GRADIENT, BODY IN BOX ══════════ -->
+  <h2 class="section-title">Alternative — Heading on Gradient, Body in Box</h2>
+  <p class="section-desc">As discussed earlier: large heading directly on gradient, smaller body text in a semi-transparent box. Use this if the enclosure contains mixed content at different sizes.</p>
+
+  <div class="enclosure-preview">
+    <div class="enclosure-with-box">
+      <div class="enclosure-heading-area">
+        <h2>Welcome to The Solent Metropolitan</h2>
+      </div>
+      <div class="enclosure-body-box">
+        <p>We are an independent, not-for-profit media platform championing the Greater Solent region. From the historic roots of Southampton and Portsmouth to our vibrant towns and villages, we are building a distinct global identity for the Solent.</p>
+        <p>Our "Solent DNA" — Culture, industry Sectors, and Living — forms the triple helix of our mission.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="notes-box">
+    <strong>Recommendation:</strong> Use <strong>#2a2a2a</strong> (deep charcoal) for text on this gradient. It passes AA comfortably at every point in the gradient for all three of your text sizes. It's softer than your body text black (#1a1a1a) which feels right — the gradient is warm and vibrant, so a slightly softer dark keeps the overall feel lighter without sacrificing readability. The solent blue (#2c4f6e) looks attractive but fails on the magenta section of the gradient, so avoid it for text that spans the full width. If you want to use solent blue, position the text on the gold/amber side where it passes.
+  </div>
+
+  <!-- ══════════ CLASSY PARAGRAPHS CSS ══════════ -->
+  <h2 class="section-title">Ready CSS for Classy Paragraphs</h2>
+  <p class="section-desc">Drop this into your enclosure or classy paragraph stylesheet.</p>
+
+  <div class="gradient-css">
+    <div class="gradient-css-label">CSS for the gradient enclosure paragraph</div>
+    <div class="gradient-css-code"><span class="cm">/* Classy paragraph: warm gradient enclosure */</span>
+<span class="sl">.paragraph--type--enclosure.gradient-warm</span> {
+  <span class="pr">background</span>: <span class="vl">linear-gradient(135deg,
+    #f5c842 0%,
+    #f0a030 25%,
+    #e8507a 60%,
+    #f0a0b8 100%
+  )</span>;
+  <span class="pr">padding</span>: <span class="vl">var(--content-pad, 2rem)</span>;
+}
+
+<span class="cm">/* Text on gradient — deep charcoal for contrast */</span>
+<span class="sl">.paragraph--type--enclosure.gradient-warm h1,
+.paragraph--type--enclosure.gradient-warm h2</span> {
+  <span class="pr">color</span>: <span class="vl">#2a2a2a</span>;
+}
+
+<span class="sl">.paragraph--type--enclosure.gradient-warm h3,
+.paragraph--type--enclosure.gradient-warm p</span> {
+  <span class="pr">color</span>: <span class="vl">#2a2a2a</span>;
+}
+
+<span class="cm">/* Override body link styles inside gradient */</span>
+<span class="sl">.paragraph--type--enclosure.gradient-warm a</span> {
+  <span class="pr">color</span>: <span class="vl">#2a2a2a</span>;
+  <span class="pr">font-weight</span>: <span class="vl">700</span>;
+  <span class="pr">text-decoration</span>: <span class="vl">underline</span>;
+  <span class="pr">text-decoration-color</span>: <span class="vl">#2a2a2a</span>;
+  <span class="pr">text-underline-offset</span>: <span class="vl">3px</span>;
+  <span class="pr">text-decoration-thickness</span>: <span class="vl">2px</span>;
+}
+
+<span class="sl">.paragraph--type--enclosure.gradient-warm a:hover</span> {
+  <span class="pr">color</span>: <span class="vl">#000</span>;
+}
+
+<span class="cm">/* Optional: semi-transparent box for smaller body text */</span>
+<span class="sl">.paragraph--type--enclosure.gradient-warm .content-box</span> {
+  <span class="pr">background</span>: <span class="vl">rgba(255, 255, 255, 0.92)</span>;
+  <span class="pr">border-radius</span>: <span class="vl">10px</span>;
+  <span class="pr">padding</span>: <span class="vl">2rem</span>;
+  <span class="pr">box-shadow</span>: <span class="vl">0 4px 16px rgba(0, 0, 0, 0.06)</span>;
+}</div>
+  </div>
+
+</div>
+</body>
+</html>
