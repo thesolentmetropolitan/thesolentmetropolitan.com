@@ -46,10 +46,15 @@
     not paragraph.isPublished() ? 'paragraph--unpublished'
   ]
 %}
-{% set classy_class = paragraph.field_classy.value|default('') %}
+{% set extra_classes = [] %}
+{% for item in paragraph.field_classy %}
+  {% if item.entity.classes %}
+    {% set extra_classes = extra_classes|merge([item.entity.classes]) %}
+  {% endif %}
+{% endfor %}
 
 {% block paragraph %}
-  <div{{ attributes.addClass(classes).addClass(classy_class) }}>
+  <div{{ attributes.addClass(classes).addClass(extra_classes) }}>
     <div class="slnt-encl">
       {% block content %}
         <div class="slnt-content-3-column">

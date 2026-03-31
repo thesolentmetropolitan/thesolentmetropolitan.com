@@ -17,14 +17,6 @@ targetEntityType: paragraph
 bundle: section_3_column
 mode: default
 content:
-  field_classy:
-    type: entity_reference_label
-    label: hidden
-    settings:
-      link: true
-    third_party_settings: {  }
-    weight: 4
-    region: content
   field_content_component_left:
     type: entity_reference_revisions_entity_view
     label: hidden
@@ -59,4 +51,5 @@ content:
     third_party_settings: {  }
     weight: 3
     region: content
-hidden: {  }
+hidden:
+  field_classy: true
