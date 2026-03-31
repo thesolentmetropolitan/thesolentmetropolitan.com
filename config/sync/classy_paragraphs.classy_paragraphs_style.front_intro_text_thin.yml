@@ -1,0 +1,7 @@
+uuid: 9cfe2805-85e3-482e-ba70-e07fa22a4fb4
+langcode: en
+status: true
+dependencies: {  }
+id: front_intro_text_thin
+label: 'Front Intro Text Thin'
+classes: front-intro-text-thin

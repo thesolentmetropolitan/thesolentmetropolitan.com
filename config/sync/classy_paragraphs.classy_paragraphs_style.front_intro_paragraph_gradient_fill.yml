@@ -1,0 +1,7 @@
+uuid: 6f2f56b4-ad9e-4785-864e-58519807785d
+langcode: en
+status: true
+dependencies: {  }
+id: front_intro_paragraph_gradient_fill
+label: 'Front Intro Paragraph Gradient Fill'
+classes: paragraph--type--enclosure.gradient-warm
