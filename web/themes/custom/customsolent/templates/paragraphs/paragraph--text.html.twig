@@ -63,15 +63,19 @@ that's global
   {% set text_color = "black" %}
 {% endif %}
 
+{% set extra_classes = [] %}
+{% for item in paragraph.field_classy %}
+  {% if item.entity.classes %}
+    {% set extra_classes = extra_classes|merge([item.entity.classes]) %}
+  {% endif %}
+{% endfor %}
+
 {% block paragraph %}
-
-
-
- <div{{ attributes.addClass(classes)}} style="color: {{ text_color }};">
+ <div{{ attributes.addClass(classes).addClass(extra_classes)}} style="color: {{ text_color }};">
     <div{{ attributes.addClass(classes).addClass('slnt-text') }}>
       {% block content %}
       <div>
-        {{ content.field_text }} 
+        {{ content|without('field_classy', 'field_color_text') }}
       </div>
       {% endblock %}
     </div>
