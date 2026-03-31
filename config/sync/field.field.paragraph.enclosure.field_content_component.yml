@@ -12,6 +12,7 @@ dependencies:
     - paragraphs.paragraphs_type.icon_with_link
     - paragraphs.paragraphs_type.image
     - paragraphs.paragraphs_type.image_with_link
+    - paragraphs.paragraphs_type.intro
     - paragraphs.paragraphs_type.link
     - paragraphs.paragraphs_type.menu
     - paragraphs.paragraphs_type.section_1_column
@@ -46,6 +47,7 @@ settings:
       copyright: copyright
       hero_with_art_style: hero_with_art_style
       icon_with_link: icon_with_link
+      intro: intro
       link: link
       section_1_column: section_1_column
       section_2_column: section_2_column
@@ -84,7 +86,7 @@ settings:
         enabled: true
       intro:
         weight: 20
-        enabled: false
+        enabled: true
       link:
         weight: 21
         enabled: true

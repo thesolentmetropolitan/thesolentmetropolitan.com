@@ -1,0 +1,29 @@
+uuid: 137c479e-486b-45bf-a4eb-2ef2ef9b70de
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_color_text
+    - paragraphs.paragraphs_type.intro
+    - taxonomy.vocabulary.color
+id: paragraph.intro.field_color_text
+field_name: field_color_text
+entity_type: paragraph
+bundle: intro
+label: 'Color - text'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      color: color
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

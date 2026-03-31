@@ -3,6 +3,8 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.paragraph.intro.field_classy
+    - field.field.paragraph.intro.field_color_text
     - field.field.paragraph.intro.field_text
     - paragraphs.paragraphs_type.intro
   module:
@@ -12,9 +14,25 @@ targetEntityType: paragraph
 bundle: intro
 mode: default
 content:
+  field_classy:
+    type: entity_reference_autocomplete
+    weight: 1
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_color_text:
+    type: options_select
+    weight: 1
+    region: content
+    settings: {  }
+    third_party_settings: {  }
   field_text:
     type: text_textarea
-    weight: 2
+    weight: 0
     region: content
     settings:
       rows: 5

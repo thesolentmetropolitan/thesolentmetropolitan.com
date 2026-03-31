@@ -1,0 +1,23 @@
+uuid: 3f4a56e4-f17c-4f7e-8f2e-c49ebfd90acd
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_classy
+    - paragraphs.paragraphs_type.intro
+id: paragraph.intro.field_classy
+field_name: field_classy
+entity_type: paragraph
+bundle: intro
+label: classy
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:classy_paragraphs_style'
+  handler_settings:
+    target_bundles: null
+    auto_create: false
+field_type: entity_reference
