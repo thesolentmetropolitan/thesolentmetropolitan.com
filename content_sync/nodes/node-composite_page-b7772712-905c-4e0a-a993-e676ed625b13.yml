@@ -1,0 +1,455 @@
+site_uuid: 29478e80-b12f-4df7-96ff-1d604384bf38
+uuid: b7772712-905c-4e0a-a993-e676ed625b13
+entity_type: node
+bundle: composite_page
+base_fields:
+  title: Home
+  status: true
+  langcode: en
+  created: '1774922522'
+  author: admin@example.com
+  revision_log_message: null
+  revision_uid: '1'
+  url: null
+custom_fields:
+  field_content_component:
+    -
+      uuid: 7037842e-c6e7-4180-9e0c-1305a949cb58
+      entity_type: paragraph
+      bundle: enclosure
+      base_fields:
+        status: true
+        langcode: en
+        created: '1772407426'
+        behavior_settings: {  }
+      custom_fields:
+        field_color_background: null
+        field_content_component:
+          -
+            uuid: 4685b776-9e3b-4dc0-b7ef-be3af86127b8
+            entity_type: paragraph
+            bundle: enclosure
+            base_fields:
+              status: true
+              langcode: en
+              created: '1774650609'
+              behavior_settings: {  }
+            custom_fields:
+              field_color_background: null
+              field_content_component:
+                -
+                  uuid: 8a26a5d9-c45e-4384-ad81-c3a03e658c88
+                  entity_type: paragraph
+                  bundle: section_2_column
+                  base_fields:
+                    status: true
+                    langcode: en
+                    created: '1772213722'
+                    behavior_settings: {  }
+                  custom_fields:
+                    field_content_component_left:
+                      -
+                        uuid: c47d15da-e80e-42c3-8fbc-258d243062c7
+                        entity_type: paragraph
+                        bundle: heading
+                        base_fields:
+                          status: true
+                          langcode: en
+                          created: '1765329554'
+                          behavior_settings: {  }
+                        custom_fields:
+                          field_color_text:
+                            -
+                              uuid: 41a04a62-c3c1-4cfb-a09d-e47e202481b2
+                              entity_type: taxonomy_term
+                              bundle: color
+                              base_fields:
+                                name: 'Deep Charcoal'
+                                weight: 0
+                                langcode: en
+                                description: null
+                                parent: 0
+                                url: null
+                              custom_fields:
+                                field_color:
+                                  -
+                                    color: '#2A2A2A'
+                                    opacity: '1'
+                                  -
+                                    color: '#2A2A2A'
+                          field_heading:
+                            -
+                              value: "Welcome to \r\nThe Solent Metropolitan"
+                          field_heading_align:
+                            -
+                              value: left
+                          field_heading_size:
+                            -
+                              value: h1
+                      -
+                        uuid: 4fe194ce-8415-4f7e-b943-d6e67bd0ff33
+                        entity_type: paragraph
+                        bundle: heading
+                        base_fields:
+                          status: true
+                          langcode: en
+                          created: '1765329592'
+                          behavior_settings: {  }
+                        custom_fields:
+                          field_color_text:
+                            -
+                              uuid: 41a04a62-c3c1-4cfb-a09d-e47e202481b2
+                              entity_type: taxonomy_term
+                              base_fields:
+                                name: 'Deep Charcoal'
+                                weight: 0
+                                langcode: en
+                                description: null
+                                parent: 0
+                                url: null
+                              bundle: color
+                          field_heading:
+                            -
+                              value: 'The broader perspective, for a distinct region.'
+                          field_heading_align:
+                            -
+                              value: left
+                          field_heading_size:
+                            -
+                              value: h2
+                    field_content_component_right:
+                      -
+                        uuid: c9c632be-dc55-4d88-bdc3-64a4562775ab
+                        entity_type: paragraph
+                        bundle: intro
+                        base_fields:
+                          status: true
+                          langcode: en
+                          created: '1774916886'
+                          behavior_settings: {  }
+                        custom_fields:
+                          field_classy:
+                            -
+                              type: config
+                              dependency_name: classy_paragraphs.classy_paragraphs_style.front_intro_text_thin
+                              value: front_intro_text_thin
+                          field_color_text:
+                            -
+                              uuid: 41a04a62-c3c1-4cfb-a09d-e47e202481b2
+                              entity_type: taxonomy_term
+                              base_fields:
+                                name: 'Deep Charcoal'
+                                weight: 0
+                                langcode: en
+                                description: null
+                                parent: 0
+                                url: null
+                              bundle: color
+                          field_text:
+                            -
+                              value: '<h4>We are an independent media platform championing the Greater Solent region. From the historic roots of Southampton and Portsmouth to our vibrant towns and villages, we are building a distinct global identity for the Solent.</h4><p>&nbsp;</p>'
+                              format: basic_html
+                              embed_entities: {  }
+                      -
+                        uuid: 4cc44283-e9dd-455c-b6e5-563fb71184b6
+                        entity_type: paragraph
+                        bundle: vertical_space
+                        base_fields:
+                          status: true
+                          langcode: en
+                          created: '1774921838'
+                          behavior_settings: {  }
+                        custom_fields:
+                          field_height_selection:
+                            -
+                              value: 1em
+                      -
+                        uuid: d625dddf-0bf9-4724-85bd-b5743bc7fc71
+                        entity_type: paragraph
+                        bundle: call_to_action
+                        base_fields:
+                          status: true
+                          langcode: en
+                          created: '1774921461'
+                          behavior_settings: {  }
+                        custom_fields:
+                          field_color_background:
+                            -
+                              uuid: 6eb7ec4c-0f54-41ca-9575-7be193168395
+                              entity_type: taxonomy_term
+                              bundle: color
+                              base_fields:
+                                name: white
+                                weight: 0
+                                langcode: en
+                                description: null
+                                parent: 0
+                                url: null
+                              custom_fields:
+                                field_color:
+                                  -
+                                    color: '#FFFFFF'
+                                    opacity: '1'
+                                  -
+                                    color: '#FFFFFF'
+                          field_color_text:
+                            -
+                              uuid: c9ae02fd-8589-48b4-9e39-f1da0428b82f
+                              entity_type: taxonomy_term
+                              bundle: color
+                              base_fields:
+                                name: magenta
+                                weight: 0
+                                langcode: en
+                                description: null
+                                parent: 0
+                                url: null
+                              custom_fields:
+                                field_color:
+                                  -
+                                    color: '#C5007A'
+                                    opacity: '1'
+                                  -
+                                    color: '#C5007A'
+                          field_link:
+                            -
+                              uri: 'internal:/about'
+                              title: About
+                              options: {  }
+                    field_padding: null
+                    field_style: null
+              field_padding:
+                -
+                  value: '0'
+              field_style: null
+        field_padding:
+          -
+            value: full_width
+        field_style:
+          -
+            type: config
+            dependency_name: classy_paragraphs.classy_paragraphs_style.front_intro_paragraph_gradient_fill
+            value: front_intro_paragraph_gradient_fill
+    -
+      uuid: d67fda38-445a-429b-bfa4-bb5c12af46d2
+      entity_type: paragraph
+      bundle: enclosure
+      base_fields:
+        status: true
+        langcode: en
+        created: '1774910413'
+        behavior_settings: {  }
+      custom_fields:
+        field_color_background:
+          -
+            uuid: 6eb7ec4c-0f54-41ca-9575-7be193168395
+            entity_type: taxonomy_term
+            base_fields:
+              name: white
+              weight: 0
+              langcode: en
+              description: null
+              parent: 0
+              url: null
+            bundle: color
+        field_content_component:
+          -
+            uuid: 6fbcb534-0ba2-48b4-b478-8d242c4a1d92
+            entity_type: paragraph
+            bundle: enclosure
+            base_fields:
+              status: true
+              langcode: en
+              created: '1774917165'
+              behavior_settings: {  }
+            custom_fields:
+              field_color_background: null
+              field_content_component:
+                -
+                  uuid: 9b49419f-6142-4611-a03d-6cab71d7a1af
+                  entity_type: paragraph
+                  bundle: intro
+                  base_fields:
+                    status: true
+                    langcode: en
+                    created: '1774916663'
+                    behavior_settings: {  }
+                  custom_fields:
+                    field_classy:
+                      -
+                        type: config
+                        dependency_name: classy_paragraphs.classy_paragraphs_style.front_intro_text_thin
+                        value: front_intro_text_thin
+                    field_color_text: null
+                    field_text:
+                      -
+                        value: '<h4>We define three &nbsp;pillars — Culture, Sectors, and Living — form the triple helix of what we believe is the Solent''s identity, it''s "DNA". Each interconnected, each driving the case for better regional connectedness.</h4>'
+                        format: basic_html
+                        embed_entities: {  }
+              field_padding:
+                -
+                  value: 2em
+              field_style: null
+          -
+            uuid: b68404a7-f246-462d-b83a-9017ab2650d5
+            entity_type: paragraph
+            bundle: section_3_column
+            base_fields:
+              status: true
+              langcode: en
+              created: '1774912265'
+              behavior_settings: {  }
+            custom_fields:
+              field_classy:
+                -
+                  type: config
+                  dependency_name: classy_paragraphs.classy_paragraphs_style.solent_dna_triple_helix
+                  value: solent_dna_triple_helix
+              field_content_component_left:
+                -
+                  uuid: 8d767a8f-50ab-4a90-9868-8b037c76a95a
+                  entity_type: paragraph
+                  bundle: call_to_action
+                  base_fields:
+                    status: true
+                    langcode: en
+                    created: '1774912293'
+                    behavior_settings: {  }
+                  custom_fields:
+                    field_color_background:
+                      -
+                        uuid: 23101807-62ba-41dd-8255-fa875b0d08fa
+                        entity_type: taxonomy_term
+                        bundle: color
+                        base_fields:
+                          name: Culture
+                          weight: 0
+                          langcode: en
+                          description: null
+                          parent: 0
+                          url: null
+                        custom_fields:
+                          field_color:
+                            -
+                              color: '#7C3AED'
+                              opacity: '1'
+                            -
+                              color: '#7C3AED'
+                    field_color_text:
+                      -
+                        uuid: 6eb7ec4c-0f54-41ca-9575-7be193168395
+                        entity_type: taxonomy_term
+                        base_fields:
+                          name: white
+                          weight: 0
+                          langcode: en
+                          description: null
+                          parent: 0
+                          url: null
+                        bundle: color
+                    field_link:
+                      -
+                        uri: 'internal:/culture'
+                        title: 'Explore Culture'
+                        options: {  }
+              field_content_component_middle:
+                -
+                  uuid: d09ecb79-ab9b-433d-8321-e0bf707f1c25
+                  entity_type: paragraph
+                  bundle: call_to_action
+                  base_fields:
+                    status: true
+                    langcode: en
+                    created: '1774912338'
+                    behavior_settings: {  }
+                  custom_fields:
+                    field_color_background:
+                      -
+                        uuid: 711d7434-c065-4889-9fde-cc1f1de2a251
+                        entity_type: taxonomy_term
+                        bundle: color
+                        base_fields:
+                          name: Sectors
+                          weight: 0
+                          langcode: en
+                          description: null
+                          parent: 0
+                          url: null
+                        custom_fields:
+                          field_color:
+                            -
+                              color: '#2563EB'
+                              opacity: '1'
+                            -
+                              color: '#2563EB'
+                    field_color_text:
+                      -
+                        uuid: 6eb7ec4c-0f54-41ca-9575-7be193168395
+                        entity_type: taxonomy_term
+                        base_fields:
+                          name: white
+                          weight: 0
+                          langcode: en
+                          description: null
+                          parent: 0
+                          url: null
+                        bundle: color
+                    field_link:
+                      -
+                        uri: 'internal:/sectors'
+                        title: 'Explore Sectors'
+                        options: {  }
+              field_content_component_right:
+                -
+                  uuid: b175af2a-d17f-4a7c-b16b-a747451b3419
+                  entity_type: paragraph
+                  bundle: call_to_action
+                  base_fields:
+                    status: true
+                    langcode: en
+                    created: '1774912377'
+                    behavior_settings: {  }
+                  custom_fields:
+                    field_color_background:
+                      -
+                        uuid: 1e84d36a-7662-4f00-84c0-37bb7b8492aa
+                        entity_type: taxonomy_term
+                        bundle: color
+                        base_fields:
+                          name: Living
+                          weight: 0
+                          langcode: en
+                          description: null
+                          parent: 0
+                          url: null
+                        custom_fields:
+                          field_color:
+                            -
+                              color: '#059669'
+                              opacity: '1'
+                            -
+                              color: '#059669'
+                    field_color_text:
+                      -
+                        uuid: 6eb7ec4c-0f54-41ca-9575-7be193168395
+                        entity_type: taxonomy_term
+                        base_fields:
+                          name: white
+                          weight: 0
+                          langcode: en
+                          description: null
+                          parent: 0
+                          url: null
+                        bundle: color
+                    field_link:
+                      -
+                        uri: 'internal:/living'
+                        title: 'Explore Living'
+                        options: {  }
+              field_padding:
+                -
+                  value: '0'
+        field_padding:
+          -
+            value: '0'
+        field_style: null
