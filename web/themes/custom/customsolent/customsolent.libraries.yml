@@ -6,6 +6,7 @@ global:
     component:
       css/elements.css: {}
       css/fonts.css: {}
+      css/fonts-front.css: {}
       css/footer-base.css: {}
       css/footer-end.css: {}
       css/header.css: {}
