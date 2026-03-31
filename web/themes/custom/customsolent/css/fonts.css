@@ -86,11 +86,13 @@ h4 {
 }
 
 /* Content heading colours */
+/*
 .layout-content h1,
 .layout-content h2,
 .layout-content h3 {
   color: var(--solent-blue);
 }
+*/
 
 /* Body content links */
 .layout-content a {
