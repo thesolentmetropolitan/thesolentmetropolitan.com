@@ -146,10 +146,10 @@ settings:
   draft_loaded_message: ''
   draft_pending_single_message: ''
   draft_pending_multiple_message: ''
-  confirmation_type: url_message
+  confirmation_type: inline
   confirmation_url: '<front>'
-  confirmation_title: ''
-  confirmation_message: 'Your message has been sent.'
+  confirmation_title: 'Thank you for contacting us.'
+  confirmation_message: '<p>Your message has been sent. Thank you for contacting us.</p>'
   confirmation_attributes: {  }
   confirmation_back: true
   confirmation_back_label: ''
