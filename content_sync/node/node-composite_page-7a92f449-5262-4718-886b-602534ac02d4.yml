@@ -1,0 +1,134 @@
+site_uuid: 29478e80-b12f-4df7-96ff-1d604384bf38
+uuid: 7a92f449-5262-4718-886b-602534ac02d4
+entity_type: node
+bundle: composite_page
+base_fields:
+  title: 'Contact us'
+  status: true
+  langcode: en
+  created: '1768527159'
+  author: null
+  revision_log_message: null
+  revision_uid: '1'
+  url: /contact
+custom_fields:
+  field_content_component:
+    -
+      uuid: fe660db7-5e8d-46eb-a13f-5b31132babb4
+      entity_type: paragraph
+      bundle: hero_with_art_style
+      base_fields:
+        status: true
+        langcode: en
+        created: '1772401456'
+        behavior_settings: {  }
+      custom_fields:
+        field_classy:
+          -
+            type: config
+            dependency_name: classy_paragraphs.classy_paragraphs_style.hero_art_style_about_contact_us
+            value: hero_art_style_about_contact_us
+        field_title:
+          -
+            value: 'Contact us'
+    -
+      uuid: 57cd4051-688b-498e-87cc-968bfea79f2e
+      entity_type: paragraph
+      bundle: enclosure
+      base_fields:
+        status: true
+        langcode: en
+        created: '1772393030'
+        behavior_settings: {  }
+      custom_fields:
+        field_color_background: null
+        field_content_component:
+          -
+            uuid: 6f7fda49-3171-406b-a6cc-b4fa6d13e500
+            entity_type: paragraph
+            bundle: text
+            base_fields:
+              status: true
+              langcode: en
+              created: '1768527159'
+              behavior_settings: {  }
+            custom_fields:
+              field_color_text: null
+              field_text:
+                -
+                  value: '<p>Get in touch with The Solent Metropolitan team.</p>'
+                  format: basic_html
+                  embed_entities: {  }
+          -
+            uuid: 4c10aad5-90ae-4a2b-adc5-2d8eebecb567
+            entity_type: paragraph
+            bundle: webform
+            base_fields:
+              status: true
+              langcode: en
+              created: '1775429980'
+              behavior_settings: {  }
+            custom_fields:
+              field_color_text:
+                -
+                  uuid: 41a04a62-c3c1-4cfb-a09d-e47e202481b2
+                  entity_type: taxonomy_term
+                  bundle: color
+                  base_fields:
+                    name: 'Deep Charcoal'
+                    weight: 0
+                    langcode: en
+                    description: null
+                    parent: 0
+                    url: null
+                  custom_fields:
+                    field_color:
+                      -
+                        color: '#2A2A2A'
+                        opacity: '1'
+                      -
+                        color: '#2A2A2A'
+              field_submit_button_color:
+                -
+                  uuid: c9ae02fd-8589-48b4-9e39-f1da0428b82f
+                  entity_type: taxonomy_term
+                  bundle: color
+                  base_fields:
+                    name: magenta
+                    weight: 0
+                    langcode: en
+                    description: null
+                    parent: 0
+                    url: null
+                  custom_fields:
+                    field_color:
+                      -
+                        color: '#C5007A'
+                        opacity: '1'
+                      -
+                        color: '#C5007A'
+              field_submit_button_color_text:
+                -
+                  uuid: 6eb7ec4c-0f54-41ca-9575-7be193168395
+                  entity_type: taxonomy_term
+                  bundle: color
+                  base_fields:
+                    name: white
+                    weight: 0
+                    langcode: en
+                    description: null
+                    parent: 0
+                    url: null
+                  custom_fields:
+                    field_color:
+                      -
+                        color: '#FFFFFF'
+                        opacity: '1'
+                      -
+                        color: '#FFFFFF'
+              field_webform:
+                target_id: contact
+        field_padding:
+          -
+            value: 2em
+        field_style: null

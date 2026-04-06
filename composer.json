@@ -34,6 +34,7 @@
         "drupal/rabbit_hole": "^2.0@beta",
         "drupal/single_content_sync": "^1.4",
         "drupal/smart_date": "^4.2",
+        "drupal/smtp": "^1.4",
         "drupal/structure_sync": "^2.0",
         "drupal/superfish": "^1.13",
         "drupal/svg_image": "^3.2",
