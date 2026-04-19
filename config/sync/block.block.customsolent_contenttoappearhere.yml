@@ -1,19 +1,22 @@
-uuid: 904c27f8-b480-46bd-916b-f126ebef105c
+uuid: c4a52ba3-e2e9-4109-8068-6676e4b70917
 langcode: en
 status: true
 dependencies:
+  content:
+    - 'block_content:composite_block_type:0dd86e0e-bb3b-44ee-9ae8-5b70a7a8fb1d'
   module:
+    - block_content
     - system
   theme:
     - customsolent
 id: customsolent_contenttoappearhere
 theme: customsolent
 region: content
-weight: -5
+weight: 0
 provider: null
-plugin: 'block_content:295b73cf-5acf-4758-a6d6-ada7c2aee239'
+plugin: 'block_content:0dd86e0e-bb3b-44ee-9ae8-5b70a7a8fb1d'
 settings:
-  id: 'block_content:295b73cf-5acf-4758-a6d6-ada7c2aee239'
+  id: 'block_content:0dd86e0e-bb3b-44ee-9ae8-5b70a7a8fb1d'
   label: 'Content to appear here'
   label_display: '0'
   provider: block_content
