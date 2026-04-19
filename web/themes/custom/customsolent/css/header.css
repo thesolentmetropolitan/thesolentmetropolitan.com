@@ -3,17 +3,6 @@
   display: inline-block;
 }
 
-/*
-@media (max-width: 1259px) {
-*/
-/*
-@media (max-width: 979px) {
-  .header-custom-block .logo-primary {
-    padding-left: 2em;
-  }
-}
-*/
-
 @media (min-width: 800px) {
   .header-custom-block .logo-secondary {
     width: 17em;
