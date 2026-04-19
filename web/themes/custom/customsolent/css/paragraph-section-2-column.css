@@ -1,8 +1,8 @@
 
 .slnt-content-2-column {
   padding-top: var(--content-pad);
-  padding-left: var(--content-pad);
-  padding-right: var(--content-pad);
+  padding-left: var(--content-pad-x);
+  padding-right: var(--content-pad-x);
 }
 
 .slnt-content-2-column .slnt-column-left,

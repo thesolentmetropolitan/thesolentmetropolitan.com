@@ -4,8 +4,8 @@
     width: 100%;
     height: 7em;
     box-sizing: border-box;
-    padding-left: max(1em, calc((100% - 1200px) / 2));
-    padding-right: max(1em, calc((100% - 1200px) / 2));
+    padding-left: max(var(--align-floor), calc((100% - 1200px) / 2));
+    padding-right: max(var(--align-floor), calc((100% - 1200px) / 2));
   }
 }
 

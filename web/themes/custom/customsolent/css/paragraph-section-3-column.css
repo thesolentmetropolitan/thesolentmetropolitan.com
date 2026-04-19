@@ -3,8 +3,8 @@
 
 
 .slnt-content-3-column {
-  padding-left: var(--content-pad);
-  padding-right: var(--content-pad);
+  padding-left: var(--content-pad-x);
+  padding-right: var(--content-pad-x);
 }
 
 

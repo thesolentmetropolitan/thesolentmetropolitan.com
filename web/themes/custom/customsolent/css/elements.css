@@ -18,6 +18,17 @@
 
   /* Content padding — used by section/column/enclosure components */
   --content-pad: 2rem;
+
+  /* Horizontal-only content padding for section/column wrappers —
+     held at the mobile value on desktop too, so section content tracks
+     the outer alignment grid instead of stepping 32px further in at
+     wide viewports. Vertical spacing still uses --content-pad. */
+  --content-pad-x: 1.2rem;
+
+  /* Left/right alignment grid floor — shared by header, logo, menu, submenu,
+     hero, and enclosure paragraphs so the tracked alignment is tweaked in
+     one place */
+  --align-floor: 1em;
 }
 
 /* Mobile spacing override */
