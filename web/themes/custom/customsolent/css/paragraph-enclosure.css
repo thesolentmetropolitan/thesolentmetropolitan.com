@@ -15,7 +15,7 @@
     */
 
         padding-left: max(0em, calc((100% - 1200px) / 2 + 0em));
-    padding-right: max(1em, calc((100% - 1200px) / 2 + 1em));
+    padding-right: max(var(--align-floor), calc((100% - 1200px) / 2 + var(--align-floor)));
   }
 }
 
