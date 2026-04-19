@@ -15,13 +15,13 @@
   #slnt-header {
     max-width: none;
     box-sizing: border-box;
-    padding-left: max(0em, calc((100% - 1200px) / 2 + 0em));
+    padding-left: max(2em, calc((100% - 1200px) / 2 + 0em));
     padding-right: max(2em, calc((100% - 1200px) / 2 + 2em));
   }
 
   /* Logo area: same 1200px centering + 2em to align with menu text */
   #slnt-logo {
-    padding-left: max(0em, calc((100% - 1200px) / 2 + 0em));
+    padding-left: max(2em, calc((100% - 1200px) / 2 + 0em));
   }
 
   /* Main content constrained to 1200px */
