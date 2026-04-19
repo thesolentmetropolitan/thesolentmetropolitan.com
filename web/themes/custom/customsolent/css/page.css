@@ -11,17 +11,17 @@
 
 /* Desktop: constrain site content to 1200px */
 @media screen and (min-width: 800px) {
-  /* Header spans full width (blue background); content aligned to main + 2em grid */
+  /* Header spans full width (blue background); content aligned to main + 1em grid */
   #slnt-header {
     max-width: none;
     box-sizing: border-box;
-    padding-left: max(2em, calc((100% - 1200px) / 2 + 0em));
-    padding-right: max(2em, calc((100% - 1200px) / 2 + 2em));
+    padding-left: max(1em, calc((100% - 1200px) / 2 + 0em));
+    padding-right: max(1em, calc((100% - 1200px) / 2 + 1em));
   }
 
-  /* Logo area: same 1200px centering + 2em to align with menu text */
+  /* Logo area: same 1200px centering + 1em to align with menu text */
   #slnt-logo {
-    padding-left: max(2em, calc((100% - 1200px) / 2 + 0em));
+    padding-left: max(1em, calc((100% - 1200px) / 2 + 0em));
   }
 
   /* Main content constrained to 1200px */
