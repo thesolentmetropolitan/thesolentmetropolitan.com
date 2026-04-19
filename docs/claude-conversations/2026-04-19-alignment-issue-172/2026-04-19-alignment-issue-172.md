@@ -1301,3 +1301,9 @@ My guess is that the approach to fixing this issue is all in CSS and is to tweak
                                                                              
 ─────────────────────────────────────────────────────────────────────────────
 ❯  
+
+※ recap: We've been fixing left-alignment tracking across the theme —        
+  logo/menu/header, submenu, and hero-with-art-style are now synced and      
+  pushed to main. Next up is fixing paragraph alignment on composite pages,  
+  which you're handling editorially by re-nesting the enclosures.    
+  
