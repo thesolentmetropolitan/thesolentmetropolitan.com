@@ -1134,4 +1134,170 @@ My guess is that the approach to fixing this issue is all in CSS and is to tweak
   …)` on `.sub-menu-items-outer-container`. Next: you confirm it looks right 
   across widths, then I commit and push. (disable recaps in /config)
 
-  
+
+
+  ❯ Thanks Claude.                                                             
+                                                                             
+  Same needs to apply for composite pages node type.                         
+                                                                             
+  Related parent/enclosing css:                                              
+                                                                             
+  node--type-composite-page node--view-mode-full                             
+                                                                             
+  For example if you look at:                                                
+  https://thesolentmetropolitan.ddev.site/sectors/education , left alignment 
+   items                                                                     
+                                                                             
+  Also note some of the css adjustments may be needed for paragraphs used on 
+   the page                                                                  
+                                                                             
+  For example These pages often use Drupal Paragraph Hero With Art style,    
+  .paragraph--type--hero-with-art-style.                                     
+                                                                             
+  This paragraph does not track the alignment either, so possible fix on its 
+   css, unless css fixes to the parent suffice.                              
+                                                                             
+  Enclosure paragraphs are also in use in these pages, but I think you may   
+  have already adjusted this for the previous work so not sure if further    
+  adjustment is needed there specifically.                                   
+                                                                             
+  I have browser windows already open but let me know what you need open or  
+  closed. Thank you.                                                         
+
+⏺ I've got what I need for now via code reading. I'll navigate via Playwright
+   to measure — your existing Chrome windows are fine to leave open.
+
+  Searched for 4 patterns, read 4 files, listed 2 directories (ctrl+o to
+  expand)
+
+⏺ Let me navigate to the education page and measure the current alignment.
+
+  Called playwright 5 times (ctrl+o to expand)
+
+⏺ Let me check at 1400px to see where the hero diverges.
+
+  Called playwright 7 times (ctrl+o to expand)
+
+⏺ Let me preview the hero-paragraph fix alone first.
+
+  Called playwright 2 times (ctrl+o to expand)
+
+⏺ Now I see the problem clearly. Hero-only fix creates a mismatch: on
+  /sectors/education the paragraphs still collapse to logo's X (32px) at
+  narrow widths, but the "Education" cutout now sits 32px further right — so
+  hero and paragraphs stop lining up with each other.
+
+  Let me remove the preview and lay out what's actually happening.
+
+  Called playwright (ctrl+o to expand)
+
+⏺ What I found
+
+  At 1100px on /sectors/education (narrow), everything is at 32 — logo, hero
+  "Education" cutout, and both paragraphs. They're internally consistent on
+  the page but match the logo's X instead of sitting logo+32.
+
+  At 1400px (wide), logo is at 100, hero and paragraphs at 132 (logo+32).
+  Normal "everything" pattern.
+
+  Why the difference between education and homepage: homepage uses a nested
+  enclosure structure — an outer full-width enclosure containing an inner one
+   with field_padding=2em. The inner one's 2em is applied as a literal (not
+  max(2em, calc(...))), so it always adds 32px regardless of viewport.
+  Education uses a single top-level enclosure, so its max(2em, calc+2em)
+  floors at 32 below 1200px — no extra 32px beyond what the logo floor does.
+
+  Options
+
+  Column 1: A
+  Approach: Do nothing
+  Changes: —
+  Pros: Hero and paragraphs track each other on the page
+  Cons: At narrow widths, content converges onto the logo's X instead of
+    staying at logo+32
+  ────────────────────────────────────────
+  Column 1: B
+  Approach: CSS fix for hero only
+  Changes: 1 line in paragraph-hero-art-style.css
+  Pros: Hero tracks with logo+32 at all widths
+  Cons: Paragraphs on the same page still collapse to logo's X — hero and
+    paragraphs diverge from each other at narrow widths (worse than A)
+  ────────────────────────────────────────
+  Column 1: C
+  Approach: Fix hero + override enclosure via CSS on
+    .node--type-composite-page with !important
+  Changes: 2 CSS blocks
+  Pros: Everything at logo+32 at all widths, matches home page pattern
+  Cons: !important to override inline Twig style — slight smell
+  ────────────────────────────────────────
+  Column 1: D
+  Approach: Tweak Twig formula from max(2em, calc+X) → max(X+2em, calc+X)
+  Changes: ~1 twig line
+  Pros: Cleanest, no !important
+  Cons: Changes the paragraph twig calcs you asked me to preserve
+  ────────────────────────────────────────
+  Column 1: E
+  Approach: Editorial — wrap composite-page enclosures in a full-width outer
+    enclosure (matches home structure)
+  Changes: Content edits, no code
+  Pros: Uses existing twig logic correctly
+  Cons: Manual work across pages
+
+  My recommendation: C, but only if you really want the strict logo+32
+  pattern everywhere. Otherwise A — the current behaviour is internally
+  consistent per page, just converges at narrow widths.
+
+  Which would you like?
+
+✻ Churned for 7m 39s
+
+※ recap: Goal: make hero and paragraphs on /sectors/education track logo+32
+  at all widths (not just wide). Next: waiting on your pick from options A–E
+  so I can apply the fix.
+
+❯ Perhaps I should do B for the paragraph hero art - code change there only. 
+   And the rest of the solution would be to put the following paragraphs     
+  inside a new enclosure with padding full browser width setting.            
+
+⏺ Sounds good. One thing to flag: wrapping the paragraphs in a full_width
+  enclosure on its own doesn't change the math — the inside enclosure will
+  still use max(2em, calc+2em). The home-page trick is actually a 3-layer
+  nest ([full_width] > [field_padding=0em] > [field_padding=2em]), because
+  only the inner-inside-a-non-full-width gets the literal 2em that stacks.
+  Worth knowing when you structure the content. Happy to verify after you've
+  done the editorial change.
+
+  Now applying the hero CSS fix.
+
+⏺ Update(web/themes/custom/customsolent/css/paragraph-hero-art-style.css)
+  ⎿  Added 2 lines, removed 2 lines
+       4      width: 100%;
+       5      height: 7em;
+       6      box-sizing: border-box;
+       7 -    padding-left: max(0px, calc((100% - 1200px) / 2));      
+       8 -    padding-right: max(0px, calc((100% - 1200px) / 2));     
+       7 +    padding-left: max(2em, calc((100% - 1200px) / 2));      
+       8 +    padding-right: max(2em, calc((100% - 1200px) / 2));     
+       9    }
+      10  }
+      11  
+
+⏺ Let me verify the real change matches the preview.
+
+  Called playwright 2 times (ctrl+o to expand)  
+
+⏺ Real CSS now produces: logo 32, menu 52, hero 64, paragraph 32 at 1100px —
+  hero at logo+32 as intended. Change is one line in                  
+  paragraph-hero-art-style.css (line 7 — also line 8 for symmetry on
+  padding-right). Left uncommitted pending your editorial wrap for the       
+  paragraphs. Ping me when you want me to verify the finished result.
+                                                                             
+✻ Sautéed for 1m 31s                                                       
+                                                                      
+※ recap: Goal: align logo, menu, hero and paragraphs across all widths on    
+  composite pages. Hero CSS fix is applied and uncommitted; next action is   
+  for you to wrap the paragraphs in a 3-layer enclosure nest, then I verify  
+  and commit.                                                                
+                                                                             
+─────────────────────────────────────────────────────────────────────────────
+❯  
