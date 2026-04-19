@@ -1043,3 +1043,95 @@ My guess is that the approach to fixing this issue is all in CSS and is to tweak
                   
 ─────────────────────────────────────────────────────────────────────────────
 ❯  
+
+
+  Searched for 2 patterns, read 2 files (ctrl+o to expand)
+
+⏺ I found the rule. Currently at menu-desktop.css:314-319:
+
+  .sub-menu-items-outer-container {
+    box-sizing: border-box;
+    padding-left: calc(2em - 0.2em);  /* local offset, ~28.8px */
+    margin-left: max(0px, calc((100% - 1200px) / 2));  /* 0px floor → same
+  bug as header */
+  }
+
+  The margin-left has the same 0px floor that caused the original issue. Same
+   formula transformation should fix it. Let me preview with a submenu open
+  to verify.
+
+  Called playwright 2 times (ctrl+o to expand)  
+
+  Called playwright 3 times (ctrl+o to expand)                               
+         
+⏺ The browser process has closed. Can you launch Chrome again so I can       
+  preview the submenu change? In the meantime, here's the math:
+                                                                             
+  Current formula on .sub-menu-items-outer-container:                        
+  - margin-left: max(0px, calc((100% - 1200px) / 2)) + padding-left: calc(2em
+   - 0.2em) ≈ 28.8px                                                         
+                                                                             
+  Proposed single change (same transformation we did for #slnt-header):      
+  - margin-left: max(2em, calc((100% - 1200px) / 2))                         
+                                                    
+  Predicted submenu text-start positions vs existing "everything" targets:   
+                                                                             
+  ┌──────────┬──────┬──────────┬──────────────────────┬─────────────────┐    
+  │ Viewport │ Logo │  Main    │ Submenu text (after  │   Submenu now   │    
+  │          │      │   menu   │         fix)         │                 │    
+  ├──────────┼──────┼──────────┼──────────────────────┼─────────────────┤  
+  │ 1400     │ 100  │ 120      │ 100 + 28.8 = 128.8   │ 128.8           │
+  │          │      │          │                      │ (unchanged)     │    
+  ├──────────┼──────┼──────────┼──────────────────────┼─────────────────┤
+  │ 1200     │ 32   │ 52       │ 32 + 28.8 = 60.8     │ 28.8            │    
+  ├──────────┼──────┼──────────┼──────────────────────┼─────────────────┤    
+  │ 900      │ 32   │ 52       │ 32 + 28.8 = 60.8     │ 28.8            │
+  └──────────┴──────┴──────────┴──────────────────────┴─────────────────┘    
+                  
+  After the fix the submenu would track with everything — ~8.8px right of the
+   main menu at every width (its existing wide-width "local offset"), no more
+   divergence below 1200px.                                                  
+                  
+  Want me to apply the one-line change now and verify once you've reopened   
+  Chrome, or wait until Chrome's back up to preview first?
+                                                                             
+✻ Sautéed for 2m 6s
+
+❯ I've re-opened Chrome. Apologies.                                          
+                                    
+⏺ No worries. Let me verify the math live.                                   
+                                                                             
+  Called playwright 7 times (ctrl+o to expand)  
+                                                                             
+⏺ Confirmed at 1100px: submenu first-link = 28.8, left of even the logo (32).
+   Applying the preview fix.                                                 
+                  
+  Called playwright 6 times (ctrl+o to expand)                               
+                 
+⏺ All three widths confirm the fix works: submenu tracks with logo +28.8 at  
+  every width. Applying the real change now.                               
+                                                                             
+⏺ Update(web/themes/custom/customsolent/css/menu-desktop.css)                
+  ⎿  Added 1 line, removed 1 line                                            
+      315        box-sizing: border-box; /* so max-width:1200px includ       
+           es padding — matches .first-link centering */                     
+      316        /* padding-left: 0.4em;*/                                   
+      317        padding-left: calc(2em - 0.2em); /* align to main men       
+           u text: 2em total minus a padding-left 0.2em */                   
+      318 -      margin-left: max(0px, calc((100% - 1200px) / 2));           
+      318 +      margin-left: max(2em, calc((100% - 1200px) / 2));         
+      319    }                                                             
+      320                                                                    
+      321  .sub-menu-container > a.first-link {                              
+                                                                             
+⏺ Have a look and let me know if the submenu alignment is right across       
+  widths. I'll leave the change uncommitted until you confirm.
+
+✻ Brewed for 1m 29s                                                          
+                                                      
+※ recap: We're syncing the desktop submenu's left alignment with             
+  logo/menu/heading; I changed `margin-left` from `max(0px, …)` to `max(2em, 
+  …)` on `.sub-menu-items-outer-container`. Next: you confirm it looks right 
+  across widths, then I commit and push. (disable recaps in /config)
+
+  

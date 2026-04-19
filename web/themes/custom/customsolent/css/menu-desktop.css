@@ -315,7 +315,7 @@
       box-sizing: border-box; /* so max-width:1200px includes padding — matches .first-link centering */
       /* padding-left: 0.4em;*/
       padding-left: calc(2em - 0.2em); /* align to main menu text: 2em total minus a padding-left 0.2em */
-      margin-left: max(0px, calc((100% - 1200px) / 2));
+      margin-left: max(2em, calc((100% - 1200px) / 2));
   }
 
 .sub-menu-container > a.first-link {
