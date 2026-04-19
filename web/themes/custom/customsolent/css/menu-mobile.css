@@ -498,7 +498,7 @@ https://stackoverflow.com/questions/79791175/how-to-stop-tap-highlight-blink-on-
 /* Mobile submenu indentation - beneath main items, slightly more to the right */
 
   ul.sub-menu-item-container {
-    /* padding-left: 2em; */
+
   }
 
   .sub-menu-container > a.first-link {
