@@ -12,14 +12,20 @@ type: list_string
 settings:
   allowed_values:
     -
-      value: 2em
-      label: 2em
+      value: full_width
+      label: 'Full horizontal browser width'
     -
       value: '0'
       label: '0'
     -
-      value: full_width
-      label: 'Full horizontal browser width'
+      value: 1em
+      label: 1em
+    -
+      value: 2em
+      label: 2em
+    -
+      value: 4em
+      label: 4em
   allowed_values_function: ''
 module: options
 locked: false
