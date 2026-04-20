@@ -1306,4 +1306,77 @@ My guess is that the approach to fixing this issue is all in CSS and is to tweak
   logo/menu/header, submenu, and hero-with-art-style are now synced and      
   pushed to main. Next up is fixing paragraph alignment on composite pages,  
   which you're handling editorially by re-nesting the enclosures.    
-  
+
+
+  --
+
+That fixed it. It was the 1em editorial fix - I added  
+  it as a possible value to the field_padding for        
+  enclosure earlier locally I think, but I didn't have   
+  it on live.                                            
+                                                         
+  Clever deduction Claude.                               
+                                                         
+  But I think that if we wanted 2em again, things        
+  shouldn't be so roughly aligned as they were.          
+                                                         
+  Thank you for your clever work.                        
+                                                         
+  Keeping everything aligned seems a lot of work, if     
+  things are in different divs etc.                      
+                                                         
+  I feel like the code may have got difficult to         
+  maintain, with all the corner case tweaks. But maybe   
+  not.                                                   
+                                                         
+  I don't know how the "big people" like the BBC keep    
+  alignment.                                             
+                                                         
+  In the short term I want to live with the CSS I have   
+  but longer term I'd like to feel it is not fragile and 
+   breaks.                                               
+                                                         
+  There's a bit more to do with Composite Page templates 
+   and margins and how they are dif
+
+
+  --
+
+   Glad that pinned it down — the field_padding default   
+  was the hidden lever the whole time.                   
+                                                         
+  On maintainability — yes, this is genuinely fragile.   
+  The "big-site" pattern (BBC, Guardian, design systems  
+  generally) is: one .container { max-width: 1200px;     
+  margin-inline: auto; padding-inline: 1em; } class    
+  applied to every content row, and nothing else does    
+  horizontal centering. Content layout is fixed by code, 
+  not editor fields. Our current approach has every      
+  element computing its own centering with max(…,
+  calc(…)), plus an editor field that can add or undo the
+   offset — which is why a single field_padding value
+  change just unravelled it.
+
+  If we refactored to that container pattern, you'd lose 
+  field_padding='2em' as a horizontal knob (it'd still
+  work for top/bottom) but gain a system where no        
+  editorial input can mis-align things. Worth tabling as
+  a separate piece of work when you're ready — I'd     
+  estimate half a day to refactor carefully plus content
+  re-testing.
+
+  Ready when you are for the Composite Page / mobile     
+  margin differences.
+                                                         
+  Let me save a few bits to memory before we leave this  
+  thread:                                              
+                                                         
+  Read 1 file, recalled 1 memory, wrote 4 memories       
+  (ctrl+o to expand)                                   
+                                                         
+⏺ Saved three memories for next time: the maintainability
+   preference, the alignment-depends-on-field_padding    
+  trap (so future me checks inline styles first), and the
+   composite-page/mobile-margins task on deck. Good      
+  session — enjoy the evening.                           
+                                 
