@@ -10,7 +10,7 @@ Write a drush-executable PHP script to populate the existing **Topic** taxonomy 
 
 Before running the script, manually add this field to the Topic vocabulary via the Drupal admin UI:
 
-- **field_reader_summary** — Plain text field, max 200 characters. This is a reader-facing summary of the term (separate from the built-in description field which is editor-facing). Leave blank for now.
+- **field_reader_summary** — Plain text field, max 200 characters. This is a reader-facing summary of the term (separate from the built-in description field which is editor-facing). The script will populate this with a generated sentence for each term.
 
 ---
 
@@ -20,7 +20,8 @@ Before running the script, manually add this field to the Topic vocabulary via t
 2. Creates **child terms** for each submenu item under those sections, with the correct parent-child relationship
 3. **Excludes** submenu items that begin with "View All"
 4. Sets the **term weight** on each term to match the menu item display order (first submenu item = weight 0, second = weight 1, etc.)
-5. Is **idempotent** — safe to re-run without creating duplicates. Before creating a term, check if a term with the same name and parent already exists in the Topic vocabulary. If it does, skip it.
+5. Populates **field_reader_summary** with a short reader-facing sentence for each term (see guidelines below)
+6. Is **idempotent** — safe to re-run without creating duplicates. Before creating a term, check if a term with the same name and parent already exists in the Topic vocabulary. If it does, skip it.
 
 ---
 
@@ -149,10 +150,43 @@ Before running the script, manually add this field to the Topic vocabulary via t
 - **Script location:** Place in a sensible location such as `scripts/` or `drush/` in the project root
 - **Execution:** The script should be runnable via `drush php:script <path-to-script>`
 - **Parent-child relationships:** Set explicitly using the `parent` field on each term — do not rely on the naming convention to imply hierarchy. The term name includes the parent prefix for display/disambiguation purposes; the actual hierarchy must be set structurally.
-- **field_reader_summary:** If this field exists on the vocabulary, set it to empty string. If it doesn't exist yet (because the admin hasn't added it), the script should not fail — handle gracefully.
-- **Built-in description field:** Leave empty.
+- **field_reader_summary:** Populate with a generated sentence for each term (see guidelines below). If the field doesn't exist yet (because the admin hasn't added it), the script should not fail — log a warning and continue without populating.
+- **Built-in description field:** Leave empty (will be used for editor-facing notes later).
 - **After completion:** The script should output a summary of what was created and what was skipped (already existed).
 - **Run `drush cr`** (cache rebuild) after the script completes, or include it in the script.
+
+---
+
+## field_reader_summary guidelines
+
+Generate a short reader-facing sentence (under 200 characters) for each term. These summaries will be displayed to readers to explain what content they can expect to find under each topic.
+
+### Tone and framing
+- **Descriptive and inviting**, not definitional or dry
+- Frame as what the reader will discover, not a dictionary definition
+- Should work naturally in a display context like: "In Culture: [summary]"
+- Use language that reflects the Greater Solent regional focus where appropriate
+
+### Parent terms
+- Summaries should describe the broad scope of the section
+- Example for Culture: "The arts, heritage, food, sport, community life and creative energy of the Greater Solent"
+- Example for Sectors: "The industries, businesses and organisations driving the Solent economy"
+
+### Child terms
+- Summaries should describe what content the reader will find, in the context of the parent section
+- **For terms that exist under multiple parents, the summaries must reflect the different contextual meaning of each.** This is critical.
+- Example — Culture / Technology: "How technology shapes culture and creativity across the Solent"
+- Example — Sectors / Technology: "Technology companies, startups and digital innovation in the Solent economy"
+- Example — Culture / Maritime: "The maritime heritage, traditions and seafaring culture of the Solent"
+- Example — Sectors / Maritime: "Shipping, ports, marine engineering and the Solent's maritime industries"
+- Example — Living / Education: "Learning opportunities, schools, courses and educational life in the Solent"
+- Example — Sectors / Education: "Educational institutions, training providers and the education sector"
+
+### What to avoid
+- Don't repeat the term name verbatim as the first words ("Technology is...")
+- Don't use generic phrasing that could apply to any region — ground it in the Solent where it feels natural
+- Don't exceed 200 characters — these need to be concise
+- Don't make them sound like marketing copy — keep them informative and genuine
 
 ---
 
