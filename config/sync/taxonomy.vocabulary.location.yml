@@ -1,0 +1,9 @@
+uuid: 61e7b959-dc2b-44f0-879c-778c62b2beb4
+langcode: en
+status: true
+dependencies: {  }
+name: Location
+vid: location
+description: 'for location of things like events, organisations'
+weight: 0
+new_revision: false

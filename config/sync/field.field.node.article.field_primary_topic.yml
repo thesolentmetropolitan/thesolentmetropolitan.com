@@ -1,15 +1,16 @@
-uuid: 0a80e261-40fa-48f6-8607-f4ecca85a90d
+uuid: f9ba7180-c150-4800-9295-90802212b70d
 langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.node.field_topics
+    - field.storage.node.field_primary_topic
     - node.type.article
-id: node.article.field_topics
-field_name: field_topics
+    - taxonomy.vocabulary.topic
+id: node.article.field_primary_topic
+field_name: field_primary_topic
 entity_type: node
 bundle: article
-label: Topics
+label: 'primary topic'
 description: ''
 required: false
 translatable: false
@@ -18,7 +19,8 @@ default_value_callback: ''
 settings:
   handler: 'default:taxonomy_term'
   handler_settings:
-    target_bundles: {  }
+    target_bundles:
+      topic: topic
     sort:
       field: name
       direction: asc

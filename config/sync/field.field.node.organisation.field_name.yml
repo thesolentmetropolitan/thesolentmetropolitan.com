@@ -1,0 +1,19 @@
+uuid: 3e10793a-1db2-400e-9604-8daba262d193
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_name
+    - node.type.organisation
+id: node.organisation.field_name
+field_name: field_name
+entity_type: node
+bundle: organisation
+label: name
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

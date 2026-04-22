@@ -1,0 +1,46 @@
+uuid: 3d9bc321-6e1b-4965-b4c4-0af310cbfa26
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.organisation.field_name
+    - field.field.node.organisation.field_primary_topic
+    - field.field.node.organisation.field_related_topics
+    - node.type.organisation
+  module:
+    - user
+id: node.organisation.default
+targetEntityType: node
+bundle: organisation
+mode: default
+content:
+  field_name:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 103
+    region: content
+  field_primary_topic:
+    type: entity_reference_label
+    label: hidden
+    settings:
+      link: false
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  field_related_topics:
+    type: entity_reference_label
+    label: hidden
+    settings:
+      link: false
+    third_party_settings: {  }
+    weight: 102
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden: {  }
