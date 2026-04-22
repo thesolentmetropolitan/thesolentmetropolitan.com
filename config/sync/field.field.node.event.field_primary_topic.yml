@@ -1,0 +1,29 @@
+uuid: 7fab42e0-2572-4433-ac73-9401901f701a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_primary_topic
+    - node.type.event
+    - taxonomy.vocabulary.topic
+id: node.event.field_primary_topic
+field_name: field_primary_topic
+entity_type: node
+bundle: event
+label: 'primary topic'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      topic: topic
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

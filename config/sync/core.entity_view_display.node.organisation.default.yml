@@ -1,38 +1,26 @@
-uuid: b64d1eab-b718-4fb8-9885-087ecac5707f
+uuid: 3d9bc321-6e1b-4965-b4c4-0af310cbfa26
 langcode: en
 status: true
 dependencies:
   config:
-    - field.field.node.article.body
-    - field.field.node.article.field_image
-    - field.field.node.article.field_primary_topic
-    - field.field.node.article.field_related_topics
-    - node.type.article
+    - field.field.node.organisation.field_name
+    - field.field.node.organisation.field_primary_topic
+    - field.field.node.organisation.field_related_topics
+    - node.type.organisation
   module:
-    - text
     - user
-_core:
-  default_config_hash: br6izr-iGEu--JvNbCJNtOBpRnxpFLXfoV5y61U9Nqc
-id: node.article.default
+id: node.organisation.default
 targetEntityType: node
-bundle: article
+bundle: organisation
 mode: default
 content:
-  body:
-    type: text_default
-    label: hidden
-    settings: {  }
-    third_party_settings: {  }
-    weight: 0
-    region: content
-  field_image:
-    type: entity_reference_entity_view
+  field_name:
+    type: string
     label: above
     settings:
-      view_mode: default
-      link: false
+      link_to_entity: false
     third_party_settings: {  }
-    weight: 112
+    weight: 103
     region: content
   field_primary_topic:
     type: entity_reference_label

@@ -1,0 +1,26 @@
+uuid: 923aced3-73b0-48d9-8a01-f95d0bdd07d3
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.card_flyer_social
+    - field.field.node.composite_page.field_content_component
+    - field.field.node.composite_page.field_primary_topic
+    - field.field.node.composite_page.field_related_topics
+    - node.type.composite_page
+  module:
+    - user
+id: node.composite_page.card_flyer_social
+targetEntityType: node
+bundle: composite_page
+mode: card_flyer_social
+content:
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_content_component: true
+  field_primary_topic: true
+  field_related_topics: true

@@ -4,6 +4,10 @@ status: true
 dependencies:
   config:
     - core.entity_view_mode.node.card_flyer_social
+    - field.field.node.event.field_primary_topic
+    - field.field.node.event.field_related_topics
+    - field.field.node.event.field_when
+    - field.field.node.event.field_where
     - node.type.event
   module:
     - user
@@ -17,4 +21,8 @@ content:
     third_party_settings: {  }
     weight: 100
     region: content
-hidden: {  }
+hidden:
+  field_primary_topic: true
+  field_related_topics: true
+  field_when: true
+  field_where: true

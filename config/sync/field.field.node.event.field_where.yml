@@ -1,0 +1,29 @@
+uuid: 3a1289c0-ccb0-434c-85bf-2d560f54375d
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_where
+    - node.type.event
+    - taxonomy.vocabulary.location
+id: node.event.field_where
+field_name: field_where
+entity_type: node
+bundle: event
+label: where
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      location: location
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

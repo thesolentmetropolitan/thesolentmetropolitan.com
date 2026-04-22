@@ -1,0 +1,29 @@
+uuid: 0ac298fe-d05a-44d7-a804-553a2bbcd7e8
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_primary_topic
+    - node.type.composite_page
+    - taxonomy.vocabulary.topic
+id: node.composite_page.field_primary_topic
+field_name: field_primary_topic
+entity_type: node
+bundle: composite_page
+label: 'primary topic'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      topic: topic
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference
