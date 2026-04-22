@@ -1572,4 +1572,4 @@ taxonomies:
         -
           color: '#FFFFFF'
           opacity: '1'
-  topics: {  }
+  topic: {  }
