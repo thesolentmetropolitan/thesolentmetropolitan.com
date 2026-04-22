@@ -1,0 +1,9 @@
+uuid: 98920161-1304-41bb-9c09-6109c8f49b46
+langcode: en
+status: true
+dependencies: {  }
+name: Topic
+vid: topic
+description: 'topic for content'
+weight: 0
+new_revision: false
