@@ -1,0 +1,38 @@
+uuid: 87a676d3-70e0-44a0-973e-73bc6e517e1c
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.media.article_hero
+    - field.field.media.image.field_media_image
+    - image.style.article_hero
+    - media.type.image
+  module:
+    - svg_image
+_core:
+  default_config_hash: 73xaTNkI5J6sfFcBmNYeuk070X3mQS_iwwWaPYyfG2M
+id: media.image.article_hero
+targetEntityType: media
+bundle: image
+mode: article_hero
+content:
+  field_media_image:
+    type: image
+    label: visually_hidden
+    settings:
+      image_link: ''
+      image_style: article_hero
+      image_loading:
+        attribute: lazy
+      svg_attributes:
+        width: null
+        height: null
+      svg_render_as_image: true
+    third_party_settings: {  }
+    weight: 1
+    region: content
+hidden:
+  created: true
+  name: true
+  thumbnail: true
+  uid: true

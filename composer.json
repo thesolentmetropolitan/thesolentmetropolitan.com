@@ -24,6 +24,7 @@
         "drupal/core-recommended": "^11",
         "drupal/custom_field": "^4.0",
         "drupal/fitvids": "^2.1",
+        "drupal/focal_point": "^2.1",
         "drupal/gin": "^5.0",
         "drupal/media_responsive_thumbnail": "^2.0",
         "drupal/menu_link_attributes": "^1.6",

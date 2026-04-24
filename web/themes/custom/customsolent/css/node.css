@@ -1,0 +1,189 @@
+/* ══════════════════════════════════════
+   Article — Full view mode
+   ══════════════════════════════════════ */
+
+/* ── Outer container — aligns with main menu "Home" text via --align-floor ── */
+.slnt-article {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2em var(--align-floor, 1em) 0;
+  box-sizing: border-box;
+}
+
+/* ── Header area (title, standfirst, date) — full width ── */
+.slnt-article__header {
+  margin-bottom: 1.5rem;
+}
+
+/* ── Title ── */
+.slnt-article__title {
+  font-family: 'Atkinson Hyperlegible Next', sans-serif;
+  font-size: 2.4rem;
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--text, #1a1a1a);
+  margin-bottom: 0.5rem;
+}
+
+/* ── Standfirst ── */
+.slnt-article__standfirst {
+  font-family: 'Atkinson Hyperlegible Next', sans-serif;
+  font-size: 1.8rem;
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--text, #1a1a1a);
+  margin-bottom: 0.5rem;
+}
+
+/* Remove any nested paragraph margins from field output */
+.slnt-article__standfirst p {
+  margin: 0;
+}
+.slnt-article__standfirst .field {
+  display: inline;
+}
+
+/* ── Date ── */
+.slnt-article__date {
+  display: block;
+  font-family: 'Atkinson Hyperlegible Next', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: var(--text-mid, #444);
+  margin-bottom: 0;
+}
+
+/* ── Hero image — full width within 1200px container ── */
+.slnt-article__image {
+  margin: 1.5rem 0;
+}
+
+.slnt-article__image img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 4px;
+}
+
+/* ── Body — narrower reading column, centred ── */
+.slnt-article__body {
+  max-width: 740px;
+  margin: 0 auto;
+}
+
+/* Body text inherits from fonts.css but ensure base styles */
+.slnt-article__body p {
+  font-family: 'Atkinson Hyperlegible Next', sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.65;
+  color: var(--text, #1a1a1a);
+  margin-bottom: 1.2rem;
+}
+
+/* Body headings within articles */
+.slnt-article__body h2 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--solent-blue, #2c4f6e);
+  margin-top: 2rem;
+  margin-bottom: 0.8rem;
+}
+
+.slnt-article__body h3 {
+  font-size: 1.35rem;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--solent-blue, #2c4f6e);
+  margin-top: 1.5rem;
+  margin-bottom: 0.6rem;
+}
+
+/* Body links — magenta underline style from brief */
+.slnt-article__body a {
+  color: var(--text, #1a1a1a);
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-color: var(--magenta, #c5007a);
+  text-underline-offset: 3px;
+  text-decoration-thickness: 2px;
+  transition: color 0.15s;
+}
+
+.slnt-article__body a:hover {
+  color: var(--magenta, #c5007a);
+}
+
+/* Body lists */
+.slnt-article__body ul,
+.slnt-article__body ol {
+  margin-bottom: 1.2rem;
+  padding-left: 1.5em;
+}
+
+.slnt-article__body li {
+  margin-bottom: 0.4rem;
+  line-height: 1.65;
+}
+
+/* Blockquotes */
+.slnt-article__body blockquote {
+  border-left: 4px solid var(--solent-blue, #2c4f6e);
+  margin: 1.5rem 0;
+  padding: 0.8rem 1.5rem;
+  font-style: italic;
+  color: var(--text-mid, #444);
+}
+
+.slnt-article__body blockquote p {
+  margin-bottom: 0.5rem;
+}
+
+.slnt-article__body blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+/* Images within body content */
+.slnt-article__body img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
+  margin: 1rem 0;
+}
+
+/* ── Tablet — viewport narrower than 1200px container ──
+   At this range the menu text sits at 2em from the viewport edge
+   (1em header padding + 1em menu inset). Match it. */
+@media (min-width: 800px) and (max-width: 1199px) {
+  .slnt-article {
+    padding: 0 calc(var(--align-floor, 1em) * 2);
+  }
+}
+
+/* ── Mobile adjustments ── */
+@media (max-width: 799px) {
+  .slnt-article {
+    padding: 0 var(--content-pad-mobile, 1.2rem);
+  }
+
+  .slnt-article__title {
+    font-size: 1.75rem;
+  }
+
+  .slnt-article__standfirst {
+    font-size: 1.4rem;
+  }
+
+  .slnt-article__body {
+    max-width: 100%;
+  }
+
+  .slnt-article__body h2 {
+    font-size: 1.4rem;
+  }
+
+  .slnt-article__body h3 {
+    font-size: 1.15rem;
+  }
+}
