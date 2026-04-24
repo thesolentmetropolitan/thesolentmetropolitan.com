@@ -7,6 +7,7 @@ dependencies:
     - field.field.node.article.field_image
     - field.field.node.article.field_primary_topic
     - field.field.node.article.field_related_topics
+    - field.field.node.article.field_standfirst
     - node.type.article
   module:
     - text
@@ -23,16 +24,16 @@ content:
     label: hidden
     settings: {  }
     third_party_settings: {  }
-    weight: 0
+    weight: 2
     region: content
   field_image:
     type: entity_reference_entity_view
-    label: above
+    label: hidden
     settings:
-      view_mode: default
+      view_mode: article_hero
       link: false
     third_party_settings: {  }
-    weight: 112
+    weight: 1
     region: content
   field_primary_topic:
     type: entity_reference_label
@@ -40,7 +41,7 @@ content:
     settings:
       link: false
     third_party_settings: {  }
-    weight: 101
+    weight: 4
     region: content
   field_related_topics:
     type: entity_reference_label
@@ -48,11 +49,19 @@ content:
     settings:
       link: false
     third_party_settings: {  }
-    weight: 102
+    weight: 5
+    region: content
+  field_standfirst:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 0
     region: content
   links:
     settings: {  }
     third_party_settings: {  }
-    weight: 100
+    weight: 3
     region: content
 hidden: {  }

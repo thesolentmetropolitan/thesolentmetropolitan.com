@@ -1,0 +1,11 @@
+uuid: 23eb17a8-44c9-430f-acf7-8045f51223f3
+langcode: en
+status: true
+dependencies:
+  module:
+    - media
+id: media.article_hero
+label: 'Article Hero'
+description: null
+targetEntityType: media
+cache: true

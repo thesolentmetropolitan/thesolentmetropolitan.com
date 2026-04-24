@@ -7,8 +7,10 @@ dependencies:
     - field.field.node.article.field_image
     - field.field.node.article.field_primary_topic
     - field.field.node.article.field_related_topics
+    - field.field.node.article.field_standfirst
     - node.type.article
   module:
+    - media_library
     - path
     - text
 _core:
@@ -35,14 +37,11 @@ content:
     settings: {  }
     third_party_settings: {  }
   field_image:
-    type: entity_reference_autocomplete
+    type: media_library_widget
     weight: 122
     region: content
     settings:
-      match_operator: CONTAINS
-      match_limit: 10
-      size: 60
-      placeholder: ''
+      media_types: {  }
     third_party_settings: {  }
   field_primary_topic:
     type: entity_reference_autocomplete
@@ -61,6 +60,14 @@ content:
     settings:
       match_operator: CONTAINS
       match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_standfirst:
+    type: string_textfield
+    weight: 123
+    region: content
+    settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }
