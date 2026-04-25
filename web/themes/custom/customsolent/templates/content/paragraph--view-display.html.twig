@@ -1,0 +1,25 @@
+{#
+/**
+ * @file
+ * Theme override for the "View Display" paragraph type.
+ *
+ * Renders the viewsreference field (field_view_display) which embeds
+ * the chosen Views display.
+ */
+#}
+{%
+  set classes = [
+    'paragraph',
+    'paragraph--type--' ~ paragraph.bundle|clean_class,
+    view_mode ? 'paragraph--view-mode--' ~ view_mode|clean_class,
+    not paragraph.isPublished() ? 'paragraph--unpublished',
+    'slnt-view-display',
+  ]
+%}
+{% block paragraph %}
+  <div{{ attributes.addClass(classes) }}>
+    {% block content %}
+      {{ content.field_view_display }}
+    {% endblock %}
+  </div>
+{% endblock paragraph %}

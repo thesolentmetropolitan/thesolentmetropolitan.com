@@ -187,3 +187,186 @@
     font-size: 1.15rem;
   }
 }
+
+/* ══════════════════════════════════════
+   Paragraph — View Display wrapper
+   ══════════════════════════════════════ */
+
+.slnt-view-display {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1em var(--align-floor, 1em);
+  box-sizing: border-box;
+}
+
+@media (min-width: 800px) and (max-width: 1199px) {
+  .slnt-view-display {
+    padding: 1em calc(var(--align-floor, 1em) * 2);
+  }
+}
+
+@media (max-width: 799px) {
+  .slnt-view-display {
+    padding: 1em var(--content-pad-mobile, 1.2rem);
+  }
+}
+
+/* ══════════════════════════════════════
+   Article — Teaser view mode (horizontal card)
+   ══════════════════════════════════════ */
+
+/* Whole card is clickable via the wrapping <a> */
+.slnt-article-teaser-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.slnt-article-teaser {
+  display: flex;
+  gap: 1.5rem;
+  padding: 1.25rem 0;
+  border-bottom: 1px solid var(--warm-grey, #f5f3f0);
+}
+
+.slnt-article-teaser-link:first-of-type .slnt-article-teaser {
+  border-top: 1px solid var(--warm-grey, #f5f3f0);
+}
+
+.slnt-article-teaser-link:hover .slnt-article-teaser__title {
+  color: var(--magenta, #c5007a);
+}
+
+/* Image column — fixed width so cards are visually consistent */
+.slnt-article-teaser__image {
+  flex: 0 0 240px;
+  max-width: 240px;
+}
+
+.slnt-article-teaser__image img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 4px;
+}
+
+/* Text column — fills remaining space; min-width:0 prevents flex overflow */
+.slnt-article-teaser__text {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+/* When there's no image, text spans the whole card naturally */
+.slnt-article-teaser--no-image .slnt-article-teaser__text {
+  flex: 1 1 100%;
+}
+
+.slnt-article-teaser__title {
+  font-family: 'Atkinson Hyperlegible Next', sans-serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--text, #1a1a1a);
+  margin: 0 0 0.4rem 0;
+  transition: color 0.15s;
+}
+
+.slnt-article-teaser__standfirst {
+  font-family: 'Atkinson Hyperlegible Next', sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--text-mid, #444);
+  margin: 0 0 0.4rem 0;
+}
+
+/* Strip nested wrappers from the rendered field */
+.slnt-article-teaser__standfirst .field {
+  display: inline;
+}
+.slnt-article-teaser__standfirst p {
+  margin: 0;
+  display: inline;
+}
+
+.slnt-article-teaser__date {
+  display: block;
+  font-family: 'Atkinson Hyperlegible Next', sans-serif;
+  font-size: 0.85rem;
+  color: var(--text-mid, #444);
+}
+
+/* Stack on narrow viewports */
+@media (max-width: 599px) {
+  .slnt-article-teaser {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  .slnt-article-teaser__image {
+    flex: 0 0 auto;
+    max-width: 100%;
+  }
+  .slnt-article-teaser__title {
+    font-size: 1.2rem;
+  }
+}
+
+/* ══════════════════════════════════════
+   Pager — Full type (numbered)
+   Whole box hoverable: padding lives on the <a>, no padding on the <li>
+   so the link's hover background fills the entire bordered box.
+   ══════════════════════════════════════ */
+
+.pager__items,
+ul.pager__items.js-pager__items {
+  list-style: none;
+  padding: 0;
+  margin: 1.5rem 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3em;
+  justify-content: center;
+}
+
+.pager__items > li.pager__item {
+  border: 1px solid var(--solent-blue, #2c4f6e);
+  box-sizing: border-box;
+  display: inline-block;
+  margin: 0;
+}
+
+.pager__items > li.pager__item > a {
+  display: block;
+  padding: 0.35em 0.7em;
+  color: var(--solent-blue, #2c4f6e);
+  text-decoration: none;
+  font-family: 'Atkinson Hyperlegible Next', sans-serif;
+  font-weight: 600;
+  line-height: 1.2;
+  transition: background-color 0.15s, color 0.15s;
+}
+
+.pager__items > li.pager__item > a:hover,
+.pager__items > li.pager__item > a:focus {
+  background-color: var(--solent-blue, #2c4f6e);
+  color: #fff;
+}
+
+/* Current page — typically rendered with no inner <a>, so style the <li> directly */
+.pager__items > li.pager__item.is-active {
+  background-color: var(--solent-blue, #2c4f6e);
+  color: #fff;
+  padding: 0.35em 0.7em;
+  font-family: 'Atkinson Hyperlegible Next', sans-serif;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.pager__items > li.pager__item.is-active > a {
+  color: #fff;
+}
+
+/* Hide ellipsis like eela */
+.pager__items > li.pager__item--ellipsis {
+  display: none;
+}
