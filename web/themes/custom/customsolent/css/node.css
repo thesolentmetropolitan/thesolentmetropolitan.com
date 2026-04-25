@@ -215,11 +215,28 @@
    Article — Teaser view mode (horizontal card)
    ══════════════════════════════════════ */
 
-/* Whole card is clickable via the wrapping <a> */
-.slnt-article-teaser-link {
+/* Views "unformatted list" style wraps each row in an unclassed <ul><li>
+   inside div.item-list. Scope the bullet/indent removal to our paragraph. */
+.slnt-articles-list .item-list > ul,
+.slnt-articles-list .item-list > ul > li {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+.slnt-articles-list .item-list > ul > li {
+  display: block;
+}
+
+/* Whole card is clickable via the wrapping <a>.
+   Scope under .slnt-articles-list so the selector beats .layout-content a
+   (which would otherwise add the body-link magenta underline). */
+.slnt-articles-list a.slnt-article-teaser-link,
+.slnt-articles-list a.slnt-article-teaser-link:hover {
   display: block;
   text-decoration: none;
   color: inherit;
+  font-weight: inherit;
 }
 
 .slnt-article-teaser {
@@ -313,12 +330,15 @@
 
 /* ══════════════════════════════════════
    Pager — Full type (numbered)
+   Scoped under .slnt-articles-list (set via classy_paragraphs on the
+   View Display paragraph) so styles apply only to the articles list pager
+   and don't leak to any other pager elsewhere on the site.
+
    Whole box hoverable: padding lives on the <a>, no padding on the <li>
    so the link's hover background fills the entire bordered box.
    ══════════════════════════════════════ */
 
-.pager__items,
-ul.pager__items.js-pager__items {
+.slnt-articles-list .pager__items {
   list-style: none;
   padding: 0;
   margin: 1.5rem 0;
@@ -328,15 +348,21 @@ ul.pager__items.js-pager__items {
   justify-content: center;
 }
 
-.pager__items > li.pager__item {
+.slnt-articles-list .pager__items > li.pager__item {
+  list-style: none;
   border: 1px solid var(--solent-blue, #2c4f6e);
   box-sizing: border-box;
-  display: inline-block;
+  display: inline-flex;
+  align-items: stretch;
   margin: 0;
 }
 
-.pager__items > li.pager__item > a {
-  display: block;
+/* Flex-centred text inside the link — keeps the digit vertically centred
+   within the bordered box, matching the active item's appearance. */
+.slnt-articles-list .pager__items > li.pager__item > a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   padding: 0.35em 0.7em;
   color: var(--solent-blue, #2c4f6e);
   text-decoration: none;
@@ -346,27 +372,30 @@ ul.pager__items.js-pager__items {
   transition: background-color 0.15s, color 0.15s;
 }
 
-.pager__items > li.pager__item > a:hover,
-.pager__items > li.pager__item > a:focus {
+.slnt-articles-list .pager__items > li.pager__item > a:hover,
+.slnt-articles-list .pager__items > li.pager__item > a:focus {
   background-color: var(--solent-blue, #2c4f6e);
   color: #fff;
 }
 
 /* Current page — typically rendered with no inner <a>, so style the <li> directly */
-.pager__items > li.pager__item.is-active {
-  background-color: var(--solent-blue, #2c4f6e);
+.slnt-articles-list .pager__items > li.pager__item.is-active {
+  background-color: var(--magenta-dark, #a30065);
+  border-color: var(--magenta-dark, #a30065);
   color: #fff;
   padding: 0.35em 0.7em;
   font-family: 'Atkinson Hyperlegible Next', sans-serif;
   font-weight: 600;
   line-height: 1.2;
+  align-items: center;
+  justify-content: center;
 }
 
-.pager__items > li.pager__item.is-active > a {
+.slnt-articles-list .pager__items > li.pager__item.is-active > a {
   color: #fff;
 }
 
 /* Hide ellipsis like eela */
-.pager__items > li.pager__item--ellipsis {
+.slnt-articles-list .pager__items > li.pager__item--ellipsis {
   display: none;
 }

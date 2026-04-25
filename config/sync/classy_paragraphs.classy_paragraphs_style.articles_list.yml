@@ -1,0 +1,7 @@
+uuid: dd657579-1228-412a-883d-a1d1afde5f61
+langcode: en
+status: true
+dependencies: {  }
+id: articles_list
+label: 'Articles List'
+classes: slnt-articles-list
