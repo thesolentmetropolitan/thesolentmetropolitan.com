@@ -16,8 +16,19 @@
     'slnt-view-display',
   ]
 %}
+
+{# Pull through any classy_paragraphs entries on field_classy #}
+{% set extra_classes = [] %}
+{% if paragraph.hasField('field_classy') %}
+  {% for item in paragraph.field_classy %}
+    {% if item.entity.classes %}
+      {% set extra_classes = extra_classes|merge([item.entity.classes]) %}
+    {% endif %}
+  {% endfor %}
+{% endif %}
+
 {% block paragraph %}
-  <div{{ attributes.addClass(classes) }}>
+  <div{{ attributes.addClass(classes).addClass(extra_classes) }}>
     {% block content %}
       {{ content.field_view_display }}
     {% endblock %}
