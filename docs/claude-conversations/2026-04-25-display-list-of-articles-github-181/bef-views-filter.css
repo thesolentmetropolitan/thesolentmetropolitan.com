@@ -1,0 +1,45 @@
+.field--type-text-with-summary, 
+.bef-exposed-form,
+.pager__items a {
+  font-family: 'Fira Sans Light';
+  color: #471E82;
+}
+
+.bef-exposed-form .form-required:after {
+  background-image: none;
+}
+
+.pager__items a {
+  text-decoration: none;
+}
+
+.pager__items > li.pager__item {
+  /*
+  padding-left:0;
+  padding-right:0;
+  */
+  padding-top: 0.2em;
+  padding-bottom: 0.2em;
+  border: 1px solid #471E82;
+  /*margin: 0.1em;*/
+  margin-bottom: 0.2em;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  display: inline-block;
+}
+
+.pager__items > .pager__item > a {
+  padding-left: 0.1em;
+  padding-right: 0.2em;
+
+
+}
+
+li.pager__item.pager__item--ellipsis {
+  display: none;
+}
+
+ul.pager__items.js-pager__items {
+  padding: 0;
+}
