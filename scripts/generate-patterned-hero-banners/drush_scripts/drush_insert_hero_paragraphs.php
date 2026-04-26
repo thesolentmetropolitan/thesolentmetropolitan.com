@@ -39,20 +39,24 @@ $page_map = [
   '/culture/enthusiasts' => 'hero_art_style_culture_enthusiasts',
   // Culture - Faith
   '/culture/faith' => 'hero_art_style_culture_faith',
+  // Culture - Festivals
+  '/culture/festivals' => 'hero_art_style_culture_festivals',
   // Culture - Food & Drink
   '/culture/food-drink' => 'hero_art_style_culture_food_drink',
   // Culture - Games
   '/culture/games' => 'hero_art_style_culture_games',
   // Culture - Heritage
   '/culture/heritage' => 'hero_art_style_culture_heritage',
+  // Culture - Identity
+  '/culture/identity' => 'hero_art_style_culture_identity',
   // Culture - Language
   '/culture/language' => 'hero_art_style_culture_language',
   // Culture - Maritime
   '/culture/maritime' => 'hero_art_style_culture_maritime',
   // Culture - Music
   '/culture/music' => 'hero_art_style_culture_music',
-  // Culture - Outdoors
-  '/culture/outdoors' => 'hero_art_style_culture_outdoors',
+  // Culture - Outdoor & Active
+  '/culture/outdoor-active' => 'hero_art_style_culture_outdoor_active',
   // Culture - Photography
   '/culture/photography' => 'hero_art_style_culture_photography',
   // Culture - Radio & Podcast
@@ -174,6 +178,8 @@ $page_map = [
   // === About section ===
   // About - View All About
   '/about' => 'hero_art_style_about_about',
+  // About - Accessibility
+  '/about/accessibility' => 'hero_art_style_about_accessibility',
   // About - Why?
   '/about/why' => 'hero_art_style_about_why',
   // About - Editorial Policy
