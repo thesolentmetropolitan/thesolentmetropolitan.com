@@ -1,9 +1,9 @@
-uuid: d76c7f24-2b39-44a3-af07-ccdb31a36f17
+uuid: a86024f8-115d-4ac1-96c0-938139f36b99
 langcode: en
 status: true
 dependencies:
   config:
-    - core.entity_view_mode.node.card_flyer_social
+    - core.entity_view_mode.node.teaser
     - field.field.node.event.field_event_url
     - field.field.node.event.field_image
     - field.field.node.event.field_primary_topic
@@ -14,11 +14,28 @@ dependencies:
     - node.type.event
   module:
     - user
-id: node.event.card_flyer_social
+id: node.event.teaser
 targetEntityType: node
 bundle: event
-mode: card_flyer_social
+mode: teaser
 content:
+  field_image:
+    type: entity_reference_entity_view
+    label: hidden
+    settings:
+      view_mode: article_teaser
+      link: false
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_standfirst:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 1
+    region: content
   links:
     settings: {  }
     third_party_settings: {  }
@@ -26,9 +43,7 @@ content:
     region: content
 hidden:
   field_event_url: true
-  field_image: true
   field_primary_topic: true
   field_related_topics: true
-  field_standfirst: true
   field_when: true
   field_where: true

@@ -1,0 +1,13 @@
+uuid: 5f306455-1686-4f2c-9987-3985974f555b
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.composite_page
+id: node.composite_page
+targetEntityType: node
+bundle: composite_page
+action: display_page
+no_bypass: false
+bypass_message: false
+configuration: {  }

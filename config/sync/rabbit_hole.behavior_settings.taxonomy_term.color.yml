@@ -1,0 +1,13 @@
+uuid: 72a58464-e4af-4e9f-8322-5c83e4035164
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.color
+id: taxonomy_term.color
+targetEntityType: taxonomy_term
+bundle: color
+action: page_not_found
+no_bypass: false
+bypass_message: false
+configuration: {  }

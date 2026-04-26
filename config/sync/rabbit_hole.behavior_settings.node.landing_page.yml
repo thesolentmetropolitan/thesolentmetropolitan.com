@@ -1,0 +1,13 @@
+uuid: da692944-5b7f-4b5d-9916-62eb0688aec3
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.landing_page
+id: node.landing_page
+targetEntityType: node
+bundle: landing_page
+action: display_page
+no_bypass: false
+bypass_message: false
+configuration: {  }
