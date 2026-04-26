@@ -3,12 +3,17 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.node.event.field_event_url
+    - field.field.node.event.field_image
     - field.field.node.event.field_primary_topic
     - field.field.node.event.field_related_topics
+    - field.field.node.event.field_standfirst
     - field.field.node.event.field_when
     - field.field.node.event.field_where
     - node.type.event
   module:
+    - link
+    - media_library
     - path
     - smart_date
 id: node.event.default
@@ -21,6 +26,21 @@ content:
     weight: 10
     region: content
     settings: {  }
+    third_party_settings: {  }
+  field_event_url:
+    type: link_default
+    weight: 125
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+  field_image:
+    type: media_library_widget
+    weight: 122
+    region: content
+    settings:
+      media_types: {  }
     third_party_settings: {  }
   field_primary_topic:
     type: entity_reference_autocomplete
@@ -39,6 +59,14 @@ content:
     settings:
       match_operator: CONTAINS
       match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_standfirst:
+    type: string_textfield
+    weight: 123
+    region: content
+    settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }

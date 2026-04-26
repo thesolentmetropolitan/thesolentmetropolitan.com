@@ -3,12 +3,16 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.node.event.field_event_url
+    - field.field.node.event.field_image
     - field.field.node.event.field_primary_topic
     - field.field.node.event.field_related_topics
+    - field.field.node.event.field_standfirst
     - field.field.node.event.field_when
     - field.field.node.event.field_where
     - node.type.event
   module:
+    - link
     - smart_date
     - user
 id: node.event.default
@@ -16,6 +20,27 @@ targetEntityType: node
 bundle: event
 mode: default
 content:
+  field_event_url:
+    type: link
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 105
+    region: content
+  field_image:
+    type: entity_reference_entity_view
+    label: hidden
+    settings:
+      view_mode: article_hero
+      link: false
+    third_party_settings: {  }
+    weight: 1
+    region: content
   field_primary_topic:
     type: entity_reference_label
     label: hidden
@@ -31,6 +56,14 @@ content:
       link: false
     third_party_settings: {  }
     weight: 102
+    region: content
+  field_standfirst:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 0
     region: content
   field_when:
     type: smartdate_default
