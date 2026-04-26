@@ -192,23 +192,13 @@
    Paragraph — View Display wrapper
    ══════════════════════════════════════ */
 
+/* No padding — parent paragraph wrappers (enclosure, sections) already
+   handle outer alignment. Adding our own here just doubled the inset. */
 .slnt-view-display {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 1em var(--align-floor, 1em);
+  padding: 0;
   box-sizing: border-box;
-}
-
-@media (min-width: 800px) and (max-width: 1199px) {
-  .slnt-view-display {
-    padding: 1em calc(var(--align-floor, 1em) * 2);
-  }
-}
-
-@media (max-width: 799px) {
-  .slnt-view-display {
-    padding: 1em var(--content-pad-mobile, 1.2rem);
-  }
 }
 
 /* ══════════════════════════════════════
@@ -242,7 +232,7 @@
 .slnt-article-teaser {
   display: flex;
   gap: 1.5rem;
-  padding: 1.25rem 0;
+  padding: 0.25rem 0;
   border-bottom: 1px solid var(--warm-grey, #f5f3f0);
 }
 
@@ -378,17 +368,13 @@
   color: #fff;
 }
 
-/* Current page — typically rendered with no inner <a>, so style the <li> directly */
+/* Current page — Drupal renders an inner <a> here too (with aria-current),
+   so let the <a> handle padding/centering exactly like non-active items.
+   The <li> just provides the magenta-dark background + border, and the
+   <a>:hover background then fills the entire box. */
 .slnt-articles-list .pager__items > li.pager__item.is-active {
   background-color: var(--magenta-dark, #a30065);
   border-color: var(--magenta-dark, #a30065);
-  color: #fff;
-  padding: 0.35em 0.7em;
-  font-family: 'Atkinson Hyperlegible Next', sans-serif;
-  font-weight: 600;
-  line-height: 1.2;
-  align-items: center;
-  justify-content: center;
 }
 
 .slnt-articles-list .pager__items > li.pager__item.is-active > a {
