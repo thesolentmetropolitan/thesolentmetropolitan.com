@@ -375,6 +375,13 @@
 .slnt-articles-list .pager__items > li.pager__item.is-active {
   background-color: var(--magenta-dark, #a30065);
   border-color: var(--magenta-dark, #a30065);
+  transition: border-color 0.15s;
+}
+
+/* On hover the <a> flips background to solent-blue; flip the border too
+   so the box edge tracks the fill. */
+.slnt-articles-list .pager__items > li.pager__item.is-active:hover {
+  border-color: var(--solent-blue, #2c4f6e);
 }
 
 .slnt-articles-list .pager__items > li.pager__item.is-active > a {
