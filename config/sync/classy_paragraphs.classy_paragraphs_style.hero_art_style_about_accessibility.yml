@@ -1,0 +1,6 @@
+langcode: en
+status: true
+dependencies: {  }
+id: hero_art_style_about_accessibility
+label: 'About - Accessibility'
+classes: hero-art-style--about-accessibility

@@ -65,10 +65,19 @@
 }
 
 /* Culture - Faith */
-/* Icons: church, hands-praying, cross */
+/* Icons: hands-praying (single — universal, avoids partial-faith representation) */
 .hero-art-style--culture-faith {
   background:
     url('../images/hero-tiles/culture_faith.svg') repeat,
+    linear-gradient(135deg, #6B21A8 0%, #7C3AED 50%, #A855F7 100%);
+  background-size: 120px 103.92px, cover;
+}
+
+/* Culture - Festivals */
+/* Icons: confetti, tent, flag-pennant */
+.hero-art-style--culture-festivals {
+  background:
+    url('../images/hero-tiles/culture_festivals.svg') repeat,
     linear-gradient(135deg, #6B21A8 0%, #7C3AED 50%, #A855F7 100%);
   background-size: 120px 103.92px, cover;
 }
@@ -100,6 +109,15 @@
   background-size: 120px 103.92px, cover;
 }
 
+/* Culture - Identity */
+/* Icons: fingerprint, compass, flag-banner */
+.hero-art-style--culture-identity {
+  background:
+    url('../images/hero-tiles/culture_identity.svg') repeat,
+    linear-gradient(135deg, #6B21A8 0%, #7C3AED 50%, #A855F7 100%);
+  background-size: 120px 103.92px, cover;
+}
+
 /* Culture - Language */
 /* Icons: translate, chat-text, globe-simple */
 .hero-art-style--culture-language {
@@ -127,11 +145,11 @@
   background-size: 120px 103.92px, cover;
 }
 
-/* Culture - Outdoors */
-/* Icons: tree, mountains, compass */
-.hero-art-style--culture-outdoors {
+/* Culture - Outdoor & Active */
+/* Icons: tree, mountains, person-simple-run */
+.hero-art-style--culture-outdoor-active {
   background:
-    url('../images/hero-tiles/culture_outdoors.svg') repeat,
+    url('../images/hero-tiles/culture_outdoor_active.svg') repeat,
     linear-gradient(135deg, #6B21A8 0%, #7C3AED 50%, #A855F7 100%);
   background-size: 120px 103.92px, cover;
 }
@@ -182,7 +200,7 @@
 }
 
 /* Culture - Stage */
-/* Icons: masks-theater, microphone-stage */
+/* Icons: masks-theater, microphone-stage, ticket */
 .hero-art-style--culture-stage {
   background:
     url('../images/hero-tiles/culture_stage.svg') repeat,
@@ -191,7 +209,7 @@
 }
 
 /* Culture - Style */
-/* Icons: t-shirt, scissors, coat-hanger */
+/* Icons: t-shirt, sunglasses, sneaker, coat-hanger */
 .hero-art-style--culture-style {
   background:
     url('../images/hero-tiles/culture_style.svg') repeat,
@@ -209,7 +227,7 @@
 }
 
 /* Culture - Technology */
-/* Icons: cpu, code, circuit-board */
+/* Icons: cpu, code, laptop, device-mobile */
 .hero-art-style--culture-technology {
   background:
     url('../images/hero-tiles/culture_technology.svg') repeat,
@@ -254,7 +272,7 @@
 }
 
 /* Sectors - Arts */
-/* Icons: palette, paint-brush */
+/* Icons: palette, paint-brush, frame-corners */
 .hero-art-style--sectors-arts {
   background:
     url('../images/hero-tiles/sectors_arts.svg') repeat,
@@ -362,7 +380,7 @@
 }
 
 /* Sectors - Farming */
-/* Icons: plant, sun, grain */
+/* Icons: plant, sun, leaf, barn */
 .hero-art-style--sectors-farming {
   background:
     url('../images/hero-tiles/sectors_farming.svg') repeat,
@@ -425,7 +443,7 @@
 }
 
 /* Sectors - Manufacturing */
-/* Icons: factory, gear, conveyor-belt */
+/* Icons: factory, gear, package, cube */
 .hero-art-style--sectors-manufacturing {
   background:
     url('../images/hero-tiles/sectors_manufacturing.svg') repeat,
@@ -676,6 +694,15 @@
 .hero-art-style--about-about {
   background:
     url('../images/hero-tiles/about_about.svg') repeat,
+    linear-gradient(135deg, #334155 0%, #475569 50%, #64748B 100%);
+  background-size: 120px 103.92px, cover;
+}
+
+/* About - Accessibility */
+/* Icons: wheelchair, eye, ear */
+.hero-art-style--about-accessibility {
+  background:
+    url('../images/hero-tiles/about_accessibility.svg') repeat,
     linear-gradient(135deg, #334155 0%, #475569 50%, #64748B 100%);
   background-size: 120px 103.92px, cover;
 }
