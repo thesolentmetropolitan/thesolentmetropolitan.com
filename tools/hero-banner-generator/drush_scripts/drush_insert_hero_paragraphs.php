@@ -92,9 +92,9 @@ $page_map = [
   // Sectors - Creative
   '/sectors/creative' => 'hero_art_style_sectors_creative',
   // Sectors - Democracy
-  '/sector/democracy' => 'hero_art_style_sectors_democracy',
+  '/sectors/democracy' => 'hero_art_style_sectors_democracy',
   // Sectors - Design
-  '/sector/design' => 'hero_art_style_sectors_design',
+  '/sectors/design' => 'hero_art_style_sectors_design',
   // Sectors - Education
   '/sectors/education' => 'hero_art_style_sectors_education',
   // Sectors - Engineering
@@ -116,13 +116,13 @@ $page_map = [
   // Sectors - Hospitality
   '/sectors/hospitality' => 'hero_art_style_sectors_hospitality',
   // Sectors - Legal
-  '/sector/legal' => 'hero_art_style_sectors_legal',
+  '/sectors/legal' => 'hero_art_style_sectors_legal',
   // Sectors - Lifestyle
   '/sectors/lifestyle' => 'hero_art_style_sectors_lifestyle',
   // Sectors - Logistics
-  '/sector/logistics' => 'hero_art_style_sectors_logistics',
+  '/sectors/logistics' => 'hero_art_style_sectors_logistics',
   // Sectors - Manufacturing
-  '/sector/manufacturing' => 'hero_art_style_sectors_manufacturing',
+  '/sectors/manufacturing' => 'hero_art_style_sectors_manufacturing',
   // Sectors - Maritime
   '/sectors/maritime' => 'hero_art_style_sectors_maritime',
   // Sectors - Marketing
@@ -130,7 +130,7 @@ $page_map = [
   // Sectors - Media
   '/sectors/media' => 'hero_art_style_sectors_media',
   // Sectors - Military
-  '/sectors/military' => 'hero_art_style_sectors_military',
+  '/sectors/defence-and-military' => 'hero_art_style_sectors_military',
   // Sectors - Non-profit
   '/sectors/non-profit' => 'hero_art_style_sectors_non_profit',
   // Sectors - Property
@@ -144,7 +144,7 @@ $page_map = [
   // Sectors - Sport & Fitness
   '/sectors/sport-fitness' => 'hero_art_style_sectors_sport_fitness',
   // Sectors - Technology
-  '/sectors/tech' => 'hero_art_style_sectors_technology',
+  '/sectors/technology' => 'hero_art_style_sectors_technology',
   // Sectors - Tourism
   '/sectors/tourism' => 'hero_art_style_sectors_tourism',
   // Sectors - Trades
@@ -152,7 +152,7 @@ $page_map = [
   // Sectors - Transport
   '/sectors/transport' => 'hero_art_style_sectors_transport',
   // Sectors - Utilities
-  '/sector/utilities' => 'hero_art_style_sectors_utilities',
+  '/sectors/utilities' => 'hero_art_style_sectors_utilities',
   // Living - View All Living
   '/living' => 'hero_art_style_living_living',
   // Living - Advice
