@@ -66,7 +66,7 @@ $page_map = [
   // Culture - Screen
   '/culture/screen' => 'hero_art_style_culture_screen',
   // Culture - Sport
-  '/sport' => 'hero_art_style_culture_sport',
+  '/culture/sport' => 'hero_art_style_culture_sport',
   // Culture - Stage
   '/culture/stage' => 'hero_art_style_culture_stage',
   // Culture - Style
