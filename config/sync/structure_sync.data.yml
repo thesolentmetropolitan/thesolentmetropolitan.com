@@ -1586,4 +1586,1200 @@ taxonomies:
           color: '#FFFFFF'
           opacity: '1'
   location: {  }
-  topic: {  }
+  topic:
+    -
+      vid: topic
+      tid: '112'
+      langcode: en
+      name: About
+      description__value: null
+      description__format: null
+      weight: '4'
+      parent: '0'
+      uuid: 70d88e9a-8dea-4512-8d0e-a3847c0b1cb8
+      field_reader_summary:
+        -
+          value: 'About The Solent Metropolitan — our purpose, team, policies and how to get in touch.'
+    -
+      vid: topic
+      tid: '118'
+      langcode: en
+      name: 'About / Accessibility'
+      description__value: null
+      description__format: null
+      weight: '5'
+      parent: '112'
+      uuid: 1d90c4b9-626c-456e-9259-c4185a9b1366
+      field_reader_summary:
+        -
+          value: 'Our approach to making The Solent Metropolitan accessible to everyone.'
+    -
+      vid: topic
+      tid: '117'
+      langcode: en
+      name: 'About / Contact Us'
+      description__value: null
+      description__format: null
+      weight: '4'
+      parent: '112'
+      uuid: d4f80042-af2f-4a04-90fb-41878c7735c5
+      field_reader_summary:
+        -
+          value: 'How to get in touch with The Solent Metropolitan team.'
+    -
+      vid: topic
+      tid: '114'
+      langcode: en
+      name: 'About / Editorial Policy'
+      description__value: null
+      description__format: null
+      weight: '1'
+      parent: '112'
+      uuid: 99a209d4-3086-4c7a-a254-31398332662d
+      field_reader_summary:
+        -
+          value: 'Our editorial standards and how we decide what to publish.'
+    -
+      vid: topic
+      tid: '115'
+      langcode: en
+      name: 'About / Our Services'
+      description__value: null
+      description__format: null
+      weight: '2'
+      parent: '112'
+      uuid: 0150a594-a747-47ec-9216-f4441b0562b8
+      field_reader_summary:
+        -
+          value: 'Services The Solent Metropolitan offers to partners and the community.'
+    -
+      vid: topic
+      tid: '116'
+      langcode: en
+      name: 'About / Our Team'
+      description__value: null
+      description__format: null
+      weight: '3'
+      parent: '112'
+      uuid: a33b4241-af19-46f9-863f-74f89cc2791d
+      field_reader_summary:
+        -
+          value: 'The people behind The Solent Metropolitan.'
+    -
+      vid: topic
+      tid: '119'
+      langcode: en
+      name: 'About / Privacy Policy'
+      description__value: null
+      description__format: null
+      weight: '6'
+      parent: '112'
+      uuid: a76cc4b5-6a31-4d88-a7cc-dc1040445d25
+      field_reader_summary:
+        -
+          value: 'How we handle personal data and protect visitor privacy.'
+    -
+      vid: topic
+      tid: '120'
+      langcode: en
+      name: 'About / Terms of Use'
+      description__value: null
+      description__format: null
+      weight: '7'
+      parent: '112'
+      uuid: b9da7c13-880f-4a8e-a287-f895989cdf62
+      field_reader_summary:
+        -
+          value: 'Terms governing use of The Solent Metropolitan website.'
+    -
+      vid: topic
+      tid: '113'
+      langcode: en
+      name: 'About / Why?'
+      description__value: null
+      description__format: null
+      weight: '0'
+      parent: '112'
+      uuid: 2b118885-a2e1-46da-802d-b301c4b439a0
+      field_reader_summary:
+        -
+          value: 'Why The Solent Metropolitan exists — the purpose behind the project.'
+    -
+      vid: topic
+      tid: '29'
+      langcode: en
+      name: Culture
+      description__value: null
+      description__format: null
+      weight: '0'
+      parent: '0'
+      uuid: dc1f927a-0460-4b36-aacc-dd537c1a2798
+      field_reader_summary:
+        -
+          value: 'The arts, heritage, food, sport, community life and creative energy of the Greater Solent.'
+    -
+      vid: topic
+      tid: '30'
+      langcode: en
+      name: 'Culture / Art & Design'
+      description__value: null
+      description__format: null
+      weight: '0'
+      parent: '29'
+      uuid: a1fc9684-305c-4e8b-872e-4837b5fa982b
+      field_reader_summary:
+        -
+          value: 'Galleries, studios, exhibitions and the visual artists and designers shaping Solent culture.'
+    -
+      vid: topic
+      tid: '31'
+      langcode: en
+      name: 'Culture / Community'
+      description__value: null
+      description__format: null
+      weight: '1'
+      parent: '29'
+      uuid: db7aea04-812c-4419-9150-69d2dd5ff7cb
+      field_reader_summary:
+        -
+          value: 'Neighbourhood groups, local initiatives and the people building community life across the Solent.'
+    -
+      vid: topic
+      tid: '32'
+      langcode: en
+      name: 'Culture / Dance'
+      description__value: null
+      description__format: null
+      weight: '2'
+      parent: '29'
+      uuid: 13d0c546-7aa4-4f9b-adb2-0d4fe9b7228e
+      field_reader_summary:
+        -
+          value: "Dance performances, schools, clubs and the movers shaping the Solent's dance scene."
+    -
+      vid: topic
+      tid: '33'
+      langcode: en
+      name: 'Culture / Faith'
+      description__value: null
+      description__format: null
+      weight: '3'
+      parent: '29'
+      uuid: 2b898d55-e940-4b57-b848-9f112b6b6f2e
+      field_reader_summary:
+        -
+          value: 'Places of worship, faith communities and interfaith life across the Greater Solent.'
+    -
+      vid: topic
+      tid: '34'
+      langcode: en
+      name: 'Culture / Festivals'
+      description__value: null
+      description__format: null
+      weight: '4'
+      parent: '29'
+      uuid: c4b90002-ec7c-4524-807c-c8652ee9ba75
+      field_reader_summary:
+        -
+          value: "Festivals, carnivals and celebrations that mark the Solent's cultural calendar."
+    -
+      vid: topic
+      tid: '35'
+      langcode: en
+      name: 'Culture / Food & Drink'
+      description__value: null
+      description__format: null
+      weight: '5'
+      parent: '29'
+      uuid: 6164908f-95d1-43fc-a151-d49c870c69d5
+      field_reader_summary:
+        -
+          value: 'Restaurants, pubs, producers and the flavours of the Greater Solent.'
+    -
+      vid: topic
+      tid: '36'
+      langcode: en
+      name: 'Culture / Games'
+      description__value: null
+      description__format: null
+      weight: '6'
+      parent: '29'
+      uuid: e96f67cb-c716-4742-943f-f2ecdf189771
+      field_reader_summary:
+        -
+          value: "Board games, tabletop clubs, video gaming and the Solent's wider gaming community."
+    -
+      vid: topic
+      tid: '37'
+      langcode: en
+      name: 'Culture / Heritage'
+      description__value: null
+      description__format: null
+      weight: '7'
+      parent: '29'
+      uuid: 719d9675-157d-404c-8d85-13839a4633a8
+      field_reader_summary:
+        -
+          value: 'Museums, historical sites and the stories that shaped the Solent region.'
+    -
+      vid: topic
+      tid: '38'
+      langcode: en
+      name: 'Culture / Language'
+      description__value: null
+      description__format: null
+      weight: '8'
+      parent: '29'
+      uuid: 5e100dea-2e02-46ea-9f32-7818ef18ea3d
+      field_reader_summary:
+        -
+          value: 'Languages spoken in the Solent, learning opportunities and multicultural communities.'
+    -
+      vid: topic
+      tid: '39'
+      langcode: en
+      name: 'Culture / Maritime'
+      description__value: null
+      description__format: null
+      weight: '9'
+      parent: '29'
+      uuid: 14edf90e-368e-4ea6-a7a3-e9da0e64cd98
+      field_reader_summary:
+        -
+          value: "The Solent's maritime heritage, seafaring traditions and culture shaped by the water."
+    -
+      vid: topic
+      tid: '40'
+      langcode: en
+      name: 'Culture / Music'
+      description__value: null
+      description__format: null
+      weight: '10'
+      parent: '29'
+      uuid: aa8ba975-81bc-40a7-83d6-4a174b2a917c
+      field_reader_summary:
+        -
+          value: "Gigs, venues, festivals and the musicians making up the Solent's music scene."
+    -
+      vid: topic
+      tid: '41'
+      langcode: en
+      name: 'Culture / Outdoor & Active'
+      description__value: null
+      description__format: null
+      weight: '11'
+      parent: '29'
+      uuid: 384e5f96-7743-4ea8-bbee-bcef4596917e
+      field_reader_summary:
+        -
+          value: 'Walks, rides, open water and the active outdoor life of the Solent coast and countryside.'
+    -
+      vid: topic
+      tid: '42'
+      langcode: en
+      name: 'Culture / Photography'
+      description__value: null
+      description__format: null
+      weight: '12'
+      parent: '29'
+      uuid: 59bc1a63-fcce-41c4-8326-ad28fc61d19a
+      field_reader_summary:
+        -
+          value: "Photographers, exhibitions and images that capture the Solent's people and places."
+    -
+      vid: topic
+      tid: '43'
+      langcode: en
+      name: 'Culture / Radio & Podcast'
+      description__value: null
+      description__format: null
+      weight: '13'
+      parent: '29'
+      uuid: 2d01e0dd-cb65-4bc4-8145-95c685b4ed89
+      field_reader_summary:
+        -
+          value: 'Local stations, podcasters and audio storytelling from around the Solent.'
+    -
+      vid: topic
+      tid: '44'
+      langcode: en
+      name: 'Culture / Science'
+      description__value: null
+      description__format: null
+      weight: '14'
+      parent: '29'
+      uuid: e210ff0e-281f-40c0-a608-c28bdc4a5f4c
+      field_reader_summary:
+        -
+          value: 'Science communication, public talks, citizen science and curiosity across the Solent.'
+    -
+      vid: topic
+      tid: '45'
+      langcode: en
+      name: 'Culture / Screen'
+      description__value: null
+      description__format: null
+      weight: '15'
+      parent: '29'
+      uuid: f3f581d5-c965-4d6a-a5af-45e881afba69
+      field_reader_summary:
+        -
+          value: 'Film, TV, streaming and the screen culture being made and watched in the Solent.'
+    -
+      vid: topic
+      tid: '46'
+      langcode: en
+      name: 'Culture / Sport'
+      description__value: null
+      description__format: null
+      weight: '16'
+      parent: '29'
+      uuid: 253902d1-9282-4760-8ea8-49000ee8ea39
+      field_reader_summary:
+        -
+          value: 'Grassroots clubs, match days and the sporting life followed across the Solent.'
+    -
+      vid: topic
+      tid: '47'
+      langcode: en
+      name: 'Culture / Stage'
+      description__value: null
+      description__format: null
+      weight: '17'
+      parent: '29'
+      uuid: c062e33e-4d9d-49de-9421-5867042d7719
+      field_reader_summary:
+        -
+          value: 'Theatres, performances and the stage arts on show across the Solent region.'
+    -
+      vid: topic
+      tid: '48'
+      langcode: en
+      name: 'Culture / Style'
+      description__value: null
+      description__format: null
+      weight: '18'
+      parent: '29'
+      uuid: 22c010c9-12aa-48f8-bf07-790a974e7c44
+      field_reader_summary:
+        -
+          value: 'Fashion, local designers and the style shaping Solent life.'
+    -
+      vid: topic
+      tid: '49'
+      langcode: en
+      name: 'Culture / Talks'
+      description__value: null
+      description__format: null
+      weight: '19'
+      parent: '29'
+      uuid: d9a3cf2e-707d-4672-a311-b4dd8ef34c65
+      field_reader_summary:
+        -
+          value: 'Lectures, panels and public talks happening across the Solent.'
+    -
+      vid: topic
+      tid: '50'
+      langcode: en
+      name: 'Culture / Technology'
+      description__value: null
+      description__format: null
+      weight: '20'
+      parent: '29'
+      uuid: 3fd61010-3d71-40ca-b128-240cc4ea15de
+      field_reader_summary:
+        -
+          value: 'How technology shapes culture and creativity across the Solent.'
+    -
+      vid: topic
+      tid: '53'
+      langcode: en
+      name: 'Culture / Volunteering'
+      description__value: null
+      description__format: null
+      weight: '23'
+      parent: '29'
+      uuid: 84e5b910-5d0c-4811-8863-a74d80773e35
+      field_reader_summary:
+        -
+          value: 'Ways to get involved — volunteering projects and community contributions across the Solent.'
+    -
+      vid: topic
+      tid: '52'
+      langcode: en
+      name: 'Culture / Workshops'
+      description__value: null
+      description__format: null
+      weight: '22'
+      parent: '29'
+      uuid: 664a1791-cf2a-433b-879c-9ce2d053c380
+      field_reader_summary:
+        -
+          value: 'Hands-on workshops, courses and skill-sharing sessions open to the Solent public.'
+    -
+      vid: topic
+      tid: '51'
+      langcode: en
+      name: 'Culture / Writing'
+      description__value: null
+      description__format: null
+      weight: '21'
+      parent: '29'
+      uuid: 747a6530-b9ba-42a9-861f-e9eca60dba1b
+      field_reader_summary:
+        -
+          value: 'Writers, literary events, zines and the written word in the Solent region.'
+    -
+      vid: topic
+      tid: '101'
+      langcode: en
+      name: Explore
+      description__value: null
+      description__format: null
+      weight: '3'
+      parent: '0'
+      uuid: 234a3394-cb75-4c68-9628-a40aca3289bf
+      field_reader_summary:
+        -
+          value: 'Ways to navigate the site — events, articles, data, maps and more from across the Solent.'
+    -
+      vid: topic
+      tid: '102'
+      langcode: en
+      name: 'Explore / Archive'
+      description__value: null
+      description__format: null
+      weight: '0'
+      parent: '101'
+      uuid: d545bc47-a144-4b9c-9329-0187d6df521c
+      field_reader_summary:
+        -
+          value: 'Archived content and older material from across The Solent Metropolitan.'
+    -
+      vid: topic
+      tid: '103'
+      langcode: en
+      name: 'Explore / Articles'
+      description__value: null
+      description__format: null
+      weight: '1'
+      parent: '101'
+      uuid: 38b6bdd7-dc80-4ee5-b8dc-c759262c1add
+      field_reader_summary:
+        -
+          value: 'News, features and long reads exploring life across the Solent.'
+    -
+      vid: topic
+      tid: '104'
+      langcode: en
+      name: 'Explore / Collaborations'
+      description__value: null
+      description__format: null
+      weight: '2'
+      parent: '101'
+      uuid: c6f13781-3aa6-4737-a609-04ea3bfa062a
+      field_reader_summary:
+        -
+          value: 'Partnership projects and collaborative work happening around the Solent.'
+    -
+      vid: topic
+      tid: '105'
+      langcode: en
+      name: 'Explore / Data'
+      description__value: null
+      description__format: null
+      weight: '3'
+      parent: '101'
+      uuid: ac5916fa-ab44-4229-999b-748607c3a9a1
+      field_reader_summary:
+        -
+          value: 'Data, statistics and open information about the Solent region.'
+    -
+      vid: topic
+      tid: '106'
+      langcode: en
+      name: 'Explore / Events'
+      description__value: null
+      description__format: null
+      weight: '4'
+      parent: '101'
+      uuid: 24f9f9a1-4888-4391-92de-4bff4d60bbce
+      field_reader_summary:
+        -
+          value: "Events happening across the Solent — what's on, where and when."
+    -
+      vid: topic
+      tid: '107'
+      langcode: en
+      name: 'Explore / Jobs Boards'
+      description__value: null
+      description__format: null
+      weight: '5'
+      parent: '101'
+      uuid: 90bb9bbd-3682-4175-aa29-50716bb4c30c
+      field_reader_summary:
+        -
+          value: 'Job listings and employment opportunities from around the Solent.'
+    -
+      vid: topic
+      tid: '108'
+      langcode: en
+      name: 'Explore / Maps'
+      description__value: null
+      description__format: null
+      weight: '6'
+      parent: '101'
+      uuid: 18fedeb7-de70-4ecf-bc4a-37e4238a03e3
+      field_reader_summary:
+        -
+          value: 'Maps of the Solent — places, routes and visual ways to explore the region.'
+    -
+      vid: topic
+      tid: '109'
+      langcode: en
+      name: 'Explore / Opinion'
+      description__value: null
+      description__format: null
+      weight: '7'
+      parent: '101'
+      uuid: 3c0fa54c-dbe4-4207-bef6-b3d6734705d0
+      field_reader_summary:
+        -
+          value: 'Comment, columns and opinion pieces on Solent life.'
+    -
+      vid: topic
+      tid: '110'
+      langcode: en
+      name: 'Explore / Organisations'
+      description__value: null
+      description__format: null
+      weight: '8'
+      parent: '101'
+      uuid: 7ba478dd-c1e0-4474-8b16-3f98bdc25a5d
+      field_reader_summary:
+        -
+          value: 'Directory of organisations, businesses and groups active in the Solent.'
+    -
+      vid: topic
+      tid: '111'
+      langcode: en
+      name: 'Explore / Themes'
+      description__value: null
+      description__format: null
+      weight: '9'
+      parent: '101'
+      uuid: 348c602d-d912-40eb-ac00-b9f4ee224b86
+      field_reader_summary:
+        -
+          value: 'Cross-cutting themes connecting content from across the Solent.'
+    -
+      vid: topic
+      tid: '90'
+      langcode: en
+      name: Living
+      description__value: null
+      description__format: null
+      weight: '2'
+      parent: '0'
+      uuid: 848662af-0f3b-4921-bca8-469117a11112
+      field_reader_summary:
+        -
+          value: 'Health, housing, family and everyday life across the Greater Solent region.'
+    -
+      vid: topic
+      tid: '91'
+      langcode: en
+      name: 'Living / Advice'
+      description__value: null
+      description__format: null
+      weight: '0'
+      parent: '90'
+      uuid: 7c7ca941-4b68-4947-ac9f-19354305509c
+      field_reader_summary:
+        -
+          value: 'Practical advice and guidance services for people living in the Solent.'
+    -
+      vid: topic
+      tid: '92'
+      langcode: en
+      name: 'Living / Education'
+      description__value: null
+      description__format: null
+      weight: '1'
+      parent: '90'
+      uuid: 1927aac7-cb53-400b-a9ba-2189f8352e2a
+      field_reader_summary:
+        -
+          value: 'Learning opportunities, schools, courses and educational life in the Solent.'
+    -
+      vid: topic
+      tid: '93'
+      langcode: en
+      name: 'Living / Family'
+      description__value: null
+      description__format: null
+      weight: '2'
+      parent: '90'
+      uuid: fb4e887b-9447-4a70-b795-ee24bb92b1f2
+      field_reader_summary:
+        -
+          value: 'Parenting, childcare, family services and support for Solent families.'
+    -
+      vid: topic
+      tid: '94'
+      langcode: en
+      name: 'Living / Fitness'
+      description__value: null
+      description__format: null
+      weight: '3'
+      parent: '90'
+      uuid: 685d7763-a231-4934-9d10-4bc4716a29ec
+      field_reader_summary:
+        -
+          value: 'Gyms, classes and ways to stay active while living in the Solent.'
+    -
+      vid: topic
+      tid: '95'
+      langcode: en
+      name: 'Living / Health'
+      description__value: null
+      description__format: null
+      weight: '4'
+      parent: '90'
+      uuid: 6e108409-2af3-42d0-83fc-7c40a37fb1f6
+      field_reader_summary:
+        -
+          value: 'Healthcare, wellbeing and health services for Solent residents.'
+    -
+      vid: topic
+      tid: '96'
+      langcode: en
+      name: 'Living / Home & Garden'
+      description__value: null
+      description__format: null
+      weight: '5'
+      parent: '90'
+      uuid: a4885319-8e53-48d8-a699-bbfdac9dc4c4
+      field_reader_summary:
+        -
+          value: 'Homes, gardens and domestic life across the Solent region.'
+    -
+      vid: topic
+      tid: '97'
+      langcode: en
+      name: 'Living / Housing'
+      description__value: null
+      description__format: null
+      weight: '6'
+      parent: '90'
+      uuid: 44fb72af-49bd-45a3-89cb-94b78d034ded
+      field_reader_summary:
+        -
+          value: 'Housing options, tenancy advice and support for Solent residents.'
+    -
+      vid: topic
+      tid: '98'
+      langcode: en
+      name: 'Living / Mental Health'
+      description__value: null
+      description__format: null
+      weight: '7'
+      parent: '90'
+      uuid: 787afe98-3ea3-4440-af91-271c5351ee6b
+      field_reader_summary:
+        -
+          value: 'Mental health support, counselling and wellbeing resources across the Solent.'
+    -
+      vid: topic
+      tid: '99'
+      langcode: en
+      name: 'Living / Outreach'
+      description__value: null
+      description__format: null
+      weight: '8'
+      parent: '90'
+      uuid: 1bfd927b-cad2-4f38-a7ad-21d882da31d2
+      field_reader_summary:
+        -
+          value: 'Community outreach, support projects and help for people across the Solent.'
+    -
+      vid: topic
+      tid: '100'
+      langcode: en
+      name: 'Living / Work'
+      description__value: null
+      description__format: null
+      weight: '9'
+      parent: '90'
+      uuid: 12b8bd78-6001-4272-a3f2-ac968ae2d685
+      field_reader_summary:
+        -
+          value: 'Careers, jobs and working life for people based in the Solent.'
+    -
+      vid: topic
+      tid: '54'
+      langcode: en
+      name: Sectors
+      description__value: null
+      description__format: null
+      weight: '1'
+      parent: '0'
+      uuid: 2d703122-5b4a-4e6b-baf5-72f78e50641c
+      field_reader_summary:
+        -
+          value: 'The industries, businesses and organisations driving the Solent economy.'
+    -
+      vid: topic
+      tid: '55'
+      langcode: en
+      name: 'Sectors / Arts'
+      description__value: null
+      description__format: null
+      weight: '0'
+      parent: '54'
+      uuid: 71812347-119d-4a54-8d81-e26258bd59e2
+      field_reader_summary:
+        -
+          value: 'Arts organisations, funded venues and the creative arts sector in the Solent economy.'
+    -
+      vid: topic
+      tid: '56'
+      langcode: en
+      name: 'Sectors / Construction'
+      description__value: null
+      description__format: null
+      weight: '1'
+      parent: '54'
+      uuid: f09db3a5-8a2a-4d0a-b8d9-2ec0ccebff70
+      field_reader_summary:
+        -
+          value: 'Builders, contractors and construction firms working across the Solent.'
+    -
+      vid: topic
+      tid: '57'
+      langcode: en
+      name: 'Sectors / Consulting'
+      description__value: null
+      description__format: null
+      weight: '2'
+      parent: '54'
+      uuid: e761ac60-ca6a-4709-bde8-65b4bc03a471
+      field_reader_summary:
+        -
+          value: 'Consulting firms and advisors serving organisations in the Solent region.'
+    -
+      vid: topic
+      tid: '58'
+      langcode: en
+      name: 'Sectors / Creative'
+      description__value: null
+      description__format: null
+      weight: '3'
+      parent: '54'
+      uuid: c1d26979-ee3d-4b1e-b497-022d1bc2964f
+      field_reader_summary:
+        -
+          value: 'Creative agencies, studios and freelancers working across the Solent.'
+    -
+      vid: topic
+      tid: '59'
+      langcode: en
+      name: 'Sectors / Defence & Military'
+      description__value: null
+      description__format: null
+      weight: '4'
+      parent: '54'
+      uuid: ab897777-330c-444f-842a-82d0dc2ea690
+      field_reader_summary:
+        -
+          value: 'Armed forces, defence contractors and the military industry in the Solent region.'
+    -
+      vid: topic
+      tid: '60'
+      langcode: en
+      name: 'Sectors / Democracy'
+      description__value: null
+      description__format: null
+      weight: '5'
+      parent: '54'
+      uuid: 9bc9e99d-3ccc-4496-b62d-83bc832ea93a
+      field_reader_summary:
+        -
+          value: 'Councils, civic institutions and the democratic organisations of the Solent.'
+    -
+      vid: topic
+      tid: '61'
+      langcode: en
+      name: 'Sectors / Design'
+      description__value: null
+      description__format: null
+      weight: '6'
+      parent: '54'
+      uuid: 383c377d-4cd6-4ec7-ba38-1fc0d4421df1
+      field_reader_summary:
+        -
+          value: 'Design studios, practices and independents shaping how the Solent looks and feels.'
+    -
+      vid: topic
+      tid: '62'
+      langcode: en
+      name: 'Sectors / Education'
+      description__value: null
+      description__format: null
+      weight: '7'
+      parent: '54'
+      uuid: 6e45ae32-d0e4-4553-b3ec-c71f5f9a9219
+      field_reader_summary:
+        -
+          value: 'Schools, colleges, universities and training providers in the Solent education sector.'
+    -
+      vid: topic
+      tid: '63'
+      langcode: en
+      name: 'Sectors / Engineering'
+      description__value: null
+      description__format: null
+      weight: '8'
+      parent: '54'
+      uuid: 82b8d9a0-52e5-40f8-9865-041f949526f2
+      field_reader_summary:
+        -
+          value: 'Engineering firms, specialists and technical services based across the Solent.'
+    -
+      vid: topic
+      tid: '64'
+      langcode: en
+      name: 'Sectors / Entrepreneur'
+      description__value: null
+      description__format: null
+      weight: '9'
+      parent: '54'
+      uuid: 2c527a70-b75c-4a32-b3a1-918583724c60
+      field_reader_summary:
+        -
+          value: 'Founders, startups and the entrepreneurs building new ventures in the Solent.'
+    -
+      vid: topic
+      tid: '65'
+      langcode: en
+      name: 'Sectors / Environment'
+      description__value: null
+      description__format: null
+      weight: '10'
+      parent: '54'
+      uuid: 88b40176-a497-408b-be4d-9a00351e46a2
+      field_reader_summary:
+        -
+          value: 'Environmental organisations, conservation groups and green businesses in the Solent.'
+    -
+      vid: topic
+      tid: '66'
+      langcode: en
+      name: 'Sectors / Event & Venue'
+      description__value: null
+      description__format: null
+      weight: '11'
+      parent: '54'
+      uuid: 656a2c96-a73e-440f-80ba-c4b89a1c0e46
+      field_reader_summary:
+        -
+          value: 'Event companies, venues and the events industry active across the Solent.'
+    -
+      vid: topic
+      tid: '67'
+      langcode: en
+      name: 'Sectors / Facilities'
+      description__value: null
+      description__format: null
+      weight: '12'
+      parent: '54'
+      uuid: 75a1a8c5-4f6c-4cde-a066-b4ac54e88d9f
+      field_reader_summary:
+        -
+          value: 'Facilities management, maintenance and building services providers in the Solent.'
+    -
+      vid: topic
+      tid: '68'
+      langcode: en
+      name: 'Sectors / Farming'
+      description__value: null
+      description__format: null
+      weight: '13'
+      parent: '54'
+      uuid: a38bc400-0838-4737-87d8-d768134f0dd0
+      field_reader_summary:
+        -
+          value: "Farms, growers and agricultural businesses across the Solent's rural hinterland."
+    -
+      vid: topic
+      tid: '69'
+      langcode: en
+      name: 'Sectors / Finance'
+      description__value: null
+      description__format: null
+      weight: '14'
+      parent: '54'
+      uuid: ed42ddd5-b6e2-4cd5-8047-b933d114ce94
+      field_reader_summary:
+        -
+          value: 'Banks, insurers, advisors and the finance sector serving the Solent economy.'
+    -
+      vid: topic
+      tid: '70'
+      langcode: en
+      name: 'Sectors / Health & Care'
+      description__value: null
+      description__format: null
+      weight: '15'
+      parent: '54'
+      uuid: 3186de4e-04c8-45d1-8756-8a3d739b8eaa
+      field_reader_summary:
+        -
+          value: 'Hospitals, clinics, care providers and the health and social care sector.'
+    -
+      vid: topic
+      tid: '71'
+      langcode: en
+      name: 'Sectors / Hospitality'
+      description__value: null
+      description__format: null
+      weight: '16'
+      parent: '54'
+      uuid: c098f44c-d4ff-42fa-bb3e-814f406286b2
+      field_reader_summary:
+        -
+          value: 'Hotels, pubs, restaurants and the hospitality industry across the Solent.'
+    -
+      vid: topic
+      tid: '72'
+      langcode: en
+      name: 'Sectors / Legal'
+      description__value: null
+      description__format: null
+      weight: '17'
+      parent: '54'
+      uuid: 90514702-97cd-44a1-a10f-5f6b9ee65b1b
+      field_reader_summary:
+        -
+          value: 'Law firms, barristers and legal services based across the Solent region.'
+    -
+      vid: topic
+      tid: '73'
+      langcode: en
+      name: 'Sectors / Lifestyle'
+      description__value: null
+      description__format: null
+      weight: '18'
+      parent: '54'
+      uuid: 7ab1ff4a-1fd3-4c6f-a7de-711a923878b0
+      field_reader_summary:
+        -
+          value: 'Lifestyle businesses, wellbeing brands and consumer services in the Solent.'
+    -
+      vid: topic
+      tid: '74'
+      langcode: en
+      name: 'Sectors / Logistics'
+      description__value: null
+      description__format: null
+      weight: '19'
+      parent: '54'
+      uuid: 9e349fba-e372-4c08-ab9f-3ffa4d726990
+      field_reader_summary:
+        -
+          value: 'Logistics providers, warehousing and distribution businesses across the Solent.'
+    -
+      vid: topic
+      tid: '75'
+      langcode: en
+      name: 'Sectors / Manufacturing'
+      description__value: null
+      description__format: null
+      weight: '20'
+      parent: '54'
+      uuid: 2879c497-e6a2-442a-aa5f-be46a2924558
+      field_reader_summary:
+        -
+          value: 'Manufacturers, factories and industrial producers based in the Solent.'
+    -
+      vid: topic
+      tid: '76'
+      langcode: en
+      name: 'Sectors / Maritime'
+      description__value: null
+      description__format: null
+      weight: '21'
+      parent: '54'
+      uuid: 4ff8b2b3-a6ad-4d5a-b8cb-0e3b1a7b75e8
+      field_reader_summary:
+        -
+          value: "Shipping, ports, marine engineering and the Solent's maritime industries."
+    -
+      vid: topic
+      tid: '77'
+      langcode: en
+      name: 'Sectors / Marketing'
+      description__value: null
+      description__format: null
+      weight: '22'
+      parent: '54'
+      uuid: f4358db3-b36b-46cc-a103-d6b69b36a115
+      field_reader_summary:
+        -
+          value: 'Marketing, PR and communications agencies based around the Solent.'
+    -
+      vid: topic
+      tid: '78'
+      langcode: en
+      name: 'Sectors / Media'
+      description__value: null
+      description__format: null
+      weight: '23'
+      parent: '54'
+      uuid: 230aea6f-4f73-45e2-b7b6-7b365cc51989
+      field_reader_summary:
+        -
+          value: 'News outlets, publishers and media businesses covering the Solent region.'
+    -
+      vid: topic
+      tid: '79'
+      langcode: en
+      name: 'Sectors / Non-profit'
+      description__value: null
+      description__format: null
+      weight: '24'
+      parent: '54'
+      uuid: b5dacf31-8251-4d50-8b0b-6aab29e2e449
+      field_reader_summary:
+        -
+          value: 'Charities, community interest companies and the third sector across the Solent.'
+    -
+      vid: topic
+      tid: '80'
+      langcode: en
+      name: 'Sectors / Property'
+      description__value: null
+      description__format: null
+      weight: '25'
+      parent: '54'
+      uuid: fdef391d-1996-4edd-88e1-14fe1dbbb03c
+      field_reader_summary:
+        -
+          value: 'Estate agents, developers and property businesses in the Solent region.'
+    -
+      vid: topic
+      tid: '81'
+      langcode: en
+      name: 'Sectors / Public Sector'
+      description__value: null
+      description__format: null
+      weight: '26'
+      parent: '54'
+      uuid: dccacf63-45a5-400f-90db-5f06b61fe35c
+      field_reader_summary:
+        -
+          value: 'Councils, public bodies and public sector organisations serving the Solent.'
+    -
+      vid: topic
+      tid: '82'
+      langcode: en
+      name: 'Sectors / Retail'
+      description__value: null
+      description__format: null
+      weight: '27'
+      parent: '54'
+      uuid: c25be21a-840c-4a78-b98e-9832f654e04e
+      field_reader_summary:
+        -
+          value: 'Shops, retailers and the high street businesses of the Solent.'
+    -
+      vid: topic
+      tid: '83'
+      langcode: en
+      name: 'Sectors / Science'
+      description__value: null
+      description__format: null
+      weight: '28'
+      parent: '54'
+      uuid: 7881c1e4-4d35-4815-9fb1-4d3b716fc250
+      field_reader_summary:
+        -
+          value: 'Research organisations, labs and science-based industries in the Solent economy.'
+    -
+      vid: topic
+      tid: '84'
+      langcode: en
+      name: 'Sectors / Sport & Fitness'
+      description__value: null
+      description__format: null
+      weight: '29'
+      parent: '54'
+      uuid: 537028b4-3227-4b9f-bea7-454c6a319361
+      field_reader_summary:
+        -
+          value: 'Sports clubs, fitness operators and the sport and fitness industry in the Solent.'
+    -
+      vid: topic
+      tid: '85'
+      langcode: en
+      name: 'Sectors / Technology'
+      description__value: null
+      description__format: null
+      weight: '30'
+      parent: '54'
+      uuid: 331bf400-723f-46dc-b624-2a12362dbda0
+      field_reader_summary:
+        -
+          value: 'Technology companies, startups and digital innovation in the Solent economy.'
+    -
+      vid: topic
+      tid: '86'
+      langcode: en
+      name: 'Sectors / Tourism'
+      description__value: null
+      description__format: null
+      weight: '31'
+      parent: '54'
+      uuid: 2d9f4c01-b9bb-44f0-88ac-610e45200c56
+      field_reader_summary:
+        -
+          value: 'Tourism operators, attractions and the visitor economy of the Solent.'
+    -
+      vid: topic
+      tid: '87'
+      langcode: en
+      name: 'Sectors / Trades'
+      description__value: null
+      description__format: null
+      weight: '32'
+      parent: '54'
+      uuid: c91ae78d-af45-4ce5-8e7a-9eebe6f616d7
+      field_reader_summary:
+        -
+          value: 'Tradespeople, skilled crafts and trade businesses serving the Solent.'
+    -
+      vid: topic
+      tid: '88'
+      langcode: en
+      name: 'Sectors / Transport'
+      description__value: null
+      description__format: null
+      weight: '33'
+      parent: '54'
+      uuid: 8be491be-6377-4103-8a5f-17d6de025ddb
+      field_reader_summary:
+        -
+          value: 'Bus, rail, ferry and transport operators moving people around the Solent.'
+    -
+      vid: topic
+      tid: '89'
+      langcode: en
+      name: 'Sectors / Utilities'
+      description__value: null
+      description__format: null
+      weight: '34'
+      parent: '54'
+      uuid: 11233253-1f36-4eeb-82e8-7debecebe53f
+      field_reader_summary:
+        -
+          value: 'Energy, water and utility providers serving Solent homes and businesses.'
