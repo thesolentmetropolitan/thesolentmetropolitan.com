@@ -1594,7 +1594,7 @@ taxonomies:
       name: About
       description__value: null
       description__format: null
-      weight: '4'
+      weight: '48'
       parent: '0'
       uuid: 70d88e9a-8dea-4512-8d0e-a3847c0b1cb8
       field_reader_summary:
@@ -1711,7 +1711,7 @@ taxonomies:
       name: Culture
       description__value: null
       description__format: null
-      weight: '0'
+      weight: '25'
       parent: '0'
       uuid: dc1f927a-0460-4b36-aacc-dd537c1a2798
       field_reader_summary:
@@ -1823,12 +1823,25 @@ taxonomies:
           value: 'Museums, historical sites and the stories that shaped the Solent region.'
     -
       vid: topic
+      tid: '121'
+      langcode: en
+      name: 'Culture / Identity'
+      description__value: null
+      description__format: null
+      weight: '8'
+      parent: '29'
+      uuid: 84cfd4e9-61f4-420d-8821-5adfdbce4397
+      field_reader_summary:
+        -
+          value: 'Pompeysider, Portsmouthian, Sotonian, Solentsider and other ways we recognise ourselves.'
+    -
+      vid: topic
       tid: '42'
       langcode: en
       name: 'Culture / Language'
       description__value: null
       description__format: null
-      weight: '8'
+      weight: '9'
       parent: '29'
       uuid: 5e100dea-2e02-46ea-9f32-7818ef18ea3d
       field_reader_summary:
@@ -1841,7 +1854,7 @@ taxonomies:
       name: 'Culture / Maritime'
       description__value: null
       description__format: null
-      weight: '9'
+      weight: '10'
       parent: '29'
       uuid: 14edf90e-368e-4ea6-a7a3-e9da0e64cd98
       field_reader_summary:
@@ -1854,7 +1867,7 @@ taxonomies:
       name: 'Culture / Music'
       description__value: null
       description__format: null
-      weight: '10'
+      weight: '11'
       parent: '29'
       uuid: aa8ba975-81bc-40a7-83d6-4a174b2a917c
       field_reader_summary:
@@ -1867,7 +1880,7 @@ taxonomies:
       name: 'Culture / Outdoor & Active'
       description__value: null
       description__format: null
-      weight: '11'
+      weight: '12'
       parent: '29'
       uuid: 384e5f96-7743-4ea8-bbee-bcef4596917e
       field_reader_summary:
@@ -1880,7 +1893,7 @@ taxonomies:
       name: 'Culture / Photography'
       description__value: null
       description__format: null
-      weight: '12'
+      weight: '13'
       parent: '29'
       uuid: 59bc1a63-fcce-41c4-8326-ad28fc61d19a
       field_reader_summary:
@@ -1893,7 +1906,7 @@ taxonomies:
       name: 'Culture / Radio & Podcast'
       description__value: null
       description__format: null
-      weight: '13'
+      weight: '14'
       parent: '29'
       uuid: 2d01e0dd-cb65-4bc4-8145-95c685b4ed89
       field_reader_summary:
@@ -1906,7 +1919,7 @@ taxonomies:
       name: 'Culture / Science'
       description__value: null
       description__format: null
-      weight: '14'
+      weight: '15'
       parent: '29'
       uuid: e210ff0e-281f-40c0-a608-c28bdc4a5f4c
       field_reader_summary:
@@ -1919,7 +1932,7 @@ taxonomies:
       name: 'Culture / Screen'
       description__value: null
       description__format: null
-      weight: '15'
+      weight: '16'
       parent: '29'
       uuid: f3f581d5-c965-4d6a-a5af-45e881afba69
       field_reader_summary:
@@ -1932,7 +1945,7 @@ taxonomies:
       name: 'Culture / Sport'
       description__value: null
       description__format: null
-      weight: '16'
+      weight: '17'
       parent: '29'
       uuid: 253902d1-9282-4760-8ea8-49000ee8ea39
       field_reader_summary:
@@ -1945,7 +1958,7 @@ taxonomies:
       name: 'Culture / Stage'
       description__value: null
       description__format: null
-      weight: '17'
+      weight: '18'
       parent: '29'
       uuid: c062e33e-4d9d-49de-9421-5867042d7719
       field_reader_summary:
@@ -1958,7 +1971,7 @@ taxonomies:
       name: 'Culture / Style'
       description__value: null
       description__format: null
-      weight: '18'
+      weight: '19'
       parent: '29'
       uuid: 22c010c9-12aa-48f8-bf07-790a974e7c44
       field_reader_summary:
@@ -1971,7 +1984,7 @@ taxonomies:
       name: 'Culture / Talks'
       description__value: null
       description__format: null
-      weight: '19'
+      weight: '20'
       parent: '29'
       uuid: d9a3cf2e-707d-4672-a311-b4dd8ef34c65
       field_reader_summary:
@@ -1984,7 +1997,7 @@ taxonomies:
       name: 'Culture / Technology'
       description__value: null
       description__format: null
-      weight: '20'
+      weight: '21'
       parent: '29'
       uuid: 3fd61010-3d71-40ca-b128-240cc4ea15de
       field_reader_summary:
@@ -1997,7 +2010,7 @@ taxonomies:
       name: 'Culture / Volunteering'
       description__value: null
       description__format: null
-      weight: '23'
+      weight: '24'
       parent: '29'
       uuid: 84e5b910-5d0c-4811-8863-a74d80773e35
       field_reader_summary:
@@ -2010,7 +2023,7 @@ taxonomies:
       name: 'Culture / Workshops'
       description__value: null
       description__format: null
-      weight: '22'
+      weight: '23'
       parent: '29'
       uuid: 664a1791-cf2a-433b-879c-9ce2d053c380
       field_reader_summary:
@@ -2023,7 +2036,7 @@ taxonomies:
       name: 'Culture / Writing'
       description__value: null
       description__format: null
-      weight: '21'
+      weight: '22'
       parent: '29'
       uuid: 747a6530-b9ba-42a9-861f-e9eca60dba1b
       field_reader_summary:
@@ -2036,7 +2049,7 @@ taxonomies:
       name: Explore
       description__value: null
       description__format: null
-      weight: '3'
+      weight: '42'
       parent: '0'
       uuid: 234a3394-cb75-4c68-9628-a40aca3289bf
       field_reader_summary:
@@ -2179,7 +2192,7 @@ taxonomies:
       name: Living
       description__value: null
       description__format: null
-      weight: '2'
+      weight: '36'
       parent: '0'
       uuid: 848662af-0f3b-4921-bca8-469117a11112
       field_reader_summary:
@@ -2322,7 +2335,7 @@ taxonomies:
       name: Sectors
       description__value: null
       description__format: null
-      weight: '1'
+      weight: '30'
       parent: '0'
       uuid: 2d703122-5b4a-4e6b-baf5-72f78e50641c
       field_reader_summary:
