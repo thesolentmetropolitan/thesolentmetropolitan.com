@@ -104,7 +104,7 @@ menus:
     menu_name: main
     title: Sport
     parent: 'menu_link_content:9548ba9b-5ae0-4248-8c2e-f76e52ef31f5'
-    uri: 'internal:/sport'
+    uri: 'internal:/culture/sport'
     link_title: ''
     description: null
     enabled: true
