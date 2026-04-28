@@ -1585,7 +1585,77 @@ taxonomies:
         -
           color: '#FFFFFF'
           opacity: '1'
-  location: {  }
+  location:
+    -
+      vid: location
+      tid: '128'
+      langcode: en
+      name: 'Bedford Place'
+      description__value: null
+      description__format: null
+      weight: '0'
+      parent: '123'
+      uuid: 6ed12d4e-9585-4ce4-9107-b28b9fe00ee5
+    -
+      vid: location
+      tid: '127'
+      langcode: en
+      name: 'Hoglands Park Pavilion'
+      description__value: null
+      description__format: null
+      weight: '1'
+      parent: '123'
+      uuid: 73dd5051-ad47-4ec4-a357-331727b9ed2e
+    -
+      vid: location
+      tid: '122'
+      langcode: en
+      name: Portsmouth
+      description__value: null
+      description__format: null
+      weight: '4'
+      parent: '0'
+      uuid: 3beb5064-9bed-4042-8f33-be7a26fa3aef
+    -
+      vid: location
+      tid: '123'
+      langcode: en
+      name: Southampton
+      description__value: null
+      description__format: null
+      weight: '5'
+      parent: '0'
+      uuid: 1ff1af41-ba63-460c-a8fb-4fcdc3c6bc10
+    -
+      vid: location
+      tid: '125'
+      langcode: en
+      name: 'Southsea Bandstand'
+      description__value: null
+      description__format: null
+      weight: '0'
+      parent: '122'
+      uuid: 9740da02-1c7c-4f65-8b6b-acb01a6b4632
+    -
+      vid: location
+      tid: '126'
+      langcode: en
+      name: 'The Vault, Winchester'
+      description__value: '<p>Location: The Vault, Sparkford Rd, Winchester SO22 4NR<br>W3W: ///titles flash.cubes</p>'
+      description__format: basic_html
+      weight: '0'
+      parent: '124'
+      uuid: ebbb845f-86cf-4111-b257-cdb59fd706b2
+    -
+      vid: location
+      tid: '124'
+      langcode: en
+      name: Winchester
+      description__value: null
+      description__format: null
+      weight: '6'
+      parent: '0'
+      uuid: ff77edaa-ebd5-41ef-ad98-a12a03583487
   topic:
     -
       vid: topic
