@@ -23,9 +23,31 @@ function customsolent_preprocess_page(array &$variables): void {
 
 /**
  * Implements hook_preprocess_HOOK() for node.html.twig.
+ *
+ * Builds the topic trail (clickable ancestor terms + leaf term)
+ * from the node's field_primary_topic. Composite pages use the
+ * leaf term as the page h1; content pages (article, etc.) keep
+ * the entire chain as a clickable kicker above their own title.
  */
 function customsolent_preprocess_node(array &$variables): void {
+  $node = $variables['node'] ?? NULL;
+  if (!$node || !$node->hasField('field_primary_topic')) {
+    return;
+  }
+  if ($node->get('field_primary_topic')->isEmpty()) {
+    return;
+  }
+  $term = $node->get('field_primary_topic')->entity;
+  if (!$term) {
+    return;
+  }
 
+  $is_composite = ($node->bundle() === 'composite_page');
+  $trail = _customsolent_build_topic_trail($term, $is_composite);
+
+  $variables['topic_trail_ancestors'] = $trail['ancestors'];
+  $variables['topic_trail_current'] = $trail['current_label'];
+  $variables['topic_trail_as_heading'] = $is_composite;
 }
 
 
@@ -38,6 +60,118 @@ function customsolent_preprocess_paragraph__hero_with_art_style(&$variables) {
       $variables['attributes']['class'][] = $classy_style->get('classes');
     }
   }
+
+  // Look up the parent composite_page node and pull its primary topic
+  // so the hero can render the topic trail in place of the plain title.
+  $parent = $paragraph->getParentEntity();
+  if ($parent
+    && $parent->getEntityTypeId() === 'node'
+    && $parent->bundle() === 'composite_page'
+    && $parent->hasField('field_primary_topic')
+    && !$parent->get('field_primary_topic')->isEmpty()) {
+    $term = $parent->get('field_primary_topic')->entity;
+    if ($term) {
+      $trail = _customsolent_build_topic_trail($term, TRUE);
+      $variables['topic_trail_ancestors'] = $trail['ancestors'];
+      $variables['topic_trail_current'] = $trail['current_label'];
+      $variables['topic_trail_as_heading'] = TRUE;
+    }
+  }
+}
+
+/**
+ * Section colour map — top-level Topic term name → hex colour.
+ */
+function _customsolent_topic_section_colors() {
+  return [
+    'Culture' => '#7C3AED',
+    'Sectors' => '#2563EB',
+    'Living'  => '#059669',
+    'About'   => '#475569',
+    'Explore' => '#D97706',
+  ];
+}
+
+/**
+ * Build a topic trail from a taxonomy term.
+ *
+ * @param \Drupal\taxonomy\TermInterface $term
+ *   The primary topic term (the leaf).
+ * @param bool $leaf_as_title
+ *   TRUE on composite pages — leaf becomes current_label (h1) and is
+ *   excluded from ancestors. FALSE on content pages — entire chain
+ *   is returned as ancestors (kicker), current_label is null.
+ *
+ * @return array
+ *   ['ancestors' => array<{label, url, color}>, 'current_label' => ?string]
+ */
+function _customsolent_build_topic_trail($term, $leaf_as_title = TRUE) {
+  // Walk from the leaf up to the top-level parent.
+  $chain = [];
+  $current = $term;
+  /** @var \Drupal\taxonomy\TermStorageInterface $term_storage */
+  $term_storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
+  while ($current) {
+    array_unshift($chain, $current);
+    $parents = $term_storage->loadParents($current->id());
+    $current = !empty($parents) ? reset($parents) : NULL;
+  }
+
+  if (empty($chain)) {
+    return ['ancestors' => [], 'current_label' => NULL];
+  }
+
+  $section_colors = _customsolent_topic_section_colors();
+  $top_level_name = $chain[0]->getName();
+  $color = $section_colors[$top_level_name] ?? '#475569';
+
+  $ancestor_count = $leaf_as_title ? count($chain) - 1 : count($chain);
+  $ancestors = [];
+  for ($i = 0; $i < $ancestor_count; $i++) {
+    $ancestors[] = [
+      'label' => _customsolent_strip_term_prefix($chain[$i]->getName()),
+      'url'   => _customsolent_build_term_url($chain, $i),
+      'color' => $color,
+    ];
+  }
+
+  $current_label = NULL;
+  if ($leaf_as_title) {
+    $leaf = end($chain);
+    $current_label = _customsolent_strip_term_prefix($leaf->getName());
+  }
+
+  return [
+    'ancestors' => $ancestors,
+    'current_label' => $current_label,
+  ];
+}
+
+/**
+ * Strip the parent prefix from a Topic term name.
+ *
+ * Topic terms are stored as "Parent / Child" (e.g. "Culture / Screen").
+ * Top-level terms have no slash so they pass through unchanged.
+ */
+function _customsolent_strip_term_prefix($name) {
+  $parts = explode(' / ', $name);
+  return end($parts);
+}
+
+/**
+ * Build the composite-page URL path for a term in the chain.
+ *
+ * Uses the same lowercase / hyphenate convention the menu structure
+ * follows (e.g. "Culture / Art & Design" → "/culture/art-design").
+ * Verified against config/sync/structure_sync.data.yml.
+ */
+function _customsolent_build_term_url($chain, $index) {
+  $path_parts = [];
+  for ($i = 0; $i <= $index; $i++) {
+    $part = _customsolent_strip_term_prefix($chain[$i]->getName());
+    $path_parts[] = strtolower(str_replace([' & ', ' '], ['-', '-'], $part));
+  }
+  return '/' . implode('/', $path_parts);
 }
 
 

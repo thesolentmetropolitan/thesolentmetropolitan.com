@@ -1,0 +1,73 @@
+/* ══════════════════════════════════════
+   Topic breadcrumb trail
+   Derived from field_primary_topic taxonomy hierarchy.
+   ══════════════════════════════════════ */
+
+.slnt-topic-trail {
+  margin-bottom: 0.3rem;
+}
+
+/* ── Ancestor terms row ── */
+.slnt-topic-trail__ancestors {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0;
+  margin-bottom: 0.2rem;
+}
+
+/* ── Individual ancestor link ── */
+.slnt-topic-trail__ancestor {
+  font-family: 'Atkinson Hyperlegible Next', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 400;
+  text-decoration: none;
+  transition: opacity 0.15s;
+  /* colour set inline via style attribute from section colour */
+}
+
+.slnt-topic-trail__ancestor:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 2px;
+  /* underline colour inherits from text colour (section colour) */
+}
+
+/* ── Separator slash ── */
+.slnt-topic-trail__separator {
+  font-family: 'Atkinson Hyperlegible Next', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: var(--text-mid, #444);
+  user-select: none;
+}
+
+/* ── Current / leaf term — when used as page title ── */
+.slnt-topic-trail__current {
+  display: block;
+  font-family: 'Atkinson Hyperlegible Next', sans-serif;
+  font-size: 2.4rem;
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--solent-blue, #2c4f6e);
+  margin: 0;
+}
+
+h1.slnt-topic-trail__current {
+  margin: 0;
+}
+
+/* ── Mobile ── */
+@media (max-width: 799px) {
+  .slnt-topic-trail__current {
+    font-size: 1.75rem;
+  }
+
+  .slnt-topic-trail__ancestor {
+    font-size: 0.82rem;
+  }
+
+  .slnt-topic-trail__separator {
+    font-size: 0.82rem;
+  }
+}

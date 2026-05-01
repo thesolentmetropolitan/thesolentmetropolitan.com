@@ -58,7 +58,15 @@
   <div{{ attributes.addClass(classes).addClass(extra_classes) }}>
     <div class="alignment-clamp">
       {% block content %}
-        {% if paragraph.field_title.value %}
+        {% if topic_trail_current or topic_trail_ancestors is not empty %}
+          <div class="hero-art-style__title">
+            {% include '@customsolent/components/topic-trail.html.twig' with {
+              ancestors: topic_trail_ancestors|default([]),
+              current_label: topic_trail_current|default(null),
+              current_as_heading: topic_trail_as_heading|default(true),
+            } only %}
+          </div>
+        {% elseif paragraph.field_title.value %}
           <h2 class="hero-art-style__title">{{ paragraph.field_title.value }}</h2>
         {% endif %}
       {% endblock %}

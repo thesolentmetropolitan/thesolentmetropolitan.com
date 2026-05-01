@@ -26,6 +26,7 @@ global:
       css/paragraph-hero-art-style.css: {}
       css/paragraph-specials.css: {}
       css/search.css: {}
+      css/topic-trail.css: {}
   dependencies:
     - core/drupal
     - core/jquery

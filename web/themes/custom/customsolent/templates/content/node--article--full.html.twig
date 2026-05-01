@@ -25,6 +25,15 @@
 <article{{ attributes.addClass(classes) }}>
   <div class="slnt-article__header">
 
+    {# Topic trail kicker — clickable ancestor terms above the article title. #}
+    {% if topic_trail_ancestors is not empty %}
+      {% include '@customsolent/components/topic-trail.html.twig' with {
+        ancestors: topic_trail_ancestors,
+        current_label: null,
+        current_as_heading: false,
+      } only %}
+    {% endif %}
+
     {# Title #}
     <h1 class="slnt-article__title">{{ label }}</h1>
 

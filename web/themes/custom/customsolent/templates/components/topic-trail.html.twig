@@ -1,0 +1,39 @@
+{#
+/**
+ * @file
+ * Topic breadcrumb trail component.
+ *
+ * A bespoke breadcrumb-style navigation derived from the
+ * field_primary_topic taxonomy hierarchy. Parent terms are clickable
+ * and section-coloured; the leaf term may be rendered as a heading or
+ * omitted entirely (when the host template provides its own h1).
+ *
+ * Variables:
+ *   - ancestors: array of { label, url, color } — clickable terms
+ *   - current_label: string|null — the leaf/current term (omit on
+ *     content pages where the node provides its own h1)
+ *   - current_as_heading: bool — true wraps current_label in <h1>,
+ *     false wraps it in <span>
+ */
+#}
+{% if ancestors is not empty or current_label %}
+<nav class="slnt-topic-trail" aria-label="Topic breadcrumb">
+  {% if ancestors is not empty %}
+    <div class="slnt-topic-trail__ancestors">
+      {% for ancestor in ancestors %}
+        <a href="{{ ancestor.url }}" class="slnt-topic-trail__ancestor" style="color: {{ ancestor.color }};">{{ ancestor.label }}</a>
+        {% if not loop.last %}
+          <span class="slnt-topic-trail__separator" aria-hidden="true"> / </span>
+        {% endif %}
+      {% endfor %}
+    </div>
+  {% endif %}
+  {% if current_label %}
+    {% if current_as_heading %}
+      <h1 class="slnt-topic-trail__current">{{ current_label }}</h1>
+    {% else %}
+      <span class="slnt-topic-trail__current">{{ current_label }}</span>
+    {% endif %}
+  {% endif %}
+</nav>
+{% endif %}
