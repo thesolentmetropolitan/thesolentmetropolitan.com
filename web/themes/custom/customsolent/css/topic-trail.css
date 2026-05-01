@@ -16,21 +16,24 @@
   margin-bottom: 0.2rem;
 }
 
-/* ── Individual ancestor link ── */
-.slnt-topic-trail__ancestor {
+/* ── Individual ancestor link ──
+   Doubled-up class selector lifts specificity above
+   `.layout-content a` (fonts.css) which underlines body links. */
+.slnt-topic-trail .slnt-topic-trail__ancestor {
   font-family: 'Atkinson Hyperlegible Next', sans-serif;
   font-size: 0.9rem;
   font-weight: 400;
   text-decoration: none;
+  text-decoration-color: currentColor;
   transition: opacity 0.15s;
   /* colour set inline via style attribute from section colour */
 }
 
-.slnt-topic-trail__ancestor:hover {
+.slnt-topic-trail .slnt-topic-trail__ancestor:hover {
   text-decoration: underline;
+  text-decoration-color: currentColor;
   text-underline-offset: 3px;
   text-decoration-thickness: 2px;
-  /* underline colour inherits from text colour (section colour) */
 }
 
 /* ── Separator slash ── */
@@ -40,6 +43,7 @@
   font-weight: 400;
   color: var(--text-mid, #444);
   user-select: none;
+  margin: 0 0.35rem;
 }
 
 /* ── Current / leaf term — when used as page title ── */
@@ -55,6 +59,13 @@
 
 h1.slnt-topic-trail__current {
   margin: 0;
+}
+
+/* ── Inside the hero cutout box on composite pages ──
+   Drop the trail's trailing margin so the h1 leaf sits flush with
+   the bottom of the white cutout, matching the pre-trail layout. */
+.hero-art-style__title .slnt-topic-trail {
+  margin-bottom: 0;
 }
 
 /* ── Mobile ── */
