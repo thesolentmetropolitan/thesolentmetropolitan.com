@@ -53,6 +53,7 @@
   font-size: 2.4rem;
   font-weight: 700;
   line-height: 1.15;
+  padding-bottom: 0em;
   color: var(--solent-blue, #2c4f6e);
   margin: 0;
 }
