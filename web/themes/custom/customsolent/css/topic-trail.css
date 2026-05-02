@@ -22,10 +22,11 @@
 .slnt-topic-trail .slnt-topic-trail__ancestor {
   font-family: 'Atkinson Hyperlegible Next', sans-serif;
   font-size: 0.9rem;
-  font-weight: 400;
+  font-weight: 800;
   text-decoration: none;
   text-decoration-color: currentColor;
   transition: opacity 0.15s;
+  text-transform: uppercase;
   /* colour set inline via style attribute from section colour */
 }
 
