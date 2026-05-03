@@ -461,7 +461,7 @@ Place this in a new file: `js/filter-panel.js` and register it in `customsolent.
 - **View name:** Section content listing
 - **Machine name:** `section_content_listing`
 - **Show:** Content (Article, Event)
-- **Display:** Block display (embedded via viewreference paragraph or placed in the composite page template)
+- **Display:** Block display, rendered directly in the composite page node template. Not embedded via viewreference — the template handles placement and the two-column sidebar layout.
 
 ### Fields to display
 
@@ -646,29 +646,219 @@ function _customsolent_build_section_filters($term) {
 
 ### Pass to templates
 
-In the composite page preprocess (or the view paragraph preprocess), call this function and pass the results to the template:
+In the composite page node preprocess, call this function and pass the results to the template:
 
 ```php
-$variables['section_filters'] = _customsolent_build_section_filters($term);
+/**
+ * Implements hook_preprocess_node() for composite_page.
+ */
+function customsolent_preprocess_node__composite_page(&$variables) {
+  $node = $variables['node'];
+
+  if ($node->hasField('field_primary_topic') && !$node->get('field_primary_topic')->isEmpty()) {
+    $term = $node->get('field_primary_topic')->entity;
+    $variables['section_filters'] = _customsolent_build_section_filters($term);
+  }
+}
 ```
 
 The Twig template then renders the sidebar and mobile panel using this data.
 
 ---
 
+## Composite Page Template: Two-Column Layout
+
+**File:** `web/themes/custom/customsolent/templates/content/node--composite-page--full.html.twig`
+
+The composite page template creates the page structure:
+
+1. **Editorial paragraphs** (hero art, text, CTAs, etc.) — rendered from the paragraph reference field as they are now
+2. **Filtered listing section** — a two-column layout with sidebar (desktop) / filter panel (mobile) and the View block
+
+The listing appears **below** the editorial paragraphs on every composite page that has a `field_primary_topic`. Pages without a primary topic (if any) skip the listing section entirely.
+
+### Template structure
+
+```twig
+{%
+  set classes = [
+    'node',
+    'node--type-' ~ node.bundle|clean_class,
+    view_mode ? 'node--view-mode-' ~ view_mode|clean_class,
+  ]
+%}
+
+<article{{ attributes.addClass(classes) }}>
+
+  {# ── Editorial paragraphs (hero art, text, CTAs, etc.) ── #}
+  <div class="slnt-composite-editorial">
+    {{ content.field_content }}
+  </div>
+
+  {# ── Filtered content listing (only if primary topic is set) ── #}
+  {% if section_filters is defined and section_filters.has_filters %}
+    <section class="slnt-section-listing" data-section="{{ section_filters.section_key }}" aria-label="Content listing">
+
+      {# Mobile filter bar #}
+      <div class="slnt-filter-bar">
+        <div class="slnt-filter-bar__status">
+          Showing: <strong>All</strong>
+        </div>
+        <button class="slnt-filter-bar__button" type="button" aria-expanded="false" aria-controls="slnt-filter-panel">
+          <svg class="slnt-filter-bar__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true">
+            <line x1="4" y1="6" x2="20" y2="6"/>
+            <line x1="4" y1="12" x2="16" y2="12"/>
+            <line x1="4" y1="18" x2="12" y2="18"/>
+          </svg>
+          Filter
+        </button>
+      </div>
+
+      <div class="slnt-section-listing__layout">
+
+        {# ── Desktop sidebar ── #}
+        <aside class="slnt-section-listing__sidebar" aria-label="Filter options">
+          {% include '@customsolent/components/filter-sidebar.html.twig' with {
+            filter_options: section_filters.filter_options,
+            section_key: section_filters.section_key,
+          } %}
+        </aside>
+
+        {# ── Content listing (View block) ── #}
+        <div class="slnt-section-listing__content">
+          {{ drupal_view('section_content_listing', 'block_1') }}
+        </div>
+
+      </div>
+    </section>
+
+    {# ── Mobile filter overlay and panel ── #}
+    <div class="slnt-filter-overlay" aria-hidden="true"></div>
+    <div class="slnt-filter-panel" id="slnt-filter-panel" role="dialog" aria-label="Filter options" aria-modal="true">
+      {% include '@customsolent/components/filter-panel.html.twig' with {
+        filter_options: section_filters.filter_options,
+        section_key: section_filters.section_key,
+      } %}
+    </div>
+
+  {% endif %}
+
+</article>
+```
+
+**Notes on the template:**
+
+- `{{ content.field_content }}` renders the editorial paragraphs (hero art, text, CTAs). Adjust the field name to match your actual paragraph reference field on the composite page.
+- `{{ drupal_view('section_content_listing', 'block_1') }}` renders the View block. This uses **Twig Tweak**'s `drupal_view()` function — verify Twig Tweak is installed. If not, use Drupal's block placement system instead and render the block via the template.
+- The `data-section` attribute on `.slnt-section-listing` sets the CSS variables for section colours.
+- The mobile filter panel and overlay sit outside the two-column layout so they can be positioned fixed to the viewport.
+- `aria-controls`, `aria-expanded`, `aria-modal`, and `role="dialog"` provide proper accessibility for the mobile panel.
+- The `<aside>` element with `aria-label="Filter options"` identifies the sidebar as a complementary landmark for screen readers.
+- If `section_filters` is undefined or has no filter options (no children of the current term), the entire listing section is skipped — the page just shows the editorial paragraphs.
+
+### Filter sidebar component
+
+**File:** `web/themes/custom/customsolent/templates/components/filter-sidebar.html.twig`
+
+```twig
+{# Topic filter #}
+{% if filter_options is not empty %}
+  <div class="slnt-filter-section">
+    <div class="slnt-filter-section__title">Topic</div>
+    <a href="?" class="slnt-filter-item is-active">All</a>
+    {% for option in filter_options %}
+      <a href="?topic={{ option.tid }}" class="slnt-filter-item">
+        {{ option.label }}
+      </a>
+    {% endfor %}
+  </div>
+{% endif %}
+
+{# Date filter #}
+<div class="slnt-filter-section">
+  <div class="slnt-filter-section__title">Date</div>
+  <div class="slnt-date-pills">
+    <a href="?date=upcoming" class="slnt-date-pill is-active">All upcoming</a>
+    <a href="?date=week" class="slnt-date-pill">This week</a>
+    <a href="?date=weekend" class="slnt-date-pill">This weekend</a>
+    <a href="?date=month" class="slnt-date-pill">This month</a>
+    <a href="?date=past" class="slnt-date-pill">Past events</a>
+  </div>
+</div>
+
+{# Location filter — placeholder, populated when location data is available #}
+{#
+<div class="slnt-filter-section">
+  <div class="slnt-filter-section__title">Location</div>
+  <a href="?" class="slnt-filter-item is-active">All areas</a>
+  {% for location in location_options %}
+    <a href="?location={{ location.tid }}" class="slnt-filter-item">
+      {{ location.label }}
+    </a>
+  {% endfor %}
+</div>
+#}
+```
+
+### Filter panel component (mobile)
+
+**File:** `web/themes/custom/customsolent/templates/components/filter-panel.html.twig`
+
+```twig
+<div class="slnt-filter-panel__handle">
+  <div class="slnt-filter-panel__handle-bar"></div>
+</div>
+
+<div class="slnt-filter-panel__header">
+  <div class="slnt-filter-panel__title">Filter</div>
+  <button class="slnt-filter-panel__clear" type="button">Clear all</button>
+</div>
+
+<div class="slnt-filter-panel__body">
+  {# Topic filter #}
+  {% if filter_options is not empty %}
+    <div class="slnt-filter-section">
+      <div class="slnt-filter-section__title">Topic</div>
+      <div class="filter-item is-active" data-tid="">
+        <div class="filter-item__radio"></div>
+        <div class="filter-item__label">All</div>
+      </div>
+      {% for option in filter_options %}
+        <div class="filter-item" data-tid="{{ option.tid }}">
+          <div class="filter-item__radio"></div>
+          <div class="filter-item__label">{{ option.label }}</div>
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  {# Date filter #}
+  <div class="slnt-filter-section">
+    <div class="slnt-filter-section__title">Date</div>
+    <div class="slnt-date-pills">
+      <button class="slnt-date-pill is-active" data-date="upcoming">All upcoming</button>
+      <button class="slnt-date-pill" data-date="week">This week</button>
+      <button class="slnt-date-pill" data-date="weekend">This weekend</button>
+      <button class="slnt-date-pill" data-date="month">This month</button>
+      <button class="slnt-date-pill" data-date="past">Past events</button>
+    </div>
+  </div>
+</div>
+
+<div class="slnt-filter-panel__footer">
+  <button class="slnt-filter-panel__apply" type="button">Apply filters</button>
+</div>
+```
+
+---
+
 ## Location field on content types
 
-The Event content type already has `field_where` as an **entity reference to the Location taxonomy**. This is sufficient for both display and filtering — no additional field needed.
+The Event content type already has `field_where` as an **entity reference to the Location taxonomy**. Reuse this same field on the Article content type (and any future content types like Author, Link, Organisation):
 
-For the Article content type, add a Location taxonomy reference field if not already present:
-
-- **Field name:** `field_location`
-- **Type:** Entity reference → Location vocabulary
-- **Cardinality:** Single value
-- **Required:** No
-- **Widget:** Autocomplete
-
-The location filter in the View can use `field_where` for Events and `field_location` for Articles. Alternatively, rename them to match (both `field_location`) for consistency — but this is a cosmetic concern, not a structural one. The filter logic works either way by adding both fields to the View's filter criteria with an OR condition.
+- In the Article content type field configuration, choose **"Re-use an existing field"** and select `field_where`
+- The field storage is shared across content types; widget settings and help text can differ per type
+- The location filter in the View references `field_where` uniformly across all content types — no OR conditions or multiple field handling needed
 
 ---
 
@@ -676,13 +866,14 @@ The location filter in the View can use `field_where` for Events and `field_loca
 
 | File | Purpose |
 |------|---------|
-| `css/section-listing.css` | Sidebar, filter items, date pills, layout |
+| `templates/content/node--composite-page--full.html.twig` | Composite page template — editorial paragraphs above, two-column filtered listing below |
+| `templates/components/filter-sidebar.html.twig` | Twig include for desktop sidebar filter sections |
+| `templates/components/filter-panel.html.twig` | Twig include for mobile slide-up panel content |
+| `css/section-listing.css` | Two-column layout, sidebar, filter items, date pills |
 | `css/filter-panel.css` | Mobile slide-up panel, overlay, filter bar |
-| `js/filter-panel.js` | Panel open/close toggle |
-| Template for sidebar | Twig partial rendering filter sections |
-| Template for mobile panel | Twig partial rendering the slide-up panel |
+| `js/filter-panel.js` | Panel open/close toggle, body scroll lock |
 
-Register all in `customsolent.libraries.yml`.
+All paths relative to `web/themes/custom/customsolent/`. Register CSS and JS in `customsolent.libraries.yml`.
 
 ---
 
@@ -690,23 +881,26 @@ Register all in `customsolent.libraries.yml`.
 
 | Step | Task | Priority |
 |------|------|----------|
-| 1 | Add `field_location` (taxonomy reference) to Article if not present. Event already has `field_where` as entity reference to Location. | Now |
-| 2 | Create the View with contextual filter on primary topic, depth enabled | Now — MVP |
-| 3 | Create CSS for desktop sidebar layout | Now — MVP |
-| 4 | Add exposed topic filter (children of current term) | Now — MVP |
-| 5 | Style the sidebar filter items | Now — MVP |
-| 6 | Create mobile filter bar and slide-up panel HTML/CSS/JS | Now — MVP |
-| 7 | Add date filter (preset ranges) | Soon after MVP |
-| 8 | Add location filter (area-level terms) | Soon after MVP |
-| 9 | Add content counts to filter items | Later |
-| 10 | Enable Views AJAX for smooth updates | Later |
-| 11 | Add `field_filterable` boolean to Topic vocabulary to hide non-content terms | Later |
+| 1 | Reuse `field_where` (entity reference to Location) on Article content type | Now |
+| 2 | Create the View (section_content_listing) with contextual filter on primary topic, depth enabled, block display | Now — MVP |
+| 3 | Create/update `node--composite-page--full.html.twig` with editorial paragraphs above and two-column listing layout below | Now — MVP |
+| 4 | Create `filter-sidebar.html.twig` and `filter-panel.html.twig` Twig components | Now — MVP |
+| 5 | Add preprocess function to build section filter data from `field_primary_topic` | Now — MVP |
+| 6 | Create `css/section-listing.css` for desktop two-column layout and sidebar styling | Now — MVP |
+| 7 | Create `css/filter-panel.css` and `js/filter-panel.js` for mobile slide-up panel | Now — MVP |
+| 8 | Add exposed topic filter (children of current term) wired to the View | Now — MVP |
+| 9 | Add date filter (preset ranges including "Past events") | Soon after MVP |
+| 10 | Add location filter (area-level terms from Location taxonomy) | Soon after MVP |
+| 11 | Add content counts to filter items | Later |
+| 12 | Enable Views AJAX for smooth updates without page reload | Later |
+| 13 | Add `field_filterable` boolean to Topic vocabulary to hide non-content terms | Later |
 
 ---
 
 ## Testing
 
-1. **Culture page:** Shows all content tagged with Culture or any Culture sub-term. Topic filter lists Music, Screen, Dance, etc. Selecting "Music" narrows to Music content only.
+1. **Composite page structure:** Verify that editorial paragraphs (hero art, text, CTAs) render above the filtered listing. Both sections should be visible on the same page without conflict.
+2. **Culture page:** Shows all content tagged with Culture or any Culture sub-term. Topic filter lists Music, Screen, Dance, etc. Selecting "Music" narrows to Music content only.
 2. **Culture / Music page:** Shows all Music content. Topic filter lists Music's children (genres) if any exist. If no children, topic filter section is hidden.
 3. **Sectors page:** Same pattern — shows Sectors content, filter lists Sectors sub-terms, section colour is blue.
 4. **Explore page:** Shows Explore content, filter lists Archive, Articles, Series, etc. Section colour is amber.
@@ -715,7 +909,9 @@ Register all in `customsolent.libraries.yml`.
 7. **Mobile panel:** Slides up smoothly, scrollable if content exceeds panel height, "Apply" closes panel, overlay click closes panel, body scroll is locked while panel is open.
 8. **Section colours:** Filter highlights use the correct section colour (purple for Culture, blue for Sectors, etc.).
 9. **No content:** "No results" message when filters produce zero results.
-10. **Mixed content types:** If both articles and events appear in the listing, verify dates display correctly for each type.
+11. **Mixed content types:** If both articles and events appear in the listing, verify dates display correctly for each type.
+12. **No primary topic:** Composite pages without `field_primary_topic` set should display editorial paragraphs only — no listing section, no sidebar, no errors.
+13. **Twig Tweak:** Verify Twig Tweak module is enabled — the template uses `drupal_view()` to render the View block. If Twig Tweak is not available, Claude Code should use an alternative approach (block placement or custom render).
 
 ---
 
