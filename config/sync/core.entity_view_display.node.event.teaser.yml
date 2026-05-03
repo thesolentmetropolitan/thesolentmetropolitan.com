@@ -9,6 +9,7 @@ dependencies:
     - field.field.node.event.field_primary_topic
     - field.field.node.event.field_related_topics
     - field.field.node.event.field_standfirst
+    - field.field.node.event.field_url
     - field.field.node.event.field_when
     - field.field.node.event.field_where
     - node.type.event
@@ -45,5 +46,6 @@ hidden:
   field_event_url: true
   field_primary_topic: true
   field_related_topics: true
+  field_url: true
   field_when: true
   field_where: true

@@ -8,6 +8,7 @@ dependencies:
     - field.field.node.article.field_primary_topic
     - field.field.node.article.field_related_topics
     - field.field.node.article.field_standfirst
+    - field.field.node.article.field_where
     - node.type.article
   module:
     - text
@@ -58,6 +59,14 @@ content:
       link_to_entity: false
     third_party_settings: {  }
     weight: 0
+    region: content
+  field_where:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 104
     region: content
   links:
     settings: {  }
