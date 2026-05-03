@@ -4,7 +4,6 @@ status: true
 dependencies:
   config:
     - core.entity_view_mode.node.teaser
-    - field.field.node.event.field_event_url
     - field.field.node.event.field_image
     - field.field.node.event.field_primary_topic
     - field.field.node.event.field_related_topics
@@ -43,7 +42,6 @@ content:
     weight: 100
     region: content
 hidden:
-  field_event_url: true
   field_primary_topic: true
   field_related_topics: true
   field_url: true

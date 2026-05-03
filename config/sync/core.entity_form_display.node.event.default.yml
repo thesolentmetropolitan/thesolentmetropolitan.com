@@ -3,7 +3,6 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.node.event.field_event_url
     - field.field.node.event.field_image
     - field.field.node.event.field_primary_topic
     - field.field.node.event.field_related_topics
@@ -27,14 +26,6 @@ content:
     weight: 10
     region: content
     settings: {  }
-    third_party_settings: {  }
-  field_event_url:
-    type: link_default
-    weight: 125
-    region: content
-    settings:
-      placeholder_url: ''
-      placeholder_title: ''
     third_party_settings: {  }
   field_image:
     type: media_library_widget
