@@ -1,4 +1,4 @@
-uuid: 154ec309-c2ee-48e1-8c09-54a2c8da1f53
+uuid: c490b83d-453d-4b81-a0db-5dfc510769d1
 langcode: en
 status: true
 dependencies:
@@ -8,8 +8,8 @@ dependencies:
   module:
     - node
     - user
-id: articles
-label: Articles
+id: articles_listing
+label: 'Articles Listing'
 module: views
 description: ''
 tag: ''
