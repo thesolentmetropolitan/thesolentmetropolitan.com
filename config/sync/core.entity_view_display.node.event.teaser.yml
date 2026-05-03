@@ -13,6 +13,8 @@ dependencies:
     - field.field.node.event.field_where
     - node.type.event
   module:
+    - link
+    - smart_date
     - user
 id: node.event.teaser
 targetEntityType: node
@@ -26,7 +28,7 @@ content:
       view_mode: article_teaser
       link: false
     third_party_settings: {  }
-    weight: 0
+    weight: 4
     region: content
   field_standfirst:
     type: string
@@ -34,16 +36,55 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
+    weight: 0
+    region: content
+  field_url:
+    type: link
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  field_when:
+    type: smartdate_default
+    label: above
+    settings:
+      timezone_override: ''
+      format_type: medium
+      format: default
+      force_chronological: false
+      add_classes: false
+      time_wrapper: true
+      localize: false
+      parts:
+        - start
+        - end
+      duration:
+        separator: ' | '
+        unit: ''
+        decimals: 2
+        suffix: h
+    third_party_settings: {  }
     weight: 1
+    region: content
+  field_where:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 2
     region: content
   links:
     settings: {  }
     third_party_settings: {  }
-    weight: 100
+    weight: 5
     region: content
 hidden:
   field_primary_topic: true
   field_related_topics: true
-  field_url: true
-  field_when: true
-  field_where: true
