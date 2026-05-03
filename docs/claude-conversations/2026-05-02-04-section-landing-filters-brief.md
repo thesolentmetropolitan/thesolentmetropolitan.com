@@ -2,11 +2,13 @@
 
 ## Overview
 
-Add filtered content listings to section landing pages (Culture, Sectors, Living, Explore, About and their sub-pages). The listing displays content (articles and events) filtered by the page's primary topic, with three filter facets: topic (sub-terms), date, and location.
+Add filtered content listings to section landing pages (Culture, Sectors, Living, Explore, About and their sub-pages). Content is displayed using **separate Views per content type** (articles, events, and later organisations, links, etc.), embedded on pages via the existing **View Display paragraph** type.
 
-Desktop uses a persistent left sidebar. Mobile uses a sticky filter bar with a slide-up panel.
+Desktop uses a persistent left sidebar for filters. Mobile uses a sticky filter bar with a slide-up panel. Both are deferred until after the basic listings are working.
 
 The implementation is **hierarchy-agnostic** — the same code works at any level of the taxonomy tree. On the Culture page it shows Culture's children as filter options. On the Music page it shows Music's children (genres). The logic is identical at every level.
+
+**Drupal version:** 11. All preprocess code and module usage must be compatible with Drupal 11.
 
 ---
 
@@ -16,10 +18,38 @@ The implementation is **hierarchy-agnostic** — the same code works at any leve
 
 Each section landing page is a **Composite Page** node with a `field_primary_topic` set to the corresponding Topic taxonomy term (e.g. "Culture", "Culture / Music", "Sectors / Technology").
 
-The listing View:
-1. Reads the page's primary topic term ID
-2. Shows all published content (Article, Event) where the content's `field_primary_topic` OR `field_related_topics` matches that term **or any of its descendant terms**
-3. Allows filtering by sub-terms (children of the current term), date, and location
+The editor builds each page by adding **View Display paragraphs** (using the existing paragraph type with `field_view`), choosing which View and which display to embed. Each paragraph becomes one listing block on the page.
+
+The **preprocess function** on the View Display paragraph reads the parent node's `field_primary_topic`, collects the term and its descendants, and passes them as the contextual filter argument to the View.
+
+### Separate Views per content type
+
+Each content type has its own View. Each View has two block displays — one filtering on `field_primary_topic`, one on `field_related_topics`:
+
+| View machine name | Content type | Display: primary | Display: related |
+|-------------------|-------------|-----------------|-----------------|
+| `articles_listing` | Article | `view_display_primary_topic` | `view_display_related_topics` |
+| `events_listing` | Event | `view_display_primary_topic` | `view_display_related_topics` |
+
+Future content types (Organisation, Link, Author) follow the same pattern — add a new View with two displays.
+
+### Why separate Views per content type
+
+- **Sort order differs:** Articles sort by authored date (desc). Events sort by event date (asc for upcoming).
+- **Teaser display differs:** Each content type has its own teaser view mode with different fields and layout.
+- **No conditional logic needed:** No Twig or PHP to determine "is this an article or event" — each View already knows.
+- **Scalable:** Adding a new content type means adding a new View. Existing Views don't change.
+
+### Editor workflow
+
+To build a Culture / Music landing page, the editor adds paragraphs:
+
+1. **Hero art paragraph** — Music hero banner with topic trail
+2. **View Display paragraph** — View: `events_listing`, Display: `view_display_primary_topic` → "Music events"
+3. **View Display paragraph** — View: `articles_listing`, Display: `view_display_primary_topic` → "Music articles"
+4. **View Display paragraph** — View: `articles_listing`, Display: `view_display_related_topics` → "Related articles"
+
+A different page might order them differently, include only events, or add editorial paragraphs between the listings. The editor controls the page composition.
 
 ### Hierarchy-agnostic filter logic
 
@@ -118,6 +148,22 @@ If the current term has **no children**, the topic filter section is hidden enti
   .slnt-section-listing__sidebar {
     display: none;
   }
+}
+```
+
+### Related content heading
+
+```css
+/* ── Related content section ── */
+.slnt-section-listing__related-heading {
+  font-family: 'Atkinson Hyperlegible Next', sans-serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--solent-blue, #2c4f6e);
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  padding-top: 2rem;
+  border-top: 1px solid #e0e0e0;
 }
 ```
 
@@ -456,28 +502,122 @@ Place this in a new file: `js/filter-panel.js` and register it in `customsolent.
 
 ## Views Configuration
 
-### View: Section content listing
+### Separate Views per content type
 
-- **View name:** Section content listing
-- **Machine name:** `section_content_listing`
-- **Show:** Content (Article, Event)
-- **Display:** Block display, rendered directly in the composite page node template. Not embedded via viewreference — the template handles placement and the two-column sidebar layout.
+Each content type gets its own View. Each View has two block displays. The contextual filter configuration is identical across all Views — only the content type filter and sort order differ.
 
-### Fields to display
+---
 
-1. **Content type indicator** — "Article" or "Event" label (optional, useful when mixing types)
-2. **Title** — linked to the node for articles, not linked for events (rabbit_hole)
-3. **Standfirst** (field_standfirst)
-4. **Date** — `node.created` for articles, `field_when` for events. Display as "23 April 2026" for articles, "Saturday 26 April 2026, 7:30 PM" for events.
-5. **Location** (field_where) — events only
-6. **External link** (field_event_url) — events only, CTA button style
-7. **Image thumbnail** — if present (deferred until images are in use)
+### View: Articles listing
 
-### Sort order
+- **View name:** Articles listing
+- **Machine name:** `articles_listing`
+- **Show:** Content
+- **Content type filter:** Article only
 
-- Events: `field_when` ascending (soonest first) for upcoming events, descending (most recent first) for past events
-- Articles: `node.created` descending (newest first)
-- If mixing both content types, consider two separate view displays or a combined view sorted by relevance/date
+**Display: view_display_primary_topic**
+- Format: Unformatted list | Show: Content | Teaser
+- Filter criteria: Content: Published (= Yes), Content: Type (= Article)
+- Sort criteria: Content: Authored on (desc) — newest first
+- Contextual filter: Content: primary topic (field_primary_topic)
+  - When NOT available: Display all results for the specified field
+  - When IS available: Taxonomy term validation → Topic vocabulary
+  - Multiple arguments: "One or more IDs separated by , or +"
+  - Under "More": Allow multiple values — enabled
+  - Action if does not validate: Hide view
+- Pager: 20 items
+- No results: "No articles in this section yet. Check back soon."
+
+**Display: view_display_related_topics**
+- Same as above but contextual filter on: Content: related topics (field_related_topics)
+- Pager: 10 items
+- No results: (leave empty — paragraph handles the absence)
+
+---
+
+### View: Events listing
+
+- **View name:** Events listing
+- **Machine name:** `events_listing`
+- **Show:** Content
+- **Content type filter:** Event only
+
+**Display: view_display_primary_topic**
+- Format: Unformatted list | Show: Content | Teaser
+- Filter criteria: Content: Published (= Yes), Content: Type (= Event)
+- Sort criteria: Content: when (asc) — soonest first
+- Contextual filter: Content: primary topic (field_primary_topic)
+  - When NOT available: Display all results for the specified field
+  - When IS available: Taxonomy term validation → Topic vocabulary
+  - Multiple arguments: "One or more IDs separated by , or +"
+  - Under "More": Allow multiple values — enabled
+  - Action if does not validate: Hide view
+- Pager: 20 items
+- No results: "No events in this section yet. Check back soon."
+
+**Display: view_display_related_topics**
+- Same as above but contextual filter on: Content: related topics (field_related_topics)
+- Pager: 10 items
+- No results: (leave empty)
+
+---
+
+### The existing section_content_listing View
+
+The `section_content_listing` View you've already created can be **kept for reference or deleted**. It's been superseded by the per-content-type Views above. If you keep it, it could serve as a "show everything" view for a future use case. If you delete it, no code depends on it.
+
+---
+
+### How the contextual filter argument reaches the View
+
+The View Display paragraph's preprocess function reads the parent node's `field_primary_topic`, collects the term and its descendants, and passes the term IDs as a `+` separated string to the View as its contextual filter argument.
+
+```php
+$term_ids = _customsolent_get_term_with_descendants($term->id());
+// Results in e.g. "5+12+13+14+27" for Culture and all its children
+```
+
+The viewreference module renders the View. The preprocess function overrides the argument before rendering. See the "Paragraph preprocess" section below for the full implementation.
+
+---
+
+### Teaser view mode configuration
+
+The View renders each content item using its Teaser view mode. Configure the field display for each content type:
+
+**Article teaser** — `/admin/structure/types/manage/article/display/teaser`:
+
+| Field | Visible | Label | Formatter / notes |
+|-------|---------|-------|-------------------|
+| Title | Yes | (automatic) | Linked to node |
+| field_standfirst | Yes | Hidden | Plain text |
+| field_image | Yes | Hidden | Image, style: article_teaser (16:9). Hide if empty. |
+| Body | No | — | Drag to Disabled |
+| field_primary_topic | No | — | Drag to Disabled |
+| field_related_topics | No | — | Drag to Disabled |
+| field_where | No | — | Drag to Disabled (or show if you want location on articles) |
+
+**Field order in teaser:** image → title → standfirst
+
+**Event teaser** — `/admin/structure/types/manage/event/display/teaser`:
+
+| Field | Visible | Label | Formatter / notes |
+|-------|---------|-------|-------------------|
+| Title | Yes | (automatic) | Not linked (rabbit_hole blocks node access) |
+| field_standfirst | Yes | Hidden | Plain text |
+| field_when | Yes | Hidden | Smart Date default formatter |
+| field_where | Yes | Hidden | Entity reference label (shows the Location term name) |
+| field_url | Yes | Hidden | Link — use link text provided by editor |
+| field_image | Yes | Hidden | Image, style: event_thumbnail (300×300). Hide if empty. |
+| Body | No | — | Drag to Disabled |
+| field_primary_topic | No | — | Drag to Disabled |
+| field_related_topics | No | — | Drag to Disabled |
+
+**Field order in teaser:** image → title → standfirst → when → where → url
+
+**Note:** The image styles (article_teaser, event_thumbnail) should already exist from the article styling brief. If event_thumbnail (300×300) hasn't been created yet, create it at `/admin/config/media/image-styles` with a Focal Point Scale and Crop effect at 300×300. Images are optional for MVP — if no image is uploaded, the field simply doesn't render.
+
+---
 
 ### Past events
 
@@ -491,6 +631,8 @@ Past events should be **retained and visible**, not hidden. The site is curating
 
 **Visual marking for past events in Twig:**
 
+The event teaser template can check the date and add a label:
+
 ```twig
 {% set is_past = (event_date < 'now'|date('U')) %}
 
@@ -498,7 +640,7 @@ Past events should be **retained and visible**, not hidden. The site is curating
   {% if is_past %}
     <span class="slnt-event__past-label">Past event</span>
   {% endif %}
-  {# ... rest of event display ... #}
+  {# ... rest of event teaser ... #}
 </div>
 ```
 
@@ -537,61 +679,111 @@ For articles, no age marking is needed for MVP. This can be added later (e.g. "T
 
 Editors can create Event nodes with past dates in the `field_when` (Smart Date) field. Smart Date allows arbitrary date entry, not just future dates. These events will automatically appear in the "Past events" filter and be marked with the "Past event" label. No special handling needed — the date comparison in the template and the Views filter handle it.
 
-### Contextual filter
+---
 
-- **Taxonomy term ID** from `field_primary_topic`
-- **Depth:** Include child terms (critical — this is what makes the hierarchy-agnostic filtering work). If the contextual argument is the Culture term ID, the view shows all content tagged with Culture OR any of its descendants.
-- **Default value:** Provided by the custom contextual filter plugin (from the taxonomy brief) or derived from the host page's `field_primary_topic`
+### Exposed filters (for the sidebar / filter panel) — deferred
 
-### Exposed filters (for the sidebar / filter panel)
+The topic, date, and location filters in the sidebar and mobile panel are **deferred until after the basic two-listing structure is working**. Get the primary and related listings rendering correctly first, then add filtering.
+
+When ready, the three exposed filters are:
 
 **Topic filter:**
 - Filter on `field_primary_topic` taxonomy term
 - Exposed to visitors
-- **Limit options to children of the contextual argument term** — this is the key configuration. On the Culture page, only Culture's children appear. On the Music page, only Music's children appear.
-- Display as: links (for sidebar) or radios (for mobile panel)
-- Include an "All" option that clears the topic filter (showing all content under the current term)
-- Show content counts next to each option
+- Limit options to children of the current page's topic term
+- Include an "All" option
+- Show content counts next to each option (later enhancement)
 
 **Date filter:**
 - For events: filter on `field_when` (Smart Date)
 - For articles: filter on `node.created`
-- Exposed as preset options: "All upcoming" (default), "This week", "This weekend", "This month", "Past events"
-- Implementation: custom exposed filter plugin or grouped filter with preset date ranges
-- "All upcoming" for events means `field_when >= now`
-- "Past events" for events means `field_when < now`, sorted most recent first
-- "All" for articles means no date restriction
+- Preset options: "All upcoming", "This week", "This weekend", "This month", "Past events"
 
 **Location filter:**
-- Filter on the Location taxonomy reference field (if present on the content type)
+- Filter on `field_where` (Location taxonomy reference)
 - Exposed to visitors
-- Limit options to area-level terms (top-level Location taxonomy terms)
-- Display as checkboxes (multi-select — user can select multiple areas)
+- Limit options to area-level terms (children of Solent in the Location taxonomy)
+- Multi-select (checkboxes) — user can select multiple areas
 - Include an "All areas" option
-- Include child terms in the filter (selecting "Fareham" includes content at Fareham Live, etc.)
+- Include child terms (selecting "Fareham" includes content at Fareham Live, etc.)
 
 ### AJAX (optional enhancement)
 
-For MVP, the filters can use standard form submission (page reload). This works with Views exposed filters out of the box.
-
-For a smoother experience later, enable **Views AJAX** so the listing updates without a full page reload. This is a single checkbox in the View's advanced settings. The sidebar and filter panel would submit via AJAX, and only the content listing refreshes.
+For MVP, the filters can use standard form submission (page reload). For a smoother experience later, enable **Views AJAX** so the listing updates without a full page reload.
 
 ---
 
-## Preprocess: Building the filter data
+## Preprocess: View Display Paragraph
 
-The sidebar and mobile panel need to know:
-1. The children of the current page's primary topic (for the topic filter options)
-2. The top-level parent term name (for the section colour)
-3. Content counts per child term (optional for MVP — can be added later)
+The critical piece of custom code. When a View Display paragraph renders, the preprocess function:
+
+1. Reads which View and display the editor selected via `field_view`
+2. Walks up to the parent node (the composite page)
+3. Reads the parent node's `field_primary_topic`
+4. Collects that term's ID plus all descendant IDs
+5. Passes the term IDs to the View as the contextual filter argument
 
 ### Preprocess function
 
-Add to `customsolent.theme` or extend the existing topic trail preprocess:
+Add to `customsolent.theme`:
 
 ```php
 /**
+ * Implements hook_preprocess_paragraph() for the View Display paragraph.
+ *
+ * Reads the parent node's field_primary_topic and passes the term ID
+ * (plus all descendant IDs) as the contextual filter argument to the
+ * embedded View.
+ *
+ * Compatible with Drupal 11.
+ */
+function customsolent_preprocess_paragraph__view_display(&$variables) {
+  $paragraph = $variables['paragraph'];
+
+  // Walk up to the host entity (the composite page node)
+  $parent = $paragraph->getParentEntity();
+  if (!$parent || !$parent->hasField('field_primary_topic') || $parent->get('field_primary_topic')->isEmpty()) {
+    return;
+  }
+
+  $term = $parent->get('field_primary_topic')->entity;
+  if (!$term) {
+    return;
+  }
+
+  // Collect this term's ID plus all descendant IDs
+  $term_ids = _customsolent_get_term_with_descendants($term->id());
+  $variables['primary_topic_tid'] = implode('+', $term_ids);
+
+  // Also pass section filter data for sidebar/panel (deferred use)
+  $variables['section_filters'] = _customsolent_build_section_filters($term);
+}
+
+/**
+ * Get a term ID and all its descendant term IDs.
+ *
+ * @param int $tid
+ *   The parent term ID.
+ *
+ * @return array
+ *   Array of term IDs: the parent plus all descendants.
+ */
+function _customsolent_get_term_with_descendants($tid) {
+  $ids = [$tid];
+  $children = \Drupal::entityTypeManager()
+    ->getStorage('taxonomy_term')
+    ->loadTree('topic', $tid, NULL, FALSE);
+  foreach ($children as $child) {
+    $ids[] = $child->tid;
+  }
+  return $ids;
+}
+
+/**
  * Build filter data for section landing pages.
+ *
+ * Returns the section key (for colour coding) and child term options
+ * (for the sidebar/panel filters — deferred for MVP).
  */
 function _customsolent_build_section_filters($term) {
   $section_colors = [
@@ -616,7 +808,7 @@ function _customsolent_build_section_filters($term) {
   $top_level_name = $chain[0]->getName();
   $section_key = $section_colors[$top_level_name] ?? 'about';
 
-  // Load children of the current term
+  // Load children of the current term (for filter options)
   $children = \Drupal::entityTypeManager()
     ->getStorage('taxonomy_term')
     ->loadChildren($term->id());
@@ -627,7 +819,6 @@ function _customsolent_build_section_filters($term) {
     $filter_options[] = [
       'tid'   => $child->id(),
       'label' => $label,
-      'url'   => _customsolent_build_term_url_from_term($child),
     ];
   }
 
@@ -644,40 +835,66 @@ function _customsolent_build_section_filters($term) {
 }
 ```
 
-### Pass to templates
+### How the argument reaches the View
 
-In the composite page node preprocess, call this function and pass the results to the template:
+The paragraph template for the View Display paragraph needs to pass `primary_topic_tid` to the viewreference rendering. There are two approaches:
 
-```php
-/**
- * Implements hook_preprocess_node() for composite_page.
- */
-function customsolent_preprocess_node__composite_page(&$variables) {
-  $node = $variables['node'];
+**Approach A: Override the viewreference argument in the paragraph template.**
 
-  if ($node->hasField('field_primary_topic') && !$node->get('field_primary_topic')->isEmpty()) {
-    $term = $node->get('field_primary_topic')->entity;
-    $variables['section_filters'] = _customsolent_build_section_filters($term);
-  }
-}
+The viewreference module renders the View via its field formatter. The paragraph template can intercept the rendering and pass the argument. Create or update:
+
+`web/themes/custom/customsolent/templates/paragraphs/paragraph--view-display.html.twig`
+
+```twig
+{%
+  set classes = [
+    'paragraph',
+    'paragraph--type--' ~ paragraph.bundle|clean_class,
+    view_mode ? 'paragraph--view-mode--' ~ view_mode|clean_class,
+  ]
+%}
+
+{% block paragraph %}
+  <div{{ attributes.addClass(classes) }}>
+    {% block content %}
+      {#
+        The viewreference field renders the selected View and display.
+        We need to pass primary_topic_tid as the contextual argument.
+
+        If the viewreference module supports argument passing via its
+        field formatter settings, use that. Otherwise, use drupal_view()
+        directly with the view name and display from the field values.
+      #}
+      {% if primary_topic_tid is defined and primary_topic_tid %}
+        {#
+          Read the view name and display from the field_view value.
+          The viewreference field stores: view_id and display_id.
+        #}
+        {% set view_name = paragraph.field_view.0.target_id %}
+        {% set display_id = paragraph.field_view.0.display_id %}
+        {{ drupal_view(view_name, display_id, primary_topic_tid) }}
+      {% else %}
+        {# Fallback: render without argument (shows all content) #}
+        {{ content.field_view }}
+      {% endif %}
+    {% endblock %}
+  </div>
+{% endblock paragraph %}
 ```
 
-The Twig template then renders the sidebar and mobile panel using this data.
+**Note:** The exact field value structure for `field_view` (viewreference) may differ. Claude Code should inspect the field's stored values to confirm the correct property names (`target_id`, `display_id`, or similar). Enable Twig debug or use `kint()` / `dump()` to inspect `paragraph.field_view.0` and find the correct properties.
+
+**Approach B: Use a hook to alter the View arguments before rendering.**
+
+If the paragraph template approach is too fragile, a `hook_views_pre_view()` or `hook_views_pre_build()` in the theme or a custom module can inject the argument. This is more robust but requires Claude Code to determine the correct hook and context detection. Approach A (paragraph template) is simpler and should be tried first.
 
 ---
 
-## Composite Page Template: Two-Column Layout
+## Composite Page Template
 
 **File:** `web/themes/custom/customsolent/templates/content/node--composite-page--full.html.twig`
 
-The composite page template creates the page structure:
-
-1. **Editorial paragraphs** (hero art, text, CTAs, etc.) — rendered from the paragraph reference field as they are now
-2. **Filtered listing section** — a two-column layout with sidebar (desktop) / filter panel (mobile) and the View block
-
-The listing appears **below** the editorial paragraphs on every composite page that has a `field_primary_topic`. Pages without a primary topic (if any) skip the listing section entirely.
-
-### Template structure
+The composite page template is now simpler — it just renders paragraphs. The View Display paragraphs handle their own listing rendering with the contextual filter argument.
 
 ```twig
 {%
@@ -690,165 +907,26 @@ The listing appears **below** the editorial paragraphs on every composite page t
 
 <article{{ attributes.addClass(classes) }}>
 
-  {# ── Editorial paragraphs (hero art, text, CTAs, etc.) ── #}
-  <div class="slnt-composite-editorial">
+  {# ── All paragraphs — hero art, text, CTAs, View Display paragraphs, etc. ── #}
+  <div class="slnt-composite-content">
     {{ content.field_content }}
   </div>
 
-  {# ── Filtered content listing (only if primary topic is set) ── #}
-  {% if section_filters is defined and section_filters.has_filters %}
-    <section class="slnt-section-listing" data-section="{{ section_filters.section_key }}" aria-label="Content listing">
-
-      {# Mobile filter bar #}
-      <div class="slnt-filter-bar">
-        <div class="slnt-filter-bar__status">
-          Showing: <strong>All</strong>
-        </div>
-        <button class="slnt-filter-bar__button" type="button" aria-expanded="false" aria-controls="slnt-filter-panel">
-          <svg class="slnt-filter-bar__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true">
-            <line x1="4" y1="6" x2="20" y2="6"/>
-            <line x1="4" y1="12" x2="16" y2="12"/>
-            <line x1="4" y1="18" x2="12" y2="18"/>
-          </svg>
-          Filter
-        </button>
-      </div>
-
-      <div class="slnt-section-listing__layout">
-
-        {# ── Desktop sidebar ── #}
-        <aside class="slnt-section-listing__sidebar" aria-label="Filter options">
-          {% include '@customsolent/components/filter-sidebar.html.twig' with {
-            filter_options: section_filters.filter_options,
-            section_key: section_filters.section_key,
-          } %}
-        </aside>
-
-        {# ── Content listing (View block) ── #}
-        <div class="slnt-section-listing__content">
-          {{ drupal_view('section_content_listing', 'block_1') }}
-        </div>
-
-      </div>
-    </section>
-
-    {# ── Mobile filter overlay and panel ── #}
-    <div class="slnt-filter-overlay" aria-hidden="true"></div>
-    <div class="slnt-filter-panel" id="slnt-filter-panel" role="dialog" aria-label="Filter options" aria-modal="true">
-      {% include '@customsolent/components/filter-panel.html.twig' with {
-        filter_options: section_filters.filter_options,
-        section_key: section_filters.section_key,
-      } %}
+  {# ── Optional: editorial paragraphs below (future — field_content_below) ── #}
+  {% if content.field_content_below is defined and content.field_content_below|render|striptags|trim %}
+    <div class="slnt-composite-content slnt-composite-content--below">
+      {{ content.field_content_below }}
     </div>
-
   {% endif %}
 
 </article>
 ```
 
-**Notes on the template:**
-
-- `{{ content.field_content }}` renders the editorial paragraphs (hero art, text, CTAs). Adjust the field name to match your actual paragraph reference field on the composite page.
-- `{{ drupal_view('section_content_listing', 'block_1') }}` renders the View block. This uses **Twig Tweak**'s `drupal_view()` function — verify Twig Tweak is installed. If not, use Drupal's block placement system instead and render the block via the template.
-- The `data-section` attribute on `.slnt-section-listing` sets the CSS variables for section colours.
-- The mobile filter panel and overlay sit outside the two-column layout so they can be positioned fixed to the viewport.
-- `aria-controls`, `aria-expanded`, `aria-modal`, and `role="dialog"` provide proper accessibility for the mobile panel.
-- The `<aside>` element with `aria-label="Filter options"` identifies the sidebar as a complementary landmark for screen readers.
-- If `section_filters` is undefined or has no filter options (no children of the current term), the entire listing section is skipped — the page just shows the editorial paragraphs.
-
-### Filter sidebar component
-
-**File:** `web/themes/custom/customsolent/templates/components/filter-sidebar.html.twig`
-
-```twig
-{# Topic filter #}
-{% if filter_options is not empty %}
-  <div class="slnt-filter-section">
-    <div class="slnt-filter-section__title">Topic</div>
-    <a href="?" class="slnt-filter-item is-active">All</a>
-    {% for option in filter_options %}
-      <a href="?topic={{ option.tid }}" class="slnt-filter-item">
-        {{ option.label }}
-      </a>
-    {% endfor %}
-  </div>
-{% endif %}
-
-{# Date filter #}
-<div class="slnt-filter-section">
-  <div class="slnt-filter-section__title">Date</div>
-  <div class="slnt-date-pills">
-    <a href="?date=upcoming" class="slnt-date-pill is-active">All upcoming</a>
-    <a href="?date=week" class="slnt-date-pill">This week</a>
-    <a href="?date=weekend" class="slnt-date-pill">This weekend</a>
-    <a href="?date=month" class="slnt-date-pill">This month</a>
-    <a href="?date=past" class="slnt-date-pill">Past events</a>
-  </div>
-</div>
-
-{# Location filter — placeholder, populated when location data is available #}
-{#
-<div class="slnt-filter-section">
-  <div class="slnt-filter-section__title">Location</div>
-  <a href="?" class="slnt-filter-item is-active">All areas</a>
-  {% for location in location_options %}
-    <a href="?location={{ location.tid }}" class="slnt-filter-item">
-      {{ location.label }}
-    </a>
-  {% endfor %}
-</div>
-#}
-```
-
-### Filter panel component (mobile)
-
-**File:** `web/themes/custom/customsolent/templates/components/filter-panel.html.twig`
-
-```twig
-<div class="slnt-filter-panel__handle">
-  <div class="slnt-filter-panel__handle-bar"></div>
-</div>
-
-<div class="slnt-filter-panel__header">
-  <div class="slnt-filter-panel__title">Filter</div>
-  <button class="slnt-filter-panel__clear" type="button">Clear all</button>
-</div>
-
-<div class="slnt-filter-panel__body">
-  {# Topic filter #}
-  {% if filter_options is not empty %}
-    <div class="slnt-filter-section">
-      <div class="slnt-filter-section__title">Topic</div>
-      <div class="filter-item is-active" data-tid="">
-        <div class="filter-item__radio"></div>
-        <div class="filter-item__label">All</div>
-      </div>
-      {% for option in filter_options %}
-        <div class="filter-item" data-tid="{{ option.tid }}">
-          <div class="filter-item__radio"></div>
-          <div class="filter-item__label">{{ option.label }}</div>
-        </div>
-      {% endfor %}
-    </div>
-  {% endif %}
-
-  {# Date filter #}
-  <div class="slnt-filter-section">
-    <div class="slnt-filter-section__title">Date</div>
-    <div class="slnt-date-pills">
-      <button class="slnt-date-pill is-active" data-date="upcoming">All upcoming</button>
-      <button class="slnt-date-pill" data-date="week">This week</button>
-      <button class="slnt-date-pill" data-date="weekend">This weekend</button>
-      <button class="slnt-date-pill" data-date="month">This month</button>
-      <button class="slnt-date-pill" data-date="past">Past events</button>
-    </div>
-  </div>
-</div>
-
-<div class="slnt-filter-panel__footer">
-  <button class="slnt-filter-panel__apply" type="button">Apply filters</button>
-</div>
-```
+**Notes:**
+- `field_content` is the existing paragraph reference field. Adjust the name to match your actual field.
+- The View Display paragraphs are just paragraphs within `field_content` — the editor places them wherever they want in the paragraph order.
+- `field_content_below` doesn't exist yet — add when needed. The template handles its absence.
+- The two-column sidebar layout (for filters) will be handled within the View Display paragraph template or a wrapper component, not in the composite page template. This keeps the composite page template clean and generic.
 
 ---
 
@@ -866,52 +944,171 @@ The Event content type already has `field_where` as an **entity reference to the
 
 | File | Purpose |
 |------|---------|
-| `templates/content/node--composite-page--full.html.twig` | Composite page template — editorial paragraphs above, two-column filtered listing below |
-| `templates/components/filter-sidebar.html.twig` | Twig include for desktop sidebar filter sections |
-| `templates/components/filter-panel.html.twig` | Twig include for mobile slide-up panel content |
-| `css/section-listing.css` | Two-column layout, sidebar, filter items, date pills |
-| `css/filter-panel.css` | Mobile slide-up panel, overlay, filter bar |
-| `js/filter-panel.js` | Panel open/close toggle, body scroll lock |
+| `templates/content/node--composite-page--full.html.twig` | Composite page template — renders paragraphs (simplified) |
+| `templates/paragraphs/paragraph--view-display.html.twig` | View Display paragraph — passes contextual argument to the embedded View |
+| `templates/components/filter-sidebar.html.twig` | Twig include for desktop sidebar filter sections (deferred) |
+| `templates/components/filter-panel.html.twig` | Twig include for mobile slide-up panel content (deferred) |
+| `css/section-listing.css` | Listing layout and styling |
+| `css/filter-panel.css` | Mobile slide-up panel, overlay, filter bar (deferred) |
+| `js/filter-panel.js` | Panel open/close toggle, body scroll lock (deferred) |
+| `customsolent.theme` | Preprocess function for paragraph--view_display |
 
 All paths relative to `web/themes/custom/customsolent/`. Register CSS and JS in `customsolent.libraries.yml`.
 
 ---
 
+## Checklist: What Rob should have configured in Drupal admin
+
+Export the View configs and teaser view mode configs so Claude Code can verify. Here's what should be in place:
+
+### View: articles_listing
+
+- [ ] View machine name: `articles_listing`
+- [ ] Show: Content
+- [ ] Two block displays: `view_display_primary_topic` and `view_display_related_topics`
+
+**Display: view_display_primary_topic**
+- [ ] Format: Unformatted list
+- [ ] Show: Content | Teaser
+- [ ] Filter criteria: Content: Published (= Yes)
+- [ ] Filter criteria: Content: Type (= Article)
+- [ ] Sort criteria: Content: Authored on (desc)
+- [ ] Contextual filter: Content: primary topic (field_primary_topic)
+  - [ ] When NOT available: Display all results for the specified field
+  - [ ] When IS available: Specify validation → Taxonomy term → Topic vocabulary
+  - [ ] Multiple arguments (under validation): "One or more IDs separated by , or +"
+  - [ ] Under "More": Allow multiple values — **enabled**
+  - [ ] Action if does not validate: Hide view
+- [ ] Pager: 20 items
+- [ ] No results: "No articles in this section yet. Check back soon."
+
+**Display: view_display_related_topics**
+- [ ] Same as above but contextual filter on: Content: related topics (field_related_topics)
+- [ ] Pager: 10 items
+- [ ] No results: (leave empty)
+
+### View: events_listing
+
+- [ ] View machine name: `events_listing`
+- [ ] Show: Content
+- [ ] Two block displays: `view_display_primary_topic` and `view_display_related_topics`
+
+**Display: view_display_primary_topic**
+- [ ] Format: Unformatted list
+- [ ] Show: Content | Teaser
+- [ ] Filter criteria: Content: Published (= Yes)
+- [ ] Filter criteria: Content: Type (= Event)
+- [ ] Sort criteria: Content: when (asc) — soonest event first
+- [ ] Contextual filter: Content: primary topic (field_primary_topic)
+  - [ ] When NOT available: Display all results for the specified field
+  - [ ] When IS available: Specify validation → Taxonomy term → Topic vocabulary
+  - [ ] Multiple arguments (under validation): "One or more IDs separated by , or +"
+  - [ ] Under "More": Allow multiple values — **enabled**
+  - [ ] Action if does not validate: Hide view
+- [ ] Pager: 20 items
+- [ ] No results: "No events in this section yet. Check back soon."
+
+**Display: view_display_related_topics**
+- [ ] Same as above but contextual filter on: Content: related topics (field_related_topics)
+- [ ] Pager: 10 items
+- [ ] No results: (leave empty)
+
+### Existing section_content_listing View
+
+- [ ] Decision: keep for reference or delete (superseded by per-content-type Views)
+
+### Teaser view mode: Article
+
+Configured at `/admin/structure/types/manage/article/display/teaser`:
+
+- [ ] field_image — Visible, label hidden, formatter: Image, image style: article_teaser (16:9)
+- [ ] field_standfirst — Visible, label hidden
+- [ ] Body — Disabled (dragged to Disabled section)
+- [ ] field_primary_topic — Disabled
+- [ ] field_related_topics — Disabled
+- [ ] field_where — Disabled (or visible if location on articles is wanted)
+- [ ] Field order: image → standfirst (title renders automatically from node template)
+
+### Teaser view mode: Event
+
+Configured at `/admin/structure/types/manage/event/display/teaser`:
+
+- [ ] field_image — Visible, label hidden, formatter: Image, image style: event_thumbnail (300×300). Create this image style if not done yet.
+- [ ] field_standfirst — Visible, label hidden
+- [ ] field_when — Visible, label hidden, formatter: Smart Date default
+- [ ] field_where — Visible, label hidden, formatter: Entity reference label
+- [ ] field_url — Visible, label hidden, formatter: Link (uses editor-provided link text)
+- [ ] Body — Disabled (if present)
+- [ ] field_primary_topic — Disabled
+- [ ] field_related_topics — Disabled
+- [ ] Field order: image → standfirst → when → where → url (title renders automatically)
+
+### View Display paragraph type
+
+- [ ] `field_view` — viewreference field configured to allow Block displays
+- [ ] "Argument" checkbox enabled in the viewreference field settings (under "Enable extra settings")
+- [ ] The paragraph type is available within the composite page's paragraph reference field
+
+### Image styles
+
+- [ ] `article_hero` — Focal Point Scale and Crop, 1200×675 (16:9)
+- [ ] `article_teaser` — Focal Point Scale and Crop, 400×225 (16:9)
+- [ ] `event_thumbnail` — Focal Point Scale and Crop, 300×300 (1:1). Create if not done yet.
+
+---
+
 ## Implementation order
 
-| Step | Task | Priority |
-|------|------|----------|
-| 1 | Reuse `field_where` (entity reference to Location) on Article content type | Now |
-| 2 | Create the View (section_content_listing) with contextual filter on primary topic, depth enabled, block display | Now — MVP |
-| 3 | Create/update `node--composite-page--full.html.twig` with editorial paragraphs above and two-column listing layout below | Now — MVP |
-| 4 | Create `filter-sidebar.html.twig` and `filter-panel.html.twig` Twig components | Now — MVP |
-| 5 | Add preprocess function to build section filter data from `field_primary_topic` | Now — MVP |
-| 6 | Create `css/section-listing.css` for desktop two-column layout and sidebar styling | Now — MVP |
-| 7 | Create `css/filter-panel.css` and `js/filter-panel.js` for mobile slide-up panel | Now — MVP |
-| 8 | Add exposed topic filter (children of current term) wired to the View | Now — MVP |
-| 9 | Add date filter (preset ranges including "Past events") | Soon after MVP |
-| 10 | Add location filter (area-level terms from Location taxonomy) | Soon after MVP |
-| 11 | Add content counts to filter items | Later |
-| 12 | Enable Views AJAX for smooth updates without page reload | Later |
-| 13 | Add `field_filterable` boolean to Topic vocabulary to hide non-content terms | Later |
+| Step | Task | Who | Priority |
+|------|------|-----|----------|
+| 1 | Create `articles_listing` View with two displays (primary + related), export config | Rob | Now |
+| 2 | Create `events_listing` View with two displays (primary + related), export config | Rob | Now |
+| 3 | Configure Article teaser view mode, export config | Rob | Now |
+| 4 | Configure Event teaser view mode, export config | Rob | Now |
+| 5 | Write paragraph preprocess function (read parent node's topic, pass to View) | Claude Code | Now — MVP |
+| 6 | Create/update `paragraph--view-display.html.twig` (pass contextual argument to View) | Claude Code | Now — MVP |
+| 7 | Simplify `node--composite-page--full.html.twig` (just renders paragraphs) | Claude Code | Now — MVP |
+| 8 | Create `css/section-listing.css` for listing layout | Claude Code | Now — MVP |
+| 9 | Reuse `field_where` on Article content type | Rob | Now |
+| 10 | Add View Display paragraphs to a few test composite pages | Rob | Now — test |
+| 11 | Create sidebar filter components (Twig, CSS, JS) | Claude Code | Soon after MVP |
+| 12 | Create mobile filter panel components | Claude Code | Soon after MVP |
+| 13 | Add exposed topic filter to Views | Rob + Claude Code | Soon after MVP |
+| 14 | Add date filter | Later |
+| 15 | Add location filter | Later |
+| 16 | Enable Views AJAX | Later |
 
 ---
 
 ## Testing
 
-1. **Composite page structure:** Verify that editorial paragraphs (hero art, text, CTAs) render above the filtered listing. Both sections should be visible on the same page without conflict.
-2. **Culture page:** Shows all content tagged with Culture or any Culture sub-term. Topic filter lists Music, Screen, Dance, etc. Selecting "Music" narrows to Music content only.
-2. **Culture / Music page:** Shows all Music content. Topic filter lists Music's children (genres) if any exist. If no children, topic filter section is hidden.
-3. **Sectors page:** Same pattern — shows Sectors content, filter lists Sectors sub-terms, section colour is blue.
-4. **Explore page:** Shows Explore content, filter lists Archive, Articles, Series, etc. Section colour is amber.
-5. **About page:** Shows About content (if any). Most About sub-terms won't have tagged content, so the filter is sparse — this is expected and acceptable.
-6. **Mobile filter bar:** Visible below 800px, shows current filter state, "Filter" button opens the panel.
-7. **Mobile panel:** Slides up smoothly, scrollable if content exceeds panel height, "Apply" closes panel, overlay click closes panel, body scroll is locked while panel is open.
-8. **Section colours:** Filter highlights use the correct section colour (purple for Culture, blue for Sectors, etc.).
-9. **No content:** "No results" message when filters produce zero results.
-11. **Mixed content types:** If both articles and events appear in the listing, verify dates display correctly for each type.
-12. **No primary topic:** Composite pages without `field_primary_topic` set should display editorial paragraphs only — no listing section, no sidebar, no errors.
-13. **Twig Tweak:** Verify Twig Tweak module is enabled — the template uses `drupal_view()` to render the View block. If Twig Tweak is not available, Claude Code should use an alternative approach (block placement or custom render).
+1. **View Display paragraph renders:** Add a View Display paragraph to a composite page (e.g. Culture), select `articles_listing` / `view_display_primary_topic`. Verify articles tagged with Culture or its sub-terms appear.
+2. **Events listing:** Add a View Display paragraph with `events_listing` / `view_display_primary_topic`. Verify events appear sorted by event date (soonest first).
+3. **Related content:** Add a View Display paragraph with `articles_listing` / `view_display_related_topics`. Verify only articles whose `field_related_topics` contains the page's topic appear.
+4. **Contextual filter:** On the Culture page, verify only Culture-related content appears — not all published content. On the Music page, verify only Music-related content appears.
+5. **Hierarchy depth:** On the Culture page, verify that content tagged with "Culture / Music" or "Culture / Screen" (child terms) appears, not just content tagged directly with "Culture."
+6. **Multiple View Display paragraphs on one page:** Add events listing + articles listing to the same page. Verify both render correctly and independently.
+7. **Paragraph ordering:** Verify that editorial paragraphs (hero art, text) and View Display paragraphs render in the order the editor placed them.
+8. **Empty View:** On a page with no matching content, verify the "No articles/events in this section" message appears (or the paragraph renders empty without errors).
+9. **No primary topic on parent:** If the composite page has no `field_primary_topic` set, the View Display paragraph should show all content (fallback) or render empty without errors.
+10. **Teaser display — Article:** Verify image, standfirst, and title appear. Body and topic fields are hidden.
+11. **Teaser display — Event:** Verify image, standfirst, when, where, and URL link appear. Title is not linked (rabbit_hole).
+12. **Past events:** Events with past dates display with "Past event" label and reduced opacity in the teaser.
+
+---
+
+## Future: field_content_below (editorial content below the listing)
+
+When you need editorial paragraphs below the filtered listing (closing statements, calls to action, quotes, "get involved" sections), add a second paragraph reference field to the composite page content type:
+
+- **Field name:** `field_content_below`
+- **Type:** Entity reference (paragraphs) — same configuration as `field_content`
+- **Required:** No
+- **Help text:** "Optional content displayed below the content listing."
+
+The template already includes the code to render this field — it checks if the field has content and only renders it if populated. Pages that don't use it are unaffected.
+
+**Don't create this field now.** Add it when you first have a page that needs content below the listing. It's a single field addition and requires no template changes — the template is already prepared for it.
 
 ---
 
