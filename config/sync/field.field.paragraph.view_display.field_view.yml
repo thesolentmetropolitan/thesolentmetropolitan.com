@@ -1,17 +1,17 @@
-uuid: 1d0f1332-8b8b-4026-ace7-89fa242348aa
+uuid: 9295e377-f57e-4b14-8381-70bb48602653
 langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.paragraph.field_view_display
+    - field.storage.paragraph.field_view
     - paragraphs.paragraphs_type.view_display
   module:
     - viewsreference
-id: paragraph.view_display.field_view_display
-field_name: field_view_display
+id: paragraph.view_display.field_view
+field_name: field_view
 entity_type: paragraph
 bundle: view_display
-label: 'View display'
+label: View
 description: ''
 required: false
 translatable: false
@@ -24,6 +24,7 @@ settings:
     auto_create: false
   plugin_types:
     block: block
-  preselect_views: {  }
+  preselect_views:
+    articles: articles
   enabled_settings: {  }
 field_type: viewsreference

@@ -4,7 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.paragraph.view_display.field_classy
-    - field.field.paragraph.view_display.field_view_display
+    - field.field.paragraph.view_display.field_view
     - paragraphs.paragraphs_type.view_display
   module:
     - viewsreference
@@ -23,9 +23,9 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-  field_view_display:
+  field_view:
     type: viewsreference_autocomplete
-    weight: 0
+    weight: 1
     region: content
     settings:
       match_operator: CONTAINS

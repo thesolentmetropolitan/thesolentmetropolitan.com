@@ -4,7 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.paragraph.view_display.field_classy
-    - field.field.paragraph.view_display.field_view_display
+    - field.field.paragraph.view_display.field_view
     - paragraphs.paragraphs_type.view_display
   module:
     - viewsreference
@@ -21,13 +21,13 @@ content:
     third_party_settings: {  }
     weight: 1
     region: content
-  field_view_display:
+  field_view:
     type: viewsreference_formatter
     label: hidden
     settings:
       plugin_types:
         - block
     third_party_settings: {  }
-    weight: 0
+    weight: 2
     region: content
 hidden: {  }
