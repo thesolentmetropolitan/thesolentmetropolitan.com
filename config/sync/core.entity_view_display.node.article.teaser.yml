@@ -9,6 +9,7 @@ dependencies:
     - field.field.node.article.field_primary_topic
     - field.field.node.article.field_related_topics
     - field.field.node.article.field_standfirst
+    - field.field.node.article.field_where
     - node.type.article
   module:
     - user
@@ -40,4 +41,5 @@ hidden:
   body: true
   field_primary_topic: true
   field_related_topics: true
+  field_where: true
   links: true
