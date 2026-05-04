@@ -1,16 +1,16 @@
-uuid: c490b83d-453d-4b81-a0db-5dfc510769d1
+uuid: 818dee31-d435-4ba3-afdc-60a8ccc84e3d
 langcode: en
 status: true
 dependencies:
   config:
     - core.entity_view_mode.node.teaser
-    - node.type.article
+    - node.type.event
     - taxonomy.vocabulary.topic
   module:
     - node
     - user
-id: articles_listing
-label: 'Articles Listing'
+id: events_listing
+label: 'Events Listing'
 module: views
 description: ''
 tag: ''
@@ -76,7 +76,7 @@ display:
         options:
           offset: 0
           pagination_heading_level: h4
-          items_per_page: 20
+          items_per_page: 10
           total_pages: null
           id: 0
           tags:
@@ -112,17 +112,15 @@ display:
         options: {  }
       empty: {  }
       sorts:
-        created:
-          id: created
-          table: node_field_data
-          field: created
+        field_when_value:
+          id: field_when_value
+          table: node__field_when
+          field: field_when_value
           relationship: none
           group_type: group
           admin_label: ''
-          entity_type: node
-          entity_field: created
           plugin_id: date
-          order: DESC
+          order: ASC
           expose:
             label: ''
             field_identifier: ''
@@ -145,11 +143,44 @@ display:
           id: type
           table: node_field_data
           field: type
+          relationship: none
+          group_type: group
+          admin_label: ''
           entity_type: node
           entity_field: type
           plugin_id: bundle
+          operator: in
           value:
-            article: article
+            event: event
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
       style:
         type: default
         options:
@@ -223,7 +254,7 @@ display:
       tags: {  }
   block_2:
     id: block_2
-    display_title: articles_page_block
+    display_title: events_page_block
     display_plugin: block
     position: 1
     display_options:
@@ -238,6 +269,7 @@ display:
         - 'user.node_grants:view'
         - user.permissions
       tags: {  }
+    deleted: false
   view_display_primary_topic:
     id: view_display_primary_topic
     display_title: 'View Display Primary Topic'
