@@ -269,7 +269,6 @@ display:
         - 'user.node_grants:view'
         - user.permissions
       tags: {  }
-    deleted: false
   view_display_primary_topic:
     id: view_display_primary_topic
     display_title: 'View Display Primary Topic'
