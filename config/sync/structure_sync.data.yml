@@ -1603,7 +1603,7 @@ taxonomies:
       name: Hampshire
       description__value: null
       description__format: null
-      weight: '0'
+      weight: '1'
       parent: '0'
       uuid: 17bce430-20a8-4276-8bb6-11e21b5200a3
     -
@@ -1623,7 +1623,7 @@ taxonomies:
       name: Solent
       description__value: null
       description__format: null
-      weight: '3'
+      weight: '5'
       parent: '0'
       uuid: de285813-efde-4206-b9d0-997faccc8da6
     -
@@ -1636,6 +1636,16 @@ taxonomies:
       weight: '2'
       parent: '140'
       uuid: cc304936-f0a4-472d-ae9f-6082c27cdc64
+    -
+      vid: location
+      tid: '144'
+      langcode: en
+      name: 'Southsea Bandstand'
+      description__value: null
+      description__format: null
+      weight: '0'
+      parent: '141'
+      uuid: 7888d029-ef04-4f8a-8f6c-6053f0065bd8
   topic:
     -
       vid: topic
