@@ -3,11 +3,20 @@
  * @file
  * Theme override for an Event node in the teaser view mode.
  *
- * Title is not linked because rabbit_hole blocks node access for events;
- * the field_url field is the actionable link instead.
+ * Renders fields manually so we can:
+ *   - prefix the When and Where labels with phosphor icons
+ *     (calendar-dots / map-pin),
+ *   - render field_where as plain text (rabbit_hole disables event
+ *     access; we also don't want a link to the Location term),
+ *   - render field_url as a CTA coloured to match the section
+ *     (Culture purple, Sectors blue, Living green, About slate,
+ *     Explore amber) with a trailing right-chevron for internal
+ *     URLs and arrow-square-out for external URLs.
  *
- * Field display order is taken from the teaser view mode configuration:
- * core.entity_view_display.node.event.teaser.yml
+ * Variables added by customsolent_preprocess_node:
+ *   - section_color, section_key      — top-level Topic colour.
+ *   - where_name                      — plain Location term name.
+ *   - field_url_external/href/text    — for the CTA.
  */
 #}
 {%
@@ -23,7 +32,12 @@
   ]
 %}
 
-<article{{ attributes.addClass(classes) }}>
+{% set teaser_attrs = attributes.addClass(classes) %}
+{% if section_key %}
+  {% set teaser_attrs = teaser_attrs.setAttribute('data-section', section_key) %}
+{% endif %}
+
+<article{{ teaser_attrs }}>
 
   {% if content.field_image|render|striptags|trim %}
     <div class="slnt-event-teaser__image">
@@ -34,7 +48,54 @@
   <div class="slnt-event-teaser__text">
     <h2 class="slnt-event-teaser__title">{{ label }}</h2>
 
-    {{ content|without('field_image') }}
+    {% if content.field_standfirst|render|striptags|trim %}
+      <div class="slnt-event-teaser__standfirst">{{ content.field_standfirst }}</div>
+    {% endif %}
+
+    {# When — calendar-dots icon + label + Smart Date value. #}
+    {% if content.field_when|render|striptags|trim %}
+      <div class="slnt-event-teaser__row slnt-event-teaser__when">
+        <span class="slnt-event-teaser__icon" aria-hidden="true">
+          <svg viewBox="0 0 256 256" fill="currentColor"><path d="M208,28H188V24a12,12,0,0,0-24,0v4H92V24a12,12,0,0,0-24,0v4H48A20,20,0,0,0,28,48V208a20,20,0,0,0,20,20H208a20,20,0,0,0,20-20V48A20,20,0,0,0,208,28ZM68,52a12,12,0,0,0,24,0h72a12,12,0,0,0,24,0h16V76H52V52ZM52,204V100H204V204Zm92-76a16,16,0,1,1-16-16A16,16,0,0,1,144,128Zm48,0a16,16,0,1,1-16-16A16,16,0,0,1,192,128ZM96,176a16,16,0,1,1-16-16A16,16,0,0,1,96,176Zm48,0a16,16,0,1,1-16-16A16,16,0,0,1,144,176Zm48,0a16,16,0,1,1-16-16A16,16,0,0,1,192,176Z"/></svg>
+        </span>
+        <span class="slnt-event-teaser__label">When</span>
+        <span class="slnt-event-teaser__value">{{ content.field_when[0] }}</span>
+      </div>
+    {% endif %}
+
+    {# Where — map-pin icon + label + plain Location term name. #}
+    {% if where_name %}
+      <div class="slnt-event-teaser__row slnt-event-teaser__where">
+        <span class="slnt-event-teaser__icon" aria-hidden="true">
+          <svg viewBox="0 0 256 256" fill="currentColor"><path d="M128,60a44,44,0,1,0,44,44A44.05,44.05,0,0,0,128,60Zm0,64a20,20,0,1,1,20-20A20,20,0,0,1,128,124Zm0-112a92.1,92.1,0,0,0-92,92c0,77.36,81.64,135.4,85.12,137.83a12,12,0,0,0,13.76,0,259,259,0,0,0,42.18-39C205.15,170.57,220,136.37,220,104A92.1,92.1,0,0,0,128,12Zm31.3,174.71A249.35,249.35,0,0,1,128,216.89a249.35,249.35,0,0,1-31.3-30.18C80,167.37,60,137.31,60,104a68,68,0,0,1,136,0C196,137.31,176,167.37,159.3,186.71Z"/></svg>
+        </span>
+        <span class="slnt-event-teaser__label">Where</span>
+        <span class="slnt-event-teaser__value">{{ where_name }}</span>
+      </div>
+    {% endif %}
+
+    {# CTA — section-coloured button with trailing icon. #}
+    {% if field_url_href %}
+      <div class="slnt-event-teaser__cta-outer">
+        <a class="slnt-cta slnt-event-teaser__cta"
+           href="{{ field_url_href }}"
+           {% if field_url_external %}rel="noopener noreferrer" target="_blank"{% endif %}
+           {% if section_color %}style="background-color: {{ section_color }}; border-color: {{ section_color }}; color: #fff;"{% endif %}>
+          <span class="slnt-cta__text">{{ field_url_text }}</span>
+          {% if field_url_external %}
+            <svg class="slnt-cta__icon" viewBox="0 0 256 256" fill="currentColor" role="presentation" focusable="false"><path d="M228,104a12,12,0,0,1-24,0V69l-59.51,59.51a12,12,0,0,1-17-17L187,52H152a12,12,0,0,1,0-24h64a12,12,0,0,1,12,12Zm-44,24a12,12,0,0,0-12,12v64H52V84h64a12,12,0,0,0,0-24H48A20,20,0,0,0,28,80V208a20,20,0,0,0,20,20H176a20,20,0,0,0,20-20V140A12,12,0,0,0,184,128Z"/></svg>
+          {% else %}
+            <svg class="slnt-cta__chevron" role="presentation" focusable="false">
+              <use href="#tvip-down-triangle"></use>
+            </svg>
+          {% endif %}
+        </a>
+      </div>
+    {% endif %}
+
   </div>
+
+  {# Suppress defaults — we render these manually above. #}
+  {{ content|without('field_image', 'field_standfirst', 'field_when', 'field_where', 'field_url') }}
 
 </article>
