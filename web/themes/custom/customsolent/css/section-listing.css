@@ -1,0 +1,269 @@
+/* ══════════════════════════════════════
+   Section landing page — filtered listing
+   See: docs/claude-conversations/2026-05-02-04-section-landing-filters-brief.md
+   ══════════════════════════════════════ */
+
+.slnt-section-listing {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--content-pad, 2rem);
+}
+
+@media (max-width: 799px) {
+  .slnt-section-listing {
+    padding: 0 var(--content-pad-mobile, 1.2rem);
+  }
+}
+
+/* Section colour vars — set via data-section by the paragraph preprocess. */
+.slnt-section-listing[data-section="culture"] {
+  --section-color: #7C3AED;
+  --section-color-pale: #f3e8ff;
+}
+.slnt-section-listing[data-section="sectors"] {
+  --section-color: #2563EB;
+  --section-color-pale: #dbeafe;
+}
+.slnt-section-listing[data-section="living"] {
+  --section-color: #059669;
+  --section-color-pale: #d1fae5;
+}
+.slnt-section-listing[data-section="about"] {
+  --section-color: #475569;
+  --section-color-pale: #f1f5f9;
+}
+.slnt-section-listing[data-section="explore"] {
+  --section-color: #D97706;
+  --section-color-pale: #fef3c7;
+}
+
+/* ── Layout: sidebar + content (desktop) ── */
+.slnt-section-listing__layout {
+  display: block;
+}
+
+@media (min-width: 800px) {
+  .slnt-section-listing--has-sidebar .slnt-section-listing__layout {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 2rem;
+    align-items: start;
+  }
+
+  .slnt-section-listing__sidebar {
+    position: sticky;
+    top: 1rem;
+    align-self: start;
+  }
+
+  /* When multiple primary-topic listings appear on the same page, only
+     the first one renders its sidebar; the rest go full-width. */
+  .slnt-section-listing--has-sidebar
+    ~ .slnt-section-listing--has-sidebar
+    .slnt-section-listing__layout {
+    grid-template-columns: 1fr;
+  }
+  .slnt-section-listing--has-sidebar
+    ~ .slnt-section-listing--has-sidebar
+    .slnt-section-listing__sidebar {
+    display: none;
+  }
+}
+
+/* ── Filter sidebar ── */
+.slnt-filter-section {
+  margin-bottom: 1.5rem;
+}
+
+.slnt-filter-section__title {
+  font-family: 'Atkinson Hyperlegible Next', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #888;
+  margin-bottom: 0.5rem;
+}
+
+.slnt-filter-item {
+  display: block;
+  padding: 0.4rem 0.6rem;
+  margin-bottom: 0.15rem;
+  border-radius: 4px;
+  font-family: 'Atkinson Hyperlegible Next', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--text, #1a1a1a);
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.15s, color 0.15s;
+}
+
+.slnt-filter-item:hover {
+  background: var(--section-color-pale, #f1f5f9);
+  color: var(--section-color, #475569);
+}
+
+.slnt-filter-item.is-active {
+  background: var(--section-color, #475569);
+  color: white;
+  font-weight: 600;
+}
+
+/* ══════════════════════════════════════
+   Mobile filter bar + slide-up panel
+   ══════════════════════════════════════ */
+
+.slnt-filter-bar {
+  display: none;
+}
+
+.slnt-filter-overlay {
+  display: none;
+}
+
+.slnt-filter-panel {
+  display: none;
+}
+
+@media (max-width: 799px) {
+  /* Hide the desktop sidebar; mobile uses the bar+panel pattern. */
+  .slnt-section-listing__sidebar {
+    display: none;
+  }
+
+  /* Sticky bar — sits below the main nav. */
+  .slnt-filter-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: white;
+    border-bottom: 1px solid #e0e0e0;
+    padding: 0.6rem var(--content-pad-mobile, 1.2rem);
+    margin: 0 calc(-1 * var(--content-pad-mobile, 1.2rem)) 0.8rem;
+    position: sticky;
+    top: 38px;
+    z-index: 9;
+  }
+
+  .slnt-filter-bar__status {
+    font-family: 'Atkinson Hyperlegible Next', sans-serif;
+    font-size: 0.78rem;
+    color: var(--text-mid, #444);
+  }
+
+  .slnt-filter-bar__status strong {
+    color: var(--section-color, #475569);
+    font-weight: 700;
+  }
+
+  .slnt-filter-bar__button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4em;
+    background: var(--solent-blue, #2c4f6e);
+    color: white;
+    border: none;
+    padding: 0.4em 1em;
+    border-radius: 4px;
+    font-family: 'Atkinson Hyperlegible Next', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  /* Hide bar in subsequent listings — only the first listing's bar shows. */
+  .slnt-section-listing--has-sidebar
+    ~ .slnt-section-listing--has-sidebar
+    .slnt-filter-bar,
+  .slnt-section-listing--has-sidebar
+    ~ .slnt-section-listing--has-sidebar
+    .slnt-filter-overlay,
+  .slnt-section-listing--has-sidebar
+    ~ .slnt-section-listing--has-sidebar
+    .slnt-filter-panel {
+    display: none !important;
+  }
+
+  /* Overlay */
+  .slnt-filter-overlay {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 100;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+  .slnt-filter-overlay.is-open {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  /* Slide-up panel */
+  .slnt-filter-panel {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: white;
+    border-radius: 16px 16px 0 0;
+    z-index: 101;
+    transform: translateY(100%);
+    transition: transform 0.35s cubic-bezier(0.32, 0.72, 0, 1);
+    max-height: 85vh;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
+  }
+  .slnt-filter-panel.is-open {
+    transform: translateY(0);
+  }
+
+  .slnt-filter-panel__handle {
+    padding: 0.8rem 0 0.3rem;
+    text-align: center;
+    flex-shrink: 0;
+  }
+  .slnt-filter-panel__handle-bar {
+    display: inline-block;
+    width: 36px;
+    height: 4px;
+    background: #ccc;
+    border-radius: 2px;
+  }
+
+  .slnt-filter-panel__header {
+    padding: 0.3rem 1.2rem 0.8rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e8e8e8;
+    flex-shrink: 0;
+  }
+  .slnt-filter-panel__title {
+    font-family: 'Atkinson Hyperlegible Next', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--solent-blue, #2c4f6e);
+  }
+  .slnt-filter-panel__clear {
+    font-family: 'Atkinson Hyperlegible Next', sans-serif;
+    font-size: 0.78rem;
+    color: var(--section-color, #475569);
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .slnt-filter-panel__body {
+    padding: 1rem 1.2rem 1.6rem;
+    overflow-y: auto;
+    flex: 1 1 auto;
+  }
+
+  /* Lock background scroll when the panel is open. */
+  body.slnt-filter-panel-open {
+    overflow: hidden;
+  }
+}

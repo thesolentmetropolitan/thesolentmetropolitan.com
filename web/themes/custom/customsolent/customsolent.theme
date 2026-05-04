@@ -224,3 +224,180 @@ function customsolent_theme_suggestions_form_alter(array &$suggestions, array $v
     $suggestions[] = 'form__' . $variables['element']['#form_id'];
   }
 }
+
+/**
+ * Implements hook_preprocess_HOOK() for paragraph--view-display.html.twig.
+ *
+ * Walks up to the host node, reads field_primary_topic, and either:
+ *  - passes the term + all descendants as the View contextual argument
+ *    (the default — content scoped to the page's branch of the Topic tree),
+ *  - or, when ?topic=<tid> is set in the URL and that term is a descendant
+ *    of the page's term, narrows the argument to that subtree only.
+ *
+ * For displays with id "view_display_primary_topic", also exposes the
+ * filter sidebar / mobile panel data (children of the page's term as
+ * clickable filter options).
+ */
+function customsolent_preprocess_paragraph__view_display(&$variables) {
+  $paragraph = $variables['paragraph'];
+
+  $host = $paragraph->getParentEntity();
+  while ($host && $host->getEntityTypeId() === 'paragraph') {
+    $host = $host->getParentEntity();
+  }
+  if (!$host
+    || $host->getEntityTypeId() !== 'node'
+    || !$host->hasField('field_primary_topic')
+    || $host->get('field_primary_topic')->isEmpty()) {
+    return;
+  }
+
+  $page_term = $host->get('field_primary_topic')->entity;
+  if (!$page_term) {
+    return;
+  }
+
+  // Section colour data — keyed off the top-level (root) Topic term.
+  $top = _customsolent_topic_top_level($page_term);
+  if ($top) {
+    $variables['section_key'] = strtolower($top->getName());
+    $variables['section_color'] = _customsolent_topic_section_colors()[$top->getName()] ?? NULL;
+  }
+
+  // Which display is this paragraph rendering? Only the primary-topic
+  // display gets the filter sidebar + reads the URL ?topic= param.
+  $display_id = '';
+  if (!$paragraph->get('field_view')->isEmpty()) {
+    $display_id = $paragraph->get('field_view')->display_id ?? '';
+  }
+  $is_primary_display = ($display_id === 'view_display_primary_topic');
+
+  // Resolve which term to scope content to: the page term by default,
+  // or a descendant chosen by ?topic=<tid> when the primary-topic
+  // display is being rendered.
+  $effective_term = $page_term;
+  $active_filter_tid = NULL;
+  if ($is_primary_display) {
+    $query_topic = \Drupal::request()->query->get('topic');
+    if ($query_topic !== NULL && is_numeric($query_topic) && (int) $query_topic > 0) {
+      /** @var \Drupal\taxonomy\TermStorageInterface $term_storage */
+      $term_storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
+      $candidate = $term_storage->load((int) $query_topic);
+      if ($candidate && _customsolent_term_is_descendant_of($candidate, $page_term)) {
+        $effective_term = $candidate;
+        $active_filter_tid = (int) $candidate->id();
+      }
+    }
+  }
+
+  $term_ids = _customsolent_get_term_with_descendants($effective_term->id());
+  $variables['primary_topic_tid'] = implode('+', $term_ids);
+
+  // Sidebar / mobile filter data for the primary-topic display.
+  if ($is_primary_display) {
+    $children = _customsolent_load_topic_children_sorted($page_term->id());
+    $filter_options = [];
+    foreach ($children as $child) {
+      $tid = (int) $child->id();
+      $filter_options[] = [
+        'tid'    => $tid,
+        'label'  => _customsolent_strip_term_prefix($child->getName()),
+        'url'    => '?topic=' . $tid,
+        'active' => ($active_filter_tid === $tid),
+      ];
+    }
+    $variables['filter_options']      = $filter_options;
+    $variables['filter_has_options']  = !empty($filter_options);
+    $variables['filter_all_url']      = \Drupal::request()->getPathInfo();
+    $variables['filter_all_active']   = ($active_filter_tid === NULL);
+    $variables['filter_active_label'] = $active_filter_tid !== NULL
+      ? _customsolent_strip_term_prefix($effective_term->getName())
+      : NULL;
+  }
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_view_alter() for paragraph entities.
+ *
+ * Adds the url.query_args:topic cache context to view_display paragraphs
+ * so the sidebar's active state and the View's filtered argument refresh
+ * when the URL ?topic= param changes.
+ */
+function customsolent_paragraph_view_alter(array &$build, \Drupal\Core\Entity\EntityInterface $entity, \Drupal\Core\Entity\Display\EntityViewDisplayInterface $display) {
+  if ($entity->bundle() === 'view_display') {
+    $build['#cache']['contexts'][] = 'url.query_args:topic';
+  }
+}
+
+/**
+ * Get a term ID and all its descendant term IDs.
+ */
+function _customsolent_get_term_with_descendants($tid) {
+  $ids = [(int) $tid];
+  /** @var \Drupal\taxonomy\TermStorageInterface $term_storage */
+  $term_storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
+  $tree = $term_storage->loadTree('topic', $tid, NULL, FALSE);
+  foreach ($tree as $child) {
+    $ids[] = (int) $child->tid;
+  }
+  return $ids;
+}
+
+/**
+ * TRUE if $term equals $ancestor or is anywhere beneath it in the tree.
+ */
+function _customsolent_term_is_descendant_of($term, $ancestor) {
+  if ((int) $term->id() === (int) $ancestor->id()) {
+    return TRUE;
+  }
+  /** @var \Drupal\taxonomy\TermStorageInterface $term_storage */
+  $term_storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
+  $tree = $term_storage->loadTree($ancestor->bundle(), $ancestor->id(), NULL, FALSE);
+  foreach ($tree as $row) {
+    if ((int) $row->tid === (int) $term->id()) {
+      return TRUE;
+    }
+  }
+  return FALSE;
+}
+
+/**
+ * Direct children of a Topic term, sorted by weight then by stripped name.
+ *
+ * Returns Term entities (not the loadTree row stdClass), so callers can
+ * call ->getName() / ->id() directly.
+ */
+function _customsolent_load_topic_children_sorted($tid) {
+  /** @var \Drupal\taxonomy\TermStorageInterface $term_storage */
+  $term_storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
+  $children = $term_storage->loadChildren($tid);
+  usort($children, function ($a, $b) {
+    $wa = (int) $a->getWeight();
+    $wb = (int) $b->getWeight();
+    if ($wa !== $wb) {
+      return $wa <=> $wb;
+    }
+    return strcasecmp(
+      _customsolent_strip_term_prefix($a->getName()),
+      _customsolent_strip_term_prefix($b->getName())
+    );
+  });
+  return $children;
+}
+
+/**
+ * Walk up to the top-level (root) Topic term for a given term.
+ */
+function _customsolent_topic_top_level($term) {
+  $current = $term;
+  /** @var \Drupal\taxonomy\TermStorageInterface $term_storage */
+  $term_storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
+  while ($current) {
+    $parents = $term_storage->loadParents($current->id());
+    if (empty($parents)) {
+      return $current;
+    }
+    $current = reset($parents);
+  }
+  return NULL;
+}

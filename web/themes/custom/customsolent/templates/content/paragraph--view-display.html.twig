@@ -3,10 +3,39 @@
  * @file
  * Theme override for the "View Display" paragraph type.
  *
- * Renders the viewsreference field (field_view_display) which embeds
- * the chosen Views display.
+ * Renders the embedded View (selected by the editor via field_view, a
+ * viewsreference field) with the page's primary topic + descendants
+ * passed as the contextual filter argument.
+ *
+ * For displays with id "view_display_primary_topic" we also render a
+ * topic filter — desktop sidebar + mobile sticky bar / slide-up panel.
+ * Children of the page's primary topic are the filter options. The
+ * "Related" display does not get a filter.
+ *
+ * Variables provided by customsolent_preprocess_paragraph__view_display:
+ * - primary_topic_tid:    "+"-joined term IDs (or unset if no topic).
+ * - section_key:          lowercased top-level Topic name (e.g. "culture").
+ * - section_color:        hex colour for the top-level section.
+ * - filter_has_options:   TRUE on primary-topic display when the page
+ *                         term has children.
+ * - filter_options:       array of {tid, label, url, active}.
+ * - filter_all_url:       URL of the page with no ?topic= param.
+ * - filter_all_active:    TRUE when no topic is currently selected.
+ * - filter_active_label:  label of the active child term, or NULL.
  */
 #}
+{% macro topic_list(filter_options, filter_all_url, filter_all_active) %}
+  <div class="slnt-filter-section">
+    <div class="slnt-filter-section__title">Topic</div>
+    <a href="{{ filter_all_url }}" class="slnt-filter-item{{ filter_all_active ? ' is-active' : '' }}">All</a>
+    {% for option in filter_options %}
+      <a href="{{ option.url }}" class="slnt-filter-item{{ option.active ? ' is-active' : '' }}">{{ option.label }}</a>
+    {% endfor %}
+  </div>
+{% endmacro %}
+
+{% import _self as filter %}
+
 {%
   set classes = [
     'paragraph',
@@ -14,10 +43,11 @@
     view_mode ? 'paragraph--view-mode--' ~ view_mode|clean_class,
     not paragraph.isPublished() ? 'paragraph--unpublished',
     'slnt-view-display',
+    'slnt-section-listing',
+    filter_has_options ? 'slnt-section-listing--has-sidebar',
   ]
 %}
 
-{# Pull through any classy_paragraphs entries on field_classy #}
 {% set extra_classes = [] %}
 {% if paragraph.hasField('field_classy') %}
   {% for item in paragraph.field_classy %}
@@ -27,10 +57,66 @@
   {% endfor %}
 {% endif %}
 
+{% set wrapper_attributes = attributes.addClass(classes).addClass(extra_classes) %}
+{% if section_key %}
+  {% set wrapper_attributes = wrapper_attributes.setAttribute('data-section', section_key) %}
+{% endif %}
+
 {% block paragraph %}
-  <div{{ attributes.addClass(classes).addClass(extra_classes) }}>
+  <div{{ wrapper_attributes }}>
     {% block content %}
-      {{ content.field_view_display }}
+
+      {# Mobile sticky filter bar — shown only when filter options exist. #}
+      {% if filter_has_options %}
+        <div class="slnt-filter-bar">
+          <div class="slnt-filter-bar__status">
+            {% if filter_active_label %}
+              Topic: <strong>{{ filter_active_label }}</strong>
+            {% else %}
+              All topics
+            {% endif %}
+          </div>
+          <button type="button" class="slnt-filter-bar__button" data-filter-toggle aria-haspopup="dialog" aria-expanded="false">
+            Filter
+          </button>
+        </div>
+      {% endif %}
+
+      <div class="slnt-section-listing__layout">
+        {% if filter_has_options %}
+          <aside class="slnt-section-listing__sidebar" aria-label="Topic filter">
+            {{ filter.topic_list(filter_options, filter_all_url, filter_all_active) }}
+          </aside>
+        {% endif %}
+
+        <div class="slnt-section-listing__content">
+          {% set view_name = paragraph.field_view.0.target_id %}
+          {% set display_id = paragraph.field_view.0.display_id %}
+          {% if view_name and display_id and primary_topic_tid is defined and primary_topic_tid %}
+            {{ drupal_view(view_name, display_id, primary_topic_tid) }}
+          {% else %}
+            {{ content.field_view }}
+          {% endif %}
+        </div>
+      </div>
+
+      {# Mobile slide-up filter panel — outside the layout flow. #}
+      {% if filter_has_options %}
+        <div class="slnt-filter-overlay" data-filter-overlay aria-hidden="true"></div>
+        <div class="slnt-filter-panel" data-filter-panel role="dialog" aria-modal="true" aria-label="Filter">
+          <div class="slnt-filter-panel__handle">
+            <span class="slnt-filter-panel__handle-bar"></span>
+          </div>
+          <div class="slnt-filter-panel__header">
+            <span class="slnt-filter-panel__title">Filter</span>
+            <a href="{{ filter_all_url }}" class="slnt-filter-panel__clear">Clear</a>
+          </div>
+          <div class="slnt-filter-panel__body">
+            {{ filter.topic_list(filter_options, filter_all_url, filter_all_active) }}
+          </div>
+        </div>
+      {% endif %}
+
     {% endblock %}
   </div>
 {% endblock paragraph %}
