@@ -28,6 +28,7 @@ global:
       css/paragraph-specials.css: {}
       css/search.css: {}
       css/section-listing.css: {}
+      css/event-teaser.css: {}
       css/topic-trail.css: {}
   dependencies:
     - core/drupal

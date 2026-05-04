@@ -28,26 +28,71 @@ function customsolent_preprocess_page(array &$variables): void {
  * from the node's field_primary_topic. Composite pages use the
  * leaf term as the page h1; content pages (article, etc.) keep
  * the entire chain as a clickable kicker above their own title.
+ *
+ * Also exposes event-teaser-specific data (section_color,
+ * field_url_external/href/text, where_name) so the event teaser
+ * template can render the When/Where rows with icons and a
+ * section-coloured CTA from field_url.
  */
 function customsolent_preprocess_node(array &$variables): void {
   $node = $variables['node'] ?? NULL;
-  if (!$node || !$node->hasField('field_primary_topic')) {
-    return;
-  }
-  if ($node->get('field_primary_topic')->isEmpty()) {
-    return;
-  }
-  $term = $node->get('field_primary_topic')->entity;
-  if (!$term) {
+  if (!$node) {
     return;
   }
 
-  $is_composite = ($node->bundle() === 'composite_page');
-  $trail = _customsolent_build_topic_trail($term, $is_composite);
+  // Topic trail (any node with a primary topic).
+  if ($node->hasField('field_primary_topic') && !$node->get('field_primary_topic')->isEmpty()) {
+    $term = $node->get('field_primary_topic')->entity;
+    if ($term) {
+      $is_composite = ($node->bundle() === 'composite_page');
+      $trail = _customsolent_build_topic_trail($term, $is_composite);
+      $variables['topic_trail_ancestors'] = $trail['ancestors'];
+      $variables['topic_trail_current'] = $trail['current_label'];
+      $variables['topic_trail_as_heading'] = $is_composite;
+    }
+  }
 
-  $variables['topic_trail_ancestors'] = $trail['ancestors'];
-  $variables['topic_trail_current'] = $trail['current_label'];
-  $variables['topic_trail_as_heading'] = $is_composite;
+  // Event teaser extras.
+  if ($node->bundle() === 'event' && ($variables['view_mode'] ?? '') === 'teaser') {
+    _customsolent_preprocess_event_teaser_extras($node, $variables);
+  }
+}
+
+/**
+ * Adds section colour, field_url metadata, and the plain Location
+ * term name to event-teaser variables.
+ */
+function _customsolent_preprocess_event_teaser_extras($node, array &$variables): void {
+  if ($node->hasField('field_primary_topic') && !$node->get('field_primary_topic')->isEmpty()) {
+    $term = $node->get('field_primary_topic')->entity;
+    if ($term) {
+      $top = _customsolent_topic_top_level($term);
+      if ($top) {
+        $variables['section_key'] = strtolower($top->getName());
+        $variables['section_color'] = _customsolent_topic_section_colors()[$top->getName()] ?? NULL;
+      }
+    }
+  }
+
+  if ($node->hasField('field_where') && !$node->get('field_where')->isEmpty()) {
+    $where = $node->get('field_where')->entity;
+    if ($where) {
+      $variables['where_name'] = $where->getName();
+    }
+  }
+
+  if ($node->hasField('field_url') && !$node->get('field_url')->isEmpty()) {
+    $item = $node->get('field_url')->first();
+    try {
+      $url = $item->getUrl();
+      $variables['field_url_external'] = $url->isExternal();
+      $variables['field_url_href'] = $url->toString();
+      $variables['field_url_text'] = $item->title ?: $url->toString();
+    }
+    catch (\Throwable) {
+      // Malformed URI — leave variables unset; template falls back.
+    }
+  }
 }
 
 
@@ -224,6 +269,7 @@ function customsolent_theme_suggestions_form_alter(array &$suggestions, array $v
     $suggestions[] = 'form__' . $variables['element']['#form_id'];
   }
 }
+
 
 /**
  * Implements hook_preprocess_HOOK() for paragraph--view-display.html.twig.
