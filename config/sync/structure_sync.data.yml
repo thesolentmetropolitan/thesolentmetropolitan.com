@@ -1588,104 +1588,54 @@ taxonomies:
   location:
     -
       vid: location
-      tid: '133'
-      langcode: en
-      name: 'Bedford Place'
-      description__value: null
-      description__format: null
-      weight: '0'
-      parent: '129'
-      uuid: ca6eb835-a548-4afd-849b-9f065a62362c
-    -
-      vid: location
-      tid: '132'
+      tid: '142'
       langcode: en
       name: Fareham
       description__value: null
       description__format: null
       weight: '0'
-      parent: '131'
-      uuid: 74d4bb26-f958-47c6-8a1e-3e56a9651ccf
+      parent: '140'
+      uuid: 105254fe-4cd2-4c4b-ba00-668d03c06aae
     -
       vid: location
-      tid: '136'
+      tid: '143'
       langcode: en
       name: Hampshire
       description__value: null
       description__format: null
-      weight: '2'
+      weight: '0'
       parent: '0'
-      uuid: ef1f83d6-2382-4df5-97e7-2ed23eb58ab1
+      uuid: 17bce430-20a8-4276-8bb6-11e21b5200a3
     -
       vid: location
-      tid: '134'
-      langcode: en
-      name: 'Hoglands Park Pavilion'
-      description__value: null
-      description__format: null
-      weight: '1'
-      parent: '129'
-      uuid: 61ce02a5-16a9-48ae-b671-7c414c696745
-    -
-      vid: location
-      tid: '130'
+      tid: '141'
       langcode: en
       name: Portsmouth
       description__value: null
       description__format: null
       weight: '1'
-      parent: '131'
-      uuid: ee99ad8d-f3f5-415c-b64d-f2cc652fe5ae
+      parent: '140'
+      uuid: 8f04816b-7b66-4adc-9810-5d8e346c7c52
     -
       vid: location
-      tid: '131'
+      tid: '140'
       langcode: en
       name: Solent
       description__value: null
       description__format: null
-      weight: '9'
+      weight: '3'
       parent: '0'
-      uuid: 4ec2ccae-8532-462c-a75c-b26e79a85250
+      uuid: de285813-efde-4206-b9d0-997faccc8da6
     -
       vid: location
-      tid: '129'
+      tid: '139'
       langcode: en
       name: Southampton
       description__value: null
       description__format: null
       weight: '2'
-      parent: '131'
-      uuid: 7e940001-b216-4197-b7d9-92ea4bd520ee
-    -
-      vid: location
-      tid: '135'
-      langcode: en
-      name: 'Southsea Bandstand'
-      description__value: null
-      description__format: null
-      weight: '0'
-      parent: '130'
-      uuid: 46614b54-671b-4027-b07b-3cc55eb67af6
-    -
-      vid: location
-      tid: '138'
-      langcode: en
-      name: 'The Vault, Winchester'
-      description__value: null
-      description__format: null
-      weight: '0'
-      parent: '137'
-      uuid: 9a5e8213-2dc5-40ff-addb-edccaf86a629
-    -
-      vid: location
-      tid: '137'
-      langcode: en
-      name: Winchester
-      description__value: null
-      description__format: null
-      weight: '0'
-      parent: '136'
-      uuid: 5da6c3b7-5572-4d93-b748-a587800fedd4
+      parent: '140'
+      uuid: cc304936-f0a4-472d-ae9f-6082c27cdc64
   topic:
     -
       vid: topic
