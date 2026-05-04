@@ -1603,7 +1603,7 @@ taxonomies:
       name: Hampshire
       description__value: null
       description__format: null
-      weight: '1'
+      weight: '3'
       parent: '0'
       uuid: 17bce430-20a8-4276-8bb6-11e21b5200a3
     -
@@ -1623,7 +1623,7 @@ taxonomies:
       name: Solent
       description__value: null
       description__format: null
-      weight: '5'
+      weight: '6'
       parent: '0'
       uuid: de285813-efde-4206-b9d0-997faccc8da6
     -
