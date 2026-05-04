@@ -1116,10 +1116,14 @@ The template already includes the code to render this field — it checks if the
 
 - **Teaser view mode styling and images** — the listing items' visual presentation (thumbnail images, teaser layout) is a separate brief. This brief handles the listing structure, filtering, and layout. The teaser styling plugs in independently without changes to the filter system.
 - **Bitmap placeholder images** from hero art tiles at various aspect ratios (16:9 for articles, 1:1 and 9:16 for events) — separate brief
+- **Explore special case** — Explore and its sub-pages (Explore/Articles, Explore/Events) need to filter across Culture, Sectors, and Living rather than Explore's own children. This requires a preprocess adjustment to pass combined root term IDs instead of the page's own term descendants. The Views, paragraph type, and template are unaffected — only the argument passed to the View changes. Small preprocess enhancement when Explore pages are built out.
+- **Series (replacing Themes)** — child terms under Explore / Series (BHM, Boat Show, etc.) with their own filtering. Standard architecture, just needs the terms created and content tagged.
+- **organisations_listing View** — same two-display pattern as articles/events. Add when Organisation content type is in active use.
+- **links_listing View** — same pattern. Add when Link content type is in use (e.g. Jobs Boards).
 - Facets module integration (AJAX filtering without page reload)
 - Content counts next to filter items
 - `field_filterable` boolean to hide non-content terms from filters
 - Map view of events by location
-- Series sub-term structure under Explore
 - Article age marking ("This article is more than X years old")
 - Recurring event handling (smart_date_recur)
+- Data and Maps pages under Explore (TBC, may be handled differently)
