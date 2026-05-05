@@ -6,7 +6,7 @@
 .slnt-section-listing {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 var(--content-pad, 2rem);
+  /*padding: 0 var(--content-pad, 2rem);*/
 }
 
 @media (max-width: 799px) {
