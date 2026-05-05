@@ -1,0 +1,13 @@
+uuid: 63608524-0081-416d-82ad-66df25376b67
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.link
+id: node.link
+targetEntityType: node
+bundle: link
+action: page_not_found
+no_bypass: false
+bypass_message: false
+configuration: {  }
