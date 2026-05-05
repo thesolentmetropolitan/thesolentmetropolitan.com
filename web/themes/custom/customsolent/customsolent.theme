@@ -56,6 +56,12 @@ function customsolent_preprocess_node(array &$variables): void {
   if ($node->bundle() === 'event' && ($variables['view_mode'] ?? '') === 'teaser') {
     _customsolent_preprocess_event_teaser_extras($node, $variables);
   }
+
+  // Link teaser — needs field_url meta (external? href? text?) so the
+  // template can render the link with a trailing external-link icon.
+  if ($node->bundle() === 'link' && ($variables['view_mode'] ?? '') === 'teaser') {
+    _customsolent_extract_field_url_meta($node, $variables);
+  }
 }
 
 /**
@@ -81,17 +87,29 @@ function _customsolent_preprocess_event_teaser_extras($node, array &$variables):
     }
   }
 
-  if ($node->hasField('field_url') && !$node->get('field_url')->isEmpty()) {
-    $item = $node->get('field_url')->first();
-    try {
-      $url = $item->getUrl();
-      $variables['field_url_external'] = $url->isExternal();
-      $variables['field_url_href'] = $url->toString();
-      $variables['field_url_text'] = $item->title ?: $url->toString();
-    }
-    catch (\Throwable) {
-      // Malformed URI — leave variables unset; template falls back.
-    }
+  _customsolent_extract_field_url_meta($node, $variables);
+}
+
+/**
+ * Extracts field_url metadata into preprocess $variables.
+ *
+ * Sets field_url_href, field_url_text (link title or URL fallback),
+ * and field_url_external on the variables array. Skips silently if
+ * the URL is malformed or absent.
+ */
+function _customsolent_extract_field_url_meta($node, array &$variables): void {
+  if (!$node->hasField('field_url') || $node->get('field_url')->isEmpty()) {
+    return;
+  }
+  $item = $node->get('field_url')->first();
+  try {
+    $url = $item->getUrl();
+    $variables['field_url_external'] = $url->isExternal();
+    $variables['field_url_href'] = $url->toString();
+    $variables['field_url_text'] = $item->title ?: $url->toString();
+  }
+  catch (\Throwable) {
+    // Malformed URI — leave variables unset; template falls back.
   }
 }
 
