@@ -1,0 +1,60 @@
+uuid: 9e84d502-bc04-4c79-96cb-f4a6046ab475
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.link.field_primary_topic
+    - field.field.node.link.field_related_topics
+    - field.field.node.link.field_standfirst
+    - field.field.node.link.field_url
+    - node.type.link
+  module:
+    - link
+    - user
+id: node.link.default
+targetEntityType: node
+bundle: link
+mode: default
+content:
+  field_primary_topic:
+    type: entity_reference_label
+    label: hidden
+    settings:
+      link: false
+    third_party_settings: {  }
+    weight: 4
+    region: content
+  field_related_topics:
+    type: entity_reference_label
+    label: hidden
+    settings:
+      link: false
+    third_party_settings: {  }
+    weight: 5
+    region: content
+  field_standfirst:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_url:
+    type: link
+    label: hidden
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 106
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden: {  }
