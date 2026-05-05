@@ -85,6 +85,7 @@
   margin-bottom: 0.5rem;
 }
 
+/* Layout / typography — no overrides to fight here. */
 .slnt-filter-item {
   display: block;
   padding: 0.4rem 0.6rem;
@@ -93,21 +94,43 @@
   font-family: 'Atkinson Hyperlegible Next', sans-serif;
   font-size: 0.82rem;
   font-weight: 500;
-  color: var(--text, #1a1a1a);
   text-decoration: none;
   cursor: pointer;
   transition: background-color 0.15s, color 0.15s;
 }
 
-.slnt-filter-item:hover {
-  background: var(--section-color-pale, #f1f5f9);
-  color: var(--section-color, #475569);
+/* Colour rules are scoped to .slnt-section-listing to outrank
+   .layout-content a (0,1,1) and .layout-content a:hover (0,2,1)
+   from fonts.css without resorting to !important.
+
+   Default — no background, solent-blue text. */
+.slnt-section-listing .slnt-filter-item {
+  color: var(--solent-blue, #2c4f6e);
+  font-weight: 500;
+  text-decoration: none;
 }
 
-.slnt-filter-item.is-active {
-  background: var(--section-color, #475569);
-  color: white;
+/* Active — magenta-dark background, white text. */
+.slnt-section-listing .slnt-filter-item.is-active {
+  background-color: var(--magenta-dark, #a30065);
+  color: #fff;
   font-weight: 600;
+}
+
+/* Hover on a non-active item — solent-blue background, soft-pink
+   text. Listed after .is-active so equal-specificity ties resolve
+   in this rule's favour for idle hover, while the more-specific
+   .is-active:hover below wins on active hover. */
+.slnt-section-listing .slnt-filter-item:hover {
+  background-color: var(--solent-blue, #2c4f6e);
+  color: #f5b0d8;
+  text-decoration: none;
+}
+
+/* Hover on the active item — solent-blue background, white text. */
+.slnt-section-listing .slnt-filter-item.is-active:hover {
+  background-color: var(--solent-blue, #2c4f6e);
+  color: #fff;
 }
 
 /* ══════════════════════════════════════
