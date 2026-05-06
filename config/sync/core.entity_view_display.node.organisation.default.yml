@@ -6,8 +6,10 @@ dependencies:
     - field.field.node.organisation.field_name
     - field.field.node.organisation.field_primary_topic
     - field.field.node.organisation.field_related_topics
+    - field.field.node.organisation.field_url
     - node.type.organisation
   module:
+    - link
     - user
 id: node.organisation.default
 targetEntityType: node
@@ -37,6 +39,18 @@ content:
       link: false
     third_party_settings: {  }
     weight: 102
+    region: content
+  field_url:
+    type: link
+    label: hidden
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 106
     region: content
   links:
     settings: {  }

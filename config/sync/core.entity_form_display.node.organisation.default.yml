@@ -6,8 +6,10 @@ dependencies:
     - field.field.node.organisation.field_name
     - field.field.node.organisation.field_primary_topic
     - field.field.node.organisation.field_related_topics
+    - field.field.node.organisation.field_url
     - node.type.organisation
   module:
+    - link
     - path
 id: node.organisation.default
 targetEntityType: node
@@ -47,6 +49,14 @@ content:
       match_limit: 10
       size: 60
       placeholder: ''
+    third_party_settings: {  }
+  field_url:
+    type: link_default
+    weight: 126
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
     third_party_settings: {  }
   path:
     type: path

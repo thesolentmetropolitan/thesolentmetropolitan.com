@@ -1,0 +1,40 @@
+uuid: b571e3ac-5890-45a3-8946-33951f94bca0
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.organisation.field_name
+    - field.field.node.organisation.field_primary_topic
+    - field.field.node.organisation.field_related_topics
+    - field.field.node.organisation.field_url
+    - node.type.organisation
+  module:
+    - link
+    - user
+id: node.organisation.teaser
+targetEntityType: node
+bundle: organisation
+mode: teaser
+content:
+  field_url:
+    type: link
+    label: hidden
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_name: true
+  field_primary_topic: true
+  field_related_topics: true
