@@ -837,7 +837,7 @@ function _customsolent_build_section_filters($term) {
 
 ### How the argument reaches the View
 
-The paragraph template for the View Display paragraph needs to pass `primary_topic_tid` to the viewreference rendering. There are two approaches:
+The paragraph template for the View Display paragraph needs to render the optional heading and pass `primary_topic_tid` to the viewreference rendering. There are two approaches for the argument passing:
 
 **Approach A: Override the viewreference argument in the paragraph template.**
 
@@ -857,6 +857,11 @@ The viewreference module renders the View via its field formatter. The paragraph
 {% block paragraph %}
   <div{{ attributes.addClass(classes) }}>
     {% block content %}
+      {# ── Heading — editor-defined label for this listing ── #}
+      {% if content.field_heading|render|striptags|trim %}
+        <h2 class="slnt-listing__heading">{{ content.field_heading }}</h2>
+      {% endif %}
+
       {#
         The viewreference field renders the selected View and display.
         We need to pass primary_topic_tid as the contextual argument.
@@ -882,11 +887,46 @@ The viewreference module renders the View via its field formatter. The paragraph
 {% endblock paragraph %}
 ```
 
+**CSS for the listing heading:**
+
+```css
+.slnt-listing__heading {
+  font-family: 'Atkinson Hyperlegible Next', sans-serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--solent-blue, #2c4f6e);
+  margin-bottom: 1rem;
+}
+```
+
 **Note:** The exact field value structure for `field_view` (viewreference) may differ. Claude Code should inspect the field's stored values to confirm the correct property names (`target_id`, `display_id`, or similar). Enable Twig debug or use `kint()` / `dump()` to inspect `paragraph.field_view.0` and find the correct properties.
 
 **Approach B: Use a hook to alter the View arguments before rendering.**
 
 If the paragraph template approach is too fragile, a `hook_views_pre_view()` or `hook_views_pre_build()` in the theme or a custom module can inject the argument. This is more robust but requires Claude Code to determine the correct hook and context detection. Approach A (paragraph template) is simpler and should be tried first.
+
+---
+
+## Design Notes
+
+### Filter is displayed once per page
+
+When the sidebar/filter panel is implemented (deferred), it should appear **once** on the page, not repeated per View Display paragraph. The filter applies to all listings on the page since they all share the same contextual filter argument (the page's primary topic). When the user filters by a sub-term or location, all listings update. The sidebar would live either in the composite page template (wrapping the paragraph content area) or as its own paragraph placed once by the editor.
+
+### Headings per listing
+
+Each View Display paragraph has an optional `field_heading` where the editor enters the label for that listing — "Events", "Articles", "Organisations", "Related reading", etc. This gives the editor full control over how each listing is introduced. If the heading field is empty, no heading renders.
+
+### View Display paragraph works with any View
+
+The paragraph preprocess sets `primary_topic_tid` as a variable, and the template passes it as an argument to `drupal_view()`. **Views that don't have a contextual filter simply ignore the extra argument.** Drupal Views discard arguments that don't match a configured contextual filter.
+
+This means the same View Display paragraph type can be used for:
+- Topic-filtered listings (articles, events, organisations, links) — the argument is used
+- Generic listings (latest news, staff directory, featured content) — the argument is ignored
+- Any other View — safe regardless of configuration
+
+**No separate paragraph type is needed for non-topic-filtered views.** The one edge case to be aware of: if a different View has its own contextual filter expecting a different type of argument (e.g. a user ID), the term ID string would fail validation. If that View's validation failure is set to "Hide view," the View would disappear. The fix is to set that View's validation failure action to "Display all results" instead. This is unlikely to arise in practice.
 
 ---
 
@@ -1046,6 +1086,7 @@ Configured at `/admin/structure/types/manage/event/display/teaser`:
 ### View Display paragraph type
 
 - [ ] `field_view` — viewreference field configured to allow Block displays
+- [ ] `field_heading` — Plain text field, optional. Editor enters the heading for each listing (e.g. "Events", "Articles", "Related reading"). **Add this field to the paragraph type.**
 - [ ] "Argument" checkbox enabled in the viewreference field settings (under "Enable extra settings")
 - [ ] The paragraph type is available within the composite page's paragraph reference field
 
@@ -1065,12 +1106,13 @@ Configured at `/admin/structure/types/manage/event/display/teaser`:
 | 2 | Create `events_listing` View with two displays (primary + related), export config | Rob | Now |
 | 3 | Configure Article teaser view mode, export config | Rob | Now |
 | 4 | Configure Event teaser view mode, export config | Rob | Now |
-| 5 | Write paragraph preprocess function (read parent node's topic, pass to View) | Claude Code | Now — MVP |
-| 6 | Create/update `paragraph--view-display.html.twig` (pass contextual argument to View) | Claude Code | Now — MVP |
-| 7 | Simplify `node--composite-page--full.html.twig` (just renders paragraphs) | Claude Code | Now — MVP |
-| 8 | Create `css/section-listing.css` for listing layout | Claude Code | Now — MVP |
-| 9 | Reuse `field_where` on Article content type | Rob | Now |
-| 10 | Add View Display paragraphs to a few test composite pages | Rob | Now — test |
+| 5 | Add `field_heading` (plain text, optional) to the View Display paragraph type | Rob | Now |
+| 6 | Write paragraph preprocess function (read parent node's topic, pass to View) | Claude Code | Now — MVP |
+| 7 | Create/update `paragraph--view-display.html.twig` (pass contextual argument, render heading) | Claude Code | Now — MVP |
+| 8 | Simplify `node--composite-page--full.html.twig` (just renders paragraphs) | Claude Code | Now — MVP |
+| 9 | Create `css/section-listing.css` for listing layout and heading styling | Claude Code | Now — MVP |
+| 10 | Reuse `field_where` on Article content type | Rob | Now |
+| 11 | Add View Display paragraphs to a few test composite pages | Rob | Now — test |
 | 11 | Create sidebar filter components (Twig, CSS, JS) | Claude Code | Soon after MVP |
 | 12 | Create mobile filter panel components | Claude Code | Soon after MVP |
 | 13 | Add exposed topic filter to Views | Rob + Claude Code | Soon after MVP |
@@ -1089,6 +1131,8 @@ Configured at `/admin/structure/types/manage/event/display/teaser`:
 5. **Hierarchy depth:** On the Culture page, verify that content tagged with "Culture / Music" or "Culture / Screen" (child terms) appears, not just content tagged directly with "Culture."
 6. **Multiple View Display paragraphs on one page:** Add events listing + articles listing to the same page. Verify both render correctly and independently.
 7. **Paragraph ordering:** Verify that editorial paragraphs (hero art, text) and View Display paragraphs render in the order the editor placed them.
+8. **Headings:** Verify that when `field_heading` is populated (e.g. "Events"), the heading renders above the listing. When empty, no heading element appears.
+9. **Generic View (no topic filter):** Add a View Display paragraph with a View that has no contextual filter. Verify it renders normally — the topic argument is ignored and the View shows its default content.
 8. **Empty View:** On a page with no matching content, verify the "No articles/events in this section" message appears (or the paragraph renders empty without errors).
 9. **No primary topic on parent:** If the composite page has no `field_primary_topic` set, the View Display paragraph should show all content (fallback) or render empty without errors.
 10. **Teaser display — Article:** Verify image, standfirst, and title appear. Body and topic fields are hidden.
