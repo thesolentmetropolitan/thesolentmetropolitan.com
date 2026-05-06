@@ -1,8 +1,9 @@
-uuid: 3d9bc321-6e1b-4965-b4c4-0af310cbfa26
+uuid: b571e3ac-5890-45a3-8946-33951f94bca0
 langcode: en
 status: true
 dependencies:
   config:
+    - core.entity_view_mode.node.teaser
     - field.field.node.organisation.field_name
     - field.field.node.organisation.field_primary_topic
     - field.field.node.organisation.field_related_topics
@@ -11,35 +12,11 @@ dependencies:
   module:
     - link
     - user
-id: node.organisation.default
+id: node.organisation.teaser
 targetEntityType: node
 bundle: organisation
-mode: default
+mode: teaser
 content:
-  field_name:
-    type: string
-    label: above
-    settings:
-      link_to_entity: false
-    third_party_settings: {  }
-    weight: 103
-    region: content
-  field_primary_topic:
-    type: entity_reference_label
-    label: hidden
-    settings:
-      link: false
-    third_party_settings: {  }
-    weight: 101
-    region: content
-  field_related_topics:
-    type: entity_reference_label
-    label: hidden
-    settings:
-      link: false
-    third_party_settings: {  }
-    weight: 102
-    region: content
   field_url:
     type: link
     label: hidden
@@ -50,11 +27,14 @@ content:
       rel: ''
       target: ''
     third_party_settings: {  }
-    weight: 106
+    weight: 3
     region: content
   links:
     settings: {  }
     third_party_settings: {  }
     weight: 100
     region: content
-hidden: {  }
+hidden:
+  field_name: true
+  field_primary_topic: true
+  field_related_topics: true
