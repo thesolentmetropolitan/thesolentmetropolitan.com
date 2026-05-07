@@ -3,9 +3,9 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.node.organisation.field_name
     - field.field.node.organisation.field_primary_topic
     - field.field.node.organisation.field_related_topics
+    - field.field.node.organisation.field_standfirst
     - field.field.node.organisation.field_url
     - node.type.organisation
   module:
@@ -16,29 +16,13 @@ targetEntityType: node
 bundle: organisation
 mode: default
 content:
-  field_name:
+  field_standfirst:
     type: string
-    label: above
+    label: hidden
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 103
-    region: content
-  field_primary_topic:
-    type: entity_reference_label
-    label: hidden
-    settings:
-      link: false
-    third_party_settings: {  }
-    weight: 101
-    region: content
-  field_related_topics:
-    type: entity_reference_label
-    label: hidden
-    settings:
-      link: false
-    third_party_settings: {  }
-    weight: 102
+    weight: 0
     region: content
   field_url:
     type: link
@@ -50,11 +34,9 @@ content:
       rel: ''
       target: ''
     third_party_settings: {  }
-    weight: 106
+    weight: 2
     region: content
-  links:
-    settings: {  }
-    third_party_settings: {  }
-    weight: 100
-    region: content
-hidden: {  }
+hidden:
+  field_primary_topic: true
+  field_related_topics: true
+  links: true
