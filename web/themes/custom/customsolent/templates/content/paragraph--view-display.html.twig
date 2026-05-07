@@ -66,6 +66,13 @@
   <div{{ wrapper_attributes }}>
     {% block content %}
 
+      {# Editor-supplied heading for the listing — "Organisations",
+         "Related reading", "Events", etc. Renders above sidebar +
+         content so it spans the full block width. #}
+      {% if content.field_heading|render|striptags|trim %}
+        <h2 class="slnt-listing__heading">{{ content.field_heading }}</h2>
+      {% endif %}
+
       {# Mobile sticky filter bar — shown only when filter options exist. #}
       {% if filter_has_options %}
         <div class="slnt-filter-bar">

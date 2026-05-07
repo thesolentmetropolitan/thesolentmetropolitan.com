@@ -57,9 +57,11 @@ function customsolent_preprocess_node(array &$variables): void {
     _customsolent_preprocess_event_teaser_extras($node, $variables);
   }
 
-  // Link teaser — needs field_url meta (external? href? text?) so the
-  // template can render the link with a trailing external-link icon.
-  if ($node->bundle() === 'link' && ($variables['view_mode'] ?? '') === 'teaser') {
+  // Link / Organisation teaser — both render field_url as a primary
+  // link with a trailing arrow-square-out icon for external URLs.
+  // Same field_url meta extraction works for both.
+  if (in_array($node->bundle(), ['link', 'organisation'], TRUE)
+    && ($variables['view_mode'] ?? '') === 'teaser') {
     _customsolent_extract_field_url_meta($node, $variables);
   }
 }
