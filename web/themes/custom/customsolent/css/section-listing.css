@@ -37,6 +37,15 @@
   --section-color-pale: #fef3c7;
 }
 
+/* ── Editor-supplied heading per listing ── */
+.slnt-listing__heading {
+  font-family: 'Atkinson Hyperlegible Next', sans-serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--solent-blue, #2c4f6e);
+  margin: 0 0 1rem;
+}
+
 /* ── Layout: sidebar + content (desktop) ── */
 .slnt-section-listing__layout {
   display: block;

@@ -1,0 +1,49 @@
+{#
+/**
+ * @file
+ * Theme override for an Organisation node in the teaser view mode.
+ *
+ * Same shape as the Link teaser — see node--link--teaser.html.twig.
+ * The node title is intentionally not output; the editor-supplied
+ * link text on field_url is the human-readable label, so showing
+ * the node title alongside would duplicate it.
+ *
+ * The link itself renders followed by the standfirst (when present).
+ * External links get a trailing phosphor arrow-square-out icon and
+ * target="_blank" rel="noopener noreferrer".
+ *
+ * Variables added by customsolent_preprocess_node:
+ *   - field_url_external/href/text — populated when field_url is set.
+ */
+#}
+{%
+  set classes = [
+    'node',
+    'node--type-' ~ node.bundle|clean_class,
+    not node.isPublished() ? 'node--unpublished',
+    view_mode ? 'node--view-mode-' ~ view_mode|clean_class,
+    'slnt-organisation-teaser',
+  ]
+%}
+
+<article{{ attributes.addClass(classes) }}>
+
+  {% if field_url_href %}
+    <a class="slnt-organisation-teaser__link"
+       href="{{ field_url_href }}"
+       {% if field_url_external %}rel="noopener noreferrer" target="_blank"{% endif %}>
+      <span class="slnt-organisation-teaser__text">{{ field_url_text }}</span>
+      {% if field_url_external %}
+        <svg class="slnt-organisation-teaser__icon" viewBox="0 0 256 256" fill="currentColor" role="presentation" focusable="false"><path d="M228,104a12,12,0,0,1-24,0V69l-59.51,59.51a12,12,0,0,1-17-17L187,52H152a12,12,0,0,1,0-24h64a12,12,0,0,1,12,12Zm-44,24a12,12,0,0,0-12,12v64H52V84h64a12,12,0,0,0,0-24H48A20,20,0,0,0,28,80V208a20,20,0,0,0,20,20H176a20,20,0,0,0,20-20V140A12,12,0,0,0,184,128Z"/></svg>
+      {% endif %}
+    </a>
+  {% endif %}
+
+  {% if content.field_standfirst|render|striptags|trim %}
+    <div class="slnt-organisation-teaser__standfirst">{{ content.field_standfirst }}</div>
+  {% endif %}
+
+  {# Suppress defaults — link and standfirst rendered manually above. #}
+  {{ content|without('field_url', 'field_standfirst') }}
+
+</article>
