@@ -1,0 +1,19 @@
+uuid: 8ad98ab1-caa0-46be-a598-73a52c7df666
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_standfirst
+    - node.type.organisation
+id: node.organisation.field_standfirst
+field_name: field_standfirst
+entity_type: node
+bundle: organisation
+label: standfirst
+description: 'A single sentence that hooks the reader — the key point or angle of the article.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

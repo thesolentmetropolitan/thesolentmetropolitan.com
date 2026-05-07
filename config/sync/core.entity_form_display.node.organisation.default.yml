@@ -3,9 +3,9 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.node.organisation.field_name
     - field.field.node.organisation.field_primary_topic
     - field.field.node.organisation.field_related_topics
+    - field.field.node.organisation.field_standfirst
     - field.field.node.organisation.field_url
     - node.type.organisation
   module:
@@ -21,14 +21,6 @@ content:
     weight: 10
     region: content
     settings: {  }
-    third_party_settings: {  }
-  field_name:
-    type: string_textfield
-    weight: 123
-    region: content
-    settings:
-      size: 60
-      placeholder: ''
     third_party_settings: {  }
   field_primary_topic:
     type: entity_reference_autocomplete
@@ -47,6 +39,14 @@ content:
     settings:
       match_operator: CONTAINS
       match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_standfirst:
+    type: string_textfield
+    weight: 123
+    region: content
+    settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }

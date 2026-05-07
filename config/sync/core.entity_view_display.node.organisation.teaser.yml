@@ -4,9 +4,9 @@ status: true
 dependencies:
   config:
     - core.entity_view_mode.node.teaser
-    - field.field.node.organisation.field_name
     - field.field.node.organisation.field_primary_topic
     - field.field.node.organisation.field_related_topics
+    - field.field.node.organisation.field_standfirst
     - field.field.node.organisation.field_url
     - node.type.organisation
   module:
@@ -17,6 +17,14 @@ targetEntityType: node
 bundle: organisation
 mode: teaser
 content:
+  field_standfirst:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 0
+    region: content
   field_url:
     type: link
     label: hidden
@@ -27,14 +35,9 @@ content:
       rel: ''
       target: ''
     third_party_settings: {  }
-    weight: 3
-    region: content
-  links:
-    settings: {  }
-    third_party_settings: {  }
-    weight: 100
+    weight: 1
     region: content
 hidden:
-  field_name: true
   field_primary_topic: true
   field_related_topics: true
+  links: true
