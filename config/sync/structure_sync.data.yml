@@ -76,9 +76,9 @@ menus:
     options: {  }
   -
     menu_name: main
-    title: Health
+    title: 'Health & Fitness'
     parent: 'menu_link_content:756c53bd-5480-481e-8ee9-dc1cc63d4c34'
-    uri: 'internal:/living/health'
+    uri: 'internal:/living/health-fitness'
     link_title: ''
     description: null
     enabled: true
@@ -232,19 +232,6 @@ menus:
     options: {  }
   -
     menu_name: main
-    title: Fitness
-    parent: 'menu_link_content:756c53bd-5480-481e-8ee9-dc1cc63d4c34'
-    uri: 'internal:/living/fitness'
-    link_title: ''
-    description: null
-    enabled: true
-    expanded: false
-    weight: -88
-    langcode: en
-    uuid: 249fa295-3ade-4010-80ca-2f8986f68688
-    options: {  }
-  -
-    menu_name: main
     title: Education
     parent: 'menu_link_content:756c53bd-5480-481e-8ee9-dc1cc63d4c34'
     uri: 'internal:/living/education'
@@ -304,7 +291,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -76
+    weight: -77
     langcode: en
     uuid: e5e84f75-afd1-4ab4-9468-a21693975305
     options: {  }
@@ -317,7 +304,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -84
+    weight: -85
     langcode: en
     uuid: cd4c065b-6519-4899-8ee3-abe0c2356df3
     options: {  }
@@ -330,7 +317,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -69
+    weight: -70
     langcode: en
     uuid: 785d407c-dd2a-4b90-b48f-d1b6e8b933e1
     options: {  }
@@ -343,7 +330,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -89
+    weight: -90
     langcode: en
     uuid: b23ffe1c-300d-4c7b-a31a-55e120efb49d
     options: {  }
@@ -356,7 +343,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -96
+    weight: -98
     langcode: en
     uuid: 36d08377-3e2c-4b8a-880c-436af016f269
     options: {  }
@@ -369,7 +356,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -75
+    weight: -76
     langcode: en
     uuid: 0d619d7d-b548-4734-94f9-8ab767901178
     options: {  }
@@ -382,7 +369,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -90
+    weight: -91
     langcode: en
     uuid: f026cbda-7837-44a1-9dfa-d96fedae5281
     options: {  }
@@ -395,7 +382,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -82
+    weight: -83
     langcode: en
     uuid: 29e84fb0-4d60-4a5a-baf5-a7b24ae91010
     options: {  }
@@ -408,7 +395,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -81
+    weight: -82
     langcode: en
     uuid: 675facb3-2d62-4124-8ec5-0f0031488472
     options: {  }
@@ -421,7 +408,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -79
+    weight: -80
     langcode: en
     uuid: 1938fad3-f184-4b15-969a-c207510ecb0b
     options: {  }
@@ -434,7 +421,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -83
+    weight: -84
     langcode: en
     uuid: 54f61a44-6775-4619-b8bf-7d65f56a5f56
     options: {  }
@@ -447,7 +434,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -95
+    weight: -97
     langcode: en
     uuid: 9444b6b5-f978-42cb-937b-ce8f2eb6f81d
     options: {  }
@@ -460,7 +447,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -72
+    weight: -73
     langcode: en
     uuid: e94fc196-e0dc-49a8-8d24-ecc45bee1db6
     options: {  }
@@ -473,7 +460,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -64
+    weight: -65
     langcode: en
     uuid: ba276cbf-52f0-4e61-9f1d-99fa65acb6cd
     options: {  }
@@ -486,7 +473,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -94
+    weight: -96
     langcode: en
     uuid: 84c852cb-79ca-416d-bafa-01ad85050918
     options: {  }
@@ -499,7 +486,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -87
+    weight: -88
     langcode: en
     uuid: 2f24a73a-8101-4865-a606-8f2adaf41608
     options: {  }
@@ -512,7 +499,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -74
+    weight: -75
     langcode: en
     uuid: 46040601-f8d3-42bd-aff8-55a347b770cf
     options: {  }
@@ -525,7 +512,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -73
+    weight: -74
     langcode: en
     uuid: 4f728897-4179-4a7a-badc-4b8567fb095d
     options: {  }
@@ -538,7 +525,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -86
+    weight: -87
     langcode: en
     uuid: 2194b58c-6143-4e7d-8e68-f59925b69aba
     options: {  }
@@ -577,7 +564,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -70
+    weight: -71
     langcode: en
     uuid: c1070c3a-500f-43b6-ad13-aebb517684e3
     options: {  }
@@ -655,7 +642,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -93
+    weight: -95
     langcode: en
     uuid: de946a40-4cd2-41a1-a116-0fb37f0ffd92
     options: {  }
@@ -681,7 +668,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -91
+    weight: -93
     langcode: en
     uuid: 9bea57b9-6456-4047-a087-37280f07ebba
     options: {  }
@@ -694,7 +681,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -77
+    weight: -78
     langcode: en
     uuid: b318acdf-64d7-41e1-85f6-09bf071343cd
     options: {  }
@@ -707,7 +694,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -78
+    weight: -79
     langcode: en
     uuid: 98629043-47e3-4f0f-ba9b-26f9fb2152ca
     options: {  }
@@ -720,7 +707,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -80
+    weight: -81
     langcode: en
     uuid: 427482d8-45ce-4cc1-ad7d-4caa14213825
     options: {  }
@@ -733,7 +720,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -63
+    weight: -64
     langcode: en
     uuid: f7e15ce4-ca68-4a11-bec6-43023f68e729
     options: {  }
@@ -746,7 +733,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -92
+    weight: -94
     langcode: en
     uuid: b3f0fd1c-c51e-4fa6-81ee-74b4a5d3b6a0
     options: {  }
@@ -759,7 +746,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -68
+    weight: -69
     langcode: en
     uuid: 7503090a-a5b4-4d6e-a05b-b0527736a3d2
     options: {  }
@@ -798,7 +785,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -67
+    weight: -68
     langcode: en
     uuid: 69f9170a-1b41-4d06-be27-3573e090f419
     options: {  }
@@ -856,9 +843,9 @@ menus:
     options: {  }
   -
     menu_name: main
-    title: 'Why?'
+    title: Overview
     parent: 'menu_link_content:099ef8b8-72f0-4695-9fc1-c21684dba940'
-    uri: 'internal:/about/why'
+    uri: 'internal:/about/overview'
     link_title: ''
     description: null
     enabled: true
@@ -960,7 +947,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -66
+    weight: -67
     langcode: en
     uuid: f2008875-01af-4d0f-bf01-08e60d0cc3b5
     options: {  }
@@ -973,7 +960,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -98
+    weight: -100
     langcode: en
     uuid: 773f7018-cd76-4c9d-b82b-473403b35c52
     options: {  }
@@ -1025,7 +1012,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -71
+    weight: -72
     langcode: en
     uuid: 3c3010f4-a851-426e-a5e3-af26268d7a05
     options: {  }
@@ -1038,7 +1025,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -85
+    weight: -86
     langcode: en
     uuid: 9aee40ee-53a6-4928-b836-8dc6c5fb23fd
     options: {  }
@@ -1051,7 +1038,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -82
+    weight: -81
     langcode: en
     uuid: fadd5e35-62ae-48f3-b923-a877287d593c
     options: {  }
@@ -1067,19 +1054,6 @@ menus:
     weight: -92
     langcode: en
     uuid: 9f453b52-0ec4-4037-80e1-66fcddf227db
-    options: {  }
-  -
-    menu_name: main
-    title: 'Jobs boards'
-    parent: 'menu_link_content:00eabb8c-58ed-4f9b-88c1-0c5b1aecf9e1'
-    uri: 'internal:/explore/jobs-boards'
-    link_title: ''
-    description: null
-    enabled: true
-    expanded: false
-    weight: -88
-    langcode: en
-    uuid: ca86fef9-5848-430f-b06c-af844b3b2f03
     options: {  }
   -
     menu_name: main
@@ -1159,7 +1133,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -65
+    weight: -66
     langcode: en
     uuid: 6151b27a-276a-479e-b9c1-bd156d070715
     options: {  }
@@ -1185,7 +1159,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -97
+    weight: -99
     langcode: en
     uuid: 22fb3ede-66dd-4034-abf3-6dab47a59438
     options: {  }
@@ -1243,9 +1217,9 @@ menus:
     options: {  }
   -
     menu_name: main
-    title: Maps
+    title: 'Places & Maps'
     parent: 'menu_link_content:00eabb8c-58ed-4f9b-88c1-0c5b1aecf9e1'
-    uri: 'internal:/explore/maps'
+    uri: 'internal:/explore/places-maps'
     link_title: ''
     description: null
     enabled: true
@@ -1315,7 +1289,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -88
+    weight: -89
     langcode: en
     uuid: eb4a964d-6b6c-4783-bcf2-7a67158fdb8e
     options: {  }
@@ -1344,6 +1318,32 @@ menus:
     weight: -91
     langcode: en
     uuid: 6197f96d-4f7f-4dd0-ba7f-4289cc763986
+    options: {  }
+  -
+    menu_name: main
+    title: Transport
+    parent: 'menu_link_content:756c53bd-5480-481e-8ee9-dc1cc63d4c34'
+    uri: 'internal:/living/transport'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -82
+    langcode: en
+    uuid: 2a13d79d-cbfe-4d39-abb5-32e07dc6812f
+    options: {  }
+  -
+    menu_name: main
+    title: 'Economic Growth'
+    parent: 'menu_link_content:ca4916ec-7269-42dc-abf5-5864739fbddd'
+    uri: 'internal:/sectors/economic-growth'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -92
+    langcode: en
+    uuid: 181a4ec6-2f60-42d3-ad4c-a456aec900cf
     options: {  }
 taxonomies:
   color:
@@ -1588,73 +1588,93 @@ taxonomies:
   location:
     -
       vid: location
-      tid: '148'
+      tid: '149'
       langcode: en
       name: 'Bedford Place'
       description__value: null
       description__format: null
-      weight: '0'
-      parent: '141'
+      weight: '1'
+      parent: '139'
       uuid: b1103e05-f91e-43a6-ba86-bde27c6fc9ef
     -
       vid: location
-      tid: '143'
+      tid: '142'
       langcode: en
       name: Fareham
       description__value: null
       description__format: null
       weight: '0'
-      parent: '139'
+      parent: '140'
       uuid: 105254fe-4cd2-4c4b-ba00-668d03c06aae
     -
       vid: location
-      tid: '140'
+      tid: '150'
+      langcode: en
+      name: "God's House Tower"
+      description__value: null
+      description__format: null
+      weight: '0'
+      parent: '139'
+      uuid: 5b1101e1-a131-415f-b3f3-5b5735a0e33f
+    -
+      vid: location
+      tid: '143'
       langcode: en
       name: Hampshire
       description__value: null
       description__format: null
-      weight: '8'
+      weight: '10'
       parent: '0'
       uuid: 17bce430-20a8-4276-8bb6-11e21b5200a3
     -
       vid: location
-      tid: '145'
+      tid: '146'
       langcode: en
       name: 'Hoglands Park Pavilion'
       description__value: null
       description__format: null
-      weight: '1'
-      parent: '141'
+      weight: '2'
+      parent: '139'
       uuid: b6bb0755-e44f-4bda-9731-8d4e119c912d
     -
       vid: location
-      tid: '142'
+      tid: '152'
+      langcode: en
+      name: 'Pitt St Skatepark'
+      description__value: null
+      description__format: null
+      weight: '0'
+      parent: '141'
+      uuid: 7535d76e-9223-4985-8809-e44f038cfeed
+    -
+      vid: location
+      tid: '141'
       langcode: en
       name: Portsmouth
       description__value: null
       description__format: null
       weight: '1'
-      parent: '139'
+      parent: '140'
       uuid: 8f04816b-7b66-4adc-9810-5d8e346c7c52
     -
       vid: location
-      tid: '139'
+      tid: '140'
       langcode: en
       name: Solent
       description__value: null
       description__format: null
-      weight: '9'
+      weight: '11'
       parent: '0'
       uuid: de285813-efde-4206-b9d0-997faccc8da6
     -
       vid: location
-      tid: '141'
+      tid: '139'
       langcode: en
       name: Southampton
       description__value: null
       description__format: null
       weight: '2'
-      parent: '139'
+      parent: '140'
       uuid: cc304936-f0a4-472d-ae9f-6082c27cdc64
     -
       vid: location
@@ -1663,28 +1683,28 @@ taxonomies:
       name: 'Southsea Bandstand'
       description__value: null
       description__format: null
-      weight: '0'
-      parent: '142'
+      weight: '1'
+      parent: '141'
       uuid: 7888d029-ef04-4f8a-8f6c-6053f0065bd8
     -
       vid: location
-      tid: '147'
+      tid: '148'
       langcode: en
       name: 'The Vault, Winchester'
       description__value: null
       description__format: null
       weight: '0'
-      parent: '146'
+      parent: '147'
       uuid: 722f3cf4-8110-4294-9dba-74291014531a
     -
       vid: location
-      tid: '146'
+      tid: '147'
       langcode: en
       name: Winchester
       description__value: null
       description__format: null
       weight: '0'
-      parent: '140'
+      parent: '143'
       uuid: 0adc03c8-3c94-4503-a45d-64d0195a7c35
   topic:
     -
@@ -1694,7 +1714,7 @@ taxonomies:
       name: About
       description__value: null
       description__format: null
-      weight: '48'
+      weight: '93'
       parent: '0'
       uuid: 70d88e9a-8dea-4512-8d0e-a3847c0b1cb8
       field_reader_summary:
@@ -1767,6 +1787,19 @@ taxonomies:
           value: 'The people behind The Solent Metropolitan.'
     -
       vid: topic
+      tid: '113'
+      langcode: en
+      name: 'About / Overview'
+      description__value: null
+      description__format: null
+      weight: '0'
+      parent: '33'
+      uuid: 2b118885-a2e1-46da-802d-b301c4b439a0
+      field_reader_summary:
+        -
+          value: 'Why The Solent Metropolitan exists — the purpose behind the project.'
+    -
+      vid: topic
       tid: '119'
       langcode: en
       name: 'About / Privacy Policy'
@@ -1793,25 +1826,12 @@ taxonomies:
           value: 'Terms governing use of The Solent Metropolitan website.'
     -
       vid: topic
-      tid: '113'
-      langcode: en
-      name: 'About / Why?'
-      description__value: null
-      description__format: null
-      weight: '0'
-      parent: '33'
-      uuid: 2b118885-a2e1-46da-802d-b301c4b439a0
-      field_reader_summary:
-        -
-          value: 'Why The Solent Metropolitan exists — the purpose behind the project.'
-    -
-      vid: topic
       tid: '29'
       langcode: en
       name: Culture
       description__value: null
       description__format: null
-      weight: '25'
+      weight: '89'
       parent: '0'
       uuid: dc1f927a-0460-4b36-aacc-dd537c1a2798
       field_reader_summary:
@@ -2149,7 +2169,7 @@ taxonomies:
       name: Explore
       description__value: null
       description__format: null
-      weight: '42'
+      weight: '92'
       parent: '0'
       uuid: 234a3394-cb75-4c68-9628-a40aca3289bf
       field_reader_summary:
@@ -2235,19 +2255,6 @@ taxonomies:
           value: 'Job listings and employment opportunities from around the Solent.'
     -
       vid: topic
-      tid: '109'
-      langcode: en
-      name: 'Explore / Maps'
-      description__value: null
-      description__format: null
-      weight: '6'
-      parent: '32'
-      uuid: 18fedeb7-de70-4ecf-bc4a-37e4238a03e3
-      field_reader_summary:
-        -
-          value: 'Maps of the Solent — places, routes and visual ways to explore the region.'
-    -
-      vid: topic
       tid: '110'
       langcode: en
       name: 'Explore / Opinion'
@@ -2274,6 +2281,19 @@ taxonomies:
           value: 'Directory of organisations, businesses and groups active in the Solent.'
     -
       vid: topic
+      tid: '109'
+      langcode: en
+      name: 'Explore / Places & Maps'
+      description__value: null
+      description__format: null
+      weight: '6'
+      parent: '32'
+      uuid: 18fedeb7-de70-4ecf-bc4a-37e4238a03e3
+      field_reader_summary:
+        -
+          value: 'Maps of the Solent — places, routes and visual ways to explore the region.'
+    -
+      vid: topic
       tid: '112'
       langcode: en
       name: 'Explore / Series'
@@ -2292,7 +2312,7 @@ taxonomies:
       name: Living
       description__value: null
       description__format: null
-      weight: '36'
+      weight: '91'
       parent: '0'
       uuid: 848662af-0f3b-4921-bca8-469117a11112
       field_reader_summary:
@@ -2339,25 +2359,12 @@ taxonomies:
           value: 'Parenting, childcare, family services and support for Solent families.'
     -
       vid: topic
-      tid: '96'
+      tid: '97'
       langcode: en
-      name: 'Living / Fitness'
+      name: 'Living / Health & Fitness'
       description__value: null
       description__format: null
       weight: '3'
-      parent: '31'
-      uuid: 685d7763-a231-4934-9d10-4bc4716a29ec
-      field_reader_summary:
-        -
-          value: 'Gyms, classes and ways to stay active while living in the Solent.'
-    -
-      vid: topic
-      tid: '97'
-      langcode: en
-      name: 'Living / Health'
-      description__value: null
-      description__format: null
-      weight: '4'
       parent: '31'
       uuid: 6e108409-2af3-42d0-83fc-7c40a37fb1f6
       field_reader_summary:
@@ -2370,7 +2377,7 @@ taxonomies:
       name: 'Living / Home & Garden'
       description__value: null
       description__format: null
-      weight: '5'
+      weight: '4'
       parent: '31'
       uuid: a4885319-8e53-48d8-a699-bbfdac9dc4c4
       field_reader_summary:
@@ -2383,7 +2390,7 @@ taxonomies:
       name: 'Living / Housing'
       description__value: null
       description__format: null
-      weight: '6'
+      weight: '5'
       parent: '31'
       uuid: 44fb72af-49bd-45a3-89cb-94b78d034ded
       field_reader_summary:
@@ -2396,7 +2403,7 @@ taxonomies:
       name: 'Living / Mental Health'
       description__value: null
       description__format: null
-      weight: '7'
+      weight: '6'
       parent: '31'
       uuid: 787afe98-3ea3-4440-af91-271c5351ee6b
       field_reader_summary:
@@ -2409,12 +2416,23 @@ taxonomies:
       name: 'Living / Outreach'
       description__value: null
       description__format: null
-      weight: '8'
+      weight: '7'
       parent: '31'
       uuid: 1bfd927b-cad2-4f38-a7ad-21d882da31d2
       field_reader_summary:
         -
           value: 'Community outreach, support projects and help for people across the Solent.'
+    -
+      vid: topic
+      tid: '154'
+      langcode: en
+      name: 'Living / Transport'
+      description__value: null
+      description__format: null
+      weight: '8'
+      parent: '31'
+      uuid: db533297-d7f6-4827-b442-5eadc419a2be
+      field_reader_summary: {  }
     -
       vid: topic
       tid: '102'
@@ -2435,7 +2453,7 @@ taxonomies:
       name: Sectors
       description__value: null
       description__format: null
-      weight: '30'
+      weight: '90'
       parent: '0'
       uuid: 2d703122-5b4a-4e6b-baf5-72f78e50641c
       field_reader_summary:
@@ -2534,12 +2552,23 @@ taxonomies:
           value: 'Design studios, practices and independents shaping how the Solent looks and feels.'
     -
       vid: topic
+      tid: '153'
+      langcode: en
+      name: 'Sectors / Economic Growth'
+      description__value: null
+      description__format: null
+      weight: '7'
+      parent: '30'
+      uuid: 67c716bd-44c2-4011-84ce-1642b66c786a
+      field_reader_summary: {  }
+    -
+      vid: topic
       tid: '65'
       langcode: en
       name: 'Sectors / Education'
       description__value: null
       description__format: null
-      weight: '7'
+      weight: '8'
       parent: '30'
       uuid: 6e45ae32-d0e4-4553-b3ec-c71f5f9a9219
       field_reader_summary:
@@ -2552,7 +2581,7 @@ taxonomies:
       name: 'Sectors / Engineering'
       description__value: null
       description__format: null
-      weight: '8'
+      weight: '9'
       parent: '30'
       uuid: 82b8d9a0-52e5-40f8-9865-041f949526f2
       field_reader_summary:
@@ -2565,7 +2594,7 @@ taxonomies:
       name: 'Sectors / Entrepreneur'
       description__value: null
       description__format: null
-      weight: '9'
+      weight: '10'
       parent: '30'
       uuid: 2c527a70-b75c-4a32-b3a1-918583724c60
       field_reader_summary:
@@ -2578,7 +2607,7 @@ taxonomies:
       name: 'Sectors / Environment'
       description__value: null
       description__format: null
-      weight: '10'
+      weight: '11'
       parent: '30'
       uuid: 88b40176-a497-408b-be4d-9a00351e46a2
       field_reader_summary:
@@ -2591,7 +2620,7 @@ taxonomies:
       name: 'Sectors / Event & Venue'
       description__value: null
       description__format: null
-      weight: '11'
+      weight: '12'
       parent: '30'
       uuid: 656a2c96-a73e-440f-80ba-c4b89a1c0e46
       field_reader_summary:
@@ -2604,7 +2633,7 @@ taxonomies:
       name: 'Sectors / Facilities'
       description__value: null
       description__format: null
-      weight: '12'
+      weight: '13'
       parent: '30'
       uuid: 75a1a8c5-4f6c-4cde-a066-b4ac54e88d9f
       field_reader_summary:
@@ -2617,7 +2646,7 @@ taxonomies:
       name: 'Sectors / Farming'
       description__value: null
       description__format: null
-      weight: '13'
+      weight: '14'
       parent: '30'
       uuid: a38bc400-0838-4737-87d8-d768134f0dd0
       field_reader_summary:
@@ -2630,7 +2659,7 @@ taxonomies:
       name: 'Sectors / Finance'
       description__value: null
       description__format: null
-      weight: '14'
+      weight: '15'
       parent: '30'
       uuid: ed42ddd5-b6e2-4cd5-8047-b933d114ce94
       field_reader_summary:
@@ -2643,7 +2672,7 @@ taxonomies:
       name: 'Sectors / Health & Care'
       description__value: null
       description__format: null
-      weight: '15'
+      weight: '16'
       parent: '30'
       uuid: 3186de4e-04c8-45d1-8756-8a3d739b8eaa
       field_reader_summary:
@@ -2656,7 +2685,7 @@ taxonomies:
       name: 'Sectors / Hospitality'
       description__value: null
       description__format: null
-      weight: '16'
+      weight: '17'
       parent: '30'
       uuid: c098f44c-d4ff-42fa-bb3e-814f406286b2
       field_reader_summary:
@@ -2669,7 +2698,7 @@ taxonomies:
       name: 'Sectors / Legal'
       description__value: null
       description__format: null
-      weight: '17'
+      weight: '18'
       parent: '30'
       uuid: 90514702-97cd-44a1-a10f-5f6b9ee65b1b
       field_reader_summary:
@@ -2682,7 +2711,7 @@ taxonomies:
       name: 'Sectors / Lifestyle'
       description__value: null
       description__format: null
-      weight: '18'
+      weight: '19'
       parent: '30'
       uuid: 7ab1ff4a-1fd3-4c6f-a7de-711a923878b0
       field_reader_summary:
@@ -2695,7 +2724,7 @@ taxonomies:
       name: 'Sectors / Logistics'
       description__value: null
       description__format: null
-      weight: '19'
+      weight: '20'
       parent: '30'
       uuid: 9e349fba-e372-4c08-ab9f-3ffa4d726990
       field_reader_summary:
@@ -2708,7 +2737,7 @@ taxonomies:
       name: 'Sectors / Manufacturing'
       description__value: null
       description__format: null
-      weight: '20'
+      weight: '21'
       parent: '30'
       uuid: 2879c497-e6a2-442a-aa5f-be46a2924558
       field_reader_summary:
@@ -2721,7 +2750,7 @@ taxonomies:
       name: 'Sectors / Maritime'
       description__value: null
       description__format: null
-      weight: '21'
+      weight: '22'
       parent: '30'
       uuid: 4ff8b2b3-a6ad-4d5a-b8cb-0e3b1a7b75e8
       field_reader_summary:
@@ -2734,7 +2763,7 @@ taxonomies:
       name: 'Sectors / Marketing'
       description__value: null
       description__format: null
-      weight: '22'
+      weight: '23'
       parent: '30'
       uuid: f4358db3-b36b-46cc-a103-d6b69b36a115
       field_reader_summary:
@@ -2747,7 +2776,7 @@ taxonomies:
       name: 'Sectors / Media'
       description__value: null
       description__format: null
-      weight: '23'
+      weight: '24'
       parent: '30'
       uuid: 230aea6f-4f73-45e2-b7b6-7b365cc51989
       field_reader_summary:
@@ -2760,7 +2789,7 @@ taxonomies:
       name: 'Sectors / Non-profit'
       description__value: null
       description__format: null
-      weight: '24'
+      weight: '25'
       parent: '30'
       uuid: b5dacf31-8251-4d50-8b0b-6aab29e2e449
       field_reader_summary:
@@ -2773,7 +2802,7 @@ taxonomies:
       name: 'Sectors / Property'
       description__value: null
       description__format: null
-      weight: '25'
+      weight: '26'
       parent: '30'
       uuid: fdef391d-1996-4edd-88e1-14fe1dbbb03c
       field_reader_summary:
@@ -2786,7 +2815,7 @@ taxonomies:
       name: 'Sectors / Public Sector'
       description__value: null
       description__format: null
-      weight: '26'
+      weight: '27'
       parent: '30'
       uuid: dccacf63-45a5-400f-90db-5f06b61fe35c
       field_reader_summary:
@@ -2799,7 +2828,7 @@ taxonomies:
       name: 'Sectors / Retail'
       description__value: null
       description__format: null
-      weight: '27'
+      weight: '28'
       parent: '30'
       uuid: c25be21a-840c-4a78-b98e-9832f654e04e
       field_reader_summary:
@@ -2812,7 +2841,7 @@ taxonomies:
       name: 'Sectors / Science'
       description__value: null
       description__format: null
-      weight: '28'
+      weight: '29'
       parent: '30'
       uuid: 7881c1e4-4d35-4815-9fb1-4d3b716fc250
       field_reader_summary:
@@ -2825,7 +2854,7 @@ taxonomies:
       name: 'Sectors / Sport & Fitness'
       description__value: null
       description__format: null
-      weight: '29'
+      weight: '30'
       parent: '30'
       uuid: 537028b4-3227-4b9f-bea7-454c6a319361
       field_reader_summary:
@@ -2838,7 +2867,7 @@ taxonomies:
       name: 'Sectors / Technology'
       description__value: null
       description__format: null
-      weight: '30'
+      weight: '31'
       parent: '30'
       uuid: 331bf400-723f-46dc-b624-2a12362dbda0
       field_reader_summary:
@@ -2851,7 +2880,7 @@ taxonomies:
       name: 'Sectors / Tourism'
       description__value: null
       description__format: null
-      weight: '31'
+      weight: '32'
       parent: '30'
       uuid: 2d9f4c01-b9bb-44f0-88ac-610e45200c56
       field_reader_summary:
@@ -2864,7 +2893,7 @@ taxonomies:
       name: 'Sectors / Trades'
       description__value: null
       description__format: null
-      weight: '32'
+      weight: '33'
       parent: '30'
       uuid: c91ae78d-af45-4ce5-8e7a-9eebe6f616d7
       field_reader_summary:
@@ -2877,7 +2906,7 @@ taxonomies:
       name: 'Sectors / Transport'
       description__value: null
       description__format: null
-      weight: '33'
+      weight: '34'
       parent: '30'
       uuid: 8be491be-6377-4103-8a5f-17d6de025ddb
       field_reader_summary:
@@ -2890,7 +2919,7 @@ taxonomies:
       name: 'Sectors / Utilities'
       description__value: null
       description__format: null
-      weight: '34'
+      weight: '35'
       parent: '30'
       uuid: 11233253-1f36-4eeb-82e8-7debecebe53f
       field_reader_summary:
