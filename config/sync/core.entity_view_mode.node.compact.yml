@@ -1,0 +1,11 @@
+uuid: 0e5cee5f-3b77-42fa-bed4-a5d8f6584d66
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.compact
+label: Compact
+description: 'For front page and other pages with short listings'
+targetEntityType: node
+cache: true
