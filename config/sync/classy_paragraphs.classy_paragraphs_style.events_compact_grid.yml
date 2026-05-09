@@ -1,0 +1,7 @@
+uuid: fba210f1-3986-4121-b05c-6180f2801844
+langcode: en
+status: true
+dependencies: {  }
+id: events_compact_grid
+label: 'Events Compact Grid'
+classes: slnt-events-compact-grid

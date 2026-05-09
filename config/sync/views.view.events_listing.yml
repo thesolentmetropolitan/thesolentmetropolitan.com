@@ -297,9 +297,15 @@ display:
         options:
           offset: 0
           items_per_page: 6
+      row:
+        type: 'entity:node'
+        options:
+          relationship: none
+          view_mode: compact
       defaults:
         pager: false
         footer: false
+        row: false
       display_description: ''
       footer: {  }
       display_extenders: {  }

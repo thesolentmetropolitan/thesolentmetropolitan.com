@@ -1,0 +1,74 @@
+{#
+/**
+ * @file
+ * Theme override for an Event node in the "compact" view mode.
+ *
+ * Used by the events_listing View "view_display_front_page" display:
+ * a small two-per-row card on the front page. The whole card is a
+ * single clickable link — to field_url when present, otherwise to
+ * the node. An arrow-out icon next to the title signals that the
+ * link leaves the site.
+ *
+ * Variables added by customsolent_preprocess_node:
+ *   - field_url_href / field_url_external — extracted from field_url.
+ *   - where_name      — plain Location term name.
+ *   - location_area   — name of the Location term's parent (e.g. the
+ *                       venue's town), or null if the venue has no
+ *                       parent term.
+ */
+#}
+{%
+  set classes = [
+    'node',
+    'node--type-' ~ node.bundle|clean_class,
+    view_mode ? 'node--view-mode-' ~ view_mode|clean_class,
+    'slnt-event-compact',
+  ]
+%}
+
+{% set event_url = field_url_href ?: path('entity.node.canonical', {'node': node.id}) %}
+{% set is_external = field_url_external ?? false %}
+
+<a href="{{ event_url }}"
+   class="slnt-event-compact__link"
+   {% if is_external %}target="_blank" rel="noopener noreferrer"{% endif %}>
+  <article{{ attributes.addClass(classes) }}>
+
+    <h3 class="slnt-event-compact__title">
+      <span class="slnt-event-compact__title-text">{{ label }}</span>
+      {% if is_external %}
+        <svg class="slnt-event-compact__external-icon"
+             viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2.5"
+             stroke-linecap="round" stroke-linejoin="round"
+             aria-hidden="true">
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+          <polyline points="15 3 21 3 21 9"/>
+          <line x1="10" y1="14" x2="21" y2="3"/>
+        </svg>
+      {% endif %}
+    </h3>
+
+    {% if content.field_when|render|striptags|trim %}
+      <div class="slnt-event-compact__date">
+        {{ content.field_when }}
+      </div>
+    {% endif %}
+
+    {% if where_name %}
+      <div class="slnt-event-compact__where">
+        <span class="slnt-event-compact__where-venue">{{ where_name }}</span>
+        {% if location_area %}
+          <span class="slnt-event-compact__where-area">{{ location_area }}</span>
+        {% endif %}
+      </div>
+    {% endif %}
+
+  </article>
+</a>
+
+{# We render the fields manually above; suppress defaults so they
+   don't appear a second time. #}
+{{ content|without('field_when', 'field_where', 'field_image',
+   'field_standfirst', 'field_url',
+   'field_primary_topic', 'field_related_topics') }}

@@ -1,0 +1,183 @@
+/* ══════════════════════════════════════
+   Compact event cards — front page
+   Scoped to the "Events Compact Grid"
+   classy_paragraphs class (slnt-events-compact-grid)
+   applied by the editor to the View Display
+   paragraph that hosts the events_listing /
+   view_display_front_page block.
+   ══════════════════════════════════════ */
+
+/* ── Grid: 2 per row on desktop, 1 per row on mobile ──
+   Modern Views renders rows directly inside the views-view wrapper as
+   <div class="views-row">…</div> with no .view-content layer, so we
+   target the wrapper that holds those rows. */
+.slnt-events-compact-grid [class*="js-view-dom-id-"] {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.8rem;
+}
+
+@media (max-width: 799px) {
+  .slnt-events-compact-grid [class*="js-view-dom-id-"] {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── Card link wrapper ── */
+.slnt-event-compact__link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  border-radius: 6px;
+  transition: background-color 0.15s, box-shadow 0.15s;
+}
+
+/* Beat .layout-content a magenta-underline rule. */
+.layout-content a.slnt-event-compact__link,
+.layout-content a.slnt-event-compact__link:hover {
+  text-decoration: none;
+  text-decoration-color: transparent;
+  color: inherit;
+}
+
+.slnt-event-compact__link:hover {
+  background: var(--warm-grey, #f5f3f0);
+}
+
+.slnt-event-compact__link:focus-visible {
+  outline: 3px solid #f5b0d8;
+  outline-offset: 2px;
+}
+
+.slnt-event-compact__link:hover .slnt-event-compact__title-text {
+  text-decoration: underline;
+  text-decoration-color: var(--magenta, #c5007a);
+  text-underline-offset: 3px;
+  text-decoration-thickness: 2px;
+}
+
+/* ── Card layout — every field on its own line ── */
+.slnt-event-compact {
+  display: block;
+  padding: 0.6rem 0.8rem;
+}
+
+/* ── Title — first line, with optional external-link icon inline ── */
+.slnt-event-compact__title {
+  font-family: 'Atkinson Hyperlegible Next', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--solent-blue, #2c4f6e);
+  margin: 0 0 0.2rem 0;
+}
+
+/* ── Date — second line ── */
+.slnt-event-compact__date {
+  font-family: 'Atkinson Hyperlegible Next', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--text-mid, #444);
+  margin: 0 0 0.15rem 0;
+}
+
+/* Smart Date wraps each <time> in a .field; flatten margins. */
+.slnt-event-compact__date .field,
+.slnt-event-compact__date .field__item,
+.slnt-event-compact__date time {
+  margin: 0;
+  display: inline;
+}
+
+/* External-link icon — sits inline after the title text. */
+.slnt-event-compact__external-icon {
+  display: inline-block;
+  width: 0.8em;
+  height: 0.8em;
+  vertical-align: baseline;
+  margin-left: 0.3em;
+  opacity: 0.6;
+  transition: opacity 0.15s;
+}
+
+.slnt-event-compact__link:hover .slnt-event-compact__external-icon {
+  opacity: 1;
+}
+
+/* ── Where (venue + parent area on its own line) ── */
+.slnt-event-compact__where {
+  font-family: 'Atkinson Hyperlegible Next', sans-serif;
+  font-size: 0.82rem;
+  line-height: 1.3;
+  color: var(--text-mid, #444);
+}
+
+.slnt-event-compact__where-venue {
+  display: block;
+}
+
+.slnt-event-compact__where-area {
+  display: block;
+  font-size: 0.75rem;
+  color: #888;
+}
+
+/* ══════════════════════════════════════
+   Front-page "What's on" wrapper +
+   "View all events" CTA-style link
+   (used when the editor opts for the
+   plain text-link style rather than a
+   full CTA paragraph below the grid).
+   ══════════════════════════════════════ */
+
+.slnt-front-events__heading {
+  font-family: 'Atkinson Hyperlegible Next', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--solent-blue, #2c4f6e);
+  margin: 0 0 0.8rem 0;
+}
+
+.slnt-front-events__view-all {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  font-family: 'Atkinson Hyperlegible Next', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--solent-blue, #2c4f6e);
+  text-decoration: underline;
+  text-decoration-color: var(--magenta, #c5007a);
+  text-underline-offset: 3px;
+  text-decoration-thickness: 2px;
+  margin-top: 0.8rem;
+  transition: color 0.15s;
+}
+
+.slnt-front-events__view-all:hover {
+  color: var(--magenta, #c5007a);
+}
+
+.slnt-front-events__view-all .slnt-cta__chevron {
+  width: 0.7em;
+  height: 0.7em;
+  transform: rotate(-90deg);
+  transition: transform 0.2s ease;
+  fill: currentColor;
+}
+
+.slnt-front-events__view-all:hover .slnt-cta__chevron {
+  transform: rotate(-90deg) translateY(-3px);
+}
+
+/* ── Mobile tweaks ── */
+@media (max-width: 799px) {
+  .slnt-event-compact {
+    padding: 0.7rem;
+    gap: 0.6rem;
+  }
+  .slnt-event-compact__title {
+    font-size: 0.9rem;
+  }
+}
