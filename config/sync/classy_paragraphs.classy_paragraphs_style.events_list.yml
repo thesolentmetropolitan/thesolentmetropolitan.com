@@ -1,0 +1,7 @@
+uuid: b74e355a-fc9c-4f9a-b317-4287a52a3cc9
+langcode: en
+status: true
+dependencies: {  }
+id: events_list
+label: 'Events List'
+classes: slnt-events-list

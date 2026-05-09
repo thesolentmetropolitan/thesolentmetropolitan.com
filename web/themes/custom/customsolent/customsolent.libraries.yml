@@ -29,6 +29,7 @@ global:
       css/search.css: {}
       css/section-listing.css: {}
       css/event-teaser.css: {}
+      css/event-compact.css: {}
       css/topic-trail.css: {}
   dependencies:
     - core/drupal

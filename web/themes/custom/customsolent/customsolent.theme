@@ -57,6 +57,11 @@ function customsolent_preprocess_node(array &$variables): void {
     _customsolent_preprocess_event_teaser_extras($node, $variables);
   }
 
+  // Event compact (front-page card) extras.
+  if ($node->bundle() === 'event' && ($variables['view_mode'] ?? '') === 'compact') {
+    _customsolent_preprocess_event_compact_extras($node, $variables);
+  }
+
   // Link / Organisation teaser — both render field_url as a primary
   // link with a trailing arrow-square-out icon for external URLs.
   // Same field_url meta extraction works for both.
@@ -86,6 +91,34 @@ function _customsolent_preprocess_event_teaser_extras($node, array &$variables):
     $where = $node->get('field_where')->entity;
     if ($where) {
       $variables['where_name'] = $where->getName();
+    }
+  }
+
+  _customsolent_extract_field_url_meta($node, $variables);
+}
+
+/**
+ * Adds field_url metadata, the venue term name (where_name) and the
+ * venue's parent term name (location_area) to the compact event card.
+ *
+ * The compact card lays venue and area on two lines, e.g.
+ *   God's House Tower
+ *   Southampton
+ * If the venue term has no parent, location_area is left null and the
+ * template renders only the venue name.
+ */
+function _customsolent_preprocess_event_compact_extras($node, array &$variables): void {
+  if ($node->hasField('field_where') && !$node->get('field_where')->isEmpty()) {
+    $where = $node->get('field_where')->entity;
+    if ($where) {
+      $variables['where_name'] = $where->getName();
+      /** @var \Drupal\taxonomy\TermStorageInterface $term_storage */
+      $term_storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
+      $parents = $term_storage->loadParents($where->id());
+      if (!empty($parents)) {
+        $parent = reset($parents);
+        $variables['location_area'] = $parent->getName();
+      }
     }
   }
 
