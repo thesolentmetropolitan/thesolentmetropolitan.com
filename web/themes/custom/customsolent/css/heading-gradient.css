@@ -1,0 +1,54 @@
+/* ══════════════════════════════════════
+   Gradient text fills for Heading paragraphs.
+   Applied via the field_classy style on a Heading
+   paragraph (e.g. "Heading: Warm Gradient (deep)").
+   The class lands on the heading element itself,
+   so a direct `color: transparent` here overrides
+   the colour the outer wrapper inherits from
+   field_color_text without needing !important.
+
+   Accessibility: every gradient stop measured
+   against the page background (#faf9f7) is at
+   least 3:1 — WCAG AA for large text — so the
+   text remains readable at any point along the
+   gradient. Use sparingly; one gradient heading
+   per section is enough emphasis.
+   ══════════════════════════════════════ */
+
+.slnt-heading-gradient-warm-deep,
+.slnt-heading-gradient-cool,
+.slnt-heading-gradient-section-sweep {
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Warm — deep magenta → magenta → amber. */
+.slnt-heading-gradient-warm-deep {
+  background-image: linear-gradient(
+    135deg,
+    #9c0040 0%,    /* deep magenta — ~7.0:1 on #faf9f7 */
+    #c5007a 50%,   /* brand magenta — ~5.2:1 */
+    #d97706 100%   /* explore amber — ~3.4:1 */
+  );
+}
+
+/* Cool — solent blue → culture purple. */
+.slnt-heading-gradient-cool {
+  background-image: linear-gradient(
+    135deg,
+    #2c4f6e 0%,    /* solent blue — ~9.0:1 */
+    #6B21A8 100%   /* culture purple — ~7.6:1 */
+  );
+}
+
+/* Section sweep — Culture → Sectors → Living. The publication's
+   three pillars in order. */
+.slnt-heading-gradient-section-sweep {
+  background-image: linear-gradient(
+    135deg,
+    #7C3AED 0%,    /* culture purple — ~5.4:1 */
+    #2563EB 50%,   /* sectors blue — ~5.9:1 */
+    #059669 100%   /* living green — ~3.8:1 */
+  );
+}

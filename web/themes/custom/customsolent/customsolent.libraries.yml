@@ -30,6 +30,7 @@ global:
       css/section-listing.css: {}
       css/event-teaser.css: {}
       css/event-compact.css: {}
+      css/heading-gradient.css: {}
       css/topic-trail.css: {}
   dependencies:
     - core/drupal

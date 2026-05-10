@@ -1,0 +1,7 @@
+uuid: 2661351d-3c74-4fa4-9fc4-9bdb41f59640
+langcode: en
+status: true
+dependencies: {  }
+id: heading_gradient_cool
+label: 'Heading: Cool Gradient'
+classes: slnt-heading-gradient-cool

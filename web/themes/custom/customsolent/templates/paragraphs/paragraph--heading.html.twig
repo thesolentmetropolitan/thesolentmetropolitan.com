@@ -57,15 +57,29 @@
 
 </style>
 
+{# Collect any class strings from field_classy. The gradient classy
+   styles set their own colour/background-clip rules on the heading
+   element, which override the inherited colour from field_color_text.
+   Other classy styles can be layered onto the heading the same way. #}
+{% set heading_classes = [] %}
+{% if paragraph.hasField('field_classy') %}
+  {% for item in paragraph.field_classy %}
+    {% if item.entity and item.entity.classes %}
+      {% set heading_classes = heading_classes|merge([item.entity.classes]) %}
+    {% endif %}
+  {% endfor %}
+{% endif %}
+
 {% block paragraph %}
   <div style="
      color: {{ paragraph.field_color_text.0.entity.field_color.value.0.color|default('inherit') }};
      ">
     <div{{ attributes.addClass(classes).addClass('slnt-text') }}>
       {% block content %}
-        <{{paragraph.field_heading_size.0.value}} 
+        <{{paragraph.field_heading_size.0.value}}
+        {% if heading_classes %}class="{{ heading_classes|join(' ') }}"{% endif %}
         style="text-align:{{paragraph.field_heading_align.0.value}};">
-        {{ content.field_heading }} 
+        {{ content.field_heading }}
         </{{paragraph.field_heading_size.0.value}}>
       {% endblock %}
     </div>
