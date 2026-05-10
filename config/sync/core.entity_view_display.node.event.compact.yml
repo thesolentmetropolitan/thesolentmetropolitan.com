@@ -45,7 +45,7 @@ content:
         refresh: '60'
         enabled: 0
         description: ''
-      date_format: 'j M Y'
+      date_format: 'j M'
       custom_date_format: ''
       timezone: ''
       tooltip:
