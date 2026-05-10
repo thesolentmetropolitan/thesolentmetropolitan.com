@@ -23,12 +23,33 @@
   }
 }
 
+/* ── Outer card wrapper ── */
+.slnt-event-compact-card {
+  border-top: 3px solid var(--text-mid, #444); /* fallback; overridden inline */
+  padding-top: 0.5rem;
+}
+
+/* The kicker (topic trail) sits above the link, outside the
+   clickable area. Tighten its margins for the compact card. */
+.slnt-event-compact-card .slnt-topic-trail {
+  margin-bottom: 0.35rem;
+}
+
+.slnt-event-compact-card .slnt-topic-trail .slnt-topic-trail__ancestor {
+  font-size: 0.75rem;
+}
+
+.slnt-event-compact-card .slnt-topic-trail__separator {
+  font-size: 0.75rem;
+  margin: 0 0.25rem;
+}
+
 /* ── Card link wrapper ── */
 .slnt-event-compact__link {
   display: block;
   text-decoration: none;
   color: inherit;
-  border-radius: 6px;
+  border-radius: 4px;
   transition: background-color 0.15s, box-shadow 0.15s;
 }
 
@@ -56,10 +77,10 @@
   text-decoration-thickness: 2px;
 }
 
-/* ── Card layout — every field on its own line ── */
+/* ── Card body — every field on its own line ── */
 .slnt-event-compact {
   display: block;
-  padding: 0.6rem 0.8rem;
+  padding: 0.4rem 0.5rem;
 }
 
 /* ── Title — first line, with optional external-link icon inline ── */
@@ -69,25 +90,7 @@
   font-weight: 700;
   line-height: 1.3;
   color: var(--solent-blue, #2c4f6e);
-  margin: 0 0 0.2rem 0;
-}
-
-/* ── Date — second line ── */
-.slnt-event-compact__date {
-  font-family: 'Atkinson Hyperlegible Next', sans-serif;
-  font-size: 0.85rem;
-  font-weight: 600;
-  line-height: 1.3;
-  color: var(--text-mid, #444);
-  margin: 0 0 0.15rem 0;
-}
-
-/* Smart Date wraps each <time> in a .field; flatten margins. */
-.slnt-event-compact__date .field,
-.slnt-event-compact__date .field__item,
-.slnt-event-compact__date time {
-  margin: 0;
-  display: inline;
+  margin: 0 0 0.3rem 0;
 }
 
 /* External-link icon — sits inline after the title text. */
@@ -105,21 +108,60 @@
   opacity: 1;
 }
 
-/* ── Where (venue + parent area on its own line) ── */
-.slnt-event-compact__where {
+/* ── Date / Where rows — leading icon + value ── */
+.slnt-event-compact__row {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.4em;
   font-family: 'Atkinson Hyperlegible Next', sans-serif;
-  font-size: 0.82rem;
+  font-size: 0.85rem;
   line-height: 1.3;
   color: var(--text-mid, #444);
+  margin: 0 0 0.2rem 0;
 }
 
+.slnt-event-compact__row:last-child {
+  margin-bottom: 0;
+}
+
+.slnt-event-compact__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 0.95em;
+  height: 0.95em;
+  margin-top: 0.15em; /* optical alignment with first text line */
+  color: var(--text-mid, #555);
+}
+
+.slnt-event-compact__icon svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.slnt-event-compact__value {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Smart Date wraps each <time> in a .field; flatten margins. */
+.slnt-event-compact__date .field,
+.slnt-event-compact__date .field__item,
+.slnt-event-compact__date time {
+  margin: 0;
+  display: inline;
+}
+
+/* Where: venue first line, parent area on its own line below. */
 .slnt-event-compact__where-venue {
   display: block;
 }
 
 .slnt-event-compact__where-area {
   display: block;
-  font-size: 0.75rem;
+  font-size: 0.78rem;
   color: #888;
 }
 

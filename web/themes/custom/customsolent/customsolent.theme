@@ -108,6 +108,19 @@ function _customsolent_preprocess_event_teaser_extras($node, array &$variables):
  * template renders only the venue name.
  */
 function _customsolent_preprocess_event_compact_extras($node, array &$variables): void {
+  // Section colour from the top-level Topic — drives the card's top
+  // border and the kicker text colour.
+  if ($node->hasField('field_primary_topic') && !$node->get('field_primary_topic')->isEmpty()) {
+    $term = $node->get('field_primary_topic')->entity;
+    if ($term) {
+      $top = _customsolent_topic_top_level($term);
+      if ($top) {
+        $variables['section_key'] = strtolower($top->getName());
+        $variables['section_color'] = _customsolent_topic_section_colors()[$top->getName()] ?? NULL;
+      }
+    }
+  }
+
   if ($node->hasField('field_where') && !$node->get('field_where')->isEmpty()) {
     $where = $node->get('field_where')->entity;
     if ($where) {
