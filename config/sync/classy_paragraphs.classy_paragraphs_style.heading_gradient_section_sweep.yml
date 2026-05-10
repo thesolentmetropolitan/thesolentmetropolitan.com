@@ -1,0 +1,7 @@
+uuid: edda153a-c9cc-486d-8254-81912ae50415
+langcode: en
+status: true
+dependencies: {  }
+id: heading_gradient_section_sweep
+label: 'Heading: Section Sweep Gradient'
+classes: slnt-heading-gradient-section-sweep

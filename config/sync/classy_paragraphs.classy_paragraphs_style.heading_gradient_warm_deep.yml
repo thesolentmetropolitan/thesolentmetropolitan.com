@@ -1,0 +1,7 @@
+uuid: 7db40954-d7c4-4881-8d91-ce2d3f8e3a89
+langcode: en
+status: true
+dependencies: {  }
+id: heading_gradient_warm_deep
+label: 'Heading: Warm Gradient (deep)'
+classes: slnt-heading-gradient-warm-deep
