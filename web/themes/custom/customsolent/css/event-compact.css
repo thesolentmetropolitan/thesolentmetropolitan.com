@@ -7,17 +7,22 @@
    view_display_front_page block.
    ══════════════════════════════════════ */
 
-/* ── Grid: 2 per row on desktop, 1 per row on mobile ──
+/* ── Grid: 2 per row at ≥500px, 1 per row below ──
    Modern Views renders rows directly inside the views-view wrapper as
    <div class="views-row">…</div> with no .view-content layer, so we
-   target the wrapper that holds those rows. */
+   target the wrapper that holds those rows.
+
+   The 499px breakpoint is grid-specific — large phones / landscape /
+   small tablets keep two columns; only narrow portrait phones drop to
+   one. The site-wide 799px breakpoint is left untouched for other
+   components that depend on it. */
 .slnt-events-compact-grid [class*="js-view-dom-id-"] {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 0.8rem;
 }
 
-@media (max-width: 799px) {
+@media (max-width: 499px) {
   .slnt-events-compact-grid [class*="js-view-dom-id-"] {
     grid-template-columns: 1fr;
   }
