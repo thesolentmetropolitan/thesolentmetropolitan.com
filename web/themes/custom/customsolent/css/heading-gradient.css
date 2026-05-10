@@ -52,3 +52,11 @@
     #059669 100%   /* living green — ~3.8:1 */
   );
 }
+
+/* ── Spacing utility — vertical gap below a heading. Combinable with
+   any of the gradient classes above (field_classy is multi-value, so
+   the editor can apply both at once). Padding rather than margin so
+   it doesn't collapse with the next paragraph's top margin. */
+.slnt-heading-space-below {
+  padding-bottom: 0.5em;
+}
