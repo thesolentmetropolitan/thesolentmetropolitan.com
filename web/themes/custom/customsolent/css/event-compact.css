@@ -26,13 +26,19 @@
 /* ── Outer card wrapper ── */
 .slnt-event-compact-card {
   border-top: 3px solid var(--text-mid, #444); /* fallback; overridden inline */
-  padding-top: 0.5rem;
+  padding-top: 0.35rem;
 }
 
-/* The kicker (topic trail) sits above the link, outside the
-   clickable area. Tighten its margins for the compact card. */
+/* Kicker (topic trail) sits above the link, outside the clickable
+   area. Indent horizontally so it lines up with the title below;
+   zero vertical margins so it sits tight against the title. */
 .slnt-event-compact-card .slnt-topic-trail {
-  margin-bottom: 0.35rem;
+  margin: 0;
+  padding: 0 0.5rem;
+}
+
+.slnt-event-compact-card .slnt-topic-trail__ancestors {
+  margin-bottom: 0;
 }
 
 .slnt-event-compact-card .slnt-topic-trail .slnt-topic-trail__ancestor {
@@ -80,7 +86,7 @@
 /* ── Card body — every field on its own line ── */
 .slnt-event-compact {
   display: block;
-  padding: 0.4rem 0.5rem;
+  padding: 0.15rem 0.5rem 0.4rem;
 }
 
 /* ── Title — first line, with optional external-link icon inline ── */
