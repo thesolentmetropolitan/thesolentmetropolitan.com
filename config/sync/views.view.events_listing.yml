@@ -304,8 +304,8 @@ display:
           view_mode: compact
       defaults:
         pager: false
-        footer: false
         row: false
+        footer: false
       display_description: ''
       footer: {  }
       display_extenders: {  }
