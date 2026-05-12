@@ -52,6 +52,7 @@ module:
   shortcut: 0
   single_content_sync: 0
   smart_date: 0
+  smart_date_recur: 0
   smtp: 0
   structure_sync: 0
   superfish: 0

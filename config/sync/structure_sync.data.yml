@@ -83,7 +83,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -87
+    weight: -86
     langcode: en
     uuid: 1e665e14-aa16-489e-98b5-dfdc88595a6d
     options: {  }
@@ -239,7 +239,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -90
+    weight: -88
     langcode: en
     uuid: 58c994bf-0fc1-4f42-b496-142e8c0d0a40
     options: {  }
@@ -265,7 +265,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -84
+    weight: -83
     langcode: en
     uuid: 6eabc665-7abb-43a1-8190-b4e3b635df7b
     options: {  }
@@ -278,7 +278,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -89
+    weight: -87
     langcode: en
     uuid: 11debdd8-92fc-41aa-9986-0ded7eb85ee9
     options: {  }
@@ -590,7 +590,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -86
+    weight: -85
     langcode: en
     uuid: 0fec7440-af88-4538-bfd1-5422b795b14d
     options: {  }
@@ -629,7 +629,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -83
+    weight: -82
     langcode: en
     uuid: fe14f8c4-e80b-4f2d-8d36-9b3d0b78b638
     options: {  }
@@ -882,9 +882,9 @@ menus:
     options: {  }
   -
     menu_name: main
-    title: Organisations
+    title: 'Orgs & Directories'
     parent: 'menu_link_content:00eabb8c-58ed-4f9b-88c1-0c5b1aecf9e1'
-    uri: 'internal:/explore/organisations'
+    uri: 'internal:/explore/orgs-directories'
     link_title: ''
     description: null
     enabled: true
@@ -1038,7 +1038,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -81
+    weight: -80
     langcode: en
     uuid: fadd5e35-62ae-48f3-b923-a877287d593c
     options: {  }
@@ -1185,7 +1185,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -85
+    weight: -84
     langcode: en
     uuid: 3fc83e88-a2eb-450a-af96-32266fe4556b
     options: {  }
@@ -1328,7 +1328,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -82
+    weight: -81
     langcode: en
     uuid: 2a13d79d-cbfe-4d39-abb5-32e07dc6812f
     options: {  }
@@ -1344,6 +1344,32 @@ menus:
     weight: -92
     langcode: en
     uuid: 181a4ec6-2f60-42d3-ad4c-a456aec900cf
+    options: {  }
+  -
+    menu_name: main
+    title: Community
+    parent: 'menu_link_content:756c53bd-5480-481e-8ee9-dc1cc63d4c34'
+    uri: 'internal:/living/community'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -90
+    langcode: en
+    uuid: a10c1cfd-ec57-4b0b-ad03-b3d40716b459
+    options: {  }
+  -
+    menu_name: main
+    title: Disability
+    parent: 'menu_link_content:756c53bd-5480-481e-8ee9-dc1cc63d4c34'
+    uri: 'internal:/living/disability'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -89
+    langcode: en
+    uuid: 6cdc982a-c956-4ebe-a758-e865f5f0978b
     options: {  }
 taxonomies:
   color:
@@ -1593,7 +1619,7 @@ taxonomies:
       name: 'Bedford Place'
       description__value: null
       description__format: null
-      weight: '1'
+      weight: '2'
       parent: '139'
       uuid: b1103e05-f91e-43a6-ba86-bde27c6fc9ef
     -
@@ -1618,12 +1644,22 @@ taxonomies:
       uuid: 5b1101e1-a131-415f-b3f3-5b5735a0e33f
     -
       vid: location
+      tid: '156'
+      langcode: en
+      name: 'Guildhall Square'
+      description__value: null
+      description__format: null
+      weight: '1'
+      parent: '139'
+      uuid: 50fbcd74-fc5d-44cb-87f1-908e2cb61310
+    -
+      vid: location
       tid: '143'
       langcode: en
       name: Hampshire
       description__value: null
       description__format: null
-      weight: '10'
+      weight: '12'
       parent: '0'
       uuid: 17bce430-20a8-4276-8bb6-11e21b5200a3
     -
@@ -1633,7 +1669,7 @@ taxonomies:
       name: 'Hoglands Park Pavilion'
       description__value: null
       description__format: null
-      weight: '2'
+      weight: '3'
       parent: '139'
       uuid: b6bb0755-e44f-4bda-9731-8d4e119c912d
     -
@@ -1663,7 +1699,7 @@ taxonomies:
       name: Solent
       description__value: null
       description__format: null
-      weight: '11'
+      weight: '13'
       parent: '0'
       uuid: de285813-efde-4206-b9d0-997faccc8da6
     -
@@ -1686,6 +1722,16 @@ taxonomies:
       weight: '1'
       parent: '141'
       uuid: 7888d029-ef04-4f8a-8f6c-6053f0065bd8
+    -
+      vid: location
+      tid: '155'
+      langcode: en
+      name: 'Southsea Common'
+      description__value: null
+      description__format: null
+      weight: '2'
+      parent: '141'
+      uuid: 45b933ac-0c75-4c31-94fd-d948ddba5af5
     -
       vid: location
       tid: '148'
@@ -1714,7 +1760,7 @@ taxonomies:
       name: About
       description__value: null
       description__format: null
-      weight: '93'
+      weight: '96'
       parent: '0'
       uuid: 70d88e9a-8dea-4512-8d0e-a3847c0b1cb8
       field_reader_summary:
@@ -1831,7 +1877,7 @@ taxonomies:
       name: Culture
       description__value: null
       description__format: null
-      weight: '89'
+      weight: '92'
       parent: '0'
       uuid: dc1f927a-0460-4b36-aacc-dd537c1a2798
       field_reader_summary:
@@ -2169,7 +2215,7 @@ taxonomies:
       name: Explore
       description__value: null
       description__format: null
-      weight: '92'
+      weight: '95'
       parent: '0'
       uuid: 234a3394-cb75-4c68-9628-a40aca3289bf
       field_reader_summary:
@@ -2182,7 +2228,7 @@ taxonomies:
       name: 'Explore / Archive'
       description__value: null
       description__format: null
-      weight: '0'
+      weight: '9'
       parent: '32'
       uuid: d545bc47-a144-4b9c-9329-0187d6df521c
       field_reader_summary:
@@ -2195,7 +2241,7 @@ taxonomies:
       name: 'Explore / Articles'
       description__value: null
       description__format: null
-      weight: '1'
+      weight: '0'
       parent: '32'
       uuid: 38b6bdd7-dc80-4ee5-b8dc-c759262c1add
       field_reader_summary:
@@ -2208,7 +2254,7 @@ taxonomies:
       name: 'Explore / Collaborations'
       description__value: null
       description__format: null
-      weight: '2'
+      weight: '1'
       parent: '32'
       uuid: c6f13781-3aa6-4737-a609-04ea3bfa062a
       field_reader_summary:
@@ -2221,7 +2267,7 @@ taxonomies:
       name: 'Explore / Data'
       description__value: null
       description__format: null
-      weight: '3'
+      weight: '2'
       parent: '32'
       uuid: ac5916fa-ab44-4229-999b-748607c3a9a1
       field_reader_summary:
@@ -2234,7 +2280,7 @@ taxonomies:
       name: 'Explore / Events'
       description__value: null
       description__format: null
-      weight: '4'
+      weight: '3'
       parent: '32'
       uuid: 24f9f9a1-4888-4391-92de-4bff4d60bbce
       field_reader_summary:
@@ -2247,7 +2293,7 @@ taxonomies:
       name: 'Explore / Jobs Boards'
       description__value: null
       description__format: null
-      weight: '5'
+      weight: '4'
       parent: '32'
       uuid: 90bb9bbd-3682-4175-aa29-50716bb4c30c
       field_reader_summary:
@@ -2260,7 +2306,7 @@ taxonomies:
       name: 'Explore / Opinion'
       description__value: null
       description__format: null
-      weight: '7'
+      weight: '6'
       parent: '32'
       uuid: 3c0fa54c-dbe4-4207-bef6-b3d6734705d0
       field_reader_summary:
@@ -2270,10 +2316,10 @@ taxonomies:
       vid: topic
       tid: '111'
       langcode: en
-      name: 'Explore / Organisations'
+      name: 'Explore / Organisations & Directories'
       description__value: null
       description__format: null
-      weight: '8'
+      weight: '7'
       parent: '32'
       uuid: 7ba478dd-c1e0-4474-8b16-3f98bdc25a5d
       field_reader_summary:
@@ -2281,12 +2327,23 @@ taxonomies:
           value: 'Directory of organisations, businesses and groups active in the Solent.'
     -
       vid: topic
+      tid: '157'
+      langcode: en
+      name: 'Explore / Orgs & Directories / Directory'
+      description__value: null
+      description__format: null
+      weight: '0'
+      parent: '111'
+      uuid: af719ed5-ef39-4748-8cfc-eabeb9e699d4
+      field_reader_summary: {  }
+    -
+      vid: topic
       tid: '109'
       langcode: en
       name: 'Explore / Places & Maps'
       description__value: null
       description__format: null
-      weight: '6'
+      weight: '5'
       parent: '32'
       uuid: 18fedeb7-de70-4ecf-bc4a-37e4238a03e3
       field_reader_summary:
@@ -2299,7 +2356,7 @@ taxonomies:
       name: 'Explore / Series'
       description__value: null
       description__format: null
-      weight: '9'
+      weight: '8'
       parent: '32'
       uuid: 348c602d-d912-40eb-ac00-b9f4ee224b86
       field_reader_summary:
@@ -2312,7 +2369,7 @@ taxonomies:
       name: Living
       description__value: null
       description__format: null
-      weight: '91'
+      weight: '94'
       parent: '0'
       uuid: 848662af-0f3b-4921-bca8-469117a11112
       field_reader_summary:
@@ -2333,12 +2390,34 @@ taxonomies:
           value: 'Practical advice and guidance services for people living in the Solent.'
     -
       vid: topic
+      tid: '159'
+      langcode: en
+      name: 'Living / Community'
+      description__value: null
+      description__format: null
+      weight: '1'
+      parent: '31'
+      uuid: e6aa7ce4-0245-4b42-a001-c3b0177d3965
+      field_reader_summary: {  }
+    -
+      vid: topic
+      tid: '161'
+      langcode: en
+      name: 'Living / Disablity'
+      description__value: null
+      description__format: null
+      weight: '2'
+      parent: '31'
+      uuid: a2017bbf-2028-4095-8801-9d5aff83d711
+      field_reader_summary: {  }
+    -
+      vid: topic
       tid: '94'
       langcode: en
       name: 'Living / Education'
       description__value: null
       description__format: null
-      weight: '1'
+      weight: '3'
       parent: '31'
       uuid: 1927aac7-cb53-400b-a9ba-2189f8352e2a
       field_reader_summary:
@@ -2351,7 +2430,7 @@ taxonomies:
       name: 'Living / Family'
       description__value: null
       description__format: null
-      weight: '2'
+      weight: '4'
       parent: '31'
       uuid: fb4e887b-9447-4a70-b795-ee24bb92b1f2
       field_reader_summary:
@@ -2364,7 +2443,7 @@ taxonomies:
       name: 'Living / Health & Fitness'
       description__value: null
       description__format: null
-      weight: '3'
+      weight: '5'
       parent: '31'
       uuid: 6e108409-2af3-42d0-83fc-7c40a37fb1f6
       field_reader_summary:
@@ -2377,7 +2456,7 @@ taxonomies:
       name: 'Living / Home & Garden'
       description__value: null
       description__format: null
-      weight: '4'
+      weight: '6'
       parent: '31'
       uuid: a4885319-8e53-48d8-a699-bbfdac9dc4c4
       field_reader_summary:
@@ -2390,7 +2469,7 @@ taxonomies:
       name: 'Living / Housing'
       description__value: null
       description__format: null
-      weight: '5'
+      weight: '7'
       parent: '31'
       uuid: 44fb72af-49bd-45a3-89cb-94b78d034ded
       field_reader_summary:
@@ -2403,7 +2482,7 @@ taxonomies:
       name: 'Living / Mental Health'
       description__value: null
       description__format: null
-      weight: '6'
+      weight: '8'
       parent: '31'
       uuid: 787afe98-3ea3-4440-af91-271c5351ee6b
       field_reader_summary:
@@ -2416,7 +2495,7 @@ taxonomies:
       name: 'Living / Outreach'
       description__value: null
       description__format: null
-      weight: '7'
+      weight: '9'
       parent: '31'
       uuid: 1bfd927b-cad2-4f38-a7ad-21d882da31d2
       field_reader_summary:
@@ -2429,7 +2508,7 @@ taxonomies:
       name: 'Living / Transport'
       description__value: null
       description__format: null
-      weight: '8'
+      weight: '10'
       parent: '31'
       uuid: db533297-d7f6-4827-b442-5eadc419a2be
       field_reader_summary: {  }
@@ -2440,7 +2519,7 @@ taxonomies:
       name: 'Living / Work'
       description__value: null
       description__format: null
-      weight: '9'
+      weight: '11'
       parent: '31'
       uuid: 12b8bd78-6001-4272-a3f2-ac968ae2d685
       field_reader_summary:
@@ -2453,7 +2532,7 @@ taxonomies:
       name: Sectors
       description__value: null
       description__format: null
-      weight: '90'
+      weight: '93'
       parent: '0'
       uuid: 2d703122-5b4a-4e6b-baf5-72f78e50641c
       field_reader_summary:
