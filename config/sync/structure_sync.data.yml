@@ -83,7 +83,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -86
+    weight: -87
     langcode: en
     uuid: 1e665e14-aa16-489e-98b5-dfdc88595a6d
     options: {  }
@@ -239,7 +239,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -88
+    weight: -90
     langcode: en
     uuid: 58c994bf-0fc1-4f42-b496-142e8c0d0a40
     options: {  }
@@ -265,7 +265,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -83
+    weight: -84
     langcode: en
     uuid: 6eabc665-7abb-43a1-8190-b4e3b635df7b
     options: {  }
@@ -278,7 +278,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -87
+    weight: -89
     langcode: en
     uuid: 11debdd8-92fc-41aa-9986-0ded7eb85ee9
     options: {  }
@@ -590,7 +590,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -85
+    weight: -86
     langcode: en
     uuid: 0fec7440-af88-4538-bfd1-5422b795b14d
     options: {  }
@@ -629,7 +629,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -82
+    weight: -83
     langcode: en
     uuid: fe14f8c4-e80b-4f2d-8d36-9b3d0b78b638
     options: {  }
@@ -882,9 +882,9 @@ menus:
     options: {  }
   -
     menu_name: main
-    title: 'Orgs & Directories'
+    title: Organisations
     parent: 'menu_link_content:00eabb8c-58ed-4f9b-88c1-0c5b1aecf9e1'
-    uri: 'internal:/explore/orgs-directories'
+    uri: 'internal:/explore/organisations'
     link_title: ''
     description: null
     enabled: true
@@ -1038,7 +1038,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -80
+    weight: -81
     langcode: en
     uuid: fadd5e35-62ae-48f3-b923-a877287d593c
     options: {  }
@@ -1185,7 +1185,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -84
+    weight: -85
     langcode: en
     uuid: 3fc83e88-a2eb-450a-af96-32266fe4556b
     options: {  }
@@ -1328,7 +1328,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -81
+    weight: -82
     langcode: en
     uuid: 2a13d79d-cbfe-4d39-abb5-32e07dc6812f
     options: {  }
@@ -1344,32 +1344,6 @@ menus:
     weight: -92
     langcode: en
     uuid: 181a4ec6-2f60-42d3-ad4c-a456aec900cf
-    options: {  }
-  -
-    menu_name: main
-    title: Community
-    parent: 'menu_link_content:756c53bd-5480-481e-8ee9-dc1cc63d4c34'
-    uri: 'internal:/living/community'
-    link_title: ''
-    description: null
-    enabled: true
-    expanded: false
-    weight: -90
-    langcode: en
-    uuid: a10c1cfd-ec57-4b0b-ad03-b3d40716b459
-    options: {  }
-  -
-    menu_name: main
-    title: Disability
-    parent: 'menu_link_content:756c53bd-5480-481e-8ee9-dc1cc63d4c34'
-    uri: 'internal:/living/disability'
-    link_title: ''
-    description: null
-    enabled: true
-    expanded: false
-    weight: -89
-    langcode: en
-    uuid: 6cdc982a-c956-4ebe-a758-e865f5f0978b
     options: {  }
 taxonomies:
   color:
@@ -1760,7 +1734,7 @@ taxonomies:
       name: About
       description__value: null
       description__format: null
-      weight: '96'
+      weight: '101'
       parent: '0'
       uuid: 70d88e9a-8dea-4512-8d0e-a3847c0b1cb8
       field_reader_summary:
@@ -1877,7 +1851,7 @@ taxonomies:
       name: Culture
       description__value: null
       description__format: null
-      weight: '92'
+      weight: '97'
       parent: '0'
       uuid: dc1f927a-0460-4b36-aacc-dd537c1a2798
       field_reader_summary:
@@ -2106,6 +2080,17 @@ taxonomies:
           value: 'Film, TV, streaming and the screen culture being made and watched in the Solent.'
     -
       vid: topic
+      tid: '165'
+      langcode: en
+      name: 'Culture / Screen / Film Acting School'
+      description__value: null
+      description__format: null
+      weight: '0'
+      parent: '49'
+      uuid: 28f2a30f-cb42-4d2f-9139-d71ef257d966
+      field_reader_summary: {  }
+    -
+      vid: topic
       tid: '50'
       langcode: en
       name: 'Culture / Sport'
@@ -2130,6 +2115,17 @@ taxonomies:
       field_reader_summary:
         -
           value: 'Theatres, performances and the stage arts on show across the Solent region.'
+    -
+      vid: topic
+      tid: '164'
+      langcode: en
+      name: 'Culture / Stage / Theatre School'
+      description__value: null
+      description__format: null
+      weight: '0'
+      parent: '51'
+      uuid: 3a604ddc-7851-4d1b-a560-09af86e8a292
+      field_reader_summary: {  }
     -
       vid: topic
       tid: '52'
@@ -2197,6 +2193,17 @@ taxonomies:
           value: 'Hands-on workshops, courses and skill-sharing sessions open to the Solent public.'
     -
       vid: topic
+      tid: '162'
+      langcode: en
+      name: 'Culture / Workshops / Acting Schools'
+      description__value: null
+      description__format: null
+      weight: '0'
+      parent: '57'
+      uuid: d8ea6f6b-8638-492f-a681-4570d370080c
+      field_reader_summary: {  }
+    -
+      vid: topic
       tid: '55'
       langcode: en
       name: 'Culture / Writing'
@@ -2215,7 +2222,7 @@ taxonomies:
       name: Explore
       description__value: null
       description__format: null
-      weight: '95'
+      weight: '100'
       parent: '0'
       uuid: 234a3394-cb75-4c68-9628-a40aca3289bf
       field_reader_summary:
@@ -2369,7 +2376,7 @@ taxonomies:
       name: Living
       description__value: null
       description__format: null
-      weight: '94'
+      weight: '99'
       parent: '0'
       uuid: 848662af-0f3b-4921-bca8-469117a11112
       field_reader_summary:
@@ -2532,7 +2539,7 @@ taxonomies:
       name: Sectors
       description__value: null
       description__format: null
-      weight: '93'
+      weight: '98'
       parent: '0'
       uuid: 2d703122-5b4a-4e6b-baf5-72f78e50641c
       field_reader_summary:
@@ -2551,6 +2558,17 @@ taxonomies:
       field_reader_summary:
         -
           value: 'Arts organisations, funded venues and the creative arts sector in the Solent economy.'
+    -
+      vid: topic
+      tid: '166'
+      langcode: en
+      name: 'Sectors / Arts / Performing'
+      description__value: null
+      description__format: null
+      weight: '0'
+      parent: '58'
+      uuid: 84f1540d-c9f6-4c8e-a3a6-a41a2c2fba30
+      field_reader_summary: {  }
     -
       vid: topic
       tid: '59'
@@ -2900,6 +2918,17 @@ taxonomies:
       field_reader_summary:
         -
           value: 'Councils, public bodies and public sector organisations serving the Solent.'
+    -
+      vid: topic
+      tid: '163'
+      langcode: en
+      name: 'Sectors / Public Sector / Local Government'
+      description__value: null
+      description__format: null
+      weight: '0'
+      parent: '83'
+      uuid: be9e6d25-414c-462b-a24a-5df5bd320e72
+      field_reader_summary: {  }
     -
       vid: topic
       tid: '85'
