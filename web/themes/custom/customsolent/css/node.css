@@ -320,16 +320,15 @@
 
 /* ══════════════════════════════════════
    Pager — Full type (numbered)
-   Scoped under the listing-paragraph classy classes (slnt-articles-list,
-   slnt-events-list) so styles apply only to those listing pagers and
-   don't leak to any other pager elsewhere on the site.
+   Generic selectors so every listing View (articles, events,
+   organisations, links, and any future ones) gets the same pagination
+   styling without view-specific overrides.
 
    Whole box hoverable: padding lives on the <a>, no padding on the <li>
    so the link's hover background fills the entire bordered box.
    ══════════════════════════════════════ */
 
-.slnt-articles-list .pager__items,
-.slnt-events-list .pager__items {
+.slnt-view-display .pager__items {
   list-style: none;
   padding: 0;
   margin: 1.5rem 0;
@@ -339,8 +338,7 @@
   justify-content: center;
 }
 
-.slnt-articles-list .pager__items > li.pager__item,
-.slnt-events-list .pager__items > li.pager__item {
+.slnt-view-display .pager__items > li.pager__item {
   list-style: none;
   border: 1px solid var(--solent-blue, #2c4f6e);
   box-sizing: border-box;
@@ -351,8 +349,7 @@
 
 /* Flex-centred text inside the link — keeps the digit vertically centred
    within the bordered box, matching the active item's appearance. */
-.slnt-articles-list .pager__items > li.pager__item > a,
-.slnt-events-list .pager__items > li.pager__item > a {
+.slnt-view-display .pager__items > li.pager__item > a {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -365,10 +362,8 @@
   transition: background-color 0.15s, color 0.15s;
 }
 
-.slnt-articles-list .pager__items > li.pager__item > a:hover,
-.slnt-articles-list .pager__items > li.pager__item > a:focus,
-.slnt-events-list .pager__items > li.pager__item > a:hover,
-.slnt-events-list .pager__items > li.pager__item > a:focus {
+.slnt-view-display .pager__items > li.pager__item > a:hover,
+.slnt-view-display .pager__items > li.pager__item > a:focus {
   background-color: var(--solent-blue, #2c4f6e);
   color: #fff;
 }
@@ -377,8 +372,7 @@
    so let the <a> handle padding/centering exactly like non-active items.
    The <li> just provides the magenta-dark background + border, and the
    <a>:hover background then fills the entire box. */
-.slnt-articles-list .pager__items > li.pager__item.is-active,
-.slnt-events-list .pager__items > li.pager__item.is-active {
+.slnt-view-display .pager__items > li.pager__item.is-active {
   background-color: var(--magenta-dark, #a30065);
   border-color: var(--magenta-dark, #a30065);
   transition: border-color 0.15s;
@@ -386,18 +380,15 @@
 
 /* On hover the <a> flips background to solent-blue; flip the border too
    so the box edge tracks the fill. */
-.slnt-articles-list .pager__items > li.pager__item.is-active:hover,
-.slnt-events-list .pager__items > li.pager__item.is-active:hover {
+.slnt-view-display .pager__items > li.pager__item.is-active:hover {
   border-color: var(--solent-blue, #2c4f6e);
 }
 
-.slnt-articles-list .pager__items > li.pager__item.is-active > a,
-.slnt-events-list .pager__items > li.pager__item.is-active > a {
+.slnt-view-display .pager__items > li.pager__item.is-active > a {
   color: #fff;
 }
 
 /* Hide ellipsis like eela */
-.slnt-articles-list .pager__items > li.pager__item--ellipsis,
-.slnt-events-list .pager__items > li.pager__item--ellipsis {
+.slnt-view-display .pager__items > li.pager__item--ellipsis {
   display: none;
 }

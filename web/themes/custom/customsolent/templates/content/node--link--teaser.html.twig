@@ -27,6 +27,8 @@
 
 <article{{ attributes.addClass(classes) }}>
 
+  {% include '@customsolent/components/primary-kicker.html.twig' %}
+
   {% if field_url_href %}
     <a class="slnt-link-teaser__link"
        href="{{ field_url_href }}"

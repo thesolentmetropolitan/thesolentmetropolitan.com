@@ -1,0 +1,21 @@
+{#
+/**
+ * @file
+ * Renders the "from <section>" kicker label on a teaser whose primary
+ * topic falls outside the current page's topic scope (i.e. the teaser is
+ * appearing here via field_related_topics from another section).
+ *
+ * Variables (set by customsolent_preprocess_node when applicable):
+ *  - show_primary_kicker     bool — render only when TRUE.
+ *  - primary_kicker_label    e.g. "Technology"
+ *  - primary_kicker_color    hex colour of the foreign top-level section
+ *  - primary_kicker_section  lowercased top-level name (data-section)
+ */
+#}
+{% if show_primary_kicker is defined and show_primary_kicker %}
+  <div class="slnt-teaser__kicker"
+       data-section="{{ primary_kicker_section }}"
+       style="color: {{ primary_kicker_color }};">
+    from {{ primary_kicker_label }}
+  </div>
+{% endif %}

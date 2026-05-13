@@ -69,6 +69,31 @@ function customsolent_preprocess_node(array &$variables): void {
     && ($variables['view_mode'] ?? '') === 'teaser') {
     _customsolent_extract_field_url_meta($node, $variables);
   }
+
+  // Primary-topic kicker on teasers. When this content's primary topic
+  // falls outside the page's topic scope (i.e. the content is appearing
+  // here via field_related_topics from another section), expose the
+  // kicker variables so the teaser template can render a small "from
+  // Sectors / Technology" label coloured to match the foreign section.
+  if (($variables['view_mode'] ?? '') === 'teaser'
+    && $node->hasField('field_primary_topic')
+    && !$node->get('field_primary_topic')->isEmpty()) {
+    $page_tids = \Drupal::request()->attributes->get('page_topic_tids');
+    if (is_array($page_tids) && !empty($page_tids)) {
+      $primary_tid = (int) $node->get('field_primary_topic')->target_id;
+      if (!in_array($primary_tid, $page_tids, TRUE)) {
+        $primary_term = $node->get('field_primary_topic')->entity;
+        if ($primary_term) {
+          $top = _customsolent_topic_top_level($primary_term);
+          $top_name = $top ? $top->getName() : '';
+          $variables['show_primary_kicker']    = TRUE;
+          $variables['primary_kicker_label']   = _customsolent_strip_term_prefix($primary_term->getName());
+          $variables['primary_kicker_color']   = _customsolent_topic_section_colors()[$top_name] ?? '#475569';
+          $variables['primary_kicker_section'] = strtolower($top_name);
+        }
+      }
+    }
+  }
 }
 
 /**
@@ -340,15 +365,23 @@ function customsolent_theme_suggestions_form_alter(array &$suggestions, array $v
 /**
  * Implements hook_preprocess_HOOK() for paragraph--view-display.html.twig.
  *
- * Walks up to the host node, reads field_primary_topic, and either:
- *  - passes the term + all descendants as the View contextual argument
- *    (the default — content scoped to the page's branch of the Topic tree),
- *  - or, when ?topic=<tid> is set in the URL and that term is a descendant
- *    of the page's term, narrows the argument to that subtree only.
+ * Topic scoping:
+ *  - Priority 1: field_topic on the paragraph itself.
+ *  - Priority 2: host node's field_primary_topic.
+ *  - Fallback (no term, or term under Explore/About): all content topics
+ *    (Culture + Sectors + Living and their descendants), with Culture /
+ *    Sectors / Living as the filter options.
  *
- * For displays with id "view_display_primary_topic", also exposes the
- * filter sidebar / mobile panel data (children of the page's term as
- * clickable filter options).
+ * When ?topic=<tid> is set in the URL and that term is within the scope,
+ * the View contextual argument is narrowed to that sub-tree.
+ *
+ * Filter UI rendering: the paragraph renders its own sidebar / mobile bar
+ * only when (a) this is the primary-topic display and (b) the host page
+ * does not contain a dedicated section_filter paragraph. When a
+ * section_filter paragraph is present, it owns the filter UI for the page.
+ *
+ * Also stashes the effective topic IDs on the request so node-teaser
+ * preprocess can render a primary-topic kicker on related content.
  */
 function customsolent_preprocess_paragraph__view_display(&$variables) {
   $paragraph = $variables['paragraph'];
@@ -357,75 +390,278 @@ function customsolent_preprocess_paragraph__view_display(&$variables) {
   while ($host && $host->getEntityTypeId() === 'paragraph') {
     $host = $host->getParentEntity();
   }
-  if (!$host
-    || $host->getEntityTypeId() !== 'node'
-    || !$host->hasField('field_primary_topic')
-    || $host->get('field_primary_topic')->isEmpty()) {
-    return;
-  }
 
-  $page_term = $host->get('field_primary_topic')->entity;
-  if (!$page_term) {
-    return;
-  }
+  $context = _customsolent_resolve_topic_context($paragraph, $host);
 
-  // Section colour data — keyed off the top-level (root) Topic term.
-  $top = _customsolent_topic_top_level($page_term);
-  if ($top) {
-    $variables['section_key'] = strtolower($top->getName());
-    $variables['section_color'] = _customsolent_topic_section_colors()[$top->getName()] ?? NULL;
-  }
+  $variables['section_key']   = $context['section_key'];
+  $variables['section_color'] = $context['section_color'];
 
-  // Which display is this paragraph rendering? Only the primary-topic
-  // display gets the filter sidebar + reads the URL ?topic= param.
+  // Expose view name + display id to the template (it handles the
+  // virtual view_display_primary_and_related display by rendering both
+  // underlying displays).
+  $view_name  = '';
   $display_id = '';
   if (!$paragraph->get('field_view')->isEmpty()) {
+    $view_name  = $paragraph->get('field_view')->target_id ?? '';
     $display_id = $paragraph->get('field_view')->display_id ?? '';
   }
-  $is_primary_display = ($display_id === 'view_display_primary_topic');
+  $variables['view_name']  = $view_name;
+  $variables['display_id'] = $display_id;
 
-  // Resolve which term to scope content to: the page term by default,
-  // or a descendant chosen by ?topic=<tid> when the primary-topic
-  // display is being rendered.
-  $effective_term = $page_term;
+  // Resolve effective scope IDs, narrowing to the ?topic= candidate
+  // when it is valid (i.e. within the paragraph's topic scope).
+  $effective_ids = $context['scope_ids'];
   $active_filter_tid = NULL;
-  if ($is_primary_display) {
-    $query_topic = \Drupal::request()->query->get('topic');
-    if ($query_topic !== NULL && is_numeric($query_topic) && (int) $query_topic > 0) {
-      /** @var \Drupal\taxonomy\TermStorageInterface $term_storage */
-      $term_storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
-      $candidate = $term_storage->load((int) $query_topic);
-      if ($candidate && _customsolent_term_is_descendant_of($candidate, $page_term)) {
-        $effective_term = $candidate;
-        $active_filter_tid = (int) $candidate->id();
+  $query_topic = \Drupal::request()->query->get('topic');
+  if ($query_topic !== NULL && is_numeric($query_topic) && (int) $query_topic > 0) {
+    $candidate_tid = (int) $query_topic;
+    if (in_array($candidate_tid, $context['scope_ids'], TRUE)) {
+      $effective_ids = _customsolent_get_term_with_descendants($candidate_tid);
+      $active_filter_tid = $candidate_tid;
+    }
+  }
+
+  $variables['primary_topic_tid'] = implode('+', $effective_ids);
+
+  // Stash the effective scope IDs so node-teaser preprocess can decide
+  // whether to render the primary-topic kicker (content from outside
+  // this scope shows the kicker; in-scope content does not).
+  \Drupal::request()->attributes->set('page_topic_tids', $effective_ids);
+
+  // Render this paragraph's own filter UI only when:
+  //   (a) the display is the primary-topic display, AND
+  //   (b) no section_filter paragraph exists on the host page.
+  $is_primary_display = ($display_id === 'view_display_primary_topic');
+  $has_section_filter = $host ? _customsolent_section_filter_exists_on_host($host) : FALSE;
+  if ($is_primary_display && !$has_section_filter && !empty($context['filter_options'])) {
+    _customsolent_apply_filter_options_to_variables($variables, $context, $active_filter_tid);
+  }
+  else {
+    $variables['filter_has_options'] = FALSE;
+  }
+}
+
+/**
+ * Implements hook_preprocess_HOOK() for paragraph--section-filter.html.twig.
+ *
+ * Mirrors the topic-resolution logic in customsolent_preprocess_paragraph__view_display
+ * but exposes only the filter sidebar / mobile bar data — there is no
+ * embedded View. The paragraph is intended to sit once on a page above
+ * the View Display paragraphs it filters.
+ */
+function customsolent_preprocess_paragraph__section_filter(&$variables) {
+  $paragraph = $variables['paragraph'];
+
+  $host = $paragraph->getParentEntity();
+  while ($host && $host->getEntityTypeId() === 'paragraph') {
+    $host = $host->getParentEntity();
+  }
+
+  $context = _customsolent_resolve_topic_context($paragraph, $host);
+
+  $active_filter_tid = NULL;
+  $query_topic = \Drupal::request()->query->get('topic');
+  if ($query_topic !== NULL && is_numeric($query_topic) && (int) $query_topic > 0) {
+    $candidate_tid = (int) $query_topic;
+    if (in_array($candidate_tid, $context['scope_ids'], TRUE)) {
+      $active_filter_tid = $candidate_tid;
+    }
+  }
+
+  $variables['section_key']   = $context['section_key'];
+  $variables['section_color'] = $context['section_color'];
+  _customsolent_apply_filter_options_to_variables($variables, $context, $active_filter_tid);
+}
+
+/**
+ * Resolve a paragraph's topic context (the term to filter on, plus the
+ * sidebar filter options) by checking field_topic on the paragraph, then
+ * field_primary_topic on the host node, then falling back to all content
+ * topics. Returns scope_ids (the term + descendants, or all content
+ * topics + descendants) for the View contextual argument.
+ */
+function _customsolent_resolve_topic_context($paragraph, $host) {
+  $term = NULL;
+
+  // Priority 1: field_topic on the paragraph itself.
+  if ($paragraph->hasField('field_topic') && !$paragraph->get('field_topic')->isEmpty()) {
+    $term = $paragraph->get('field_topic')->entity;
+  }
+
+  // Priority 2: host node's field_primary_topic.
+  if (!$term && $host && $host->getEntityTypeId() === 'node'
+    && $host->hasField('field_primary_topic')
+    && !$host->get('field_primary_topic')->isEmpty()) {
+    $term = $host->get('field_primary_topic')->entity;
+  }
+
+  // A term resolved — but only treat it as a real content scope if its
+  // top-level parent is one of the content roots (Culture / Sectors /
+  // Living). Explore and About are structural and use the all-topics
+  // fallback.
+  if ($term) {
+    $top = _customsolent_topic_top_level($term);
+    $top_name = $top ? $top->getName() : '';
+    if ($top && !in_array($top_name, ['Explore', 'About'], TRUE)) {
+      return _customsolent_topic_context_for_term($term);
+    }
+  }
+
+  return _customsolent_topic_context_all();
+}
+
+/**
+ * Build a topic context for a specific term — scope is the term and its
+ * descendants; filter options are the term's direct children.
+ */
+function _customsolent_topic_context_for_term($term) {
+  $scope_ids = _customsolent_get_term_with_descendants($term->id());
+  $children = _customsolent_load_topic_children_sorted($term->id());
+  $filter_options = [];
+  foreach ($children as $child) {
+    $tid = (int) $child->id();
+    $filter_options[] = [
+      'tid'   => $tid,
+      'label' => _customsolent_strip_term_prefix($child->getName()),
+      'url'   => '?topic=' . $tid,
+    ];
+  }
+  $top = _customsolent_topic_top_level($term);
+  $top_name = $top ? $top->getName() : '';
+  return [
+    'mode'           => 'term',
+    'term'           => $term,
+    'scope_ids'      => $scope_ids,
+    'filter_options' => $filter_options,
+    'section_key'    => $top_name !== '' ? strtolower($top_name) : NULL,
+    'section_color'  => _customsolent_topic_section_colors()[$top_name] ?? NULL,
+  ];
+}
+
+/**
+ * Build the all-topics fallback context — scope is Culture + Sectors +
+ * Living and their descendants; filter options are those three roots.
+ *
+ * Avoids needing an "All" parent term in the taxonomy (which would break
+ * breadcrumbs, URL aliases, and menu-state detection).
+ */
+function _customsolent_topic_context_all() {
+  $root_names = ['Culture', 'Sectors', 'Living'];
+  $scope_ids = [];
+  $filter_options = [];
+
+  /** @var \Drupal\taxonomy\TermStorageInterface $term_storage */
+  $term_storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
+  $roots = $term_storage->loadByProperties(['vid' => 'topic', 'parent' => 0]);
+  $by_name = [];
+  foreach ($roots as $root) {
+    $by_name[$root->getName()] = $root;
+  }
+  foreach ($root_names as $root_name) {
+    if (!isset($by_name[$root_name])) {
+      continue;
+    }
+    $root = $by_name[$root_name];
+    $scope_ids = array_merge($scope_ids, _customsolent_get_term_with_descendants($root->id()));
+    $filter_options[] = [
+      'tid'   => (int) $root->id(),
+      'label' => _customsolent_strip_term_prefix($root->getName()),
+      'url'   => '?topic=' . $root->id(),
+    ];
+  }
+
+  return [
+    'mode'           => 'all',
+    'term'           => NULL,
+    'scope_ids'      => $scope_ids,
+    'filter_options' => $filter_options,
+    'section_key'    => 'explore',
+    'section_color'  => _customsolent_topic_section_colors()['Explore'] ?? NULL,
+  ];
+}
+
+/**
+ * Decorate $variables with the filter sidebar / mobile bar fields,
+ * marking the option matching $active_filter_tid as active and computing
+ * the All link + currently-selected label.
+ */
+function _customsolent_apply_filter_options_to_variables(array &$variables, array $context, $active_filter_tid) {
+  $filter_options = $context['filter_options'];
+  foreach ($filter_options as &$option) {
+    $option['active'] = ((int) $option['tid'] === (int) $active_filter_tid);
+  }
+  unset($option);
+
+  $variables['filter_options']     = $filter_options;
+  $variables['filter_has_options'] = !empty($filter_options);
+  $variables['filter_all_url']     = \Drupal::request()->getPathInfo();
+  $variables['filter_all_active']  = ($active_filter_tid === NULL);
+
+  $variables['filter_active_label'] = NULL;
+  if ($active_filter_tid !== NULL) {
+    /** @var \Drupal\taxonomy\TermStorageInterface $term_storage */
+    $term_storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
+    $active = $term_storage->load((int) $active_filter_tid);
+    if ($active) {
+      $variables['filter_active_label'] = _customsolent_strip_term_prefix($active->getName());
+    }
+  }
+}
+
+/**
+ * TRUE when the host node has a section_filter paragraph anywhere in
+ * its paragraph reference fields, including paragraphs nested inside
+ * other paragraphs (e.g. a section_filter inside an enclosure). Used
+ * by the View Display paragraph to suppress its own filter sidebar
+ * when a dedicated filter paragraph is on the same page.
+ */
+function _customsolent_section_filter_exists_on_host($host) {
+  $cache = &drupal_static(__FUNCTION__, []);
+  if (!$host || $host->getEntityTypeId() !== 'node') {
+    return FALSE;
+  }
+  $key = $host->getEntityTypeId() . ':' . $host->id();
+  if (isset($cache[$key])) {
+    return $cache[$key];
+  }
+  $cache[$key] = _customsolent_entity_contains_paragraph_bundle($host, 'section_filter', 4);
+  return $cache[$key];
+}
+
+/**
+ * Recursively walk an entity's paragraph reference fields looking for a
+ * paragraph with the given bundle. Capped at $max_depth to avoid
+ * runaway recursion if paragraphs ever form a cycle.
+ */
+function _customsolent_entity_contains_paragraph_bundle($entity, $bundle, $max_depth) {
+  if (!$entity || $max_depth <= 0) {
+    return FALSE;
+  }
+  foreach ($entity->getFields() as $field) {
+    if ($field->isEmpty()) {
+      continue;
+    }
+    $field_def = $field->getFieldDefinition();
+    if ($field_def->getType() !== 'entity_reference_revisions') {
+      continue;
+    }
+    if ($field_def->getSetting('target_type') !== 'paragraph') {
+      continue;
+    }
+    foreach ($field as $item) {
+      $p = $item->entity;
+      if (!$p) {
+        continue;
+      }
+      if ($p->bundle() === $bundle) {
+        return TRUE;
+      }
+      if (_customsolent_entity_contains_paragraph_bundle($p, $bundle, $max_depth - 1)) {
+        return TRUE;
       }
     }
   }
-
-  $term_ids = _customsolent_get_term_with_descendants($effective_term->id());
-  $variables['primary_topic_tid'] = implode('+', $term_ids);
-
-  // Sidebar / mobile filter data for the primary-topic display.
-  if ($is_primary_display) {
-    $children = _customsolent_load_topic_children_sorted($page_term->id());
-    $filter_options = [];
-    foreach ($children as $child) {
-      $tid = (int) $child->id();
-      $filter_options[] = [
-        'tid'    => $tid,
-        'label'  => _customsolent_strip_term_prefix($child->getName()),
-        'url'    => '?topic=' . $tid,
-        'active' => ($active_filter_tid === $tid),
-      ];
-    }
-    $variables['filter_options']      = $filter_options;
-    $variables['filter_has_options']  = !empty($filter_options);
-    $variables['filter_all_url']      = \Drupal::request()->getPathInfo();
-    $variables['filter_all_active']   = ($active_filter_tid === NULL);
-    $variables['filter_active_label'] = $active_filter_tid !== NULL
-      ? _customsolent_strip_term_prefix($effective_term->getName())
-      : NULL;
-  }
+  return FALSE;
 }
 
 /**
@@ -436,7 +672,22 @@ function customsolent_preprocess_paragraph__view_display(&$variables) {
  * when the URL ?topic= param changes.
  */
 function customsolent_paragraph_view_alter(array &$build, \Drupal\Core\Entity\EntityInterface $entity, \Drupal\Core\Entity\Display\EntityViewDisplayInterface $display) {
-  if ($entity->bundle() === 'view_display') {
+  if (in_array($entity->bundle(), ['view_display', 'section_filter'], TRUE)) {
+    $build['#cache']['contexts'][] = 'url.query_args:topic';
+  }
+}
+
+/**
+ * Implements hook_node_view_alter().
+ *
+ * The primary-topic kicker on teaser nodes depends on the host page's
+ * topic scope (read from a request attribute in preprocess), so the
+ * teaser render cache must fragment by URL path or the same teaser
+ * would be served unchanged across section pages.
+ */
+function customsolent_node_view_alter(array &$build, \Drupal\Core\Entity\EntityInterface $entity, \Drupal\Core\Entity\Display\EntityViewDisplayInterface $display) {
+  if (($build['#view_mode'] ?? '') === 'teaser') {
+    $build['#cache']['contexts'][] = 'url.path';
     $build['#cache']['contexts'][] = 'url.query_args:topic';
   }
 }

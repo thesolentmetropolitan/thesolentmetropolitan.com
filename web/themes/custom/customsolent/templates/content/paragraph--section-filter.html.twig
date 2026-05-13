@@ -1,0 +1,93 @@
+{#
+/**
+ * @file
+ * Theme override for the "Section Filter" paragraph type.
+ *
+ * Renders the page-level topic filter — a sticky sidebar on desktop and
+ * a sticky bar + slide-up panel on mobile. The View Display paragraphs
+ * below it read the ?topic= query parameter and refilter their listings.
+ *
+ * When this paragraph is present on a page, the View Display paragraph
+ * preprocess suppresses its own (per-paragraph) filter sidebar so the
+ * page shows a single, page-level filter.
+ *
+ * Variables provided by customsolent_preprocess_paragraph__section_filter:
+ *   - section_key          lowercased top-level Topic name (drives colour).
+ *   - section_color        hex colour for the top-level section.
+ *   - filter_has_options   TRUE when the resolved scope has filter options.
+ *   - filter_options       array of {tid, label, url, active}.
+ *   - filter_all_url       URL of the page with no ?topic= param.
+ *   - filter_all_active    TRUE when no topic is currently selected.
+ *   - filter_active_label  label of the active term, or NULL.
+ */
+#}
+{% macro topic_list(filter_options, filter_all_url, filter_all_active) %}
+  <div class="slnt-filter-section">
+    <div class="slnt-filter-section__title">Topic</div>
+    <a href="{{ filter_all_url }}" class="slnt-filter-item{{ filter_all_active ? ' is-active' : '' }}">All</a>
+    {% for option in filter_options %}
+      <a href="{{ option.url }}" class="slnt-filter-item{{ option.active ? ' is-active' : '' }}">{{ option.label }}</a>
+    {% endfor %}
+  </div>
+{% endmacro %}
+
+{% import _self as filter %}
+
+{%
+  set classes = [
+    'paragraph',
+    'paragraph--type--' ~ paragraph.bundle|clean_class,
+    view_mode ? 'paragraph--view-mode--' ~ view_mode|clean_class,
+    not paragraph.isPublished() ? 'paragraph--unpublished',
+    'slnt-section-filter',
+  ]
+%}
+
+{% set wrapper_attributes = attributes.addClass(classes) %}
+{% if section_key %}
+  {% set wrapper_attributes = wrapper_attributes.setAttribute('data-section', section_key) %}
+{% endif %}
+
+{% if filter_has_options %}
+  {% block paragraph %}
+    <div{{ wrapper_attributes }}>
+      {% block content %}
+
+        {# Desktop sidebar. #}
+        <aside class="slnt-section-filter__sidebar" aria-label="Topic filter">
+          {{ filter.topic_list(filter_options, filter_all_url, filter_all_active) }}
+        </aside>
+
+        {# Mobile sticky bar — the panel below opens on tap. #}
+        <div class="slnt-filter-bar">
+          <div class="slnt-filter-bar__status">
+            {% if filter_active_label %}
+              Topic: <strong>{{ filter_active_label }}</strong>
+            {% else %}
+              All topics
+            {% endif %}
+          </div>
+          <button type="button" class="slnt-filter-bar__button" data-filter-toggle aria-haspopup="dialog" aria-expanded="false">
+            Filter
+          </button>
+        </div>
+
+        {# Mobile slide-up panel — overlay outside the sticky flow. #}
+        <div class="slnt-filter-overlay" data-filter-overlay aria-hidden="true"></div>
+        <div class="slnt-filter-panel" data-filter-panel role="dialog" aria-modal="true" aria-label="Filter">
+          <div class="slnt-filter-panel__handle">
+            <span class="slnt-filter-panel__handle-bar"></span>
+          </div>
+          <div class="slnt-filter-panel__header">
+            <span class="slnt-filter-panel__title">Filter</span>
+            <a href="{{ filter_all_url }}" class="slnt-filter-panel__clear">Clear</a>
+          </div>
+          <div class="slnt-filter-panel__body">
+            {{ filter.topic_list(filter_options, filter_all_url, filter_all_active) }}
+          </div>
+        </div>
+
+      {% endblock %}
+    </div>
+  {% endblock paragraph %}
+{% endif %}

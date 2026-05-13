@@ -31,6 +31,7 @@
     {% endif %}
 
     <div class="slnt-article-teaser__text">
+      {% include '@customsolent/components/primary-kicker.html.twig' %}
       <h2 class="slnt-article-teaser__title">{{ label }}</h2>
 
       {% if content.field_standfirst|render|striptags|trim %}

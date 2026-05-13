@@ -108,19 +108,23 @@
   transition: background-color 0.15s, color 0.15s;
 }
 
-/* Colour rules are scoped to .slnt-section-listing to outrank
-   .layout-content a (0,1,1) and .layout-content a:hover (0,2,1)
-   from fonts.css without resorting to !important.
+/* Colour rules are scoped to .slnt-section-listing (the view_display
+   paragraph wrapper) AND .slnt-section-filter (the page-level filter
+   paragraph wrapper) to outrank .layout-content a (0,1,1) and
+   .layout-content a:hover (0,2,1) from fonts.css without resorting to
+   !important.
 
    Default — no background, solent-blue text. */
-.slnt-section-listing .slnt-filter-item {
+.slnt-section-listing .slnt-filter-item,
+.slnt-section-filter .slnt-filter-item {
   color: var(--solent-blue, #2c4f6e);
   font-weight: 500;
   text-decoration: none;
 }
 
 /* Active — magenta-dark background, white text. */
-.slnt-section-listing .slnt-filter-item.is-active {
+.slnt-section-listing .slnt-filter-item.is-active,
+.slnt-section-filter .slnt-filter-item.is-active {
   background-color: var(--magenta-dark, #a30065);
   color: #fff;
   font-weight: 600;
@@ -130,14 +134,16 @@
    text. Listed after .is-active so equal-specificity ties resolve
    in this rule's favour for idle hover, while the more-specific
    .is-active:hover below wins on active hover. */
-.slnt-section-listing .slnt-filter-item:hover {
+.slnt-section-listing .slnt-filter-item:hover,
+.slnt-section-filter .slnt-filter-item:hover {
   background-color: var(--solent-blue, #2c4f6e);
   color: #f5b0d8;
   text-decoration: none;
 }
 
 /* Hover on the active item — solent-blue background, white text. */
-.slnt-section-listing .slnt-filter-item.is-active:hover {
+.slnt-section-listing .slnt-filter-item.is-active:hover,
+.slnt-section-filter .slnt-filter-item.is-active:hover {
   background-color: var(--solent-blue, #2c4f6e);
   color: #fff;
 }
@@ -298,4 +304,136 @@
   body.slnt-filter-panel-open {
     overflow: hidden;
   }
+}
+
+/* ══════════════════════════════════════
+   Section Filter paragraph — page-level
+   sidebar layout via :has()
+   See: docs/claude-conversations/2026-05-13-section-listing-enhancements-brief.md
+   ══════════════════════════════════════ */
+
+/* Section-colour vars on the paragraph element itself, so the panel
+   "Clear" link and mobile-bar active label can pick them up. */
+.paragraph--type--section-filter[data-section="culture"] { --section-color: #7C3AED; }
+.paragraph--type--section-filter[data-section="sectors"] { --section-color: #2563EB; }
+.paragraph--type--section-filter[data-section="living"]  { --section-color: #059669; }
+.paragraph--type--section-filter[data-section="about"]   { --section-color: #475569; }
+.paragraph--type--section-filter[data-section="explore"] { --section-color: #D97706; }
+
+@media (min-width: 800px) {
+  /* Apply the 220px sidebar + 1fr content grid to the IMMEDIATE
+     paragraph container of the section_filter — i.e. the inner
+     field_content_component on the enclosure (or, when the editor
+     places the filter at the top level of the composite page, the
+     outer field). Scoping `:has()` to a direct grandchild path
+     (`> .field__item > .paragraph--type--section-filter`) stops the
+     grid bleeding outwards to an enclosing field_content_component
+     and breaking sibling paragraphs like hero_with_art_style.
+
+     The width container — `max(var(--align-floor), calc((100% - 1200px) / 2 ...))`
+     padding — is supplied by the enclosure paragraph, so the grid
+     itself needs no max-width / centering. */
+  .field--name-field-content-component:has(> .field__item > .paragraph--type--section-filter) {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    column-gap: 2rem;
+    row-gap: 1.5rem;
+  }
+
+  /* Default placement inside the grid: every field__item spans both
+     columns. The section_filter's field__item and post-filter siblings
+     override below. */
+  .field--name-field-content-component:has(> .field__item > .paragraph--type--section-filter)
+    > .field__item {
+    grid-column: 1 / -1;
+  }
+
+  /* The field__item containing the section_filter occupies column 1.
+     Grid auto-placement keeps it in the same row as the following
+     listing (column 2), so the filter and listing line up at the top.
+     The grid row's height is whatever the listing needs; `align-self:
+     start` keeps the filter pinned to the top of that cell, and
+     `position: sticky` keeps it visible as the user scrolls down the
+     listing column.
+
+     The selector duplicates the parent `:has()` clause so its
+     specificity beats the default `grid-column: 1 / -1` rule above
+     (both rules name the same parent class — without this, the
+     default's :has() argument gives it the higher specificity and
+     wins). */
+  .field--name-field-content-component:has(> .field__item > .paragraph--type--section-filter)
+    > .field__item:has(> .paragraph--type--section-filter) {
+    grid-column: 1;
+    position: sticky;
+    top: 1rem;
+    align-self: start;
+  }
+
+  /* field__items AFTER the section_filter's field__item sit in column 2. */
+  .field--name-field-content-component:has(> .field__item > .paragraph--type--section-filter)
+    > .field__item:has(> .paragraph--type--section-filter)
+    ~ .field__item {
+    grid-column: 2;
+  }
+
+  /* Hide the mobile bar / panel on desktop. */
+  .paragraph--type--section-filter .slnt-filter-bar {
+    display: none;
+  }
+}
+
+/* Mobile — sidebar collapses; bar + panel handle the filter. */
+@media (max-width: 799px) {
+  .paragraph--type--section-filter .slnt-section-filter__sidebar {
+    display: none;
+  }
+
+  /* The bar + panel CSS is inherited from the shared .slnt-filter-bar /
+     .slnt-filter-panel rules above — they target the same class names
+     used by the legacy per-paragraph filter. */
+}
+
+/* ══════════════════════════════════════
+   Per-listing filter suppression
+   When a section_filter paragraph is on the page, individual view_display
+   paragraphs do not render their own filter UI (the preprocess sets
+   filter_has_options to FALSE so the markup is not emitted). The CSS
+   below is a belt-and-braces safety net for templates that may still
+   emit the inner sidebar/bar.
+   ══════════════════════════════════════ */
+.field--name-field-content-component:has(> .field__item > .paragraph--type--section-filter)
+  .slnt-section-listing__sidebar,
+.field--name-field-content-component:has(> .field__item > .paragraph--type--section-filter)
+  .slnt-section-listing .slnt-filter-bar,
+.field--name-field-content-component:has(> .field__item > .paragraph--type--section-filter)
+  .slnt-section-listing .slnt-filter-overlay,
+.field--name-field-content-component:has(> .field__item > .paragraph--type--section-filter)
+  .slnt-section-listing .slnt-filter-panel {
+  display: none !important;
+}
+
+/* When the section_filter is present, view_display listings drop their
+   internal grid (no sidebar to lay out alongside). */
+@media (min-width: 800px) {
+  .field--name-field-content-component:has(> .field__item > .paragraph--type--section-filter)
+    .slnt-section-listing--has-sidebar .slnt-section-listing__layout {
+    display: block;
+  }
+}
+
+/* ══════════════════════════════════════
+   Primary-topic kicker on cross-section teasers
+   Shown when a content item appears in a listing via field_related_topics
+   from another section — labels its own primary topic so readers see why
+   it is here.
+   ══════════════════════════════════════ */
+.slnt-teaser__kicker {
+  font-family: 'Atkinson Hyperlegible Next', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: lowercase;
+  letter-spacing: 0.02em;
+  line-height: 1.2;
+  margin: 0 0 0.2rem;
+  /* colour set inline by template from the foreign section's hex */
 }
