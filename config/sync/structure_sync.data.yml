@@ -83,7 +83,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -87
+    weight: -86
     langcode: en
     uuid: 1e665e14-aa16-489e-98b5-dfdc88595a6d
     options: {  }
@@ -239,7 +239,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -90
+    weight: -88
     langcode: en
     uuid: 58c994bf-0fc1-4f42-b496-142e8c0d0a40
     options: {  }
@@ -265,7 +265,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -84
+    weight: -83
     langcode: en
     uuid: 6eabc665-7abb-43a1-8190-b4e3b635df7b
     options: {  }
@@ -278,7 +278,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -89
+    weight: -87
     langcode: en
     uuid: 11debdd8-92fc-41aa-9986-0ded7eb85ee9
     options: {  }
@@ -590,7 +590,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -86
+    weight: -85
     langcode: en
     uuid: 0fec7440-af88-4538-bfd1-5422b795b14d
     options: {  }
@@ -629,7 +629,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -83
+    weight: -82
     langcode: en
     uuid: fe14f8c4-e80b-4f2d-8d36-9b3d0b78b638
     options: {  }
@@ -882,9 +882,9 @@ menus:
     options: {  }
   -
     menu_name: main
-    title: Organisations
+    title: 'Orgs & Directories'
     parent: 'menu_link_content:00eabb8c-58ed-4f9b-88c1-0c5b1aecf9e1'
-    uri: 'internal:/explore/organisations'
+    uri: 'internal:/explore/orgs-directories'
     link_title: ''
     description: null
     enabled: true
@@ -1038,7 +1038,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -81
+    weight: -80
     langcode: en
     uuid: fadd5e35-62ae-48f3-b923-a877287d593c
     options: {  }
@@ -1185,7 +1185,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -85
+    weight: -84
     langcode: en
     uuid: 3fc83e88-a2eb-450a-af96-32266fe4556b
     options: {  }
@@ -1328,7 +1328,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -82
+    weight: -81
     langcode: en
     uuid: 2a13d79d-cbfe-4d39-abb5-32e07dc6812f
     options: {  }
@@ -1344,6 +1344,32 @@ menus:
     weight: -92
     langcode: en
     uuid: 181a4ec6-2f60-42d3-ad4c-a456aec900cf
+    options: {  }
+  -
+    menu_name: main
+    title: Community
+    parent: 'menu_link_content:756c53bd-5480-481e-8ee9-dc1cc63d4c34'
+    uri: 'internal:/living/community'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -90
+    langcode: en
+    uuid: a10c1cfd-ec57-4b0b-ad03-b3d40716b459
+    options: {  }
+  -
+    menu_name: main
+    title: Disability
+    parent: 'menu_link_content:756c53bd-5480-481e-8ee9-dc1cc63d4c34'
+    uri: 'internal:/living/disability'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -89
+    langcode: en
+    uuid: 6cdc982a-c956-4ebe-a758-e865f5f0978b
     options: {  }
 taxonomies:
   color:
@@ -1588,6 +1614,16 @@ taxonomies:
   location:
     -
       vid: location
+      tid: '172'
+      langcode: en
+      name: 'Beaulieu Inn, Brockenhurst'
+      description__value: null
+      description__format: null
+      weight: '0'
+      parent: '173'
+      uuid: 0bf0366d-2ece-4789-858f-738935446a3f
+    -
+      vid: location
       tid: '149'
       langcode: en
       name: 'Bedford Place'
@@ -1596,6 +1632,16 @@ taxonomies:
       weight: '2'
       parent: '139'
       uuid: b1103e05-f91e-43a6-ba86-bde27c6fc9ef
+    -
+      vid: location
+      tid: '169'
+      langcode: en
+      name: 'City Buildings'
+      description__value: '<p>City Buildings, Lake Road, PO1 4BD</p>'
+      description__format: basic_html
+      weight: '0'
+      parent: '141'
+      uuid: bf8cea68-6e4f-422e-a67b-9b47ff74b26a
     -
       vid: location
       tid: '142'
@@ -1633,7 +1679,7 @@ taxonomies:
       name: Hampshire
       description__value: null
       description__format: null
-      weight: '12'
+      weight: '1'
       parent: '0'
       uuid: 17bce430-20a8-4276-8bb6-11e21b5200a3
     -
@@ -1648,12 +1694,32 @@ taxonomies:
       uuid: b6bb0755-e44f-4bda-9731-8d4e119c912d
     -
       vid: location
+      tid: '173'
+      langcode: en
+      name: 'New Forest'
+      description__value: null
+      description__format: null
+      weight: '4'
+      parent: '0'
+      uuid: a9ef1c39-57a4-41f3-8c40-304040441f91
+    -
+      vid: location
+      tid: '170'
+      langcode: en
+      name: 'O2 Guildhall'
+      description__value: null
+      description__format: null
+      weight: '4'
+      parent: '139'
+      uuid: b6ae85ef-53cd-4921-8837-b426db3ca56f
+    -
+      vid: location
       tid: '152'
       langcode: en
       name: 'Pitt St Skatepark'
       description__value: null
       description__format: null
-      weight: '0'
+      weight: '1'
       parent: '141'
       uuid: 7535d76e-9223-4985-8809-e44f038cfeed
     -
@@ -1668,12 +1734,22 @@ taxonomies:
       uuid: 8f04816b-7b66-4adc-9810-5d8e346c7c52
     -
       vid: location
+      tid: '167'
+      langcode: en
+      name: 'Portsmouth Rail Social Club'
+      description__value: null
+      description__format: null
+      weight: '2'
+      parent: '141'
+      uuid: 29368cee-c7e0-4c25-aeb0-b6c13fc0dbca
+    -
+      vid: location
       tid: '140'
       langcode: en
       name: Solent
       description__value: null
       description__format: null
-      weight: '13'
+      weight: '8'
       parent: '0'
       uuid: de285813-efde-4206-b9d0-997faccc8da6
     -
@@ -1693,7 +1769,7 @@ taxonomies:
       name: 'Southsea Bandstand'
       description__value: null
       description__format: null
-      weight: '1'
+      weight: '3'
       parent: '141'
       uuid: 7888d029-ef04-4f8a-8f6c-6053f0065bd8
     -
@@ -1703,7 +1779,7 @@ taxonomies:
       name: 'Southsea Common'
       description__value: null
       description__format: null
-      weight: '2'
+      weight: '4'
       parent: '141'
       uuid: 45b933ac-0c75-4c31-94fd-d948ddba5af5
     -
@@ -1718,6 +1794,16 @@ taxonomies:
       uuid: 722f3cf4-8110-4294-9dba-74291014531a
     -
       vid: location
+      tid: '171'
+      langcode: en
+      name: Various
+      description__value: null
+      description__format: null
+      weight: '15'
+      parent: '0'
+      uuid: 7dc50ba8-62e9-4ea2-bbad-62e0a2bb6b4e
+    -
+      vid: location
       tid: '147'
       langcode: en
       name: Winchester
@@ -1726,6 +1812,16 @@ taxonomies:
       weight: '0'
       parent: '143'
       uuid: 0adc03c8-3c94-4503-a45d-64d0195a7c35
+    -
+      vid: location
+      tid: '168'
+      langcode: en
+      name: 'Woolston Methodist Church'
+      description__value: null
+      description__format: null
+      weight: '5'
+      parent: '139'
+      uuid: 77daf3d9-ed5d-49ea-b790-cfaea4e6c891
   topic:
     -
       vid: topic
