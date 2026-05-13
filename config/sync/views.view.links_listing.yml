@@ -216,6 +216,23 @@ display:
         - 'user.node_grants:view'
         - user.permissions
       tags: {  }
+  view_display_primary_and_related:
+    id: view_display_primary_and_related
+    display_title: 'View Display Primary and Related Topics'
+    display_plugin: block
+    position: 3
+    display_options:
+      display_description: ''
+      display_extenders: {  }
+    cache_metadata:
+      max-age: -1
+      contexts:
+        - 'languages:language_content'
+        - 'languages:language_interface'
+        - url.query_args
+        - 'user.node_grants:view'
+        - user.permissions
+      tags: {  }
   view_display_primary_topic:
     id: view_display_primary_topic
     display_title: 'View Display Primary Topic'

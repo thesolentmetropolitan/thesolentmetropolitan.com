@@ -5,6 +5,7 @@ dependencies:
   config:
     - field.field.paragraph.view_display.field_classy
     - field.field.paragraph.view_display.field_heading
+    - field.field.paragraph.view_display.field_topic
     - field.field.paragraph.view_display.field_view
     - paragraphs.paragraphs_type.view_display
   module:
@@ -30,6 +31,16 @@ content:
     region: content
     settings:
       rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_topic:
+    type: entity_reference_autocomplete
+    weight: 3
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
       placeholder: ''
     third_party_settings: {  }
   field_view:

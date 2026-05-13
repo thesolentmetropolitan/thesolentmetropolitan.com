@@ -1,0 +1,29 @@
+uuid: 64db3257-e608-416b-80d3-491479d7615e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_topic
+    - paragraphs.paragraphs_type.view_display
+    - taxonomy.vocabulary.topic
+id: paragraph.view_display.field_topic
+field_name: field_topic
+entity_type: paragraph
+bundle: view_display
+label: Topic
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      topic: topic
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

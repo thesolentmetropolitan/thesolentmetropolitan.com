@@ -1,0 +1,25 @@
+uuid: 82620f0c-f493-4e79-951e-23c3ab5b1cf6
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.section_filter.field_topic
+    - paragraphs.paragraphs_type.section_filter
+id: paragraph.section_filter.default
+targetEntityType: paragraph
+bundle: section_filter
+mode: default
+content:
+  field_topic:
+    type: entity_reference_autocomplete
+    weight: 3
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true

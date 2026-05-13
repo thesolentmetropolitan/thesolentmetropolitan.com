@@ -1,0 +1,21 @@
+uuid: dc76bca7-fc86-4a34-a0c9-48f505c9c3af
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.section_filter.field_topic
+    - paragraphs.paragraphs_type.section_filter
+id: paragraph.section_filter.default
+targetEntityType: paragraph
+bundle: section_filter
+mode: default
+content:
+  field_topic:
+    type: entity_reference_label
+    label: hidden
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 3
+    region: content
+hidden: {  }

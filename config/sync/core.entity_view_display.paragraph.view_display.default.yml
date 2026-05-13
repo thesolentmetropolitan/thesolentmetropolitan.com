@@ -5,6 +5,7 @@ dependencies:
   config:
     - field.field.paragraph.view_display.field_classy
     - field.field.paragraph.view_display.field_heading
+    - field.field.paragraph.view_display.field_topic
     - field.field.paragraph.view_display.field_view
     - paragraphs.paragraphs_type.view_display
   module:
@@ -28,6 +29,14 @@ content:
     settings: {  }
     third_party_settings: {  }
     weight: 2
+    region: content
+  field_topic:
+    type: entity_reference_label
+    label: hidden
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 3
     region: content
   field_view:
     type: viewsreference_formatter

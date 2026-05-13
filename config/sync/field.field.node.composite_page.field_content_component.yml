@@ -19,6 +19,7 @@ dependencies:
     - paragraphs.paragraphs_type.section_1_column
     - paragraphs.paragraphs_type.section_2_column
     - paragraphs.paragraphs_type.section_3_column
+    - paragraphs.paragraphs_type.section_filter
     - paragraphs.paragraphs_type.text
     - paragraphs.paragraphs_type.vertical_space
     - paragraphs.paragraphs_type.video
@@ -46,8 +47,9 @@ settings:
       heading: heading
       icon_with_link: icon_with_link
       image: image
-      intro: intro
       image_with_link: image_with_link
+      intro: intro
+      section_filter: section_filter
       hero_with_art_style: hero_with_art_style
       link: link
       section_1_column: section_1_column
@@ -102,6 +104,9 @@ settings:
         enabled: true
       section_3_column:
         weight: 33
+        enabled: true
+      section_filter:
+        weight: 21
         enabled: true
       text:
         weight: 24
