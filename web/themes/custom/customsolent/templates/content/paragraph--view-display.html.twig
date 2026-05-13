@@ -97,10 +97,22 @@
         {% endif %}
 
         <div class="slnt-section-listing__content">
-          {% set view_name = paragraph.field_view.0.target_id %}
-          {% set display_id = paragraph.field_view.0.display_id %}
-          {% if view_name and display_id and primary_topic_tid is defined and primary_topic_tid %}
-            {{ drupal_view(view_name, display_id, primary_topic_tid) }}
+          {# view_name / display_id come from preprocess; fall back to
+             reading the field directly so the editor's selection still
+             renders if preprocess did not run. #}
+          {% set vname = view_name|default(paragraph.field_view.0.target_id) %}
+          {% set did = display_id|default(paragraph.field_view.0.display_id) %}
+          {% if vname and did and primary_topic_tid is defined and primary_topic_tid %}
+            {% if did == 'view_display_primary_and_related' %}
+              {# Virtual display: render the primary-topic and
+                 related-topics displays back-to-back so editors can
+                 surface "everything connected to this topic" from a
+                 single paragraph. #}
+              {{ drupal_view(vname, 'view_display_primary_topic', primary_topic_tid) }}
+              {{ drupal_view(vname, 'view_display_related_topics', primary_topic_tid) }}
+            {% else %}
+              {{ drupal_view(vname, did, primary_topic_tid) }}
+            {% endif %}
           {% else %}
             {{ content.field_view }}
           {% endif %}
