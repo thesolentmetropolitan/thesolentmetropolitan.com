@@ -223,7 +223,7 @@ display:
             description: ''
             identifier: date_filter_id
             optional: true
-            widget: select
+            widget: radios
             multiple: false
             remember: false
             default_group: All
