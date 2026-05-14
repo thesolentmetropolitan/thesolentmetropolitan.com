@@ -361,6 +361,45 @@ function customsolent_theme_suggestions_form_alter(array &$suggestions, array $v
   }
 }
 
+/**
+ * Implements hook_form_BASE_FORM_ID_alter() for views_exposed_form.
+ *
+ * Relabels the grouped date-filter's "- Any -" option to "All" on every
+ * exposed form for the events_listing View. Scoped to events_listing
+ * via the storage view id so other Views' exposed forms elsewhere on
+ * the site are untouched.
+ *
+ * Iterates every select element in the form rather than hard-coding
+ * the date filter's identifier, so the same hook keeps working if the
+ * editor renames the filter or adds further grouped filters with the
+ * same "- Any -" empty-state label.
+ *
+ * Implemented as hook_form_BASE_FORM_ID_alter (not the generic
+ * hook_form_alter) because Drupal's FormBuilder invokes the
+ * base-form-id alter through the theme system reliably, whereas the
+ * generic form_alter from a theme can be missed depending on alter
+ * caching state.
+ */
+function customsolent_form_views_exposed_form_alter(array &$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+  $view = $form_state->getStorage()['view'] ?? NULL;
+  if (!$view || $view->id() !== 'events_listing') {
+    return;
+  }
+  foreach ($form as &$element) {
+    if (!is_array($element)
+      || ($element['#type'] ?? '') !== 'select'
+      || empty($element['#options'])
+      || !is_array($element['#options'])) {
+      continue;
+    }
+    foreach ($element['#options'] as $opt_key => $opt_label) {
+      if ((string) $opt_label === '- Any -') {
+        $element['#options'][$opt_key] = t('all');
+      }
+    }
+  }
+}
+
 
 /**
  * Implements hook_preprocess_HOOK() for paragraph--view-display.html.twig.
