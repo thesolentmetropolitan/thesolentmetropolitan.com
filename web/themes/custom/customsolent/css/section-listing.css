@@ -422,6 +422,127 @@
 }
 
 /* ══════════════════════════════════════
+   Date filter pills (events listing exposed form)
+   Native radios styled as pill buttons. The radio inputs themselves are
+   visually hidden but keyboard- and screen-reader-accessible; the
+   adjacent <label.option> is the click target. Auto-submit on change is
+   handled by js/date-filter.js so the user doesn't have to hunt for an
+   Apply button on mobile.
+   ══════════════════════════════════════ */
+
+/* Scope to the events_listing exposed forms — the form classes are the
+   same across all that view's displays. */
+.views-exposed-form[data-drupal-selector^="views-exposed-form-events-listing-"] {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem 0.8rem;
+  margin: 0 0 1rem;
+}
+
+/* "when" label sits inline before the pills. */
+.views-exposed-form[data-drupal-selector^="views-exposed-form-events-listing-"] .form-item-date-filter-id > label {
+  font-family: 'Atkinson Hyperlegible Next', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #888;
+  margin: 0 0.2rem 0 0;
+}
+
+/* The wrapping <div class="form-item form-item-date-filter-id"> holds
+   the label + the radios container; make it lay them out inline. */
+.views-exposed-form[data-drupal-selector^="views-exposed-form-events-listing-"] .form-item-date-filter-id {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0;
+}
+
+/* Radio group — the wrapper Drupal renders around the radio set. */
+.views-exposed-form[data-drupal-selector^="views-exposed-form-events-listing-"] .form-radios {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.views-exposed-form[data-drupal-selector^="views-exposed-form-events-listing-"] .form-radios .form-item {
+  margin: 0;
+}
+
+/* Visually hide the native radio input but keep it focusable so
+   keyboard / screen-reader users still get standard radio semantics. */
+.views-exposed-form[data-drupal-selector^="views-exposed-form-events-listing-"] .form-radios input[type="radio"] {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Pill — the visible label adjacent to the hidden radio. */
+.views-exposed-form[data-drupal-selector^="views-exposed-form-events-listing-"] .form-radios label.option {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;            /* touch-friendly */
+  padding: 0.35em 1em;
+  border: 2px solid #ddd;
+  border-radius: 100px;
+  background: transparent;
+  color: var(--solent-blue, #2c4f6e);
+  font-family: 'Atkinson Hyperlegible Next', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 500;
+  line-height: 1.2;
+  cursor: pointer;
+  transition: border-color 0.15s, background-color 0.15s, color 0.15s;
+  user-select: none;
+}
+
+/* Hover on a non-checked pill. */
+.views-exposed-form[data-drupal-selector^="views-exposed-form-events-listing-"]
+  .form-radios input[type="radio"]:not(:checked) + label.option:hover {
+  border-color: var(--solent-blue, #2c4f6e);
+  color: var(--solent-blue, #2c4f6e);
+}
+
+/* Checked pill — magenta-dark fill, white text, matching the topic
+   filter's active state. */
+.views-exposed-form[data-drupal-selector^="views-exposed-form-events-listing-"]
+  .form-radios input[type="radio"]:checked + label.option {
+  background-color: var(--magenta-dark, #a30065);
+  border-color: var(--magenta-dark, #a30065);
+  color: #fff;
+  font-weight: 600;
+}
+
+/* Keyboard focus ring on the hidden radio: visualise on the adjacent
+   label so keyboard users can see which pill is focused. */
+.views-exposed-form[data-drupal-selector^="views-exposed-form-events-listing-"]
+  .form-radios input[type="radio"]:focus-visible + label.option {
+  outline: 2px solid var(--magenta-dark, #a30065);
+  outline-offset: 2px;
+}
+
+/* Apply submit button — auto-submit JS hides it; this is a no-JS
+   fallback so the form still works without scripts. */
+.views-exposed-form[data-drupal-selector^="views-exposed-form-events-listing-"] .form-actions {
+  margin: 0;
+}
+
+/* When JS is enabled, the .js-auto-submit class is added to <html> by
+   our date-filter.js (with a graceful no-op if JS is disabled). */
+html.js-auto-submit .views-exposed-form[data-drupal-selector^="views-exposed-form-events-listing-"] .form-actions {
+  display: none;
+}
+
+/* ══════════════════════════════════════
    Primary-topic kicker on cross-section teasers
    Shown when a content item appears in a listing via field_related_topics
    from another section — labels its own primary topic so readers see why
