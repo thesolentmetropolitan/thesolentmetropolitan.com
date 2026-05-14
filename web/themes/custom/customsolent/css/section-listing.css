@@ -454,23 +454,19 @@
   min-width: 0;
 }
 
-/* "when" legend renders as the section-label-style kicker. */
+/* "when" legend — visually hidden because the pills speak for
+   themselves; kept in the DOM so screen readers announce the filter
+   group as "when" before each radio. */
 .views-exposed-form[data-drupal-selector^="views-exposed-form-events-listing-"] fieldset > legend {
+  position: absolute;
+  width: 1px;
+  height: 1px;
   padding: 0;
-  margin: 0;
-  width: auto;
-  border: none;
-  font-family: 'Atkinson Hyperlegible Next', sans-serif;
-  font-size: 0.72rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: #888;
-}
-
-.views-exposed-form[data-drupal-selector^="views-exposed-form-events-listing-"] .fieldset-legend {
-  font: inherit;
-  color: inherit;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 /* The .fieldset-wrapper and its inner radio-container div together
@@ -502,24 +498,25 @@
   border: 0;
 }
 
-/* Pill — the visible label adjacent to the hidden radio. Rectangle
-   with rounded corners (4px) to match the .slnt-filter-item radius
-   used by the topic filter; horizontal layout instead of vertical so
-   the border stays for inactive pills (otherwise they'd be invisible
-   without the vertical whitespace the sidebar gives the topic list). */
+/* Pill — the visible label adjacent to the hidden radio. Matches the
+   .slnt-filter-item padding / font-size / radius used by the topic
+   filter so the two filter rows look like the same component. A 1px
+   border keeps inactive pills visible in the horizontal layout (the
+   topic filter relies on vertical whitespace which the date row
+   doesn't have); on active pills the border shifts to magenta-dark
+   so the total height stays constant. */
 .views-exposed-form[data-drupal-selector^="views-exposed-form-events-listing-"] .form-type-radio label.option {
   display: inline-flex;
   align-items: center;
-  min-height: 40px;            /* touch-friendly */
-  padding: 0.35em 1em;
-  border: 2px solid #ddd;
+  padding: 0.4rem 0.6rem;
+  border: 1px solid #e0e0e0;
   border-radius: 4px;
   background: transparent;
   color: var(--solent-blue, #2c4f6e);
   font-family: 'Atkinson Hyperlegible Next', sans-serif;
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   font-weight: 500;
-  line-height: 1.2;
+  line-height: 1.4;
   text-transform: none;
   cursor: pointer;
   transition: border-color 0.15s, background-color 0.15s, color 0.15s;
@@ -533,8 +530,9 @@
   color: var(--solent-blue, #2c4f6e);
 }
 
-/* Checked pill — magenta-dark fill, white text, matching the topic
-   filter's active state. */
+/* Checked pill — magenta-dark fill + border, white text, matching
+   the topic filter's active state. Border-color shifts with the fill
+   so total height stays the same as inactive pills. */
 .views-exposed-form[data-drupal-selector^="views-exposed-form-events-listing-"]
   .form-type-radio input[type="radio"]:checked + label.option {
   background-color: var(--magenta-dark, #a30065);

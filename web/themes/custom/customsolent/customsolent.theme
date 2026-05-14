@@ -398,6 +398,20 @@ function customsolent_form_views_exposed_form_alter(array &$form, \Drupal\Core\F
       }
     }
   }
+  unset($element);
+
+  // Preserve the current ?topic= across date-filter submissions so the
+  // page-level topic filter and the events date filter compose cleanly
+  // (e.g. /culture/music?topic=35&date_filter_id=4 stays intact when
+  // the user clicks a date pill). Without this hidden field, the form
+  // submits with only its own fields and the topic param is dropped.
+  $topic = \Drupal::request()->query->get('topic');
+  if ($topic !== NULL && $topic !== '' && !isset($form['topic'])) {
+    $form['topic'] = [
+      '#type'  => 'hidden',
+      '#value' => $topic,
+    ];
+  }
 }
 
 
@@ -562,7 +576,7 @@ function _customsolent_topic_context_for_term($term) {
     $filter_options[] = [
       'tid'   => $tid,
       'label' => _customsolent_strip_term_prefix($child->getName()),
-      'url'   => '?topic=' . $tid,
+      'url'   => _customsolent_build_filter_url(['topic' => $tid]),
     ];
   }
   $top = _customsolent_topic_top_level($term);
@@ -605,7 +619,7 @@ function _customsolent_topic_context_all() {
     $filter_options[] = [
       'tid'   => (int) $root->id(),
       'label' => _customsolent_strip_term_prefix($root->getName()),
-      'url'   => '?topic=' . $root->id(),
+      'url'   => _customsolent_build_filter_url(['topic' => (int) $root->id()]),
     ];
   }
 
@@ -633,7 +647,9 @@ function _customsolent_apply_filter_options_to_variables(array &$variables, arra
 
   $variables['filter_options']     = $filter_options;
   $variables['filter_has_options'] = !empty($filter_options);
-  $variables['filter_all_url']     = \Drupal::request()->getPathInfo();
+  // "All" link clears the topic param but preserves the rest (date,
+  // future filters) so the user's other selections survive.
+  $variables['filter_all_url']     = _customsolent_build_filter_url(['topic' => NULL]);
   $variables['filter_all_active']  = ($active_filter_tid === NULL);
 
   $variables['filter_active_label'] = NULL;
@@ -645,6 +661,34 @@ function _customsolent_apply_filter_options_to_variables(array &$variables, arra
       $variables['filter_active_label'] = _customsolent_strip_term_prefix($active->getName());
     }
   }
+}
+
+/**
+ * Build a URL that preserves the current request's query string while
+ * setting or clearing specific parameters.
+ *
+ * @param array $params_to_set
+ *   Keyed by query param name. A NULL value clears the param; any
+ *   other value sets it. Other current query params are preserved
+ *   verbatim so filters compose cleanly (e.g. topic + date_filter_id).
+ *
+ * @return string
+ *   The current request path plus the merged query string. If the
+ *   merged query is empty, just the path is returned.
+ */
+function _customsolent_build_filter_url(array $params_to_set) {
+  $request = \Drupal::request();
+  $query = $request->query->all();
+  foreach ($params_to_set as $k => $v) {
+    if ($v === NULL) {
+      unset($query[$k]);
+    }
+    else {
+      $query[$k] = $v;
+    }
+  }
+  $path = $request->getPathInfo();
+  return $path . (empty($query) ? '' : '?' . http_build_query($query));
 }
 
 /**
@@ -712,7 +756,14 @@ function _customsolent_entity_contains_paragraph_bundle($entity, $bundle, $max_d
  */
 function customsolent_paragraph_view_alter(array &$build, \Drupal\Core\Entity\EntityInterface $entity, \Drupal\Core\Entity\Display\EntityViewDisplayInterface $display) {
   if (in_array($entity->bundle(), ['view_display', 'section_filter'], TRUE)) {
+    // ?topic= drives the contextual filter and the section-filter
+    // sidebar's active state. ?date_filter_id= drives the events
+    // listing's exposed date filter — the topic-pill URLs include it
+    // (via _customsolent_build_filter_url) so the cached output must
+    // vary by it too, otherwise filters compose but the pill hrefs
+    // stay stale across navigations.
     $build['#cache']['contexts'][] = 'url.query_args:topic';
+    $build['#cache']['contexts'][] = 'url.query_args:date_filter_id';
   }
 }
 
