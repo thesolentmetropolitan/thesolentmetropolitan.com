@@ -107,9 +107,16 @@
               {# Virtual display: render the primary-topic and
                  related-topics displays back-to-back so editors can
                  surface "everything connected to this topic" from a
-                 single paragraph. #}
-              {{ drupal_view(vname, 'view_display_primary_topic', primary_topic_tid) }}
-              {{ drupal_view(vname, 'view_display_related_topics', primary_topic_tid) }}
+                 single paragraph. Each is wrapped so CSS can suppress
+                 the duplicate exposed-filter form on the related view
+                 (the filter still applies — both views read the same
+                 ?date_filter_id= from the URL). #}
+              <div class="slnt-composition__primary">
+                {{ drupal_view(vname, 'view_display_primary_topic', primary_topic_tid) }}
+              </div>
+              <div class="slnt-composition__related">
+                {{ drupal_view(vname, 'view_display_related_topics', primary_topic_tid) }}
+              </div>
             {% else %}
               {{ drupal_view(vname, did, primary_topic_tid) }}
             {% endif %}
