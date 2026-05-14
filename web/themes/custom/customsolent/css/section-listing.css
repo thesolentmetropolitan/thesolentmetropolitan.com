@@ -423,15 +423,17 @@
 
 /* ══════════════════════════════════════
    Date filter pills (events listing exposed form)
-   Native radios styled as pill buttons. The radio inputs themselves are
-   visually hidden but keyboard- and screen-reader-accessible; the
-   adjacent <label.option> is the click target. Auto-submit on change is
-   handled by js/date-filter.js so the user doesn't have to hunt for an
-   Apply button on mobile.
+   Drupal renders the grouped radio set as a <fieldset> with a <legend>
+   for the filter label and a <div> per option containing the
+   <input type="radio"> + <label.option>. We hide the radio visually
+   (still keyboard- and screen-reader-accessible), then style the
+   adjacent label as a pill button. Auto-submit on change is handled
+   by js/date-filter.js so users don't have to find Apply on mobile.
    ══════════════════════════════════════ */
 
-/* Scope to the events_listing exposed forms — the form classes are the
-   same across all that view's displays. */
+/* The whole exposed form: pills sit inline with the legend. The form
+   only contains the fieldset + Apply button, so flexing the form
+   itself gives us the row layout. */
 .views-exposed-form[data-drupal-selector^="views-exposed-form-events-listing-"] {
   display: flex;
   flex-wrap: wrap;
@@ -440,41 +442,55 @@
   margin: 0 0 1rem;
 }
 
-/* "when" label sits inline before the pills. */
-.views-exposed-form[data-drupal-selector^="views-exposed-form-events-listing-"] .form-item-date-filter-id > label {
+/* Remove the default fieldset chrome and lay legend + options inline. */
+.views-exposed-form[data-drupal-selector^="views-exposed-form-events-listing-"] fieldset {
+  border: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem 0.8rem;
+  min-width: 0;
+}
+
+/* "when" legend renders as the section-label-style kicker. */
+.views-exposed-form[data-drupal-selector^="views-exposed-form-events-listing-"] fieldset > legend {
+  padding: 0;
+  margin: 0;
+  width: auto;
+  border: none;
   font-family: 'Atkinson Hyperlegible Next', sans-serif;
   font-size: 0.72rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.06em;
   color: #888;
-  margin: 0 0.2rem 0 0;
 }
 
-/* The wrapping <div class="form-item form-item-date-filter-id"> holds
-   the label + the radios container; make it lay them out inline. */
-.views-exposed-form[data-drupal-selector^="views-exposed-form-events-listing-"] .form-item-date-filter-id {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.4rem;
+.views-exposed-form[data-drupal-selector^="views-exposed-form-events-listing-"] .fieldset-legend {
+  font: inherit;
+  color: inherit;
+}
+
+/* The .fieldset-wrapper and its inner radio-container div together
+   hold the options. Flatten them so the radio items lay out in a
+   single flex row. `display: contents` removes them from layout
+   without losing their children. */
+.views-exposed-form[data-drupal-selector^="views-exposed-form-events-listing-"] fieldset .fieldset-wrapper,
+.views-exposed-form[data-drupal-selector^="views-exposed-form-events-listing-"] fieldset .fieldset-wrapper > div {
+  display: contents;
+}
+
+/* Each radio + label pair lives in a .form-type-radio wrapper. */
+.views-exposed-form[data-drupal-selector^="views-exposed-form-events-listing-"] .form-type-radio {
   margin: 0;
+  padding: 0;
 }
 
-/* Radio group — the wrapper Drupal renders around the radio set. */
-.views-exposed-form[data-drupal-selector^="views-exposed-form-events-listing-"] .form-radios {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
-}
-
-.views-exposed-form[data-drupal-selector^="views-exposed-form-events-listing-"] .form-radios .form-item {
-  margin: 0;
-}
-
-/* Visually hide the native radio input but keep it focusable so
-   keyboard / screen-reader users still get standard radio semantics. */
-.views-exposed-form[data-drupal-selector^="views-exposed-form-events-listing-"] .form-radios input[type="radio"] {
+/* Visually hide the native radio but keep it focusable so keyboard
+   and screen-reader users still get standard radio semantics. */
+.views-exposed-form[data-drupal-selector^="views-exposed-form-events-listing-"] .form-type-radio input[type="radio"] {
   position: absolute;
   width: 1px;
   height: 1px;
@@ -487,7 +503,7 @@
 }
 
 /* Pill — the visible label adjacent to the hidden radio. */
-.views-exposed-form[data-drupal-selector^="views-exposed-form-events-listing-"] .form-radios label.option {
+.views-exposed-form[data-drupal-selector^="views-exposed-form-events-listing-"] .form-type-radio label.option {
   display: inline-flex;
   align-items: center;
   min-height: 40px;            /* touch-friendly */
@@ -500,6 +516,7 @@
   font-size: 0.85rem;
   font-weight: 500;
   line-height: 1.2;
+  text-transform: none;
   cursor: pointer;
   transition: border-color 0.15s, background-color 0.15s, color 0.15s;
   user-select: none;
@@ -507,7 +524,7 @@
 
 /* Hover on a non-checked pill. */
 .views-exposed-form[data-drupal-selector^="views-exposed-form-events-listing-"]
-  .form-radios input[type="radio"]:not(:checked) + label.option:hover {
+  .form-type-radio input[type="radio"]:not(:checked) + label.option:hover {
   border-color: var(--solent-blue, #2c4f6e);
   color: var(--solent-blue, #2c4f6e);
 }
@@ -515,7 +532,7 @@
 /* Checked pill — magenta-dark fill, white text, matching the topic
    filter's active state. */
 .views-exposed-form[data-drupal-selector^="views-exposed-form-events-listing-"]
-  .form-radios input[type="radio"]:checked + label.option {
+  .form-type-radio input[type="radio"]:checked + label.option {
   background-color: var(--magenta-dark, #a30065);
   border-color: var(--magenta-dark, #a30065);
   color: #fff;
@@ -525,19 +542,17 @@
 /* Keyboard focus ring on the hidden radio: visualise on the adjacent
    label so keyboard users can see which pill is focused. */
 .views-exposed-form[data-drupal-selector^="views-exposed-form-events-listing-"]
-  .form-radios input[type="radio"]:focus-visible + label.option {
+  .form-type-radio input[type="radio"]:focus-visible + label.option {
   outline: 2px solid var(--magenta-dark, #a30065);
   outline-offset: 2px;
 }
 
-/* Apply submit button — auto-submit JS hides it; this is a no-JS
-   fallback so the form still works without scripts. */
+/* Apply submit button — auto-submit JS hides it (the JS-disabled
+   fallback keeps the button visible so the form still works). */
 .views-exposed-form[data-drupal-selector^="views-exposed-form-events-listing-"] .form-actions {
   margin: 0;
 }
 
-/* When JS is enabled, the .js-auto-submit class is added to <html> by
-   our date-filter.js (with a graceful no-op if JS is disabled). */
 html.js-auto-submit .views-exposed-form[data-drupal-selector^="views-exposed-form-events-listing-"] .form-actions {
   display: none;
 }
