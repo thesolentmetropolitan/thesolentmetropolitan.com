@@ -3,6 +3,7 @@ global:
   js:
     js/customsolent.js: {}
     js/filter-panel.js: { defer: true }
+    js/date-filter.js: { defer: true }
   css:
     component:
       css/elements.css: {}
