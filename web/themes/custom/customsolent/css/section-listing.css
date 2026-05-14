@@ -561,6 +561,17 @@ html.js-auto-submit .views-exposed-form[data-drupal-selector^="views-exposed-for
 }
 
 /* ══════════════════════════════════════
+   Primary + Related composition (view_display_primary_and_related)
+   Two views render back-to-back, each with its own exposed filter
+   form. The filter still applies to both (they read the same
+   ?date_filter_id= from the URL) — we just don't need the user to
+   see the form twice. Hide the related side's form.
+   ══════════════════════════════════════ */
+.slnt-composition__related .views-exposed-form {
+  display: none;
+}
+
+/* ══════════════════════════════════════
    Primary-topic kicker on cross-section teasers
    Shown when a content item appears in a listing via field_related_topics
    from another section — labels its own primary topic so readers see why
