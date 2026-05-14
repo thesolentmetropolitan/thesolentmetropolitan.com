@@ -499,17 +499,16 @@
 }
 
 /* Pill — the visible label adjacent to the hidden radio. Matches the
-   .slnt-filter-item padding / font-size / radius used by the topic
-   filter so the two filter rows look like the same component. A 1px
-   border keeps inactive pills visible in the horizontal layout (the
-   topic filter relies on vertical whitespace which the date row
-   doesn't have); on active pills the border shifts to magenta-dark
-   so the total height stays constant. */
+   .slnt-filter-item padding / font-size / radius / colour states
+   used by the topic filter so the two filter rows look like the same
+   component. The topic items don't have a border (they rely on the
+   sidebar's vertical whitespace), but date pills sit on a
+   horizontal row so a solent-blue outline keeps them legible at rest. */
 .views-exposed-form[data-drupal-selector^="views-exposed-form-events-listing-"] .form-type-radio label.option {
   display: inline-flex;
   align-items: center;
   padding: 0.4rem 0.6rem;
-  border: 1px solid #e0e0e0;
+  border: 1px solid var(--solent-blue, #2c4f6e);
   border-radius: 4px;
   background: transparent;
   color: var(--solent-blue, #2c4f6e);
@@ -523,22 +522,34 @@
   user-select: none;
 }
 
-/* Hover on a non-checked pill. */
+/* Hover on a non-checked pill — solent-blue fill, soft-pink text.
+   Same as .slnt-filter-item:hover. */
 .views-exposed-form[data-drupal-selector^="views-exposed-form-events-listing-"]
   .form-type-radio input[type="radio"]:not(:checked) + label.option:hover {
+  background-color: var(--solent-blue, #2c4f6e);
   border-color: var(--solent-blue, #2c4f6e);
-  color: var(--solent-blue, #2c4f6e);
+  color: #f5b0d8;
 }
 
 /* Checked pill — magenta-dark fill + border, white text, matching
-   the topic filter's active state. Border-color shifts with the fill
-   so total height stays the same as inactive pills. */
+   .slnt-filter-item.is-active. Border-color shifts with the fill so
+   total height stays the same as inactive pills. */
 .views-exposed-form[data-drupal-selector^="views-exposed-form-events-listing-"]
   .form-type-radio input[type="radio"]:checked + label.option {
   background-color: var(--magenta-dark, #a30065);
   border-color: var(--magenta-dark, #a30065);
   color: #fff;
   font-weight: 600;
+}
+
+/* Hover on the checked pill — solent-blue fill, white text. Same as
+   .slnt-filter-item.is-active:hover (the more specific rule below
+   .slnt-filter-item:hover in the topic-filter block above). */
+.views-exposed-form[data-drupal-selector^="views-exposed-form-events-listing-"]
+  .form-type-radio input[type="radio"]:checked + label.option:hover {
+  background-color: var(--solent-blue, #2c4f6e);
+  border-color: var(--solent-blue, #2c4f6e);
+  color: #fff;
 }
 
 /* Keyboard focus ring on the hidden radio: visualise on the adjacent
