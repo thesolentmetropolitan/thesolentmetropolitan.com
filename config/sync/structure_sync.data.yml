@@ -1634,12 +1634,22 @@ taxonomies:
       uuid: b1103e05-f91e-43a6-ba86-bde27c6fc9ef
     -
       vid: location
+      tid: '177'
+      langcode: en
+      name: CCIXR
+      description__value: null
+      description__format: null
+      weight: '0'
+      parent: '141'
+      uuid: 7d397990-49fa-4880-a5b4-cafb5b7b6441
+    -
+      vid: location
       tid: '169'
       langcode: en
       name: 'City Buildings'
       description__value: '<p>City Buildings, Lake Road, PO1 4BD</p>'
       description__format: basic_html
-      weight: '0'
+      weight: '1'
       parent: '141'
       uuid: bf8cea68-6e4f-422e-a67b-9b47ff74b26a
     -
@@ -1679,7 +1689,7 @@ taxonomies:
       name: Hampshire
       description__value: null
       description__format: null
-      weight: '1'
+      weight: '17'
       parent: '0'
       uuid: 17bce430-20a8-4276-8bb6-11e21b5200a3
     -
@@ -1699,7 +1709,7 @@ taxonomies:
       name: 'New Forest'
       description__value: null
       description__format: null
-      weight: '4'
+      weight: '20'
       parent: '0'
       uuid: a9ef1c39-57a4-41f3-8c40-304040441f91
     -
@@ -1719,7 +1729,7 @@ taxonomies:
       name: 'Pitt St Skatepark'
       description__value: null
       description__format: null
-      weight: '1'
+      weight: '2'
       parent: '141'
       uuid: 7535d76e-9223-4985-8809-e44f038cfeed
     -
@@ -1739,7 +1749,7 @@ taxonomies:
       name: 'Portsmouth Rail Social Club'
       description__value: null
       description__format: null
-      weight: '2'
+      weight: '3'
       parent: '141'
       uuid: 29368cee-c7e0-4c25-aeb0-b6c13fc0dbca
     -
@@ -1749,7 +1759,7 @@ taxonomies:
       name: Solent
       description__value: null
       description__format: null
-      weight: '8'
+      weight: '21'
       parent: '0'
       uuid: de285813-efde-4206-b9d0-997faccc8da6
     -
@@ -1769,7 +1779,7 @@ taxonomies:
       name: 'Southsea Bandstand'
       description__value: null
       description__format: null
-      weight: '3'
+      weight: '4'
       parent: '141'
       uuid: 7888d029-ef04-4f8a-8f6c-6053f0065bd8
     -
@@ -1779,9 +1789,19 @@ taxonomies:
       name: 'Southsea Common'
       description__value: null
       description__format: null
-      weight: '4'
+      weight: '5'
       parent: '141'
       uuid: 45b933ac-0c75-4c31-94fd-d948ddba5af5
+    -
+      vid: location
+      tid: '176'
+      langcode: en
+      name: 'St. Barnabas Hall'
+      description__value: null
+      description__format: null
+      weight: '5'
+      parent: '139'
+      uuid: e5ab950d-f594-4fdc-9436-5ba2ce45f837
     -
       vid: location
       tid: '148'
@@ -1799,7 +1819,7 @@ taxonomies:
       name: Various
       description__value: null
       description__format: null
-      weight: '15'
+      weight: '22'
       parent: '0'
       uuid: 7dc50ba8-62e9-4ea2-bbad-62e0a2bb6b4e
     -
@@ -1819,7 +1839,7 @@ taxonomies:
       name: 'Woolston Methodist Church'
       description__value: null
       description__format: null
-      weight: '5'
+      weight: '6'
       parent: '139'
       uuid: 77daf3d9-ed5d-49ea-b790-cfaea4e6c891
   topic:
