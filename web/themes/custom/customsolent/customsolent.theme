@@ -444,7 +444,22 @@ function customsolent_preprocess_paragraph__view_display(&$variables) {
     $host = $host->getParentEntity();
   }
 
-  $context = _customsolent_resolve_topic_context($paragraph, $host);
+  // Topic-anchor inheritance: if the view_display paragraph has no
+  // field_topic of its own AND the host page has a section_filter
+  // paragraph, defer to the section_filter's resolution so they
+  // agree on the page's topic scope. Editors set field_topic once
+  // (on the section_filter) and the listings follow automatically.
+  $anchor_paragraph = $paragraph;
+  $has_own_topic = $paragraph->hasField('field_topic')
+    && !$paragraph->get('field_topic')->isEmpty();
+  if (!$has_own_topic && $host) {
+    $sf = _customsolent_find_section_filter_on_host($host);
+    if ($sf && $sf->id() !== $paragraph->id()) {
+      $anchor_paragraph = $sf;
+    }
+  }
+
+  $context = _customsolent_resolve_topic_context($anchor_paragraph, $host);
 
   $variables['section_key']   = $context['section_key'];
   $variables['section_color'] = $context['section_color'];
@@ -544,29 +559,34 @@ function customsolent_preprocess_paragraph__section_filter(&$variables) {
  * topics + descendants) for the View contextual argument.
  */
 function _customsolent_resolve_topic_context($paragraph, $host, $with_children = FALSE) {
-  $term = NULL;
-
-  // Priority 1: field_topic on the paragraph itself.
+  // Priority 1: field_topic on the paragraph itself. An explicit
+  // editor choice — use it unconditionally, even if its top-level
+  // parent is Explore/About. This lets editors use Explore children
+  // (e.g. "Explore / Data", "Explore / Opinion") as real content tags
+  // for /explore/data, /explore/opinion etc.
   if ($paragraph->hasField('field_topic') && !$paragraph->get('field_topic')->isEmpty()) {
     $term = $paragraph->get('field_topic')->entity;
+    if ($term) {
+      return _customsolent_topic_context_for_term($term, $with_children);
+    }
   }
 
-  // Priority 2: host node's field_primary_topic.
-  if (!$term && $host && $host->getEntityTypeId() === 'node'
+  // Priority 2: host node's field_primary_topic. The Explore/About
+  // guard still applies here — pages under those roots are typically
+  // structural landings (e.g. /explore/events aggregates all events
+  // across Culture/Sectors/Living), so we fall back to all-topics.
+  // Editors who want term-scoped behaviour on an Explore landing
+  // override via field_topic on the paragraph (handled above).
+  if ($host && $host->getEntityTypeId() === 'node'
     && $host->hasField('field_primary_topic')
     && !$host->get('field_primary_topic')->isEmpty()) {
     $term = $host->get('field_primary_topic')->entity;
-  }
-
-  // A term resolved — but only treat it as a real content scope if its
-  // top-level parent is one of the content roots (Culture / Sectors /
-  // Living). Explore and About are structural and use the all-topics
-  // fallback.
-  if ($term) {
-    $top = _customsolent_topic_top_level($term);
-    $top_name = $top ? $top->getName() : '';
-    if ($top && !in_array($top_name, ['Explore', 'About'], TRUE)) {
-      return _customsolent_topic_context_for_term($term, $with_children);
+    if ($term) {
+      $top = _customsolent_topic_top_level($term);
+      $top_name = $top ? $top->getName() : '';
+      if ($top && !in_array($top_name, ['Explore', 'About'], TRUE)) {
+        return _customsolent_topic_context_for_term($term, $with_children);
+      }
     }
   }
 
@@ -774,16 +794,66 @@ function _customsolent_build_filter_url(array $params_to_set) {
  * when a dedicated filter paragraph is on the same page.
  */
 function _customsolent_section_filter_exists_on_host($host) {
+  return (bool) _customsolent_find_section_filter_on_host($host);
+}
+
+/**
+ * Return the first section_filter paragraph attached anywhere on the
+ * host node's paragraph reference fields (recursively, up to 4 levels
+ * deep — see _customsolent_entity_contains_paragraph_bundle). Returns
+ * NULL if none. Result is statically cached per host node.
+ *
+ * The section_filter is the canonical "topic anchor" for a page when
+ * present; sibling View Display paragraphs defer to its resolved
+ * topic scope when they don't carry their own field_topic.
+ */
+function _customsolent_find_section_filter_on_host($host) {
   $cache = &drupal_static(__FUNCTION__, []);
   if (!$host || $host->getEntityTypeId() !== 'node') {
-    return FALSE;
+    return NULL;
   }
   $key = $host->getEntityTypeId() . ':' . $host->id();
-  if (isset($cache[$key])) {
+  if (array_key_exists($key, $cache)) {
     return $cache[$key];
   }
-  $cache[$key] = _customsolent_entity_contains_paragraph_bundle($host, 'section_filter', 4);
+  $cache[$key] = _customsolent_find_paragraph_bundle_on_entity($host, 'section_filter', 4);
   return $cache[$key];
+}
+
+/**
+ * Recursively walk an entity's paragraph reference fields and return
+ * the first paragraph entity of the given bundle. Capped at $max_depth.
+ */
+function _customsolent_find_paragraph_bundle_on_entity($entity, $bundle, $max_depth) {
+  if (!$entity || $max_depth <= 0) {
+    return NULL;
+  }
+  foreach ($entity->getFields() as $field) {
+    if ($field->isEmpty()) {
+      continue;
+    }
+    $field_def = $field->getFieldDefinition();
+    if ($field_def->getType() !== 'entity_reference_revisions') {
+      continue;
+    }
+    if ($field_def->getSetting('target_type') !== 'paragraph') {
+      continue;
+    }
+    foreach ($field as $item) {
+      $p = $item->entity;
+      if (!$p) {
+        continue;
+      }
+      if ($p->bundle() === $bundle) {
+        return $p;
+      }
+      $nested = _customsolent_find_paragraph_bundle_on_entity($p, $bundle, $max_depth - 1);
+      if ($nested) {
+        return $nested;
+      }
+    }
+  }
+  return NULL;
 }
 
 /**
