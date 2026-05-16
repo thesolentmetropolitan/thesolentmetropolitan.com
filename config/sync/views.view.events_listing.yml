@@ -423,11 +423,6 @@ display:
         options:
           offset: 0
           items_per_page: 6
-      row:
-        type: 'entity:node'
-        options:
-          relationship: none
-          view_mode: compact
       filters:
         status:
           id: status
@@ -528,6 +523,11 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
+      row:
+        type: 'entity:node'
+        options:
+          relationship: none
+          view_mode: compact
       defaults:
         pager: false
         row: false
