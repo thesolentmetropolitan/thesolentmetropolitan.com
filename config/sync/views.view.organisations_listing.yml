@@ -255,8 +255,8 @@ display:
           plugin_id: text
           empty: true
           content:
-            value: 'No articles in this section yet. Check back soon.'
-            format: basic_html
+            value: '<p class="slnt-view-empty">No organisations match the current filter. Try clearing the filter or check back soon.</p>'
+            format: full_html
           tokenize: false
       arguments: {  }
       style:
@@ -344,8 +344,8 @@ display:
           plugin_id: text
           empty: true
           content:
-            value: 'No articles in this section yet. Check back soon.'
-            format: basic_html
+            value: '<p class="slnt-view-empty">No organisations match the current filter. Try clearing the filter or check back soon.</p>'
+            format: full_html
           tokenize: false
       arguments:
         field_primary_topic_target_id:
@@ -456,8 +456,8 @@ display:
           plugin_id: text
           empty: true
           content:
-            value: 'No articles in this section yet. Check back soon.'
-            format: basic_html
+            value: '<p class="slnt-view-empty">No organisations match the current filter. Try clearing the filter or check back soon.</p>'
+            format: full_html
           tokenize: false
       arguments:
         field_related_topics_target_id:
