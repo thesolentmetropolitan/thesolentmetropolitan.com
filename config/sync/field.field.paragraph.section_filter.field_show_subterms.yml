@@ -1,0 +1,23 @@
+uuid: 2b2feb8b-6628-401d-b8f9-b5cee3ba2b37
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_show_subterms
+    - paragraphs.paragraphs_type.section_filter
+id: paragraph.section_filter.field_show_subterms
+field_name: field_show_subterms
+entity_type: paragraph
+bundle: section_filter
+label: 'Show sub-topics'
+description: 'When ticked, each top-level topic in the filter sidebar reveals its immediate sub-topics inline when active. Use on /explore/* landings (Events, Articles, Orgs &amp; Directories) where users may want to drill into a section''s sub-topics without leaving the page.'
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean
