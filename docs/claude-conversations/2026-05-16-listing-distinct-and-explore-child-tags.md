@@ -162,8 +162,68 @@ M  web/themes/custom/customsolent/customsolent.theme
     view_display preprocess: anchor-paragraph inheritance from sibling section_filter)
 ```
 
+## Aside — why `view_display_primary_and_related` has no contextual filters in its YAML
+
+Drupal Views doesn't natively support OR logic between two *contextual* filter fields. You can't say "filter rows where the argument matches `field_primary_topic` OR matches `field_related_topics`" in a single display — each display takes a single contextual argument and matches against one field configuration.
+
+Three workarounds existed (per the original brief, section 2):
+
+- **A — Render two displays together.** Keep `view_display_primary_topic` and `view_display_related_topics` as they are; have the paragraph template render both back-to-back. CSS handles the duplicate exposed-filter form; the recently-added `distinct: true` handles duplicate rows within each side.
+- **B — Custom Views filter plugin.** Write a small custom module providing a contextual-filter handler that accepts a term id and checks both fields with OR logic. The cleanest data-layer solution but adds a module + tests.
+- **C — Views relationship + regular filter with OR grouping.** Add two relationships (one per field), then use a non-contextual filter group with OR. More configuration in Views UI but stays within Views.
+
+**Option A was chosen as MVP** — no new module, no Views-internals complexity. The trade-off is the placeholder display in YAML.
+
+The `view_display_primary_and_related` display IS defined in `views.view.<name>.yml` but has no `display_options` worth speaking of:
+
+```yaml
+view_display_primary_and_related:
+  id: view_display_primary_and_related
+  display_title: 'View Display Primary and Related Topics'
+  display_plugin: block
+  position: 5
+  display_options:
+    display_description: ''
+    display_extenders: {  }
+  cache_metadata: { … }
+```
+
+It exists for one reason only: the **viewsreference** field on the View Display paragraph type lets editors pick a (view, display) pair. Drupal validates that the display id is real. The placeholder lets the id be selectable in the editor UI.
+
+When `drupal_view($view, 'view_display_primary_and_related', $arg)` is called, the paragraph template **intercepts before that ever happens** and instead calls `drupal_view()` twice against the two real displays:
+
+```twig
+{% if did == 'view_display_primary_and_related' %}
+  <div class="slnt-composition__primary">
+    {{ drupal_view(vname, 'view_display_primary_topic', primary_topic_tid) }}
+  </div>
+  <div class="slnt-composition__related">
+    {{ drupal_view(vname, 'view_display_related_topics', primary_topic_tid) }}
+  </div>
+{% else %}
+  {{ drupal_view(vname, did, primary_topic_tid) }}
+{% endif %}
+```
+
+So contextual filters live on `view_display_primary_topic` (filtering `field_primary_topic_target_id`) and `view_display_related_topics` (filtering `field_related_topics_target_id`). The placeholder doesn't need any because it never actually runs as a Views display.
+
+If you ever want to switch to Option B (custom Views filter plugin), the placeholder could become a real display with that plugin attached, and the paragraph template's special-case branch would collapse back to a single `drupal_view()` call.
+
+## Future refactor — move the topic-resolution logic out of `customsolent.theme`
+
+`customsolent.theme` now carries ~990 lines including the entire topic-resolution chain (term hierarchy walking, scope-id computation, section_filter sibling lookup, filter URL preservation, form-alter hooks, paragraph preprocesses, helpers). It's grown beyond what a `.theme` file is comfortable with.
+
+When time permits, this can move to a custom module — e.g. `web/modules/custom/customsolent_listings/`. Benefits:
+
+- Separation of concerns: theme renders, module decides what to render.
+- Services-based DI rather than procedural drush-style helpers — easier to test in isolation.
+- Drupal upgrade story: modules survive theme changes / replacements; helpers parked in `.theme` would need re-migrating.
+- A custom Views filter plugin (Option B above) could live there, eventually retiring the placeholder-display convention.
+
+Not urgent. The current code works and is consistent; a refactor would be cosmetic until the codebase grows further.
+
 ## Related docs
 
-- `2026-05-13-section-listing-enhancements-brief.md` — the original brief that introduced the Explore/About guard.
+- `2026-05-13-section-listing-enhancements-brief.md` — the original brief that introduced the Explore/About guard and the Option A placeholder approach.
 - `2026-05-13-section-listing-enhancements-implementation.md` — first-round implementation.
 - `2026-05-14-section-listing-iteration-implementation.md` — combined topic + date filtering work where the resolver got its current shape.
