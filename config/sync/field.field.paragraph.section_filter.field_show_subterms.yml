@@ -10,7 +10,7 @@ field_name: field_show_subterms
 entity_type: paragraph
 bundle: section_filter
 label: 'Show sub-topics'
-description: 'When ticked, each top-level topic in the filter sidebar reveals its immediate sub-topics inline when active. Use on /explore/* landings (Events, Articles, Orgs &amp; Directories) where users may want to drill into a section''s sub-topics without leaving the page.'
+description: "When ticked, each top-level topic in the filter sidebar reveals its immediate sub-topics inline when active. Use on /explore/* landings (Events, Articles, Orgs &amp; Directories) where users may want to drill into a section's sub-topics without leaving the page."
 required: false
 translatable: false
 default_value:
