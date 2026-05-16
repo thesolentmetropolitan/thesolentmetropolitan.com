@@ -29,9 +29,12 @@ Full background: `2026-05-16-event-times-1h-shift-after-tz-change.md`.
 ### 1. Database backup (non-negotiable)
 
 ```bash
-drush sql-dump --gzip --result-file=/tmp/before-event-tz-fix-$(date +%Y%m%d-%H%M%S).sql.gz
+TS=$(date +%Y%m%d-%H%M%S)
+drush sql-dump --gzip --result-file=/tmp/before-event-tz-fix-$TS.sql.gz
 ls -lh /tmp/before-event-tz-fix-*.sql.gz
 ```
+
+Two-line form to avoid copy-paste eating the space between `date` and `+%Y%m%d...` (which produces a `date+...: command not found` error and silently writes the file with no timestamp in its name — annoying but recoverable with a rename).
 
 Verify the file exists and has non-zero size before continuing. If anything goes wrong, restore with `gunzip -c <file> | drush sqlc`.
 
