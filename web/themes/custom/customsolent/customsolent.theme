@@ -394,7 +394,7 @@ function customsolent_form_views_exposed_form_alter(array &$form, \Drupal\Core\F
     }
     foreach ($element['#options'] as $opt_key => $opt_label) {
       if ((string) $opt_label === '- Any -') {
-        $element['#options'][$opt_key] = t('all');
+        $element['#options'][$opt_key] = t('all dates');
       }
     }
   }

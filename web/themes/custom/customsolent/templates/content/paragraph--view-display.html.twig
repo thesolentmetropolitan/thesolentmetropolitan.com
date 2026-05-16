@@ -26,8 +26,7 @@
 #}
 {% macro topic_list(filter_options, filter_all_url, filter_all_active) %}
   <div class="slnt-filter-section">
-    <div class="slnt-filter-section__title">Topic</div>
-    <a href="{{ filter_all_url }}" class="slnt-filter-item{{ filter_all_active ? ' is-active' : '' }}">All</a>
+    <a href="{{ filter_all_url }}" class="slnt-filter-item{{ filter_all_active ? ' is-active' : '' }}">All Topics</a>
     {% for option in filter_options %}
       <a href="{{ option.url }}" class="slnt-filter-item{{ option.active ? ' is-active' : '' }}">{{ option.label }}</a>
     {% endfor %}
