@@ -171,13 +171,12 @@
   font-style: italic;
 }
 
-/* Parent option with an active descendant — same magenta-dark fill +
-   white text as the active leaf, but kept distinguishable via an
-   underline. Reads as "the section you're in" (filled) AND "you've
-   drilled deeper than the parent" (underlined). */
+/* Parent option with an active descendant — magenta-dark text +
+   underline, no fill. Reads as "this is the section your active
+   leaf belongs to" without competing with the active leaf's
+   magenta-dark fill below it. */
 .slnt-section-filter .slnt-filter-item.is-branch-active:not(.is-active) {
-  background-color: var(--magenta-dark, #a30065);
-  color: #fff;
+  color: var(--magenta-dark, #a30065);
   font-weight: 600;
   text-decoration: underline;
   text-underline-offset: 3px;
