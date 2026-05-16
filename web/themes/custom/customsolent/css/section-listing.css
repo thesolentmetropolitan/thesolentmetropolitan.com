@@ -171,15 +171,27 @@
   font-style: italic;
 }
 
-/* Parent option with an active descendant — subtle visual cue that
-   this branch is the active one even before the children render
-   below it. Underline the label so the parent reads as "the section
-   you're currently in" without competing with the active child's
-   magenta-dark fill. */
+/* Parent option with an active descendant — same magenta-dark fill +
+   white text as the active leaf, but kept distinguishable via an
+   underline. Reads as "the section you're in" (filled) AND "you've
+   drilled deeper than the parent" (underlined). */
 .slnt-section-filter .slnt-filter-item.is-branch-active:not(.is-active) {
+  background-color: var(--magenta-dark, #a30065);
+  color: #fff;
+  font-weight: 600;
   text-decoration: underline;
   text-underline-offset: 3px;
   text-decoration-thickness: 1px;
+}
+
+/* Hover on a branch-active parent — same solent-blue + soft-pink as
+   any non-active hover. Specificity is bumped above the default
+   :hover rule by adding the .is-branch-active + :not(.is-active)
+   compound. */
+.slnt-section-filter .slnt-filter-item.is-branch-active:not(.is-active):hover {
+  background-color: var(--solent-blue, #2c4f6e);
+  color: #f5b0d8;
+  text-decoration: none;
 }
 
 /* ══════════════════════════════════════
