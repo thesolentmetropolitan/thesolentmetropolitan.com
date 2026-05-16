@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.paragraph.section_filter.field_show_subterms
     - field.field.paragraph.section_filter.field_topic
     - paragraphs.paragraphs_type.section_filter
 id: paragraph.section_filter.default
@@ -10,6 +11,13 @@ targetEntityType: paragraph
 bundle: section_filter
 mode: default
 content:
+  field_show_subterms:
+    type: boolean_checkbox
+    weight: 4
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
   field_topic:
     type: entity_reference_autocomplete
     weight: 3

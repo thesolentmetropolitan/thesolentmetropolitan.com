@@ -510,7 +510,16 @@ function customsolent_preprocess_paragraph__section_filter(&$variables) {
     $host = $host->getParentEntity();
   }
 
-  $context = _customsolent_resolve_topic_context($paragraph, $host);
+  // field_show_subterms (boolean) controls whether each top-level
+  // option in the filter sidebar reveals its immediate sub-topics
+  // inline when the active filter lies within that branch.
+  $with_children = FALSE;
+  if ($paragraph->hasField('field_show_subterms')
+    && !$paragraph->get('field_show_subterms')->isEmpty()) {
+    $with_children = (bool) $paragraph->get('field_show_subterms')->value;
+  }
+
+  $context = _customsolent_resolve_topic_context($paragraph, $host, $with_children);
 
   $active_filter_tid = NULL;
   $query_topic = \Drupal::request()->query->get('topic');
@@ -523,6 +532,7 @@ function customsolent_preprocess_paragraph__section_filter(&$variables) {
 
   $variables['section_key']   = $context['section_key'];
   $variables['section_color'] = $context['section_color'];
+  $variables['has_children']  = $with_children;
   _customsolent_apply_filter_options_to_variables($variables, $context, $active_filter_tid);
 }
 
@@ -533,7 +543,7 @@ function customsolent_preprocess_paragraph__section_filter(&$variables) {
  * topics. Returns scope_ids (the term + descendants, or all content
  * topics + descendants) for the View contextual argument.
  */
-function _customsolent_resolve_topic_context($paragraph, $host) {
+function _customsolent_resolve_topic_context($paragraph, $host, $with_children = FALSE) {
   $term = NULL;
 
   // Priority 1: field_topic on the paragraph itself.
@@ -556,28 +566,26 @@ function _customsolent_resolve_topic_context($paragraph, $host) {
     $top = _customsolent_topic_top_level($term);
     $top_name = $top ? $top->getName() : '';
     if ($top && !in_array($top_name, ['Explore', 'About'], TRUE)) {
-      return _customsolent_topic_context_for_term($term);
+      return _customsolent_topic_context_for_term($term, $with_children);
     }
   }
 
-  return _customsolent_topic_context_all();
+  return _customsolent_topic_context_all($with_children);
 }
 
 /**
  * Build a topic context for a specific term — scope is the term and its
- * descendants; filter options are the term's direct children.
+ * descendants; filter options are the term's direct children. When
+ * $with_children is TRUE, each child option also carries its own
+ * grandchildren list (one level deeper) for the auto-expand pattern.
  */
-function _customsolent_topic_context_for_term($term) {
+function _customsolent_topic_context_for_term($term, $with_children = FALSE) {
   $scope_ids = _customsolent_get_term_with_descendants($term->id());
   $children = _customsolent_load_topic_children_sorted($term->id());
   $filter_options = [];
   foreach ($children as $child) {
-    $tid = (int) $child->id();
-    $filter_options[] = [
-      'tid'   => $tid,
-      'label' => _customsolent_strip_term_prefix($child->getName()),
-      'url'   => _customsolent_build_filter_url(['topic' => $tid]),
-    ];
+    $option = _customsolent_build_filter_option($child, $with_children);
+    $filter_options[] = $option;
   }
   $top = _customsolent_topic_top_level($term);
   $top_name = $top ? $top->getName() : '';
@@ -592,13 +600,61 @@ function _customsolent_topic_context_for_term($term) {
 }
 
 /**
+ * Build one filter option for a term, optionally including its
+ * immediate sub-topics (one level only) and the term-plus-descendants
+ * scope so the template can determine "branch active" state.
+ */
+function _customsolent_build_filter_option($term, $with_children = FALSE) {
+  $tid = (int) $term->id();
+  $option = [
+    'tid'   => $tid,
+    'label' => _customsolent_strip_term_prefix($term->getName()),
+    'url'   => _customsolent_build_filter_url(['topic' => $tid]),
+  ];
+  if ($with_children) {
+    $option['scope_tids'] = _customsolent_get_term_with_descendants($tid);
+    $option['children'] = _customsolent_build_filter_option_children($term);
+  }
+  return $option;
+}
+
+/**
+ * Build the children list for an expanded filter option. The first entry
+ * is "All in <Section>" pointing at the parent term itself, so users
+ * can stay scoped to the parent without picking a leaf. The rest are
+ * the parent term's direct children, alphabetical-by-weight as
+ * _customsolent_load_topic_children_sorted defines.
+ */
+function _customsolent_build_filter_option_children($parent_term) {
+  $parent_tid = (int) $parent_term->id();
+  $parent_label = _customsolent_strip_term_prefix($parent_term->getName());
+
+  $children = [];
+  $children[] = [
+    'tid'    => $parent_tid,
+    'label'  => 'All in ' . $parent_label,
+    'url'    => _customsolent_build_filter_url(['topic' => $parent_tid]),
+    'is_all' => TRUE,
+  ];
+  foreach (_customsolent_load_topic_children_sorted($parent_tid) as $child) {
+    $child_tid = (int) $child->id();
+    $children[] = [
+      'tid'   => $child_tid,
+      'label' => _customsolent_strip_term_prefix($child->getName()),
+      'url'   => _customsolent_build_filter_url(['topic' => $child_tid]),
+    ];
+  }
+  return $children;
+}
+
+/**
  * Build the all-topics fallback context — scope is Culture + Sectors +
  * Living and their descendants; filter options are those three roots.
  *
  * Avoids needing an "All" parent term in the taxonomy (which would break
  * breadcrumbs, URL aliases, and menu-state detection).
  */
-function _customsolent_topic_context_all() {
+function _customsolent_topic_context_all($with_children = FALSE) {
   $root_names = ['Culture', 'Sectors', 'Living'];
   $scope_ids = [];
   $filter_options = [];
@@ -616,11 +672,7 @@ function _customsolent_topic_context_all() {
     }
     $root = $by_name[$root_name];
     $scope_ids = array_merge($scope_ids, _customsolent_get_term_with_descendants($root->id()));
-    $filter_options[] = [
-      'tid'   => (int) $root->id(),
-      'label' => _customsolent_strip_term_prefix($root->getName()),
-      'url'   => _customsolent_build_filter_url(['topic' => (int) $root->id()]),
-    ];
+    $filter_options[] = _customsolent_build_filter_option($root, $with_children);
   }
 
   return [
@@ -641,7 +693,30 @@ function _customsolent_topic_context_all() {
 function _customsolent_apply_filter_options_to_variables(array &$variables, array $context, $active_filter_tid) {
   $filter_options = $context['filter_options'];
   foreach ($filter_options as &$option) {
-    $option['active'] = ((int) $option['tid'] === (int) $active_filter_tid);
+    $option_tid = (int) $option['tid'];
+    $option['active'] = ($option_tid === (int) $active_filter_tid);
+
+    // branch_active: TRUE when the active filter is this option's
+    // term OR any of its descendants. Drives the auto-expand —
+    // a branch reveals its children when the user has selected
+    // anywhere inside it.
+    if (isset($option['scope_tids']) && is_array($option['scope_tids'])) {
+      $option['branch_active'] = $active_filter_tid !== NULL
+        && in_array((int) $active_filter_tid, $option['scope_tids'], TRUE);
+    }
+    else {
+      $option['branch_active'] = $option['active'];
+    }
+
+    // Mark child active state. The "All in <Section>" child carries
+    // is_all = TRUE and points at the parent term, so it activates
+    // when the parent term itself is the selected filter.
+    if (!empty($option['children']) && is_array($option['children'])) {
+      foreach ($option['children'] as &$child) {
+        $child['active'] = ((int) $child['tid'] === (int) $active_filter_tid);
+      }
+      unset($child);
+    }
   }
   unset($option);
 

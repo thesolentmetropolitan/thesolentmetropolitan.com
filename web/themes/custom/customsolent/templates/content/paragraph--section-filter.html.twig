@@ -26,7 +26,29 @@
     <div class="slnt-filter-section__title">Topic</div>
     <a href="{{ filter_all_url }}" class="slnt-filter-item{{ filter_all_active ? ' is-active' : '' }}">All</a>
     {% for option in filter_options %}
-      <a href="{{ option.url }}" class="slnt-filter-item{{ option.active ? ' is-active' : '' }}">{{ option.label }}</a>
+      <a href="{{ option.url }}"
+         class="slnt-filter-item{{ option.active ? ' is-active' : '' }}{{ option.branch_active ? ' is-branch-active' : '' }}">
+        {{ option.label }}
+      </a>
+      {# Auto-expand: render the option's children inline when this
+         option's branch is currently active (parent selected or one of
+         its descendants). The "All in <Section>" child only appears
+         when a *deeper* child is the active filter — when the parent
+         term itself is the active filter, the parent pill already
+         represents that state and "All in <Section>" would just
+         duplicate it. #}
+      {% if option.children and option.branch_active %}
+        <div class="slnt-filter-children">
+          {% for child in option.children %}
+            {% if not (child.is_all and option.active) %}
+              <a href="{{ child.url }}"
+                 class="slnt-filter-item slnt-filter-item--child{{ child.active ? ' is-active' : '' }}{{ child.is_all ? ' slnt-filter-item--all-in' : '' }}">
+                {{ child.label }}
+              </a>
+            {% endif %}
+          {% endfor %}
+        </div>
+      {% endif %}
     {% endfor %}
   </div>
 {% endmacro %}
