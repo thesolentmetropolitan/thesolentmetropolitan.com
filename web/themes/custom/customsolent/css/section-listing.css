@@ -664,18 +664,26 @@ html.js-auto-submit .views-exposed-form[data-drupal-selector^="views-exposed-for
   line-height: 1.3;
 }
 
-/* "in" kicker — sits above the title. Zero bottom margin matches the
-   front-page compact card's topic-trail pattern (slnt-event-compact
-   uses margin: 0 on the kicker so it sits tight against the title). */
-.slnt-teaser__in-kicker {
+/* Both kickers now sit BELOW the title (same DOM position; mutually
+   exclusive per item). Zero block margins so the gap to neighbouring
+   elements is controlled by the parent container.
+
+   Exception: when the parent is .slnt-event-teaser__text — a flex
+   column with gap: 0.55rem between every child — the kicker absorbs
+   that 0.55rem as space above it. Pulled back with a negative
+   margin-top in the override below. */
+.slnt-teaser__in-kicker,
+.slnt-teaser__from-kicker {
   margin: 0;
 }
 
-/* "from" kicker — sits below the title. Zero top margin so it stays
-   tight against the title above; bottom margin separates it from the
-   standfirst / meta rows below. */
-.slnt-teaser__from-kicker {
-  margin: 0 0 0.3rem;
+/* Negate the parent flex gap so the kicker sits flush under the
+   title in event teasers. Scoped to .slnt-event-teaser__text so the
+   negative margin only fires where there's a real positive gap to
+   cancel (article / link / org teasers don't have flex gaps). */
+.slnt-event-teaser__text > .slnt-teaser__in-kicker,
+.slnt-event-teaser__text > .slnt-teaser__from-kicker {
+  margin-top: -0.55rem;
 }
 
 /* Prefix words ("in", "from") — lowercase, charcoal, regular weight.
