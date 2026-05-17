@@ -61,15 +61,76 @@ For most editorial work and bug fixes, the existing cache contexts (`url.path` +
 
 `drush it` = `drush structure-sync:import-taxonomies`. On larger vocabularies, the command can appear to hang on the *final stages* of the import — actual progress, just slow under verbose post-processing.
 
-### Diagnosing where it's stuck
+### The actual culprit on this site: silent `drupal_flush_all_caches()`
 
-Run with verbose output and capture to a log:
+Confirmed by reading `web/modules/contrib/structure_sync/src/Controller/TaxonomiesController.php`:
+
+- **Full mode** (line 497) ends with `drupal_flush_all_caches()`. On Drupal 11 with many modules this routinely takes 30–90+ seconds.
+- **Safe mode** (line 658) skips the cache flush entirely — that's why Safe completes immediately.
+- The module *intends* to emit a `Flushing all caches` notice (line 494) but the check is `if ($context['drush'] === TRUE)`. The drush command sets `'drush' => TRUE` in the form-options array (`StructureSyncCommands.php` line 66), but Drupal's Batch API passes its own `$context` to operations — the form-options flag never reaches the batch context. So the notice never fires and the flush runs invisibly.
+
+**So when `drush it` looks hung at the end of Full mode, it's almost certainly the silent flush. Wait 1–3 minutes before assuming a real hang.**
+
+### What Safe vs Full vs Force actually do
+
+| Mode | Creates new terms | Updates existing terms | Deletes terms not in YAML | Cache flush at end |
+|---|---|---|---|---|
+| **Safe** | Yes | **No** — skips if term name already exists | No | No |
+| **Full** | Yes | Yes — name, parent, description, weight | Yes (terms removed from YAML) | Yes — `drupal_flush_all_caches()` (slow) |
+| **Force** | Yes | Yes (after deleting everything first) | Effectively yes (deletes all first) | Yes |
+
+**Practical recommendation for routine work:**
+
+- Adding *brand-new* terms only → **Safe** is fast.
+- Changing a parent, name, description, weight on an *existing* term → **Full** (Safe won't apply it).
+- Removing terms → **Full**.
+
+### Bypassing the interactive prompt
+
+The interactive `Full / Safe / Force` prompt can be skipped with a flag:
 
 ```bash
-drush it -vvv 2>&1 | tee /tmp/drush-it.log
+drush it --choice=full
+drush it --choice=safe
+drush it --choice=force
 ```
 
-`-vvv` prints every step (module hook invocations, individual term saves, post-save tasks). When the command appears to hang, the LAST log line before the silence is the culprit.
+This is also what makes `2>&1 | tee log` work without the `NonInteractiveValidationException` — no prompt, no need for a TTY.
+
+### Capturing verbose output while keeping the prompt working
+
+If you DO want interactive selection AND a saved log:
+
+```bash
+# A — script (built-in on macOS): records the terminal session
+script -q /tmp/drush-it.log ddev drush it -vvv
+
+# B — unbuffer (brew install expect): cleaner log
+unbuffer ddev drush it -vvv | tee /tmp/drush-it.log
+
+# C — leave stdout for the prompt, log stderr only
+ddev drush it -vvv 2> >(tee /tmp/drush-it-stderr.log >&2)
+```
+
+Or just skip the prompt entirely with `--choice=full`:
+
+```bash
+drush it --choice=full -vvv 2>&1 | tee /tmp/drush-it.log
+```
+
+### If you've killed Full mid-flush
+
+Terms are saved to the DB *during* the import loop, well before `drupal_flush_all_caches()` runs. So killing Full mid-flush doesn't lose data — it just leaves a stale cache. Recover with:
+
+```bash
+drush cr
+```
+
+That's it. No data loss, no need to re-import.
+
+### Other things that can slow Full mode
+
+Beyond the core cache flush, on some sites these post-save hooks also fire on each term save (during the loop, not at the end). If individual term saves take seconds rather than ms, one of these is the cause:
 
 Quick checks while it's hanging:
 
