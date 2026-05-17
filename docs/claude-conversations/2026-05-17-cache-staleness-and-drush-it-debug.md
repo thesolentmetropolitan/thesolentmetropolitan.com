@@ -65,11 +65,11 @@ For most editorial work and bug fixes, the existing cache contexts (`url.path` +
 
 Confirmed by reading `web/modules/contrib/structure_sync/src/Controller/TaxonomiesController.php`:
 
-- **Full mode** (line 497) ends with `drupal_flush_all_caches()`. On Drupal 11 with many modules this routinely takes 30–90+ seconds.
+- **Full mode** (line 497) ends with `drupal_flush_all_caches()`. On Drupal 11 with many contrib modules + a large term tree + Search API + container rebuild, this can take **anywhere from 30 seconds to 5+ minutes**. Verified live: a 3-minute wait wasn't enough on this site.
 - **Safe mode** (line 658) skips the cache flush entirely — that's why Safe completes immediately.
 - The module *intends* to emit a `Flushing all caches` notice (line 494) but the check is `if ($context['drush'] === TRUE)`. The drush command sets `'drush' => TRUE` in the form-options array (`StructureSyncCommands.php` line 66), but Drupal's Batch API passes its own `$context` to operations — the form-options flag never reaches the batch context. So the notice never fires and the flush runs invisibly.
 
-**So when `drush it` looks hung at the end of Full mode, it's almost certainly the silent flush. Wait 1–3 minutes before assuming a real hang.**
+**When `drush it` looks hung at the end of Full mode, it's the silent flush. The wait can be several minutes on this site — be prepared to leave it running.**
 
 ### What Safe vs Full vs Force actually do
 
@@ -84,6 +84,51 @@ Confirmed by reading `web/modules/contrib/structure_sync/src/Controller/Taxonomi
 - Adding *brand-new* terms only → **Safe** is fast.
 - Changing a parent, name, description, weight on an *existing* term → **Full** (Safe won't apply it).
 - Removing terms → **Full**.
+
+## Deploy workflow with structure_sync
+
+`structure_sync.data.yml` lives in `config/sync/` like every other config file. It's a configuration entity that *registers* which terms should exist — but it isn't the actual term entities (those live in their own DB tables and are content). Two commands work together:
+
+| Command | What it does |
+|---|---|
+| `drush cim` | Imports `config/sync/*.yml` into the DB's `config` table. After cim, `\Drupal::config('structure_sync.data')->get('taxonomies')` returns the freshly-imported YAML's contents. |
+| `drush it` | Reads `structure_sync.data` from the config table, then creates / updates / deletes actual `taxonomy_term` entities to match. |
+
+**The order matters: `drush cim` → `drush it`**. Running `drush it` alone imports against whatever stale `structure_sync.data` was last in the DB config — not the YAML you just pulled.
+
+### Routine deploy after taxonomy work
+
+```bash
+# On the deploying host (live)
+git pull
+drush cex -y             # capture any UI-side drift; review/decide before cim
+git status
+drush cim -y             # bring config table up to date with the new YAML
+drush it --choice=safe   # apply structure_sync changes — Safe is fast and covers
+                         # the common "added new terms" case
+drush cr
+```
+
+### When Full is required
+
+Pick **Full** only when the diff between the last-deployed YAML and the new one includes term *updates* (parent / name / description / weight) or *removals*:
+
+```bash
+git diff <last-deployed-commit>..HEAD -- config/sync/structure_sync.data.yml
+```
+
+If the diff is purely additions → Safe is enough.
+If lines like `- parent: '57'` / `+ parent: '56'` appear → Full is needed.
+If terms disappear from the diff → Full is needed.
+
+```bash
+# Full mode — be prepared for a long silent wait at the end (cache flush)
+drush cim -y
+drush it --choice=full       # this can take several minutes; do NOT kill it
+drush cr                     # only if you killed Full mid-flush
+```
+
+If you accidentally kill Full mid-flush: terms were saved during the loop *before* the flush. Run `drush cr` to clear stale caches; no data loss, no re-import needed.
 
 ### Bypassing the interactive prompt
 
