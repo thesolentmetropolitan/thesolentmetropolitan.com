@@ -645,18 +645,76 @@ html.js-auto-submit .views-exposed-form[data-drupal-selector^="views-exposed-for
 }
 
 /* ══════════════════════════════════════
-   Primary-topic kicker on cross-section teasers
-   Shown when a content item appears in a listing via field_related_topics
-   from another section — labels its own primary topic so readers see why
-   it is here.
+   Topic kickers on teaser content
+   "in" kicker — content is within the current section (ABOVE title)
+   "from" kicker — content from another section, via related_topics (BELOW title)
+   See: docs/claude-conversations/2026-05-17-term-display-in-kicker-brief.md
    ══════════════════════════════════════ */
-.slnt-teaser__kicker {
+
+/* Shared typography for both kicker types. */
+.slnt-teaser__in-kicker,
+.slnt-teaser__from-kicker {
   font-family: 'Atkinson Hyperlegible Next', sans-serif;
-  font-size: 0.72rem;
-  font-weight: 600;
-  text-transform: lowercase;
-  letter-spacing: 0.02em;
-  line-height: 1.2;
-  margin: 0 0 0.2rem;
-  /* colour set inline by template from the foreign section's hex */
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+/* "in" kicker — sits above the title. */
+.slnt-teaser__in-kicker {
+  margin: 0 0 0.15rem;
+}
+
+/* "from" kicker — sits below the title. */
+.slnt-teaser__from-kicker {
+  margin: 0.1rem 0 0.3rem;
+}
+
+/* Prefix words ("in", "from") — lowercase, charcoal, regular weight.
+   Do NOT take the section colour. */
+.slnt-teaser__in-prefix,
+.slnt-teaser__from-prefix {
+  color: var(--text, #1a1a1a);
+  margin-right: 0.2em;
+  font-weight: 400;
+  text-transform: none;
+}
+
+/* Term text (linked AND plain) — uppercase, in section colour
+   set inline from the helper. */
+a.slnt-teaser__in-term,
+.slnt-teaser__in-term--plain,
+a.slnt-teaser__from-term,
+.slnt-teaser__from-term--plain {
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+a.slnt-teaser__in-term,
+a.slnt-teaser__from-term {
+  text-decoration: none;
+  transition: text-decoration 0.15s;
+}
+
+a.slnt-teaser__in-term:hover,
+a.slnt-teaser__from-term:hover {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  text-decoration-thickness: 1.5px;
+}
+
+.slnt-teaser__in-term--plain,
+.slnt-teaser__from-term--plain {
+  cursor: default;
+}
+
+/* Separator between chained terms (e.g. "STAGE / THEATRE SCHOOL"
+   or "SECTORS / ARTS"). Charcoal, lowercase, regular weight —
+   doesn't compete with the coloured term text. */
+.slnt-teaser__in-separator,
+.slnt-teaser__from-separator {
+  color: var(--text, #1a1a1a);
+  font-size: 0.75rem;
+  font-weight: 400;
+  text-transform: none;
 }

@@ -70,26 +70,47 @@ function customsolent_preprocess_node(array &$variables): void {
     _customsolent_extract_field_url_meta($node, $variables);
   }
 
-  // Primary-topic kicker on teasers. When this content's primary topic
-  // falls outside the page's topic scope (i.e. the content is appearing
-  // here via field_related_topics from another section), expose the
-  // kicker variables so the teaser template can render a small "from
-  // Sectors / Technology" label coloured to match the foreign section.
-  if (($variables['view_mode'] ?? '') === 'teaser'
+  // Topic kickers on teasers. Mutually exclusive per item:
+  //   - "in" kicker (ABOVE title): content's primary topic is within
+  //     the page's topic scope. Shows the sub-topic chain with
+  //     ancestors stripped up to the page's depth.
+  //   - "from" kicker (BELOW title): content's primary topic is
+  //     outside the page's scope (appearing via field_related_topics
+  //     from another section). Shows the full ancestor chain so the
+  //     reader knows where the content primarily lives.
+  //   - Neither: the content's primary topic equals the page's term
+  //     exactly (nothing to add).
+  if (in_array(($variables['view_mode'] ?? ''), ['teaser', 'compact'], TRUE)
     && $node->hasField('field_primary_topic')
     && !$node->get('field_primary_topic')->isEmpty()) {
     $page_tids = \Drupal::request()->attributes->get('page_topic_tids');
     if (is_array($page_tids) && !empty($page_tids)) {
       $primary_tid = (int) $node->get('field_primary_topic')->target_id;
-      if (!in_array($primary_tid, $page_tids, TRUE)) {
-        $primary_term = $node->get('field_primary_topic')->entity;
-        if ($primary_term) {
-          $top = _customsolent_topic_top_level($primary_term);
-          $top_name = $top ? $top->getName() : '';
-          $variables['show_primary_kicker']    = TRUE;
-          $variables['primary_kicker_label']   = _customsolent_strip_term_prefix($primary_term->getName());
-          $variables['primary_kicker_color']   = _customsolent_topic_section_colors()[$top_name] ?? '#475569';
-          $variables['primary_kicker_section'] = strtolower($top_name);
+      $primary_term = $node->get('field_primary_topic')->entity;
+      if ($primary_term) {
+        $top = _customsolent_topic_top_level($primary_term);
+        $top_name = $top ? $top->getName() : '';
+        if (in_array($primary_tid, $page_tids, TRUE)) {
+          // Inside page scope — "in" kicker.
+          $page_term_depth = (int) \Drupal::request()->attributes->get('page_term_depth', -1);
+          $in_items = _customsolent_build_in_kicker($primary_term, $page_term_depth);
+          if ($in_items) {
+            $variables['show_in_kicker']    = TRUE;
+            $variables['in_kicker_items']   = $in_items;
+            $variables['in_kicker_section'] = strtolower($top_name);
+          }
+          // If $in_items is NULL the content's term IS the page's
+          // term — no kicker at all.
+        }
+        else {
+          // Outside page scope — "from" kicker with full ancestor chain.
+          $variables['show_primary_kicker']      = TRUE;
+          $variables['primary_kicker_ancestors'] = _customsolent_build_from_kicker($primary_term);
+          $variables['primary_kicker_section']   = strtolower($top_name);
+          // Back-compat with older teaser templates that still read
+          // the simple label/color variables (single-term display).
+          $variables['primary_kicker_label']     = _customsolent_strip_term_prefix($primary_term->getName());
+          $variables['primary_kicker_color']     = _customsolent_get_section_color($primary_term);
         }
       }
     }
@@ -493,8 +514,20 @@ function customsolent_preprocess_paragraph__view_display(&$variables) {
 
   // Stash the effective scope IDs so node-teaser preprocess can decide
   // whether to render the primary-topic kicker (content from outside
-  // this scope shows the kicker; in-scope content does not).
+  // this scope shows the "from" kicker; in-scope content shows the
+  // "in" kicker with ancestors stripped to the page's depth).
   \Drupal::request()->attributes->set('page_topic_tids', $effective_ids);
+
+  // Depth of the page's resolved term in the Topic hierarchy. Used by
+  // the "in" kicker to strip ancestors already represented by the
+  // page itself (so on /culture, "Culture / Music" displays as
+  // "MUSIC" not "CULTURE / MUSIC"). -1 in all-topics mode (e.g.
+  // /explore/events landing): show the full ancestor chain.
+  $page_term_depth = -1;
+  if (($context['mode'] ?? '') === 'term' && !empty($context['term'])) {
+    $page_term_depth = _customsolent_get_term_depth($context['term']);
+  }
+  \Drupal::request()->attributes->set('page_term_depth', $page_term_depth);
 
   // Render this paragraph's own filter UI only when:
   //   (a) the display is the primary-topic display, AND
@@ -998,4 +1031,150 @@ function _customsolent_topic_top_level($term) {
     $current = reset($parents);
   }
   return NULL;
+}
+
+/**
+ * Section colour hex for a term — uses the term's top-level (root)
+ * parent to look up the section colour map. Returns slate (#475569)
+ * when the top-level isn't one of the known content/structural roots.
+ */
+function _customsolent_get_section_color($term) {
+  $top = _customsolent_topic_top_level($term);
+  if (!$top) {
+    return '#475569';
+  }
+  return _customsolent_topic_section_colors()[$top->getName()] ?? '#475569';
+}
+
+/**
+ * Depth of a term in the Topic hierarchy. Root terms (Culture, Sectors,
+ * Living, About, Explore) return 0; their direct children return 1; and
+ * so on. Used by the "in" kicker to know how many ancestors to strip
+ * so the kicker doesn't repeat what the current page already represents.
+ */
+function _customsolent_get_term_depth($term) {
+  $depth = 0;
+  /** @var \Drupal\taxonomy\TermStorageInterface $term_storage */
+  $term_storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
+  $current = $term;
+  while ($current) {
+    $parents = $term_storage->loadParents($current->id());
+    if (empty($parents)) {
+      break;
+    }
+    $depth++;
+    $current = reset($parents);
+  }
+  return $depth;
+}
+
+/**
+ * TRUE when a published composite_page node exists with the given term
+ * id as its field_primary_topic. Used by the "in"/"from" kickers to
+ * conditionally link terms to their landing pages (links when a page
+ * exists, plain text otherwise — graceful degradation as the editor
+ * builds out the section tree).
+ *
+ * Statically cached per tid within the request — a listing page with
+ * many items sharing the same sub-term only hits the DB once per
+ * unique term.
+ */
+function _customsolent_term_has_landing_page($tid) {
+  $cache = &drupal_static(__FUNCTION__, []);
+  $tid = (int) $tid;
+  if (array_key_exists($tid, $cache)) {
+    return $cache[$tid];
+  }
+  $query = \Drupal::entityQuery('node')
+    ->condition('type', 'composite_page')
+    ->condition('field_primary_topic', $tid)
+    ->condition('status', 1)
+    ->range(0, 1)
+    ->accessCheck(TRUE);
+  $results = $query->execute();
+  $cache[$tid] = !empty($results);
+  return $cache[$tid];
+}
+
+/**
+ * Build the "in" kicker display chain for a content item appearing on
+ * a section page. Strips ancestors already represented by the page
+ * (so on /culture, "Culture / Music" shows as "MUSIC" not
+ * "CULTURE / MUSIC"; on /culture/music it shows nothing because it
+ * matches the page exactly).
+ *
+ * @param \Drupal\taxonomy\TermInterface $content_term
+ *   The content's primary topic term.
+ * @param int $page_term_depth
+ *   Depth of the page's resolved term. 0 = root (Culture / Sectors /
+ *   Living), 1 = direct child, etc. -1 = no specific section (e.g.
+ *   /explore/events all-topics fallback) — show the full chain.
+ *
+ * @return array|null
+ *   Array of {label, url, color} for each remaining term, or NULL when
+ *   the content's term matches the page exactly (nothing to display).
+ */
+function _customsolent_build_in_kicker($content_term, $page_term_depth) {
+  $chain = [];
+  $current = $content_term;
+  /** @var \Drupal\taxonomy\TermStorageInterface $term_storage */
+  $term_storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
+  while ($current) {
+    array_unshift($chain, $current);
+    $parents = $term_storage->loadParents($current->id());
+    $current = !empty($parents) ? reset($parents) : NULL;
+  }
+
+  // page_term_depth = -1 means show full chain (no stripping).
+  $display_from = $page_term_depth + 1;
+  if ($display_from >= count($chain)) {
+    return NULL;
+  }
+
+  $color = _customsolent_get_section_color($content_term);
+  $items = [];
+  for ($i = $display_from; $i < count($chain); $i++) {
+    $term = $chain[$i];
+    $items[] = [
+      'label' => _customsolent_strip_term_prefix($term->getName()),
+      'url'   => _customsolent_term_has_landing_page($term->id())
+        ? _customsolent_build_term_url($chain, $i)
+        : NULL,
+      'color' => $color,
+    ];
+  }
+  return $items;
+}
+
+/**
+ * Build the "from" kicker ancestor chain for a content item appearing
+ * on a page via field_related_topics (its primary topic is outside the
+ * current page's tree). Returns the FULL chain from root to leaf with
+ * each term conditionally linked.
+ *
+ * Example: a node with primary topic "Sectors / Arts" produces
+ *   [ {label: SECTORS, url: /sectors, ...}, {label: ARTS, url: /sectors/arts, ...} ]
+ */
+function _customsolent_build_from_kicker($term) {
+  $chain = [];
+  $current = $term;
+  /** @var \Drupal\taxonomy\TermStorageInterface $term_storage */
+  $term_storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
+  while ($current) {
+    array_unshift($chain, $current);
+    $parents = $term_storage->loadParents($current->id());
+    $current = !empty($parents) ? reset($parents) : NULL;
+  }
+  $color = _customsolent_get_section_color($term);
+  $items = [];
+  foreach ($chain as $i => $node) {
+    $items[] = [
+      'label' => _customsolent_strip_term_prefix($node->getName()),
+      'url'   => _customsolent_term_has_landing_page($node->id())
+        ? _customsolent_build_term_url($chain, $i)
+        : NULL,
+      'color' => $color,
+    ];
+  }
+  return $items;
 }
