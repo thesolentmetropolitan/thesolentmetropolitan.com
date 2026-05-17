@@ -651,23 +651,31 @@ html.js-auto-submit .views-exposed-form[data-drupal-selector^="views-exposed-for
    See: docs/claude-conversations/2026-05-17-term-display-in-kicker-brief.md
    ══════════════════════════════════════ */
 
-/* Shared typography for both kicker types. */
+/* Shared typography for both kicker types. ~75% of the event-teaser
+   title size (1.25rem → ~0.95rem) so the kicker reads as adjacent to
+   the title rather than as a small caption. Applies to prefix word,
+   term text, and separator alike so the whole kicker is one
+   consistent type size. */
 .slnt-teaser__in-kicker,
 .slnt-teaser__from-kicker {
   font-family: 'Atkinson Hyperlegible Next', sans-serif;
-  font-size: 0.75rem;
+  font-size: 0.95rem;
   font-weight: 500;
   line-height: 1.3;
 }
 
-/* "in" kicker — sits above the title. */
+/* "in" kicker — sits above the title. Zero bottom margin matches the
+   front-page compact card's topic-trail pattern (slnt-event-compact
+   uses margin: 0 on the kicker so it sits tight against the title). */
 .slnt-teaser__in-kicker {
-  margin: 0 0 0.15rem;
+  margin: 0;
 }
 
-/* "from" kicker — sits below the title. */
+/* "from" kicker — sits below the title. Zero top margin so it stays
+   tight against the title above; bottom margin separates it from the
+   standfirst / meta rows below. */
 .slnt-teaser__from-kicker {
-  margin: 0.1rem 0 0.3rem;
+  margin: 0 0 0.3rem;
 }
 
 /* Prefix words ("in", "from") — lowercase, charcoal, regular weight.
@@ -709,12 +717,11 @@ a.slnt-teaser__from-term:hover {
 }
 
 /* Separator between chained terms (e.g. "STAGE / THEATRE SCHOOL"
-   or "SECTORS / ARTS"). Charcoal, lowercase, regular weight —
-   doesn't compete with the coloured term text. */
+   or "SECTORS / ARTS"). Charcoal, regular weight — doesn't compete
+   with the coloured term text. Inherits the kicker's font-size. */
 .slnt-teaser__in-separator,
 .slnt-teaser__from-separator {
   color: var(--text, #1a1a1a);
-  font-size: 0.75rem;
   font-weight: 400;
   text-transform: none;
 }
