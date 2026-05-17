@@ -27,8 +27,6 @@
 
 <article{{ attributes.addClass(classes) }}>
 
-  {% include '@customsolent/components/in-kicker.html.twig' %}
-
   {% if field_url_href %}
     <a class="slnt-link-teaser__link"
        href="{{ field_url_href }}"
@@ -40,6 +38,7 @@
     </a>
   {% endif %}
 
+  {% include '@customsolent/components/in-kicker.html.twig' %}
   {% include '@customsolent/components/primary-kicker.html.twig' %}
 
   {% if content.field_standfirst|render|striptags|trim %}
