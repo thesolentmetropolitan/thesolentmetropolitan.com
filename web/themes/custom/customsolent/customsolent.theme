@@ -815,8 +815,62 @@ function _customsolent_build_filter_url(array $params_to_set) {
       $query[$k] = $v;
     }
   }
+  // Changing a filter always resets to the first page of results —
+  // otherwise the user, paginated to page 3 of "all", would click a
+  // filter and land on page 3 of the filtered (probably empty) set,
+  // looking like the filter had no matches.
+  unset($query['page']);
   $path = $request->getPathInfo();
   return $path . (empty($query) ? '' : '?' . http_build_query($query));
+}
+
+/**
+ * Implements hook_preprocess_pager().
+ *
+ * Drupal's pager builds hrefs as `?page=N` only — it doesn't preserve
+ * other query string params from the current request, so clicking
+ * page 2 from /sectors?topic=88 navigates to /sectors?page=1 and the
+ * topic filter is dropped.
+ *
+ * Merge the current request's query into every pager item's href so
+ * pagination keeps the active filter context (topic, date_filter_id,
+ * etc.) across page navigations.
+ */
+function customsolent_preprocess_pager(array &$variables) {
+  $current = \Drupal::request()->query->all();
+  // 'page' is owned by the pager itself; don't let our merge clobber it.
+  unset($current['page']);
+  if (empty($current)) {
+    return;
+  }
+
+  $merge_into_href = function (string $href) use ($current): string {
+    $parts = parse_url($href);
+    $existing = [];
+    if (!empty($parts['query'])) {
+      parse_str($parts['query'], $existing);
+    }
+    // Existing pager-set params (notably 'page') take priority over
+    // the current request's query — page=N from the link is what we
+    // want to navigate to.
+    $merged = $current + $existing;
+    $path = $parts['path'] ?? '';
+    return $path . (empty($merged) ? '' : '?' . http_build_query($merged));
+  };
+
+  foreach (['first', 'previous', 'next', 'last'] as $key) {
+    if (isset($variables['items'][$key]['href'])) {
+      $variables['items'][$key]['href'] = $merge_into_href($variables['items'][$key]['href']);
+    }
+  }
+  if (!empty($variables['items']['pages']) && is_array($variables['items']['pages'])) {
+    foreach ($variables['items']['pages'] as &$item) {
+      if (isset($item['href'])) {
+        $item['href'] = $merge_into_href($item['href']);
+      }
+    }
+    unset($item);
+  }
 }
 
 /**
