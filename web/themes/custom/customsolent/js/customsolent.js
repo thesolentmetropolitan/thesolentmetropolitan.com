@@ -267,18 +267,18 @@
                 var togl_expd = document.getElementById('slnt-togl-expand');
                 togl_expd.classList.toggle('slnt-togl-expand--open');
 
-                if ($("nav[role=navigation]").css("display") == "none" ||
+                if ($("nav[role=navigation]:not(.pager)").css("display") == "none" ||
                     $(".main-menu-wrap").css("display") == "none") {
                   // Show menu - fade in
                   $("body").css("overflow", "hidden");
                   $("body").addClass('slnt-overlay-menu-bg');
-                  $("nav[role=navigation]").css({"display": "block", "opacity": "0", "transition": "none"});
+                  $("nav[role=navigation]:not(.pager)").css({"display": "block", "opacity": "0", "transition": "none"});
                   $(".main-menu-wrap").css("display", "block");
                   $("#slnt-header").addClass('slnt-overlay-hdr-hgt-togl-expand-mob-menu');
                   $("#slnt-header").removeClass('slnt-hdr-hgt-init');
                   // Delay ensures browser has painted opacity:0 before starting transition
                   setTimeout(() => {
-                    $("nav[role=navigation]").css({"transition": "opacity 0.8s ease", "opacity": "1"});
+                    $("nav[role=navigation]:not(.pager)").css({"transition": "opacity 0.8s ease", "opacity": "1"});
                   }, 50);
                 } else {
                   // Hide menu - fade out then clean up
@@ -293,11 +293,11 @@
                     hideSubmenu(aSubMenu, true);
                   });
 
-                  $("nav[role=navigation]").css("opacity", "0");
+                  $("nav[role=navigation]:not(.pager)").css("opacity", "0");
                   setTimeout(() => {
                     $("body").css("overflow", "");
                     $("body").removeClass('slnt-overlay-menu-bg');
-                    $("nav[role=navigation]").css("display", "none");
+                    $("nav[role=navigation]:not(.pager)").css("display", "none");
                     $(".main-menu-wrap").css("display", "none");
                     $("#slnt-header").removeClass('slnt-overlay-hdr-hgt-togl-expand-mob-menu');
                     $("#slnt-header").addClass('slnt-hdr-hgt-init');
@@ -319,7 +319,7 @@
           desktop_menu_hide_all_submenus();
         } else {
           // Mobile mode - hide menu initially and add initial header height class
-          $("nav[role=navigation]").css("display", "none");
+          $("nav[role=navigation]:not(.pager)").css("display", "none");
           $(".main-menu-wrap").css("display", "none");
           $("#slnt-header").addClass('slnt-hdr-hgt-init');
         }
@@ -1002,7 +1002,7 @@
             }
 
             // Hide main menu initially in mobile
-            $("nav[role=navigation]").css("display", "none");
+            $("nav[role=navigation]:not(.pager)").css("display", "none");
             $(".main-menu-wrap").css("display", "none");
             $("#slnt-header").addClass('slnt-hdr-hgt-init');
 
@@ -1023,7 +1023,7 @@
             $("body").css("overflow", "");
             $("body").removeClass('slnt-overlay-menu-bg');
             // Clear ALL inline styles from nav (including transition/opacity from burger fade)
-            document.querySelector("nav[role=navigation]").removeAttribute('style');
+            document.querySelector("nav[role=navigation]:not(.pager)").removeAttribute('style');
             document.querySelector(".main-menu-wrap").removeAttribute('style');
 
             // Set all submenus to desktop hidden state
@@ -1122,7 +1122,7 @@
       }
 
       function get_mainMenuNavContainer() {
-        return document.querySelector('header > * nav[role=navigation]');
+        return document.querySelector('header > * nav[role=navigation]:not(.pager)');
       }
 
       function desktop_menu_initialise_container_height() {
