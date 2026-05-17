@@ -1,0 +1,35 @@
+{#
+/**
+ * @file
+ * "in" kicker — sits ABOVE the title on a teaser whose primary topic
+ * is within the current page's topic scope. Shows the sub-topic chain
+ * with ancestors stripped to the page's depth (so on /culture,
+ * "Culture / Music" displays as "MUSIC" not "CULTURE / MUSIC"; on
+ * /culture/stage, "Culture / Stage / Theatre School" displays as
+ * "THEATRE SCHOOL").
+ *
+ * Each term is linked to its landing page IF a published composite_page
+ * exists for that term — otherwise it renders as plain text. Lets the
+ * editor build out the section tree gradually without breaking links.
+ *
+ * Variables (set by customsolent_preprocess_node):
+ *   - show_in_kicker     bool — render only when TRUE.
+ *   - in_kicker_items    array of { label, url|null, color }.
+ *   - in_kicker_section  lowercased top-level Topic name (data-section
+ *                         hook for any section-specific styling).
+ */
+#}
+{% if show_in_kicker is defined and show_in_kicker and in_kicker_items %}
+  <div class="slnt-teaser__in-kicker"
+       {% if in_kicker_section %}data-section="{{ in_kicker_section }}"{% endif %}>
+    <span class="slnt-teaser__in-prefix">in</span>
+    {% for item in in_kicker_items %}
+      {% if item.url %}
+        <a href="{{ item.url }}" class="slnt-teaser__in-term" style="color: {{ item.color }};">{{ item.label }}</a>
+      {% else %}
+        <span class="slnt-teaser__in-term slnt-teaser__in-term--plain" style="color: {{ item.color }};">{{ item.label }}</span>
+      {% endif %}
+      {% if not loop.last %}<span class="slnt-teaser__in-separator" aria-hidden="true"> / </span>{% endif %}
+    {% endfor %}
+  </div>
+{% endif %}
