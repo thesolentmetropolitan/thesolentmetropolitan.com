@@ -91,16 +91,30 @@ function customsolent_preprocess_node(array &$variables): void {
         $top = _customsolent_topic_top_level($primary_term);
         $top_name = $top ? $top->getName() : '';
         if (in_array($primary_tid, $page_tids, TRUE)) {
-          // Inside page scope — "in" kicker.
-          $page_term_depth = (int) \Drupal::request()->attributes->get('page_term_depth', -1);
-          $in_items = _customsolent_build_in_kicker($primary_term, $page_term_depth);
-          if ($in_items) {
-            $variables['show_in_kicker']    = TRUE;
-            $variables['in_kicker_items']   = $in_items;
-            $variables['in_kicker_section'] = strtolower($top_name);
+          // Inside page scope — consider an "in" kicker.
+          //
+          // Defensive exact-match short-circuit: if the content's
+          // primary topic IS the page's resolved term itself, never
+          // render a kicker — even if the depth arithmetic in
+          // _customsolent_build_in_kicker would somehow disagree
+          // (e.g. due to a stale request attribute or a context
+          // edge case).
+          $page_term_tid = \Drupal::request()->attributes->get('page_term_tid');
+          if ($page_term_tid !== NULL && (int) $page_term_tid === $primary_tid) {
+            // Exact match — no kicker.
           }
-          // If $in_items is NULL the content's term IS the page's
-          // term — no kicker at all.
+          else {
+            $page_term_depth = (int) \Drupal::request()->attributes->get('page_term_depth', -1);
+            $in_items = _customsolent_build_in_kicker($primary_term, $page_term_depth);
+            if ($in_items) {
+              $variables['show_in_kicker']    = TRUE;
+              $variables['in_kicker_items']   = $in_items;
+              $variables['in_kicker_section'] = strtolower($top_name);
+            }
+            // If $in_items is NULL — the content's term equals the
+            // page's term (the depth logic also catches this) — no
+            // kicker either.
+          }
         }
         else {
           // Outside page scope — "from" kicker with full ancestor chain.
@@ -524,10 +538,18 @@ function customsolent_preprocess_paragraph__view_display(&$variables) {
   // "MUSIC" not "CULTURE / MUSIC"). -1 in all-topics mode (e.g.
   // /explore/events landing): show the full ancestor chain.
   $page_term_depth = -1;
+  $page_term_tid   = NULL;
   if (($context['mode'] ?? '') === 'term' && !empty($context['term'])) {
     $page_term_depth = _customsolent_get_term_depth($context['term']);
+    $page_term_tid   = (int) $context['term']->id();
   }
   \Drupal::request()->attributes->set('page_term_depth', $page_term_depth);
+  // Also stash the exact term tid so the teaser preprocess can do a
+  // belt-and-braces exact-match check (no kicker when content's
+  // primary topic IS the page's term) independently of the depth
+  // arithmetic — defensive against any unexpected request-attribute
+  // state.
+  \Drupal::request()->attributes->set('page_term_tid', $page_term_tid);
 
   // Render this paragraph's own filter UI only when:
   //   (a) the display is the primary-topic display, AND
@@ -1008,7 +1030,7 @@ function customsolent_paragraph_view_alter(array &$build, \Drupal\Core\Entity\En
  * would be served unchanged across section pages.
  */
 function customsolent_node_view_alter(array &$build, \Drupal\Core\Entity\EntityInterface $entity, \Drupal\Core\Entity\Display\EntityViewDisplayInterface $display) {
-  if (($build['#view_mode'] ?? '') === 'teaser') {
+  if (in_array(($build['#view_mode'] ?? ''), ['teaser', 'compact'], TRUE)) {
     $build['#cache']['contexts'][] = 'url.path';
     $build['#cache']['contexts'][] = 'url.query_args:topic';
   }
