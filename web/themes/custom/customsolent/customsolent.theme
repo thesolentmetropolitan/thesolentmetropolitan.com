@@ -70,64 +70,34 @@ function customsolent_preprocess_node(array &$variables): void {
     _customsolent_extract_field_url_meta($node, $variables);
   }
 
-  // Topic kickers on teasers. Mutually exclusive per item:
-  //   - "in" kicker (ABOVE title): content's primary topic is within
-  //     the page's topic scope. Shows the sub-topic chain with
-  //     ancestors stripped up to the page's depth.
-  //   - "from" kicker (BELOW title): content's primary topic is
-  //     outside the page's scope (appearing via field_related_topics
-  //     from another section). Shows the full ancestor chain so the
-  //     reader knows where the content primarily lives.
-  //   - Neither: the content's primary topic equals the page's term
-  //     exactly (nothing to add).
+  // Topic kickers on teasers and compact cards. Rendered via
+  // #lazy_builder placeholders so they're recomputed per request,
+  // bypassing the teaser entity render cache (which is shared across
+  // pages and would otherwise bake the wrong kicker into other
+  // section pages — issue #279).
+  //
+  // The lazy-builder callbacks resolve the current page's topic
+  // scope from the request URL — not from request attributes, which
+  // may be overwritten by other paragraphs by the time the
+  // placeholder is resolved.
   if (in_array(($variables['view_mode'] ?? ''), ['teaser', 'compact'], TRUE)
     && $node->hasField('field_primary_topic')
     && !$node->get('field_primary_topic')->isEmpty()) {
-    $page_tids = \Drupal::request()->attributes->get('page_topic_tids');
-    if (is_array($page_tids) && !empty($page_tids)) {
-      $primary_tid = (int) $node->get('field_primary_topic')->target_id;
-      $primary_term = $node->get('field_primary_topic')->entity;
-      if ($primary_term) {
-        $top = _customsolent_topic_top_level($primary_term);
-        $top_name = $top ? $top->getName() : '';
-        if (in_array($primary_tid, $page_tids, TRUE)) {
-          // Inside page scope — consider an "in" kicker.
-          //
-          // Defensive exact-match short-circuit: if the content's
-          // primary topic IS the page's resolved term itself, never
-          // render a kicker — even if the depth arithmetic in
-          // _customsolent_build_in_kicker would somehow disagree
-          // (e.g. due to a stale request attribute or a context
-          // edge case).
-          $page_term_tid = \Drupal::request()->attributes->get('page_term_tid');
-          if ($page_term_tid !== NULL && (int) $page_term_tid === $primary_tid) {
-            // Exact match — no kicker.
-          }
-          else {
-            $page_term_depth = (int) \Drupal::request()->attributes->get('page_term_depth', -1);
-            $in_items = _customsolent_build_in_kicker($primary_term, $page_term_depth);
-            if ($in_items) {
-              $variables['show_in_kicker']    = TRUE;
-              $variables['in_kicker_items']   = $in_items;
-              $variables['in_kicker_section'] = strtolower($top_name);
-            }
-            // If $in_items is NULL — the content's term equals the
-            // page's term (the depth logic also catches this) — no
-            // kicker either.
-          }
-        }
-        else {
-          // Outside page scope — "from" kicker with full ancestor chain.
-          $variables['show_primary_kicker']      = TRUE;
-          $variables['primary_kicker_ancestors'] = _customsolent_build_from_kicker($primary_term);
-          $variables['primary_kicker_section']   = strtolower($top_name);
-          // Back-compat with older teaser templates that still read
-          // the simple label/color variables (single-term display).
-          $variables['primary_kicker_label']     = _customsolent_strip_term_prefix($primary_term->getName());
-          $variables['primary_kicker_color']     = _customsolent_get_section_color($primary_term);
-        }
-      }
-    }
+    $nid = (int) $node->id();
+    $variables['in_kicker_lazy'] = [
+      '#lazy_builder' => [
+        'Drupal\customsolent_helpers\Render\KickerLazyBuilder::inKicker',
+        [$nid],
+      ],
+      '#create_placeholder' => TRUE,
+    ];
+    $variables['from_kicker_lazy'] = [
+      '#lazy_builder' => [
+        'Drupal\customsolent_helpers\Render\KickerLazyBuilder::fromKicker',
+        [$nid],
+      ],
+      '#create_placeholder' => TRUE,
+    ];
   }
 }
 
@@ -1018,21 +988,6 @@ function customsolent_paragraph_view_alter(array &$build, \Drupal\Core\Entity\En
     // stay stale across navigations.
     $build['#cache']['contexts'][] = 'url.query_args:topic';
     $build['#cache']['contexts'][] = 'url.query_args:date_filter_id';
-  }
-}
-
-/**
- * Implements hook_node_view_alter().
- *
- * The primary-topic kicker on teaser nodes depends on the host page's
- * topic scope (read from a request attribute in preprocess), so the
- * teaser render cache must fragment by URL path or the same teaser
- * would be served unchanged across section pages.
- */
-function customsolent_node_view_alter(array &$build, \Drupal\Core\Entity\EntityInterface $entity, \Drupal\Core\Entity\Display\EntityViewDisplayInterface $display) {
-  if (in_array(($build['#view_mode'] ?? ''), ['teaser', 'compact'], TRUE)) {
-    $build['#cache']['contexts'][] = 'url.path';
-    $build['#cache']['contexts'][] = 'url.query_args:topic';
   }
 }
 

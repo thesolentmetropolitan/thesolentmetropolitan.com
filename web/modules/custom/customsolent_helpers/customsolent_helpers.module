@@ -1,0 +1,47 @@
+<?php
+
+declare(strict_types=1);
+
+/**
+ * @file
+ * Customsolent Helpers module.
+ *
+ * Registers the in_kicker and from_kicker theme hooks used by the
+ * KickerLazyBuilder. The templates live in the customsolent theme
+ * (templates/components/) — Drupal's theme registry picks them up
+ * because the theme's template paths override the module's defaults.
+ */
+
+/**
+ * Implements hook_theme().
+ *
+ * The KickerLazyBuilder returns render arrays with #theme set to
+ * these hooks. Templates are looked up by Drupal's theme registry —
+ * the customsolent theme's templates/components/in-kicker.html.twig
+ * and templates/components/primary-kicker.html.twig are used.
+ */
+function customsolent_helpers_theme($existing, $type, $theme, $path) {
+  return [
+    'in_kicker' => [
+      'variables' => [
+        'show_in_kicker' => TRUE,
+        'in_kicker_items' => [],
+        'in_kicker_section' => '',
+      ],
+      // Default fallback template inside this module — overridden by
+      // the customsolent theme's templates/components/in-kicker.html.twig.
+      'template' => 'in-kicker',
+    ],
+    'from_kicker' => [
+      'variables' => [
+        'show_primary_kicker' => TRUE,
+        'primary_kicker_ancestors' => [],
+        'primary_kicker_section' => '',
+      ],
+      // The theme's existing file is primary-kicker.html.twig — name
+      // the default template here to match, so theme override works
+      // by simply having the file in the theme's templates/ tree.
+      'template' => 'primary-kicker',
+    ],
+  ];
+}
