@@ -1,0 +1,5 @@
+name: 'Customsolent Helpers'
+type: module
+description: 'Site-specific helpers for the customsolent theme. Hosts trusted lazy_builder callbacks that have to live in a module (themes cannot register trusted render callbacks). Currently provides the per-request "in" / "from" topic kickers on node teasers.'
+core_version_requirement: ^11
+package: Custom

@@ -1,0 +1,35 @@
+{#
+/**
+ * @file
+ * "from" kicker — sits BELOW the title on a teaser whose primary topic
+ * is OUTSIDE the current page's topic scope (i.e. it's appearing via
+ * field_related_topics from another section). Shows the full ancestor
+ * chain so the reader knows where the content primarily lives.
+ *
+ * Each ancestor links to its landing page IF a published composite_page
+ * exists; otherwise it renders as plain text (graceful degradation as
+ * the section tree fills in).
+ *
+ * Variables (set by customsolent_preprocess_node):
+ *   - show_primary_kicker      bool — render only when TRUE.
+ *   - primary_kicker_ancestors array of { label, url|null, color } —
+ *                              full chain from root to the content's
+ *                              primary term.
+ *   - primary_kicker_section   lowercased top-level Topic name
+ *                              (data-section hook).
+ */
+#}
+{% if show_primary_kicker is defined and show_primary_kicker and primary_kicker_ancestors is defined and primary_kicker_ancestors %}
+  <div class="slnt-teaser__from-kicker"
+       {% if primary_kicker_section %}data-section="{{ primary_kicker_section }}"{% endif %}>
+    <span class="slnt-teaser__from-prefix">from</span>
+    {% for ancestor in primary_kicker_ancestors %}
+      {% if ancestor.url %}
+        <a href="{{ ancestor.url }}" class="slnt-teaser__from-term" style="color: {{ ancestor.color }};">{{ ancestor.label }}</a>
+      {% else %}
+        <span class="slnt-teaser__from-term slnt-teaser__from-term--plain" style="color: {{ ancestor.color }};">{{ ancestor.label }}</span>
+      {% endif %}
+      {% if not loop.last %}<span class="slnt-teaser__from-separator" aria-hidden="true"> / </span>{% endif %}
+    {% endfor %}
+  </div>
+{% endif %}

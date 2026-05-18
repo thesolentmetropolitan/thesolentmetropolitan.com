@@ -38,8 +38,8 @@
     </a>
   {% endif %}
 
-  {% include '@customsolent/components/in-kicker.html.twig' %}
-  {% include '@customsolent/components/primary-kicker.html.twig' %}
+  {{ in_kicker_lazy }}
+  {{ from_kicker_lazy }}
 
   {% if content.field_standfirst|render|striptags|trim %}
     <div class="slnt-link-teaser__standfirst">{{ content.field_standfirst }}</div>
