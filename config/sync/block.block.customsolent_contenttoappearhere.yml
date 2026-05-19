@@ -12,7 +12,7 @@ dependencies:
 id: customsolent_contenttoappearhere
 theme: customsolent
 region: content
-weight: 0
+weight: -6
 provider: null
 plugin: 'block_content:0dd86e0e-bb3b-44ee-9ae8-5b70a7a8fb1d'
 settings:
