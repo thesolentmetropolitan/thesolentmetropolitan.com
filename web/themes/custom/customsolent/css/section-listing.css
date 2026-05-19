@@ -40,10 +40,10 @@
 /* ── Editor-supplied heading per listing ── */
 .slnt-listing__heading {
   font-family: 'Atkinson Hyperlegible Next', sans-serif;
-  font-size: 1.35rem;
+  font-size: 1.8rem;
   font-weight: 700;
   color: var(--solent-blue, #2c4f6e);
-  margin: 0 0 1rem;
+  margin: 2rem 0 0.5rem 0;
 }
 
 /* ── Layout: sidebar + content (desktop) ── */
