@@ -1689,7 +1689,7 @@ taxonomies:
       name: Hampshire
       description__value: null
       description__format: null
-      weight: '17'
+      weight: '1'
       parent: '0'
       uuid: 17bce430-20a8-4276-8bb6-11e21b5200a3
     -
@@ -1704,12 +1704,22 @@ taxonomies:
       uuid: b6bb0755-e44f-4bda-9731-8d4e119c912d
     -
       vid: location
+      tid: '180'
+      langcode: en
+      name: 'Isle of Wight'
+      description__value: null
+      description__format: null
+      weight: '11'
+      parent: '0'
+      uuid: 082e2ffb-8530-436f-891e-ae6c49475a64
+    -
+      vid: location
       tid: '173'
       langcode: en
       name: 'New Forest'
       description__value: null
       description__format: null
-      weight: '20'
+      weight: '15'
       parent: '0'
       uuid: a9ef1c39-57a4-41f3-8c40-304040441f91
     -
@@ -1722,6 +1732,16 @@ taxonomies:
       weight: '4'
       parent: '139'
       uuid: b6ae85ef-53cd-4921-8837-b426db3ca56f
+    -
+      vid: location
+      tid: '178'
+      langcode: en
+      name: 'Palmerston Park Bandstand'
+      description__value: null
+      description__format: null
+      weight: '5'
+      parent: '139'
+      uuid: de17c3bb-e79d-4f42-a241-c436b166feef
     -
       vid: location
       tid: '152'
@@ -1759,7 +1779,7 @@ taxonomies:
       name: Solent
       description__value: null
       description__format: null
-      weight: '21'
+      weight: '18'
       parent: '0'
       uuid: de285813-efde-4206-b9d0-997faccc8da6
     -
@@ -1799,7 +1819,7 @@ taxonomies:
       name: 'St. Barnabas Hall'
       description__value: null
       description__format: null
-      weight: '5'
+      weight: '6'
       parent: '139'
       uuid: e5ab950d-f594-4fdc-9436-5ba2ce45f837
     -
@@ -1819,9 +1839,19 @@ taxonomies:
       name: Various
       description__value: null
       description__format: null
-      weight: '22'
+      weight: '23'
       parent: '0'
       uuid: 7dc50ba8-62e9-4ea2-bbad-62e0a2bb6b4e
+    -
+      vid: location
+      tid: '181'
+      langcode: en
+      name: Ventnor
+      description__value: null
+      description__format: null
+      weight: '0'
+      parent: '180'
+      uuid: d40ef60b-a98b-4955-a70b-fce80c920c6a
     -
       vid: location
       tid: '147'
@@ -1839,7 +1869,7 @@ taxonomies:
       name: 'Woolston Methodist Church'
       description__value: null
       description__format: null
-      weight: '6'
+      weight: '7'
       parent: '139'
       uuid: 77daf3d9-ed5d-49ea-b790-cfaea4e6c891
   topic:
@@ -1850,7 +1880,7 @@ taxonomies:
       name: About
       description__value: null
       description__format: null
-      weight: '101'
+      weight: '104'
       parent: '0'
       uuid: 70d88e9a-8dea-4512-8d0e-a3847c0b1cb8
       field_reader_summary:
@@ -1967,7 +1997,7 @@ taxonomies:
       name: Culture
       description__value: null
       description__format: null
-      weight: '97'
+      weight: '100'
       parent: '0'
       uuid: dc1f927a-0460-4b36-aacc-dd537c1a2798
       field_reader_summary:
@@ -2198,7 +2228,7 @@ taxonomies:
       vid: topic
       tid: '165'
       langcode: en
-      name: 'Culture / Screen / Film Acting School'
+      name: 'Culture / Screen / Film Acting Schools'
       description__value: null
       description__format: null
       weight: '0'
@@ -2235,7 +2265,7 @@ taxonomies:
       vid: topic
       tid: '164'
       langcode: en
-      name: 'Culture / Stage / Theatre School'
+      name: 'Culture / Stage / Theatre Schools'
       description__value: null
       description__format: null
       weight: '0'
@@ -2320,6 +2350,17 @@ taxonomies:
       field_reader_summary: {  }
     -
       vid: topic
+      tid: '183'
+      langcode: en
+      name: 'Culture / Workshops / Crafts'
+      description__value: null
+      description__format: null
+      weight: '1'
+      parent: '56'
+      uuid: b7830886-bccd-49d0-bdb7-99d0ffb2c307
+      field_reader_summary: {  }
+    -
+      vid: topic
       tid: '55'
       langcode: en
       name: 'Culture / Writing'
@@ -2333,12 +2374,23 @@ taxonomies:
           value: 'Writers, literary events, zines and the written word in the Solent region.'
     -
       vid: topic
+      tid: '179'
+      langcode: en
+      name: 'Culture / Writing / Books'
+      description__value: null
+      description__format: null
+      weight: '0'
+      parent: '55'
+      uuid: b96506ca-bcf4-4c0e-a538-21a3ddb9e2e8
+      field_reader_summary: {  }
+    -
+      vid: topic
       tid: '32'
       langcode: en
       name: Explore
       description__value: null
       description__format: null
-      weight: '100'
+      weight: '103'
       parent: '0'
       uuid: 234a3394-cb75-4c68-9628-a40aca3289bf
       field_reader_summary:
@@ -2492,7 +2544,7 @@ taxonomies:
       name: Living
       description__value: null
       description__format: null
-      weight: '99'
+      weight: '102'
       parent: '0'
       uuid: 848662af-0f3b-4921-bca8-469117a11112
       field_reader_summary:
@@ -2655,7 +2707,7 @@ taxonomies:
       name: Sectors
       description__value: null
       description__format: null
-      weight: '98'
+      weight: '101'
       parent: '0'
       uuid: 2d703122-5b4a-4e6b-baf5-72f78e50641c
       field_reader_summary:
@@ -2676,12 +2728,23 @@ taxonomies:
           value: 'Arts organisations, funded venues and the creative arts sector in the Solent economy.'
     -
       vid: topic
+      tid: '182'
+      langcode: en
+      name: 'Sectors / Arts / Galleries'
+      description__value: null
+      description__format: null
+      weight: '0'
+      parent: '58'
+      uuid: c92cdded-203f-43c7-82c4-927fdb88c554
+      field_reader_summary: {  }
+    -
+      vid: topic
       tid: '166'
       langcode: en
       name: 'Sectors / Arts / Performing'
       description__value: null
       description__format: null
-      weight: '0'
+      weight: '1'
       parent: '58'
       uuid: 84f1540d-c9f6-4c8e-a3a6-a41a2c2fba30
       field_reader_summary: {  }
