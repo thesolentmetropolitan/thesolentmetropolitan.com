@@ -61,7 +61,21 @@
             "phpstan/extension-installer": true,
             "wikimedia/composer-merge-plugin": true
         },
-        "sort-packages": true
+        "sort-packages": true,
+        "audit": {
+            "ignore": {
+                "PKSA-5k7f-wvjj-jrgw": "twig/twig 3.22.x — required by drupal/core 11.3.7-11.3.9 (constraint ~v3.22.0). Accepted to allow update; remove when drupal/core bumps twig constraint or twig 3.22.x ships a fix.",
+                "PKSA-sjvz-tbbr-vwth": "twig/twig 3.22.x — see above",
+                "PKSA-h8hf-ytnd-5t9q": "twig/twig 3.22.x — see above",
+                "PKSA-wwb1-81rc-pd65": "twig/twig 3.22.x — see above",
+                "PKSA-kvv6-36cr-fkzb": "twig/twig 3.22.x — see above",
+                "PKSA-n14z-jjjg-g8vd": "twig/twig 3.22.x — see above",
+                "PKSA-3mcc-k66d-pydb": "twig/twig 3.22.x — see above",
+                "PKSA-gw7n-z4yx-7xjt": "twig/twig 3.22.x — see above",
+                "PKSA-dpx1-78wg-1kqs": "twig/twig 3.22.x — see above",
+                "PKSA-21g2-dzjv-sky5": "twig/twig 3.22.x — see above"
+            }
+        }
     },
     "extra": {
         "drupal-scaffold": {
