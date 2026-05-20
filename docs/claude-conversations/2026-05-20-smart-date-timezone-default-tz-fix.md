@@ -82,7 +82,7 @@ Settings 3 and 4 don't need to match; with `default_tz=custom` they're ignored.
 * **The per-row dropdown defaults to a sentinel ("- default: X -") that visually claims to mean X but, when default_tz is empty, actually means "no timezone"**. The dropdown label and the dropdown behaviour disagree.
 * For a content editorial site, the practical workflow needs to be: configure once at site-build, then editors only ever see and use local time. The current Smart Date defaults force editors and site-builders to assume timezone literacy at every layer.
 
-Not raising an upstream issue ([smart_date](https://drupal.org/project/smart_date)) for now. Tracking in this repo at [#282](https://github.com/thesolentmetropolitan/thesolentmetropolitan.com/issues/282) so we have a single place to land follow-ups (e.g. if it bites us again after a contrib update, or if the `smartdate_custom` formatter ever gets a config schema and we have to revisit settings).
+Not raising an upstream issue ([smart_date](https://drupal.org/project/smart_date)) for now. Tracking in this repo at [#290](https://github.com/thesolentmetropolitan/thesolentmetropolitan.com/issues/282) so we have a single place to land follow-ups (e.g. if it bites us again after a contrib update, or if the `smartdate_custom` formatter ever gets a config schema and we have to revisit settings).
 
 ## Deploying to live
 
@@ -149,6 +149,6 @@ A  docs/claude-conversations/2026-05-20-smart-date-timezone-default-tz-fix.md
 
 ## Related
 
-* [#282](https://github.com/thesolentmetropolitan/thesolentmetropolitan.com/issues/282) — issue we're filing in this repo to track the Smart Date editor-UX feedback.
+* [#290](https://github.com/thesolentmetropolitan/thesolentmetropolitan.com/issues/282) — issue we're filing in this repo to track the Smart Date editor-UX feedback.
 * `2026-05-16-event-times-tz-migration-runbook.md` — the original UTC → Europe/London migration. This bug only became visible *after* that migration started shifting display times into BST.
 * Earlier `customsolent_helpers` work for site-specific Drupal-internals fixes — same general pattern of "small module/config touch hides a Drupal-core quirk so editors don't have to know about it".
