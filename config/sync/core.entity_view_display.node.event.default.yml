@@ -79,7 +79,7 @@ content:
       ampm_reduce: '1'
       site_time_toggle: '1'
       custom_date_format: ''
-      timezone: ''
+      timezone: Europe/London
       tooltip:
         date_format: long
         custom_date_format: ''

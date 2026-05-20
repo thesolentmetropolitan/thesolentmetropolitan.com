@@ -89,9 +89,10 @@ content:
       remove_seconds: false
       duration_overlay: true
       separator: to
-      default_tz: ''
-      custom_tz: ''
-      allowed_timezones: {  }
+      default_tz: custom
+      custom_tz: Europe/London
+      allowed_timezones:
+        - Europe/London
       add_abbreviations: ''
     third_party_settings: {  }
   field_where:
