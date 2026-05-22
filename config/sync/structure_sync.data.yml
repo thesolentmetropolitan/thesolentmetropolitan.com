@@ -193,9 +193,9 @@ menus:
     options: {  }
   -
     menu_name: main
-    title: Heritage
+    title: 'Heritage & History'
     parent: 'menu_link_content:9548ba9b-5ae0-4248-8c2e-f76e52ef31f5'
-    uri: 'internal:/culture/heritage'
+    uri: 'internal:/culture/heritage-history'
     link_title: ''
     description: null
     enabled: true
@@ -863,7 +863,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -89
+    weight: -88
     langcode: en
     uuid: 216896dd-bf5a-4ac9-9e6d-4afdbc5a3410
     options: {  }
@@ -882,14 +882,14 @@ menus:
     options: {  }
   -
     menu_name: main
-    title: 'Orgs & Directories'
+    title: 'Directories & Networks'
     parent: 'menu_link_content:00eabb8c-58ed-4f9b-88c1-0c5b1aecf9e1'
-    uri: 'internal:/explore/orgs-directories'
+    uri: 'internal:/explore/directories-networks'
     link_title: ''
     description: null
     enabled: true
     expanded: false
-    weight: -85
+    weight: -89
     langcode: en
     uuid: e9242771-d104-47d0-81cc-d6890672b587
     options: {  }
@@ -1152,9 +1152,9 @@ menus:
     options: {  }
   -
     menu_name: main
-    title: Arts
+    title: 'Arts & Culture'
     parent: 'menu_link_content:ca4916ec-7269-42dc-abf5-5864739fbddd'
-    uri: 'internal:/sectors/arts'
+    uri: 'internal:/sectors/arts-culture'
     link_title: ''
     description: null
     enabled: true
@@ -1370,6 +1370,19 @@ menus:
     weight: -89
     langcode: en
     uuid: 6cdc982a-c956-4ebe-a758-e865f5f0978b
+    options: {  }
+  -
+    menu_name: main
+    title: Organisations
+    parent: 'menu_link_content:00eabb8c-58ed-4f9b-88c1-0c5b1aecf9e1'
+    uri: 'internal:/explore/organisations'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -85
+    langcode: en
+    uuid: 7394a8a8-3be4-4c8a-b4e2-88ba730920b7
     options: {  }
 taxonomies:
   color:
@@ -1880,7 +1893,7 @@ taxonomies:
       name: About
       description__value: null
       description__format: null
-      weight: '104'
+      weight: '106'
       parent: '0'
       uuid: 70d88e9a-8dea-4512-8d0e-a3847c0b1cb8
       field_reader_summary:
@@ -1997,7 +2010,7 @@ taxonomies:
       name: Culture
       description__value: null
       description__format: null
-      weight: '100'
+      weight: '102'
       parent: '0'
       uuid: dc1f927a-0460-4b36-aacc-dd537c1a2798
       field_reader_summary:
@@ -2098,7 +2111,7 @@ taxonomies:
       vid: topic
       tid: '41'
       langcode: en
-      name: 'Culture / Heritage'
+      name: 'Culture / Heritage & History'
       description__value: null
       description__format: null
       weight: '7'
@@ -2263,12 +2276,23 @@ taxonomies:
           value: 'Theatres, performances and the stage arts on show across the Solent region.'
     -
       vid: topic
+      tid: '185'
+      langcode: en
+      name: 'Culture / Stage / Comedy'
+      description__value: null
+      description__format: null
+      weight: '0'
+      parent: '51'
+      uuid: ea6cc4bb-f733-4b44-877a-a6983dee731f
+      field_reader_summary: {  }
+    -
+      vid: topic
       tid: '164'
       langcode: en
       name: 'Culture / Stage / Theatre Schools'
       description__value: null
       description__format: null
-      weight: '0'
+      weight: '1'
       parent: '51'
       uuid: 3a604ddc-7851-4d1b-a560-09af86e8a292
       field_reader_summary: {  }
@@ -2361,6 +2385,17 @@ taxonomies:
       field_reader_summary: {  }
     -
       vid: topic
+      tid: '184'
+      langcode: en
+      name: 'Culture / Workshops / Makerspace'
+      description__value: null
+      description__format: null
+      weight: '2'
+      parent: '56'
+      uuid: 5f3243dd-3b30-47bb-bf02-7a2184b8163b
+      field_reader_summary: {  }
+    -
+      vid: topic
       tid: '55'
       langcode: en
       name: 'Culture / Writing'
@@ -2390,7 +2425,7 @@ taxonomies:
       name: Explore
       description__value: null
       description__format: null
-      weight: '103'
+      weight: '105'
       parent: '0'
       uuid: 234a3394-cb75-4c68-9628-a40aca3289bf
       field_reader_summary:
@@ -2403,7 +2438,7 @@ taxonomies:
       name: 'Explore / Archive'
       description__value: null
       description__format: null
-      weight: '9'
+      weight: '10'
       parent: '32'
       uuid: d545bc47-a144-4b9c-9329-0187d6df521c
       field_reader_summary:
@@ -2450,12 +2485,23 @@ taxonomies:
           value: 'Data, statistics and open information about the Solent region.'
     -
       vid: topic
+      tid: '157'
+      langcode: en
+      name: 'Explore / Directories & Networks'
+      description__value: null
+      description__format: null
+      weight: '3'
+      parent: '32'
+      uuid: af719ed5-ef39-4748-8cfc-eabeb9e699d4
+      field_reader_summary: {  }
+    -
+      vid: topic
       tid: '107'
       langcode: en
       name: 'Explore / Events'
       description__value: null
       description__format: null
-      weight: '3'
+      weight: '4'
       parent: '32'
       uuid: 24f9f9a1-4888-4391-92de-4bff4d60bbce
       field_reader_summary:
@@ -2468,7 +2514,7 @@ taxonomies:
       name: 'Explore / Jobs Boards'
       description__value: null
       description__format: null
-      weight: '4'
+      weight: '5'
       parent: '32'
       uuid: 90bb9bbd-3682-4175-aa29-50716bb4c30c
       field_reader_summary:
@@ -2481,7 +2527,7 @@ taxonomies:
       name: 'Explore / Opinion'
       description__value: null
       description__format: null
-      weight: '6'
+      weight: '7'
       parent: '32'
       uuid: 3c0fa54c-dbe4-4207-bef6-b3d6734705d0
       field_reader_summary:
@@ -2491,10 +2537,10 @@ taxonomies:
       vid: topic
       tid: '111'
       langcode: en
-      name: 'Explore / Organisations & Directories'
+      name: 'Explore / Organisations'
       description__value: null
       description__format: null
-      weight: '7'
+      weight: '8'
       parent: '32'
       uuid: 7ba478dd-c1e0-4474-8b16-3f98bdc25a5d
       field_reader_summary:
@@ -2502,23 +2548,12 @@ taxonomies:
           value: 'Directory of organisations, businesses and groups active in the Solent.'
     -
       vid: topic
-      tid: '157'
-      langcode: en
-      name: 'Explore / Orgs & Directories / Directory'
-      description__value: null
-      description__format: null
-      weight: '0'
-      parent: '111'
-      uuid: af719ed5-ef39-4748-8cfc-eabeb9e699d4
-      field_reader_summary: {  }
-    -
-      vid: topic
       tid: '109'
       langcode: en
       name: 'Explore / Places & Maps'
       description__value: null
       description__format: null
-      weight: '5'
+      weight: '6'
       parent: '32'
       uuid: 18fedeb7-de70-4ecf-bc4a-37e4238a03e3
       field_reader_summary:
@@ -2531,7 +2566,7 @@ taxonomies:
       name: 'Explore / Series'
       description__value: null
       description__format: null
-      weight: '8'
+      weight: '9'
       parent: '32'
       uuid: 348c602d-d912-40eb-ac00-b9f4ee224b86
       field_reader_summary:
@@ -2544,7 +2579,7 @@ taxonomies:
       name: Living
       description__value: null
       description__format: null
-      weight: '102'
+      weight: '104'
       parent: '0'
       uuid: 848662af-0f3b-4921-bca8-469117a11112
       field_reader_summary:
@@ -2707,7 +2742,7 @@ taxonomies:
       name: Sectors
       description__value: null
       description__format: null
-      weight: '101'
+      weight: '103'
       parent: '0'
       uuid: 2d703122-5b4a-4e6b-baf5-72f78e50641c
       field_reader_summary:
@@ -2717,7 +2752,7 @@ taxonomies:
       vid: topic
       tid: '58'
       langcode: en
-      name: 'Sectors / Arts'
+      name: 'Sectors / Arts & Culture'
       description__value: null
       description__format: null
       weight: '0'
