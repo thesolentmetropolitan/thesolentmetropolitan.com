@@ -226,7 +226,7 @@ display:
         options:
           offset: 0
           pagination_heading_level: h4
-          items_per_page: 0
+          items_per_page: 10
           total_pages: null
           id: 0
           tags:
@@ -272,10 +272,12 @@ display:
           view_mode: teaser
       defaults:
         empty: false
+        use_ajax: false
         pager: false
         style: false
         row: false
         arguments: false
+      use_ajax: true
       display_description: ''
       display_extenders: {  }
     cache_metadata:
