@@ -54,7 +54,7 @@ content:
       join: ', '
       time_format: 'g:ia'
       time_hour_format: ga
-      allday_label: 'All day'
+      allday_label: ''
       date_first: '1'
       ampm_reduce: '1'
       site_time_toggle: '1'
