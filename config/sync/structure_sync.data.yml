@@ -1642,9 +1642,19 @@ taxonomies:
       name: 'Bedford Place'
       description__value: null
       description__format: null
-      weight: '2'
+      weight: '0'
       parent: '139'
       uuid: b1103e05-f91e-43a6-ba86-bde27c6fc9ef
+    -
+      vid: location
+      tid: '186'
+      langcode: en
+      name: 'Carlton Place'
+      description__value: null
+      description__format: null
+      weight: '1'
+      parent: '139'
+      uuid: 9d1f1dbf-d8fb-4c2f-bc4b-15b6bb55548c
     -
       vid: location
       tid: '177'
@@ -1667,12 +1677,42 @@ taxonomies:
       uuid: bf8cea68-6e4f-422e-a67b-9b47ff74b26a
     -
       vid: location
+      tid: '196'
+      langcode: en
+      name: 'Elizabeth Kell Community Hall'
+      description__value: null
+      description__format: null
+      weight: '2'
+      parent: '139'
+      uuid: 45444981-7403-4679-b36f-2df19d63ee2f
+    -
+      vid: location
+      tid: '194'
+      langcode: en
+      name: Emsworth
+      description__value: null
+      description__format: null
+      weight: '0'
+      parent: '140'
+      uuid: 79b2e3f9-17c2-476a-b19a-ebf74c148369
+    -
+      vid: location
+      tid: '195'
+      langcode: en
+      name: 'Emsworth Community Centre'
+      description__value: null
+      description__format: null
+      weight: '0'
+      parent: '194'
+      uuid: 0996dad2-52a2-48f0-813f-da098e8512cc
+    -
+      vid: location
       tid: '142'
       langcode: en
       name: Fareham
       description__value: null
       description__format: null
-      weight: '0'
+      weight: '1'
       parent: '140'
       uuid: 105254fe-4cd2-4c4b-ba00-668d03c06aae
     -
@@ -1682,7 +1722,7 @@ taxonomies:
       name: "God's House Tower"
       description__value: null
       description__format: null
-      weight: '0'
+      weight: '3'
       parent: '139'
       uuid: 5b1101e1-a131-415f-b3f3-5b5735a0e33f
     -
@@ -1692,7 +1732,7 @@ taxonomies:
       name: 'Guildhall Square'
       description__value: null
       description__format: null
-      weight: '1'
+      weight: '4'
       parent: '139'
       uuid: 50fbcd74-fc5d-44cb-87f1-908e2cb61310
     -
@@ -1702,7 +1742,7 @@ taxonomies:
       name: Hampshire
       description__value: null
       description__format: null
-      weight: '1'
+      weight: '31'
       parent: '0'
       uuid: 17bce430-20a8-4276-8bb6-11e21b5200a3
     -
@@ -1712,7 +1752,7 @@ taxonomies:
       name: 'Hoglands Park Pavilion'
       description__value: null
       description__format: null
-      weight: '3'
+      weight: '5'
       parent: '139'
       uuid: b6bb0755-e44f-4bda-9731-8d4e119c912d
     -
@@ -1722,9 +1762,19 @@ taxonomies:
       name: 'Isle of Wight'
       description__value: null
       description__format: null
-      weight: '11'
+      weight: '32'
       parent: '0'
       uuid: 082e2ffb-8530-436f-891e-ae6c49475a64
+    -
+      vid: location
+      tid: '189'
+      langcode: en
+      name: 'Leonardo Royal Hotel Grand Harbour'
+      description__value: null
+      description__format: null
+      weight: '6'
+      parent: '139'
+      uuid: 41e1ff18-f160-4e72-9886-c95ea150fb86
     -
       vid: location
       tid: '173'
@@ -1732,7 +1782,7 @@ taxonomies:
       name: 'New Forest'
       description__value: null
       description__format: null
-      weight: '15'
+      weight: '33'
       parent: '0'
       uuid: a9ef1c39-57a4-41f3-8c40-304040441f91
     -
@@ -1742,7 +1792,7 @@ taxonomies:
       name: 'O2 Guildhall'
       description__value: null
       description__format: null
-      weight: '4'
+      weight: '7'
       parent: '139'
       uuid: b6ae85ef-53cd-4921-8837-b426db3ca56f
     -
@@ -1752,7 +1802,7 @@ taxonomies:
       name: 'Palmerston Park Bandstand'
       description__value: null
       description__format: null
-      weight: '5'
+      weight: '8'
       parent: '139'
       uuid: de17c3bb-e79d-4f42-a241-c436b166feef
     -
@@ -1772,7 +1822,7 @@ taxonomies:
       name: Portsmouth
       description__value: null
       description__format: null
-      weight: '1'
+      weight: '2'
       parent: '140'
       uuid: 8f04816b-7b66-4adc-9810-5d8e346c7c52
     -
@@ -1787,12 +1837,22 @@ taxonomies:
       uuid: 29368cee-c7e0-4c25-aeb0-b6c13fc0dbca
     -
       vid: location
+      tid: '188'
+      langcode: en
+      name: 'Sir James Matthews Building'
+      description__value: null
+      description__format: null
+      weight: '0'
+      parent: '187'
+      uuid: 14d86e00-84da-4060-a8f7-ce06e7fa7c1b
+    -
+      vid: location
       tid: '140'
       langcode: en
       name: Solent
       description__value: null
       description__format: null
-      weight: '18'
+      weight: '34'
       parent: '0'
       uuid: de285813-efde-4206-b9d0-997faccc8da6
     -
@@ -1802,7 +1862,7 @@ taxonomies:
       name: Southampton
       description__value: null
       description__format: null
-      weight: '2'
+      weight: '3'
       parent: '140'
       uuid: cc304936-f0a4-472d-ae9f-6082c27cdc64
     -
@@ -1832,7 +1892,7 @@ taxonomies:
       name: 'St. Barnabas Hall'
       description__value: null
       description__format: null
-      weight: '6'
+      weight: '9'
       parent: '139'
       uuid: e5ab950d-f594-4fdc-9436-5ba2ce45f837
     -
@@ -1847,14 +1907,54 @@ taxonomies:
       uuid: 722f3cf4-8110-4294-9dba-74291014531a
     -
       vid: location
+      tid: '187'
+      langcode: en
+      name: 'University of Southampton'
+      description__value: null
+      description__format: null
+      weight: '10'
+      parent: '139'
+      uuid: f36eedeb-5152-45bc-9707-a38f2f84fd5d
+    -
+      vid: location
       tid: '171'
       langcode: en
       name: Various
       description__value: null
       description__format: null
-      weight: '23'
+      weight: '35'
       parent: '0'
       uuid: 7dc50ba8-62e9-4ea2-bbad-62e0a2bb6b4e
+    -
+      vid: location
+      tid: '190'
+      langcode: en
+      name: Various
+      description__value: null
+      description__format: null
+      weight: '12'
+      parent: '139'
+      uuid: 7fd46a82-00a8-4910-8e73-9101ae9d36b5
+    -
+      vid: location
+      tid: '191'
+      langcode: en
+      name: Various
+      description__value: null
+      description__format: null
+      weight: '1'
+      parent: '143'
+      uuid: c7b2dc35-2478-404a-82b8-1c936abe8d9d
+    -
+      vid: location
+      tid: '192'
+      langcode: en
+      name: Various
+      description__value: null
+      description__format: null
+      weight: '6'
+      parent: '141'
+      uuid: 47a16e6d-a3bd-44d1-a02d-0cd7ca6a5003
     -
       vid: location
       tid: '181'
@@ -1882,7 +1982,7 @@ taxonomies:
       name: 'Woolston Methodist Church'
       description__value: null
       description__format: null
-      weight: '7'
+      weight: '11'
       parent: '139'
       uuid: 77daf3d9-ed5d-49ea-b790-cfaea4e6c891
   topic:
@@ -2863,17 +2963,6 @@ taxonomies:
           value: 'Design studios, practices and independents shaping how the Solent looks and feels.'
     -
       vid: topic
-      tid: '153'
-      langcode: en
-      name: 'Sectors / Economic Growth'
-      description__value: null
-      description__format: null
-      weight: '7'
-      parent: '30'
-      uuid: 67c716bd-44c2-4011-84ce-1642b66c786a
-      field_reader_summary: {  }
-    -
-      vid: topic
       tid: '65'
       langcode: en
       name: 'Sectors / Education'
@@ -3142,6 +3231,17 @@ taxonomies:
       weight: '0'
       parent: '84'
       uuid: be9e6d25-414c-462b-a24a-5df5bd320e72
+      field_reader_summary: {  }
+    -
+      vid: topic
+      tid: '153'
+      langcode: en
+      name: 'Sectors / Regional Development'
+      description__value: null
+      description__format: null
+      weight: '7'
+      parent: '30'
+      uuid: 67c716bd-44c2-4011-84ce-1642b66c786a
       field_reader_summary: {  }
     -
       vid: topic
