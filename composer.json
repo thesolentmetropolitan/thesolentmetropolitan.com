@@ -42,6 +42,7 @@
         "drupal/svg_image": "^3.2",
         "drupal/twig_tweak": "^3.4",
         "drupal/upgrade_status": "^4.3",
+        "drupal/views_contextual_filters_or": "^1.5",
         "drupal/viewsreference": "^2.0@beta",
         "drupal/webform": "^6.3@beta",
         "drush/drush": "^13.6",
