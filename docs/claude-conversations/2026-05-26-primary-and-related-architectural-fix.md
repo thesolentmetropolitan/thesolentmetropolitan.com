@@ -81,6 +81,13 @@ Recommendation: **Option 2.** It addresses all three items in one structural cha
 
 ## Migration sketch
 
+> **Correction — 2026-05-30.** The original migration sketch described an "OR-group UI" where contextual filters get dragged into a group, and instructed setting Distinct per display. **Both were wrong.** After reading the module source (`web/modules/contrib/views_contextual_filters_or/src/Plugin/views/query/ExtendedSql.php`):
+>
+> - The module's UI is **a single checkbox** under `Advanced → Query settings`, labelled **"Contextual filters OR"**. There is no drag-and-drop OR group. The checkbox flips the operator on WHERE group 0 (where contextual filters land) from AND to OR. In our three target views, the standard published + bundle filters live in `group: 1`, so they remain AND'd correctly against the OR'd contextuals.
+> - **Distinct is already set on the default display's query** in all three views (`distinct: true` at the default `query.options.distinct` level), so every display inherits it automatically. No per-display override needed.
+>
+> Step 2 below has been amended to reflect this. The UI-walk version of the same instructions appears in the conversation log for 2026-05-30.
+
 Current state recap:
 
 - 3 views carry the stub display: `organisations_listing`, `events_listing`, `links_listing`.
@@ -99,14 +106,14 @@ Steps, in order:
    ```
    Then walk the existing views (`/admin/structure/views`) and confirm no AND/OR filter-group regressions on the other views. The smoke test is required, not optional — see the project's own warning.
 2. **Flesh out `view_display_primary_and_related` in each of the three view configs.** For each view (organisations_listing, events_listing, links_listing):
-   - Copy the pager / style / row / empty-area block from the current `view_display_primary_topic` so output style is unchanged.
+   - Override the pager / style / row / empty-area block from the current `view_display_primary_topic` so output style is unchanged (`defaults.pager`, `defaults.style`, `defaults.row`, `defaults.empty` all set to `false` in the new display).
    - Inherit the default-display sort (title ASC for organisations, `field_when_value` ASC for events) — i.e. leave `defaults.sorts: true`.
    - Add **two contextual filters**:
      - `field_primary_topic_target_id` (table `node__field_primary_topic`).
      - `field_related_topics_target_id` (table `node__field_related_topics`).
-     - Both with `break_phrase: true`, `default_action: ignore`, `not: false`, validator `entity:taxonomy_term` restricted to `bundles: { topic: topic }` — exactly as the existing two displays already set them.
-   - In the module's new OR-group UI, put both contextual filters in the **same OR group**.
-   - In the display's Query Settings, set **Distinct: true** — required because joining `node__field_primary_topic` and `node__field_related_topics` can produce row multiplicity when a node has multiple matching related topics.
+     - Both with `break_phrase: true`, `default_action: ignore`, `not: false`, validator `entity:taxonomy_term` restricted to `bundles: { topic: topic }` — exactly as the existing two displays already set them. (Set `defaults.arguments: false`.)
+   - **Tick "Contextual filters OR"** under `Advanced → Query settings` on this display. In YAML this is `display_options.query.options.contextual_filters_or: true`, alongside the existing `distinct: true` which is already inherited. Set `defaults.query: false` on this display so the contextual_filters_or flag actually takes effect (otherwise the display inherits the default's query options and the flag is ignored).
+   - **Distinct: do nothing** — it's already on at the default display level (`query.options.distinct: true` in all three views), so every display inherits it automatically. Confirmed by reading the existing YAML; this was a correction to the original sketch.
 3. **Adjust the template** at `paragraph--view-display.html.twig:104-121`. Remove the `if did == 'view_display_primary_and_related'` branch entirely; let the display id fall through to the normal `drupal_view(vname, did, primary_topic_tid, primary_topic_tid)` call. The argument needs to be supplied **twice** in positional order — Views maps the first arg to the first contextual filter (primary), the second arg to the second contextual filter (related). Both get the same `+`-joined TID string the template already builds.
 4. **Delete the query alter** at `customsolent_helpers.module:50-117` (`customsolent_helpers_views_query_alter` plus its docblock). The OR'd contextual filter + `Distinct` does the dedup natively, and pagination counts the deduped result automatically.
 5. **Editor data — no migration needed.** The display id `view_display_primary_and_related` is unchanged, so every existing `field_view.display_id` value on existing paragraphs continues to point at it. The display just *does* something now instead of being intercepted by the template.
