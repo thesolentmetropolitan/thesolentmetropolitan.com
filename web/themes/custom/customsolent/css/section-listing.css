@@ -617,34 +617,6 @@ html.js-auto-submit .views-exposed-form[data-drupal-selector^="views-exposed-for
 }
 
 /* ══════════════════════════════════════
-   Primary + Related composition (view_display_primary_and_related)
-   Two views render back-to-back, each with its own exposed filter
-   form and its own empty-area message. The filter still applies to
-   both (they read the same ?date_filter_id= from the URL) — we just
-   don't need the user to see the form (or "no results" message)
-   twice.
-   ══════════════════════════════════════ */
-
-/* Hide the related side's exposed filter form — one form for both views. */
-.slnt-composition__related .views-exposed-form {
-  display: none;
-}
-
-/* Hide the related side's empty-area message — the primary side's
-   message represents the "nothing matches" state for the whole
-   composition. */
-.slnt-composition__related .slnt-view-empty {
-  display: none;
-}
-
-/* When the related side has results but the primary side is empty,
-   also hide the primary side's empty message — saying "no events
-   match" above a list of related results would mislead. */
-.slnt-composition__primary:has(~ .slnt-composition__related .views-row) .slnt-view-empty {
-  display: none;
-}
-
-/* ══════════════════════════════════════
    Topic kickers on teaser content
    "in" kicker — content is within the current section (ABOVE title)
    "from" kicker — content from another section, via related_topics (BELOW title)
