@@ -300,7 +300,7 @@ display:
         options:
           offset: 0
           pagination_heading_level: h4
-          items_per_page: 5
+          items_per_page: 20
           total_pages: null
           id: 0
           tags:
@@ -368,7 +368,7 @@ display:
               topic: topic
             access: false
             operation: view
-            multiple: 0
+            multiple: 1
           break_phrase: true
           not: false
         field_related_topics_target_id:
@@ -407,7 +407,7 @@ display:
               topic: topic
             access: false
             operation: view
-            multiple: 0
+            multiple: 1
           break_phrase: true
           not: false
       query:
