@@ -102,23 +102,12 @@
           {% set vname = view_name|default(paragraph.field_view.0.target_id) %}
           {% set did = display_id|default(paragraph.field_view.0.display_id) %}
           {% if vname and did and primary_topic_tid is defined and primary_topic_tid %}
-            {% if did == 'view_display_primary_and_related' %}
-              {# Virtual display: render the primary-topic and
-                 related-topics displays back-to-back so editors can
-                 surface "everything connected to this topic" from a
-                 single paragraph. Each is wrapped so CSS can suppress
-                 the duplicate exposed-filter form on the related view
-                 (the filter still applies — both views read the same
-                 ?date_filter_id= from the URL). #}
-              <div class="slnt-composition__primary">
-                {{ drupal_view(vname, 'view_display_primary_topic', primary_topic_tid) }}
-              </div>
-              <div class="slnt-composition__related">
-                {{ drupal_view(vname, 'view_display_related_topics', primary_topic_tid) }}
-              </div>
-            {% else %}
-              {{ drupal_view(vname, did, primary_topic_tid) }}
-            {% endif %}
+            {# Pass primary_topic_tid twice so the view_display_primary_and_related
+               display (two contextual filters: field_primary_topic OR'd with
+               field_related_topics) gets the same +-joined TID scope on both
+               arguments. Single-contextual-filter displays silently ignore the
+               extra arg. #}
+            {{ drupal_view(vname, did, primary_topic_tid, primary_topic_tid) }}
           {% else %}
             {{ content.field_view }}
           {% endif %}
