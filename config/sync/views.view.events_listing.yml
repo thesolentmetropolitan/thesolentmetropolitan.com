@@ -642,7 +642,7 @@ display:
               topic: topic
             access: false
             operation: view
-            multiple: 0
+            multiple: 1
           break_phrase: true
           not: false
         field_related_topics_target_id:
@@ -681,7 +681,7 @@ display:
               topic: topic
             access: false
             operation: view
-            multiple: 0
+            multiple: 1
           break_phrase: true
           not: false
       query:
