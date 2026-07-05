@@ -1,0 +1,23 @@
+uuid: 12890821-a105-44f0-82d5-efd6d34bee62
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.link
+  module:
+    - node
+id: link_full_page_url
+label: 'Link full page url'
+type: 'canonical_entities:node'
+pattern: '/explore/links/[node:title]'
+selection_criteria:
+  00c6151f-0e20-4aea-a30f-d7ae6faa4ebb:
+    id: 'entity_bundle:node'
+    negate: false
+    context_mapping:
+      node: node
+    bundles:
+      link: link
+selection_logic: and
+weight: -5
+relationships: {  }
