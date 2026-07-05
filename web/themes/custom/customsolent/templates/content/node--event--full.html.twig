@@ -1,124 +1,80 @@
 {#
 /**
  * @file
- * Theme override to display a node.
+ * Event node — full view mode.
  *
- * Available variables:
- * - node: The node entity with limited access to object properties and methods.
- *   Only method names starting with "get", "has", or "is" and a few common
- *   methods such as "id", "label", and "bundle" are available. For example:
- *   - node.getCreatedTime() will return the node creation timestamp.
- *   - node.hasField('field_example') returns TRUE if the node bundle includes
- *     field_example. (This does not indicate the presence of a value in this
- *     field.)
- *   - node.isPublished() will return whether the node is published or not.
- *   Calling other methods, such as node.delete(), will result in an exception.
- *   See \Drupal\node\Entity\Node for a full list of public properties and
- *   methods for the node object.
- * - label: (optional) The title of the node.
- * - content: All node items. Use {{ content }} to print them all,
- *   or print a subset such as {{ content.field_example }}. Use
- *   {{ content|without('field_example') }} to temporarily suppress the printing
- *   of a given child element.
- * - author_picture: The node author user entity, rendered using the "compact"
- *   view mode.
- * - metadata: Metadata for this node.
- * - date: (optional) Themed creation date field.
- * - author_name: (optional) Themed author name field.
- * - url: Direct URL of the current node.
- * - display_submitted: Whether submission information should be displayed.
- * - attributes: HTML attributes for the containing element.
- *   The attributes.class element may contain one or more of the following
- *   classes:
- *   - node: The current template type (also known as a "theming hook").
- *   - node--type-[type]: The current node type. For example, if the node is an
- *     "Article" it would result in "node--type-article". Note that the machine
- *     name will often be in a short form of the human readable label.
- *   - node--view-mode-[view_mode]: The View Mode of the node; for example, a
- *     teaser would result in: "node--view-mode-teaser", and
- *     full: "node--view-mode-full".
- *   The following are controlled through the node publishing options.
- *   - node--promoted: Appears on nodes promoted to the front page.
- *   - node--sticky: Appears on nodes ordered above other non-sticky nodes in
- *     teaser listings.
- *   - node--unpublished: Appears on unpublished nodes visible only to site
- *     admins.
- * - title_attributes: Same as attributes, except applied to the main title
- *   tag that appears in the template.
- * - content_attributes: Same as attributes, except applied to the main
- *   content tag that appears in the template.
- * - author_attributes: Same as attributes, except applied to the author of
- *   the node tag that appears in the template.
- * - title_prefix: Additional output populated by modules, intended to be
- *   displayed in front of the main title tag that appears in the template.
- * - title_suffix: Additional output populated by modules, intended to be
- *   displayed after the main title tag that appears in the template.
- * - view_mode: View mode; for example, "teaser" or "full".
- * - teaser: Flag for the teaser state. Will be true if view_mode is 'teaser'.
- * - page: Flag for the full page state. Will be true if view_mode is 'full'.
- * - readmore: Flag for more state. Will be true if the teaser content of the
- *   node cannot hold the main body content.
- * - logged_in: Flag for authenticated user status. Will be true when the
- *   current user is a logged-in member.
- * - is_admin: Flag for admin user status. Will be true when the current user
- *   is an administrator.
+ * A minimal, shareable and indexable destination page (Rabbit Hole now
+ * allows direct node access). Structure mirrors node--article--full.html.twig:
+ * the same 1200px container aligned to the menu grid, a topic-trail kicker,
+ * and a manually rendered <h1>.
  *
- * @see template_preprocess_node()
+ * Stacking order: past-event badge, topic trail, title, date/time
+ * (field_when), location (field_where), standfirst, external-link CTA.
  *
+ * Field display (full view mode): hide the built-in node title — it is
+ * rendered here via {{ label }}. field_when / field_where / field_standfirst
+ * use their configured formatters. field_url is rendered manually below as a
+ * new-tab CTA button (field_url_href / field_url_text / field_url_external are
+ * set in customsolent_preprocess_node()).
+ *
+ * is_past_event is set in customsolent_preprocess_node() (Smart Date end time
+ * in the past).
  */
 #}
-
-      {#
-      <img src="{{ file_url(image_uri) }}" alt="{{ node.field_event_image.alt }}" />
-      #}
-
 {%
   set classes = [
     'node',
     'node--type-' ~ node.bundle|clean_class,
     node.isPromoted() ? 'node--promoted',
-    node.isSticky() ? 'node--sticky',
     not node.isPublished() ? 'node--unpublished',
     view_mode ? 'node--view-mode-' ~ view_mode|clean_class,
+    'slnt-node-full',
+    'slnt-event-full',
   ]
 %}
 
+<article{{ attributes.addClass(classes) }}>
+  <div class="slnt-node-full__header">
 
-
-<article{{ attributes.addClass(classes).addClass('news-center-content-group') }}>
-  <div class="inner">
-    {#
-    {% if node.field_event_image.entity %}
-      {% set image_uri = node.field_event_image.entity.uri.value %}
+    {# Past-event badge — sits above the topic trail. #}
+    {% if is_past_event is defined and is_past_event %}
+      <div class="slnt-node-full__past-kicker">Past event</div>
     {% endif %}
-    <h3>Event</h3>
-    <h2>
-      {{ label }}
-    </h2>
-    {% set responsiveimagestyle = {
-      '#theme': 'responsive_image',
-      '#responsive_image_style_id': 'wide',
-      '#uri': node.field_event_image[0].entity.uri.value,
-      '#attributes': { class: '', alt: 'text', title: 'text' },
-    } %}
-    <div class="field--type-image">
 
-      {{ responsiveimagestyle }}
-    </div>
-    <div class="sub-heading-date-combo">
-      <div class="sub-heading">{{ content.body['#items'][0].summary }}</div>
-      <div class="date">{{ node.field_event_date.value|date('d F Y') }}</div>
-    </div>
-    #}
-    <div class="body-container">
-      {{ content["body"] }}
-    </div>
+    {# Topic trail kicker — clickable, section-coloured ancestor terms. #}
+    {% if topic_trail_ancestors is not empty %}
+      {% include '@customsolent/components/topic-trail.html.twig' with {
+        ancestors: topic_trail_ancestors,
+        current_label: null,
+        current_as_heading: false,
+      } only %}
+    {% endif %}
+
+    {# Title #}
+    <h1 class="slnt-node-full__title">{{ label }}</h1>
+
+    {# Date and time — field_when (Smart Date). #}
+    {% if content.field_when|render|striptags|trim %}
+      <div class="slnt-node-full__when">{{ content.field_when }}</div>
+    {% endif %}
+
+    {# Location — field_where (Location term). #}
+    {% if content.field_where|render|striptags|trim %}
+      <div class="slnt-node-full__where">{{ content.field_where }}</div>
+    {% endif %}
+
   </div>
+
+  {# Standfirst — only if populated. #}
+  {% if content.field_standfirst|render|striptags|trim %}
+    <div class="slnt-node-full__standfirst">{{ content.field_standfirst }}</div>
+  {% endif %}
+
+  {# External-link CTA — rendered manually so external links open in a new tab. #}
+  {% if field_url_href %}
+    <div class="slnt-node-full__cta">
+      <a href="{{ field_url_href }}"{% if field_url_external %} target="_blank" rel="noopener noreferrer"{% endif %}>{{ field_url_text }}</a>
+    </div>
+  {% endif %}
+
 </article>
-
-
-
-
-
-
-       
