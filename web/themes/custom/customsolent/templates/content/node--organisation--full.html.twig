@@ -1,0 +1,59 @@
+{#
+/**
+ * @file
+ * Organisation node — full view mode.
+ *
+ * Minimal, shareable and indexable destination page. Shares the
+ * .slnt-node-full structure with the Event and Link full views (and aligns
+ * with node--article--full.html.twig).
+ *
+ * Stacking order: topic trail, title (organisation name), standfirst, website
+ * CTA.
+ *
+ * Field display (full view mode): hide the built-in node title (rendered here
+ * via {{ label }}). field_standfirst uses its configured formatter; field_url
+ * is rendered manually below as a new-tab CTA button (field_url_href /
+ * field_url_text / field_url_external set in customsolent_preprocess_node()).
+ */
+#}
+{%
+  set classes = [
+    'node',
+    'node--type-' ~ node.bundle|clean_class,
+    not node.isPublished() ? 'node--unpublished',
+    view_mode ? 'node--view-mode-' ~ view_mode|clean_class,
+    'slnt-node-full',
+    'slnt-org-full',
+  ]
+%}
+
+<article{{ attributes.addClass(classes) }}>
+  <div class="slnt-node-full__header">
+
+    {# Topic trail kicker. #}
+    {% if topic_trail_ancestors is not empty %}
+      {% include '@customsolent/components/topic-trail.html.twig' with {
+        ancestors: topic_trail_ancestors,
+        current_label: null,
+        current_as_heading: false,
+      } only %}
+    {% endif %}
+
+    {# Title — organisation name. #}
+    <h1 class="slnt-node-full__title">{{ label }}</h1>
+
+  </div>
+
+  {# Standfirst — only if populated. #}
+  {% if content.field_standfirst|render|striptags|trim %}
+    <div class="slnt-node-full__standfirst">{{ content.field_standfirst }}</div>
+  {% endif %}
+
+  {# Website CTA — rendered manually so external links open in a new tab. #}
+  {% if field_url_href %}
+    <div class="slnt-node-full__cta">
+      <a href="{{ field_url_href }}"{% if field_url_external %} target="_blank" rel="noopener noreferrer"{% endif %}>{{ field_url_text }}</a>
+    </div>
+  {% endif %}
+
+</article>

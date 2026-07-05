@@ -19,6 +19,7 @@ global:
       css/menu-mobile.css: {}
       css/menu-footer.css: {}
       css/node.css: {}
+      css/node-full-views.css: {}
       css/page.css: {}
       css/paragraph-enclosure.css: {}
       css/paragraph-image.css: {}
