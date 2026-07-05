@@ -338,6 +338,92 @@ a.main_nav_link {
 }
 
 
+  /* =====================================================================
+     Menu visual states (desktop) — hover + navigation-indicated states.
+     See docs/claude-conversations/2026-07-05-desktop-menu-visual-states-brief.md
+
+     "Active" (submenu open) is represented by
+       li:has(.sub-menu-container.visible-2l)
+     managed by customsolent.js. These rules are additive:
+     .is-current-section / .is-active-page are set by js/menu-state.js.
+
+     Rules here use higher specificity than the plain :hover rules above,
+     so cascade order is not relied upon.
+     ===================================================================== */
+
+  /* Hover, non-active + non-indicated main item — pink text + chevron */
+  .main-menu-item-container > li:not(:has(.sub-menu-container.visible-2l)):not(.is-current-section):hover button.main_nav_link > span,
+  .main-menu-item-container > li:not(:has(.sub-menu-container.visible-2l)):not(.is-current-section):hover a.main_nav_link {
+    color: var(--pink-hover);
+  }
+  .main-menu-item-container > li:not(:has(.sub-menu-container.visible-2l)):not(.is-current-section):hover .navigation__link__down-icon {
+    fill: var(--pink-hover);
+    stroke: var(--pink-hover);
+  }
+
+  /* Hover, active (submenu open) main item — magenta-dark text + chevron.
+     Applies whether or not the item is navigation-indicated. */
+  .main-menu-item-container > li:has(.sub-menu-container.visible-2l):hover button.main_nav_link > span,
+  .main-menu-item-container > li:has(.sub-menu-container.visible-2l):hover a.main_nav_link {
+    color: var(--magenta-dark);
+  }
+  .main-menu-item-container > li:has(.sub-menu-container.visible-2l):hover .navigation__link__down-icon {
+    fill: var(--magenta-dark);
+    stroke: var(--magenta-dark);
+  }
+
+  /* Navigation-indicated main item, non-active — bold, full white.
+     No hover colour change (the pink-hover rule above excludes
+     .is-current-section), so bold white persists on hover. */
+  .main-menu-item-container > li.is-current-section:not(:has(.sub-menu-container.visible-2l)) button.main_nav_link > span,
+  .main-menu-item-container > li.is-current-section:not(:has(.sub-menu-container.visible-2l)) a.main_nav_link {
+    color: #ffffff;
+    font-weight: 700;
+  }
+
+  /* Navigation-indicated main item, active — keep bold. Text colour
+     (solent-blue) and background (warm-grey) come from the existing active
+     rules; active-hover magenta-dark comes from the rule above. */
+  .main-menu-item-container > li.is-current-section:has(.sub-menu-container.visible-2l) button.main_nav_link > span,
+  .main-menu-item-container > li.is-current-section:has(.sub-menu-container.visible-2l) a.main_nav_link {
+    font-weight: 700;
+  }
+
+  /* Navigation-indicated bottom line — persists in all indicated states.
+     Anchored on the .main_nav_link (the clickable rectangle), NOT the <li>:
+     the <li> is the containing block target for .sub-menu-container, so making
+     the <li> positioned would break the full-width dropdown. The link is a
+     sibling of .sub-menu-container, so positioning it is safe. */
+  .main-menu-item-container > li.is-current-section .main_nav_link {
+    position: relative;
+  }
+  .main-menu-item-container > li.is-current-section .main_nav_link::after {
+    content: '';
+    position: absolute;
+    bottom: 4px;
+    left: 10%;
+    width: 80%;
+    height: 3px;
+    background: var(--magenta-dark);
+    border-radius: 1.5px;
+    pointer-events: none;
+  }
+
+  /* Navigation-indicated sub-menu item (incl. "View All" first-link) —
+     magenta-dark background, off-white text. Specificity (0,3,1) beats the
+     existing default sub-item rules. */
+  .sub-menu-container .sub-menu-item.is-active-page > a {
+    background-color: var(--magenta-dark);
+    color: var(--warm-grey);
+  }
+  /* Hover reverts to the standard sub-item hover (solent-blue bg, white text).
+     (0,4,1) beats the non-hover rule above so it wins on hover. */
+  .sub-menu-container .sub-menu-item.is-active-page > a:hover {
+    background-color: var(--solent-blue);
+    color: #ffffff;
+  }
+
+
 }
 
 @media screen and (min-width: 1200px) {
