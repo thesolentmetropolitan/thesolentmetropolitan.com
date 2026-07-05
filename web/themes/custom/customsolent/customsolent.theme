@@ -70,6 +70,26 @@ function customsolent_preprocess_node(array &$variables): void {
     _customsolent_extract_field_url_meta($node, $variables);
   }
 
+  // Full node views for event / organisation / link (destination pages
+  // reachable directly and from search). The template renders field_url as a
+  // CTA button, so extract its href/text/external flag here; and for events,
+  // flag whether the event has already finished (past-event badge).
+  if (($variables['view_mode'] ?? '') === 'full'
+    && in_array($node->bundle(), ['event', 'link', 'organisation'], TRUE)) {
+    _customsolent_extract_field_url_meta($node, $variables);
+
+    if ($node->bundle() === 'event'
+      && $node->hasField('field_when') && !$node->get('field_when')->isEmpty()) {
+      // Smart Date stores Unix timestamps in `value` (start) and `end_value`
+      // (end). The event is "past" once its end time has elapsed.
+      $item = $node->get('field_when')->first();
+      $end = $item->end_value ?? $item->value;
+      if ($end !== NULL && $end !== '') {
+        $variables['is_past_event'] = ((int) $end < \Drupal::time()->getRequestTime());
+      }
+    }
+  }
+
   // Topic kickers on teasers and compact cards. Rendered via
   // #lazy_builder placeholders so they're recomputed per request,
   // bypassing the teaser entity render cache (which is shared across
