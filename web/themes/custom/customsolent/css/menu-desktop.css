@@ -334,7 +334,7 @@ span.sub-menu-item
 button.main_nav_link,
 a.main_nav_link {
         font-size: 1rem;
-        padding: 15px 20px 13px; /* bottom 13px so the button doesn't overlap the submenu panel */
+        padding: 15px 20px 12px; /* bottom 12px: a hair of clearance above the submenu panel, and lifts the indicated bottom line 1px clear of the fade boundary so it doesn't appear to thin when the submenu finishes opening */
 }
 
 
