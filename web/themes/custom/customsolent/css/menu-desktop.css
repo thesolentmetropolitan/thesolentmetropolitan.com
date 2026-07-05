@@ -425,7 +425,7 @@ a.main_nav_link {
      existing default sub-item rules. */
   .sub-menu-container .sub-menu-item.is-active-page > a {
     background-color: var(--magenta-dark);
-    color: var(--warm-grey);
+    color: #ffffff; /* pure white for AAA (7.65:1) on magenta-dark */
   }
   /* Hover reverts to the standard sub-item hover (solent-blue bg, white text).
      (0,4,1) beats the non-hover rule above so it wins on hover. */
