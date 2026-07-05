@@ -58,9 +58,10 @@
       <div class="slnt-node-full__when">{{ content.field_when }}</div>
     {% endif %}
 
-    {# Location — field_where (Location term). #}
+    {# Location — field_where (Location term). Plain text only: strip the
+       formatter's link to the term so just the venue name shows. #}
     {% if content.field_where|render|striptags|trim %}
-      <div class="slnt-node-full__where">{{ content.field_where }}</div>
+      <div class="slnt-node-full__where">{{ content.field_where|render|striptags|trim }}</div>
     {% endif %}
 
   </div>
