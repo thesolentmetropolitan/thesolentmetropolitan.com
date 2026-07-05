@@ -1647,12 +1647,22 @@ taxonomies:
       uuid: b1103e05-f91e-43a6-ba86-bde27c6fc9ef
     -
       vid: location
+      tid: '223'
+      langcode: en
+      name: 'Boulder Shack Climbing Gym, Empress Road'
+      description__value: null
+      description__format: null
+      weight: '1'
+      parent: '139'
+      uuid: f6c9e7f6-0603-4329-9e48-e649a27632c8
+    -
+      vid: location
       tid: '208'
       langcode: en
       name: 'Brewhouse & Kitchen Highfield Lane'
       description__value: null
       description__format: null
-      weight: '1'
+      weight: '2'
       parent: '139'
       uuid: 58f8a9da-b790-4de1-91c6-348f515ed26f
     -
@@ -1662,7 +1672,7 @@ taxonomies:
       name: 'Carlton Place'
       description__value: null
       description__format: null
-      weight: '2'
+      weight: '3'
       parent: '139'
       uuid: 9d1f1dbf-d8fb-4c2f-bc4b-15b6bb55548c
     -
@@ -1687,12 +1697,22 @@ taxonomies:
       uuid: bf8cea68-6e4f-422e-a67b-9b47ff74b26a
     -
       vid: location
+      tid: '222'
+      langcode: en
+      name: "Concourse, Avenue St Andrew's URC"
+      description__value: null
+      description__format: null
+      weight: '4'
+      parent: '139'
+      uuid: 0fa43e36-1f99-4203-8cc7-d9dc030c2591
+    -
+      vid: location
       tid: '213'
       langcode: en
       name: 'Design Chapel'
       description__value: null
       description__format: null
-      weight: '3'
+      weight: '5'
       parent: '139'
       uuid: 600e37fa-cbe1-4510-af5f-a4e29ef97c60
     -
@@ -1712,7 +1732,7 @@ taxonomies:
       name: 'Elizabeth Kell Community Hall'
       description__value: null
       description__format: null
-      weight: '4'
+      weight: '6'
       parent: '139'
       uuid: 45444981-7403-4679-b36f-2df19d63ee2f
     -
@@ -1762,7 +1782,7 @@ taxonomies:
       name: "God's House Tower"
       description__value: null
       description__format: null
-      weight: '5'
+      weight: '7'
       parent: '139'
       uuid: 5b1101e1-a131-415f-b3f3-5b5735a0e33f
     -
@@ -1782,7 +1802,7 @@ taxonomies:
       name: 'Guildhall Square'
       description__value: null
       description__format: null
-      weight: '6'
+      weight: '8'
       parent: '139'
       uuid: 50fbcd74-fc5d-44cb-87f1-908e2cb61310
     -
@@ -1792,7 +1812,7 @@ taxonomies:
       name: Hampshire
       description__value: null
       description__format: null
-      weight: '56'
+      weight: '58'
       parent: '0'
       uuid: 17bce430-20a8-4276-8bb6-11e21b5200a3
     -
@@ -1802,7 +1822,7 @@ taxonomies:
       name: 'Hoglands Park'
       description__value: null
       description__format: null
-      weight: '7'
+      weight: '9'
       parent: '139'
       uuid: 11f2468a-da52-4d5b-a9c6-90529e74bbe6
     -
@@ -1812,7 +1832,7 @@ taxonomies:
       name: 'Hoglands Park Pavilion'
       description__value: null
       description__format: null
-      weight: '8'
+      weight: '10'
       parent: '139'
       uuid: b6bb0755-e44f-4bda-9731-8d4e119c912d
     -
@@ -1822,7 +1842,7 @@ taxonomies:
       name: 'IO next to Planet Sounds Terminus Terrace'
       description__value: null
       description__format: null
-      weight: '9'
+      weight: '11'
       parent: '139'
       uuid: 0a7e074e-0b7e-4aeb-b169-586e6eea89a2
     -
@@ -1832,7 +1852,7 @@ taxonomies:
       name: 'Isle of Wight'
       description__value: null
       description__format: null
-      weight: '57'
+      weight: '59'
       parent: '0'
       uuid: 082e2ffb-8530-436f-891e-ae6c49475a64
     -
@@ -1852,7 +1872,7 @@ taxonomies:
       name: 'Leonardo Royal Hotel Grand Harbour'
       description__value: null
       description__format: null
-      weight: '10'
+      weight: '12'
       parent: '139'
       uuid: 41e1ff18-f160-4e72-9886-c95ea150fb86
     -
@@ -1862,7 +1882,7 @@ taxonomies:
       name: 'Mayflower Park'
       description__value: null
       description__format: null
-      weight: '11'
+      weight: '13'
       parent: '139'
       uuid: 60f3e1e8-805e-4159-851a-785e1d29ec5a
     -
@@ -1872,7 +1892,7 @@ taxonomies:
       name: 'New Forest'
       description__value: null
       description__format: null
-      weight: '58'
+      weight: '60'
       parent: '0'
       uuid: a9ef1c39-57a4-41f3-8c40-304040441f91
     -
@@ -1882,7 +1902,7 @@ taxonomies:
       name: 'O2 Guildhall'
       description__value: null
       description__format: null
-      weight: '12'
+      weight: '14'
       parent: '139'
       uuid: b6ae85ef-53cd-4921-8837-b426db3ca56f
     -
@@ -1892,7 +1912,7 @@ taxonomies:
       name: 'Palmerston Park Bandstand'
       description__value: null
       description__format: null
-      weight: '13'
+      weight: '15'
       parent: '139'
       uuid: de17c3bb-e79d-4f42-a241-c436b166feef
     -
@@ -1902,7 +1922,7 @@ taxonomies:
       name: Papillon
       description__value: null
       description__format: null
-      weight: '14'
+      weight: '16'
       parent: '139'
       uuid: e8872410-ad6d-4112-b7bf-60b00a7b3fb3
     -
@@ -1982,7 +2002,7 @@ taxonomies:
       name: Solent
       description__value: null
       description__format: null
-      weight: '59'
+      weight: '61'
       parent: '0'
       uuid: de285813-efde-4206-b9d0-997faccc8da6
     -
@@ -2042,7 +2062,7 @@ taxonomies:
       name: 'St. Barnabas Hall'
       description__value: null
       description__format: null
-      weight: '15'
+      weight: '17'
       parent: '139'
       uuid: e5ab950d-f594-4fdc-9436-5ba2ce45f837
     -
@@ -2052,7 +2072,7 @@ taxonomies:
       name: 'The 1865'
       description__value: null
       description__format: null
-      weight: '16'
+      weight: '18'
       parent: '139'
       uuid: b34505f4-d52c-4057-b394-9d8a40b43a75
     -
@@ -2122,7 +2142,7 @@ taxonomies:
       name: 'Turner Sims'
       description__value: null
       description__format: null
-      weight: '18'
+      weight: '20'
       parent: '139'
       uuid: 3f9498ce-006b-4e82-9d41-8922a2ef3641
     -
@@ -2132,7 +2152,7 @@ taxonomies:
       name: 'University of Southampton'
       description__value: null
       description__format: null
-      weight: '17'
+      weight: '19'
       parent: '139'
       uuid: f36eedeb-5152-45bc-9707-a38f2f84fd5d
     -
@@ -2142,7 +2162,7 @@ taxonomies:
       name: Various
       description__value: null
       description__format: null
-      weight: '60'
+      weight: '62'
       parent: '0'
       uuid: 7dc50ba8-62e9-4ea2-bbad-62e0a2bb6b4e
     -
@@ -2152,7 +2172,7 @@ taxonomies:
       name: Various
       description__value: null
       description__format: null
-      weight: '20'
+      weight: '22'
       parent: '139'
       uuid: 7fd46a82-00a8-4910-8e73-9101ae9d36b5
     -
@@ -2232,7 +2252,7 @@ taxonomies:
       name: 'Woolston Methodist Church'
       description__value: null
       description__format: null
-      weight: '19'
+      weight: '21'
       parent: '139'
       uuid: 77daf3d9-ed5d-49ea-b790-cfaea4e6c891
   topic:
