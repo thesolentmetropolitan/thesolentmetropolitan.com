@@ -1,0 +1,8 @@
+name: 'Custom Solent Tokens'
+type: module
+description: 'Provides custom tokens for The Solent Metropolitan, including a Pathauto-safe formatted event start date.'
+core_version_requirement: ^11
+package: Custom
+dependencies:
+  - drupal:node
+  - smart_date:smart_date

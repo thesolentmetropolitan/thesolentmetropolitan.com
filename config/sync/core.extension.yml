@@ -17,6 +17,7 @@ module:
   contextual: 0
   crop: 0
   customsolent_helpers: 0
+  customsolent_tokens: 0
   datetime: 0
   dblog: 0
   dynamic_page_cache: 0

@@ -1,0 +1,10 @@
+<?php
+
+/**
+ * @file
+ * Custom Solent Tokens module.
+ *
+ * Provides custom tokens, including a Pathauto-safe formatted event start
+ * date. Token definitions and replacements live in
+ * customsolent_tokens.tokens.inc.
+ */
