@@ -334,8 +334,130 @@ span.sub-menu-item
 button.main_nav_link,
 a.main_nav_link {
         font-size: 1rem;
-        padding: 15px 20px;
+        padding: 15px 20px 12px; /* bottom 12px: a hair of clearance above the submenu panel, and lifts the indicated bottom line 1px clear of the fade boundary so it doesn't appear to thin when the submenu finishes opening */
+        box-sizing: border-box;
+        height: 48px; /* match the bar height for both button and anchor (Home). The anchor's height:100% doesn't resolve against the auto-height wrapper, so it was 1px taller/lower — that pushed Home's bottom line onto a fractional pixel and made it render thinner. Explicit height aligns both bottoms. */
 }
+
+
+  /* =====================================================================
+     Menu visual states (desktop) — hover + navigation-indicated states.
+     See docs/claude-conversations/2026-07-05-desktop-menu-visual-states-brief.md
+
+     "Active" (submenu open) is represented by
+       li:has(.sub-menu-container.visible-2l)
+     managed by customsolent.js. These rules are additive:
+     .is-current-section / .is-active-page are set by js/menu-state.js.
+
+     Rules here use higher specificity than the plain :hover rules above,
+     so cascade order is not relied upon.
+     ===================================================================== */
+
+  /* Hover, non-active + non-indicated main item — pink text + chevron */
+  .main-menu-item-container > li:not(:has(.sub-menu-container.visible-2l)):not(.is-current-section):hover button.main_nav_link > span,
+  .main-menu-item-container > li:not(:has(.sub-menu-container.visible-2l)):not(.is-current-section):hover a.main_nav_link {
+    color: var(--pink-hover);
+  }
+  .main-menu-item-container > li:not(:has(.sub-menu-container.visible-2l)):not(.is-current-section):hover .navigation__link__down-icon {
+    fill: var(--pink-hover);
+    stroke: var(--pink-hover);
+  }
+  /* Search magnifier icon — stroke-only (fill="none"), so match text/chevron
+     on hover via stroke to avoid filling the glass. */
+  .main-menu-item-container > li:not(:has(.sub-menu-container.visible-2l)):not(.is-current-section):hover .search-menu-icon {
+    stroke: var(--pink-hover);
+  }
+
+  /* Hover, active (submenu open) main item — magenta-dark text + chevron.
+     Applies whether or not the item is navigation-indicated. */
+  .main-menu-item-container > li:has(.sub-menu-container.visible-2l):hover button.main_nav_link > span,
+  .main-menu-item-container > li:has(.sub-menu-container.visible-2l):hover a.main_nav_link {
+    color: var(--magenta-dark);
+  }
+  .main-menu-item-container > li:has(.sub-menu-container.visible-2l):hover .navigation__link__down-icon {
+    fill: var(--magenta-dark);
+    stroke: var(--magenta-dark);
+  }
+
+  /* Navigation-indicated main item, non-active — bold, full white. */
+  .main-menu-item-container > li.is-current-section:not(:has(.sub-menu-container.visible-2l)) button.main_nav_link > span,
+  .main-menu-item-container > li.is-current-section:not(:has(.sub-menu-container.visible-2l)) a.main_nav_link {
+    color: #ffffff;
+    font-weight: 700;
+  }
+
+  /* Navigation-indicated main item, non-active, hover — pink text + chevron
+     (bold retained). Mirrors the base rule above + :hover for higher
+     specificity so it wins over the white above. */
+  .main-menu-item-container > li.is-current-section:not(:has(.sub-menu-container.visible-2l)):hover button.main_nav_link > span,
+  .main-menu-item-container > li.is-current-section:not(:has(.sub-menu-container.visible-2l)):hover a.main_nav_link {
+    color: var(--pink-hover);
+  }
+  .main-menu-item-container > li.is-current-section:not(:has(.sub-menu-container.visible-2l)):hover .navigation__link__down-icon {
+    fill: var(--pink-hover);
+    stroke: var(--pink-hover);
+  }
+
+  /* Navigation-indicated main item, active (submenu open) — bold dark-magenta
+     text + chevron, persistently (not only on hover). Overrides the generic
+     active solent-blue text/chevron rules (extra .is-current-section class
+     wins on specificity). Background (warm-grey) still comes from the existing
+     active rules. */
+  .main-menu-item-container > li.is-current-section:has(.sub-menu-container.visible-2l) button.main_nav_link > span,
+  .main-menu-item-container > li.is-current-section:has(.sub-menu-container.visible-2l) a.main_nav_link {
+    font-weight: 700;
+    color: var(--magenta-dark);
+  }
+  .main-menu-item-container > li.is-current-section:has(.sub-menu-container.visible-2l) .navigation__link__down-icon {
+    fill: var(--magenta-dark);
+    stroke: var(--magenta-dark);
+  }
+
+  /* Navigation-indicated bottom line — persists in all indicated states.
+     Anchored on the .main_nav_link (the clickable rectangle), NOT the <li>:
+     the <li> is the containing block target for .sub-menu-container, so making
+     the <li> positioned would break the full-width dropdown. The link is a
+     sibling of .sub-menu-container, so positioning it is safe. */
+  .main-menu-item-container > li.is-current-section .main_nav_link {
+    position: relative;
+  }
+  .main-menu-item-container > li.is-current-section .main_nav_link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;                 /* flush with the bottom of the header / submenu top */
+    left: 10%;
+    width: 80%;
+    height: 3px;
+    background: #ffffff;       /* white for indicated non-active (on solent-blue bar) */
+    border-radius: 1.5px;
+    pointer-events: none;
+  }
+
+  /* Indicated non-active, hover — line goes pink to match the pink text.
+     (:hover raises specificity over the white base rule.) */
+  .main-menu-item-container > li.is-current-section:not(:has(.sub-menu-container.visible-2l)):hover .main_nav_link::after {
+    background: var(--pink-hover);
+  }
+
+  /* Indicated + active (submenu open) — line switches to magenta-dark,
+     which reads on the off-white active background. */
+  .main-menu-item-container > li.is-current-section:has(.sub-menu-container.visible-2l) .main_nav_link::after {
+    background: var(--magenta-dark);
+  }
+
+  /* Navigation-indicated sub-menu item (incl. "View All" first-link) —
+     magenta-dark background, off-white text. Specificity (0,3,1) beats the
+     existing default sub-item rules. */
+  .sub-menu-container .sub-menu-item.is-active-page > a {
+    background-color: var(--magenta-dark);
+    color: #ffffff; /* pure white for AAA (7.65:1) on magenta-dark */
+  }
+  /* Hover reverts to the standard sub-item hover (solent-blue bg, white text).
+     (0,4,1) beats the non-hover rule above so it wins on hover. */
+  .sub-menu-container .sub-menu-item.is-active-page > a:hover {
+    background-color: var(--solent-blue);
+    color: #ffffff;
+  }
 
 
 }
