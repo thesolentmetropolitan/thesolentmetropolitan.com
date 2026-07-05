@@ -335,6 +335,8 @@ button.main_nav_link,
 a.main_nav_link {
         font-size: 1rem;
         padding: 15px 20px 12px; /* bottom 12px: a hair of clearance above the submenu panel, and lifts the indicated bottom line 1px clear of the fade boundary so it doesn't appear to thin when the submenu finishes opening */
+        box-sizing: border-box;
+        height: 48px; /* match the bar height for both button and anchor (Home). The anchor's height:100% doesn't resolve against the auto-height wrapper, so it was 1px taller/lower — that pushed Home's bottom line onto a fractional pixel and made it render thinner. Explicit height aligns both bottoms. */
 }
 
 
@@ -377,13 +379,23 @@ a.main_nav_link {
     stroke: var(--magenta-dark);
   }
 
-  /* Navigation-indicated main item, non-active — bold, full white.
-     No hover colour change (the pink-hover rule above excludes
-     .is-current-section), so bold white persists on hover. */
+  /* Navigation-indicated main item, non-active — bold, full white. */
   .main-menu-item-container > li.is-current-section:not(:has(.sub-menu-container.visible-2l)) button.main_nav_link > span,
   .main-menu-item-container > li.is-current-section:not(:has(.sub-menu-container.visible-2l)) a.main_nav_link {
     color: #ffffff;
     font-weight: 700;
+  }
+
+  /* Navigation-indicated main item, non-active, hover — pink text + chevron
+     (bold retained). Mirrors the base rule above + :hover for higher
+     specificity so it wins over the white above. */
+  .main-menu-item-container > li.is-current-section:not(:has(.sub-menu-container.visible-2l)):hover button.main_nav_link > span,
+  .main-menu-item-container > li.is-current-section:not(:has(.sub-menu-container.visible-2l)):hover a.main_nav_link {
+    color: var(--pink-hover);
+  }
+  .main-menu-item-container > li.is-current-section:not(:has(.sub-menu-container.visible-2l)):hover .navigation__link__down-icon {
+    fill: var(--pink-hover);
+    stroke: var(--pink-hover);
   }
 
   /* Navigation-indicated main item, active — keep bold. Text colour
