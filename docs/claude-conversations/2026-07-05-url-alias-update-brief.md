@@ -150,6 +150,24 @@ This will produce URLs like: `/events/jazz-on-the-seafront-2026-05-24-19-30`
 
 Save the pattern — it should validate without errors.
 
+### Pathauto pattern config files
+
+The Pathauto patterns are exported at:
+
+- `config/sync/pathauto.pattern.event_full_page_url.yml`
+- `config/sync/pathauto.pattern.link_full_page_url.yml`
+- `config/sync/pathauto.pattern.organisation_full_page_url.yml`
+
+**Important sequence:** The Event pattern cannot be saved with `[node:event_date_formatted]` until the custom token module is enabled — Pathauto rejects tokens it doesn't recognise. Claude Code must:
+
+1. Create the custom token module (files above)
+2. Enable it: `drush en customsolent_tokens && drush cr`
+3. **Then** update `pathauto.pattern.event_full_page_url.yml` to use `[node:event_date_formatted]` in the pattern
+4. Import: `drush cim` and `drush cr`
+5. **Then** run the batch alias regeneration script
+
+The Organisation and Link patterns are already defined by Rob and should be left as-is.
+
 ---
 
 ## Part 2: Retrospective URL Alias Update
