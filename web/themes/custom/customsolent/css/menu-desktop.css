@@ -360,6 +360,11 @@ a.main_nav_link {
     fill: var(--pink-hover);
     stroke: var(--pink-hover);
   }
+  /* Search magnifier icon — stroke-only (fill="none"), so match text/chevron
+     on hover via stroke to avoid filling the glass. */
+  .main-menu-item-container > li:not(:has(.sub-menu-container.visible-2l)):not(.is-current-section):hover .search-menu-icon {
+    stroke: var(--pink-hover);
+  }
 
   /* Hover, active (submenu open) main item — magenta-dark text + chevron.
      Applies whether or not the item is navigation-indicated. */
@@ -400,13 +405,19 @@ a.main_nav_link {
   .main-menu-item-container > li.is-current-section .main_nav_link::after {
     content: '';
     position: absolute;
-    bottom: 4px;
+    bottom: 0;                 /* flush with the bottom of the header / submenu top */
     left: 10%;
     width: 80%;
     height: 3px;
-    background: var(--magenta-dark);
+    background: #ffffff;       /* white for indicated non-active (on solent-blue bar) */
     border-radius: 1.5px;
     pointer-events: none;
+  }
+
+  /* Indicated + active (submenu open) — line switches to magenta-dark,
+     which reads on the off-white active background. */
+  .main-menu-item-container > li.is-current-section:has(.sub-menu-container.visible-2l) .main_nav_link::after {
+    background: var(--magenta-dark);
   }
 
   /* Navigation-indicated sub-menu item (incl. "View All" first-link) —
