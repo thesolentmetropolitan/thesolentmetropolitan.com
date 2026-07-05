@@ -398,12 +398,19 @@ a.main_nav_link {
     stroke: var(--pink-hover);
   }
 
-  /* Navigation-indicated main item, active — keep bold. Text colour
-     (solent-blue) and background (warm-grey) come from the existing active
-     rules; active-hover magenta-dark comes from the rule above. */
+  /* Navigation-indicated main item, active (submenu open) — bold dark-magenta
+     text + chevron, persistently (not only on hover). Overrides the generic
+     active solent-blue text/chevron rules (extra .is-current-section class
+     wins on specificity). Background (warm-grey) still comes from the existing
+     active rules. */
   .main-menu-item-container > li.is-current-section:has(.sub-menu-container.visible-2l) button.main_nav_link > span,
   .main-menu-item-container > li.is-current-section:has(.sub-menu-container.visible-2l) a.main_nav_link {
     font-weight: 700;
+    color: var(--magenta-dark);
+  }
+  .main-menu-item-container > li.is-current-section:has(.sub-menu-container.visible-2l) .navigation__link__down-icon {
+    fill: var(--magenta-dark);
+    stroke: var(--magenta-dark);
   }
 
   /* Navigation-indicated bottom line — persists in all indicated states.
@@ -424,6 +431,12 @@ a.main_nav_link {
     background: #ffffff;       /* white for indicated non-active (on solent-blue bar) */
     border-radius: 1.5px;
     pointer-events: none;
+  }
+
+  /* Indicated non-active, hover — line goes pink to match the pink text.
+     (:hover raises specificity over the white base rule.) */
+  .main-menu-item-container > li.is-current-section:not(:has(.sub-menu-container.visible-2l)):hover .main_nav_link::after {
+    background: var(--pink-hover);
   }
 
   /* Indicated + active (submenu open) — line switches to magenta-dark,
