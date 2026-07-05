@@ -1,0 +1,136 @@
+/* ══════════════════════════════════════
+   Full view mode — Event, Organisation, Link
+   ══════════════════════════════════════
+   Minimal, shareable/indexable destination pages. All three share one
+   .slnt-node-full base; type hooks .slnt-event-full / .slnt-org-full /
+   .slnt-link-full are available for any future per-type tweaks.
+
+   The container deliberately matches .slnt-article (node.css) so these pages
+   align horizontally with the Article full view: same 1200px max-width and
+   the same menu-grid padding across desktop / tablet / mobile. */
+
+.slnt-node-full {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2em var(--align-floor, 1em) 0;
+  box-sizing: border-box;
+}
+
+.slnt-node-full__header {
+  margin-bottom: 1.5rem;
+}
+
+/* Past-event badge — sits above the topic trail. */
+.slnt-node-full__past-kicker {
+  display: inline-block;
+  font-family: 'Atkinson Hyperlegible Next', sans-serif;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-mid, #444);
+  background: var(--warm-grey, #f5f3f0);
+  padding: 0.2em 0.6em;
+  border-radius: 3px;
+  margin-bottom: 0.4rem;
+}
+
+.slnt-node-full__title {
+  font-family: 'Atkinson Hyperlegible Next', sans-serif;
+  font-size: 2.4rem;
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--solent-blue, #2c4f6e);
+  margin-bottom: 0.5rem;
+}
+
+/* Event — date/time and location. */
+.slnt-node-full__when {
+  font-family: 'Atkinson Hyperlegible Next', sans-serif;
+  font-size: 1rem;
+  color: var(--text, #1a1a1a);
+  margin-bottom: 0.3rem;
+}
+
+.slnt-node-full__where {
+  font-family: 'Atkinson Hyperlegible Next', sans-serif;
+  font-size: 1rem;
+  color: var(--text-mid, #444);
+}
+
+/* Field formatters wrap output in .field — keep it inline within the row. */
+.slnt-node-full__when .field,
+.slnt-node-full__where .field {
+  display: inline;
+  margin: 0;
+}
+
+/* Standfirst — left-aligned under the title (a readable 740px measure).
+   Note: intentionally NOT centred, so it lines up with the left-aligned
+   title/header and the Article layout. */
+.slnt-node-full__standfirst {
+  font-family: 'Atkinson Hyperlegible Next', sans-serif;
+  font-size: 1.2rem;
+  line-height: 1.5;
+  color: var(--text, #1a1a1a);
+  max-width: 740px;
+  margin: 0 0 1.5rem;
+}
+
+.slnt-node-full__standfirst p {
+  margin: 0;
+}
+
+.slnt-node-full__standfirst .field {
+  display: inline;
+}
+
+/* CTA button. */
+.slnt-node-full__cta {
+  margin-top: 1.5rem;
+}
+
+.slnt-node-full__cta a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  font-family: 'Atkinson Hyperlegible Next', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  padding: 0.6em 1.4em;
+  background: var(--solent-blue, #2c4f6e);
+  border: 3px solid var(--solent-blue, #2c4f6e);
+  border-radius: 4px;
+  color: #fff;
+  text-decoration: none;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.slnt-node-full__cta a:hover {
+  background: var(--solent-blue-light, #3a6489);
+  border-color: var(--solent-blue-light, #3a6489);
+}
+
+/* ── Tablet — viewport narrower than the 1200px container. Match the menu
+   text inset (2em from the viewport edge), as .slnt-article does. ── */
+@media (min-width: 800px) and (max-width: 1199px) {
+  .slnt-node-full {
+    padding: 0 calc(var(--align-floor, 1em) * 2);
+  }
+}
+
+/* ── Mobile ── */
+@media (max-width: 799px) {
+  .slnt-node-full {
+    padding: 0 var(--content-pad-mobile, 1.2rem);
+  }
+
+  .slnt-node-full__title {
+    font-size: 1.75rem;
+  }
+
+  .slnt-node-full__standfirst {
+    font-size: 1.05rem;
+    max-width: 100%;
+  }
+}
