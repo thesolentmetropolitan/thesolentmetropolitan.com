@@ -90,6 +90,31 @@ function customsolent_preprocess_node(array &$variables): void {
     }
   }
 
+  // Full node views for content types (article, event, organisation, link):
+  // expose the primary topic's menu path (e.g. "/culture/music") so the desktop
+  // menu can indicate the topic's section rather than the URL path — content
+  // lives at /articles, /events, /organisations, which don't match any menu
+  // item. Read by js/menu-state.js via the data-primary-topic-path attribute.
+  if (($variables['view_mode'] ?? '') === 'full'
+    && in_array($node->bundle(), ['article', 'event', 'organisation', 'link'], TRUE)
+    && $node->hasField('field_primary_topic')
+    && !$node->get('field_primary_topic')->isEmpty()) {
+    $term = $node->get('field_primary_topic')->entity;
+    if ($term) {
+      // Build the root-to-leaf term chain, then the lowercase/hyphenated path
+      // via the shared helper (e.g. "Culture / Music" => "/culture/music").
+      $term_storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
+      $chain = [];
+      $current = $term;
+      while ($current) {
+        array_unshift($chain, $current);
+        $parents = $term_storage->loadParents($current->id());
+        $current = !empty($parents) ? reset($parents) : NULL;
+      }
+      $variables['primary_topic_menu_path'] = _customsolent_build_term_url($chain, count($chain) - 1);
+    }
+  }
+
   // Topic kickers on teasers and compact cards. Rendered via
   // #lazy_builder placeholders so they're recomputed per request,
   // bypassing the teaser entity render cache (which is shared across

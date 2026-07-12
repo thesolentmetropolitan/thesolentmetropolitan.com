@@ -2,8 +2,12 @@
  * @file
  * Desktop menu navigation-state indicator.
  *
- * Reads the current URL on page load and marks which section / sub-section the
- * user is currently in, by adding classes that the desktop menu CSS styles:
+ * On page load, marks which section / sub-section the user is currently in by
+ * adding classes that the desktop menu CSS styles. The path used is normally
+ * the current URL, except on content full-view pages (article/event/etc.)
+ * where the <article>'s data-primary-topic-path takes precedence (see init()),
+ * so the menu reflects the content's primary topic rather than its /articles
+ * or /events URL. Classes applied:
  *
  *   .is-current-section  — on the top-level <li> whose section URL is a prefix
  *                          of the current path (bold white text + magenta-dark
@@ -58,7 +62,15 @@
   }
 
   function init() {
-    var currentPath = normalizePath(window.location.pathname);
+    // On a content full-view page (article/event/organisation/link) the menu
+    // indicates the content's PRIMARY TOPIC section, not the URL path — content
+    // lives at /articles, /events, /organisations, which match no menu item.
+    // The Twig template exposes the topic's menu path on the <article> element;
+    // when present it takes precedence. Everywhere else (composite pages, home,
+    // listings) this is absent and we fall back to the URL, unchanged.
+    var topicEl = document.querySelector('article[data-primary-topic-path]');
+    var topicPath = topicEl && topicEl.getAttribute('data-primary-topic-path');
+    var currentPath = normalizePath(topicPath || window.location.pathname);
 
     var mainItems = document.querySelectorAll('.main-menu-item-container > li');
 

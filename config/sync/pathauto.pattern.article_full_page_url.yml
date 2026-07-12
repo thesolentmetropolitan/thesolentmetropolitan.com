@@ -1,23 +1,23 @@
-uuid: 364c297e-cfc6-4392-b58f-94f311605fe2
+uuid: 88f8471a-ecfa-40a0-bf34-ab0ae414e29e
 langcode: en
 status: true
 dependencies:
   config:
-    - node.type.organisation
+    - node.type.article
   module:
     - node
-id: organisation_full_page_url
-label: 'Organisation full page url'
+id: article_full_page_url
+label: 'Article full page url'
 type: 'canonical_entities:node'
-pattern: '/organisations/[node:title]'
+pattern: '/articles/[node:title]'
 selection_criteria:
-  d4459795-7330-40ca-9719-32fb4b5dd924:
+  105b25a0-7c20-453e-b8e3-644dc8912631:
     id: 'entity_bundle:node'
     negate: false
     context_mapping:
       node: node
     bundles:
-      organisation: organisation
+      article: article
 selection_logic: and
 weight: -5
 relationships: {  }

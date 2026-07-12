@@ -9,7 +9,7 @@ dependencies:
 id: event_full_page_url
 label: 'Event full page url'
 type: 'canonical_entities:node'
-pattern: '/explore/events/[node:title]-[node:event_date_formatted]'
+pattern: '/events/[node:title]-[node:event_date_formatted]'
 selection_criteria:
   ac4c64c0-67c0-403c-ab4d-aeb3b342d4f9:
     id: 'entity_bundle:node'
