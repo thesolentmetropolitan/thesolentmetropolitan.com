@@ -70,25 +70,26 @@ content:
     label: hidden
     settings:
       separator: ' - '
-      join: ', '
-      time_format: 'g:ia'
-      time_hour_format: ga
+      time_diff:
+        future_format: '@interval hence'
+        past_format: '@interval ago'
+        granularity: '2'
+        refresh: '60'
+        enabled: 0
+        description: ''
       date_format: 'D, M j Y'
-      allday_label: 'All day'
-      date_first: '1'
-      ampm_reduce: '1'
-      site_time_toggle: '1'
       custom_date_format: ''
       timezone: Europe/London
       tooltip:
         date_format: long
         custom_date_format: ''
-      time_diff:
-        enabled: false
-        future_format: '@interval hence'
-        past_format: '@interval ago'
-        granularity: 2
-        refresh: 60
+      join: ', '
+      time_format: 'g:ia'
+      time_hour_format: ga
+      allday_label: ''
+      date_first: '1'
+      ampm_reduce: '1'
+      site_time_toggle: '1'
     third_party_settings: {  }
     weight: 103
     region: content
