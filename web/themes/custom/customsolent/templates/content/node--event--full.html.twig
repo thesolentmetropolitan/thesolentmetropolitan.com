@@ -33,7 +33,7 @@
   ]
 %}
 
-<article{{ attributes.addClass(classes) }}>
+<article{{ attributes.addClass(classes) }}{% if primary_topic_menu_path is defined and primary_topic_menu_path %} data-primary-topic-path="{{ primary_topic_menu_path }}"{% endif %}>
   <div class="slnt-node-full__header">
 
     {# Past-event badge — sits above the topic trail. #}

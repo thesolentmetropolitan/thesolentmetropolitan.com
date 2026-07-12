@@ -2,13 +2,17 @@
 
 /**
  * @file
- * Regenerate URL aliases for Event, Organisation, and Link nodes.
+ * Regenerate URL aliases for Article, Event, Organisation, and Link nodes.
  *
  * Run with: drush php:script scripts/regenerate-url-aliases.php
  *
+ * Nodes whose current alias is under /about/ are skipped — Article nodes are
+ * sometimes used as About section pages (About > Overview / Team) with
+ * deliberate, hand-placed aliases that must not be overwritten by the pattern.
+ *
  * Prerequisites:
  *   - customsolent_tokens enabled (provides [node:event_date_formatted]).
- *   - Pathauto patterns configured for event, organisation, link.
+ *   - Pathauto patterns configured for article, event, organisation, link.
  *   - (Recommended) Back up the database first, e.g. `ddev snapshot`.
  *
  * Approach — redirect-friendly:
@@ -28,7 +32,7 @@ $node_storage = $entity_type_manager->getStorage('node');
 $generator = \Drupal::service('pathauto.generator');
 $alias_manager = \Drupal::service('path_alias.manager');
 
-$content_types = ['event', 'organisation', 'link'];
+$content_types = ['article', 'event', 'organisation', 'link'];
 $total_changed = 0;
 $total_unchanged = 0;
 $errors = [];
@@ -60,6 +64,15 @@ foreach ($content_types as $bundle) {
       // Read the current alias from a fresh lookup (avoid stale static cache).
       $alias_manager->cacheClear('/node/' . $nid);
       $old_alias = $alias_manager->getAliasByPath('/node/' . $nid);
+
+      // Preserve deliberate section pages: never re-alias content living under
+      // /about/ (e.g. Article nodes used as About > Overview / Team). These are
+      // hand-placed, non-pattern aliases and must not be clobbered.
+      if (strpos($old_alias, '/about/') === 0) {
+        echo "  [$bundle] $nid \"$title\" — skipped (kept /about/ alias: $old_alias)\n";
+        $bundle_unchanged++;
+        continue;
+      }
 
       try {
         // Force Pathauto to (re)generate and update the alias in place.
