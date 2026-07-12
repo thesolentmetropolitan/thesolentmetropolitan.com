@@ -9,7 +9,7 @@ dependencies:
 id: organisation_full_page_url
 label: 'Organisation full page url'
 type: 'canonical_entities:node'
-pattern: '/explore/organisations/[node:title]'
+pattern: '/organisations/[node:title]'
 selection_criteria:
   d4459795-7330-40ca-9719-32fb4b5dd924:
     id: 'entity_bundle:node'
