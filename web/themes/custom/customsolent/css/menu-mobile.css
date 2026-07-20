@@ -147,7 +147,7 @@
   }
 
   .sub-menu-item-container > li {
-    padding-bottom: 5px;
+    padding-bottom: 0;
   }
 
   /* Mobile submenu slide animation */
@@ -156,8 +156,35 @@
   }
 
   .main-menu-item-container > li {
-    padding-bottom: 5px;
+    padding-bottom: 0;
     width:100%;
+  }
+
+  /* ═══════════════════════════════════════════════════════════════════════
+     PUSH-DOWN MENU (2026-07-20 mobile menu brief)
+     The nav lives in normal document flow inside <header>, so opening it pushes
+     the page content down rather than covering it (the old blanket-cover
+     "overlay" mode is preserved but deactivated lower down in this file). The
+     menu's height is animated with the grid 0fr↔1fr auto-height technique on
+     .main-menu-wrap: its single child <ul> collapses to 0 when closed and grows
+     to its content height when open. Because the 1fr track tracks content
+     height, the nav also animates smoothly as a submenu expands within it — no
+     JS height measuring needed. Open/closed state is the .slnt-mobile-menu-open
+     class that customsolent.js toggles on the <nav>.
+     ═══════════════════════════════════════════════════════════════════════ */
+  .main-menu-wrap {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.28s ease-out;
+    overflow: hidden;
+  }
+  nav[role="navigation"].slnt-mobile-menu-open .main-menu-wrap {
+    grid-template-rows: 1fr;
+  }
+  /* The single grid child (the menu <ul>) must be free to collapse to 0. */
+  .main-menu-wrap > .main-menu-item-container {
+    min-height: 0;
+    overflow: hidden;
   }
 
   /* Mobile submenu scroll fade indicators */
@@ -234,59 +261,224 @@
    /* padding-left: 0.3em; */
   }
 
+  /* Left-edge fix (brief §3): no left indent on the submenu wrapper so each
+     sub-item row fills to the screen edge; the row's own 16px anchor padding
+     provides the text inset. */
   .sub-menu-items-outer-container {
-  padding-left: 2.8em;
-  padding-top: 1em;
+  padding-left: 0;
+  padding-top: 0;
   }
 
   .sub-menu-container a.first-link {
     text-decoration: none;
   }
 
-    /* Mobile submenu text: keep dark blue */
-    .sub-menu-item-container a,
-    .sub-menu-container a.first-link,
-    .sub-menu-container a {
-        color: rgb(16, 60, 96);
+  /* ═══════════════════════════════════════════════════════════════════════
+     MOBILE MENU VISUAL STATES (2026-07-20 brief)
+
+     Selector map (see templates/navigation/menu--main.html.twig):
+       main menu row          .main-menu-item-container > li
+       main link (row fill)   .main_nav_link   (button = section parent with
+                                                 submenu, a = Home/direct link)
+       main link text         .main_nav_link  and its optional > span
+       chevron                .navigation__link__down-icon
+       ACTIVE (submenu open)  .main_nav_link.navigation__link--selected  (added
+                                                 by customsolent.js)
+       NAV-INDICATED section  li.is-current-section          (menu-state.js)
+       sub-menu row / link    .sub-menu-item > a   (direct child; main links are
+                                                 span > wrapper > button so they
+                                                 are NOT matched by this)
+       NAV-INDICATED page     .sub-menu-item.is-active-page   (menu-state.js)
+
+     Hover rules are gated behind @media (hover: hover) so touch devices don't
+     get stuck in a hover state after a tap.
+     ═══════════════════════════════════════════════════════════════════════ */
+
+  /* ── Full-width tap targets ── the whole row is clickable, not just the text.
+     Element-qualified to beat menu-common.css `button.main_nav_link { width:auto;
+     padding:0 12px; height:100% }` (0,1,1). */
+  a.main_nav_link,
+  button.main_nav_link {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 14px 16px;
+    min-height: 48px;   /* exceeds WCAG 2.5.5 minimum of 44px */
+    height: auto;       /* override menu-common.css height: 100% */
+  }
+  /* Remove the browser-default <ul> left indent (40px) — menu-common.css only
+     resets it on the sub-menu <ul>. Without this, every row (and the left-border
+     indicator) is pushed off the screen's left edge. */
+  ul.main-menu-item-container {
+    padding-inline-start: 0;
+    padding-left: 0;
+    margin: 0;
+  }
+  .sub-menu-item-container a,
+  .sub-menu-container a.first-link {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px 16px;
+    min-height: 44px;
+  }
+  /* Let the interactive child fill its row edge to edge. */
+  .main-menu-item-container > li > .sub-menu-item,
+  .main-menu-item-wrapper {
+    display: block;
+    width: 100%;
+  }
+
+  /* ── Dividers ── */
+  /* Main items: semi-transparent white reads as a hairline on solent blue. */
+  .main-menu-item-container > li {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  }
+  /* Sub items (incl. the "View All" first-link): light grey on off-white. */
+  .sub-menu-item-container > li,
+  .sub-menu-container .sub-menu-item.first-link {
+    border-bottom: 1px solid #e0e0e0;
+  }
+
+  /* ── Submenu background: warm grey (matching desktop) ── */
+  .sub-menu-container.visible,
+  .sub-menu-container.visible-2l {
+    background-color: var(--warm-grey);
+  }
+
+  /* ═══ MAIN MENU ITEM STATES ═══ */
+
+  /* (1) Default — white text + white chevron on solent blue.
+     Element-qualified so it beats menu-common.css's
+     `button.main_nav_link > span { color: rgb(16,60,96) }` (0,1,2) and
+     `a.main_nav_link { color: inherit }` (0,1,1). The chevron's <path> uses
+     fill="currentColor", so the chevron follows the link's `color`; fill/stroke
+     are pinned to currentColor here once and every state simply sets `color`. */
+  a.main_nav_link,
+  button.main_nav_link,
+  button.main_nav_link > span {
+    color: #ffffff;
+    transition: color 0.15s, background-color 0.15s;
+  }
+  .navigation__link__down-icon {
+    fill: currentColor;
+    stroke: currentColor;
+  }
+  .search-menu-icon {
+    stroke: currentColor;
+  }
+
+  /* (3) Active (submenu open) — solent blue text on a white row. */
+  .main_nav_link.navigation__link--selected,
+  .main_nav_link.navigation__link--selected > span {
+    color: var(--solent-blue);
+    background-color: #ffffff;
+  }
+  .main_nav_link.navigation__link--selected .navigation__link__down-icon {
+    fill: var(--solent-blue);
+    stroke: var(--solent-blue);
+  }
+
+  /* (5) Nav-indicated, non-active — bold white text + 4px white left border. */
+  .is-current-section {
+    border-left: 4px solid #ffffff;
+  }
+  .is-current-section .main_nav_link,
+  .is-current-section .main_nav_link > span {
+    font-weight: 700;
+  }
+  /* Compensate for the 4px border so text doesn't shift. */
+  .is-current-section .main_nav_link {
+    padding-left: 12px;
+  }
+
+  /* (7) Nav-indicated, active — bold magenta text + magenta border on white. */
+  .is-current-section:has(.main_nav_link.navigation__link--selected) {
+    border-left-color: var(--magenta);
+  }
+  .is-current-section .main_nav_link.navigation__link--selected,
+  .is-current-section .main_nav_link.navigation__link--selected > span {
+    color: var(--magenta);
+  }
+  .is-current-section .main_nav_link.navigation__link--selected .navigation__link__down-icon {
+    fill: var(--magenta);
+    stroke: var(--magenta);
+  }
+
+  @media (hover: hover) {
+    /* (2) Hover, non-active, non-indicated — pink text + chevron. */
+    .main_nav_link:not(.navigation__link--selected):hover,
+    .main_nav_link:not(.navigation__link--selected):hover > span {
+      color: var(--pink-hover);
+    }
+    .main_nav_link:not(.navigation__link--selected):hover .navigation__link__down-icon {
+      fill: var(--pink-hover);
+      stroke: var(--pink-hover);
+    }
+    .main_nav_link:not(.navigation__link--selected):hover .search-menu-icon {
+      stroke: var(--pink-hover);
     }
 
-    /* Mobile main menu text: white on blue, matching desktop */
-    .main-menu-item-wrapper > a.main_nav_link,
-    .main-menu-item-wrapper > .main_nav_link > span {
-        color: rgba(255, 255, 255, 0.85);
-        transition: color 0.15s;
+    /* (4) Active + hover (non-indicated) — magenta dark. */
+    .main_nav_link.navigation__link--selected:hover,
+    .main_nav_link.navigation__link--selected:hover > span {
+      color: var(--magenta-dark);
+    }
+    .main_nav_link.navigation__link--selected:hover .navigation__link__down-icon {
+      fill: var(--magenta-dark);
+      stroke: var(--magenta-dark);
     }
 
-    .main-menu-item-wrapper > a.main_nav_link:hover,
-    .main-menu-item-wrapper:hover > .main_nav_link > span {
-        color: #fff;
+    /* (6) Nav-indicated, non-active + hover — pink text, chevron and border. */
+    .is-current-section:has(.main_nav_link:not(.navigation__link--selected):hover) {
+      border-left-color: var(--pink-hover);
+    }
+    .is-current-section .main_nav_link:not(.navigation__link--selected):hover,
+    .is-current-section .main_nav_link:not(.navigation__link--selected):hover > span {
+      color: var(--pink-hover);
+    }
+    .is-current-section .main_nav_link:not(.navigation__link--selected):hover .navigation__link__down-icon {
+      fill: var(--pink-hover);
+      stroke: var(--pink-hover);
     }
 
-    /* Mobile chevrons: white on blue */
-    .navigation__link__down-icon {
-        fill: rgba(255, 255, 255, 0.85);
-        stroke: rgba(255, 255, 255, 0.85);
+    /* (8) Nav-indicated, active + hover — stays magenta (no hover change). */
+    .is-current-section .main_nav_link.navigation__link--selected:hover,
+    .is-current-section .main_nav_link.navigation__link--selected:hover > span {
+      color: var(--magenta);
     }
+    .is-current-section .main_nav_link.navigation__link--selected:hover .navigation__link__down-icon {
+      fill: var(--magenta);
+      stroke: var(--magenta);
+    }
+  }
 
-    button.main_nav_link:hover .navigation__link__down-icon {
-        fill: #fff;
-        stroke: #fff;
-    }
+  /* ═══ SUB-MENU ITEM STATES ═══ */
 
-    /* Mobile search icon: white on blue */
-    .search-menu-icon {
-        stroke: rgba(255, 255, 255, 0.85);
-    }
+  /* (1) Default — solent blue text on the warm-grey submenu. */
+  .sub-menu-item-container a,
+  .sub-menu-container a.first-link,
+  .sub-menu-container a {
+    color: var(--solent-blue);
+  }
 
-    button.main_nav_link:hover .search-menu-icon {
-        stroke: #fff;
-    }
+  /* (3) Nav-indicated page — white text on magenta dark. */
+  .sub-menu-item.is-active-page > a {
+    background-color: var(--magenta-dark);
+    color: #ffffff;
+  }
 
-    /* Mobile submenu background: warm grey (matching desktop) */
-    .sub-menu-container.visible,
-    .sub-menu-container.visible-2l {
-        background-color: var(--warm-grey);
+  @media (hover: hover) {
+    /* (2) Hover, non-indicated — inversion: white text on solent blue. */
+    .sub-menu-item:not(.is-active-page):hover > a {
+      background-color: var(--solent-blue);
+      color: #ffffff;
     }
+    /* (4) Nav-indicated + hover — background to solent blue, text stays white. */
+    .sub-menu-item.is-active-page:hover > a {
+      background-color: var(--solent-blue);
+      color: #ffffff;
+    }
+  }
 
   /* Move chevrons to the left via flex ordering */
   .navigation__link__down-icon {
@@ -456,7 +648,14 @@ https://stackoverflow.com/questions/79791175/how-to-stop-tap-highlight-blink-on-
   color: #fff;
 }
 
-/* Overlay - when menu is open */
+/* ── LEGACY OVERLAY MODE (preserved, deactivated) ──
+   The original mobile menu covered the page with a full-viewport blanket
+   (body height:100vh + overflow:hidden, header height:100vh). The 2026-07-20
+   brief replaced this with the push-down behaviour above. These rules are kept
+   for a possible future contrib module that switches modes via a
+   data-mobile-menu-mode="overlay" attribute; customsolent.js no longer adds
+   .slnt-overlay-menu-bg / .slnt-overlay-hdr-hgt-togl-expand-mob-menu, so they
+   are inert. Do not delete without also removing the overlay path from the JS. */
 .slnt-overlay-menu-bg {
   background-color: var(--solent-blue);
   transition: all .5s ease-in-out;
@@ -501,8 +700,10 @@ https://stackoverflow.com/questions/79791175/how-to-stop-tap-highlight-blink-on-
 
   }
 
+  /* Left-edge fix (brief §3): "View All" first-link also fills to the edge;
+     its 16px anchor padding (set with the tap-target rules) insets the text. */
   .sub-menu-container > a.first-link {
-    padding-inline-start: 2em;
+    padding-inline-start: 0;
   }
 
   .navigation__link__down-icon {
