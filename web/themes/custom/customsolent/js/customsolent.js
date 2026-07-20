@@ -267,22 +267,27 @@
                 var togl_expd = document.getElementById('slnt-togl-expand');
                 togl_expd.classList.toggle('slnt-togl-expand--open');
 
-                if ($("nav[role=navigation]:not(.pager)").css("display") == "none" ||
-                    $(".main-menu-wrap").css("display") == "none") {
-                  // Show menu - fade in
-                  $("body").css("overflow", "hidden");
-                  $("body").addClass('slnt-overlay-menu-bg');
-                  $("nav[role=navigation]:not(.pager)").css({"display": "block", "opacity": "0", "transition": "none"});
-                  $(".main-menu-wrap").css("display", "block");
-                  $("#slnt-header").addClass('slnt-overlay-hdr-hgt-togl-expand-mob-menu');
-                  $("#slnt-header").removeClass('slnt-hdr-hgt-init');
-                  // Delay ensures browser has painted opacity:0 before starting transition
-                  setTimeout(() => {
-                    $("nav[role=navigation]:not(.pager)").css({"transition": "opacity 0.8s ease", "opacity": "1"});
-                  }, 50);
+                // Push-down mobile menu: the nav lives in the normal document
+                // flow and animates its height (see menu-mobile.css — the
+                // .main-menu-wrap grid 0fr/1fr rule), pushing page content down
+                // rather than covering it. Open/closed state is a single class
+                // on the nav; CSS owns the animation, so there is no display
+                // toggling or opacity fade here any more.
+                //
+                // The legacy blanket-cover ("overlay") behaviour is preserved
+                // for a future contrib module under
+                // [data-mobile-menu-mode="overlay"] in menu-mobile.css (and in
+                // git history prior to the 2026-07-20 push-down work).
+                const nav = document.querySelector("nav[role=navigation]:not(.pager)");
+
+                if (!nav.classList.contains('slnt-mobile-menu-open')) {
+                  // ---- OPEN ----
+                  nav.classList.add('slnt-mobile-menu-open');
                 } else {
-                  // Hide menu - fade out then clean up
-                  // Close search form and submenus so they're hidden when menu reopens
+                  // ---- CLOSE ----
+                  // Reset the search form and any open submenus so the menu is
+                  // clean when it reopens. The nav's own height animation hides
+                  // everything as it collapses.
                   hideSearchForm(true);
                   const searchBtn = document.querySelector('#search-in-menu');
                   if (searchBtn) searchBtn.classList.remove('navigation__link--selected');
@@ -293,15 +298,7 @@
                     hideSubmenu(aSubMenu, true);
                   });
 
-                  $("nav[role=navigation]:not(.pager)").css("opacity", "0");
-                  setTimeout(() => {
-                    $("body").css("overflow", "");
-                    $("body").removeClass('slnt-overlay-menu-bg');
-                    $("nav[role=navigation]:not(.pager)").css("display", "none");
-                    $(".main-menu-wrap").css("display", "none");
-                    $("#slnt-header").removeClass('slnt-overlay-hdr-hgt-togl-expand-mob-menu');
-                    $("#slnt-header").addClass('slnt-hdr-hgt-init');
-                  }, 300); // Match CSS transition duration
+                  nav.classList.remove('slnt-mobile-menu-open');
                 }
               }
             }
@@ -318,9 +315,10 @@
           desktop_menu_initialise_container_height();
           desktop_menu_hide_all_submenus();
         } else {
-          // Mobile mode - hide menu initially and add initial header height class
-          $("nav[role=navigation]:not(.pager)").css("display", "none");
-          $(".main-menu-wrap").css("display", "none");
+          // Mobile mode - the menu starts collapsed via CSS (.main-menu-wrap
+          // grid 0fr), so no display toggling is needed. Just make sure the
+          // open-state class is off and set the initial header height.
+          $("nav[role=navigation]:not(.pager)").removeClass('slnt-mobile-menu-open');
           $("#slnt-header").addClass('slnt-hdr-hgt-init');
         }
       }
@@ -603,52 +601,22 @@
       }
 
       /**
-       * Calculate max-height for mobile submenu so all menu items stay on screen.
-       * Formula: viewport height - branding block height - all menu button heights - bottom padding
-       * Measures button/link heights directly (not li.offsetHeight) so the result
-       * is immune to whether other submenus are currently expanded or collapsed.
+       * Max-height (px) for an open mobile submenu.
+       *
+       * Push-down behaviour (2026-07-20): the menu now lives in the normal
+       * document flow and the page scrolls, so the submenu no longer has to
+       * shrink to fit the viewport. Instead it is capped to a fixed height of
+       * roughly six rows. Submenus with six or fewer items are shorter than the
+       * cap and so show in full; taller submenus (Culture, Sectors, …) hit the
+       * cap and scroll, with the existing fade indicator. This keeps the overall
+       * menu height roughly consistent whichever section is open.
+       *
+       * This value is applied as the submenu's inline max-height: it is what the
+       * open animation transitions toward and what the overflow/fade detection
+       * measures against. ~290px ≈ six 48px rows.
        */
       function calculateMobileSubmenuHeight() {
-        const viewportHeight = window.innerHeight;
-
-        // Branding block (site logo/name) rendered by Drupal
-        const brandingBlock = document.getElementById('block-customsolent-sitebranding')
-                           || document.getElementById('slnt-logo');
-        const brandingHeight = brandingBlock ? brandingBlock.offsetHeight : 0;
-
-        // Sum the height each top-level li occupies when its submenu is collapsed:
-        // nav link height + li padding + li border + li margin.
-        // This avoids measuring li.offsetHeight which includes expanded submenu content.
-        let menuItemsHeight = 0;
-        const allLis = document.querySelectorAll('ul.main-menu-item-container.mobile > li');
-        allLis.forEach(li => {
-          const liStyle = window.getComputedStyle(li);
-          const marginTop = parseFloat(liStyle.marginTop) || 0;
-          const marginBottom = parseFloat(liStyle.marginBottom) || 0;
-          const paddingTop = parseFloat(liStyle.paddingTop) || 0;
-          const paddingBottom = parseFloat(liStyle.paddingBottom) || 0;
-          const borderTop = parseFloat(liStyle.borderTopWidth) || 0;
-          const borderBottom = parseFloat(liStyle.borderBottomWidth) || 0;
-
-          // Measure just the nav link (button or anchor), not the whole li
-          const navLink = li.querySelector('.main_nav_link');
-          const linkHeight = navLink ? navLink.offsetHeight : 0;
-
-          menuItemsHeight += linkHeight + paddingTop + paddingBottom + borderTop + borderBottom + marginTop + marginBottom;
-        });
-
-        const bottomPadding = 160;
-        const maxHeight = viewportHeight - brandingHeight - menuItemsHeight - bottomPadding;
-
-        console.log('Mobile submenu height calculation:', {
-          viewportHeight,
-          brandingHeight,
-          menuItemsHeight,
-          bottomPadding,
-          maxHeight
-        });
-
-        return Math.max(150, maxHeight);
+        return 290;
       }
 
       /**
@@ -1001,12 +969,12 @@
               setupMobileBurgerMenu();
             }
 
-            // Hide main menu initially in mobile
-            $("nav[role=navigation]:not(.pager)").css("display", "none");
-            $(".main-menu-wrap").css("display", "none");
+            // Menu starts collapsed via CSS (.main-menu-wrap grid 0fr); just
+            // clear any open state carried over from a previous mobile session.
+            $("nav[role=navigation]:not(.pager)").removeClass('slnt-mobile-menu-open');
             $("#slnt-header").addClass('slnt-hdr-hgt-init');
 
-            // Reset mobile overlay if it was on
+            // Reset any legacy overlay styles that may linger.
             $("body").css("overflow", "");
             $("body").removeClass('slnt-overlay-menu-bg');
 
@@ -1018,6 +986,7 @@
             $("#slnt-mobile-menu-container").empty();
             $("#slnt-header").removeClass('slnt-overlay-hdr-hgt-togl-expand-mob-menu');
             $("#slnt-header").removeClass('slnt-hdr-hgt-init');
+            $("nav[role=navigation]:not(.pager)").removeClass('slnt-mobile-menu-open');
 
             // Reset mobile overlay styles
             $("body").css("overflow", "");
