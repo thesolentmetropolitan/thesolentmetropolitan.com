@@ -172,6 +172,38 @@ iPhone SE3, and visual taste checks on the close-button position). Notable measu
    NOTE: if the logo asset or its rendered size ever changes, this 1.4px must be
    re-derived (documented in the CSS comment).
 
+## Shading — closing rationale (2026-08-17, discussed with Rob; final values 0.3 top / 0.4 bottom)
+
+**Will the shading be seen by people with visual impairments?** Some won't perceive it —
+the 0.3–0.4 scrim over warm grey lands around 2.8:1 at its darkest band against the
+unshaded panel, just shy of the 3:1 WCAG target for non-text indicators, and users with
+significant contrast sensitivity loss (cataracts, low vision) may miss a gradient
+entirely regardless of darkness. But the design doesn't *rely* on it, which is what
+matters for accessibility:
+
+- the half-cut-off last row is a structural cue that survives low vision far better than
+  any tint;
+- the scrollbar is forced visible on the panel;
+- keyboard users never need to perceive scrolling at all — tabbing through items scrolls
+  them into view automatically;
+- screen readers simply read the full list.
+
+The fade is purely luminance-based rather than colour-based, so it's also the most
+robust choice for colour vision deficiencies. The gradient is a helpful cue for most,
+with redundant cues catching those it misses.
+
+**Contrast of menu items under the shading:** a scrim darkens text and background
+together, so the solent-blue-on-warm-grey text (~9:1 normally) compresses to roughly
+5–6:1 under the darkest sliver — still above the 4.5:1 AA threshold — and it only
+touches the bottom half of an already half-visible row whose full-contrast version is
+one flick away. In that zone the shading is doing the primary communication (scroll
+affordance); readability there is secondary by design, exactly as brief §2E anticipated.
+
+**Why stop at 0.3/0.4:** beyond ~0.4 the fade starts reading as a broken overlay rather
+than an affordance. If stronger signalling is ever wanted, the honest next step is a
+separate explicit control — the PBS-style arrow buttons already parked in brief §2 —
+which can be added later without re-architecting any of today's work.
+
 ## Known nits / follow-ups
 
 - The `<summary>` rows in the no-JS fallback don't show a disclosure marker
