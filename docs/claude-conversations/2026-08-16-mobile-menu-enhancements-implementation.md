@@ -155,6 +155,19 @@ iPhone SE3, and visual taste checks on the close-button position). Notable measu
    submenu because the dark fade reads on warm-grey; over the dark-blue main items it
    would be near-invisible.
 
+## Follow-up round 3 (2026-08-16 evening, after Rob's live testing)
+
+1. **Shading darker again:** all four scroll-fade gradients (in-panel top/bottom and
+   viewport-edge top/bottom) stepped up `0.2 → 0.3` alpha — unmistakable affordance
+   territory without reading as a rendering artefact.
+2. **Logo/toggle balance:** the logo *box* was already at 16px, but `logo.svg` has
+   transparent padding baked into the artwork (first opaque pixel at column 107 of 1920 ≈
+   14.6px at the fixed 262.4px rendered width), so the *visible* mark sat at ~30.6px.
+   `#slnt-logo` padding reduced to 1.4px so the visible artwork lands at exactly 16px —
+   the same as the toggle's `right: 16px`. Verified by pixel-scanning the rendered image.
+   NOTE: if the logo asset or its rendered size ever changes, this 1.4px must be
+   re-derived (documented in the CSS comment).
+
 ## Known nits / follow-ups
 
 - The `<summary>` rows in the no-JS fallback don't show a disclosure marker
