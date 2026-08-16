@@ -211,6 +211,43 @@
         // Mobile burger menu setup
         setupMobileBurgerMenu();
 
+        // Escape key (2026-08 brief §5): close the mobile menu (focus returns
+        // to the hamburger), or on desktop close the open submenu/search
+        // panel (focus returns to its toggle button). Bound once on the
+        // document — behaviors can attach more than once.
+        if (!document._slntMenuEscapeBound) {
+          document._slntMenuEscapeBound = true;
+          document.addEventListener('keydown', function (e) {
+            if (e.key !== 'Escape') return;
+
+            if (isMobile()) {
+              if (mobileMenuIsOpen()) {
+                closeMobileMenu(true);
+              }
+              return;
+            }
+
+            const openSubmenu = document.querySelector('.sub-menu-container.visible-2l');
+            if (openSubmenu) {
+              const parentButton = openSubmenu.parentElement.querySelector('button.main_nav_link');
+              unselectChevron(openSubmenu);
+              hideSubmenu(openSubmenu);
+              if (parentButton) parentButton.focus();
+              return;
+            }
+
+            const searchFormEl = document.querySelector('#search-form-container');
+            if (searchFormEl && searchFormEl.classList.contains('visible-2l')) {
+              hideSearchForm();
+              const searchBtnEsc = document.querySelector('#search-in-menu');
+              if (searchBtnEsc) {
+                searchBtnEsc.classList.remove('navigation__link--selected');
+                searchBtnEsc.focus();
+              }
+            }
+          });
+        }
+
         // insert search term in search box on search page
         if (window.location.href.includes('/search/node') ) {
           const url = window.location.href;
@@ -236,9 +273,10 @@
        * Setup mobile burger menu
        */
       function setupMobileBurgerMenu() {
-        // Create burger menu HTML - using same structure as Gospel Choir site
-        var menuicon = 
-          '<a href="#" id="slnt-togl-expand" class="slnt-togl-expand"> \
+        // Create burger menu HTML - using same structure as Gospel Choir site.
+        // Close state (2026-08 brief §4): ✕ icon over stacked CLOSE / MENU.
+        var menuicon =
+          '<a href="#" id="slnt-togl-expand" class="slnt-togl-expand" role="button" aria-expanded="false" aria-label="Open menu"> \
             <div class="menu-icon"> \
               <span class="top"></span> \
               <span class="middle"></span> \
@@ -246,7 +284,7 @@
             </div> \
             <div class="menu-text"> \
               <span class="icon-burger">MENU</span> \
-              <span class="icon-close">CLOSE</span> \
+              <span class="icon-close"><span class="icon-close-line">CLOSE</span><span class="icon-close-line">MENU</span></span> \
             </div> \
           </a>';
 
@@ -255,54 +293,109 @@
           $("#slnt-mobile-menu-container").append(menuicon);
         }
 
-        // Burger menu click handler - adapted from Gospel Choir site
+        // Burger menu click handler - adapted from Gospel Choir site.
+        // keydown: the toggle is an <a role="button">, so Enter fires click
+        // natively but Space must be handled for keyboard users (brief §5).
         $('#slnt-togl-expand')
           .off('.toglexpandns')
           .on({
             'click.toglexpandns': function(e) {
               e.stopPropagation();
               e.preventDefault();
-              
+
               if (isMobile()) {
-                var togl_expd = document.getElementById('slnt-togl-expand');
-                togl_expd.classList.toggle('slnt-togl-expand--open');
-
-                // Push-down mobile menu: the nav lives in the normal document
-                // flow and animates its height (see menu-mobile.css — the
-                // .main-menu-wrap grid 0fr/1fr rule), pushing page content down
-                // rather than covering it. Open/closed state is a single class
-                // on the nav; CSS owns the animation, so there is no display
-                // toggling or opacity fade here any more.
-                //
-                // The legacy blanket-cover ("overlay") behaviour is preserved
-                // for a future contrib module under
-                // [data-mobile-menu-mode="overlay"] in menu-mobile.css (and in
-                // git history prior to the 2026-07-20 push-down work).
-                const nav = document.querySelector("nav[role=navigation]:not(.pager)");
-
-                if (!nav.classList.contains('slnt-mobile-menu-open')) {
-                  // ---- OPEN ----
-                  nav.classList.add('slnt-mobile-menu-open');
-                } else {
-                  // ---- CLOSE ----
-                  // Reset the search form and any open submenus so the menu is
-                  // clean when it reopens. The nav's own height animation hides
-                  // everything as it collapses.
-                  hideSearchForm(true);
-                  const searchBtn = document.querySelector('#search-in-menu');
-                  if (searchBtn) searchBtn.classList.remove('navigation__link--selected');
-
-                  const allSubMenus = document.querySelectorAll('.sub-menu-container');
-                  allSubMenus.forEach(aSubMenu => {
-                    unselectChevron(aSubMenu);
-                    hideSubmenu(aSubMenu, true);
-                  });
-
-                  nav.classList.remove('slnt-mobile-menu-open');
+                toggleMobileMenu();
+              }
+            },
+            'keydown.toglexpandns': function(e) {
+              if (e.key === ' ' || e.key === 'Spacebar') {
+                e.preventDefault();
+                if (isMobile()) {
+                  toggleMobileMenu();
                 }
               }
             }
           });
+      }
+
+      function mobileMenuIsOpen() {
+        const nav = document.querySelector("nav[role=navigation]:not(.pager)");
+        return !!nav && nav.classList.contains('slnt-mobile-menu-open');
+      }
+
+      function toggleMobileMenu() {
+        if (mobileMenuIsOpen()) {
+          closeMobileMenu();
+        } else {
+          openMobileMenu();
+        }
+      }
+
+      /**
+       * Open the mobile push-down menu.
+       *
+       * The nav lives in the normal document flow and animates its height
+       * (see menu-mobile.css — the .main-menu-wrap grid 0fr/1fr rule),
+       * pushing page content down rather than covering it. Open/closed state
+       * is a single class on the nav; CSS owns the animation.
+       *
+       * The legacy blanket-cover ("overlay") behaviour is preserved for a
+       * future contrib module under [data-mobile-menu-mode="overlay"] in
+       * menu-mobile.css (and in git history prior to the 2026-07-20
+       * push-down work).
+       */
+      function openMobileMenu() {
+        const togl_expd = document.getElementById('slnt-togl-expand');
+        const nav = document.querySelector("nav[role=navigation]:not(.pager)");
+
+        togl_expd.classList.add('slnt-togl-expand--open');
+        togl_expd.setAttribute('aria-expanded', 'true');
+        togl_expd.setAttribute('aria-label', 'Close menu');
+        nav.classList.add('slnt-mobile-menu-open');
+
+        // Focus management (2026-08 brief §5): move focus to the first main
+        // menu item (Home) once the push-down reveal has finished — focusing
+        // a still-moving target mid-animation can scroll to the wrong place.
+        setTimeout(() => {
+          if (!nav.classList.contains('slnt-mobile-menu-open')) return;
+          const firstItem = nav.querySelector('.main-menu-item-container .main_nav_link');
+          if (firstItem) firstItem.focus();
+        }, 300); // just after the 0.28s grid reveal
+      }
+
+      /**
+       * Close the mobile push-down menu, resetting the search form and any
+       * open submenus so the menu is clean when it reopens. The nav's own
+       * height animation hides everything as it collapses.
+       *
+       * @param {boolean} returnFocus - Move focus back to the toggle (used by
+       *   the Escape key; a pointer/keyboard activation of the toggle itself
+       *   already leaves focus there).
+       */
+      function closeMobileMenu(returnFocus = false) {
+        const togl_expd = document.getElementById('slnt-togl-expand');
+        const nav = document.querySelector("nav[role=navigation]:not(.pager)");
+
+        hideSearchForm(true);
+        const searchBtn = document.querySelector('#search-in-menu');
+        if (searchBtn) searchBtn.classList.remove('navigation__link--selected');
+
+        const allSubMenus = document.querySelectorAll('.sub-menu-container');
+        allSubMenus.forEach(aSubMenu => {
+          unselectChevron(aSubMenu);
+          hideSubmenu(aSubMenu, true);
+        });
+
+        nav.classList.remove('slnt-mobile-menu-open');
+
+        if (togl_expd) {
+          togl_expd.classList.remove('slnt-togl-expand--open');
+          togl_expd.setAttribute('aria-expanded', 'false');
+          togl_expd.setAttribute('aria-label', 'Open menu');
+          if (returnFocus) {
+            togl_expd.focus();
+          }
+        }
       }
 
       /**
@@ -584,6 +677,13 @@
 
           const maxHeight = calculateMobileSubmenuHeight();
 
+          // Scroll affordance (2026-08 brief §2): decide overflow BEFORE the
+          // reveal starts so the CSS gradient is present from the first frame
+          // (no flash), and short submenus never show it. scrollHeight gives
+          // the full content height even while collapsed.
+          aSubMenu.classList.toggle('has-overflow', aSubMenu.scrollHeight > maxHeight);
+          aSubMenu.classList.remove('scrolled-down', 'scrolled-to-bottom');
+
           // Trigger animation to target state
           aSubMenu.style.setProperty("max-height", maxHeight + "px");
           aSubMenu.style.setProperty("opacity", "1");
@@ -712,6 +812,7 @@
             aSubMenu.classList.add("hidden-2l");
             aSubMenu.classList.remove("visible-2l");
             aSubMenu.classList.remove("text-hidden");
+            aSubMenu.classList.remove("has-overflow", "scrolled-down", "scrolled-to-bottom");
             // Remove inline styles — CSS hidden-2l handles the collapsed state
             aSubMenu.style.removeProperty("width");
             aSubMenu.style.removeProperty("max-height");
@@ -820,6 +921,11 @@
           setTimeout(() => {
             if (searchFormContainer.classList.contains('visible-2l')) {
               searchFormContainer.style.removeProperty('overflow');
+              // Auto-scroll (2026-08 brief §3): on small viewports (e.g.
+              // iPhone SE) the revealed form can sit below the fold. After
+              // the height transition completes, bring it into view —
+              // block:'nearest' is a no-op when it's already visible.
+              searchFormContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
             }
           }, 500);
         }

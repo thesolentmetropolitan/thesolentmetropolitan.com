@@ -99,10 +99,12 @@ background-color: white;
 
 }
 
-button.main_nav_link:focus,
-a.main_nav_link:focus {
-    outline: none !important;
-}
+/* Keyboard a11y (2026-08 brief §5): the old `:focus { outline: none
+   !important }` rule made keyboard focus invisible on main menu items —
+   tabbing "didn't work" because focus moved but couldn't be seen. Focus
+   styling now lives in menu-focus.css using :focus-visible exclusively, so
+   mouse/touch clicks show nothing while keyboard focus shows the orange
+   indicator. */
 
 
 button.main_nav_link,
@@ -164,4 +166,39 @@ https://stackoverflow.com/questions/51639828/how-to-select-class-and-tag-in-css
 
 div#block-customsolent-sitebranding {
     display: inline-block;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   PROGRESSIVE ENHANCEMENT SWITCHING (2026-08 brief §6)
+   html.html.twig adds class="js" to <html> via an inline script (the Drupal/
+   Olivero pattern) — CSS keys off its presence/absence. With JS: the enhanced
+   menu operates and every no-JS fallback element is hidden. Without JS: the
+   enhanced mobile menu stays collapsed (no hamburger is ever injected), the
+   <details>/<summary> fallback shows at mobile widths (styling in
+   menu-mobile.css), and desktop submenus open via :hover/:focus-within
+   (rules in menu-desktop.css).
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* Fallback menu: hidden by default (all widths, incl. desktop no-JS) … */
+.mobile-menu-noscript {
+  display: none;
+}
+/* … shown only without JS at mobile widths. */
+@media (max-width: 799px) {
+  html:not(.js) .mobile-menu-noscript {
+    display: block;
+  }
+}
+
+/* Search: the toggle button needs JS. Without JS, hide the button and the
+   dead form panel, and show a plain link to the search page in its place
+   (rendered alongside the button in menu--main.html.twig). */
+html.js .search-nojs-link {
+  display: none;
+}
+html:not(.js) #search-in-menu {
+  display: none;
+}
+html:not(.js) #search-form-container {
+  display: none;
 }

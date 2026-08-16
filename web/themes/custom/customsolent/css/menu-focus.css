@@ -1,0 +1,70 @@
+/**
+ * Keyboard focus indication for the menu (2026-08 brief §5).
+ *
+ * Orange background + dark text on the focused item — a colour used nowhere
+ * else in the menu, so it is unambiguous as the keyboard position marker.
+ * #e8870e on #1a1a1a is ~4.6:1, passing WCAG AA.
+ *
+ * :focus-visible EXCLUSIVELY, never :focus — the browser only matches
+ * :focus-visible during keyboard interaction, so the orange never sticks
+ * after a mouse/touch click the way :focus would. Do not add :focus rules to
+ * menu elements.
+ *
+ * Applies at ALL viewport widths (this file is not inside a media query):
+ * keyboards get connected to phones/tablets, and auditors test keyboard
+ * navigation at mobile widths.
+ *
+ * !important is deliberate: the menu state rules (hover, active/selected,
+ * navigation-indicated) in menu-desktop.css and menu-mobile.css set the same
+ * properties with specificity up to (0,4,2), and the keyboard focus marker
+ * must win over every one of those state combinations. Loaded last in
+ * customsolent.libraries.yml.
+ */
+
+/* Main menu items — Home (a), section parents and Search (button). */
+a.main_nav_link:focus-visible,
+button.main_nav_link:focus-visible,
+a.main_nav_link:focus-visible > span,
+button.main_nav_link:focus-visible > span {
+  background-color: #e8870e !important;
+  color: #1a1a1a !important;
+  outline: none; /* replaced by the background change */
+}
+
+button.main_nav_link:focus-visible .navigation__link__down-icon {
+  fill: #1a1a1a !important;
+  stroke: #1a1a1a !important;
+}
+
+button.main_nav_link:focus-visible .search-menu-icon {
+  stroke: #1a1a1a !important;
+}
+
+/* Sub-menu items, including the "View All" first-link. */
+.sub-menu-container a:focus-visible {
+  background-color: #e8870e !important;
+  color: #1a1a1a !important;
+  outline: none;
+}
+
+/* Hamburger / close toggle — keeps its icon-based look, so an orange ring
+   marks focus instead of a background swap. */
+.slnt-togl-expand:focus-visible {
+  outline: 3px solid #e8870e;
+  outline-offset: 3px;
+}
+
+/* No-JS fallback menu (mobile) — same orange treatment. */
+.mobile-menu-noscript summary:focus-visible,
+.mobile-menu-noscript a:focus-visible {
+  background-color: #e8870e !important;
+  color: #1a1a1a !important;
+  outline: none;
+}
+
+/* Search form controls keep a visible ring on the warm-grey panel. */
+#search-form-container input[type="text"]:focus-visible,
+#search-form-container button:focus-visible {
+  outline: 3px solid #e8870e;
+  outline-offset: 1px;
+}
