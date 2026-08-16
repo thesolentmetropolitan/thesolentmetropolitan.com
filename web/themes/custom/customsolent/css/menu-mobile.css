@@ -241,7 +241,9 @@
 
   /* Bottom fade - sticky at the bottom; approximately one item height. The
      half-cut-off last item plus this darkening communicate "scroll for more".
-     Disappears when scrolled to the bottom. */
+     Disappears when scrolled to the bottom. Slightly darker than the top
+     fade (0.4 vs 0.3): at equal alpha the bottom fade reads lighter because
+     its darkest band sits over text rather than row gaps. */
   .sub-menu-container.visible-2l.has-overflow::after {
     content: '';
     position: sticky;
@@ -254,7 +256,7 @@
     background: linear-gradient(
       to bottom,
       rgba(0, 0, 0, 0) 0%,
-      rgba(0, 0, 0, 0.3) 100%
+      rgba(0, 0, 0, 0.4) 100%
     );
     pointer-events: none;
     opacity: 1;
@@ -297,7 +299,7 @@
     background: linear-gradient(
       to bottom,
       rgba(0, 0, 0, 0) 0%,
-      rgba(0, 0, 0, 0.3) 100%
+      rgba(0, 0, 0, 0.4) 100%
     );
   }
   .slnt-viewport-fade.is-visible {
