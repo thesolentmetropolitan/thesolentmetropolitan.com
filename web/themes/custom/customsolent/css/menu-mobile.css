@@ -580,7 +580,12 @@ https://stackoverflow.com/questions/79791175/how-to-stop-tap-highlight-blink-on-
   text-decoration: none;
   position: absolute;
   right: 50px;
-  top: 2.3em;
+  /* One position for BOTH toggle states (2026-08 brief §4, revised): high
+     enough that the icon plus two 16px text lines (CLOSE / MENU when open)
+     sit centred in the 96px logo band — icon 24px + 6px gap + 32px text
+     ≈ 62px, so (96 − 62) / 2 ≈ 17px. The icon and first text line never
+     move when toggling; the open state just adds its second line below. */
+  top: 17px;
   text-align: center;
 }
 
@@ -674,21 +679,13 @@ https://stackoverflow.com/questions/79791175/how-to-stop-tap-highlight-blink-on-
   display: block;
 }
 
-/* Close label (2026-08 brief §4): when open the toggle reads ✕ / CLOSE /
-   MENU on three centred lines. The two text lines stack via .icon-close-line
-   and the whole button sits slightly higher than the closed state so the
-   taller content stays vertically balanced against the site logo. */
+/* Close label (2026-08 brief §4, revised): when open the toggle reads ✕ /
+   CLOSE / MENU on three centred lines, at the same font size as the closed
+   state's MENU. The button keeps ONE position for both states — it is
+   anchored high enough (top, above) that two lines of text fit below the
+   icon, so toggling never moves the icon or the text's first line. */
 .slnt-togl-expand .icon-close .icon-close-line {
   display: block;
-  font-size: 0.65rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  line-height: 1.2;
-}
-
-.slnt-togl-expand.slnt-togl-expand--open {
-  top: 1.7em;
 }
 
 .slnt-togl-expand.slnt-togl-expand--open:hover .menu-icon span {

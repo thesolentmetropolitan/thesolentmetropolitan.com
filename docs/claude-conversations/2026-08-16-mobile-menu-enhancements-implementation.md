@@ -47,9 +47,15 @@ main items' text starts at the same x-position on both the home page and section
 
 ### §4 Close button label
 - Burger markup (injected by `setupMobileBurgerMenu()`): `.icon-close` is now two stacked
-  `.icon-close-line` spans — ✕ / CLOSE / MENU, centred, 0.65rem bold uppercase.
-- Open state sits higher (`top: 1.7em` vs closed 2.3em) so the taller content stays
-  balanced against the logo.
+  `.icon-close-line` spans — ✕ / CLOSE / MENU, centred.
+- Revised after Rob's review (2026-08-16): the label keeps the original 16px font size and
+  the button keeps ONE position for both states — `top: 17px`, high enough that the icon
+  plus two text lines centre within the 96px logo band. The icon and the first text line
+  are at identical coordinates in both states, so toggling moves nothing; the open state
+  just adds its second line below.
+- Label convention: visible text is "MENU" closed / "CLOSE MENU" open — toggle labels
+  conventionally name what they reveal, not the action; "Open menu" lives in the
+  `aria-label` for screen readers.
 - ARIA: `role="button"`, `aria-expanded` true/false, `aria-label` "Open menu"/"Close menu".
 
 ### §5 Keyboard accessibility
@@ -133,5 +139,5 @@ iPhone SE3, and visual taste checks on the close-button position). Notable measu
 - `menu--main.html.twig`'s enhanced-menu macro emits unbalanced open/close tags (browsers
   repair it — the fallback lands as a sibling of the enhanced menu, which is fine, but
   worth straightening out someday, especially before any contrib extraction).
-- Close-button open-state `top: 1.7em` chosen visually at 375px width — Rob may want to
-  fine-tune.
+- ~~Close-button open-state position~~ resolved: single `top: 17px` for both states after
+  Rob's review.
