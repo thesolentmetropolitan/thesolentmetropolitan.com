@@ -132,6 +132,29 @@ iPhone SE3, and visual taste checks on the close-button position). Notable measu
 - Desktop regression: submenu open/close, switching animation, nav indication, search
   panel all behave as before.
 
+## Follow-up round (2026-08-16 afternoon, after Rob's iPhone SE3 testing)
+
+1. **No orange focus on tap-open.** Opening the menu by touch was painting the orange
+   `:focus-visible` marker on Home (iOS treats programmatic focus as focus-visible).
+   The toggle's click handler now distinguishes keyboard activation (`event.detail === 0`
+   for synthesised clicks) from taps/clicks (`detail >= 1`); focus only moves to Home for
+   keyboard openers. Keyboard behaviour (Enter/Space → menu opens → Home focused orange)
+   unchanged.
+2. **Symmetric 16px header insets.** The submenu carets sit 16px from the layout's left
+   edge — that value is now shared by the logo (`#slnt-logo { padding-left: 16px }`, was
+   flush at 0) and mirrored by the toggle (`right: 16px`, was 50px), so logo and toggle
+   are visually separate, symmetric bookends. The 16px reference is noted in the CSS
+   comments for reuse.
+3. **Scroll affordance, extended.** (a) Gradients darkened `0.12 → 0.2` alpha.
+   (b) New viewport-edge fades: fixed 48px overlays at the screen's top/bottom
+   (`.slnt-viewport-fade--top/--bottom`, created and toggled by `updateViewportFades()` in
+   customsolent.js on page scroll/resize and at submenu open/close). They appear only while
+   the open submenu window is cut off by that viewport edge — so the last/first *on-screen*
+   item is shaded even when the cutoff comes from page scrolling rather than the panel's
+   internal scrolling — and disappear once the panel is fully in view. Scoped to the
+   submenu because the dark fade reads on warm-grey; over the dark-blue main items it
+   would be near-invisible.
+
 ## Known nits / follow-ups
 
 - The `<summary>` rows in the no-JS fallback don't show a disclosure marker
