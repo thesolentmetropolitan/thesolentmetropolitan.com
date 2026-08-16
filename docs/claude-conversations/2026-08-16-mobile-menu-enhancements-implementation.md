@@ -159,7 +159,11 @@ iPhone SE3, and visual taste checks on the close-button position). Notable measu
 
 1. **Shading darker again:** all four scroll-fade gradients (in-panel top/bottom and
    viewport-edge top/bottom) stepped up `0.2 → 0.3` alpha — unmistakable affordance
-   territory without reading as a rendering artefact.
+   territory without reading as a rendering artefact. Further round: the two BOTTOM
+   fades went to `0.4` (tops stay `0.3`) — at equal alpha a bottom fade reads lighter
+   because its darkest band sits over text rather than row gaps.
+   Logo alignment: parked at the CSS compensation; Rob will crop the transparent
+   lead-in out of logo.svg itself before any further CSS adjustment.
 2. **Logo/toggle balance:** the logo *box* was already at 16px, but `logo.svg` has
    transparent padding baked into the artwork (first opaque pixel at column 107 of 1920 ≈
    14.6px at the fixed 262.4px rendered width), so the *visible* mark sat at ~30.6px.
