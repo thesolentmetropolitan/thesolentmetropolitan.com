@@ -17,6 +17,7 @@ global:
       css/menu-common.css: {}
       css/menu-desktop.css: {}
       css/menu-mobile.css: {}
+      css/menu-focus.css: {}
       css/menu-footer.css: {}
       css/node.css: {}
       css/node-full-views.css: {}

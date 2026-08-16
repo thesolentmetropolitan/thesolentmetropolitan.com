@@ -26,6 +26,13 @@
 <!DOCTYPE html>
 <html{{ html_attributes }}>
   <head>
+    {#
+      Progressive enhancement (2026-08 menu brief §6): adds the `js` class the
+      moment JS runs (the Drupal/Olivero pattern) — menu CSS switches between
+      the enhanced menu (html.js) and the no-JS fallbacks (html:not(.js)).
+      First in <head> so the class exists before any rendering (no flash).
+    #}
+    <script>document.documentElement.classList.add('js');</script>
     <head-placeholder token="{{ placeholder_token }}">
     <title>{{ head_title|safe_join(' | ') }}</title>
     <css-placeholder token="{{ placeholder_token }}">

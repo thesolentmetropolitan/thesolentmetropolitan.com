@@ -382,16 +382,30 @@ button.search-menu-item-icon {
     max-height: 0;
     opacity: 0;
     overflow: hidden;
+    /* Keyboard a11y (2026-08 brief §5): closed form leaves the tab order. */
+    visibility: hidden;
   }
 
-  /* Left-align search form with chevron on button above */
+  /* Search form sizing (2026-08 brief §3): the input matches the Search menu
+     item's row — same 16px side padding, same 48px height — with the
+     magnifying-glass submit button keeping its space on the right. */
   #search-form-container form {
     justify-content: flex-start;
-    padding-left: 3em;
+    padding-left: 16px;
+    padding-right: 16px;
+    box-sizing: border-box;
   }
 
   #search-form-container .search-input-wrapper {
-    width: 70%;
+    width: auto;
+    flex: 1;
+  }
+
+  #search-form-container input[type="text"] {
+    height: 48px;
+    width: 100%;
+    box-sizing: border-box;
+    font-size: 1rem;
   }
 }
 

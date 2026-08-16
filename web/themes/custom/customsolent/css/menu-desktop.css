@@ -459,6 +459,36 @@ a.main_nav_link {
     color: #ffffff;
   }
 
+  /* ═══════════════════════════════════════════════════════════════════════
+     DESKTOP NO-JS SUBMENUS (2026-08 brief §6)
+     Without JS nothing sets the inline visibility/opacity on submenus, so
+     first pin the closed state, then reveal on :hover / :focus-within of the
+     .main-menu-item-wrapper (which contains both the button and its
+     .sub-menu-container). :focus-within keeps the submenu open while Tab
+     moves through its links, covering keyboard users. The nav bar keeps its
+     fixed 48px height, so the panel overlays the page like a classic
+     dropdown. Selector specificity ((0,4,1)+) beats the .hidden-2l
+     !important rules above.
+     ═══════════════════════════════════════════════════════════════════════ */
+  html:not(.js) .sub-menu-container.hidden-2l {
+    visibility: hidden;
+    opacity: 0;
+    transition: none;
+  }
+
+  html:not(.js) .main-menu-item-wrapper:hover .sub-menu-container.hidden-2l,
+  html:not(.js) .main-menu-item-wrapper:focus-within .sub-menu-container.hidden-2l {
+    top: 48px !important;
+    visibility: visible;
+    opacity: 1;
+    z-index: 100;
+  }
+
+  /* The warm-grey full-width backdrop normally comes with .visible-2l. */
+  html:not(.js) .main-menu-item-wrapper:hover .sub-menu-container.hidden-2l::before,
+  html:not(.js) .main-menu-item-wrapper:focus-within .sub-menu-container.hidden-2l::before {
+    background-color: var(--warm-grey);
+  }
 
 }
 

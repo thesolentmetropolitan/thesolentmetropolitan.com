@@ -144,6 +144,11 @@
     max-height: 0;
     opacity: 0;
     overflow: hidden;
+    /* Keyboard a11y (2026-08 brief §5): closed submenus leave the tab order.
+       customsolent.js keeps .visible-2l on during the collapse animation and
+       only swaps to .hidden-2l afterwards, so this doesn't cut the animation
+       short. */
+    visibility: hidden;
   }
 
   .sub-menu-item-container > li {
@@ -185,6 +190,15 @@
   .main-menu-wrap > .main-menu-item-container {
     min-height: 0;
     overflow: hidden;
+    /* Keyboard a11y (2026-08 brief §5): a collapsed menu must not keep its
+       links in the tab order. visibility flips to hidden AFTER the collapse
+       animation (0.28s delay) and back instantly on open. */
+    visibility: hidden;
+    transition: visibility 0s 0.28s;
+  }
+  nav[role="navigation"].slnt-mobile-menu-open .main-menu-wrap > .main-menu-item-container {
+    visibility: visible;
+    transition: visibility 0s;
   }
 
   /* Mobile submenu scroll fade indicators */
@@ -192,52 +206,64 @@
     position: relative;
   }
 
-  /* Top fade - uses sticky positioning to stay at top while scrolling */
-  /* Only show if content overflows AND user has scrolled down */
-  .sub-menu-container.visible-2l.has-overflow.scrolled-down::before {
+  /* Scroll affordance (2026-08 brief §2): dark gradients instead of white,
+     rendered by CSS whenever the submenu overflows so they're present from
+     the first frame of the reveal (customsolent.js adds .has-overflow BEFORE
+     the open animation starts — no setTimeout, no flash). Show/hide is an
+     opacity toggle so the scrolled-to-bottom "you've seen everything" state
+     fades out rather than popping. */
+
+  /* Top fade - sticky so it stays at the top while scrolling; only visible
+     once the user has scrolled down. */
+  .sub-menu-container.visible-2l.has-overflow::before {
     content: '';
     position: sticky;
     top: 0;
     left: 0;
     right: 0;
     width: 100%;
-    height: 50px;
-    margin-bottom: -50px;
+    height: 48px;
+    margin-bottom: -48px;
     background: linear-gradient(
       to bottom,
-      rgba(245, 243, 240, 1) 0%,
-      rgba(245, 243, 240, 0.9) 20%,
-      rgba(245, 243, 240, 0.5) 60%,
-      rgba(245, 243, 240, 0) 100%
+      rgba(0, 0, 0, 0.12) 0%,
+      rgba(0, 0, 0, 0) 100%
     );
     pointer-events: none;
-    opacity: 1;
+    opacity: 0;
+    transition: opacity 150ms;
     z-index: 10;
     display: block;
   }
+  .sub-menu-container.visible-2l.has-overflow.scrolled-down::before {
+    opacity: 1;
+  }
 
-  /* Bottom fade - uses sticky positioning to stay at bottom while scrolling */
-  /* Only show if content overflows AND user is NOT at bottom */
-  .sub-menu-container.visible-2l.has-overflow:not(.scrolled-to-bottom)::after {
+  /* Bottom fade - sticky at the bottom; approximately one item height. The
+     half-cut-off last item plus this darkening communicate "scroll for more".
+     Disappears when scrolled to the bottom. */
+  .sub-menu-container.visible-2l.has-overflow::after {
     content: '';
     position: sticky;
     bottom: 0;
     left: 0;
     right: 0;
     width: 100%;
-    height: 50px;
-    margin-top: -50px;
+    height: 48px;
+    margin-top: -48px;
     background: linear-gradient(
       to bottom,
-      rgba(245, 243, 240, 0) 0%,
-      rgba(245, 243, 240, 0.5) 40%,
-      rgba(245, 243, 240, 0.9) 80%,
-      rgba(245, 243, 240, 1) 100%
+      rgba(0, 0, 0, 0) 0%,
+      rgba(0, 0, 0, 0.12) 100%
     );
     pointer-events: none;
     opacity: 1;
+    transition: opacity 150ms;
     z-index: 10;
     display: block;
+  }
+  .sub-menu-container.visible-2l.has-overflow.scrolled-to-bottom::after {
+    opacity: 0;
   }
 
   /* Adjust gradient colors for dark backgrounds */
@@ -491,9 +517,17 @@
     padding-left: 0.2em;
   }
 
-  /* Home link -- add left padding so text aligns with dropdown items */
+  /* Home alignment (2026-08 brief §1): chevron-less links (Home) pad their
+     text to the same left edge as the button items' text, which sits after
+     the row's 16px padding + 1em chevron + 0.2em span gap. */
   a.main_nav_link {
-    padding-left: calc(6px + 1.4em);
+    padding-left: calc(16px + 1em + 0.2em);
+  }
+  /* Nav-indicated Home: the li's 4px left border shifts the row, so drop the
+     row padding to 12px like the button items ((0,2,1) beats the generic
+     .is-current-section .main_nav_link 12px rule at (0,2,0)). */
+  .is-current-section a.main_nav_link {
+    padding-left: calc(12px + 1em + 0.2em);
   }
 
   /* Move magnifying glass to the right of "Search" text on mobile */
@@ -640,6 +674,23 @@ https://stackoverflow.com/questions/79791175/how-to-stop-tap-highlight-blink-on-
   display: block;
 }
 
+/* Close label (2026-08 brief §4): when open the toggle reads ✕ / CLOSE /
+   MENU on three centred lines. The two text lines stack via .icon-close-line
+   and the whole button sits slightly higher than the closed state so the
+   taller content stays vertically balanced against the site logo. */
+.slnt-togl-expand .icon-close .icon-close-line {
+  display: block;
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  line-height: 1.2;
+}
+
+.slnt-togl-expand.slnt-togl-expand--open {
+  top: 1.7em;
+}
+
 .slnt-togl-expand.slnt-togl-expand--open:hover .menu-icon span {
   background: #fff;
 }
@@ -715,5 +766,52 @@ https://stackoverflow.com/questions/79791175/how-to-stop-tap-highlight-blink-on-
 
   .sub-menu-item-container {
       columns: 1;
+  }
+
+  /* ═══════════════════════════════════════════════════════════════════════
+     NO-JS FALLBACK MENU (2026-08 brief §6)
+     Native <details>/<summary> menu rendered from the same menu tree in
+     menu--main.html.twig. Only shown when JS is absent at mobile widths —
+     the show/hide switching rules live in menu-common.css (they need to
+     apply outside this media query too). Minimal styling: usable, on-brand,
+     no animations.
+     ═══════════════════════════════════════════════════════════════════════ */
+  html:not(.js) .mobile-menu-noscript {
+    background: var(--solent-blue);
+    padding: 0.5rem 0;
+  }
+
+  html:not(.js) .mobile-menu-noscript > a,
+  html:not(.js) .mobile-menu-noscript summary {
+    display: block;
+    box-sizing: border-box;
+    padding: 12px 16px;
+    min-height: 44px;
+    color: #ffffff;
+    text-decoration: none;
+    font-family: 'Atkinson Hyperlegible Next', sans-serif;
+    font-size: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    cursor: pointer;
+  }
+
+  html:not(.js) .mobile-menu-noscript details ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    background: var(--warm-grey);
+  }
+
+  html:not(.js) .mobile-menu-noscript details li a,
+  html:not(.js) .mobile-menu-noscript details li span {
+    display: block;
+    box-sizing: border-box;
+    padding: 10px 16px;
+    min-height: 44px;
+    color: var(--solent-blue);
+    text-decoration: none;
+    font-family: 'Atkinson Hyperlegible Next', sans-serif;
+    font-size: 0.95rem;
+    border-bottom: 1px solid #e0e0e0;
   }
 }
