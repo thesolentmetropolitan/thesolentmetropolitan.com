@@ -226,7 +226,7 @@
     margin-bottom: -48px;
     background: linear-gradient(
       to bottom,
-      rgba(0, 0, 0, 0.12) 0%,
+      rgba(0, 0, 0, 0.2) 0%,
       rgba(0, 0, 0, 0) 100%
     );
     pointer-events: none;
@@ -254,7 +254,7 @@
     background: linear-gradient(
       to bottom,
       rgba(0, 0, 0, 0) 0%,
-      rgba(0, 0, 0, 0.12) 100%
+      rgba(0, 0, 0, 0.2) 100%
     );
     pointer-events: none;
     opacity: 1;
@@ -264,6 +264,44 @@
   }
   .sub-menu-container.visible-2l.has-overflow.scrolled-to-bottom::after {
     opacity: 0;
+  }
+
+  /* Viewport-edge scroll affordance (2026-08-16 follow-up): the sticky fades
+     above signal "this panel scrolls internally", but the open panel can
+     ALSO be truncated by the viewport itself when the page is scrolled. These
+     two fixed overlays pin the same gradient to the screen's top/bottom edge;
+     customsolent.js shows one only while the open submenu actually crosses
+     that edge (elements are created and toggled by updateViewportFades).
+     Scoped to the submenu because the dark fade reads on its warm-grey
+     background — over the dark-blue main items it would be near-invisible. */
+  .slnt-viewport-fade {
+    position: fixed;
+    left: 0;
+    width: 100%;
+    height: 48px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 150ms;
+    z-index: 50;
+  }
+  .slnt-viewport-fade--top {
+    top: 0;
+    background: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.2) 0%,
+      rgba(0, 0, 0, 0) 100%
+    );
+  }
+  .slnt-viewport-fade--bottom {
+    bottom: 0;
+    background: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0) 0%,
+      rgba(0, 0, 0, 0.2) 100%
+    );
+  }
+  .slnt-viewport-fade.is-visible {
+    opacity: 1;
   }
 
   /* Adjust gradient colors for dark backgrounds */
@@ -579,7 +617,11 @@ https://stackoverflow.com/questions/79791175/how-to-stop-tap-highlight-blink-on-
   display: inline-block;
   text-decoration: none;
   position: absolute;
-  right: 50px;
+  /* Symmetric header insets (2026-08-16 follow-up): the submenu carets sit
+     16px from the screen's left edge; the logo shares that left inset (see
+     #slnt-logo below) and the toggle mirrors it on the right, so logo and
+     toggle read as visually separate, symmetrically aligned bookends. */
+  right: 16px;
   /* One position for BOTH toggle states (2026-08 brief §4, revised): high
      enough that the icon plus two 16px text lines (CLOSE / MENU when open)
      sit centred in the 96px logo band — icon 24px + 6px gap + 32px text
@@ -587,6 +629,11 @@ https://stackoverflow.com/questions/79791175/how-to-stop-tap-highlight-blink-on-
      move when toggling; the open state just adds its second line below. */
   top: 17px;
   text-align: center;
+}
+
+/* Logo left inset: same 16px as the carets (was flush to the screen edge). */
+#slnt-logo {
+  padding-left: 16px;
 }
 
 .slnt-togl-expand:hover {

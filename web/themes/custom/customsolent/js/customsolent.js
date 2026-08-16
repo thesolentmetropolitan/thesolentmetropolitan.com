@@ -211,6 +211,14 @@
         // Mobile burger menu setup
         setupMobileBurgerMenu();
 
+        // Viewport-edge fades track page scroll and resizes (once-guarded —
+        // behaviors can attach more than once).
+        if (!window._slntViewportFadeBound) {
+          window._slntViewportFadeBound = true;
+          window.addEventListener('scroll', updateViewportFades, { passive: true });
+          window.addEventListener('resize', updateViewportFades, { passive: true });
+        }
+
         // Escape key (2026-08 brief §5): close the mobile menu (focus returns
         // to the hamburger), or on desktop close the open submenu/search
         // panel (focus returns to its toggle button). Bound once on the
@@ -304,14 +312,19 @@
               e.preventDefault();
 
               if (isMobile()) {
-                toggleMobileMenu();
+                // detail === 0 means the click was synthesised from a
+                // keyboard activation (Enter on the <a role="button">); a
+                // real tap/mouse click reports >= 1. Only keyboard openers
+                // get focus moved to the first menu item — see openMobileMenu.
+                const detail = e.originalEvent ? e.originalEvent.detail : e.detail;
+                toggleMobileMenu(detail === 0);
               }
             },
             'keydown.toglexpandns': function(e) {
               if (e.key === ' ' || e.key === 'Spacebar') {
                 e.preventDefault();
                 if (isMobile()) {
-                  toggleMobileMenu();
+                  toggleMobileMenu(true);
                 }
               }
             }
@@ -323,11 +336,11 @@
         return !!nav && nav.classList.contains('slnt-mobile-menu-open');
       }
 
-      function toggleMobileMenu() {
+      function toggleMobileMenu(viaKeyboard = false) {
         if (mobileMenuIsOpen()) {
           closeMobileMenu();
         } else {
-          openMobileMenu();
+          openMobileMenu(viaKeyboard);
         }
       }
 
@@ -344,7 +357,14 @@
        * menu-mobile.css (and in git history prior to the 2026-07-20
        * push-down work).
        */
-      function openMobileMenu() {
+      /**
+       * @param {boolean} viaKeyboard - True when the toggle was activated by
+       *   keyboard. Only then is focus moved to the first menu item — after a
+       *   touch/mouse tap, moving focus would paint the orange
+       *   :focus-visible marker on Home (iOS treats programmatic focus as
+       *   focus-visible), confusing users who never pressed Tab.
+       */
+      function openMobileMenu(viaKeyboard = false) {
         const togl_expd = document.getElementById('slnt-togl-expand');
         const nav = document.querySelector("nav[role=navigation]:not(.pager)");
 
@@ -356,11 +376,13 @@
         // Focus management (2026-08 brief §5): move focus to the first main
         // menu item (Home) once the push-down reveal has finished — focusing
         // a still-moving target mid-animation can scroll to the wrong place.
-        setTimeout(() => {
-          if (!nav.classList.contains('slnt-mobile-menu-open')) return;
-          const firstItem = nav.querySelector('.main-menu-item-container .main_nav_link');
-          if (firstItem) firstItem.focus();
-        }, 300); // just after the 0.28s grid reveal
+        if (viaKeyboard) {
+          setTimeout(() => {
+            if (!nav.classList.contains('slnt-mobile-menu-open')) return;
+            const firstItem = nav.querySelector('.main-menu-item-container .main_nav_link');
+            if (firstItem) firstItem.focus();
+          }, 300); // just after the 0.28s grid reveal
+        }
       }
 
       /**
@@ -695,6 +717,7 @@
               aSubMenu.style.setProperty("overflow-x", "hidden");
               aSubMenu.style.setProperty("-webkit-overflow-scrolling", "touch");
               setupMobileScrollFade(aSubMenu);
+              updateViewportFades();
             }
           }, 500); // Match CSS transition duration (0.5s)
         }
@@ -821,6 +844,7 @@
             aSubMenu.style.removeProperty("overflow-y");
             aSubMenu.style.removeProperty("overflow-x");
             aSubMenu.style.removeProperty("-webkit-overflow-scrolling");
+            updateViewportFades();
           }, cleanupDelay);
         }
       }
@@ -1227,6 +1251,51 @@
           sf.style.setProperty("visibility", "hidden");
           sf.style.setProperty("opacity", "0");
         }
+      }
+
+      /**
+       * Viewport-edge scroll affordance (2026-08-16 follow-up): fixed
+       * gradient overlays at the screen's top/bottom edge, shown only while
+       * the open mobile submenu is cut off by that edge of the viewport
+       * (page scroll), complementing the sticky fades that indicate the
+       * panel's own internal scrolling. Hidden again the moment the panel is
+       * fully in view — or when nothing is open / we're on desktop.
+       */
+      function getViewportFades() {
+        let top = document.querySelector('.slnt-viewport-fade--top');
+        let bottom = document.querySelector('.slnt-viewport-fade--bottom');
+        if (!top) {
+          top = document.createElement('div');
+          top.className = 'slnt-viewport-fade slnt-viewport-fade--top';
+          top.setAttribute('aria-hidden', 'true');
+          document.body.appendChild(top);
+        }
+        if (!bottom) {
+          bottom = document.createElement('div');
+          bottom.className = 'slnt-viewport-fade slnt-viewport-fade--bottom';
+          bottom.setAttribute('aria-hidden', 'true');
+          document.body.appendChild(bottom);
+        }
+        return { top, bottom };
+      }
+
+      function updateViewportFades() {
+        const fades = getViewportFades();
+        const openSub = document.querySelector('.sub-menu-container.visible-2l');
+        let showTop = false;
+        let showBottom = false;
+
+        if (openSub && mobileMenuIsOpen() && isMobile()) {
+          const rect = openSub.getBoundingClientRect();
+          const viewportHeight = window.innerHeight;
+          // Cut off at an edge, with enough of the panel on-screen that the
+          // 48px fade actually overlays submenu rows rather than other content.
+          showTop = rect.top < 0 && rect.bottom > 48;
+          showBottom = rect.bottom > viewportHeight && rect.top < viewportHeight - 48;
+        }
+
+        fades.top.classList.toggle('is-visible', showTop);
+        fades.bottom.classList.toggle('is-visible', showBottom);
       }
 
       /**
