@@ -61,7 +61,8 @@
             "drupal/core-project-message": true,
             "php-http/discovery": true,
             "phpstan/extension-installer": true,
-            "wikimedia/composer-merge-plugin": true
+            "wikimedia/composer-merge-plugin": true,
+            "symfony/runtime": true
         },
         "sort-packages": true
     },
