@@ -135,10 +135,10 @@
   transition: background-color 0.2s, border-color 0.2s, color 0.2s;
 }
 
-/* "Customise" link on the blue banner (pink #f5b0d8 on blue = 5.0:1). */
+/* "Customise" link on the blue banner: white, pink on hover (site convention). */
 .klaro.klaro-theme-customsolent .cookie-notice:not(.cookie-modal-notice) a.cn-learn-more {
-  --klaro-link-color: var(--pink-hover, #f5b0d8);
-  --klaro-link-color-hover: #fff;
+  --klaro-link-color: #fff;
+  --klaro-link-color-hover: var(--pink-hover, #f5b0d8);
   flex-grow: 0;
   font-size: 0.85rem;
   font-weight: 700;

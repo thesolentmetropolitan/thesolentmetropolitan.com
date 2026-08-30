@@ -75,3 +75,20 @@ span the viewport, with `.cn-body` constrained to `max-width: 1200px; margin: 0 
    text in the footer — it inherits footer link styling and Klaro binds it automatically.
 4. Privacy Policy page update (brief step 10) — `/about/privacy-policy` is linked from the
    modal already.
+
+## Follow-up (same day)
+
+- Customise link changed to **white, pink (`--pink-hover`) on hover** per site convention —
+  done via the existing `--klaro-link-color` / `--klaro-link-color-hover` overrides on
+  `a.cn-learn-more`, no `!important`. Verified computed colours `#fff` → `#f5b0d8`.
+- **Important:** after Rob disabled Vimeo/YouTube (commit 185c79b) the banner stopped
+  rendering entirely. Cause: `KlaroHelper::consentManagementRequired()` only returns TRUE if
+  at least one *enabled and non-required* service exists (`getApps(TRUE, TRUE)`). With only
+  Functional + Consent manager (both required) enabled, the module attaches no JS/CSS/markup
+  at all — so no banner, no modal, and footer `#klaro` links do nothing. This is the module's
+  intent: strictly-necessary-only sites don't legally need a consent prompt.
+  Options: (a) accept no banner until Matomo/embeds arrive (defensible under PECR/DUA);
+  (b) re-enable one opt-in service such as YouTube (default off, loads nothing unless an
+  embed exists) to keep the notice visible now, as the brief intends.
+  Verification of the colour change was done with YouTube temporarily enabled in the DB, then
+  restored with `drush cim`.
