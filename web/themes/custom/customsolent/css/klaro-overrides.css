@@ -1,0 +1,257 @@
+/* ══════════════════════════════════════════════════════════════
+   Klaro cookie consent — site-specific overrides
+   Issue #141. See docs/claude-conversations/2026-08-30-cookie-consent-klaro-brief.md
+
+   Layering (load order): klaro.min.css (library) → klaro-extend.css +
+   klaro-override.css (module, "Adjust UI to Drupal themes") → this file.
+   Both the library and the module override are driven by CSS custom
+   properties, so most theming is done by re-declaring those variables on
+   the .klaro root rather than fighting specificity with !important.
+
+   Verified against Klaro module 3.1.1 rendered markup:
+     #klaro > .klaro.klaro-theme-customsolent
+       > .cookie-notice > .cn-body
+           > h2#id-cookie-title
+           > p#id-cookie-notice
+           > .cn-ok > a.cm-link.cn-learn-more
+                    > .cn-buttons > button.cm-btn.cm-btn-danger.cn-decline
+                                  > button.cm-btn.cm-btn-success
+       > .cookie-modal > .cm-modal.cm-klaro > .cm-header / .cm-body / .cm-footer
+   ══════════════════════════════════════════════════════════════ */
+
+/* ── Variables consumed by klaro.min.css and klaro-override.css ── */
+.klaro.klaro-theme-customsolent {
+  --font-family: 'Atkinson Hyperlegible Next', sans-serif;
+  --title-font-family: 'Atkinson Hyperlegible Next', sans-serif;
+  --font-size: 0.88rem;
+  --border-radius: 4px;
+
+  /* Full-width bottom banner (library defaults: bottom-right 400px box). */
+  --notice-position: fixed;
+  --notice-left: 0;
+  --notice-right: 0;
+  --notice-bottom: 0;
+  --notice-top: auto;
+  --notice-max-width: 100%;
+
+  /* Links, focus and slider vars used by the module's override sheet. */
+  --klaro-primary-color: var(--solent-blue, #2c4f6e);
+  --klaro-link-color: var(--solent-blue, #2c4f6e);
+  --klaro-link-color-hover: var(--magenta, #c5007a);
+  --klaro-link-decoration-line: underline;
+  --klaro-link-decoration-line-hover: underline;
+  --klaro-button-border-radius: 4px;
+  --klaro-button-padding: 0.55em 1.2em;
+  --klaro-button-font-size: 0.85rem;
+  --klaro-button-font-weight: 700;
+  --klaro-button-line-height: 1.4;
+  --klaro-button-focus-outline: 3px solid var(--magenta, #c5007a);
+  --klaro-button-focus-outline-offset: 2px;
+  --klaro-button-focus-box-shadow: none;
+  --klaro-dialog-focus-outline: none;
+  --klaro-dialog-focus-box-shadow: none;
+  --klaro-slider-bg: #c8c8c8;
+  --klaro-slider-bg-active: var(--magenta, #c5007a);
+  --klaro-slider-bg-required: var(--solent-blue, #2c4f6e);
+}
+
+/* ══════════════════════════════════════
+   Notice banner
+   ══════════════════════════════════════ */
+.klaro.klaro-theme-customsolent .cookie-notice:not(.cookie-modal-notice) {
+  background-color: var(--solent-blue, #2c4f6e);
+  color: #fff;
+  border-top: 3px solid var(--magenta-dark, #a30065);
+  border-radius: 0;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Constrain the content to the site's max width, centred. */
+.klaro.klaro-theme-customsolent .cookie-notice:not(.cookie-modal-notice) .cn-body {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1.2rem 2rem;
+}
+
+.klaro.klaro-theme-customsolent .cookie-notice:not(.cookie-modal-notice) .cn-body h2 {
+  font-family: var(--title-font-family);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 0.4rem;
+}
+
+.klaro.klaro-theme-customsolent .cookie-notice:not(.cookie-modal-notice) .cn-body p {
+  font-size: 0.88rem;
+  line-height: 1.5;
+  color: #fff;
+  margin: 0 0 0.75rem;
+}
+
+/* Row: "Customise" link on the left, buttons on the right. */
+.klaro.klaro-theme-customsolent .cookie-notice:not(.cookie-modal-notice) .cn-body .cn-ok {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem 1rem;
+  margin-top: 0;
+}
+
+.klaro.klaro-theme-customsolent .cookie-notice:not(.cookie-modal-notice) .cn-body .cn-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin: 0;
+}
+
+.klaro.klaro-theme-customsolent .cookie-notice:not(.cookie-modal-notice) .cn-body .cn-buttons .cm-btn {
+  margin: 0;
+  min-height: 44px; /* touch target */
+}
+
+/* Accept — white fill.  Decline — white outline.  Same size and weight. */
+.klaro.klaro-theme-customsolent .cookie-notice .cm-btn.cm-btn-success {
+  --klaro-button-bg: #fff;
+  --klaro-button-text-color: var(--solent-blue, #2c4f6e);
+  --klaro-button-border: 2px solid #fff;
+  --klaro-button-bg-hover: var(--pink-hover, #f5b0d8);
+  --klaro-button-text-color-hover: var(--solent-blue, #2c4f6e);
+  --klaro-button-border-hover: 2px solid var(--pink-hover, #f5b0d8);
+  --klaro-button-focus-outline: 3px solid var(--pink-hover, #f5b0d8);
+}
+
+.klaro.klaro-theme-customsolent .cookie-notice .cm-btn.cm-btn-danger {
+  --klaro-button-bg: transparent;
+  --klaro-button-text-color: #fff;
+  --klaro-button-border: 2px solid rgba(255, 255, 255, 0.7);
+  --klaro-button-bg-hover: rgba(255, 255, 255, 0.15);
+  --klaro-button-text-color-hover: #fff;
+  --klaro-button-border-hover: 2px solid #fff;
+  --klaro-button-focus-outline: 3px solid var(--pink-hover, #f5b0d8);
+}
+
+.klaro.klaro-theme-customsolent .cookie-notice .cm-btn {
+  transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+}
+
+/* "Customise" link on the blue banner (pink #f5b0d8 on blue = 5.0:1). */
+.klaro.klaro-theme-customsolent .cookie-notice:not(.cookie-modal-notice) a.cn-learn-more {
+  --klaro-link-color: var(--pink-hover, #f5b0d8);
+  --klaro-link-color-hover: #fff;
+  flex-grow: 0;
+  font-size: 0.85rem;
+  font-weight: 700;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.klaro.klaro-theme-customsolent .cookie-notice:not(.cookie-modal-notice) a:focus {
+  outline: 3px solid var(--pink-hover, #f5b0d8);
+  outline-offset: 2px;
+}
+
+/* ══════════════════════════════════════
+   Consent modal (Customise / footer link)
+   ══════════════════════════════════════ */
+.klaro.klaro-theme-customsolent .cookie-modal .cm-modal.cm-klaro {
+  background-color: var(--body-bg, #faf9f7);
+  color: var(--text, #1a1a1a);
+  border-radius: 8px;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.2);
+}
+
+.klaro.klaro-theme-customsolent .cookie-modal .cm-modal .cm-header,
+.klaro.klaro-theme-customsolent .cookie-modal .cm-modal .cm-footer {
+  border-color: var(--warm-grey, #f5f3f0);
+}
+
+.klaro.klaro-theme-customsolent .cookie-modal .cm-modal .cm-header h1 {
+  font-family: var(--title-font-family);
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--solent-blue, #2c4f6e);
+}
+
+.klaro.klaro-theme-customsolent .cookie-modal .cm-modal .cm-body,
+.klaro.klaro-theme-customsolent .cookie-modal .cm-modal p,
+.klaro.klaro-theme-customsolent .cookie-modal .cm-modal .cm-list-title,
+.klaro.klaro-theme-customsolent .cookie-modal .cm-modal .cm-list-description {
+  color: var(--text, #1a1a1a);
+}
+
+.klaro.klaro-theme-customsolent .cookie-modal .cm-modal .cm-list-title {
+  font-weight: 700;
+}
+
+.klaro.klaro-theme-customsolent .cookie-modal .cm-modal .cm-required,
+.klaro.klaro-theme-customsolent .cookie-modal .cm-modal .cm-opt-out {
+  color: #555;
+}
+
+/* Modal buttons: solent blue fill, magenta on hover. */
+.klaro.klaro-theme-customsolent .cookie-modal .cm-btn {
+  --klaro-button-bg: var(--solent-blue, #2c4f6e);
+  --klaro-button-text-color: #fff;
+  --klaro-button-border: 2px solid var(--solent-blue, #2c4f6e);
+  --klaro-button-bg-hover: var(--magenta-dark, #a30065);
+  --klaro-button-text-color-hover: #fff;
+  --klaro-button-border-hover: 2px solid var(--magenta-dark, #a30065);
+  margin-right: 0.5em;
+}
+
+.klaro.klaro-theme-customsolent .cookie-modal .cm-btn.cm-btn-danger {
+  --klaro-button-bg: transparent;
+  --klaro-button-text-color: var(--solent-blue, #2c4f6e);
+  --klaro-button-bg-hover: var(--warm-grey, #f5f3f0);
+  --klaro-button-text-color-hover: var(--solent-blue, #2c4f6e);
+  --klaro-button-border-hover: 2px solid var(--solent-blue, #2c4f6e);
+}
+
+.klaro.klaro-theme-customsolent .cookie-modal .cm-modal .hide svg {
+  stroke: var(--solent-blue, #2c4f6e);
+}
+
+/* ══════════════════════════════════════
+   Mobile (site breakpoint)
+   ══════════════════════════════════════ */
+@media (max-width: 799px) {
+  .klaro.klaro-theme-customsolent .cookie-notice:not(.cookie-modal-notice) .cn-body {
+    padding: 0.9rem 1.2rem 1rem;
+  }
+
+  .klaro.klaro-theme-customsolent .cookie-notice:not(.cookie-modal-notice) .cn-body h2 {
+    font-size: 1rem;
+    margin-bottom: 0.3rem;
+  }
+
+  .klaro.klaro-theme-customsolent .cookie-notice:not(.cookie-modal-notice) .cn-body p {
+    font-size: 0.82rem;
+    margin-bottom: 0.6rem;
+  }
+
+  /* Buttons side by side, equal width (keeps the banner under 40% of an
+     iPhone SE viewport — stacked they push it to 43%); Customise link below. */
+  .klaro.klaro-theme-customsolent .cookie-notice:not(.cookie-modal-notice) .cn-body .cn-ok {
+    flex-direction: column-reverse;
+    align-items: stretch;
+    gap: 0.5rem;
+  }
+
+  .klaro.klaro-theme-customsolent .cookie-notice:not(.cookie-modal-notice) .cn-body .cn-buttons {
+    width: 100%;
+    gap: 0.5rem;
+  }
+
+  .klaro.klaro-theme-customsolent .cookie-notice:not(.cookie-modal-notice) .cn-body .cn-buttons .cm-btn {
+    flex: 1 1 0;
+    width: auto;
+    text-align: center;
+  }
+
+  .klaro.klaro-theme-customsolent .cookie-notice:not(.cookie-modal-notice) a.cn-learn-more {
+    justify-content: center;
+    min-height: 36px;
+  }
+}
