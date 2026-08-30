@@ -1892,7 +1892,7 @@ taxonomies:
       name: Hampshire
       description__value: null
       description__format: null
-      weight: '83'
+      weight: '84'
       parent: '0'
       uuid: 17bce430-20a8-4276-8bb6-11e21b5200a3
     -
@@ -1962,7 +1962,7 @@ taxonomies:
       name: 'Isle of Wight'
       description__value: null
       description__format: null
-      weight: '84'
+      weight: '85'
       parent: '0'
       uuid: 082e2ffb-8530-436f-891e-ae6c49475a64
     -
@@ -2032,7 +2032,7 @@ taxonomies:
       name: 'New Forest'
       description__value: null
       description__format: null
-      weight: '85'
+      weight: '86'
       parent: '0'
       uuid: a9ef1c39-57a4-41f3-8c40-304040441f91
     -
@@ -2107,12 +2107,22 @@ taxonomies:
       uuid: b349655f-488d-4977-9b8d-090a4b39e881
     -
       vid: location
+      tid: '249'
+      langcode: en
+      name: 'Portsmouth Guildhall Square'
+      description__value: null
+      description__format: null
+      weight: '6'
+      parent: '141'
+      uuid: c23214ff-0a13-4436-b3e0-32fd89242d06
+    -
+      vid: location
       tid: '226'
       langcode: en
       name: 'Portsmouth Historic Dockyard'
       description__value: null
       description__format: null
-      weight: '6'
+      weight: '7'
       parent: '141'
       uuid: 19e2f114-60d4-416f-9f52-edbedced7f04
     -
@@ -2122,7 +2132,7 @@ taxonomies:
       name: 'Portsmouth International Port'
       description__value: null
       description__format: null
-      weight: '7'
+      weight: '8'
       parent: '141'
       uuid: 940b3622-83a4-471e-8ed5-b49bb54af9ba
     -
@@ -2132,7 +2142,7 @@ taxonomies:
       name: 'Portsmouth Rail Social Club'
       description__value: null
       description__format: null
-      weight: '8'
+      weight: '9'
       parent: '141'
       uuid: 29368cee-c7e0-4c25-aeb0-b6c13fc0dbca
     -
@@ -2192,7 +2202,7 @@ taxonomies:
       name: Solent
       description__value: null
       description__format: null
-      weight: '86'
+      weight: '87'
       parent: '0'
       uuid: de285813-efde-4206-b9d0-997faccc8da6
     -
@@ -2212,7 +2222,7 @@ taxonomies:
       name: 'Southsea Bandstand'
       description__value: null
       description__format: null
-      weight: '9'
+      weight: '10'
       parent: '141'
       uuid: 7888d029-ef04-4f8a-8f6c-6053f0065bd8
     -
@@ -2222,7 +2232,7 @@ taxonomies:
       name: 'Southsea Cinema & Arts Centre'
       description__value: null
       description__format: null
-      weight: '10'
+      weight: '11'
       parent: '141'
       uuid: 4b1cf304-6b29-4d98-a20f-d1ceea5da648
     -
@@ -2232,7 +2242,7 @@ taxonomies:
       name: 'Southsea Common'
       description__value: null
       description__format: null
-      weight: '16'
+      weight: '17'
       parent: '141'
       uuid: 45b933ac-0c75-4c31-94fd-d948ddba5af5
     -
@@ -2242,7 +2252,7 @@ taxonomies:
       name: 'Southsea Town Centre'
       description__value: null
       description__format: null
-      weight: '17'
+      weight: '18'
       parent: '141'
       uuid: 57537129-b129-4a9e-83dd-65c18158edcb
     -
@@ -2292,7 +2302,7 @@ taxonomies:
       name: 'The Bridge Shopping Centre'
       description__value: null
       description__format: null
-      weight: '11'
+      weight: '12'
       parent: '141'
       uuid: d449ede9-7ea4-466d-978f-3517e4aaf843
     -
@@ -2312,7 +2322,7 @@ taxonomies:
       name: 'The Gaiety, Southsea'
       description__value: null
       description__format: null
-      weight: '12'
+      weight: '13'
       parent: '141'
       uuid: be75be29-79dd-49b0-a30b-5c9017e94656
     -
@@ -2332,7 +2342,7 @@ taxonomies:
       name: 'The Lens Studio'
       description__value: null
       description__format: null
-      weight: '13'
+      weight: '14'
       parent: '141'
       uuid: 330d3ad9-64ce-470c-8b64-8260319d6d12
     -
@@ -2342,7 +2352,7 @@ taxonomies:
       name: 'The Rutland Arms'
       description__value: null
       description__format: null
-      weight: '14'
+      weight: '15'
       parent: '141'
       uuid: da75a5f4-db92-4694-8880-0524cec3b2f5
     -
@@ -2362,7 +2372,7 @@ taxonomies:
       name: 'The Wedgewood Rooms'
       description__value: null
       description__format: null
-      weight: '15'
+      weight: '16'
       parent: '141'
       uuid: df157373-8cb6-45c1-b3e1-63d01a9f464a
     -
@@ -2392,7 +2402,7 @@ taxonomies:
       name: Various
       description__value: null
       description__format: null
-      weight: '87'
+      weight: '88'
       parent: '0'
       uuid: 7dc50ba8-62e9-4ea2-bbad-62e0a2bb6b4e
     -
@@ -2422,7 +2432,7 @@ taxonomies:
       name: Various
       description__value: null
       description__format: null
-      weight: '19'
+      weight: '20'
       parent: '141'
       uuid: 47a16e6d-a3bd-44d1-a02d-0cd7ca6a5003
     -
@@ -2472,7 +2482,7 @@ taxonomies:
       name: 'Victoria Park'
       description__value: null
       description__format: null
-      weight: '18'
+      weight: '19'
       parent: '141'
       uuid: 2039b611-589d-40af-95fa-73a5c6a043ed
     -
