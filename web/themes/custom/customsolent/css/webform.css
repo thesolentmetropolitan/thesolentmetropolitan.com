@@ -1,0 +1,130 @@
+/* ══════════════════════════════════════════════════════════════
+   Webform styling (contact form) — issue: /about/contact improvements
+   Scoped to webforms rendered via the webform paragraph type so any
+   future webform placed the same way inherits the treatment.
+
+   Layout: two-column grid per form item — right-justified label,
+   inputs starting on a common vertical line. Inputs follow the
+   search-box style (2px solent-blue border, Atkinson, 1rem). The
+   submit button follows the site CTA pattern (colours still come
+   from the paragraph's colour fields via its inline <style>).
+   ══════════════════════════════════════════════════════════════ */
+
+.paragraph--type--webform {
+  --webform-label-col: 8em;
+  --webform-gap: 0.9em;
+  max-width: 44em;
+}
+
+/* ── Two-column rows: label | control ── */
+@media (min-width: 800px) {
+  .paragraph--type--webform .webform-submission-form .form-item {
+    display: grid;
+    grid-template-columns: var(--webform-label-col) minmax(0, 1fr);
+    column-gap: var(--webform-gap);
+    align-items: center;
+    margin: 0 0 1em;
+  }
+
+  .paragraph--type--webform .webform-submission-form .form-item label {
+    text-align: right;
+    justify-self: end;
+  }
+
+  /* Textarea rows: label tops out with the field */
+  .paragraph--type--webform .webform-submission-form .js-form-type-textarea {
+    align-items: start;
+  }
+
+  .paragraph--type--webform .webform-submission-form .js-form-type-textarea label {
+    padding-top: 0.45em;
+  }
+
+  /* Submit button starts on the same vertical line as the inputs */
+  .paragraph--type--webform .webform-submission-form .form-actions {
+    margin-left: calc(var(--webform-label-col) + var(--webform-gap));
+  }
+}
+
+/* ── Labels ── */
+.paragraph--type--webform .webform-submission-form label {
+  font-family: 'Atkinson Hyperlegible Next', sans-serif;
+  font-weight: 700;
+  color: var(--solent-blue, #2c4f6e);
+}
+
+/* ── Inputs: match the search box ── */
+.paragraph--type--webform .webform-submission-form input[type='text'],
+.paragraph--type--webform .webform-submission-form input[type='email'],
+.paragraph--type--webform .webform-submission-form textarea {
+  width: 100%;
+  box-sizing: border-box;
+  border: 2px solid var(--solent-blue, #2c4f6e);
+  border-radius: 0;
+  background-color: #fff;
+  font-family: 'Atkinson Hyperlegible Next', sans-serif;
+  font-size: 1rem;
+  color: var(--text, #1a1a1a);
+  padding: 0.35em 0.5em;
+}
+
+.paragraph--type--webform .webform-submission-form input[type='text'],
+.paragraph--type--webform .webform-submission-form input[type='email'] {
+  height: 2.2em;
+}
+
+.paragraph--type--webform .webform-submission-form textarea {
+  min-height: 9em;
+  resize: vertical;
+}
+
+/* Focus: keep the blue border, add the site's focus ring */
+.paragraph--type--webform .webform-submission-form input:focus-visible,
+.paragraph--type--webform .webform-submission-form textarea:focus-visible {
+  outline: 3px solid var(--pink-hover, #f5b0d8);
+  outline-offset: 1px;
+}
+
+/* ── Submit button: CTA pattern (cf. css/cta.css .slnt-cta).
+     background-color / color come from the paragraph colour fields. ── */
+.paragraph--type--webform .webform-button--submit {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  font-family: 'Atkinson Hyperlegible Next', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  padding: 0.75em 1.5em;
+  border: 3px solid transparent;
+  border-radius: 4px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, opacity 0.2s ease;
+  line-height: 1.2;
+}
+
+.paragraph--type--webform .webform-button--submit:hover {
+  opacity: 0.88;
+}
+
+.paragraph--type--webform .webform-button--submit:focus-visible {
+  outline: 3px solid var(--pink-hover, #f5b0d8);
+  outline-offset: 2px;
+}
+
+/* ── Mobile: labels above full-width fields ── */
+@media (max-width: 799px) {
+  .paragraph--type--webform .webform-submission-form .form-item {
+    margin: 0 0 1em;
+  }
+
+  .paragraph--type--webform .webform-submission-form .form-item label {
+    display: block;
+    margin-bottom: 0.3em;
+  }
+
+  .paragraph--type--webform .webform-button--submit {
+    font-size: 0.9rem;
+    padding: 0.65em 1.2em;
+  }
+}
