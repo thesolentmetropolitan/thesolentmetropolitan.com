@@ -37,6 +37,7 @@ global:
       css/heading-gradient.css: {}
       css/topic-trail.css: {}
       css/klaro-overrides.css: {}
+      css/webform.css: {}
   dependencies:
     - core/drupal
     - core/jquery
