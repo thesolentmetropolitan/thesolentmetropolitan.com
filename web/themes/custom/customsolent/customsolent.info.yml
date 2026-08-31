@@ -13,6 +13,7 @@ regions:
   search: 'Search'
   secondary_menu: 'Secondary menu'
   page_top: 'Page top'
+  highlighted: 'Highlighted'
   page_bottom: 'Page bottom'
   featured: 'Featured'
   breadcrumb: 'Breadcrumb'

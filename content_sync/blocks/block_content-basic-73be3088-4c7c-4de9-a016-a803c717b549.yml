@@ -1,0 +1,18 @@
+site_uuid: 29478e80-b12f-4df7-96ff-1d604384bf38
+uuid: 73be3088-4c7c-4de9-a016-a803c717b549
+entity_type: block_content
+bundle: basic
+base_fields:
+  info: 'Content to follow'
+  reusable: true
+  langcode: en
+  block_revision_id: '10'
+  enforce_new_revision: true
+  changed: '1775903150'
+custom_fields:
+  body:
+    -
+      value: '<p>Content to follow shortly, in coming weeks (April 2026).</p>'
+      summary: ''
+      format: basic_html
+      embed_entities: {  }

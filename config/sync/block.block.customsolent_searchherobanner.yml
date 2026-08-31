@@ -1,0 +1,28 @@
+uuid: 74826f47-7b20-4c02-b9eb-db9492c476c1
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:composite_block_type:7cce9b5c-3c91-4b24-9fbc-59bb1f6315de'
+  module:
+    - block_content
+    - system
+  theme:
+    - customsolent
+id: customsolent_searchherobanner
+theme: customsolent
+region: highlighted
+weight: 0
+provider: null
+plugin: 'block_content:7cce9b5c-3c91-4b24-9fbc-59bb1f6315de'
+settings:
+  id: 'block_content:7cce9b5c-3c91-4b24-9fbc-59bb1f6315de'
+  label: 'Search page hero banner'
+  label_display: '0'
+  provider: block_content
+  view_mode: full
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: '/search*'

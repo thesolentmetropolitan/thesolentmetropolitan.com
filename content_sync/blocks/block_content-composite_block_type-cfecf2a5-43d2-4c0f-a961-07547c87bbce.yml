@@ -8,6 +8,7 @@ base_fields:
   langcode: en
   block_revision_id: '9'
   enforce_new_revision: true
+  changed: '1771807958'
 custom_fields:
   field_content_component:
     -
@@ -31,6 +32,7 @@ custom_fields:
               langcode: en
               description: null
               parent: 0
+              changed: '1774526298'
               url: null
             custom_fields:
               field_color:
@@ -102,6 +104,7 @@ custom_fields:
                                 langcode: en
                                 description: null
                                 parent: 0
+                                changed: '1775436609'
                                 url: null
                               custom_fields:
                                 field_color:
@@ -120,6 +123,7 @@ custom_fields:
                                 created: '1765487406'
                                 status: true
                                 langcode: en
+                                changed: '1765487406'
                                 url: null
                               custom_fields:
                                 field_media_image:
@@ -164,6 +168,7 @@ custom_fields:
                                 langcode: en
                                 description: null
                                 parent: 0
+                                changed: '1775436609'
                                 url: null
                               bundle: color
                           field_icon:
@@ -176,6 +181,7 @@ custom_fields:
                                 created: '1766933237'
                                 status: true
                                 langcode: en
+                                changed: '1766933237'
                                 url: null
                               custom_fields:
                                 field_media_image:
@@ -220,6 +226,7 @@ custom_fields:
                                 langcode: en
                                 description: null
                                 parent: 0
+                                changed: '1775436609'
                                 url: null
                               bundle: color
                           field_icon:
@@ -232,6 +239,7 @@ custom_fields:
                                 created: '1766956888'
                                 status: true
                                 langcode: en
+                                changed: '1766956888'
                                 url: null
                               custom_fields:
                                 field_media_image:
@@ -276,6 +284,7 @@ custom_fields:
                                 langcode: en
                                 description: null
                                 parent: 0
+                                changed: '1775436609'
                                 url: null
                               bundle: color
                           field_icon:
@@ -288,6 +297,7 @@ custom_fields:
                                 created: '1766957048'
                                 status: true
                                 langcode: en
+                                changed: '1766957048'
                                 url: null
                               custom_fields:
                                 field_media_image:

@@ -1,0 +1,57 @@
+site_uuid: 29478e80-b12f-4df7-96ff-1d604384bf38
+uuid: 691052c9-af2a-40aa-9d57-67aee852a517
+entity_type: block_content
+bundle: composite_block_type
+base_fields:
+  info: 'known bugs'
+  reusable: true
+  langcode: en
+  block_revision_id: '12'
+  enforce_new_revision: true
+  changed: '1779099654'
+custom_fields:
+  field_content_component:
+    -
+      uuid: f9390d01-72a5-4b59-814c-d35d5b8c050f
+      entity_type: paragraph
+      bundle: enclosure
+      base_fields:
+        status: true
+        langcode: en
+        created: '1779099621'
+        behavior_settings: {  }
+      custom_fields:
+        field_color_background: null
+        field_content_component:
+          -
+            uuid: 15525958-1177-4af8-a67c-a726e0dc2d39
+            entity_type: paragraph
+            bundle: text
+            base_fields:
+              status: true
+              langcode: en
+              created: '1779099630'
+              behavior_settings: {  }
+            custom_fields:
+              field_color_text:
+                -
+                  uuid: 41a04a62-c3c1-4cfb-a09d-e47e202481b2
+                  entity_type: taxonomy_term
+                  base_fields:
+                    name: 'Deep Charcoal'
+                    weight: 0
+                    langcode: en
+                    description: null
+                    parent: 0
+                    changed: '1775436609'
+                    url: null
+                  bundle: color
+              field_text:
+                -
+                  value: '<p><a href="https://github.com/thesolentmetropolitan/thesolentmetropolitan.com/issues/280">known bug</a> - duplicate events appearing</p>'
+                  format: basic_html
+                  embed_entities: {  }
+        field_padding:
+          -
+            value: 2em
+        field_style: null

@@ -219,6 +219,8 @@ PAGE_MAP = {
     'explore_opinion': ['chat-circle', 'megaphone', 'pen-nib'],
     'explore_organisations': ['buildings', 'users', 'building-office'],
     'explore_themes': ['swatches', 'tag', 'grid-four'],
+    # --- Search page ---
+    'search': ['magnifying-glass', 'binoculars', 'file-text'],
 }
 
 

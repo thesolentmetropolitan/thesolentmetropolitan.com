@@ -1254,3 +1254,22 @@ function _customsolent_build_from_kicker($term) {
   }
   return $items;
 }
+/**
+ * Implements hook_preprocess_item_list__search_results().
+ *
+ * Visiting /search/node with no keywords showed "Your search yielded no
+ * results." — misleading when the visitor hasn't searched yet. Swap in an
+ * invitation to search instead. A genuine empty result set (keys present)
+ * keeps the core message.
+ */
+function customsolent_preprocess_item_list__search_results(array &$variables) {
+  $keys = trim((string) \Drupal::request()->query->get('keys', ''));
+  if ($keys === '' && !empty($variables['empty'])) {
+    $variables['empty'] = [
+      '#type' => 'html_tag',
+      '#tag' => 'p',
+      '#attributes' => ['class' => ['search-empty-prompt']],
+      '#value' => t('Please enter search terms above to search the site.'),
+    ];
+  }
+}

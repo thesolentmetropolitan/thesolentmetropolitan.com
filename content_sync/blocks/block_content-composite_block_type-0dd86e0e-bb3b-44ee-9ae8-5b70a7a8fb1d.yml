@@ -1,0 +1,64 @@
+site_uuid: 29478e80-b12f-4df7-96ff-1d604384bf38
+uuid: 0dd86e0e-bb3b-44ee-9ae8-5b70a7a8fb1d
+entity_type: block_content
+bundle: composite_block_type
+base_fields:
+  info: 'Content to appear here'
+  reusable: true
+  langcode: en
+  block_revision_id: '11'
+  enforce_new_revision: true
+  changed: '1788164810'
+custom_fields:
+  field_content_component:
+    -
+      uuid: 163f0072-fe05-433b-a30b-9bd2059a7a1e
+      entity_type: paragraph
+      bundle: enclosure
+      base_fields:
+        status: true
+        langcode: en
+        created: '1775903466'
+        behavior_settings: {  }
+      custom_fields:
+        field_color_background: null
+        field_content_component:
+          -
+            uuid: 4b36c96f-b9c1-4cb1-b098-739be9a99254
+            entity_type: paragraph
+            bundle: text
+            base_fields:
+              status: true
+              langcode: en
+              created: '1775903477'
+              behavior_settings: {  }
+            custom_fields:
+              field_color_text:
+                -
+                  uuid: 41a04a62-c3c1-4cfb-a09d-e47e202481b2
+                  entity_type: taxonomy_term
+                  bundle: color
+                  base_fields:
+                    name: 'Deep Charcoal'
+                    weight: 0
+                    langcode: en
+                    description: null
+                    parent: 0
+                    changed: '1775436609'
+                    url: null
+                  custom_fields:
+                    field_color:
+                      -
+                        color: '#2A2A2A'
+                        opacity: '1'
+                      -
+                        color: '#2A2A2A'
+              field_text:
+                -
+                  value: '<p><em><strong>Update:&nbsp;</strong> Sun 30, Mon 31 Aug 2026: Various housekeeping enhancements around the site, before working on some major features. Plenty still to do, </em><a href="https://github.com/thesolentmetropolitan/thesolentmetropolitan.com/issues"><em>few bugs</em></a><em> to iron out.</em></p>'
+                  format: basic_html
+                  embed_entities: {  }
+        field_padding:
+          -
+            value: 2em
+        field_style: null
