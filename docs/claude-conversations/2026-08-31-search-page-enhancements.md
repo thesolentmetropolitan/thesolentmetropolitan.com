@@ -114,3 +114,7 @@ message. (/search redirects to /search/node — both covered.)
   centres identical at 334px). Mobile unchanged (stacked). One gotcha: the
   media-query margin override had to sit after the base form rule in the file —
   same specificity, source order decides.
+- **Desktop spacing above "Search results"** — 2.2em margin-top
+  (`#search-page-form-container + h2`, desktop media query) so the heading
+  groups with the result list below (63px above vs 14px below) rather than
+  with the form. Mobile unchanged.

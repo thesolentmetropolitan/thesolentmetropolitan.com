@@ -466,6 +466,12 @@ body.search-results-page #search-page-form-container .search-input-wrapper {
   body.search-results-page #search-page-form-container form {
     margin-bottom: 0;
   }
+
+  /* "Search results" belongs with the list below it, not the form above:
+     extra space above, tighter below. */
+  body.search-results-page #search-page-form-container + h2 {
+    margin-top: 2.2em;
+  }
 }
 
 body.search-results-page #search-page-form-container .search-input-wrapper {
