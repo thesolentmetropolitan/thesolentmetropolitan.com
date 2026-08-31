@@ -13,8 +13,11 @@ set -euo pipefail
 
 EXPORT_DIR="content_sync/blocks"
 
-# Detect environment
-if [ -f /.dockerenv ] || [ -d /var/www/html ]; then
+# Detect environment. Only /.dockerenv reliably identifies the ddev
+# container — a bare "[ -d /var/www/html ]" check misfires on servers
+# that have a stock Apache docroot lying around (as on prod, where it
+# sent the script to /var/www/html and "No yml files found").
+if [ -f /.dockerenv ]; then
   DOCROOT="/var/www/html"
 else
   # Resolve the project root from this script's own location so the
