@@ -432,6 +432,7 @@ body.search-results-page #search-page-form-container h2 {
   margin-top: 1.4em;
 }
 
+
 body.search-results-page #search-page-form-container form {
   display: flex;
   flex-wrap: nowrap;
@@ -443,6 +444,28 @@ body.search-results-page #search-page-form-container form {
 
 body.search-results-page #search-page-form-container .search-input-wrapper {
   flex: 0 1 30em;
+}
+
+/* Desktop: "Searching for:" and the search box on one line.
+   Placed after the base form rules so the margin-bottom override wins
+   (same specificity — source order decides). */
+@media screen and (min-width: 800px) {
+  body.search-results-page #search-page-form-container {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+    margin-top: 1.4em;
+    margin-bottom: 1.5em;
+  }
+
+  body.search-results-page #search-page-form-container h2 {
+    margin: 0;
+    flex-shrink: 0;
+  }
+
+  body.search-results-page #search-page-form-container form {
+    margin-bottom: 0;
+  }
 }
 
 body.search-results-page #search-page-form-container .search-input-wrapper {

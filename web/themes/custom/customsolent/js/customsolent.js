@@ -256,22 +256,16 @@
           });
         }
 
-        // insert search term in search box on search page
-        if (window.location.href.includes('/search/node') ) {
-          const url = window.location.href;
-
-          const regex = /\/search\/node\?keys=(.*)/;
-          const match = url.match(regex);
-
-          if (match && match[1]) {
-            const result = decodeURI(match[1]);
-
-            const inputField = document.getElementById('searchpageinputfield');
-            inputField.value = result;
-
-            console.log(result); 
-
-            console.log("No match found.");
+        // Insert the search term in the search box on the search page.
+        // Parse with URLSearchParams rather than a regex on the raw URL so
+        // other query params (e.g. the pager's &page=N) and URL-encoding
+        // are handled correctly — the old regex captured everything after
+        // keys=, so paging to ?keys=music&page=1 showed "music&page=1".
+        if (window.location.pathname.endsWith('/search/node')) {
+          const keys = new URLSearchParams(window.location.search).get('keys');
+          const inputField = document.getElementById('searchpageinputfield');
+          if (keys && inputField) {
+            inputField.value = keys;
           }
         }
 
