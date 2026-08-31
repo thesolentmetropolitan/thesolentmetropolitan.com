@@ -16,7 +16,6 @@
     ],
     "require": {
         "composer/installers": "^2.0",
-        "drupal/antibot": "^2.0",
         "drupal/block_classes": "^1.0",
         "drupal/classy_paragraphs": "^2.0",
         "drupal/color_field": "^3.0",
