@@ -1,0 +1,7 @@
+uuid: bbca8a37-cf07-4709-b06e-62034021d67c
+langcode: en
+status: true
+dependencies: {  }
+id: hero_art_style_search
+label: Search
+classes: hero-art-style--search

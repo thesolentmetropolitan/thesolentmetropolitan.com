@@ -414,15 +414,55 @@ button.search-menu-item-icon {
 }
 
 
-#search-form-container h2,
-body.search-results-page #block-slnt-content h2 {
+#search-form-container h2 {
   padding-left: 1.2em;
   color: var(--solent-blue);
 }
 
+/* Results-page headings: solent blue, breathing room between the
+   "Searching for:" block, the input, and "Search results". */
+body.search-results-page .layout-content h2 {
+  color: var(--solent-blue);
+  padding-left: 0;
+  margin-top: 0;
+  margin-bottom: 0.5em;
+}
+
+body.search-results-page #search-page-form-container h2 {
+  margin-top: 1.4em;
+}
+
+body.search-results-page #search-page-form-container form {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 0.4em;
+  justify-content: flex-start;
+  margin-bottom: 2em;
+}
+
+body.search-results-page #search-page-form-container .search-input-wrapper {
+  flex: 0 1 30em;
+}
+
+body.search-results-page #search-page-form-container .search-input-wrapper {
+  width: min(30em, 100%);
+}
+
+body.search-results-page #search-page-form-container input[type='text'] {
+  height: 2.2em;
+  width: 100%;
+  box-sizing: border-box;
+}
+
 .search-results h3 a {
-  color: #029CDC;
+  color: var(--solent-blue, #2c4f6e);
   text-decoration: none;
+}
+
+.search-results h3 a:hover {
+  text-decoration: underline;
+  text-decoration-color: var(--magenta, #c5007a);
 }
 
 @media screen and (max-width: 979px) {
@@ -437,20 +477,18 @@ body.search-results-page #block-slnt-content h2 {
    Search results page layout
    =========================== */
 
-/* Centre the results within a max-width container */
+/* Align content to the same 1200px clamp as the menu and hero banner
+   (cf. paragraph-hero-art-style.css / menu-desktop.css) so headings and
+   results line up with the "Home" menu item. */
 body.search-results-page .layout-content {
-  max-width: 1200px;
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: 2em;
-  padding-right: 2em;
+  /* + (1em - 12px) matches the menu's own text offset (menu-desktop.css)
+     so headings align with the "Home" item, not just the menu box. */
+  padding-left: max(var(--align-floor), calc((100% - 1200px) / 2 + (1em - 12px)));
+  padding-right: max(var(--align-floor), calc((100% - 1200px) / 2));
+  box-sizing: border-box;
 }
 
-/* "Search Results" page title */
-body.search-results-page #block-slnt-content h2 {
-  padding-left: 0;
-  margin-bottom: 0.5em;
-}
+
 
 /* Results list: remove default ol indentation, balanced spacing */
 .search-results-wrapper .search-results {
@@ -480,4 +518,71 @@ body.search-results-page #block-slnt-content h2 {
 /* Result meta info (type, date, etc.) */
 .search-results-wrapper .search-results li > p:last-child {
   color: #888;
+}
+
+/* ══════════════════════════════════════
+   Search results pager — mirrors the view-display pager (node.css)
+   ══════════════════════════════════════ */
+
+body.search-results-page nav.pager .pager__items {
+  list-style: none;
+  padding: 0;
+  margin: 2rem 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3em;
+  justify-content: center;
+}
+
+body.search-results-page nav.pager .pager__items > li.pager__item {
+  list-style: none;
+  border: 1px solid var(--solent-blue, #2c4f6e);
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: stretch;
+  margin: 0;
+}
+
+body.search-results-page nav.pager .pager__items > li.pager__item > a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.35em 0.7em;
+  color: var(--solent-blue, #2c4f6e);
+  text-decoration: none;
+  font-family: 'Atkinson Hyperlegible Next', sans-serif;
+  font-weight: 600;
+  line-height: 1.2;
+  transition: background-color 0.15s, color 0.15s;
+}
+
+body.search-results-page nav.pager .pager__items > li.pager__item > a:hover,
+body.search-results-page nav.pager .pager__items > li.pager__item > a:focus {
+  background-color: var(--solent-blue, #2c4f6e);
+  color: #fff;
+}
+
+body.search-results-page nav.pager .pager__items > li.pager__item.is-active {
+  background-color: var(--magenta-dark, #a30065);
+  border-color: var(--magenta-dark, #a30065);
+}
+
+body.search-results-page nav.pager .pager__items > li.pager__item.is-active > a {
+  color: #fff;
+}
+
+body.search-results-page nav.pager .pager__items > li.pager__item--ellipsis {
+  display: none;
+}
+
+/* Friendly prompt when visiting the search page with no keywords */
+.search-empty-prompt {
+  color: var(--text, #1a1a1a);
+  font-size: 1.05rem;
+  margin: 1em 0 3em;
+}
+
+/* Bottom breathing room before the footer */
+body.search-results-page .search-results-wrapper {
+  margin-bottom: 2rem;
 }

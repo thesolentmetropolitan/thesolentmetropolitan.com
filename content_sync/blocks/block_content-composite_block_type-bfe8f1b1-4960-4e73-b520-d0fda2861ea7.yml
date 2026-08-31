@@ -8,6 +8,7 @@ base_fields:
   langcode: en
   block_revision_id: '8'
   enforce_new_revision: true
+  changed: '1774463588'
 custom_fields:
   field_content_component:
     -
@@ -83,6 +84,7 @@ custom_fields:
                                 langcode: en
                                 description: null
                                 parent: 0
+                                changed: '1775436609'
                                 url: null
                               bundle: color
                           field_icon:
@@ -94,6 +96,7 @@ custom_fields:
                                 created: '1765487406'
                                 status: true
                                 langcode: en
+                                changed: '1765487406'
                                 url: null
                               bundle: image
                           field_link:
@@ -121,6 +124,7 @@ custom_fields:
                                 langcode: en
                                 description: null
                                 parent: 0
+                                changed: '1775436609'
                                 url: null
                               bundle: color
                           field_icon:
@@ -132,6 +136,7 @@ custom_fields:
                                 created: '1766957048'
                                 status: true
                                 langcode: en
+                                changed: '1766957048'
                                 url: null
                               bundle: image
                           field_link:
@@ -159,6 +164,7 @@ custom_fields:
                                 langcode: en
                                 description: null
                                 parent: 0
+                                changed: '1775436609'
                                 url: null
                               bundle: color
                           field_icon:
@@ -170,6 +176,7 @@ custom_fields:
                                 created: '1766956888'
                                 status: true
                                 langcode: en
+                                changed: '1766956888'
                                 url: null
                               bundle: image
                           field_link:

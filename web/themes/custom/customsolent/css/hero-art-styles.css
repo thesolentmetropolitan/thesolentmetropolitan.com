@@ -868,3 +868,12 @@
     linear-gradient(135deg, #B45309 0%, #D97706 50%, #F59E0B 100%);
   background-size: 120px 103.92px, cover;
 }
+
+/* Search page */
+/* Icons: magnifying-glass, binoculars, file-text */
+.hero-art-style--search {
+  background:
+    url('../images/hero-tiles/search.svg') repeat,
+    linear-gradient(135deg, #1f3a52 0%, #2c4f6e 50%, #3a6489 100%);
+  background-size: 120px 103.92px, cover;
+}

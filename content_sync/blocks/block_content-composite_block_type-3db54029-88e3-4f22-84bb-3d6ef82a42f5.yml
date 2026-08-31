@@ -8,6 +8,7 @@ base_fields:
   langcode: en
   block_revision_id: '6'
   enforce_new_revision: true
+  changed: '1777898849'
 custom_fields:
   field_content_component:
     -
@@ -30,6 +31,7 @@ custom_fields:
               langcode: en
               description: null
               parent: 0
+              changed: '1774526298'
               url: null
             bundle: color
         field_content_component:
@@ -87,6 +89,7 @@ custom_fields:
                                       langcode: en
                                       description: null
                                       parent: 0
+                                      changed: '1775436609'
                                       url: null
                                     bundle: color
                                 field_text:
@@ -126,6 +129,7 @@ custom_fields:
                                             langcode: en
                                             description: null
                                             parent: 0
+                                            changed: '1775436609'
                                             url: null
                                           bundle: color
                                       field_icon:
@@ -137,6 +141,7 @@ custom_fields:
                                             created: '1766933237'
                                             status: true
                                             langcode: en
+                                            changed: '1766933237'
                                             url: null
                                           bundle: image
                                       field_link:
@@ -164,6 +169,7 @@ custom_fields:
                                             langcode: en
                                             description: null
                                             parent: 0
+                                            changed: '1775436609'
                                             url: null
                                           bundle: color
                                       field_icon:
@@ -176,6 +182,7 @@ custom_fields:
                                             created: '1774403127'
                                             status: true
                                             langcode: en
+                                            changed: '1774403127'
                                             url: null
                                           custom_fields:
                                             field_media_image:
@@ -197,7 +204,7 @@ custom_fields:
                                                   custom_fields: {  }
                                       field_link:
                                         -
-                                          uri: 'https://drupal.org'
+                                          uri: 'https://www.drupal.org/thesolentmetropolitan'
                                           title: Drupal
                                           options: {  }
                                 field_padding:

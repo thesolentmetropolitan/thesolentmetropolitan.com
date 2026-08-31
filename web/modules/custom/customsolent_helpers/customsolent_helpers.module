@@ -45,3 +45,37 @@ function customsolent_helpers_theme($existing, $type, $theme, $path) {
     ],
   ];
 }
+
+/**
+ * Implements hook_views_pre_build().
+ *
+ * Fix: the core search results pager never appeared. Search results can
+ * include composite/landing pages; SearchNode::prepareResults() renders each
+ * result node, which executes any view_display paragraphs embedded in it.
+ * Each such view's pager re-registers pager element 0 and overwrites the
+ * search query's pager (e.g. 186 items -> 3 items, 1 page), so pager.html.twig
+ * renders nothing — and the anonymous page cache then freezes the pagerless
+ * page. (Warm render caches skip the node renders, which made this maddening
+ * to reproduce: drush probes paged fine while the web page never did.)
+ *
+ * On the search results route those embedded views are only ever rendered
+ * inside result nodes — they display a handful of teaser rows and never show
+ * their own pager UI there — so give them a non-paginating pager at runtime.
+ * Section pages are untouched and keep their normal view pagination.
+ */
+function customsolent_helpers_views_pre_build(\Drupal\views\ViewExecutable $view) {
+  if (\Drupal::routeMatch()->getRouteName() !== 'search.view_node_search') {
+    return;
+  }
+  $pager = $view->display_handler->getOption('pager') ?: [];
+  if (($pager['type'] ?? 'none') === 'some' || ($pager['type'] ?? 'none') === 'none') {
+    return;
+  }
+  $view->display_handler->setOption('pager', [
+    'type' => 'some',
+    'options' => [
+      'items_per_page' => $pager['options']['items_per_page'] ?? 10,
+      'offset' => $pager['options']['offset'] ?? 0,
+    ],
+  ]);
+}
