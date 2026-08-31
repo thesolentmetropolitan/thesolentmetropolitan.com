@@ -832,7 +832,7 @@ menus:
     menu_name: main
     title: 'Contact us'
     parent: 'menu_link_content:099ef8b8-72f0-4695-9fc1-c21684dba940'
-    uri: 'internal:/contact'
+    uri: 'internal:/about/contact'
     link_title: ''
     description: null
     enabled: true
