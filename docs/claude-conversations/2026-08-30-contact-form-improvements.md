@@ -106,3 +106,13 @@ Honeypot/Antibot set no cookies. reCAPTCHA would (another reason to avoid it).
 2. `drush php:script scripts/create-contact-redirect.php`
 3. Recommended: add `$config['system.site']['mail']` to prod `settings.local.php`.
 4. Decide on Honeypot/Antibot install (separate task).
+
+## Post-fix confirmation (2026-08-31)
+
+Rob's Zoho inbox shows near-daily "Undelivered Mail Returned to Sender" bounces from
+`mailer-daemon@mail.zoho.eu` — corroborating the diagnosis: forged visitor addresses in
+`From:` failed SPF/DMARC on inbound filtering, and the bounce returned to the
+authenticated envelope sender (the site's mailbox). The From=site-mail fix removes the
+cause; bounces should stop after deploy. Side effect: spam that previously bounced will
+now be delivered — Honeypot/Antibot install is the natural follow-up task.
+Rob confirmed the site mail address is already set in prod settings.local.php (§3 note).
