@@ -150,6 +150,15 @@ applies all settings). No manual prod steps beyond the existing redirect script 
   no-JS support should be as complete as possible site-wide, and Antibot blocks
   no-JS humans. Honeypot stays and carries the spam protection alone; form action in
   no-JS HTML is back to /about/contact.
+
+  **Deploy order matters (correcting an earlier note):** Drupal can only uninstall a
+  module whose code is on disk. Running composer install first removes the antibot
+  code while prod's DB still has it installed — cim then errors trying to uninstall a
+  missing module. Correct order: on the live release run
+  `./drush-dir/drush pmu antibot -y` FIRST (code still present there), then deploy the
+  new release (composer install + deploy.sh) — core.extension already matches, nothing
+  to uninstall. Recovery if done wrong: composer require drupal/antibot, pmu, composer
+  remove.
 - **Field focus ring** changed from pink to the keyboard-focus orange `#e8870e`
   (matches css/menu-focus.css tabbed-item treatment). The Send button keeps the pink
   ring for consistency with site CTAs (.slnt-cta).
