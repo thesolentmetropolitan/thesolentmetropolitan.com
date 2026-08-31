@@ -17,7 +17,10 @@ IMPORT_DIR="content_sync/blocks"
 if [ -f /.dockerenv ] || [ -d /var/www/html ]; then
   DOCROOT="/var/www/html"
 else
-  DOCROOT="$(pwd)"
+  # Resolve the project root from this script's own location so the
+  # script works from any cwd (running it from inside scripts/ used to
+  # fail with "No yml files found").
+  DOCROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 fi
 
 cd "$DOCROOT"
