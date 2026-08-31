@@ -67,7 +67,25 @@ else {
 
 // 3. Block placement (config entity referencing the content block's uuid).
 $placement_storage = \Drupal::entityTypeManager()->getStorage('block');
-if (!$placement_storage->load('customsolent_searchherobanner')) {
+$placement = $placement_storage->load('customsolent_searchherobanner');
+if ($placement) {
+  // Self-heal: if the placement points at a different (or missing) block
+  // uuid — e.g. the placement config was imported but the block content was
+  // recreated with a new uuid — re-wire it to the block found/created above.
+  $expected_plugin = 'block_content:' . $block->uuid();
+  if ($placement->getPluginId() !== $expected_plugin) {
+    $placement->set('plugin', $expected_plugin);
+    $settings = $placement->get('settings');
+    $settings['id'] = $expected_plugin;
+    $placement->set('settings', $settings);
+    $placement->save();
+    $out[] = 'placement re-wired to block uuid ' . $block->uuid();
+  }
+  else {
+    $out[] = 'block placement exists and matches';
+  }
+}
+if (!$placement) {
   $placement_storage->create([
     'id' => 'customsolent_searchherobanner',
     'theme' => 'customsolent',
@@ -90,9 +108,6 @@ if (!$placement_storage->load('customsolent_searchherobanner')) {
     ],
   ])->save();
   $out[] = 'created block placement customsolent_searchherobanner';
-}
-else {
-  $out[] = 'block placement exists';
 }
 
 echo implode(PHP_EOL, $out) . PHP_EOL . "Done.\n";
