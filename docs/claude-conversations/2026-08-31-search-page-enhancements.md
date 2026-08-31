@@ -99,3 +99,18 @@ message. (/search redirects to /search/node — both covered.)
 2. `drush php:script scripts/create-search-hero.php` — idempotent safety net
    (wires placement to the imported block's uuid if it differs).
 3. `drush cr` (also flushes the frozen pagerless page cache).
+
+## Follow-up fixes (same day)
+
+- **Bug: pager params leaked into the search box** — after paging,
+  `?keys=music&page=1` showed "music&page=1" in the input. The JS
+  (customsolent.js ~line 259) captured everything after `keys=` with a regex.
+  Replaced with `new URLSearchParams(window.location.search).get('keys')` —
+  handles any extra params, ordering, and URL-encoding (verified
+  `fish%20%26%20chips` → "fish & chips"), which a strip-`&page=N` regex would
+  not. Also removed the leftover console.logs.
+- **Desktop: "Searching for:" and the box on one line** — flex row on
+  `#search-page-form-container` at ≥800px, vertically centred (measured
+  centres identical at 334px). Mobile unchanged (stacked). One gotcha: the
+  media-query margin override had to sit after the base form rule in the file —
+  same specificity, source order decides.
