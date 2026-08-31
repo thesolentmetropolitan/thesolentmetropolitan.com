@@ -116,3 +116,30 @@ authenticated envelope sender (the site's mailbox). The From=site-mail fix remov
 cause; bounces should stop after deploy. Side effect: spam that previously bounced will
 now be delivered — Honeypot/Antibot install is the natural follow-up task.
 Rob confirmed the site mail address is already set in prod settings.local.php (§3 note).
+
+## Anti-spam install (2026-08-31)
+
+Installed and configured **Honeypot 2.2** and **Antibot 2.0** for the contact form:
+
+- `honeypot.settings`: `protect_all_forms: false` (deliberate — protecting all forms
+  would disable page caching everywhere the header search form appears), `element_name:
+  url`, `time_limit: 5`, `log: true` (blocked attempts appear in watchdog, type
+  `honeypot`).
+- Contact webform third-party settings (`webform.webform.contact.yml`):
+  `honeypot: true`, `time_restriction: true` — protection scoped to this webform via
+  Webform's own honeypot integration.
+- `antibot.settings`: added `webform_submission_contact_*` to `form_ids` (the shipped
+  default `webform_submission_webform_*` does not match this form's id).
+
+Verified locally (Playwright):
+- No-JS HTML: hidden honeypot `url` field present; antibot rewrites form action to
+  `/antibot` until its JS confirms a human — bots without JS cannot post at all.
+- Fast submission (immediate): **blocked**, watchdog honeypot notice logged, nothing saved.
+- Submission after 6.5s: accepted, confirmation shown, saved (test record deleted).
+- Trade-off to know: with JavaScript disabled a human cannot submit either (antibot's
+  design). Site-wide no-JS fallbacks exist for menus, but form submission now requires JS.
+
+Cookies: neither module sets cookies — no Klaro changes needed.
+
+Deploy: standard deploy.sh (`composer install` + `drush cim` enables both modules and
+applies all settings). No manual prod steps beyond the existing redirect script (§2).
