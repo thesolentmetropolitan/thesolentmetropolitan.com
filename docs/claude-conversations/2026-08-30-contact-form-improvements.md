@@ -143,3 +143,13 @@ Cookies: neither module sets cookies — no Klaro changes needed.
 
 Deploy: standard deploy.sh (`composer install` + `drush cim` enables both modules and
 applies all settings). No manual prod steps beyond the existing redirect script (§2).
+
+## Adjustments (2026-08-31 afternoon, branch contact-form-adjustments)
+
+- **Antibot removed** (uninstalled, composer removed, config exported) — Rob's call:
+  no-JS support should be as complete as possible site-wide, and Antibot blocks
+  no-JS humans. Honeypot stays and carries the spam protection alone; form action in
+  no-JS HTML is back to /about/contact.
+- **Field focus ring** changed from pink to the keyboard-focus orange `#e8870e`
+  (matches css/menu-focus.css tabbed-item treatment). The Send button keeps the pink
+  ring for consistency with site CTAs (.slnt-cta).

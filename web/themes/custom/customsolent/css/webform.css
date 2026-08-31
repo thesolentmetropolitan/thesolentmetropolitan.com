@@ -78,10 +78,11 @@
   resize: vertical;
 }
 
-/* Focus: keep the blue border, add the site's focus ring */
+/* Focus: keep the blue border, orange ring matching keyboard focus on
+   menu items (cf. css/menu-focus.css, #e8870e) */
 .paragraph--type--webform .webform-submission-form input:focus-visible,
 .paragraph--type--webform .webform-submission-form textarea:focus-visible {
-  outline: 3px solid var(--pink-hover, #f5b0d8);
+  outline: 3px solid #e8870e;
   outline-offset: 1px;
 }
 
