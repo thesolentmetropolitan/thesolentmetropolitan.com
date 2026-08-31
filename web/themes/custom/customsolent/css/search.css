@@ -291,6 +291,7 @@ admin/structure/block/manage/searchform_2
 button.search-menu-item-icon {
   border: none;
   background-color: transparent;
+  cursor: pointer; /* it's a submit button — hand cursor for affordance */
 }
 
 /* SVG icon stroke: solent blue on desktop */
@@ -467,6 +468,22 @@ body.search-results-page #search-page-form-container .search-input-wrapper {
     margin-bottom: 0;
   }
 
+  /* Desktop: double-width input (base was 30em). The form's wrapper div is
+     itself a flex item of the one-line container — without flex-grow it
+     collapses to content width and the em basis never engages. */
+  body.search-results-page #search-page-form-container > div {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  body.search-results-page #search-page-form-container form {
+    width: 100%;
+  }
+
+  body.search-results-page #search-page-form-container .search-input-wrapper {
+    flex: 0 1 60em;
+  }
+
   /* "Search results" belongs with the list below it, not the form above:
      extra space above, tighter below. */
   body.search-results-page #search-page-form-container + h2 {
@@ -602,6 +619,13 @@ body.search-results-page nav.pager .pager__items > li.pager__item.is-active > a 
 
 body.search-results-page nav.pager .pager__items > li.pager__item--ellipsis {
   display: none;
+}
+
+/* Page-form magnifier: solent blue at all widths. The mobile menu rule
+   paints .search-menu-item-icon svg white for the blue menu background,
+   which made this one white-on-white on the results page. */
+body.search-results-page #search-page-form-container .search-menu-item-icon svg {
+  stroke: var(--solent-blue);
 }
 
 /* Friendly prompt when visiting the search page with no keywords */

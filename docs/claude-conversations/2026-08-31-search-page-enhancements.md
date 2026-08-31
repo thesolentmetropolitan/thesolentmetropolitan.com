@@ -118,3 +118,11 @@ message. (/search redirects to /search/node — both covered.)
   (`#search-page-form-container + h2`, desktop media query) so the heading
   groups with the result list below (63px above vs 14px below) rather than
   with the form. Mobile unchanged.
+- **Three more adjustments** — (a) desktop page input doubled to a 60em basis
+  (~953px rendered; the one-line flex change had collapsed the form's wrapper
+  div to content width, so the wrapper needed flex-grow before any em basis
+  could engage); (b) `cursor: pointer` on the magnifier submit buttons (menu
+  and page forms) for affordance; (c) mobile page-form magnifier was white on
+  white — the mobile menu rule paints those icons white for the blue menu
+  background — now scoped back to solent blue on the results page (menu icon
+  stays white).
