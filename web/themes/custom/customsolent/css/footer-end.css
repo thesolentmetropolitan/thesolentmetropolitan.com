@@ -278,6 +278,7 @@ footer .slnt-column-left .paragraph--type--enclosure .paragraph--type--enclosure
 
   .classy_footer_copyright_open_source .slnt-content-2-column {
     flex-direction: column;
+    gap: 1.2rem; /* breathing room between open-source and copyright when stacked */
   }
 
   .classy_footer_social_icons .field--name-field-content-component.field__items {
