@@ -47,6 +47,18 @@ blocks:
         -
           target_id: '502'
           target_revision_id: '904'
+  -
+    info: 'Footer legal'
+    langcode: en
+    uuid: 9c1f6a2e-4b7d-4b9a-9f3e-2c8a51d0f7b1
+    bundle: composite_block_type
+    revision_id: null
+    rev_id_current: null
+    fields:
+      field_content_component:
+        -
+          target_id: '707'
+          target_revision_id: '3637'
 menus:
   -
     menu_name: main

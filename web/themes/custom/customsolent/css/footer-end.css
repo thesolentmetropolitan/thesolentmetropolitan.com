@@ -50,17 +50,17 @@ block_classes-end-footer
   height: 2em;
 }
 
-/* Footer menu section: menu left-justified, icons right-justified */
+/* ======================================================
+   Footer layer 1: main menu + social icons
+   ====================================================== */
+
 .classy_footer_menu .slnt-column-left {
   text-align: left;
 }
 
-.classy_footer_menu .slnt-column-right {
-  text-align: right;
-}
-
 .classy_footer_menu .paragraph-menu__nav ul {
   columns: 2;
+  column-gap: 3rem; /* divider sits centred in this gap */
   list-style: none;
   padding: 0;
   margin: 0;
@@ -76,7 +76,109 @@ block_classes-end-footer
 }
 
 .classy_footer_menu .paragraph-menu__nav a:hover {
-  color: white;
+  color: var(--pink-hover, #f5b0d8);
+}
+
+/* Vertical divider centred between the two menu columns.
+   Positioned on the nav so it sits on the CSS-columns boundary;
+   negative offsets make it taller than the text rows, so the
+   text reads as vertically centred against the line. */
+.classy_footer_menu .paragraph-menu__nav {
+  position: relative;
+  max-width: 30rem; /* keeps the two columns and their divider together */
+}
+
+.classy_footer_menu .paragraph-menu__nav::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: -0.6rem;
+  bottom: -0.6rem;
+  width: 1px;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* Desktop: menu and social icons side by side with a full-height
+   divider between them. Flex (not the generic float layout) so the
+   divider stretches and the content vertically centres against it. */
+@media screen and (min-width: 800px) {
+  .classy_footer_menu .slnt-content-2-column {
+    display: flex;
+    align-items: stretch;
+  }
+
+  .classy_footer_menu .slnt-content-2-column .slnt-column-left {
+    float: none;
+    width: auto;
+    flex: 1 1 auto;
+    display: flex;
+    align-items: center;
+  }
+
+  .classy_footer_menu .slnt-content-2-column .slnt-column-left > .field {
+    flex: 1;
+  }
+
+  .classy_footer_menu .slnt-content-2-column .slnt-column-right {
+    float: none;
+    width: auto;
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    border-left: 1px solid rgba(255, 255, 255, 0.3);
+    padding-left: 2rem;
+  }
+}
+
+/* ======================================================
+   Footer layer 2: legal/policy links
+   ====================================================== */
+
+.classy_footer_legal {
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.classy_footer_legal .paragraph-menu__nav ul {
+  columns: auto; /* cancel the generic .paragraph-menu column count */
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  list-style: none;
+  margin: 0;
+  /* Horizontal padding matches the other layers' --content-pad-x so
+     the first link lines up with the menu above when left-aligned */
+  padding: 1.2rem var(--content-pad-x);
+}
+
+.classy_footer_legal .paragraph-menu__nav li {
+  margin-bottom: 0;
+}
+
+.classy_footer_legal .paragraph-menu__nav a {
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 0.82rem;
+  font-weight: 400;
+  padding: 0.3em 1em;
+  transition: color 0.15s;
+}
+
+.classy_footer_legal .paragraph-menu__nav a:hover {
+  color: var(--pink-hover, #f5b0d8);
+}
+
+@media screen and (max-width: 799px) {
+  /* Left-align and drop the leading padding so the first link
+     lines up with the menu's left edge above. */
+  .classy_footer_legal .paragraph-menu__nav ul {
+    justify-content: flex-start;
+  }
+
+  .classy_footer_legal .paragraph-menu__nav a {
+    padding: 0.3em 1.6em 0.3em 0;
+  }
 }
 
 /* Footer social icons: inline and close together */
@@ -92,6 +194,10 @@ footer .slnt-column-left .paragraph--type--enclosure .paragraph--type--enclosure
 .classy_footer_social_icons .field--name-field-content-component.field__items {
   justify-content: flex-end;
 }
+
+/* ======================================================
+   Footer layer 3: copyright + open source
+   ====================================================== */
 
 /* Copyright/open-source section: 50/50 columns, top-aligned */
 .classy_footer_copyright_open_source .slnt-content-2-column {
@@ -110,6 +216,18 @@ footer .slnt-column-left .paragraph--type--enclosure .paragraph--type--enclosure
 
 .classy_footer_copyright_open_source p:first-child {
   margin-top: 0;
+}
+
+/* Open-source column: text and GitHub/Drupal icons on one line */
+.classy_footer_copyright_open_source .slnt-column-left .slnt-content-1-column > .slnt-column > .field__items {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.classy_footer_copyright_open_source .slnt-column-left .slnt-content-1-column p {
+  margin: 0;
 }
 
 .classy_footer_copyright_open_source {
@@ -144,6 +262,11 @@ footer .slnt-column-left .paragraph--type--enclosure .paragraph--type--enclosure
   }
 
   .classy_footer_social_icons .field--name-field-content-component.field__items {
+    justify-content: flex-start;
+  }
+
+  /* Copyright row: left-aligned on mobile like everything else */
+  .classy_footer_copyright_open_source .paragraph--type--copyright {
     justify-content: flex-start;
   }
 }
@@ -241,5 +364,13 @@ footer .paragraph-menu__nav a {
 }
 
 footer .paragraph-menu__nav a:hover {
-  color: white;
+  color: var(--pink-hover, #f5b0d8);
+}
+
+/* Social/open-source icons: pink on hover (site convention on solent
+   blue). The icons are monochrome white SVGs, so overriding fill on
+   the svg and its shapes is safe. */
+footer a:hover .paragraph--type--icon-with-link svg,
+footer a:hover .paragraph--type--icon-with-link svg * {
+  fill: var(--pink-hover, #f5b0d8);
 }

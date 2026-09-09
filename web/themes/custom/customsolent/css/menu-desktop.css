@@ -142,15 +142,17 @@
     align-items: center;
   }
 
-  /* Full-width background using pseudo-element */
+  /* Full-width background using pseudo-element.
+     The container already spans the full viewport width, so 100% is the
+     full-bleed width. 100vw would include the vertical scrollbar and
+     cause a permanent horizontal scrollbar. */
   .sub-menu-container::before {
     content: '';
     position: absolute;
-    width: 100vw;
+    width: 100%;
     height: 100%;
-    left: 50%;
+    left: 0;
     top: 0;
-    transform: translateX(-50%);
     z-index: -1;
   }
 

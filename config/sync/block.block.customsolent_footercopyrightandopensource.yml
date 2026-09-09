@@ -11,7 +11,7 @@ dependencies:
 id: customsolent_footercopyrightandopensource
 theme: customsolent
 region: footer
-weight: -6
+weight: -5
 provider: null
 plugin: 'block_content:3db54029-88e3-4f22-84bb-3d6ef82a42f5'
 settings:

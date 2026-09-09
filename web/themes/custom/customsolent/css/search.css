@@ -333,15 +333,16 @@ button.search-menu-item-icon {
     z-index: -1;
   }
 
-  /* Full-width background like regular submenus */
+  /* Full-width background like regular submenus.
+     Container is full viewport width; 100% avoids the horizontal
+     scrollbar that 100vw (which includes the scrollbar width) causes. */
   #search-form-container.visible-2l::before {
     content: '';
     position: absolute;
-    width: 100vw;
+    width: 100%;
     height: 100%;
-    left: 50%;
+    left: 0;
     top: 0;
-    transform: translateX(-50%);
     z-index: -1;
     background-color: var(--warm-grey);
   }

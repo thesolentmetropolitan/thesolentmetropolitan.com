@@ -1,0 +1,23 @@
+uuid: 765e4c70-5cd8-4fb7-834b-2b557ea8fcfa
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:composite_block_type:9c1f6a2e-4b7d-4b9a-9f3e-2c8a51d0f7b1'
+  module:
+    - block_content
+  theme:
+    - customsolent
+id: customsolent_footerlegal
+theme: customsolent
+region: footer
+weight: -6
+provider: null
+plugin: 'block_content:9c1f6a2e-4b7d-4b9a-9f3e-2c8a51d0f7b1'
+settings:
+  id: 'block_content:9c1f6a2e-4b7d-4b9a-9f3e-2c8a51d0f7b1'
+  label: 'Footer legal'
+  label_display: '0'
+  provider: block_content
+  view_mode: full
+visibility: {  }
