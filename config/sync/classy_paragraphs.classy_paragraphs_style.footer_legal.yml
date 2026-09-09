@@ -1,0 +1,7 @@
+uuid: ba109f56-e6d2-4121-8132-e91d99c9515a
+langcode: en
+status: true
+dependencies: {  }
+id: footer_legal
+label: 'Footer Legal'
+classes: classy_footer_legal

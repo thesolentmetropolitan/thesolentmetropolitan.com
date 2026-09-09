@@ -17,6 +17,9 @@ settings:
     -
       value: footer
       label: Footer
+    -
+      value: footer-legal
+      label: 'Footer legal'
   allowed_values_function: ''
 module: options
 locked: false

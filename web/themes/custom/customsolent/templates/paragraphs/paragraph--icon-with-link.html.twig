@@ -114,7 +114,8 @@ https://gemini.google.com/share/45fdc5c9ff07
 
 
 
-		<a href="{{ paragraph.field_link.0.url }}">
+		{# Icon-only link: the link field's title becomes the accessible name #}
+		<a href="{{ paragraph.field_link.0.url }}"{% if paragraph.field_link.0.title %} aria-label="{{ paragraph.field_link.0.title }}"{% endif %}>
 			{% if file_entity %}
 				<div id="{{ instance_id }}" {{attributes.addClass(classes) }}>
 					{{ source( file_url(file_entity.uri.value)|replace({'%20': ' '}), ignore_missing = true) }}
