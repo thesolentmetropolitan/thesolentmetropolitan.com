@@ -1,0 +1,8 @@
+uuid: dba1ddc1-dbdf-4e6c-9a14-fa529894daf2
+langcode: en
+status: true
+dependencies: {  }
+id: footer-legal
+label: 'Footer legal'
+description: ''
+locked: false

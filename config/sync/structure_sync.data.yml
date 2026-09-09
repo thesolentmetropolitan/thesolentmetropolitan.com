@@ -1384,6 +1384,71 @@ menus:
     langcode: en
     uuid: 7394a8a8-3be4-4c8a-b4e2-88ba730920b7
     options: {  }
+  -
+    menu_name: footer-legal
+    title: 'Contact us'
+    parent: null
+    uri: 'internal:/about/contact'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -50
+    langcode: en
+    uuid: 8fab894d-f913-4118-bee6-20ba72a85f98
+    options: {  }
+  -
+    menu_name: footer-legal
+    title: 'Terms of use'
+    parent: null
+    uri: 'internal:/about/terms'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -49
+    langcode: en
+    uuid: 5f758c8c-7d0d-430e-a363-4ae50c3a01be
+    options: {  }
+  -
+    menu_name: footer-legal
+    title: 'Privacy policy'
+    parent: null
+    uri: 'internal:/about/privacy-policy'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -48
+    langcode: en
+    uuid: f17e612b-835b-4447-ad3b-dc84403fc5f3
+    options: {  }
+  -
+    menu_name: footer-legal
+    title: 'Editorial Policy'
+    parent: null
+    uri: 'internal:/about/editorial-policy'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -47
+    langcode: en
+    uuid: d25de21a-7af1-45bb-ab2c-296dd267ab1a
+    options: {  }
+  -
+    menu_name: footer-legal
+    title: Accessibility
+    parent: null
+    uri: 'internal:/about/accessibility'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -46
+    langcode: en
+    uuid: 2efd8f27-c3c4-4db4-a621-9b669959376c
+    options: {  }
 taxonomies:
   color:
     -
