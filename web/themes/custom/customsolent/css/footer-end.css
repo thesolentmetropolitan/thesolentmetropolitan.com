@@ -125,8 +125,23 @@ block_classes-end-footer
     flex: 0 0 auto;
     display: flex;
     align-items: center;
-    border-left: 1px solid rgba(255, 255, 255, 0.3);
+    position: relative;
     padding-left: 2rem;
+  }
+
+  /* Divider between menu and social icons: same vertical position and
+     length as the menu-columns divider. The nav is the row's tallest
+     content, so its top edge equals the column top; the column's
+     padding-bottom (--content-pad) is subtracted so the line ends
+     0.6rem below the nav, exactly like the nav's own divider. */
+  .classy_footer_menu .slnt-content-2-column .slnt-column-right::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: -0.6rem;
+    bottom: calc(var(--content-pad) - 0.6rem);
+    width: 1px;
+    background: rgba(255, 255, 255, 0.3);
   }
 }
 
@@ -134,7 +149,12 @@ block_classes-end-footer
    Footer layer 2: legal/policy links
    ====================================================== */
 
-.classy_footer_legal {
+/* Horizontal rules above/below the links: capped by the region's
+   1200px max-width, and inset 2em from the edge at narrower widths
+   (1em enclosure alignment padding + 1em margin here), matching the
+   page content width rather than running edge to edge. */
+.classy_footer_legal .paragraph-menu {
+  margin: 0 1em;
   border-top: 1px solid rgba(255, 255, 255, 0.2);
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
@@ -147,9 +167,7 @@ block_classes-end-footer
   justify-content: center;
   list-style: none;
   margin: 0;
-  /* Horizontal padding matches the other layers' --content-pad-x so
-     the first link lines up with the menu above when left-aligned */
-  padding: 1.2rem var(--content-pad-x);
+  padding: 0.6rem 0;
 }
 
 .classy_footer_legal .paragraph-menu__nav li {
@@ -159,7 +177,6 @@ block_classes-end-footer
 .classy_footer_legal .paragraph-menu__nav a {
   color: #ffffff;
   text-decoration: none;
-  font-size: 0.82rem;
   font-weight: 400;
   padding: 0.3em 1em;
   transition: color 0.15s;
@@ -231,7 +248,9 @@ footer .slnt-column-left .paragraph--type--enclosure .paragraph--type--enclosure
 }
 
 .classy_footer_copyright_open_source {
-  padding-bottom: 2em;
+  /* Margin, not padding: the enclosure's editor-driven inline style
+     sets padding-bottom and would override padding declared here. */
+  margin-bottom: 2em;
 }
 
 /* Copyright text: right-aligned, year on same line */

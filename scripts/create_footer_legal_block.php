@@ -34,6 +34,9 @@ $menu->save();
 $enclosure = Paragraph::create([
   'type' => 'enclosure',
   'field_style' => ['target_id' => 'footer_legal'],
+  // '0' (not the 2em field default): the layer's spacing and the
+  // divider-line insets are owned by footer-end.css.
+  'field_padding' => '0',
   'field_content_component' => [
     ['target_id' => $menu->id(), 'target_revision_id' => $menu->getRevisionId()],
   ],

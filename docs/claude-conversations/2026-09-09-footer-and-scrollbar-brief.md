@@ -98,8 +98,8 @@ The footer background remains as-is (solent blue / dark). All text and icons are
 Rob will create this menu in the Drupal admin and export via `structure_sync` to config.
 
 **Menu items (in order):**
-1. Contact Us -> `/about/contact-us`
-2. Terms of Use -> `/about/terms-use`
+1. Contact Us -> `/about/contact`
+2. Terms of Use -> `/about/terms`
 3. Privacy Policy -> `/about/privacy-policy`
 4. Editorial Policy -> `/about/editorial-policy`
 5. Accessibility -> `/about/accessibility`

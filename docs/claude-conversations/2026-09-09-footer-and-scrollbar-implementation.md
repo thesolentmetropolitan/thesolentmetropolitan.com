@@ -141,15 +141,43 @@ worth improving in admin (e.g. "The Solent Metropolitan on drupal.org").
 - All five icon links have aria-labels; legal links are 0.82rem white with
   pink hover.
 
+## Adjustments round (2026-09-10, Rob's feedback)
+
+- **Brief corrected:** the menu URLs `/about/contact` and `/about/terms` are
+  the intended ones; brief updated to match.
+- **Horizontal rules:** no longer edge-to-edge. Discovered the footer region
+  div carries **no `.region-footer` class** (D11 regions are class-less here),
+  so `footer-base.css`'s 1200px cap never applied — the 1200px constraint
+  actually comes from each enclosure's inline `max(--align-floor,
+  calc((100% - 1200px)/2 + pad))` formula. The legal enclosure had picked up
+  the field's **default `field_padding: 2em`**; set to `'0'` (in content and
+  in the creation script). Borders moved from the enclosure onto
+  `.paragraph-menu` with `margin: 0 1em`, giving a 2em inset each side at
+  ≤1200px and a 1200−2em cap above (measured: 32px/32px at 375px, symmetric
+  49px at 1265px).
+- **Centre divider (social icons):** `border-left` on the stretched column
+  replaced with an absolutely-positioned `::before` (`top: -0.6rem;
+  bottom: calc(var(--content-pad) - 0.6rem)`) so it has exactly the same
+  vertical position and length as the menu-columns divider (verified
+  identical extents in the browser).
+- **Legal font size:** 0.82rem override removed — inherits 16px like the
+  main footer menu.
+- **Legal vertical spacing halved:** ul padding 1.2rem → 0.6rem (and the
+  enclosure's 2em default padding removed, above).
+- **Space below layer 3:** `margin-bottom: 2em` on
+  `classy_footer_copyright_open_source` — margin, because the enclosure's
+  editor-driven **inline** `padding-bottom: 0em` overrides any CSS padding
+  (which is why the original `padding-bottom: 2em` never worked).
+
 ### Remaining for Rob
 
-- Test on real devices (iPhone SE3 per brief checklist).
+- Test on real devices (iPhone SE3 per brief checklist). Note: at 16px the
+  legal links wrap to three lines on a 375px screen.
 - Deploy: `cim` will apply the config; run
   `scripts/create_footer_legal_block.php` on prod **before** `cim` so the
   block placement's content dependency exists (or confirm content sync covers
   block_content + paragraphs).
 - Optionally improve the Drupal icon link title, and decide whether the four
   never-exported blocks should go into structure_sync.
-- Menu item URLs: the brief listed `/about/contact-us` and `/about/terms-use`;
-  the exported menu uses `/about/contact` and `/about/terms` — confirm those
-  paths are the intended ones.
+- `footer-base.css` still targets `.region.region-footer`, which matches
+  nothing (region template renders a class-less div) — candidate for cleanup.
