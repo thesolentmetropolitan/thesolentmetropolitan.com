@@ -65,10 +65,15 @@
   border-radius: 4px;
 }
 
-/* ── Body — narrower reading column, centred ── */
+/* ── Body — narrower reading column, flush left ──
+   The measure stays at 740px for comfortable reading, but the column is
+   NOT centred: `margin: 0` keeps its left edge on the same vertical as
+   the topic trail, title, standfirst and date above it. Centring it
+   inside the 1200px container pushed the body text right of every other
+   field on the page. */
 .slnt-article__body {
   max-width: 740px;
-  margin: 0 auto;
+  margin: 0;
 }
 
 /* Body text inherits from fonts.css but ensure base styles */
