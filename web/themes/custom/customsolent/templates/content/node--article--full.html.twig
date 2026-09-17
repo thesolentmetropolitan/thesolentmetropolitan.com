@@ -4,7 +4,11 @@
  * Theme override for an Article node in the full view mode.
  *
  * Layout: expansive 1200px header (title, standfirst, date, hero image)
- * with a narrower 740px reading column for the body.
+ * with a narrower 740px reading column for the body, flush left so the
+ * body starts on the same vertical as every field above it.
+ *
+ * The body lives in field_body (text_long). The core `body` field, whose
+ * unused summary column prompted the change, was retired in Sept 2026.
  *
  * Field display settings should have the node title and date hidden —
  * both are rendered manually below for formatting control.
@@ -58,7 +62,7 @@
 
   {# Body — narrower reading column #}
   <div class="slnt-article__body">
-    {{ content.body }}
+    {{ content.field_body }}
   </div>
 
 </article>
