@@ -3,7 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.node.article.body
+    - field.field.node.article.field_body
     - field.field.node.article.field_image
     - field.field.node.article.field_primary_topic
     - field.field.node.article.field_related_topics
@@ -20,7 +20,7 @@ targetEntityType: node
 bundle: article
 mode: default
 content:
-  body:
+  field_body:
     type: text_default
     label: hidden
     settings: {  }

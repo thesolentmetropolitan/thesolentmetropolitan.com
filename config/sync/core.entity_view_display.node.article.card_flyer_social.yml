@@ -4,7 +4,7 @@ status: true
 dependencies:
   config:
     - core.entity_view_mode.node.card_flyer_social
-    - field.field.node.article.body
+    - field.field.node.article.field_body
     - field.field.node.article.field_image
     - field.field.node.article.field_primary_topic
     - field.field.node.article.field_related_topics
@@ -12,7 +12,6 @@ dependencies:
     - field.field.node.article.field_where
     - node.type.article
   module:
-    - text
     - user
 _core:
   default_config_hash: br6izr-iGEu--JvNbCJNtOBpRnxpFLXfoV5y61U9Nqc
@@ -21,17 +20,17 @@ targetEntityType: node
 bundle: article
 mode: card_flyer_social
 content:
-  body:
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+  field_body:
     type: text_default
     label: hidden
     settings: {  }
     third_party_settings: {  }
     weight: 0
-    region: content
-  links:
-    settings: {  }
-    third_party_settings: {  }
-    weight: 100
     region: content
 hidden:
   field_image: true

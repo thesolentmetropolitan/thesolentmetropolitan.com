@@ -4,7 +4,7 @@ status: true
 dependencies:
   config:
     - core.entity_view_mode.node.teaser
-    - field.field.node.article.body
+    - field.field.node.article.field_body
     - field.field.node.article.field_image
     - field.field.node.article.field_primary_topic
     - field.field.node.article.field_related_topics
@@ -38,7 +38,7 @@ content:
     weight: 0
     region: content
 hidden:
-  body: true
+  field_body: true
   field_primary_topic: true
   field_related_topics: true
   field_where: true
