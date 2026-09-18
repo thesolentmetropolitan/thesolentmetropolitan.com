@@ -1,5 +1,8 @@
-
+/* flow-root contains the floated columns so that anything following the
+   section in the same enclosure (e.g. the front-page articles band)
+   starts on a fresh line at full width instead of beside the floats. */
 .slnt-content-2-column {
+  display: flow-root;
   padding-top: var(--content-pad);
   padding-left: var(--content-pad-x);
   padding-right: var(--content-pad-x);
