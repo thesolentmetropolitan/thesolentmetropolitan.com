@@ -1,0 +1,72 @@
+{#
+/**
+ * @file
+ * Theme override for an Article node in the "compact" view mode.
+ *
+ * Used by the articles_listing View "view_display_front_page" display:
+ * a small card in a four-per-row grid on the front page.
+ *
+ * Card structure:
+ *   .slnt-article-compact-card           — outer wrapper, top border
+ *                                          tinted to the section colour
+ *     .slnt-topic-trail (kicker)         — outside the clickable link,
+ *                                          parent topics linkable
+ *     a.slnt-article-compact__link       — whole-card clickable area.
+ *                                          Articles are always internal
+ *                                          nodes, so no external icon.
+ *       article.slnt-article-compact
+ *         h3 (title)
+ *         p.slnt-article-compact__summary — standfirst, or a trimmed
+ *                                          body when none is written
+ *
+ * Variables added by customsolent_preprocess_node:
+ *   - topic_trail_ancestors      — clickable kicker terms
+ *   - section_color, section_key — top-level Topic colour
+ *   - card_summary               — standfirst or body fallback (see
+ *                                  _customsolent_preprocess_article_compact_extras)
+ */
+#}
+{%
+  set classes = [
+    'node',
+    'node--type-' ~ node.bundle|clean_class,
+    view_mode ? 'node--view-mode-' ~ view_mode|clean_class,
+    'slnt-article-compact',
+  ]
+%}
+
+<div class="slnt-article-compact-card"
+     {% if section_color %}style="border-top-color: {{ section_color }};"{% endif %}
+     {% if section_key %}data-section="{{ section_key }}"{% endif %}>
+
+  {# Kicker — outside the clickable link so the parent terms remain
+     independently navigable (nested links are invalid HTML). #}
+  {% if topic_trail_ancestors is not empty %}
+    {% include '@customsolent/components/topic-trail.html.twig' with {
+      ancestors: topic_trail_ancestors,
+      current_label: null,
+      current_as_heading: false,
+    } only %}
+  {% endif %}
+
+  <a href="{{ path('entity.node.canonical', {'node': node.id}) }}"
+     class="slnt-article-compact__link">
+    <article{{ attributes.addClass(classes) }}>
+
+      <h3 class="slnt-article-compact__title">
+        <span class="slnt-article-compact__title-text">{{ label }}</span>
+      </h3>
+
+      {% if card_summary %}
+        <p class="slnt-article-compact__summary">{{ card_summary }}</p>
+      {% endif %}
+
+    </article>
+  </a>
+
+</div>
+
+{# We render the fields manually above; suppress defaults so they
+   don't appear a second time. #}
+{{ content|without('field_standfirst', 'field_body', 'field_image',
+   'field_primary_topic', 'field_related_topics', 'field_where') }}

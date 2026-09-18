@@ -1,0 +1,7 @@
+uuid: 974cb099-a599-4a54-8b60-816cd131e741
+langcode: en
+status: true
+dependencies: {  }
+id: articles_compact_grid
+label: 'Articles Compact Grid'
+classes: slnt-articles-compact-grid

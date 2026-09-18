@@ -62,6 +62,11 @@ function customsolent_preprocess_node(array &$variables): void {
     _customsolent_preprocess_event_compact_extras($node, $variables);
   }
 
+  // Article compact (front-page card) extras.
+  if ($node->bundle() === 'article' && ($variables['view_mode'] ?? '') === 'compact') {
+    _customsolent_preprocess_article_compact_extras($node, $variables);
+  }
+
   // Link / Organisation teaser — both render field_url as a primary
   // link with a trailing arrow-square-out icon for external URLs.
   // Same field_url meta extraction works for both.
@@ -211,6 +216,54 @@ function _customsolent_preprocess_event_compact_extras($node, array &$variables)
   }
 
   _customsolent_extract_field_url_meta($node, $variables);
+}
+
+/**
+ * Adds section colour and a one-line summary to the compact article card.
+ *
+ * card_summary is the standfirst when one is written. Otherwise it is
+ * the body with markup stripped, whitespace collapsed and truncated to
+ * ~120 characters on a word boundary with an ellipsis. When both are
+ * empty it is left unset so the template omits the paragraph.
+ *
+ * The fallback is computed here rather than in Twig so the truncation
+ * is testable and field_body can stay hidden in the compact display
+ * without ever being rendered in full.
+ */
+function _customsolent_preprocess_article_compact_extras($node, array &$variables): void {
+  // Section colour from the top-level Topic — drives the card's top
+  // border and the kicker text colour.
+  if ($node->hasField('field_primary_topic') && !$node->get('field_primary_topic')->isEmpty()) {
+    $term = $node->get('field_primary_topic')->entity;
+    if ($term) {
+      $top = _customsolent_topic_top_level($term);
+      if ($top) {
+        $variables['section_key'] = strtolower($top->getName());
+        $variables['section_color'] = _customsolent_topic_section_colors()[$top->getName()] ?? NULL;
+      }
+    }
+  }
+
+  // 1. Standfirst wins when written.
+  if ($node->hasField('field_standfirst') && !$node->get('field_standfirst')->isEmpty()) {
+    $standfirst = trim((string) $node->get('field_standfirst')->value);
+    if ($standfirst !== '') {
+      $variables['card_summary'] = $standfirst;
+      return;
+    }
+  }
+
+  // 2. Otherwise a trimmed plain-text excerpt of the body.
+  if ($node->hasField('field_body') && !$node->get('field_body')->isEmpty()) {
+    // Replace tags with a space before stripping so adjacent block
+    // elements (</p><p>) don't run their words together.
+    $text = preg_replace('/<[^>]+>/', ' ', (string) $node->get('field_body')->value) ?? '';
+    $text = html_entity_decode($text, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+    $text = trim(preg_replace('/\s+/u', ' ', $text) ?? '');
+    if ($text !== '') {
+      $variables['card_summary'] = \Drupal\Component\Utility\Unicode::truncate($text, 120, TRUE, TRUE);
+    }
+  }
 }
 
 /**
