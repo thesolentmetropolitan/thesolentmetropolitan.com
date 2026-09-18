@@ -1,0 +1,142 @@
+/* ══════════════════════════════════════
+   Compact article cards — front page
+   Scoped to the "Articles Compact Grid"
+   classy_paragraphs class (slnt-articles-compact-grid)
+   applied by the editor to the View Display
+   paragraph that hosts the articles_listing /
+   view_display_front_page block.
+
+   Sibling of event-compact.css — same card
+   anatomy, four columns instead of two, so
+   the type sizes come down a notch.
+   ══════════════════════════════════════ */
+
+/* ── Grid: 4 per row at ≥1000px, 2 at 500–999px, 1 below ──
+   Modern Views renders rows directly inside the views-view wrapper as
+   <div class="views-row">…</div> with no .view-content layer, so we
+   target the wrapper that holds those rows.
+
+   Breakpoints are grid-specific (as with the events grid); the
+   site-wide 799px breakpoint is left untouched. Never use 100vw for
+   full-bleed here — it includes the scrollbar width. */
+.slnt-articles-compact-grid [class*="js-view-dom-id-"] {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.8rem;
+}
+
+@media (max-width: 999px) {
+  .slnt-articles-compact-grid [class*="js-view-dom-id-"] {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 499px) {
+  .slnt-articles-compact-grid [class*="js-view-dom-id-"] {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* ── Outer card wrapper ── */
+.slnt-article-compact-card {
+  border-top: 3px solid var(--text-mid, #444); /* fallback; overridden inline */
+  padding-top: 0.35rem;
+  min-width: 0;
+}
+
+/* Kicker (topic trail) sits above the link, outside the clickable
+   area. Indent horizontally so it lines up with the title below;
+   zero vertical margins so it sits tight against the title. */
+.slnt-article-compact-card .slnt-topic-trail {
+  margin: 0;
+  padding: 0 0.5rem;
+}
+
+.slnt-article-compact-card .slnt-topic-trail__ancestors {
+  margin-bottom: 0;
+}
+
+.slnt-article-compact-card .slnt-topic-trail .slnt-topic-trail__ancestor {
+  font-size: 0.75rem;
+}
+
+.slnt-article-compact-card .slnt-topic-trail__separator {
+  font-size: 0.75rem;
+  margin: 0 0.25rem;
+}
+
+/* ── Card link wrapper ── */
+.slnt-article-compact__link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  border-radius: 4px;
+  transition: background-color 0.15s, box-shadow 0.15s;
+}
+
+/* Beat .layout-content's magenta-underline rule on the wrapping link. */
+.layout-content a.slnt-article-compact__link,
+.layout-content a.slnt-article-compact__link:hover {
+  text-decoration: none;
+  text-decoration-color: transparent;
+  color: inherit;
+}
+
+.slnt-article-compact__link:hover {
+  background: var(--warm-grey, #f5f3f0);
+}
+
+.slnt-article-compact__link:focus-visible {
+  outline: 3px solid #f5b0d8;
+  outline-offset: 2px;
+}
+
+.slnt-article-compact__link:hover .slnt-article-compact__title-text {
+  text-decoration: underline;
+  text-decoration-color: var(--magenta, #c5007a);
+  text-underline-offset: 3px;
+  text-decoration-thickness: 2px;
+}
+
+/* ── Card body ── */
+.slnt-article-compact {
+  display: block;
+  padding: 0.15rem 0.5rem 0.4rem;
+}
+
+/* ── Title ── */
+.slnt-article-compact__title {
+  font-family: 'Atkinson Hyperlegible Next', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--solent-blue, #2c4f6e);
+  margin: 0 0 0.3rem 0;
+  overflow-wrap: anywhere;
+}
+
+/* ── Summary — standfirst or trimmed body, clamped to three lines so
+   uneven standfirst lengths don't make the rows ragged. ── */
+.slnt-article-compact__summary {
+  font-family: 'Atkinson Hyperlegible Next', sans-serif;
+  font-size: 0.8rem;
+  line-height: 1.35;
+  color: var(--text-mid, #444);
+  margin: 0;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  overflow: hidden;
+  overflow-wrap: anywhere;
+}
+
+/* ── Mobile tweaks ── */
+@media (max-width: 799px) {
+  .slnt-article-compact {
+    padding: 0.7rem;
+  }
+  .slnt-article-compact__title {
+    font-size: 0.9rem;
+  }
+}
