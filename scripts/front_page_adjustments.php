@@ -12,8 +12,8 @@
  *   3. The About button moves out of the intro section into its own slice
  *      (an enclosure with the "Centre Call To Action" style) directly below
  *      it, so it sits in the middle of the page.
- *   4. The About and See-all-articles buttons take the Explore colour.
- *      About and Articles both live under Explore, and section colour is a
+ *   4. The About, See-all-articles and See-all-events buttons take the
+ *      Explore colour. About, Articles and Events all live under Explore, and section colour is a
  *      deliberate cue. White text stays: 5.1:1 on #BC4A08 (AA); near-black
  *      would be 3.4:1 and fail.
  *
@@ -37,7 +37,7 @@ const STYLE_ONE_LINE = 'heading_one_line_desktop';
 const STYLE_CENTRE = 'centre_call_to_action';
 const STYLE_INTRO = 'front_intro_two_column';
 const EXPLORE_COLOUR_TERM = 'Explore';
-const ARTICLES_LINK = 'internal:/explore/articles';
+const EXPLORE_LINKS = ['internal:/explore/articles', 'internal:/explore/events'];
 
 $styles = \Drupal::entityTypeManager()->getStorage('classy_paragraphs_style');
 foreach ([STYLE_ONE_LINE, STYLE_CENTRE, STYLE_INTRO] as $id) {
@@ -194,11 +194,11 @@ else {
   }
 }
 
-// ── 4. Explore colour on the About and See-all-articles buttons. ──
+// ── 4. Explore colour on the About, See-all-articles and See-all-events buttons. ──
 $buttons = array_filter([$about]);
 foreach ($all as $p) {
   if ($p->bundle() === 'call_to_action' && !$p->get('field_link')->isEmpty()
-    && $p->get('field_link')->uri === ARTICLES_LINK) {
+    && in_array($p->get('field_link')->uri, EXPLORE_LINKS, TRUE)) {
     $buttons[] = $p;
   }
 }

@@ -133,7 +133,7 @@ Rob will delete the Landing Page content type himself once this is live, then ex
 | "Welcome to The Solent Metropolitan" on one line on desktop; on mobile break between "Welcome to" and "The Solent Metropolitan"; relax on very narrow screens | New classy style **Heading One Line Desktop** on the h1 |
 | Tagline breaks between "The broader perspective," and "for a distinct region." at every width; relax when very narrow | Line break added to the heading text |
 | About button in its own slice, centred in the browser | New enclosure below the intro section with classy style **Centre Call To Action** |
-| About and See all articles in the deep Explore orange, contrast checked first | Both use the *Explore* colour term. White on `#BC4A08` is **5.1:1** (AA pass); near-black would be 3.4:1 (fail), so white stays |
+| About, See all articles and (added after review) See all events in the deep Explore orange, contrast checked first | All three use the *Explore* colour term. White on `#BC4A08` is **5.1:1** (AA pass); near-black would be 3.4:1 (fail), so white stays |
 | Button text larger, buttons the same size | 1rem → 1.15rem desktop, 1.1rem mobile; padding trimmed to hold the box |
 | Events grid shows 8 | `views.view.events_listing` front-page display, 4 → 8 |
 | Fix the KickerLazyBuilder bug | Done — see below |
@@ -163,8 +163,7 @@ This applies to every `.slnt-cta` button on the site, including the three Discov
 **Events at 8.** Only six events currently qualify (published, promoted, not ended), so the grid
 is 4 + 2 until two more are promoted. Eight upcoming events exist.
 
-**"See all events" is still solent-blue.** Rob named About and See all articles. `/explore/events`
-is under Explore too, so by the same reasoning it could be orange; left for Rob to decide.
+**"See all events" is orange too.** Rob first named About and See all articles; `/explore/events` is under Explore as well, and he confirmed it should match. The script's colour step now covers all three.
 
 ### KickerLazyBuilder fix
 
