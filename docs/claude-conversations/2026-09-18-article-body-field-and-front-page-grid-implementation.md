@@ -260,3 +260,35 @@ Card padding-top and kicker padding-top were raised so the ring has about 3–4p
 from the rule above and the topic term below. The "See all events" button gained a 1.2rem gap,
 since kickers are now the last thing in the grid. To try solent-blue instead, change the one
 `outline` colour in `.slnt-event-compact__link:focus-visible`.
+
+---
+
+## Release preparation, 2026-09-19 — `scripts/release-2026-09-19.sh`
+
+**The deploy order in the brief would have failed on production.** It said: full `config:import`,
+then the body migration script, relying on "Drupal defers field data purging to cron, so
+`node__body` still holds its rows". The purge is deferred, but the *table is renamed at once*:
+`SqlContentEntityStorageSchema::onFieldStorageDefinitionDelete()` moves `node__body` to
+`field_deleted_data_<hash>` the moment the storage is deleted. The migration script looks for
+`node__body`, would not find it, and would abort telling Rob the data had been purged.
+
+**Fix: two-phase import.** `config/release-2026-09-19-phase1/` holds copies of just the two
+`field_body` config files. The release script imports those with `--partial` (field_body now
+exists, body untouched), runs the migration, **verifies every current and revision row is
+byte-identical in field_body and aborts before anything is removed if not**, and only then runs
+the full import that deletes `body`. No dependence on cron timing.
+
+**Rehearsed locally** against `databases/dslnt_20260918_003940.sql.gz` (the pre-change backup),
+with the live local DB snapshotted first and restored after:
+
+- First attempt failed at phase 1: drush resolves a relative `--source` against the web root.
+  Now an absolute path built from `$(pwd)`, plus a guard that the script is run from the
+  project root.
+- Second attempt ran clean: 16 of 16 bodies and 68 of 68 revisions identical; config imported;
+  front-page band created; colour terms updated; 7 cards on the front page; article body renders.
+- Third run (idempotency): every step reported nothing to do.
+- `config:status` afterwards showed one difference — key order in
+  `core.entity_view_display.node.article.card_flyer_social` (hand-edited file not in Drupal's
+  alphabetical order). Re-exported so production ends with a clean status.
+
+The migration script's header and abort message were corrected to describe the real constraint.

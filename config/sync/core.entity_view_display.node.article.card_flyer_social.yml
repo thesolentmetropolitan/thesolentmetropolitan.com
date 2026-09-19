@@ -20,17 +20,17 @@ targetEntityType: node
 bundle: article
 mode: card_flyer_social
 content:
-  links:
-    settings: {  }
-    third_party_settings: {  }
-    weight: 100
-    region: content
   field_body:
     type: text_default
     label: hidden
     settings: {  }
     third_party_settings: {  }
     weight: 0
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
     region: content
 hidden:
   field_image: true

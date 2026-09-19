@@ -30,16 +30,17 @@
  *
  * Order of operations
  * -------------------
- * field_body must EXIST and `body` must still hold its data when this runs, so
- * on production the sequence is:
+ * field_body must EXIST and `body` must STILL BE INSTALLED when this runs.
+ * Do NOT run it after a full config import: deleting a field storage makes
+ * Drupal rename its tables at once (node__body -> field_deleted_data_<hash>),
+ * so this script would no longer find node__body. The sequence is therefore
+ * two-phase, and scripts/release-2026-09-19.sh does it for you:
  *
- *   1. drush config:import      (adds field_body, removes body config)
+ *   1. drush config:import --partial --source=config/release-2026-09-19-phase1
+ *                                  (creates field_body; body untouched)
  *   2. drush scr scripts/migrate_article_body_to_field_body.php
- *   3. drush cr
- *
- * Step 1 removing `body` is safe to do first: Drupal defers field data purging
- * to cron, so node__body still holds its rows at step 2. The script aborts with
- * a clear message if those tables have already gone.
+ *   3. drush config:import         (now removes body)
+ *   4. drush cr
  *
  * Usage:
  *   ddev drush scr scripts/migrate_article_body_to_field_body.php
@@ -111,8 +112,11 @@ if (!$schema->tableExists('node__body')) {
       . "This migration has already run.\n";
   }
   else {
-    print "ABORT: node__body does not exist and field_body is empty. The body data\n"
-      . "       has been purged — restore from a database backup before retrying.\n";
+    print "ABORT: node__body does not exist and field_body is empty. The body field\n"
+      . "       was deleted before this ran (its data now sits in a\n"
+      . "       field_deleted_data_* table until cron purges it). Restore the\n"
+      . "       database backup and use scripts/release-2026-09-19.sh, which\n"
+      . "       migrates BEFORE the field is removed.\n";
   }
   return;
 }
