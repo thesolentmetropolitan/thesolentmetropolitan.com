@@ -1,0 +1,7 @@
+uuid: 400a85ec-366c-42b5-8a17-b7bb87b53426
+langcode: en
+status: true
+dependencies: {  }
+id: front_intro_two_column
+label: 'Front Intro Two Column'
+classes: slnt-front-intro-2col

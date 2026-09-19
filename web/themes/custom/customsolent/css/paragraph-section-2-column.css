@@ -56,3 +56,22 @@
     margin-bottom: 0;
   }
 }
+
+/* ══════════════════════════════════════
+   Front-page intro slice (classy: slnt-front-intro-2col, chosen in the
+   section's Style field). Tagline heading on the left; intro text with
+   the About button centred beneath it on the right.
+   ══════════════════════════════════════ */
+.slnt-front-intro-2col .slnt-column-right .slnt-cta-outer {
+  display: flex;
+  justify-content: center;
+  margin-top: 1.2rem;
+}
+
+/* The intro text ships with heading-style top margins; sit it level
+   with the tagline opposite. */
+.slnt-front-intro-2col .slnt-column-right .field__item:first-child > .paragraph > *:first-child,
+.slnt-front-intro-2col .slnt-column-right h4:first-child {
+  margin-top: 0;
+}
+

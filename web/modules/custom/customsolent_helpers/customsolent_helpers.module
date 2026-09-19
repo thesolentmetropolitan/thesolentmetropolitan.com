@@ -79,3 +79,38 @@ function customsolent_helpers_views_pre_build(\Drupal\views\ViewExecutable $view
     ],
   ]);
 }
+
+/**
+ * TRUE when the given node is the site's front page.
+ */
+function _customsolent_helpers_is_front_page_node(\Drupal\node\NodeInterface $node): bool {
+  if ($node->isNew()) {
+    return FALSE;
+  }
+  $front = (string) \Drupal::config('system.site')->get('page.front');
+  $internal = \Drupal::service('path_alias.manager')->getPathByAlias($front);
+  return $internal === '/node/' . $node->id();
+}
+
+/**
+ * Implements hook_form_BASE_FORM_ID_alter() for node_form.
+ *
+ * The home page is a Composite Page, but it must stay uncategorised:
+ * a primary topic on it would switch on section behaviour that is
+ * meant for section pages only — a topic breadcrumb trail, topic-scoped
+ * listings and kickers, and the page being offered as the landing page
+ * that topic terms link to. All of that logic is keyed on the topic
+ * fields being non-empty, so keeping them empty keeps it off. Hide the
+ * fields on the front page's edit form so they can't be set by accident.
+ */
+function customsolent_helpers_form_node_form_alter(array &$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id): void {
+  $node = $form_state->getFormObject()->getEntity();
+  if (!$node instanceof \Drupal\node\NodeInterface || !_customsolent_helpers_is_front_page_node($node)) {
+    return;
+  }
+  foreach (['field_primary_topic', 'field_related_topics'] as $field_name) {
+    if (isset($form[$field_name])) {
+      $form[$field_name]['#access'] = FALSE;
+    }
+  }
+}
