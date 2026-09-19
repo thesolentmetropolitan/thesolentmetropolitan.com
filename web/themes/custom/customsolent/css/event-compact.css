@@ -34,9 +34,29 @@
   }
 }
 
-/* ── Outer card wrapper ── */
+/* Grid rows stretch to the tallest card; let each card fill its row so
+   the kicker can be pinned to the row's bottom edge. */
+.slnt-events-compact-grid .views-row {
+  display: flex;
+  min-width: 0;
+}
+
+/* ── Outer card wrapper ──
+   The top rule is a neutral 1px solent-blue hairline on every card. It
+   used to be 3px in the section colour; a uniform rule separates the
+   items more clearly, and the kicker already carries the topic colour.
+
+   The card is a flex column: title and facts flow from the top, and
+   the kicker is pushed to the bottom (margin-top: auto below). Within
+   a row every kicker therefore sits at the same height whatever the
+   title length — a longer title makes the whole row taller rather
+   than knocking its own kicker out of line. */
 .slnt-event-compact-card {
-  border-top: 3px solid var(--text-mid, #444); /* fallback; overridden inline */
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+  border-top: 1px solid var(--solent-blue, #2c4f6e);
   padding-top: 0.35rem;
 }
 
@@ -44,8 +64,8 @@
    area, as the last thing in the card. Indent horizontally so it
    lines up with the title and facts above. */
 .slnt-event-compact-card .slnt-topic-trail {
-  margin: 0.15rem 0 0 0;
-  padding: 0 0.5rem;
+  margin: auto 0 0 0; /* pin to the bottom of the row */
+  padding: 0.15rem 0.5rem 0;
 }
 
 .slnt-event-compact-card .slnt-topic-trail__ancestors {
@@ -241,7 +261,6 @@
   /* Keep the kicker on the same left edge as the title above it. */
   .slnt-event-compact-card .slnt-topic-trail {
     padding: 0 0.7rem;
-    margin-top: -0.3rem;
   }
 }
 
@@ -260,8 +279,12 @@
   .slnt-event-compact {
     padding: 0.4rem 0.3rem 0.5rem;
   }
+  /* At phone widths most kickers wrap to two lines and some don't.
+     Reserve two lines for all of them so the FIRST line of every
+     kicker in a row starts at the same height. */
   .slnt-event-compact-card .slnt-topic-trail {
     padding: 0 0.3rem;
+    min-height: 2.6em;
   }
   .slnt-event-compact__title,
   .slnt-event-compact__value {

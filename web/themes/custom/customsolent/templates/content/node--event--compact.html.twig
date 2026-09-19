@@ -7,8 +7,9 @@
  * a small two-per-row card on the front page.
  *
  * Card structure:
- *   .slnt-event-compact-card             — outer wrapper, top border
- *                                          tinted to the section colour
+ *   .slnt-event-compact-card             — outer wrapper, 1px solent-blue
+ *                                          top rule (not section-coloured:
+ *                                          the kicker carries the colour)
  *     a.slnt-event-compact__link         — clickable area (external or
  *                                          node fallback). External arrow
  *                                          icon shown after the title
@@ -43,7 +44,6 @@
 {% set is_external = field_url_external ?? false %}
 
 <div class="slnt-event-compact-card"
-     {% if section_color %}style="border-top-color: {{ section_color }};"{% endif %}
      {% if section_key %}data-section="{{ section_key }}"{% endif %}>
 
   <a href="{{ event_url }}"
