@@ -9,8 +9,6 @@
  * Card structure:
  *   .slnt-event-compact-card             — outer wrapper, top border
  *                                          tinted to the section colour
- *     .slnt-topic-trail (kicker)         — outside the clickable link,
- *                                          parent topics linkable
  *     a.slnt-event-compact__link         — clickable area (external or
  *                                          node fallback). External arrow
  *                                          icon shown after the title
@@ -19,6 +17,8 @@
  *         h3 (title)
  *         .slnt-event-compact__date      — calendar-dots icon + date
  *         .slnt-event-compact__where     — map-pin icon + venue / area
+ *     .slnt-topic-trail (kicker)         — last; outside the clickable
+ *                                          link, parent topics linkable
  *
  * Variables added by customsolent_preprocess_node:
  *   - topic_trail_ancestors      — clickable kicker terms
@@ -45,16 +45,6 @@
 <div class="slnt-event-compact-card"
      {% if section_color %}style="border-top-color: {{ section_color }};"{% endif %}
      {% if section_key %}data-section="{{ section_key }}"{% endif %}>
-
-  {# Kicker — outside the clickable link so the parent terms remain
-     independently navigable. #}
-  {% if topic_trail_ancestors is not empty %}
-    {% include '@customsolent/components/topic-trail.html.twig' with {
-      ancestors: topic_trail_ancestors,
-      current_label: null,
-      current_as_heading: false,
-    } only %}
-  {% endif %}
 
   <a href="{{ event_url }}"
      class="slnt-event-compact__link"
@@ -103,6 +93,19 @@
 
     </article>
   </a>
+
+  {# Kicker — LAST, after the title and facts, so that a screen-reader
+     user who jumps to the h3 hears everything belonging to this card
+     and nothing about it sits before its heading. Still outside the
+     clickable link so the parent terms remain independently navigable
+     (nested links are invalid HTML). #}
+  {% if topic_trail_ancestors is not empty %}
+    {% include '@customsolent/components/topic-trail.html.twig' with {
+      ancestors: topic_trail_ancestors,
+      current_label: null,
+      current_as_heading: false,
+    } only %}
+  {% endif %}
 
 </div>
 

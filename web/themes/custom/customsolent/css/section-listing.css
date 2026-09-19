@@ -25,7 +25,7 @@
   --section-color-pale: #dbeafe;
 }
 .slnt-section-listing[data-section="living"] {
-  --section-color: #059669;
+  --section-color: #047857;
   --section-color-pale: #d1fae5;
 }
 .slnt-section-listing[data-section="about"] {
@@ -33,7 +33,7 @@
   --section-color-pale: #f1f5f9;
 }
 .slnt-section-listing[data-section="explore"] {
-  --section-color: #D97706;
+  --section-color: #BC4A08;
   --section-color-pale: #fef3c7;
 }
 
@@ -361,9 +361,9 @@
    "Clear" link and mobile-bar active label can pick them up. */
 .paragraph--type--section-filter[data-section="culture"] { --section-color: #7C3AED; }
 .paragraph--type--section-filter[data-section="sectors"] { --section-color: #2563EB; }
-.paragraph--type--section-filter[data-section="living"]  { --section-color: #059669; }
+.paragraph--type--section-filter[data-section="living"]  { --section-color: #047857; }
 .paragraph--type--section-filter[data-section="about"]   { --section-color: #475569; }
-.paragraph--type--section-filter[data-section="explore"] { --section-color: #D97706; }
+.paragraph--type--section-filter[data-section="explore"] { --section-color: #BC4A08; }
 
 @media (min-width: 800px) {
   /* Apply the 220px sidebar + 1fr content grid to the IMMEDIATE

@@ -11,7 +11,7 @@
    open, line-topped rows of facts; these are
    filled, section-coloured rectangles with the
    topic's hero tile pattern showing at the top
-   and white text sitting at the bottom. The
+   and white text starting just beneath it. The
    filled rectangle is what marks where one item
    starts and ends — there is no top rule, so
    the kicker can sit last without ambiguity.
@@ -51,29 +51,29 @@
 }
 
 /* ── Card fill colours ──
-   White text must reach WCAG AA (4.5:1) everywhere it can land. The
-   section base colours don't all manage that (Living #059669 is 3.8:1,
-   Explore #D97706 is 3.2:1), so cards use the darker stop of each
-   section's hero gradient instead. Ratios are white-on-solid, then
-   white over a tile icon (tile = white at 12% opacity) as the worst
-   case:
+   White text must reach WCAG AA (4.5:1). Cards use a deeper stop of
+   each section colour than the section base (customsolent.theme
+   _customsolent_topic_section_colors) so the filled rectangles carry
+   weight and the white text has headroom. White-on-card ratios:
 
-     culture  #6D28D9   7.1   5.6
-     sectors  #1D4ED8   6.7   5.3
-     living   #065F46   7.7   5.8
-     explore  #92400E   7.1   5.4
-     about    #475569   7.6   5.6
-     (none)   #2C4F6E   8.6   6.2   — solent-blue, no primary topic
+     culture  #6D28D9   7.1
+     sectors  #1D4ED8   6.7
+     living   #065F46   7.7
+     explore  #9A3412   7.3
+     about    #475569   7.6
+     (none)   #2C4F6E   8.6   — solent-blue, no primary topic
 
-   If a section colour changes, re-check before editing these. */
+   Text never sits on the tile band (see padding-top below), so the
+   solid figure is the one that matters. If a section colour changes,
+   re-check before editing these. */
 .slnt-article-compact-card {
   --card-bg: var(--solent-blue, #2c4f6e);
-  --card-fade: 5.5rem; /* depth of the visible tile band at the top */
+  --card-fade: 6rem; /* depth of the tile band = where the title starts */
 }
 .slnt-article-compact-card[data-section="culture"] { --card-bg: #6d28d9; }
 .slnt-article-compact-card[data-section="sectors"] { --card-bg: #1d4ed8; }
 .slnt-article-compact-card[data-section="living"]  { --card-bg: #065f46; }
-.slnt-article-compact-card[data-section="explore"] { --card-bg: #92400e; }
+.slnt-article-compact-card[data-section="explore"] { --card-bg: #9a3412; }
 .slnt-article-compact-card[data-section="about"]   { --card-bg: #475569; }
 
 /* ── The card ──
@@ -82,19 +82,23 @@
      2. the topic's hero tile, scaled to 70% of its hero size so more
         than one row of icons shows in the band. The 12% opacity is
         baked into the SVGs and reads too faint at this size, so the
-        tile is layered twice (≈23%). Text never enters the band, so
-        this doesn't touch the contrast figures above.
+        tile is layered twice (≈23%).
      3. the solid card colour
-   padding-top equals the fade depth, so text can never start inside
-   the tile band however long the title is — the card just grows. */
+
+   Every title starts at the same height — directly under the tile
+   band, roughly a third of the way down — so the eye scans along a
+   row in a straight line instead of hunting up and down. Text runs
+   downward from there; the kicker is pinned to the bottom edge.
+   padding-top equals the fade depth, so text is always on solid
+   colour; a long title makes the card (and its row) taller. */
 .slnt-article-compact-card {
   position: relative; /* containing block for the stretched link */
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  justify-content: flex-start;
   flex: 1;
   min-width: 0;
-  min-height: 13rem;
+  min-height: 17rem;
   box-sizing: border-box;
   padding: var(--card-fade) 0.9rem 0.9rem;
   border-radius: 6px;
@@ -166,7 +170,7 @@
    uneven lengths don't make the rows ragged. ── */
 .slnt-article-compact__summary {
   font-family: 'Atkinson Hyperlegible Next', sans-serif;
-  font-size: 0.85rem;
+  font-size: 1rem;
   line-height: 1.4;
   color: #fff;
   margin: 0;
@@ -178,12 +182,23 @@
   overflow-wrap: anywhere;
 }
 
+/* Guaranteed air above the bottom-pinned kicker when the text fills
+   the card. */
+.slnt-article-compact__summary:not(:last-child),
+.slnt-article-compact__title:not(:last-child) {
+  margin-bottom: 0.8rem;
+}
+
+.slnt-article-compact__title + .slnt-article-compact__summary {
+  margin-top: -0.4rem; /* keep title→summary tight */
+}
+
 /* ── Kicker (topic trail) — last in the card, raised above the
    stretched link so its topic links stay independently clickable. ── */
 .slnt-article-compact-card .slnt-topic-trail {
   position: relative;
   z-index: 1;
-  margin: 0.7rem 0 0 0;
+  margin: auto 0 0 0; /* pin to the bottom edge of the card */
   padding-top: 0.5rem;
   border-top: 1px solid rgba(255, 255, 255, 0.35);
 }
@@ -193,12 +208,12 @@
 }
 
 .slnt-article-compact-card .slnt-topic-trail .slnt-topic-trail__ancestor {
-  font-size: 0.72rem;
+  font-size: 0.8rem;
   letter-spacing: 0.02em;
 }
 
 .slnt-article-compact-card .slnt-topic-trail__separator {
-  font-size: 0.72rem;
+  font-size: 0.8rem;
   color: #fff;
   margin: 0 0.3rem;
 }
@@ -213,5 +228,15 @@
   .slnt-article-compact-card {
     --card-fade: 4.5rem;
     min-height: 0;
+  }
+}
+
+/* ── Phones/tablets: .slnt-section-listing adds 1.2rem side padding at
+   ≤799px, which insets the grid from the heading above it and wastes
+   width. Drop it for this grid so cards align with the heading. ── */
+@media (max-width: 799px) {
+  .slnt-articles-compact-grid.slnt-section-listing {
+    padding-left: 0;
+    padding-right: 0;
   }
 }

@@ -176,3 +176,64 @@ a card; or the events card could take a full hairline border. Not done — Rob's
 `culture_identity`, `sectors_design`, and `explore_articles` for the article with no topic;
 click on the tile band hits the card link, click on the kicker hits the topic link; focus ring
 renders round the card.
+
+---
+
+## Follow-up 2, 2026-09-19 — scan line, event cards, type sizes, section colours
+
+### Article cards
+- **Titles start at the same height on every card** (96px down, about a third), directly under
+  the tile band. Text runs downward; the kicker is pinned to the bottom edge with `margin-top:
+  auto`. Previously text was bottom-justified, so the eye had to hunt up and down a row.
+- Summary 1rem (was 0.85), title 1rem, kicker 0.8rem (was 0.72).
+- Explore card colour moved to `#9A3412` to stay in family with the new Explore base.
+
+### Event cards
+- **Kicker moved to the end** in the DOM, still outside the link. Top rule kept; the grid's row
+  gap is now 1.8rem against ≤0.4rem inside a card, so the rule reads as the start of the card
+  below it.
+- Title, date and location rows all 1rem; the parent location ("Southampton") is the same size
+  and **solent-blue instead of `#888`** (3.4:1 on the page background, failed AA; now 8.2:1).
+  Kicker 0.8rem (was 0.75).
+- **Two columns on ordinary phones.** The one-column breakpoint was 499px, but phones are
+  360–430 CSS px wide (iPhone SE3 375, Galaxy Note 10+ and A52 412), so they all got one column.
+  Breakpoint is now 339px. To make two columns workable at that width: card side padding pulled
+  in below 500px, and the 1.2rem side padding `.slnt-section-listing` adds at ≤799px is dropped
+  for both compact grids — it was insetting the grids from their headings and costing 38px.
+  At 375px: two 138px columns, grid edges identical to the heading's, nothing overflowing.
+
+### Section colours — Living and Explore deepened site-wide
+
+| | Old | White on it | As text on page | New | White on it | As text on page |
+|---|---|---|---|---|---|---|
+| Living | `#059669` | 3.77 | 3.58 | `#047857` | 5.48 | 5.21 |
+| Explore | `#D97706` | 3.19 | 3.03 | `#BC4A08` | 5.10 | 4.84 |
+
+Living stays emerald, one stop deeper — still a plant green. For Explore, amber-700 (`#B45309`)
+passes but reads brown, which is the "dirty yellow" risk; orange-700 (`#C2410C`) is clean but
+drifts toward red and the brand magenta. `#BC4A08` sits between: a clean burnt orange. Going
+orange-ward does help — at equal saturation orange is less luminous than yellow, so it reaches
+4.5:1 with less darkening.
+
+Changed in: `_customsolent_topic_section_colors()` (kickers, top rules), `section-listing.css`,
+`heading-gradient.css` end stops, the Living/Explore terms in the `color` vocabulary (so the
+"Discover Living" button is now AA with its white label), and `structure_sync.data.yml`.
+**Not changed:** the hero banner gradients. Their titles sit in a white cut-out box, so there is
+no contrast problem, and the Living heroes already contain `#047857`. The Explore heroes are
+still an amber sweep; if the new orange is kept they would want re-tinting to match.
+
+### Focus ring on event cards — suggestion, not applied
+`#f5b0d8` was chosen for the solent-blue menu bar (5.0:1 there). On the off-white page it is
+about 1.7:1; WCAG 2.4.11 wants 3:1 for a focus indicator. Suggested: `outline: 3px solid
+var(--text)` with `outline-offset: 2px` — the same ring the article cards now use (16:1).
+Solent-blue (8.2:1) would also pass if a brand colour is preferred.
+
+### Production deploy — one more script
+After `cim`, alongside the other two scripts:
+
+```bash
+drush php:script scripts/update_section_colour_terms.php -- --dry-run
+drush php:script scripts/update_section_colour_terms.php
+```
+
+Idempotent; matches terms by vocabulary + name rather than tid.
