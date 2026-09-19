@@ -1,0 +1,7 @@
+uuid: 2b1aad89-32cf-4d9d-87b0-a2c473259a19
+langcode: en
+status: true
+dependencies: {  }
+id: heading_one_line_desktop
+label: 'Heading One Line Desktop'
+classes: slnt-heading-one-line-desktop

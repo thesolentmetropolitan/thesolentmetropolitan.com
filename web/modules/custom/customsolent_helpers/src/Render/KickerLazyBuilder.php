@@ -166,17 +166,29 @@ class KickerLazyBuilder implements TrustedCallbackInterface {
       return $cache = $default;
     }
 
-    // Topic anchor: a section_filter paragraph with field_topic, or
-    // the page node's field_primary_topic as fallback.
+    // Topic anchor — must resolve exactly as the listings do
+    // (_customsolent_resolve_topic_context in customsolent.theme), or the
+    // kickers and the listing disagree about what page they are on:
+    //
+    //   1. field_topic on the page's section_filter paragraph: an explicit
+    //      editor choice, used unconditionally — even under Explore/About
+    //      (that is how /explore/data is scoped to "Explore / Data").
+    //   2. otherwise the page node's field_primary_topic, where terms
+    //      under Explore/About mean a structural all-topics landing.
+    //
+    // This used to look for the section_filter in a `field_content` field
+    // that does not exist (the field is field_content_component, and
+    // section filters sit inside enclosures), so step 1 never matched. The
+    // theme helper searches the nested paragraph tree properly.
     $term = NULL;
-    if ($page_node->hasField('field_content')) {
-      foreach ($page_node->get('field_content')->referencedEntities() as $para) {
-        if ($para->bundle() === 'section_filter'
-          && $para->hasField('field_topic')
-          && !$para->get('field_topic')->isEmpty()) {
-          $term = $para->get('field_topic')->entity;
-          break;
-        }
+    $explicit = FALSE;
+    if (function_exists('_customsolent_find_section_filter_on_host')) {
+      $section_filter = _customsolent_find_section_filter_on_host($page_node);
+      if ($section_filter
+        && $section_filter->hasField('field_topic')
+        && !$section_filter->get('field_topic')->isEmpty()) {
+        $term = $section_filter->get('field_topic')->entity;
+        $explicit = (bool) $term;
       }
     }
     if (!$term && $page_node->hasField('field_primary_topic') && !$page_node->get('field_primary_topic')->isEmpty()) {
@@ -186,12 +198,14 @@ class KickerLazyBuilder implements TrustedCallbackInterface {
       return $cache = $default;
     }
 
-    // Explore / About guard — these are all-topics landing groups,
-    // not section pages.
-    $top = _customsolent_topic_top_level($term);
-    $top_name = $top ? $top->getName() : '';
-    if (in_array($top_name, ['Explore', 'About'], TRUE)) {
-      return $cache = $default;
+    // Explore / About guard — these are all-topics landing groups, not
+    // section pages. Applies to the primary-topic fallback only.
+    if (!$explicit) {
+      $top = _customsolent_topic_top_level($term);
+      $top_name = $top ? $top->getName() : '';
+      if (in_array($top_name, ['Explore', 'About'], TRUE)) {
+        return $cache = $default;
+      }
     }
 
     $tid = (int) $term->id();

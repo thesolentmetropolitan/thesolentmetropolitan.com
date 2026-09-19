@@ -121,3 +121,71 @@ bash scripts/release-2026-09-19-front-page.sh
 Backup → maintenance → `cim` → `cr` → convert → reorganise → `cr` → maintenance off. Applied
 locally through the same two scripts (dry run, real run, second run = nothing to do), with a DDEV
 snapshot `pre-front-page-reorg-20260919` taken first. `config:status` clean afterwards.
+
+---
+
+## Follow-up — adjustments after Rob's review
+
+Rob will delete the Landing Page content type himself once this is live, then export and push.
+
+| Asked | Done |
+|---|---|
+| "Welcome to The Solent Metropolitan" on one line on desktop; on mobile break between "Welcome to" and "The Solent Metropolitan"; relax on very narrow screens | New classy style **Heading One Line Desktop** on the h1 |
+| Tagline breaks between "The broader perspective," and "for a distinct region." at every width; relax when very narrow | Line break added to the heading text |
+| About button in its own slice, centred in the browser | New enclosure below the intro section with classy style **Centre Call To Action** |
+| About and See all articles in the deep Explore orange, contrast checked first | Both use the *Explore* colour term. White on `#BC4A08` is **5.1:1** (AA pass); near-black would be 3.4:1 (fail), so white stays |
+| Button text larger, buttons the same size | 1rem → 1.15rem desktop, 1.1rem mobile; padding trimmed to hold the box |
+| Events grid shows 8 | `views.view.events_listing` front-page display, 4 → 8 |
+| Fix the KickerLazyBuilder bug | Done — see below |
+
+**How the heading breaks work.** `paragraph--heading.html.twig` now wraps each line the editor
+typed in `<span class="slnt-heading__line">`, `display: block`. A typed line break is therefore a
+deliberate break at every width — and because each line still wraps normally inside itself,
+nothing can be pushed off a narrow screen, which is the "relax" Rob asked for (checked at 280px:
+no overflow, no horizontal scroll). *Heading One Line Desktop* switches the spans to inline at
+≥800px. Only one heading on the site had a line break before this, so nothing else changes.
+
+**Button text: a specificity bug found on the way.** `fonts.css` has
+`.slnt-text > * a { font-size: 1rem }` (specificity 0,1,1), which outranks a bare `.slnt-cta`
+(0,1,0). The font sizes in `cta.css` — including the 0.9rem mobile size — had therefore never
+applied; every button rendered at 1rem. The new size is set with a selector that wins, and the
+padding was tuned by measurement:
+
+| Button | Before | After |
+|---|---|---|
+| About (desktop) | 116 × 49, 16px | 108 × 49, 18.4px |
+| See all events | 176 × 49 | 178 × 49 |
+| See all articles | ~183 × 49 | 186 × 49 |
+| About (phone) | 46px tall, 16px | 46px tall, 17.6px |
+
+This applies to every `.slnt-cta` button on the site, including the three Discover buttons.
+
+**Events at 8.** Only six events currently qualify (published, promoted, not ended), so the grid
+is 4 + 2 until two more are promoted. Eight upcoming events exist.
+
+**"See all events" is still solent-blue.** Rob named About and See all articles. `/explore/events`
+is under Explore too, so by the same reasoning it could be orange; left for Rob to decide.
+
+### KickerLazyBuilder fix
+
+`resolvePageContext()` looked for the page's `section_filter` in a field called `field_content`.
+The field is `field_content_component`, and section filters sit inside enclosures, so that branch
+never matched. It now uses the theme's `_customsolent_find_section_filter_on_host()`, which walks
+the nested paragraph tree, and follows the same two-step rule as the listings
+(`_customsolent_resolve_topic_context`): an explicit `field_topic` on the section filter is used
+unconditionally; the node's primary topic is the fallback, with the Explore/About guard applying
+to the fallback only.
+
+**Correction to something said mid-session:** I reported that `/explore/data` was a live case of
+listing and kickers disagreeing. It is not. The section filters that query found on the Data page
+belong to old paragraph revisions; the current revision has none, so listing and kickers both
+fall back to all-topics and agree. On every page that does have a section filter with a topic
+(`/culture`, Stage, Screen, Music, Comedy), that topic equals the page's primary topic. So the bug
+was latent, and the fix changes no page today — it removes a trap for the first page whose
+filter topic differs from its page topic. Verified the helper finds the filter on `/culture`.
+
+### Scripts
+
+`scripts/front_page_adjustments.php` does the four content changes; each step checks its own
+state, so it is safe to re-run (second run: everything "already…"). Added to
+`scripts/release-2026-09-19-front-page.sh` as step 7 of 9. `config:status` clean.
