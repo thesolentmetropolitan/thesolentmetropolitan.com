@@ -7,7 +7,12 @@
    view_display_front_page block.
    ══════════════════════════════════════ */
 
-/* ── Grid: 2 per row at ≥340px, 1 per row below ──
+/* ── Grid: 4 per row at ≥1000px, 2 at 340–999px, 1 below ──
+   The front-page events grid is a full-width slice directly under the
+   Welcome heading (it used to share a row with the intro text, at two
+   columns). Same 4 / 2 steps as the articles grid beneath it. The view
+   shows 4 items so desktop is always one clean row.
+
    Modern Views renders rows directly inside the views-view wrapper as
    <div class="views-row">…</div> with no .view-content layer, so we
    target the wrapper that holds those rows.
@@ -24,9 +29,15 @@
    not the end of the one above. */
 .slnt-events-compact-grid [class*="js-view-dom-id-"] {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 1.8rem 0.8rem;
   margin-bottom: 1.2rem; /* kickers are last in the card now; keep the CTA off them */
+}
+
+@media (max-width: 999px) {
+  .slnt-events-compact-grid [class*="js-view-dom-id-"] {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 @media (max-width: 339px) {
