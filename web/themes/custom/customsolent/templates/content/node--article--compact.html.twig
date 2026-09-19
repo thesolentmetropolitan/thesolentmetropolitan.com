@@ -4,26 +4,37 @@
  * Theme override for an Article node in the "compact" view mode.
  *
  * Used by the articles_listing View "view_display_front_page" display:
- * a small card in a four-per-row grid on the front page.
+ * a filled, section-coloured card in a four-per-row grid on the front
+ * page. Deliberately NOT the same look as the event compact card — the
+ * two grids sit near each other and need to read as different things.
  *
- * Card structure:
- *   .slnt-article-compact-card           — outer wrapper, top border
- *                                          tinted to the section colour
- *     .slnt-topic-trail (kicker)         — outside the clickable link,
- *                                          parent topics linkable
- *     a.slnt-article-compact__link       — whole-card clickable area.
- *                                          Articles are always internal
- *                                          nodes, so no external icon.
- *       article.slnt-article-compact
- *         h3 (title)
- *         p.slnt-article-compact__summary — standfirst, or a trimmed
- *                                          body when none is written
+ * Card structure (DOM order = reading order):
+ *   article.slnt-article-compact-card    — filled rectangle. Section
+ *                                          colour from data-section;
+ *                                          topic tile fades out behind
+ *                                          the text.
+ *     h3.slnt-article-compact__title
+ *       a.slnt-article-compact__link     — the card's one main link. Its
+ *                                          ::after is stretched over the
+ *                                          whole card, so the full
+ *                                          rectangle is clickable while
+ *                                          the link text stays just the
+ *                                          title.
+ *     p.slnt-article-compact__summary    — standfirst, or trimmed body
+ *     .slnt-topic-trail (kicker)         — LAST, after title + summary.
+ *                                          A screen-reader user who
+ *                                          jumps to the h3 then hears
+ *                                          everything belonging to this
+ *                                          card; nothing about it sits
+ *                                          before its heading. Raised
+ *                                          above the stretched link so
+ *                                          the topic links still work.
  *
  * Variables added by customsolent_preprocess_node:
- *   - topic_trail_ancestors      — clickable kicker terms
- *   - section_color, section_key — top-level Topic colour
- *   - card_summary               — standfirst or body fallback (see
- *                                  _customsolent_preprocess_article_compact_extras)
+ *   - topic_trail_ancestors — clickable kicker terms
+ *   - section_key           — top-level Topic, lower-case (culture, …)
+ *   - card_summary          — standfirst or body fallback
+ *   - card_tile_url         — hero tile SVG for the article's topic
  */
 #}
 {%
@@ -31,40 +42,35 @@
     'node',
     'node--type-' ~ node.bundle|clean_class,
     view_mode ? 'node--view-mode-' ~ view_mode|clean_class,
-    'slnt-article-compact',
+    'slnt-article-compact-card',
   ]
 %}
 
-<div class="slnt-article-compact-card"
-     {% if section_color %}style="border-top-color: {{ section_color }};"{% endif %}
-     {% if section_key %}data-section="{{ section_key }}"{% endif %}>
+<article{{ attributes.addClass(classes) }}
+  {% if section_key %}data-section="{{ section_key }}"{% endif %}
+  {% if card_tile_url %}style="--card-tile: url('{{ card_tile_url }}');"{% endif %}>
 
-  {# Kicker — outside the clickable link so the parent terms remain
-     independently navigable (nested links are invalid HTML). #}
+  <h3 class="slnt-article-compact__title">
+    <a href="{{ path('entity.node.canonical', {'node': node.id}) }}"
+       class="slnt-article-compact__link">{{ label }}</a>
+  </h3>
+
+  {% if card_summary %}
+    <p class="slnt-article-compact__summary">{{ card_summary }}</p>
+  {% endif %}
+
+  {# Kicker — white on the card colour rather than section-coloured
+     (purple on purple is unreadable), so override the colour the
+     component would otherwise set inline. #}
   {% if topic_trail_ancestors is not empty %}
     {% include '@customsolent/components/topic-trail.html.twig' with {
-      ancestors: topic_trail_ancestors,
+      ancestors: topic_trail_ancestors|map(a => a|merge({'color': '#ffffff'})),
       current_label: null,
       current_as_heading: false,
     } only %}
   {% endif %}
 
-  <a href="{{ path('entity.node.canonical', {'node': node.id}) }}"
-     class="slnt-article-compact__link">
-    <article{{ attributes.addClass(classes) }}>
-
-      <h3 class="slnt-article-compact__title">
-        <span class="slnt-article-compact__title-text">{{ label }}</span>
-      </h3>
-
-      {% if card_summary %}
-        <p class="slnt-article-compact__summary">{{ card_summary }}</p>
-      {% endif %}
-
-    </article>
-  </a>
-
-</div>
+</article>
 
 {# We render the fields manually above; suppress defaults so they
    don't appear a second time. #}

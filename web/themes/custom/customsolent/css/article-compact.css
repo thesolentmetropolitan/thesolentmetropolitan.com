@@ -6,9 +6,15 @@
    paragraph that hosts the articles_listing /
    view_display_front_page block.
 
-   Sibling of event-compact.css — same card
-   anatomy, four columns instead of two, so
-   the type sizes come down a notch.
+   Deliberately a different look from the event
+   compact cards (event-compact.css): those are
+   open, line-topped rows of facts; these are
+   filled, section-coloured rectangles with the
+   topic's hero tile pattern showing at the top
+   and white text sitting at the bottom. The
+   filled rectangle is what marks where one item
+   starts and ends — there is no top rule, so
+   the kicker can sit last without ambiguity.
    ══════════════════════════════════════ */
 
 /* ── Grid: 4 per row at ≥1000px, 2 at 500–999px, 1 below ──
@@ -22,7 +28,8 @@
 .slnt-articles-compact-grid [class*="js-view-dom-id-"] {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 0.8rem;
+  gap: 1rem;
+  margin-bottom: 1.2rem; /* filled cards need air before the CTA below */
 }
 
 @media (max-width: 999px) {
@@ -37,91 +44,131 @@
   }
 }
 
-/* ── Outer card wrapper ── */
-.slnt-article-compact-card {
-  border-top: 3px solid var(--text-mid, #444); /* fallback; overridden inline */
-  padding-top: 0.35rem;
+/* Rows stretch to the tallest card in the row; let the card fill it. */
+.slnt-articles-compact-grid .views-row {
+  display: flex;
   min-width: 0;
 }
 
-/* Kicker (topic trail) sits above the link, outside the clickable
-   area. Indent horizontally so it lines up with the title below;
-   zero vertical margins so it sits tight against the title. */
-.slnt-article-compact-card .slnt-topic-trail {
-  margin: 0;
-  padding: 0 0.5rem;
+/* ── Card fill colours ──
+   White text must reach WCAG AA (4.5:1) everywhere it can land. The
+   section base colours don't all manage that (Living #059669 is 3.8:1,
+   Explore #D97706 is 3.2:1), so cards use the darker stop of each
+   section's hero gradient instead. Ratios are white-on-solid, then
+   white over a tile icon (tile = white at 12% opacity) as the worst
+   case:
+
+     culture  #6D28D9   7.1   5.6
+     sectors  #1D4ED8   6.7   5.3
+     living   #065F46   7.7   5.8
+     explore  #92400E   7.1   5.4
+     about    #475569   7.6   5.6
+     (none)   #2C4F6E   8.6   6.2   — solent-blue, no primary topic
+
+   If a section colour changes, re-check before editing these. */
+.slnt-article-compact-card {
+  --card-bg: var(--solent-blue, #2c4f6e);
+  --card-fade: 5.5rem; /* depth of the visible tile band at the top */
+}
+.slnt-article-compact-card[data-section="culture"] { --card-bg: #6d28d9; }
+.slnt-article-compact-card[data-section="sectors"] { --card-bg: #1d4ed8; }
+.slnt-article-compact-card[data-section="living"]  { --card-bg: #065f46; }
+.slnt-article-compact-card[data-section="explore"] { --card-bg: #92400e; }
+.slnt-article-compact-card[data-section="about"]   { --card-bg: #475569; }
+
+/* ── The card ──
+   Background layers, top to bottom:
+     1. fade: transparent → card colour over --card-fade
+     2. the topic's hero tile, scaled to 70% of its hero size so more
+        than one row of icons shows in the band. The 12% opacity is
+        baked into the SVGs and reads too faint at this size, so the
+        tile is layered twice (≈23%). Text never enters the band, so
+        this doesn't touch the contrast figures above.
+     3. the solid card colour
+   padding-top equals the fade depth, so text can never start inside
+   the tile band however long the title is — the card just grows. */
+.slnt-article-compact-card {
+  position: relative; /* containing block for the stretched link */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  flex: 1;
+  min-width: 0;
+  min-height: 13rem;
+  box-sizing: border-box;
+  padding: var(--card-fade) 0.9rem 0.9rem;
+  border-radius: 6px;
+  color: #fff;
+  background-color: var(--card-bg);
+  background-image:
+    linear-gradient(to bottom, transparent 0, transparent calc(var(--card-fade) * 0.35), var(--card-bg) var(--card-fade)),
+    var(--card-tile, none),
+    var(--card-tile, none);
+  background-repeat: no-repeat, repeat, repeat;
+  background-size: auto, 84px 72.74px, 84px 72.74px;
 }
 
-.slnt-article-compact-card .slnt-topic-trail__ancestors {
-  margin-bottom: 0;
+/* ── Title + the card's main link ── */
+.slnt-article-compact__title {
+  font-family: 'Atkinson Hyperlegible Next', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.3;
+  margin: 0 0 0.4rem 0;
+  overflow-wrap: anywhere;
 }
 
-.slnt-article-compact-card .slnt-topic-trail .slnt-topic-trail__ancestor {
-  font-size: 0.75rem;
-}
-
-.slnt-article-compact-card .slnt-topic-trail__separator {
-  font-size: 0.75rem;
-  margin: 0 0.25rem;
-}
-
-/* ── Card link wrapper ── */
-.slnt-article-compact__link {
-  display: block;
-  text-decoration: none;
-  color: inherit;
-  border-radius: 4px;
-  transition: background-color 0.15s, box-shadow 0.15s;
-}
-
-/* Beat .layout-content's magenta-underline rule on the wrapping link. */
+/* Beat .layout-content's magenta-underline rule on body links. */
 .layout-content a.slnt-article-compact__link,
 .layout-content a.slnt-article-compact__link:hover {
+  color: #fff;
   text-decoration: none;
   text-decoration-color: transparent;
-  color: inherit;
 }
 
-.slnt-article-compact__link:hover {
-  background: var(--warm-grey, #f5f3f0);
+/* Stretch the link over the whole rectangle. */
+.slnt-article-compact__link::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 6px;
 }
 
-.slnt-article-compact__link:focus-visible {
-  outline: 3px solid #f5b0d8;
-  outline-offset: 2px;
-}
-
-.slnt-article-compact__link:hover .slnt-article-compact__title-text {
+.layout-content .slnt-article-compact-card:hover a.slnt-article-compact__link,
+.layout-content a.slnt-article-compact__link:focus-visible {
   text-decoration: underline;
-  text-decoration-color: var(--magenta, #c5007a);
+  text-decoration-color: #fff;
   text-underline-offset: 3px;
   text-decoration-thickness: 2px;
 }
 
-/* ── Card body ── */
-.slnt-article-compact {
-  display: block;
-  padding: 0.15rem 0.5rem 0.4rem;
+.slnt-article-compact-card {
+  transition: box-shadow 0.15s;
 }
 
-/* ── Title ── */
-.slnt-article-compact__title {
-  font-family: 'Atkinson Hyperlegible Next', sans-serif;
-  font-size: 0.95rem;
-  font-weight: 700;
-  line-height: 1.3;
-  color: var(--solent-blue, #2c4f6e);
-  margin: 0 0 0.3rem 0;
-  overflow-wrap: anywhere;
+.slnt-article-compact-card:hover {
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.28);
+}
+
+/* Focus ring goes round the whole card, not just the title text. Dark
+   ring on the off-white page (16:1), with the 2px offset gap keeping
+   it distinct from the card colour. */
+.slnt-article-compact__link:focus-visible {
+  outline: none;
+}
+
+.slnt-article-compact__link:focus-visible::after {
+  outline: 3px solid var(--text, #1a1a1a);
+  outline-offset: 2px;
 }
 
 /* ── Summary — standfirst or trimmed body, clamped to three lines so
-   uneven standfirst lengths don't make the rows ragged. ── */
+   uneven lengths don't make the rows ragged. ── */
 .slnt-article-compact__summary {
   font-family: 'Atkinson Hyperlegible Next', sans-serif;
-  font-size: 0.8rem;
-  line-height: 1.35;
-  color: var(--text-mid, #444);
+  font-size: 0.85rem;
+  line-height: 1.4;
+  color: #fff;
   margin: 0;
   display: -webkit-box;
   -webkit-box-orient: vertical;
@@ -131,12 +178,40 @@
   overflow-wrap: anywhere;
 }
 
-/* ── Mobile tweaks ── */
-@media (max-width: 799px) {
-  .slnt-article-compact {
-    padding: 0.7rem;
-  }
-  .slnt-article-compact__title {
-    font-size: 0.9rem;
+/* ── Kicker (topic trail) — last in the card, raised above the
+   stretched link so its topic links stay independently clickable. ── */
+.slnt-article-compact-card .slnt-topic-trail {
+  position: relative;
+  z-index: 1;
+  margin: 0.7rem 0 0 0;
+  padding-top: 0.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.35);
+}
+
+.slnt-article-compact-card .slnt-topic-trail__ancestors {
+  margin-bottom: 0;
+}
+
+.slnt-article-compact-card .slnt-topic-trail .slnt-topic-trail__ancestor {
+  font-size: 0.72rem;
+  letter-spacing: 0.02em;
+}
+
+.slnt-article-compact-card .slnt-topic-trail__separator {
+  font-size: 0.72rem;
+  color: #fff;
+  margin: 0 0.3rem;
+}
+
+.slnt-article-compact-card .slnt-topic-trail__ancestor:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+/* ── Narrow phones: one column, so a shorter tile band is enough ── */
+@media (max-width: 499px) {
+  .slnt-article-compact-card {
+    --card-fade: 4.5rem;
+    min-height: 0;
   }
 }
