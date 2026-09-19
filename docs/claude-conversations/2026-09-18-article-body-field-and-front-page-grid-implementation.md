@@ -109,3 +109,70 @@ so it does not depend on paragraph IDs matching between environments. It refuses
 
 This sits on top of the Part 2 deploy sequence in the brief (maintenance mode, DB backup,
 `cim`, body migration script, `cr`). Both scripts can run in the same window.
+
+---
+
+## Follow-up, 2026-09-19 — article cards restyled
+
+Rob's feedback on the first pass: copying the events grid was what was asked for, but the two
+grids now look the same and need visual variety. Also a question about whether a topic kicker
+*before* the title is an accessibility problem, and — if the kicker moves to the end — whether
+the top rule then reads ambiguously as the end of one item or the start of the next.
+
+### What changed (article cards only; event cards untouched)
+
+- **Filled cards.** Each card is a section-coloured rectangle with white text, bottom-justified.
+  No top rule — the rectangle itself marks where an item starts and ends, which removes the
+  ambiguity Rob raised.
+- **Topic tile band.** The top of each card shows the hero tile SVG for the article's own topic
+  (`images/hero-tiles/<section>_<topic>.svg`), fading into the solid card colour. Preprocess picks
+  the tile: topic → section "view all" tile → `explore_articles`. Topic term names carry their
+  path ("Culture / Identity"), so the last segment is used for the filename. The tile's 12%
+  opacity is baked into the SVG and was too faint at card size, so it is layered twice.
+- **Text can never sit on the tile.** `padding-top` equals the fade depth, so a long title grows
+  the card rather than climbing into the pattern.
+- **Kicker moved to the end** (title → summary → kicker, in the DOM as well as visually), white
+  rather than section-coloured, separated by a hairline.
+- **Stretched-link pattern.** The `<a>` is now just the title inside the `h3`; its `::after`
+  covers the card, so the whole rectangle is clickable while the accessible link name is only
+  the title (previously title + summary). The kicker is raised above it so topic links still work.
+- **Focus ring** goes round the whole card: 3px `#1a1a1a` with a 2px gap — 16:1 on the page
+  background. (The events card's pink ring is about 1.7:1 on off-white; worth revisiting there.)
+
+### Contrast (white text, WCAG AA needs 4.5:1)
+
+| Section | Base colour | White on base | Card colour used | White on card | White over a tile icon |
+|---|---|---|---|---|---|
+| Culture | `#7C3AED` | 5.70 | `#6D28D9` | 7.10 | 5.62 |
+| Sectors | `#2563EB` | 5.17 | `#1D4ED8` | 6.70 | 5.25 |
+| Living | `#059669` | **3.77 — fails** | `#065F46` | 7.68 | 5.77 |
+| Explore | `#D97706` | **3.19 — fails** | `#92400E` | 7.09 | 5.42 |
+| About | `#475569` | 7.58 | `#475569` | 7.58 | 5.57 |
+| no topic | — | — | `#2C4F6E` | 8.57 | 6.21 |
+
+Card colours are the darker stops already used in each section's hero gradient, so they belong
+to the palette. "Over a tile icon" is a worst case that the layout prevents anyway. Living needed
+the 800-weight green; the 700 (`#047857`) passes on solid (5.48) but not over an icon (4.37).
+
+### On the kicker-before-title question
+
+The real issue is heading navigation. A screen-reader user who jumps heading to heading lands
+on the card's `h3` and reads onward; anything placed *before* that heading is heard as the tail
+of the previous card. So in a list of cards, topic-after-title is the better order, which is why
+news sites do it. Moving it visually with CSS while leaving it first in the DOM would not help
+and would put tab order out of step with visual order.
+
+On a full article page the argument is much weaker: there is one `h1`, the kicker is a labelled
+`<nav aria-label="Topic breadcrumb">` landmark, and a breadcrumb before the `h1` is the
+long-established convention. No change recommended there.
+
+Event cards still have the kicker first and a top rule. If the kicker moves to the end there,
+the top rule still works provided the gap between cards is clearly larger than the gap inside
+a card; or the events card could take a full hairline border. Not done — Rob's call.
+
+### Verified
+
+4 / 2 / 1 columns at 1280 / 800 / 400px, no horizontal scroll; tiles resolved to
+`culture_identity`, `sectors_design`, and `explore_articles` for the article with no topic;
+click on the tile band hits the card link, click on the kicker hits the topic link; focus ring
+renders round the card.

@@ -219,7 +219,8 @@ function _customsolent_preprocess_event_compact_extras($node, array &$variables)
 }
 
 /**
- * Adds section colour and a one-line summary to the compact article card.
+ * Adds section key, topic tile and a one-line summary to the compact
+ * article card.
  *
  * card_summary is the standfirst when one is written. Otherwise it is
  * the body with markup stripped, whitespace collapsed and truncated to
@@ -231,8 +232,12 @@ function _customsolent_preprocess_event_compact_extras($node, array &$variables)
  * without ever being rendered in full.
  */
 function _customsolent_preprocess_article_compact_extras($node, array &$variables): void {
-  // Section colour from the top-level Topic — drives the card's top
-  // border and the kicker text colour.
+  // Section key from the top-level Topic — drives the card's fill
+  // colour (css/article-compact.css maps data-section to a colour that
+  // passes AA contrast with white text). Also pick the hero tile SVG
+  // for the article's own topic, falling back to the section's
+  // "view all" tile, then to the generic articles tile.
+  $tile_candidates = [];
   if ($node->hasField('field_primary_topic') && !$node->get('field_primary_topic')->isEmpty()) {
     $term = $node->get('field_primary_topic')->entity;
     if ($term) {
@@ -240,7 +245,21 @@ function _customsolent_preprocess_article_compact_extras($node, array &$variable
       if ($top) {
         $variables['section_key'] = strtolower($top->getName());
         $variables['section_color'] = _customsolent_topic_section_colors()[$top->getName()] ?? NULL;
+        $slug = static fn(string $name): string => trim(preg_replace('/[^a-z0-9]+/', '_', strtolower($name)) ?? '', '_');
+        // Topic term names carry their path ("Culture / Identity"), so
+        // take the last segment for the tile filename.
+        $name_parts = explode(' / ', $term->getName());
+        $tile_candidates[] = $slug($top->getName()) . '_' . $slug(end($name_parts));
+        $tile_candidates[] = $slug($top->getName()) . '_' . $slug($top->getName());
       }
+    }
+  }
+  $tile_candidates[] = 'explore_articles';
+  $tile_dir = \Drupal::service('extension.list.theme')->getPath('customsolent') . '/images/hero-tiles';
+  foreach ($tile_candidates as $candidate) {
+    if (is_file(DRUPAL_ROOT . "/$tile_dir/$candidate.svg")) {
+      $variables['card_tile_url'] = \Drupal::service('file_url_generator')->generateString("$tile_dir/$candidate.svg");
+      break;
     }
   }
 
