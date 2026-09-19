@@ -79,7 +79,19 @@
         <{{paragraph.field_heading_size.0.value}}
         {% if heading_classes %}class="{{ heading_classes|join(' ') }}"{% endif %}
         style="text-align:{{paragraph.field_heading_align.0.value}};">
-        {{ content.field_heading }}
+        {# Each line the editor typed becomes its own block-level span, so
+           a line break in the field is a deliberate break in the heading
+           ("Welcome to" / "The Solent Metropolitan"). Text still wraps
+           normally inside a line, so nothing is ever forced off a narrow
+           screen. The classy style "Heading One Line Desktop" turns the
+           spans inline at desktop width so the heading runs on one line
+           there. Render the field once for its cache metadata. #}
+        {% set _rendered = content.field_heading|render %}
+        {% for line in paragraph.field_heading.value|split("\n") %}
+          {%- if line|trim is not empty -%}
+            <span class="slnt-heading__line">{{ line|trim }}</span>{{ ' ' }}
+          {%- endif -%}
+        {% endfor %}
         </{{paragraph.field_heading_size.0.value}}>
       {% endblock %}
     </div>

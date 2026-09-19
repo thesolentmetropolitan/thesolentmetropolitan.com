@@ -13,15 +13,27 @@
   align-items: center;
   gap: 0.5em;
   font-family: 'Atkinson Hyperlegible Next', sans-serif;
-  font-size: 1rem;
+  /* Text enlarged 2026-09 (was 1rem) WITHOUT growing the button: padding
+     is in rem and trimmed to match, so the box stays ~49px tall and about
+     the same width as before. */
+  font-size: 1.15rem;
   font-weight: 700;
-  padding: 0.75em 1.5em;
+  padding: 0.54rem 0.85rem;
   border: 3px solid transparent;  /* colour set inline from taxonomy */
   border-radius: 4px;
   text-decoration: none;
   cursor: pointer;
   transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, opacity 0.2s ease;
   line-height: 1.2;
+}
+
+/* Font size needs this extra specificity: fonts.css has
+   `.slnt-text > * a { font-size: 1rem }` (0,1,1), which outranks a bare
+   `.slnt-cta` (0,1,0) — so until 2026-09 the size set above never
+   actually applied and every button rendered at 1rem. */
+.layout-content a.slnt-cta,
+.slnt-text > * a.slnt-cta {
+  font-size: 1.15rem;
 }
 
 /* Override body link styles — CTAs must NOT inherit magenta underline */
@@ -58,8 +70,24 @@
 
 /* ── Mobile adjustments ── */
 @media (max-width: 799px) {
-  .slnt-cta {
-    font-size: 0.9rem;
-    padding: 0.65em 1.2em;
+  /* Rendered at 1rem in a ~46px box before (see specificity note
+     above); text up to 1.1rem, padding trimmed to hold the box. */
+  .slnt-cta,
+  .layout-content a.slnt-cta,
+  .slnt-text > * a.slnt-cta {
+    font-size: 1.1rem;
+    padding: 0.47rem 0.85rem;
   }
+}
+
+
+/* ══════════════════════════════════════
+   Centred button slice (classy: slnt-centre-cta, chosen in an
+   enclosure's Style field). Any call-to-action inside sits in the
+   middle of the content width — and so of the browser, since the
+   content container is itself centred.
+   ══════════════════════════════════════ */
+.slnt-centre-cta .slnt-cta-outer {
+  display: flex;
+  justify-content: center;
 }

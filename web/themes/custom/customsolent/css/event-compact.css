@@ -11,7 +11,7 @@
    The front-page events grid is a full-width slice directly under the
    Welcome heading (it used to share a row with the intro text, at two
    columns). Same 4 / 2 steps as the articles grid beneath it. The view
-   shows 4 items so desktop is always one clean row.
+   shows up to 8 items: two rows of four on desktop.
 
    Modern Views renders rows directly inside the views-view wrapper as
    <div class="views-row">…</div> with no .view-content layer, so we

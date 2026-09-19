@@ -60,3 +60,21 @@
 .slnt-heading-space-below {
   padding-bottom: 0.5em;
 }
+
+
+/* ── Editor-controlled line breaks ──
+   paragraph--heading.html.twig wraps each line typed into the heading
+   field in .slnt-heading__line. Block by default = a forced break
+   between lines at every width, while each line still wraps inside
+   itself if the screen is narrower than the line. */
+.slnt-heading__line {
+  display: block;
+}
+
+/* "Heading One Line Desktop" — join the lines back together at desktop
+   width; the typed break only applies on tablet/phone. */
+@media (min-width: 800px) {
+  .slnt-heading-one-line-desktop .slnt-heading__line {
+    display: inline;
+  }
+}

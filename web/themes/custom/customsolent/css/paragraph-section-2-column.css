@@ -59,14 +59,10 @@
 
 /* ══════════════════════════════════════
    Front-page intro slice (classy: slnt-front-intro-2col, chosen in the
-   section's Style field). Tagline heading on the left; intro text with
-   the About button centred beneath it on the right.
+   section's Style field). Tagline heading on the left, intro text on
+   the right. (The About button has its own centred slice below — see
+   .slnt-centre-cta in cta.css.)
    ══════════════════════════════════════ */
-.slnt-front-intro-2col .slnt-column-right .slnt-cta-outer {
-  display: flex;
-  justify-content: center;
-  margin-top: 1.2rem;
-}
 
 /* The intro text ships with heading-style top margins; sit it level
    with the tagline opposite. */

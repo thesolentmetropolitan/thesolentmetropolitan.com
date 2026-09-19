@@ -1,0 +1,7 @@
+uuid: 66127a84-fc5e-4b6e-bc79-890c6cb0bfaf
+langcode: en
+status: true
+dependencies: {  }
+id: centre_call_to_action
+label: 'Centre Call To Action'
+classes: slnt-centre-cta
