@@ -89,3 +89,21 @@ bash scripts/release-2026-09-20-view-more-framing.sh
 
 `scripts/front_page_view_more_and_framing.php` does the content changes (dry-run flag; each step
 checks its own state). DDEV snapshot `pre-view-more-20260920` was taken before applying locally.
+
+---
+
+## Follow-up — three CSS tweaks after Rob's review (no content or config change)
+
+- **Article cards: square corners.** Rob is happy with them sitting directly on the off-white.
+  `border-radius` removed from the card and from the stretched link's hit area.
+- **Intro slice is a white box, exactly as wide as its top rule.** Rob's reasoning was right: if
+  the rule can be selected, so can the box. They are now literally the same element — the rule is
+  the box's `border-top` — so the two widths cannot drift. The section wrapper takes a 1rem side
+  margin (bringing its edges onto the same line as the enclosures above and below) and its padding
+  moves inside. Measured: box, events grid and articles grid all 49 → 1217px at 1280, and all
+  32 → 328px at 375. The earlier `::before` rule with its −0.2rem nudge is gone. A 1.2rem bottom
+  margin balances the gap below the box against the gap above.
+- **View more: 1rem → 1.2rem** (19.2px) against the 28.8px section headings, so it stays clearly
+  subordinate. Click box now 114 × 27.
+
+Deploy is unchanged: these ride along with `scripts/release-2026-09-20-view-more-framing.sh`.

@@ -71,15 +71,32 @@
   margin-top: 0;
 }
 
-/* A rule across the top of the intro slice, edge to edge of the content
-   box, dividing it from the events above. The -0.2rem pulls it out from
-   this section's 1.2rem side padding to the 1em edge the enclosures
-   above and below use, so all the edges line up. */
-.slnt-front-intro-2col .slnt-content-2-column::before {
-  content: '';
-  display: block;
+/* The intro slice is a white box on the warm-grey band, with a 1px
+   solent-blue rule along its top edge. Box and rule are the same element
+   (the rule is its border-top), so their widths cannot drift apart.
+
+   The section wrapper normally spans the full content width with 1.2rem
+   side padding. Here it gets a 1rem side margin instead, which brings its
+   edges in to the same line as the enclosures above and below it (the
+   events and articles grids), and the padding moves inside the box. The
+   top margin keeps the usual gap from the events slice. */
+.slnt-front-intro-2col .slnt-content-2-column {
+  margin: var(--content-pad) 1rem 1.2rem; /* bottom: air before the next slice's heading */
+  padding: 1.8rem 1.2rem 0;
+  background: #fff;
   border-top: 1px solid var(--solent-blue, #2c4f6e);
-  margin: 0 -0.2rem 1.8rem;
+}
+
+.slnt-front-intro-2col .slnt-content-2-column .slnt-column-left,
+.slnt-front-intro-2col .slnt-content-2-column .slnt-column-right {
+  padding-bottom: 1.8rem;
+}
+
+/* Stacked on phones: only the last column needs the box's bottom padding. */
+@media (max-width: 799px) {
+  .slnt-front-intro-2col .slnt-content-2-column .slnt-column-left {
+    padding-bottom: 1rem;
+  }
 }
 
 /* "Read more about" — a link at the end of the intro paragraph instead
