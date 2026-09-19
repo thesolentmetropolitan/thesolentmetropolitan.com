@@ -17,7 +17,7 @@
   gap: 0.35em;
   min-height: 24px; /* WCAG 2.5.8 minimum target, without adding a padded box */
   font-family: 'Atkinson Hyperlegible Next', sans-serif;
-  font-size: 1rem;
+  font-size: 1.2rem; /* section headings are ~1.75rem; this stays clearly subordinate */
   font-weight: 700;
   white-space: nowrap;
   /* Explore orange: Events, Articles and About all live under Explore.

@@ -101,7 +101,7 @@
   min-height: 17rem;
   box-sizing: border-box;
   padding: var(--card-fade) 0.9rem 0.9rem;
-  border-radius: 6px;
+  /* Square corners, like the white event boxes above them. */
   color: #fff;
   background-color: var(--card-bg);
   background-image:
@@ -135,7 +135,6 @@
   content: '';
   position: absolute;
   inset: 0;
-  border-radius: 6px;
 }
 
 .layout-content .slnt-article-compact-card:hover a.slnt-article-compact__link,
