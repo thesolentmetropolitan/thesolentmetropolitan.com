@@ -1,0 +1,23 @@
+uuid: d5adb61b-04b3-4c0d-a18a-6159035e9863
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_classy
+    - paragraphs.paragraphs_type.link
+id: paragraph.link.field_classy
+field_name: field_classy
+entity_type: paragraph
+bundle: link
+label: classy
+description: 'Optional styles, e.g. View More Wide Screens / View More Narrow Screens.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:classy_paragraphs_style'
+  handler_settings:
+    target_bundles: null
+    auto_create: false
+field_type: entity_reference

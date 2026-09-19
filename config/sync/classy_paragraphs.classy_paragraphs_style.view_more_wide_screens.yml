@@ -1,0 +1,7 @@
+uuid: 572990e5-a2a2-495f-93f4-9b200bf99862
+langcode: en
+status: true
+dependencies: {  }
+id: view_more_wide_screens
+label: 'View More Wide Screens'
+classes: 'slnt-view-more slnt-view-more--wide'

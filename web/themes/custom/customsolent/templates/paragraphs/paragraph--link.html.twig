@@ -1,0 +1,43 @@
+{#
+/**
+ * @file
+ * Theme override for the Link paragraph: a plain text link with a caret.
+ *
+ * Unlike a Call To Action there is no button box — the clickable area is
+ * the text itself (line-height keeps it at the 24px minimum target size).
+ *
+ * Classy styles (field_classy) land on the wrapper via `attributes`:
+ *   View More Wide Screens    shown at desktop width; inside an enclosure
+ *                             styled "Section Heading Row" it sits on the
+ *                             same line as the heading before it, right
+ *                             aligned.
+ *   View More Narrow Screens  shown below desktop width; place it after
+ *                             the content it belongs to.
+ * Both links are in the page and a media query shows one of them. The
+ * hidden one is display:none, so assistive tech only ever meets one.
+ *
+ * link_context (from customsolent_preprocess_paragraph__link) is the text
+ * of the nearest heading before this link in the same parent. It is added
+ * as visually-hidden text so a screen-reader's link list says
+ * "View more: Latest articles" rather than "View more" twice.
+ */
+#}
+{%
+  set classes = [
+    'paragraph',
+    'paragraph--type--' ~ paragraph.bundle|clean_class,
+    view_mode ? 'paragraph--view-mode--' ~ view_mode|clean_class,
+    not paragraph.isPublished() ? 'paragraph--unpublished',
+    'slnt-text-link-outer',
+  ]
+%}
+{% if paragraph.field_link.0.url %}
+  <div{{ attributes.addClass(classes) }}>
+    <a href="{{ paragraph.field_link.0.url }}" class="slnt-text-link">
+      <span class="slnt-text-link__text">{{ paragraph.field_link.0.title ?: paragraph.field_link.0.url }}{% if link_context %}<span class="visually-hidden">: {{ link_context }}</span>{% endif %}</span>
+      <svg class="slnt-text-link__caret slnt-cta__chevron" role="presentation" focusable="false" aria-hidden="true">
+        <use href="#tvip-down-triangle"></use>
+      </svg>
+    </a>
+  </div>
+{% endif %}
