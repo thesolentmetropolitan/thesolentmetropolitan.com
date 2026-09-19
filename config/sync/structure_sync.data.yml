@@ -1545,7 +1545,7 @@ taxonomies:
       uuid: 604e46d2-ee55-404a-8a6f-3f71538e2816
       field_color:
         -
-          color: '#D97706'
+          color: '#BC4A08'
           opacity: '1'
     -
       vid: color
@@ -1559,7 +1559,7 @@ taxonomies:
       uuid: 1e84d36a-7662-4f00-84c0-37bb7b8492aa
       field_color:
         -
-          color: '#059669'
+          color: '#047857'
           opacity: '1'
     -
       vid: color

@@ -344,9 +344,12 @@ function _customsolent_topic_section_colors() {
   return [
     'Culture' => '#7C3AED',
     'Sectors' => '#2563EB',
-    'Living'  => '#059669',
+    // Living and Explore were #059669 / #D97706 until 2026-09-19. Those
+    // failed WCAG AA both as text on the page background (3.6 / 3.0:1)
+    // and under white text (3.8 / 3.2:1). Deepened, same hue family.
+    'Living'  => '#047857',
     'About'   => '#475569',
-    'Explore' => '#D97706',
+    'Explore' => '#BC4A08',
   ];
 }
 
