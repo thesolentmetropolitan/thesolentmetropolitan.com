@@ -71,3 +71,46 @@
   margin-top: 0;
 }
 
+/* A rule across the top of the intro slice, edge to edge of the content
+   box, dividing it from the events above. The -0.2rem pulls it out from
+   this section's 1.2rem side padding to the 1em edge the enclosures
+   above and below use, so all the edges line up. */
+.slnt-front-intro-2col .slnt-content-2-column::before {
+  content: '';
+  display: block;
+  border-top: 1px solid var(--solent-blue, #2c4f6e);
+  margin: 0 -0.2rem 1.8rem;
+}
+
+/* "Read more about" — a link at the end of the intro paragraph instead
+   of a button. Bold Explore orange (About lives under Explore; 4.6:1 on
+   the warm-grey band) with a drawn caret. Scoped by the section style
+   because the text format does not allow classes on links. */
+.layout-content .slnt-front-intro-2col .slnt-column-right .paragraph--type--intro a {
+  font-weight: 700;
+  color: #bc4a08;
+  white-space: nowrap;
+  text-decoration: none;
+  text-decoration-color: transparent;
+}
+
+.layout-content .slnt-front-intro-2col .slnt-column-right .paragraph--type--intro a:hover,
+.layout-content .slnt-front-intro-2col .slnt-column-right .paragraph--type--intro a:focus-visible {
+  text-decoration: underline;
+  text-decoration-color: currentColor;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 2px;
+}
+
+.slnt-front-intro-2col .slnt-column-right .paragraph--type--intro a::after {
+  content: '';
+  display: inline-block;
+  width: 0.42em;
+  height: 0.42em;
+  margin-left: 0.3em;
+  border-top: 0.16em solid currentColor;
+  border-right: 0.16em solid currentColor;
+  transform: rotate(45deg);
+  vertical-align: 0.08em;
+}
+

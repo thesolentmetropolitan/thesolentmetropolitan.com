@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.paragraph.link.field_classy
     - field.field.paragraph.link.field_link
     - paragraphs.paragraphs_type.link
   module:
@@ -24,4 +25,5 @@ content:
     third_party_settings: {  }
     weight: 2
     region: content
-hidden: {  }
+hidden:
+  field_classy: true

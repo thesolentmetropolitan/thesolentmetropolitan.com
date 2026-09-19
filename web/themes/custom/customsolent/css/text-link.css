@@ -1,0 +1,102 @@
+/* ══════════════════════════════════════
+   Text link with caret — the Link paragraph
+   (paragraph--link.html.twig). Used for "View more".
+   The clickable area is the text itself; no button box.
+   ══════════════════════════════════════ */
+
+.slnt-text-link-outer {
+  line-height: 1.5;
+}
+
+/* Doubled selector beats `.layout-content a` / `.slnt-text > * a`
+   (fonts.css), which would otherwise set size and a magenta underline. */
+.layout-content a.slnt-text-link,
+.slnt-text > * a.slnt-text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
+  min-height: 24px; /* WCAG 2.5.8 minimum target, without adding a padded box */
+  font-family: 'Atkinson Hyperlegible Next', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  white-space: nowrap;
+  /* Explore orange: Events, Articles and About all live under Explore.
+     4.8:1 on the page background, 4.6:1 on warm-grey. */
+  color: #bc4a08;
+  text-decoration: none;
+  text-decoration-color: transparent;
+}
+
+.layout-content a.slnt-text-link:hover .slnt-text-link__text,
+.layout-content a.slnt-text-link:focus-visible .slnt-text-link__text {
+  text-decoration: underline;
+  text-decoration-color: currentColor;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 2px;
+}
+
+.slnt-text-link:focus-visible {
+  outline: 3px solid var(--text, #1a1a1a);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+.slnt-text-link__caret {
+  width: 0.7em;
+  height: 0.7em;
+}
+
+.slnt-text-link:hover .slnt-text-link__caret {
+  transform: rotate(-90deg) translateY(-3px);
+}
+
+/* ── View more: one link for wide screens, one for narrow ──
+   Both are in the page; the media query decides which exists for the
+   user. display:none removes the other from the accessibility tree and
+   the tab order, so nobody meets it twice. */
+.slnt-view-more--wide {
+  display: none;
+}
+
+.slnt-view-more--narrow {
+  margin-top: 0.2rem;
+}
+
+@media (min-width: 800px) {
+  .slnt-view-more--wide {
+    display: block;
+    text-align: right;
+  }
+  .slnt-view-more--narrow {
+    display: none;
+  }
+}
+
+/* ── Section Heading Row (classy on an enclosure) ──
+   Puts a "View more (wide)" link on the same line as the heading before
+   it, right-aligned, baselines level. Everything else in the enclosure
+   stays full width. The enclosure's items become a two-column grid; only
+   the heading/link pair is placed side by side.
+
+   Uses :has(). Where that is unsupported every item simply stays full
+   width and the link sits right-aligned under the heading. */
+.slnt-section-head-row > .field--name-field-content-component {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  column-gap: 1.5rem;
+  align-items: baseline;
+}
+
+.slnt-section-head-row > .field--name-field-content-component > .field__item {
+  grid-column: 1 / -1;
+  min-width: 0;
+}
+
+@media (min-width: 800px) {
+  .slnt-section-head-row > .field--name-field-content-component > .field__item:has(+ .field__item > .slnt-view-more--wide) {
+    grid-column: 1;
+  }
+  .slnt-section-head-row > .field--name-field-content-component > .field__item:has(> .slnt-view-more--wide) {
+    grid-column: 2;
+  }
+}

@@ -30,8 +30,11 @@
 .slnt-events-compact-grid [class*="js-view-dom-id-"] {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 1.8rem 0.8rem;
-  margin-bottom: 1.2rem; /* kickers are last in the card now; keep the CTA off them */
+  /* Cards are white boxes on the off-white band, so the gap itself is
+     the partition — it no longer has to be outsized to disambiguate the
+     top rule (it was 1.8rem when cards had no box). */
+  gap: 1rem;
+  margin-bottom: 1.2rem; /* keep the narrow-screen View more link off the cards */
 }
 
 @media (max-width: 999px) {
@@ -68,8 +71,11 @@
   flex-direction: column;
   flex: 1;
   min-width: 0;
+  /* White box on the off-white (warm-grey) front-page band: the boxes
+     and the gaps between them give the grid a visible structure. */
+  background: #fff;
   border-top: 1px solid var(--solent-blue, #2c4f6e);
-  padding-top: 0.55rem; /* rule → 5px focus ring → link, with air between */
+  padding: 0.55rem 0.3rem 0.7rem; /* top: rule → 5px focus ring → link, with air between */
 }
 
 /* Kicker (topic trail) sits below the link, outside the clickable

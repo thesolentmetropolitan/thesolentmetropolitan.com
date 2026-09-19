@@ -1,0 +1,7 @@
+uuid: 87cf0207-4ffd-46ee-b955-6ae58c7723c4
+langcode: en
+status: true
+dependencies: {  }
+id: section_heading_row
+label: 'Section Heading Row'
+classes: 'slnt-section-head-row'

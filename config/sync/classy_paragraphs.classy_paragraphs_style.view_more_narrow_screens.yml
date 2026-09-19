@@ -1,0 +1,7 @@
+uuid: ce299c02-79ff-4504-b7b2-11a0cee2b1d5
+langcode: en
+status: true
+dependencies: {  }
+id: view_more_narrow_screens
+label: 'View More Narrow Screens'
+classes: 'slnt-view-more slnt-view-more--narrow'
