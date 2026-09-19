@@ -26,6 +26,7 @@
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 1.8rem 0.8rem;
+  margin-bottom: 1.2rem; /* kickers are last in the card now; keep the CTA off them */
 }
 
 @media (max-width: 339px) {
@@ -57,7 +58,7 @@
   flex: 1;
   min-width: 0;
   border-top: 1px solid var(--solent-blue, #2c4f6e);
-  padding-top: 0.35rem;
+  padding-top: 0.55rem; /* rule → 5px focus ring → link, with air between */
 }
 
 /* Kicker (topic trail) sits below the link, outside the clickable
@@ -65,7 +66,7 @@
    lines up with the title and facts above. */
 .slnt-event-compact-card .slnt-topic-trail {
   margin: auto 0 0 0; /* pin to the bottom of the row */
-  padding: 0.15rem 0.5rem 0;
+  padding: 0.5rem 0.5rem 0; /* top: clears the link's 5px focus ring */
 }
 
 .slnt-event-compact-card .slnt-topic-trail__ancestors {
@@ -102,8 +103,15 @@
   background: var(--warm-grey, #f5f3f0);
 }
 
+/* Focus ring: near-black, 16:1 on the page background. The previous
+   #f5b0d8 pink was chosen for the solent-blue menu bar (5:1 there) and
+   is only ~1.7:1 on off-white; WCAG 2.4.11 asks 3:1 of a focus
+   indicator. Matches the ring on the article cards. Near-black also
+   stays distinct from the solent-blue top rule it sits just beneath —
+   a solent-blue ring (8.2:1, also a pass) would visually merge with
+   it. Card padding-top leaves a clear gap between rule and ring. */
 .slnt-event-compact__link:focus-visible {
-  outline: 3px solid #f5b0d8;
+  outline: 3px solid var(--text, #1a1a1a);
   outline-offset: 2px;
 }
 
@@ -260,7 +268,7 @@
   }
   /* Keep the kicker on the same left edge as the title above it. */
   .slnt-event-compact-card .slnt-topic-trail {
-    padding: 0 0.7rem;
+    padding: 0.5rem 0.7rem 0;
   }
 }
 
@@ -283,7 +291,7 @@
      Reserve two lines for all of them so the FIRST line of every
      kicker in a row starts at the same height. */
   .slnt-event-compact-card .slnt-topic-trail {
-    padding: 0 0.3rem;
+    padding: 0.5rem 0.3rem 0;
     min-height: 2.6em;
   }
   .slnt-event-compact__title,
