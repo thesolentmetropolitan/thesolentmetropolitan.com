@@ -237,3 +237,26 @@ drush php:script scripts/update_section_colour_terms.php
 ```
 
 Idempotent; matches terms by vocabulary + name rather than tid.
+
+---
+
+## Follow-up 3, 2026-09-19 — event rule, topic position, focus ring
+
+Two commits, so the ring can be changed or reverted on its own.
+
+**1. Rule and topic position.** The event card's top rule is now a uniform 1px solent-blue
+hairline instead of 3px in the section colour (inline `border-top-color` removed from the
+template). Each card is a flex column filling its grid row with the kicker pushed to the bottom,
+so within a row every topic term sits at the same height; a longer title makes the row taller
+rather than knocking its kicker out of line. Below 500px two lines are reserved for the kicker so
+the first line starts level even when one neighbour wraps and the other doesn't. Measured: kicker
+tops identical within every row at 1280px and at 375px.
+
+**2. Focus ring (for Rob to review).** `3px solid var(--text)` with a 2px offset on the event
+card link — 16:1 on the page background, same as the article cards. How the earlier tweaks
+affect it: the rule is now solent-blue, and the ring sits just beneath it, so a solent-blue ring
+(the alternative, 8.2:1) would visually merge with the rule, while near-black stays distinct.
+Card padding-top and kicker padding-top were raised so the ring has about 3–4px of clear air
+from the rule above and the topic term below. The "See all events" button gained a 1.2rem gap,
+since kickers are now the last thing in the grid. To try solent-blue instead, change the one
+`outline` colour in `.slnt-event-compact__link:focus-visible`.
