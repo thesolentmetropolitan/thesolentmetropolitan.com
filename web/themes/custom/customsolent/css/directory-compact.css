@@ -51,10 +51,10 @@
 }
 
 /* ── The card ──
-   White box, 1px solent-blue top rule — the event card family. Section
-   pages sit on the near-white page background (#faf9f7), where a white
-   box alone is invisible, so a hairline outline defines the box on any
-   background. Drawn with box-shadow so it adds nothing to the layout. */
+   White box with a 1px solent-blue top rule and no other border — the
+   same as the front-page event cards. Composite Pages sit on the warm
+   off-white (css/elements.css), so the white box and the gaps between
+   boxes do the partitioning without an outline. */
 .slnt-directory-card {
   position: relative; /* containing block for the stretched link */
   display: flex;
@@ -65,12 +65,11 @@
   padding: 0.8rem 0.9rem 0.8rem;
   background: #fff;
   border-top: 1px solid var(--solent-blue, #2c4f6e);
-  box-shadow: 0 0 0 1px rgba(44, 79, 110, 0.14);
   transition: box-shadow 0.15s;
 }
 
 .slnt-directory-card:hover {
-  box-shadow: 0 0 0 1px rgba(44, 79, 110, 0.14), 0 2px 10px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12);
 }
 
 /* ── Title + the card's one main link ── */

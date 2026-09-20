@@ -11,7 +11,15 @@ declare(strict_types=1);
  * Implements hook_preprocess_HOOK() for html.html.twig.
  */
 function customsolent_preprocess_html(array &$variables): void {
-
+  // Body class for the content type of the node being viewed, e.g.
+  // page-node-type-composite-page. CSS uses it to give section pages and
+  // the front page (all Composite Pages) the off-white page background
+  // without touching the site-wide colour — see css/elements.css.
+  $node = \Drupal::routeMatch()->getParameter('node');
+  if ($node instanceof \Drupal\node\NodeInterface
+    && \Drupal::routeMatch()->getRouteName() === 'entity.node.canonical') {
+    $variables['attributes']['class'][] = 'page-node-type-' . \Drupal\Component\Utility\Html::getClass($node->bundle());
+  }
 }
 
 /**

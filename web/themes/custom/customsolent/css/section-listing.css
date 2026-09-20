@@ -155,7 +155,7 @@
 .slnt-filter-children {
   margin: 0.1rem 0 0.4rem 0.75rem;
   padding-left: 0.5rem;
-  border-left: 2px solid var(--warm-grey, #f5f3f0);
+  border-left: 2px solid var(--rule-soft, #ddd8d0);
 }
 
 /* Child item — slightly smaller font + tighter padding than the

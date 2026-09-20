@@ -7,6 +7,10 @@
   --pink-hover: #f5b0d8; /* hover text/chevron on solent-blue menu bar (5.0:1 contrast) */
   --warm-grey: #f5f3f0;
   --body-bg: #faf9f7;
+  /* Hairline that still shows on both page backgrounds (#faf9f7 and the
+     warm-grey used on Composite Pages). --warm-grey itself is 1.05:1 on
+     #faf9f7 — invisible as a rule. */
+  --rule-soft: #ddd8d0;
   --text: #1a1a1a;
   --text-mid: #444444;
 
@@ -30,6 +34,28 @@
      hero, and enclosure paragraphs so the tracked alignment is tweaked in
      one place */
   --align-floor: 1em;
+}
+
+/* Composite Pages — every section page, and the front page — sit on the
+   warm off-white, so white cards and boxes read as structure (the BBC
+   home page pattern). Done by re-pointing --body-bg on the body, which
+   also carries through to anything that paints itself in the page colour,
+   such as the hero's cut-out title box.
+
+   Deliberately NOT site-wide: --warm-grey is also a FILL elsewhere (the
+   desktop submenu strip, search boxes, a panel on full node pages), and
+   those would disappear into a warm-grey page. The body class comes from
+   customsolent_preprocess_html(). */
+body.page-node-type-composite-page {
+  --body-bg: var(--warm-grey, #f5f3f0);
+}
+
+/* menu-desktop.css paints <main> opaque white at desktop widths — it must
+   be opaque, because the submenu slides out from behind it. Keep it
+   opaque, but in the page colour. (On phones <main> has no background, so
+   the body colour above already shows through.) */
+body.page-node-type-composite-page main {
+  background-color: var(--body-bg);
 }
 
 /* Mobile spacing override */

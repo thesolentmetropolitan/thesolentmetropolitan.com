@@ -94,3 +94,29 @@ bash scripts/release-2026-09-20-directory-cards.sh
 ```
 
 DDEV snapshot `pre-directory-cards-20260920` was taken before applying locally.
+
+---
+
+## Follow-up — cards styled like the front page; off-white on Composite Pages
+
+Rob: keep the top line, drop the thin lines on the other sides, white card, off-white page as on
+the front page.
+
+- Card: the hairline outline (a `box-shadow`) is gone. 1px solent-blue top rule only, white fill.
+- **Off-white page background on every Composite Page** — all section pages and the front page.
+  `customsolent_preprocess_html()` now adds a body class per content type
+  (`page-node-type-composite-page`), and `css/elements.css` re-points `--body-bg` to the warm-grey
+  on that class. Re-pointing the variable also recolours things that paint themselves in the page
+  colour, such as the hero's cut-out title box, so nothing is left looking pasted on.
+- **Deliberately not site-wide.** `--warm-grey` is also a *fill* elsewhere — the desktop submenu
+  strip, the search boxes, a panel on full node pages — and those would vanish into a warm-grey
+  page. Article, event and search pages keep `#FAF9F7`.
+- **Found on the way:** at desktop widths `menu-desktop.css` paints `<main>` opaque white (it has
+  to be opaque — the submenu slides out from behind it). So the content area had been pure white
+  on desktop all along, and `#FAF9F7` only ever showed on phones. `<main>` stays opaque but takes
+  the page colour on Composite Pages.
+- New token `--rule-soft: #ddd8d0`. Two hairlines on section pages used `--warm-grey` as their
+  colour (article teaser separators, the filter sidebar's child indent). That is 1.05:1 on
+  `#FAF9F7` — effectively invisible already — and would be fully invisible now.
+
+CSS and one preprocess hook; no config or content change, so the release script is unchanged.
