@@ -93,11 +93,13 @@
            spans inline at desktop width so the heading runs on one line
            there. Render the field once for its cache metadata. #}
         {% set _rendered = content.field_heading|render %}
+        {% if heading_url %}<a class="slnt-heading__link" href="{{ heading_url }}">{% endif %}
         {% for line in paragraph.field_heading.value|split("\n") %}
           {%- if line|trim is not empty -%}
             <span class="slnt-heading__line">{{ line|trim }}</span>{{ ' ' }}
           {%- endif -%}
         {% endfor %}
+        {% if heading_url %}</a>{% endif %}
         </{{paragraph.field_heading_size.0.value}}>
       {% endblock %}
     </div>
