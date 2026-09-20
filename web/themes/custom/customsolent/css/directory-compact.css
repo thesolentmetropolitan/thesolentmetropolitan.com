@@ -190,3 +190,11 @@
   }
 }
 
+/* Beside the Section Filter sidebar: two wider columns instead of three. */
+@media (min-width: 1000px) {
+  .field--name-field-content-component:has(> .field__item > .paragraph--type--section-filter)
+    .slnt-directory-compact-grid [class*="js-view-dom-id-"] {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+

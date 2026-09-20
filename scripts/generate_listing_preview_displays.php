@@ -148,3 +148,51 @@ if (!EntityViewMode::load('paragraph.listing_page')) {
   ])->save();
   $say('paragraph view mode listing_page: created.');
 }
+
+// ─────────────────────────────────────────────────────────────────────────
+// Events full listing as a card grid: the by-topic OR query, the exposed
+// date filter (the "today / this weekend" pills) and a full pager, with
+// compact-card rows. 24 per page fills rows of four.
+// ─────────────────────────────────────────────────────────────────────────
+const LISTING_CARDS = 'view_display_listing_cards';
+$full_pager = function (int $per_page): array {
+  return [
+    'type' => 'full',
+    'options' => ['offset' => 0, 'items_per_page' => $per_page, 'total_pages' => NULL, 'id' => 0,
+      'tags' => ['next' => '››', 'previous' => '‹‹', 'first' => '« First', 'last' => 'Last »'],
+      'expose' => ['items_per_page' => FALSE, 'items_per_page_label' => 'Items per page', 'items_per_page_options' => '5, 10, 25, 50', 'items_per_page_options_all' => FALSE, 'items_per_page_options_all_label' => '- All -', 'offset' => FALSE, 'offset_label' => 'Offset'],
+      'quantity' => 9, 'pagination_heading_level' => 'h4'],
+  ];
+};
+
+$events = $storage->load('events_listing');
+$displays = $events->get('display');
+if (isset($displays[LISTING_CARDS])) {
+  $say('events_listing: ' . LISTING_CARDS . ' already exists.');
+}
+else {
+  $new = $displays[LISTING];
+  $new['id'] = LISTING_CARDS;
+  $new['display_title'] = 'View Display Listing Cards';
+  $new['display_options']['row'] = ['type' => 'entity:node', 'options' => ['relationship' => 'none', 'view_mode' => 'compact']];
+  $new['display_options']['pager'] = $full_pager(24);
+  $new['display_options']['defaults']['row'] = FALSE;
+  $new['display_options']['defaults']['pager'] = FALSE;
+  $new['display_options']['display_description'] = 'Full events listing as a card grid (front-page event card), by topic, with date pills and pager.';
+  $displays[LISTING_CARDS] = $new;
+  $events->set('display', $displays);
+  $events->save();
+  $say('events_listing: added ' . LISTING_CARDS . '.');
+}
+
+// Explore → Organisations: cards sit three to a row, so 10 per page leaves
+// a ragged last row on every page. 24 per page.
+$orgs = $storage->load('organisations_listing');
+$displays = $orgs->get('display');
+$d = 'view_display_orgs_directories_page';
+if (($displays[$d]['display_options']['pager']['options']['items_per_page'] ?? NULL) !== 24) {
+  $displays[$d]['display_options']['pager']['options']['items_per_page'] = 24;
+  $orgs->set('display', $displays);
+  $orgs->save();
+  $say("organisations_listing: $d now 24 per page.");
+}

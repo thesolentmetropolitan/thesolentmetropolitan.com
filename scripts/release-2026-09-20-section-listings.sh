@@ -26,28 +26,31 @@ echo "============================================"
 echo "  Release 2026-09-20: section previews + listing pages"
 echo "============================================"
 
-echo "==> Step 1/8: Backing up database..."
+echo "==> Step 1/9: Backing up database..."
 $DRUSH sql:dump --gzip --result-file="$BACKUP_DIR/backup-pre-release-2026-09-20-listings-$(date +%Y%m%d-%H%M%S).sql"
 
-echo "==> Step 2/8: Enabling maintenance mode..."
+echo "==> Step 2/9: Enabling maintenance mode..."
 $DRUSH state:set system.maintenance_mode 1 -y
 
-echo "==> Step 3/8: Importing configuration (card displays, combined view, preview displays, listing mode field)..."
+echo "==> Step 3/9: Importing configuration (card displays, combined view, preview displays, listing mode field)..."
 $DRUSH config:import -y
 
-echo "==> Step 4/8: Clearing caches (registers the listing route, path processor and templates)..."
+echo "==> Step 4/9: Clearing caches (registers the listing route, path processor and templates)..."
 $DRUSH cr
 
-echo "==> Step 5/8: Card grid style on existing organisations / links listings..."
+echo "==> Step 5/9: Card grid style on existing organisations / links listings..."
 $DRUSH php:script scripts/apply_directory_card_grid.php
 
-echo "==> Step 6/8: Marking the Explore listing pages as Full listing..."
+echo "==> Step 6/9: Marking the Explore listing pages as Full listing..."
 $DRUSH php:script scripts/set_full_listing_pages.php
 
-echo "==> Step 7/8: Final cache rebuild..."
+echo "==> Step 7/9: Topic filter on Explore → Directories & Networks and Explore → Organisations..."
+$DRUSH php:script scripts/add_explore_listing_filters.php
+
+echo "==> Step 8/9: Final cache rebuild..."
 $DRUSH cr
 
-echo "==> Step 8/8: Disabling maintenance mode..."
+echo "==> Step 9/9: Disabling maintenance mode..."
 $DRUSH state:set system.maintenance_mode 0 -y
 
 echo ""
@@ -60,7 +63,10 @@ echo "                                   each, NO pager; 'View more' beside the 
 echo "    /culture/music/organisations   one list, one pager; page 2 works; Culture lit in the menu"
 echo "    /culture/music/events          events with date pills"
 echo "    /culture/events                topic filter present and narrows the list"
-echo "    /explore/events                unchanged: full listing, not a preview"
+echo "    /explore/events                card grid, date pills, topic filter; choose Culture then Music"
+echo "    /explore/directories-networks  new topic filter; choosing a topic narrows the list"
+echo "    /explore/organisations         new topic filter; Sectors cuts ~20 pages to ~12; page 2 keeps it"
+echo "    /culture                       filter starts on All topics; Music shows its events"
 echo "    /explore/data                  its two old blocks are now one combined block"
 echo "    phone width                    'View more' appears under the cards"
 echo "  Then: $DRUSH config:status     (expect: no differences)"

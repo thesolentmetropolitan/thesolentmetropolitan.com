@@ -43,6 +43,13 @@
   }
 }
 
+/* On a full listing the views wrapper also holds the date pills (exposed
+   form), the pager and any empty text. Anything that is not a card row
+   spans the whole grid. */
+.slnt-events-compact-grid [class*="js-view-dom-id-"] > :not(.views-row) {
+  grid-column: 1 / -1;
+}
+
 @media (max-width: 339px) {
   .slnt-events-compact-grid [class*="js-view-dom-id-"] {
     grid-template-columns: 1fr;
@@ -316,3 +323,15 @@
     overflow-wrap: anywhere;
   }
 }
+
+/* Beside the Section Filter sidebar (220px + gap) the list is about 900px
+   wide. Four columns there gives ~210px cards and titles that wrap to four
+   lines; three reads better. The :has() path is the same one
+   section-listing.css uses to lay the sidebar out. */
+@media (min-width: 1000px) {
+  .field--name-field-content-component:has(> .field__item > .paragraph--type--section-filter)
+    .slnt-events-compact-grid [class*="js-view-dom-id-"] {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+

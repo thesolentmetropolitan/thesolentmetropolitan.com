@@ -124,3 +124,66 @@ bash scripts/release-2026-09-20-section-listings.sh
 
 This script includes step 1's card release, so it is the only one to run. DDEV snapshot
 `pre-step2-20260920` was taken before applying locally.
+
+---
+
+## Follow-up — Rob's review: a caching bug, events grid, two new filters
+
+Rob confirmed two behaviours as wanted: no "View more" at 8 or fewer events, and an empty block
+disappearing along with its heading.
+
+### The `/culture` bug — mine
+*Symptom:* filter stuck on "Art & Design", nothing listed, other topics did nothing.
+
+*Cause:* the page was cached without varying by `?topic=`. Every listing used to render a paged
+view, and a paged view brings the broad `url` cache context with it. A preview block does not
+always render a view — an empty block renders nothing, and the "nothing matches" message is plain
+markup — so `/culture` was stored in whichever filter state was requested first (`?topic=34`, from
+one of my own tests) and served to everyone.
+
+*Why the existing safeguard didn't catch it:* `customsolent_paragraph_view_alter()` in
+`customsolent.theme` was written to add exactly that cache context, but entity view-alter hooks
+are invoked on **modules only**, never themes. It had never run; the views' own `url` context had
+been masking that since it was written.
+
+*Fix:* the hook now lives in `customsolent_helpers.module` and covers listings, section filters and
+headings. Independently, every by-topic listing prints a small `listing_cache` render array in
+**every** template branch, carrying the `?topic=` / `?date_filter_id=` contexts and the
+`node_list:*` tags — so a block that is empty today reappears when an event is added, and is never
+cached as empty for someone else's filter.
+
+### `/explore/events` as a card grid
+New display `events_listing : view_display_listing_cards` (generated via the API): the same
+by-topic OR query, the exposed date filter and a full pager, with compact-card rows, 24 per page.
+All **full** events listings use it, so `/culture/music/events` is a grid too, consistent with
+`/explore/events`. Works with the existing Section Filter and the date pills together. Beside the
+filter sidebar the grid is three columns rather than four (four gave ~210px cards).
+
+The event *teaser* — and its "Event info" button from step 1 — is therefore no longer used by any
+by-topic listing. Left in place; say if the row layout is wanted back anywhere.
+
+### Filters on Directories & Networks and on Organisations
+Both get the same Section Filter paragraph as `/explore/events` (Culture / Sectors / Living,
+expanding to sub-topics), added by `scripts/add_explore_listing_filters.php`.
+
+They needed something new underneath. Everywhere else `?topic=` *replaces* the list's scope with
+the chosen sub-tree. These two lists are scoped differently — Directories & Networks to its own
+Explore term, Organisations to nothing at all — so choosing "Culture" has to narrow **within** the
+list. `customsolent_helpers_views_query_alter()` adds that as an AND condition (primary or related
+topic in the chosen sub-tree) whenever `?topic=` has not already been consumed as the view's scope.
+First attempt missed Organisations: its display has no contextual filters and silently ignores the
+arguments the template passes, so the "already consumed?" check was wrongly satisfied. It now only
+counts a display that actually has argument handlers.
+
+`view_display_orgs_directories_page` moves from 10 to 24 per page (cards sit three to a row).
+
+### Verified
+| Check | Result |
+|---|---|
+| `/culture` | starts on All Topics, 8 cards; `?topic=44` (Music) shows its 2 events; back to `/culture` still All Topics |
+| `/explore/events` | 11 cards, date pills present; Culture → 9; Music → 2 |
+| `/explore/directories-networks` | filter present; Culture / Sectors / Living → 12 / 17 / 7 on page one |
+| `/explore/organisations` | 20 pages → 13 (Culture) / 12 (Sectors) / 5 (Living) / 2 (Music); page 2 keeps the filter |
+| Desktop layout | sidebar + grid; selected branch expands to sub-topics |
+
+Release script now has 9 steps (the filter script is step 7).
