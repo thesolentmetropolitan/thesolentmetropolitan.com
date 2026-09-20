@@ -17,10 +17,28 @@ their alignment with everything else. Every one now reads `var(--container-max, 
 token is set **once**, in `css/elements.css`: **1360px**. Media-query breakpoints stay literal (a
 custom property cannot be used in a media query).
 
-- 1440px laptop: 40px each side. Below about 1390px nothing changes — `--align-floor` is what
-  limits the width there.
-- Verified at 1280, 1440 and 1920: header, heading, both grids, the intro box and the footer share
-  the same edges. Cards go from ~282px to ~320px wide.
+**Correction, same day.** The first version set a flat 1360px, and I told Rob "below about
+1390px nothing changes". That was wrong: between 1200px and 1390px the side margins fell from 40px
+to the 16px floor, which looks cramped on a 1280px laptop. Spotted in a screenshot taken for
+something else. A second attempt used a percentage inside the token; percentages are resolved by
+each element that uses the token against its *own* container, so a listing nested in an
+already-narrowed enclosure narrowed itself again (grid at 96px, logo at 40px). The token is now
+window-based, which gives every user the same answer:
+
+`--container-max: min(1360px, max(1200px, 100vw - 6rem))`
+
+| Window | Content column | Result |
+|---|---|---|
+| ≤ 1280px | 1200px | exactly as before the change (grid 49px from the edge, cards 280px) |
+| 1280 – 1456px | window − 6rem | the 40px-ish gutters of 1280px are held while the column widens |
+| ≥ 1456px | 1360px | cards ≈ 320px |
+
+`100vw` is safe here although it is banned for full-bleed widths on this site: that ban is about
+`width: 100vw` (wider than the page by the scrollbar). Here it only feeds a subtraction, so nothing
+is sized to it; 6rem rather than 5rem allows for the ~15px scrollbar it includes.
+
+Measured after the fix — 1280px: grid 49px each side, cards 280px (unchanged). 1440px: grid, intro
+box and footer all at 57–60px, cards 316px. 1920px (flat-value run, same cap): cards 320px.
 
 **Card text.** Recommendation, applied: titles stay **16px**; supporting text (event date and
 place, article summary, organisation standfirst) goes to **15px** (`0.9375rem`). Atkinson
@@ -73,8 +91,9 @@ headings; underline on hover/focus is solent-blue, set explicitly.
 
 ## 10 — Footer
 Desktop: six items three across, two down, with two dividers placed at the centre of each column
-gap. Phones unchanged. Footer menu and the horizontal legal menu are underlined at rest in the
-hover pink `#f5b0d8` (5:1 on the footer).
+gap. Phones unchanged. Footer menu and the horizontal legal menu show a pink underline (`#f5b0d8`,
+5:1 on the footer) **on hover and keyboard focus only** — first built as always-on, which was not
+what Rob meant; corrected the same day.
 
 ## 11 — Desktop submenu white
 See `2026-09-20-section-strip-and-signpost.md`. Included in this branch.

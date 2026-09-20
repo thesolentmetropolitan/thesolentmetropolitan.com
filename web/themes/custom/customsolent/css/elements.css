@@ -33,12 +33,33 @@
   /* The width of the content column — header, menu, banner, enclosures,
      listings, search, footer all align to it. ONE token: every rule that
      used to say 1200px now reads var(--container-max, 1200px).
-     Raised from 1200px to 1360px in 2026-09 so that card grids get more
-     width on laptops and desktops (four cards ≈ 320px each instead of
-     ≈ 280px, which made them tall). On a 1440px laptop that leaves 40px
-     each side; below ~1390px nothing changes, because the --align-floor
-     side padding is what limits the width there. */
-  --container-max: 1360px;
+
+     It was a fixed 1200px. Rob wanted more room for card grids on larger
+     screens, so it now grows with the window, up to 1360px:
+
+       window ≤ 1280px    1200px  — exactly as before (the side margin is
+                                    (window − 1200) / 2, floored by
+                                    --align-floor)
+       1280px – 1456px    window − 6rem — the 40px gutters that 1280px had
+                                    are held while the column widens
+       ≥ 1456px           1360px  — four cards ≈ 320px each, not ≈ 280px
+
+     Why 100vw here, when 100vw is banned for full-bleed widths on this
+     site: that ban is about `width: 100vw`, which is wider than the page by
+     the scrollbar and caused a permanent horizontal scrollbar. Here 100vw is
+     only an input to min()/max() that ends up SUBTRACTED from an element's
+     own width, so nothing is ever sized to it. It has to be a viewport unit
+     and not a percentage: a percentage is resolved by each element that uses
+     the token, against its own container — a listing nested in an already
+     narrowed enclosure then narrowed itself a second time (found by
+     measuring: grid at 96px while the logo sat at 40px). A viewport unit
+     gives every user of the token the same answer. 6rem, not 5rem, because
+     100vw includes the ~15px scrollbar: 1440 − 96 = 1344, which leaves the
+     40px gutters on a 1425px-wide page.
+
+     A first attempt set a flat 1360px; that quietly cut the gutters at
+     1280px from 40px to the 16px floor. */
+  --container-max: min(1360px, max(1200px, 100vw - 6rem));
 
   /* Left/right alignment grid floor — shared by header, logo, menu, submenu,
      hero, and enclosure paragraphs so the tracked alignment is tweaked in
