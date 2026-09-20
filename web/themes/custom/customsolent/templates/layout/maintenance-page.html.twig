@@ -9,50 +9,26 @@
  * @see template_preprocess_maintenance_page()
  */
 #}
-<header role="banner">
-  {% if logo %}
-    <a href="{{ front_page }}" title="{{ 'Home'|t }}" rel="home">
-      <img src="{{ logo }}" alt="{{ 'Home'|t }}"/>
-    </a>
-  {% endif %}
-
-  {% if site_name or site_slogan %}
-    {% if site_name %}
-      <h1>
-        <a href="{{ front_page }}" title="{{ 'Home'|t }}" rel="home">{{ site_name }}</a>
-      </h1>
+{# A standalone page: no menu and no footer blocks are available while the
+   site is in maintenance mode, so it carries its own header band. Styled in
+   css/system-pages.css (.slnt-maintenance). The message itself is the one
+   set at Configuration → Development → Maintenance mode. #}
+<div class="slnt-maintenance">
+  <header class="slnt-maintenance__header" role="banner">
+    {% if logo %}
+      <img src="{{ logo }}" alt="{{ site_name }}"/>
+    {% elseif site_name %}
+      <div class="slnt-maintenance__name">{{ site_name }}</div>
     {% endif %}
-
-    {% if site_slogan %}
-      <div>{{ site_slogan }}</div>
-    {% endif %}
-  {% endif %}
-</header>
-
-<main role="main">
-  {% if title %}
-    <h1>{{ title }}</h1>
-  {% endif %}
-
-  {{ page.highlighted }}
-
-  {{ page.content }}
-</main>
-
-{% if page.sidebar_first %}
-  <aside role="complementary">
-    {{ page.sidebar_first }}
-  </aside>
-{% endif %}
-
-{% if page.sidebar_second %}
-  <aside role="complementary">
-    {{ page.sidebar_second }}
-  </aside>
-{% endif %}
-
-{% if page.footer %}
-  <footer role="contentinfo">
-    {{ page.footer }}
+  </header>
+  <main class="slnt-maintenance__main" role="main">
+    <h1 class="slnt-maintenance__title">{{ title ?: 'Back shortly'|t }}</h1>
+    <div class="slnt-maintenance__box">
+      {{ page.highlighted }}
+      {{ page.content }}
+    </div>
+  </main>
+  <footer class="slnt-maintenance__footer" role="contentinfo">
+    {{ site_name }}
   </footer>
-{% endif %}
+</div>

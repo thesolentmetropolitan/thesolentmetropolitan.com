@@ -26,6 +26,64 @@ function customsolent_preprocess_html(array &$variables): void {
     $variables['attributes']['class'][] = 'page-node-type-composite-page';
     $variables['attributes']['class'][] = 'page-topic-listing';
   }
+  // Log in / reset password / 404 / 403: see _customsolent_system_page().
+  if ($system_page = _customsolent_system_page()) {
+    $variables['attributes']['class'][] = 'page-system';
+    $variables['attributes']['class'][] = 'page-system--' . $system_page['key'];
+  }
+}
+
+/**
+ * Describes the current route if it is one of Drupal's own bare pages.
+ *
+ * These pages have no node, no banner and (in this theme) no page title
+ * block, so they rendered as unstyled form fields or a lone sentence hard
+ * against the header. page.html.twig gives them a heading, an intro and a
+ * white box on the off-white ground; css/system-pages.css styles the forms
+ * to match the contact form.
+ *
+ * @return array|null
+ *   key, title, intro, links (label => path), replace_content (bool).
+ */
+function _customsolent_system_page(): ?array {
+  $pages = [
+    'user.login' => [
+      'key' => 'login',
+      'title' => t('Log in'),
+      'intro' => t('For editors and contributors of The Solent Metropolitan.'),
+      'links' => [(string) t('Forgotten your password?') => '/user/password'],
+    ],
+    'user.pass' => [
+      'key' => 'password',
+      'title' => t('Reset your password'),
+      'intro' => t('Enter your username or email address and we will send you a link to set a new password.'),
+      'links' => [(string) t('Back to log in') => '/user/login'],
+    ],
+    'system.404' => [
+      'key' => '404',
+      'title' => t('Page not found'),
+      'intro' => t('Sorry, there is no page at this address. It may have moved, or the link may be out of date.'),
+      'links' => [
+        (string) t("What's on: events") => '/explore/events',
+        (string) t('Articles') => '/explore/articles',
+        (string) t('Organisations') => '/explore/organisations',
+        (string) t('Culture') => '/culture',
+        (string) t('Sectors') => '/sectors',
+        (string) t('Living') => '/living',
+        (string) t('Home') => '/',
+      ],
+      'replace_content' => TRUE,
+    ],
+    'system.403' => [
+      'key' => '403',
+      'title' => t('You need to log in to see this page'),
+      'intro' => t('This page is not public. If you are an editor or contributor, log in and try again.'),
+      'links' => [(string) t('Log in') => '/user/login', (string) t('Home') => '/'],
+      'replace_content' => TRUE,
+    ],
+  ];
+  $route = \Drupal::routeMatch()->getRouteName();
+  return $pages[$route] ?? NULL;
 }
 
 /**
@@ -55,7 +113,7 @@ function customsolent_preprocess_slnt_topic_listing(array &$variables): void {
  * Implements hook_preprocess_HOOK() for page.html.twig.
  */
 function customsolent_preprocess_page(array &$variables): void {
-
+  $variables['system_page'] = _customsolent_system_page();
 }
 
 /**
