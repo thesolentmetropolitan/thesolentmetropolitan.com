@@ -767,3 +767,209 @@ a.slnt-teaser__from-term:hover {
   }
 }
 
+/* ══════════════════════════════════════
+   Section strip — Overview · Events 12 · Organisations & links 38
+   (slnt-section-strip.html.twig)
+
+   Wide: one row that wraps onto a second line if it has to.
+   Below 600px: a stacked list of 44px rows.
+   It never scrolls sideways — a swipe row needs an affordance and is
+   painful with a mouse on a narrowed desktop window.
+   ══════════════════════════════════════ */
+
+/* On a section page the strip is an item of the node's content field,
+   directly under the full-bleed banner, so it supplies its own alignment
+   to the 1200px grid (the enclosures do the same). On a listing page it
+   sits inside .slnt-topic-listing, which is already aligned. */
+.field__item--section-strip > .slnt-section-strip {
+  padding: 0.6rem max(var(--align-floor, 1em), calc((100% - 1200px) / 2 + 1em)) 0;
+  box-sizing: border-box;
+}
+
+.slnt-topic-listing > .slnt-section-strip {
+  margin-bottom: 1.6rem;
+}
+
+.slnt-section-strip__nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 0.25rem;
+  border-bottom: 1px solid var(--solent-blue, #2c4f6e);
+}
+
+/* Beat `.layout-content a` / `.slnt-text > * a` (fonts.css). */
+.layout-content a.slnt-section-strip__item,
+a.slnt-section-strip__item {
+  display: flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  padding: 0.55rem 0.9rem;
+  font-family: 'Atkinson Hyperlegible Next', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--solent-blue, #2c4f6e);
+  text-decoration: none;
+  text-decoration-color: transparent;
+  white-space: nowrap;
+  border-bottom: 4px solid transparent;
+}
+
+.layout-content a.slnt-section-strip__item:hover {
+  background: #fff;
+  text-decoration: none;
+}
+
+.layout-content a.slnt-section-strip__item[aria-current] {
+  border-bottom-color: var(--magenta, #c5007a);
+  color: var(--text, #1a1a1a);
+}
+
+.slnt-section-strip__item:focus-visible {
+  outline: 3px solid var(--text, #1a1a1a);
+  outline-offset: -3px;
+}
+
+.slnt-section-strip__count {
+  font-weight: 400;
+  color: var(--text-mid, #444);
+  font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 599px) {
+  .slnt-section-strip__nav {
+    display: grid;
+    gap: 0;
+    border-bottom: 0;
+    border-top: 1px solid var(--solent-blue, #2c4f6e);
+    background: #fff;
+  }
+
+  .layout-content a.slnt-section-strip__item,
+  a.slnt-section-strip__item {
+    min-height: 44px;
+    box-sizing: border-box;
+    align-items: center;
+    padding: 0.5rem 0.9rem 0.5rem 0.75rem;
+    white-space: normal;
+    border-bottom: 1px solid var(--rule-soft, #ddd8d0);
+    border-left: 4px solid transparent;
+  }
+
+  .layout-content a.slnt-section-strip__item[aria-current] {
+    border-bottom-color: var(--rule-soft, #ddd8d0);
+    border-left-color: var(--magenta, #c5007a);
+    background: var(--warm-grey, #f5f3f0);
+  }
+
+  /* A caret on every row you can go to; none on the one you are on. */
+  .slnt-section-strip__item::after {
+    content: '';
+    flex: 0 0 auto;
+    width: 0.45em;
+    height: 0.45em;
+    margin-left: auto;
+    border-top: 0.16em solid currentColor;
+    border-right: 0.16em solid currentColor;
+    transform: rotate(45deg);
+    opacity: 0.55;
+  }
+
+  .slnt-section-strip__item[aria-current]::after {
+    display: none;
+  }
+}
+
+/* ══════════════════════════════════════
+   Signpost — the box that replaces a grid of organisations
+   (paragraph--view-display.html.twig, listing_mode = signpost)
+   ══════════════════════════════════════ */
+.slnt-signpost {
+  margin-bottom: 2.4rem;
+}
+
+@media (max-width: 799px) {
+  .slnt-signpost.slnt-section-listing {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+.slnt-signpost__inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.9rem 1.8rem;
+  align-items: center;
+  padding: 1.1rem 1.25rem 1.25rem;
+  background: #fff;
+  border-top: 1px solid var(--solent-blue, #2c4f6e);
+}
+
+@media (min-width: 900px) {
+  .slnt-signpost__inner {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+}
+
+.slnt-signpost .slnt-listing__heading {
+  margin: 0 0 0.25rem;
+}
+
+.slnt-signpost__count {
+  margin: 0;
+  max-width: 60ch;
+  font-variant-numeric: tabular-nums;
+}
+
+.slnt-signpost__browse {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.slnt-signpost__browse-label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-mid, #444);
+}
+
+.layout-content a.slnt-signpost__chip {
+  padding: 0.25rem 0.6rem;
+  min-height: 24px;
+  box-sizing: border-box;
+  border: 1.5px solid var(--solent-blue, #2c4f6e);
+  border-radius: 4px;
+  font-size: 0.95rem;
+  color: var(--solent-blue, #2c4f6e);
+  background: var(--warm-grey, #f5f3f0);
+  text-decoration: none;
+  text-decoration-color: transparent;
+}
+
+.layout-content a.slnt-signpost__chip:hover,
+.layout-content a.slnt-signpost__chip:focus-visible {
+  background: var(--solent-blue, #2c4f6e);
+  color: #fff;
+}
+
+.slnt-signpost__go .slnt-text-link {
+  font-size: 1.2rem;
+}
+
+/* ── Listing page: the banner supplies the top of the page ── */
+.paragraph--type--hero-with-art-style + .slnt-topic-listing {
+  padding-top: 0.6rem;
+}
+
+/* On a listing page the list lines up with the strip and heading above it:
+   drop the 1.2rem side padding .slnt-section-listing adds at ≤799px. */
+@media (max-width: 799px) {
+  .slnt-topic-listing .slnt-section-listing {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+

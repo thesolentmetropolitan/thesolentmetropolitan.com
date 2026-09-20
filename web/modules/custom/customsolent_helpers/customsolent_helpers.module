@@ -29,6 +29,16 @@ function customsolent_helpers_theme($existing, $type, $theme, $path) {
         'listing_type' => NULL,
         'heading' => NULL,
         'listing' => NULL,
+        'banner' => NULL,
+      ],
+    ],
+    // Overview · Events · Organisations & links — built by the theme's
+    // _customsolent_build_section_strip().
+    'slnt_section_strip' => [
+      'variables' => [
+        'items' => [],
+        'label' => NULL,
+        'section_key' => NULL,
       ],
     ],
     'in_kicker' => [

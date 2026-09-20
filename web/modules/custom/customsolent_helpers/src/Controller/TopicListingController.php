@@ -39,17 +39,44 @@ class TopicListingController extends ControllerBase {
    * Page callback.
    */
   public function view(NodeInterface $node, string $listing_type): array {
-    $paragraph = $this->findListingParagraph($node, $listing_type);
-    if (!$paragraph) {
-      // This topic's page has no listing of that kind.
+    if ($node->bundle() !== 'composite_page' || !$node->hasField('field_primary_topic') || $node->get('field_primary_topic')->isEmpty()) {
       throw new NotFoundHttpException();
     }
+    $paragraph = $this->findListingParagraph($node, $listing_type);
+    if (!$paragraph) {
+      // The section page has no listing of this kind placed on it. Every
+      // topic still has its listing pages (the section strip links to them
+      // whenever the topic holds something), so render the same listing a
+      // placed paragraph would give — from an unsaved paragraph that
+      // belongs to this node, so the usual scope logic applies to it.
+      $paragraph = $this->entityTypeManager()->getStorage('paragraph')->create([
+        'type' => 'view_display',
+        'field_view' => [
+          'target_id' => self::VIEWS[$listing_type][0],
+          'display_id' => self::DISPLAYS[0],
+          'data' => serialize(['offset' => NULL, 'pager' => NULL, 'limit' => NULL, 'header' => NULL, 'title' => NULL, 'argument' => NULL]),
+        ],
+      ]);
+      $paragraph->setParentEntity($node, 'field_content_component');
+    }
+    $view_builder = $this->entityTypeManager()->getViewBuilder('paragraph');
+
+    // The section's own banner, so a listing page reads as part of the
+    // section. Rendered in listing_page mode: same look, but the topic
+    // name is not an h1 here — this page's h1 is "Events".
+    $banner = NULL;
+    $first = $node->get('field_content_component')->first();
+    if ($first && $first->entity && $first->entity->bundle() === 'hero_with_art_style') {
+      $banner = $view_builder->view($first->entity, 'listing_page');
+    }
+
     return [
       '#theme' => 'slnt_topic_listing',
       '#node' => $node,
       '#listing_type' => $listing_type,
       '#heading' => $this->heading($listing_type),
-      '#listing' => $this->entityTypeManager()->getViewBuilder('paragraph')->view($paragraph, 'listing_page'),
+      '#banner' => $banner,
+      '#listing' => $view_builder->view($paragraph, 'listing_page'),
       '#cache' => [
         'tags' => $node->getCacheTags(),
         'contexts' => ['url.path', 'url.query_args'],

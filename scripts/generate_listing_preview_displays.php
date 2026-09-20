@@ -196,3 +196,26 @@ if (($displays[$d]['display_options']['pager']['options']['items_per_page'] ?? N
   $orgs->save();
   $say("organisations_listing: $d now 24 per page.");
 }
+
+// ─────────────────────────────────────────────────────────────────────────
+// Listing mode: add "signpost", and make the field's default "automatic"
+// (empty). Automatic = Preview for events, Signpost for organisations and
+// links. Preview stays available for organisations as a deliberate choice.
+// ─────────────────────────────────────────────────────────────────────────
+$mode_storage = FieldStorageConfig::loadByName('paragraph', 'field_listing_mode');
+$allowed = $mode_storage->getSetting('allowed_values');
+if (!isset($allowed['signpost'])) {
+  $mode_storage->setSetting('allowed_values', [
+    'preview' => 'Preview — up to 8 cards and a "View more" link',
+    'signpost' => 'Signpost — a count and a link to the full list, no cards',
+    'full' => 'Full listing — filter and pager on this page',
+  ])->save();
+  $say('field_listing_mode: signpost added.');
+}
+$mode_field = FieldConfig::loadByName('paragraph', 'view_display', 'field_listing_mode');
+if ($mode_field->getDefaultValueLiteral()) {
+  $mode_field->setDefaultValue([]);
+  $mode_field->setDescription('Leave as "- None -" for the automatic behaviour: events show a preview of up to 8 cards; organisations and links show a signpost (a count and a link), because the first eight of an A–Z list mean nothing. Choose Preview for organisations only when the ones shown are meaningful — a sponsors row, or who has joined a cause. Choose Full listing only on a page whose whole purpose is this one list.');
+  $mode_field->save();
+  $say('field_listing_mode: default is now automatic.');
+}

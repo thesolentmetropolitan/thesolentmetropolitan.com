@@ -12,12 +12,10 @@ field_name: field_listing_mode
 entity_type: paragraph
 bundle: view_display
 label: 'Listing mode'
-description: 'Applies to the events, organisations and links listings by topic. Preview is the default: a section page shows a few items of each kind and links to the full listing at /{topic}/events or /{topic}/organisations. Choose Full listing only on a page whose whole purpose is this one list (for example Explore → Events).'
+description: 'Leave as "- None -" for the automatic behaviour: events show a preview of up to 8 cards; organisations and links show a signpost (a count and a link), because the first eight of an A–Z list mean nothing. Choose Preview for organisations only when the ones shown are meaningful — a sponsors row, or who has joined a cause. Choose Full listing only on a page whose whole purpose is this one list.'
 required: false
 translatable: true
-default_value:
-  -
-    value: preview
+default_value: {  }
 default_value_callback: ''
 settings: {  }
 field_type: list_string
