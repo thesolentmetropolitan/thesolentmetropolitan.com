@@ -72,7 +72,13 @@ block_classes-end-footer
 
 .classy_footer_menu .paragraph-menu__nav a {
   color: rgba(255, 255, 255, 0.85);
-  text-decoration: none;
+  /* Underlined at rest, in the same pink the link turns on hover, so the
+     footer's links read as links without relying on position alone. Pink
+     #f5b0d8 is 5:1 on the solent-blue footer. */
+  text-decoration: underline;
+  text-decoration-color: var(--pink-hover, #f5b0d8);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
 }
 
 .classy_footer_menu .paragraph-menu__nav a:hover {
@@ -96,6 +102,38 @@ block_classes-end-footer
   bottom: -0.6rem;
   width: 1px;
   background: rgba(255, 255, 255, 0.3);
+}
+
+/* Desktop: the six menu items sit three across and two down (they are two
+   across and three down on phones, above). There is room to the right, and
+   it shortens the footer. CSS columns fill down then across, so the order
+   reads Home, Culture | Sectors, Living | Explore, About.
+
+   Two dividers now, one in each column gap. With three columns of width w
+   and gap g, the gap centres are at W/3 - g/6 and 2W/3 + g/6; g is 3rem,
+   so that is -/+ 0.5rem. */
+@media screen and (min-width: 800px) {
+  .classy_footer_menu .paragraph-menu__nav ul {
+    columns: 3;
+  }
+
+  .classy_footer_menu .paragraph-menu__nav {
+    max-width: 45rem;
+  }
+
+  .classy_footer_menu .paragraph-menu__nav::before {
+    left: calc(100% / 3 - 0.5rem);
+  }
+
+  .classy_footer_menu .paragraph-menu__nav::after {
+    content: '';
+    position: absolute;
+    left: calc(200% / 3 + 0.5rem);
+    top: -0.6rem;
+    bottom: -0.6rem;
+    width: 1px;
+    background: rgba(255, 255, 255, 0.3);
+  }
 }
 
 /* Desktop: menu and social icons side by side with a full-height
@@ -176,7 +214,12 @@ block_classes-end-footer
 
 .classy_footer_legal .paragraph-menu__nav a {
   color: #ffffff;
-  text-decoration: none;
+  /* Same pink underline as the footer menu above. It sits under the text
+     only, not under the link's side padding. */
+  text-decoration: underline;
+  text-decoration-color: var(--pink-hover, #f5b0d8);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
   font-weight: 400;
   padding: 0.3em 1em;
   transition: color 0.15s;
