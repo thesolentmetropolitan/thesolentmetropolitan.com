@@ -862,6 +862,21 @@ function _customsolent_preprocess_listing_mode(array &$variables, $paragraph, $h
     return;
   }
 
+  // Cache metadata that must bubble from EVERY branch below — including the
+  // ones that render nothing. A block that is empty today must reappear
+  // when an event is added (node_list tags), and must not be cached as
+  // "empty" for a different ?topic= (contexts). The template prints this
+  // in all branches; it renders as nothing.
+  $list_types = (_customsolent_topic_listing_types()[$paragraph->get('field_view')->target_id] === 'organisations')
+    ? ['node_list:organisation', 'node_list:link']
+    : ['node_list:event'];
+  $variables['listing_cache'] = [
+    '#cache' => [
+      'contexts' => ['url.query_args:topic', 'url.query_args:date_filter_id'],
+      'tags' => $list_types,
+    ],
+  ];
+
   $view_name = $paragraph->get('field_view')->target_id;
   $type_word = _customsolent_topic_listing_types()[$view_name];
   $is_directory = ($type_word === 'organisations');
@@ -874,6 +889,13 @@ function _customsolent_preprocess_listing_mode(array &$variables, $paragraph, $h
   }
 
   if ($mode === 'full') {
+    // Events full listings are a card grid too (the front-page event card),
+    // with the date pills and one pager: display view_display_listing_cards.
+    if (!$is_directory) {
+      $variables['view_name'] = 'events_listing';
+      $variables['display_id'] = 'view_display_listing_cards';
+      $variables['listing_grid_class'] = 'slnt-events-compact-grid slnt-events-compact-grid--listing';
+    }
     if ($is_listing_page) {
       if ($is_directory) {
         $variables['view_name'] = 'directory_listing';
@@ -1444,25 +1466,10 @@ function _customsolent_entity_contains_paragraph_bundle($entity, $bundle, $max_d
   return FALSE;
 }
 
-/**
- * Implements hook_ENTITY_TYPE_view_alter() for paragraph entities.
- *
- * Adds the url.query_args:topic cache context to view_display paragraphs
- * so the sidebar's active state and the View's filtered argument refresh
- * when the URL ?topic= param changes.
- */
-function customsolent_paragraph_view_alter(array &$build, \Drupal\Core\Entity\EntityInterface $entity, \Drupal\Core\Entity\Display\EntityViewDisplayInterface $display) {
-  if (in_array($entity->bundle(), ['view_display', 'section_filter'], TRUE)) {
-    // ?topic= drives the contextual filter and the section-filter
-    // sidebar's active state. ?date_filter_id= drives the events
-    // listing's exposed date filter — the topic-pill URLs include it
-    // (via _customsolent_build_filter_url) so the cached output must
-    // vary by it too, otherwise filters compose but the pill hrefs
-    // stay stale across navigations.
-    $build['#cache']['contexts'][] = 'url.query_args:topic';
-    $build['#cache']['contexts'][] = 'url.query_args:date_filter_id';
-  }
-}
+// customsolent_paragraph_view_alter() used to be here. Entity view-alter
+// hooks are only invoked on modules, so it never ran in a theme. It now
+// lives in customsolent_helpers.module as
+// customsolent_helpers_paragraph_view_alter().
 
 /**
  * Get a term ID and all its descendant term IDs.

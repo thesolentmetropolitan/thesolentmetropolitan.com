@@ -67,6 +67,8 @@
 {% endif %}
 
 {% block paragraph %}
+{# Cache contexts/tags for by-topic listings; renders as nothing. #}
+{{ listing_cache }}
 {% if listing_suppressed %}
   {# Preview mode with nothing to show, or a links block on a page whose
      organisations block already shows the combined list: render nothing. #}

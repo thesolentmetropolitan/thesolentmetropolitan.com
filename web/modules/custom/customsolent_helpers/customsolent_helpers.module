@@ -169,3 +169,86 @@ function customsolent_helpers_topic_term_validate(array &$form, \Drupal\Core\For
   }
   $form_state->setErrorByName('name', t('"@word" cannot be used as a topic name: the address ending /@slug is the automatic @slug listing for the parent topic. Choose another name, such as "@word & …".', ['@word' => $last, '@slug' => $slug]));
 }
+
+/**
+ * Implements hook_ENTITY_TYPE_view_alter() for paragraphs.
+ *
+ * Listings and the section filter change with ?topic= and
+ * ?date_filter_id=, so their cached output must vary by them.
+ *
+ * This lived in customsolent.theme until 2026-09-20, where it never ran:
+ * entity view-alter hooks are invoked on MODULES only, not themes. Nothing
+ * showed, because every listing used to render a paged view, which brings
+ * the broad "url" cache context with it. Preview blocks do not always
+ * render a view (an empty block renders nothing), so /culture got cached
+ * in whatever filter state was visited first.
+ */
+function customsolent_helpers_paragraph_view_alter(array &$build, \Drupal\Core\Entity\EntityInterface $entity, \Drupal\Core\Entity\Display\EntityViewDisplayInterface $display): void {
+  if (in_array($entity->bundle(), ['view_display', 'section_filter', 'heading'], TRUE)) {
+    $build['#cache']['contexts'][] = 'url.query_args:topic';
+    $build['#cache']['contexts'][] = 'url.query_args:date_filter_id';
+  }
+}
+
+/**
+ * Listing views whose results can be narrowed by ?topic=.
+ */
+function customsolent_helpers_topic_filtered_views(): array {
+  return ['events_listing', 'organisations_listing', 'links_listing', 'directory_listing'];
+}
+
+/**
+ * Implements hook_views_query_alter().
+ *
+ * Makes ?topic=<tid> work as a filter WITHIN a list, for the listings whose
+ * own scope is not a Culture / Sectors / Living topic:
+ *   - Explore → Directories & Networks is scoped to its own Explore term;
+ *   - Explore → Organisations has no topic scope at all.
+ * On those pages the section filter offers Culture / Sectors / Living, and
+ * choosing one must AND with the list rather than replace its scope.
+ *
+ * Elsewhere ?topic= is "consumed": the paragraph preprocess narrows the
+ * view's topic arguments to the chosen sub-tree. That case is detected by
+ * the chosen term being among the view's arguments, and left alone.
+ */
+function customsolent_helpers_views_query_alter(\Drupal\views\ViewExecutable $view, \Drupal\views\Plugin\views\query\QueryPluginBase $query): void {
+  if (!in_array($view->id(), customsolent_helpers_topic_filtered_views(), TRUE)
+    || $view->current_display === 'view_display_front_page'
+    || !$query instanceof \Drupal\views\Plugin\views\query\Sql) {
+    return;
+  }
+  $topic = \Drupal::request()->query->get('topic');
+  if (!is_numeric($topic) || (int) $topic <= 0) {
+    return;
+  }
+  $tid = (int) $topic;
+  $term = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->load($tid);
+  if (!$term || $term->bundle() !== 'topic') {
+    return;
+  }
+  // Already consumed as the view's topic scope? Only a display that HAS
+  // contextual filters can consume it — the paragraph template passes the
+  // scope as arguments to every display, and one without argument handlers
+  // (Explore → Organisations) silently ignores them.
+  if (!empty($view->argument)) {
+    foreach ($view->args as $arg) {
+      if (in_array((string) $tid, preg_split('/[+,\s]+/', (string) $arg), TRUE)) {
+        return;
+      }
+    }
+  }
+  // The chosen term and everything beneath it.
+  $tids = [$tid];
+  foreach (\Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadTree('topic', $tid) as $child) {
+    $tids[] = (int) $child->tid;
+  }
+  $db = \Drupal::database();
+  $primary = $db->select('node__field_primary_topic', 'slnt_p')->fields('slnt_p', ['entity_id'])
+    ->condition('slnt_p.field_primary_topic_target_id', $tids, 'IN');
+  $related = $db->select('node__field_related_topics', 'slnt_r')->fields('slnt_r', ['entity_id'])
+    ->condition('slnt_r.field_related_topics_target_id', $tids, 'IN');
+  $query->setWhereGroup('OR', 'slnt_topic_within');
+  $query->addWhere('slnt_topic_within', 'node_field_data.nid', $primary, 'IN');
+  $query->addWhere('slnt_topic_within', 'node_field_data.nid', $related, 'IN');
+}
+
