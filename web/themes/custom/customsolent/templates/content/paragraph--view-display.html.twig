@@ -79,7 +79,9 @@
   <div{{ wrapper_attributes.addClass('slnt-signpost') }}>
     <div class="slnt-signpost__inner">
       <div class="slnt-signpost__text">
-        <h2 class="slnt-listing__heading">{{ signpost.heading }}</h2>
+        <h2 class="slnt-listing__heading">
+          {%- if signpost.url %}<a class="slnt-heading__link" href="{{ signpost.url }}">{{ signpost.heading }}</a>{% else %}{{ signpost.heading }}{% endif -%}
+        </h2>
         <p class="slnt-signpost__count">
           {%- if signpost.organisations and signpost.links -%}
             <b>{{ signpost.organisations }}</b> {{ signpost.organisations == 1 ? 'organisation'|t : 'organisations'|t }} {{ 'and'|t }} <b>{{ signpost.links }}</b> {{ signpost.links == 1 ? 'link'|t : 'links'|t }}
@@ -116,11 +118,13 @@
      display:none, so assistive tech meets it once. ── #}
   <div{{ wrapper_attributes.addClass('slnt-listing-preview') }}>
     <div class="slnt-listing-preview__head">
-      <h2 class="slnt-listing__heading">{{ preview_heading }}</h2>
+      <h2 class="slnt-listing__heading">
+        {%- if more_url %}<a class="slnt-heading__link" href="{{ more_url }}">{{ preview_heading }}</a>{% else %}{{ preview_heading }}{% endif -%}
+      </h2>
       {% if more_url %}
         <div class="slnt-text-link-outer slnt-view-more slnt-view-more--wide">
           <a href="{{ more_url }}" class="slnt-text-link">
-            <span class="slnt-text-link__text">{{ 'View more'|t }}<span class="visually-hidden">: {{ preview_heading }}</span></span>
+            <span class="slnt-text-link__text">{{ more_label }}</span>
             <svg class="slnt-text-link__caret slnt-cta__chevron" role="presentation" focusable="false" aria-hidden="true"><use href="#tvip-down-triangle"></use></svg>
           </a>
         </div>
@@ -130,7 +134,7 @@
     {% if more_url %}
       <div class="slnt-text-link-outer slnt-view-more slnt-view-more--narrow">
         <a href="{{ more_url }}" class="slnt-text-link">
-          <span class="slnt-text-link__text">{{ 'View more'|t }}<span class="visually-hidden">: {{ preview_heading }}</span></span>
+          <span class="slnt-text-link__text">{{ more_label }}</span>
           <svg class="slnt-text-link__caret slnt-cta__chevron" role="presentation" focusable="false" aria-hidden="true"><use href="#tvip-down-triangle"></use></svg>
         </a>
       </div>

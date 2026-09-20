@@ -383,6 +383,11 @@ function customsolent_preprocess_paragraph__link(&$variables) {
   if ($context) {
     $variables['link_context'] = $context;
   }
+  // A bare "View more" / "Read more" needs the heading to say more of what.
+  // "View more Events" already says it; appending the heading would just be
+  // noise for a screen-reader user.
+  $title = trim((string) $paragraph->get('field_link')->title);
+  $variables['link_needs_context'] = (bool) preg_match('/^(view|read|see|browse)\s+(more|all)$/i', $title);
 }
 
 function customsolent_preprocess_paragraph__hero_with_art_style(&$variables) {
@@ -1220,6 +1225,9 @@ function _customsolent_preprocess_listing_mode(array &$variables, $paragraph, $h
     $heading = (string) t('Events');
   }
   $variables['preview_heading'] = $heading;
+  // "View more Events" rather than a bare "View more": several can share a
+  // page, and the label should say what there is more of.
+  $variables['more_label'] = $is_directory ? t('View more Organisations & links') : t('View more Events');
 
   // View more.
   $variables['more_url'] = NULL;
@@ -1247,10 +1255,23 @@ function customsolent_preprocess_paragraph__heading(&$variables) {
     return;
   }
   $take_next = FALSE;
+  $variables['heading_url'] = NULL;
   foreach ($parent->get($field_name)->referencedEntities() as $sibling) {
     if ($take_next) {
       if (_customsolent_listing_owns_heading(_customsolent_listing_mode($sibling)) && $sibling->get('field_heading')->isEmpty()) {
         $variables['heading_handed_over'] = TRUE;
+      }
+      // A heading directly followed by a Link paragraph ("View more …")
+      // is itself a link to the same place — the section heading and its
+      // View more go together (Section Heading Row). No field needed: the
+      // editor builds the pair, the heading follows the link.
+      if ($sibling->bundle() === 'link' && !$sibling->get('field_link')->isEmpty()) {
+        try {
+          $variables['heading_url'] = $sibling->get('field_link')->first()->getUrl()->toString();
+        }
+        catch (\Throwable) {
+          // Malformed link: leave the heading plain.
+        }
       }
       // Re-render this heading when the listing below it is edited.
       $variables['content']['field_heading']['#cache']['tags'][] = 'paragraph:' . $sibling->id();

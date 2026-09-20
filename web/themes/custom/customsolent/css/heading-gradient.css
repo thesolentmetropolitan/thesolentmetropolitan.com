@@ -78,3 +78,33 @@
     display: inline;
   }
 }
+
+/* ── Section headings that are links ──
+   A heading followed by a "View more" link goes to the same place
+   (customsolent_preprocess_paragraph__heading), as do the headings of
+   preview and signpost blocks. The link must look like the heading, not
+   like a body link: inherit the colour — including the transparent fill
+   of the gradient headings, whose paint comes from the h2's clipped
+   background — and drop the magenta underline. Hover / focus underline in
+   solent-blue, set explicitly because currentColor may be transparent. */
+.layout-content a.slnt-heading__link,
+.slnt-text > * a.slnt-heading__link {
+  color: inherit;
+  font-size: inherit;
+  text-decoration: none;
+  text-decoration-color: transparent;
+}
+
+.layout-content a.slnt-heading__link:hover,
+.layout-content a.slnt-heading__link:focus-visible {
+  text-decoration: underline;
+  text-decoration-color: var(--solent-blue, #2c4f6e);
+  text-underline-offset: 4px;
+  text-decoration-thickness: 2px;
+}
+
+.slnt-heading__link:focus-visible {
+  outline: 3px solid var(--text, #1a1a1a);
+  outline-offset: 3px;
+}
+
