@@ -1,0 +1,7 @@
+uuid: f8eb8a1f-d58d-4c47-86b2-ec8eabd5cfdd
+langcode: en
+status: true
+dependencies: {  }
+id: directory_compact_grid
+label: 'Organisations And Links Compact Grid'
+classes: slnt-directory-compact-grid

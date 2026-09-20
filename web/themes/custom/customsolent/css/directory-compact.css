@@ -1,0 +1,185 @@
+/* ══════════════════════════════════════
+   Organisation + Link cards (one shared design)
+   node--organisation--compact.html.twig / node--link--compact.html.twig
+
+   Grid scoped to the classy_paragraphs class
+   slnt-directory-compact-grid ("Organisations And
+   Links Compact Grid") on the View Display paragraph.
+
+   Why cards: as plain rows a long standfirst ran the
+   full width of the page. A card column keeps the
+   measure short without truncating by character count.
+   ══════════════════════════════════════ */
+
+/* ── Grid: 3 per row at ≥1000px, 2 at 600–999px, 1 below ──
+   Text-heavy cards want wider columns than the event cards, hence three
+   not four, and one column on phones (two 140px columns of standfirst
+   text would be unreadable). Rows sit directly inside the views wrapper;
+   anything that is not a row (pager, empty text) spans the full width. */
+.slnt-directory-compact-grid [class*="js-view-dom-id-"] {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.slnt-directory-compact-grid [class*="js-view-dom-id-"] > :not(.views-row) {
+  grid-column: 1 / -1;
+}
+
+/* With the topic filter sidebar beside it the list is narrower. */
+.slnt-directory-compact-grid.slnt-section-listing--has-sidebar [class*="js-view-dom-id-"] {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+@media (max-width: 999px) {
+  .slnt-directory-compact-grid [class*="js-view-dom-id-"] {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 599px) {
+  .slnt-directory-compact-grid [class*="js-view-dom-id-"],
+  .slnt-directory-compact-grid.slnt-section-listing--has-sidebar [class*="js-view-dom-id-"] {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* Rows stretch to the tallest card in the row; let the card fill it. */
+.slnt-directory-compact-grid .views-row {
+  display: flex;
+  min-width: 0;
+}
+
+/* ── The card ──
+   White box, 1px solent-blue top rule — the event card family. Section
+   pages sit on the near-white page background (#faf9f7), where a white
+   box alone is invisible, so a hairline outline defines the box on any
+   background. Drawn with box-shadow so it adds nothing to the layout. */
+.slnt-directory-card {
+  position: relative; /* containing block for the stretched link */
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+  box-sizing: border-box;
+  padding: 0.8rem 0.9rem 0.8rem;
+  background: #fff;
+  border-top: 1px solid var(--solent-blue, #2c4f6e);
+  box-shadow: 0 0 0 1px rgba(44, 79, 110, 0.14);
+  transition: box-shadow 0.15s;
+}
+
+.slnt-directory-card:hover {
+  box-shadow: 0 0 0 1px rgba(44, 79, 110, 0.14), 0 2px 10px rgba(0, 0, 0, 0.12);
+}
+
+/* ── Title + the card's one main link ── */
+.slnt-directory-card__title {
+  font-family: 'Atkinson Hyperlegible Next', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.3;
+  margin: 0 0 0.4rem 0;
+  overflow-wrap: anywhere;
+}
+
+/* Beat .layout-content's magenta-underline rule on body links. */
+.layout-content a.slnt-directory-card__link,
+.layout-content a.slnt-directory-card__link:hover {
+  color: var(--solent-blue, #2c4f6e);
+  font-size: inherit;
+  text-decoration: none;
+  text-decoration-color: transparent;
+}
+
+/* Stretch the link over the whole card. */
+.slnt-directory-card__link::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+}
+
+.layout-content .slnt-directory-card:hover .slnt-directory-card__title-text,
+.layout-content a.slnt-directory-card__link:focus-visible .slnt-directory-card__title-text {
+  text-decoration: underline;
+  text-decoration-color: var(--magenta, #c5007a);
+  text-underline-offset: 3px;
+  text-decoration-thickness: 2px;
+}
+
+/* Focus ring round the whole card: near-black, 16:1 on the page. */
+.slnt-directory-card__link:focus-visible {
+  outline: none;
+}
+
+.slnt-directory-card__link:focus-visible::after {
+  outline: 3px solid var(--text, #1a1a1a);
+  outline-offset: 2px;
+}
+
+.slnt-directory-card__external-icon {
+  display: inline-block;
+  width: 0.8em;
+  height: 0.8em;
+  vertical-align: baseline;
+  margin-left: 0.3em;
+  opacity: 0.6;
+  transition: opacity 0.15s;
+}
+
+.slnt-directory-card:hover .slnt-directory-card__external-icon {
+  opacity: 1;
+}
+
+/* ── Standfirst — three lines, then an ellipsis ── */
+.slnt-directory-card__standfirst {
+  font-family: 'Atkinson Hyperlegible Next', sans-serif;
+  font-size: 1rem;
+  line-height: 1.4;
+  color: var(--text-mid, #444);
+  margin: 0 0 0.8rem 0;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  overflow: hidden;
+  overflow-wrap: anywhere;
+}
+
+/* ── Footer: type label + topic kicker, pinned to the card's bottom edge
+   so they line up along a row whatever the text above them does. ── */
+.slnt-directory-card__footer {
+  margin-top: auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.2rem 0.7rem;
+}
+
+.slnt-directory-card__type {
+  font-family: 'Atkinson Hyperlegible Next', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: var(--text-mid, #444); /* 9.7:1 on white */
+}
+
+/* Kickers: above the stretched link so their topic links stay clickable. */
+.slnt-directory-card__footer .slnt-teaser__in-kicker,
+.slnt-directory-card__footer .slnt-teaser__from-kicker {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+}
+
+/* Same size as the type label beside them. The kicker terms carry their
+   own sizes from section-listing.css, hence the descendant selector. */
+.slnt-directory-card__footer .slnt-teaser__in-kicker,
+.slnt-directory-card__footer .slnt-teaser__from-kicker,
+.slnt-directory-card__footer .slnt-teaser__in-kicker *,
+.slnt-directory-card__footer .slnt-teaser__from-kicker * {
+  font-size: 0.8rem;
+  line-height: 1.4;
+}
+

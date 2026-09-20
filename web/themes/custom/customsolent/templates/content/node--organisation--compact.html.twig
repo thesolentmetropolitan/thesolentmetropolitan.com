@@ -1,0 +1,92 @@
+{#
+/**
+ * @file
+ * Compact card for an Organisation — and, by inclusion, a Link.
+ *
+ * One card design for both content types, so they can sit together in
+ * one alphabetical list with a type label telling them apart. Used by the
+ * organisations_listing / links_listing views (row view mode "compact")
+ * inside a View Display paragraph carrying the classy style
+ * "Organisations And Links Compact Grid".
+ *
+ * Card structure (DOM order = reading order):
+ *   article.slnt-directory-card          — white box, 1px solent-blue top
+ *                                          rule; the same family as the
+ *                                          front-page event cards
+ *     h3.slnt-directory-card__title
+ *       a.slnt-directory-card__link      — the card's one main link; its
+ *                                          ::after is stretched over the
+ *                                          whole card. Goes to field_url
+ *                                          (new tab, external icon) or
+ *                                          the node page when there is none.
+ *     p.slnt-directory-card__standfirst  — clamped to three lines in CSS
+ *     .slnt-directory-card__footer       — pinned to the bottom of the card
+ *       .slnt-directory-card__type       — "Organisation" / "Link"
+ *       in/from topic kicker             — raised above the stretched link
+ *                                          so topic links stay clickable
+ *
+ * Title first, everything else after: a screen-reader user who jumps to
+ * the h3 hears the whole card, and nothing about it precedes its heading.
+ *
+ * Variables from customsolent_preprocess_node:
+ *   - field_url_href / field_url_external
+ *   - card_type_label
+ *   - in_kicker_lazy / from_kicker_lazy — page-aware topic kickers
+ */
+#}
+{%
+  set classes = [
+    'node',
+    'node--type-' ~ node.bundle|clean_class,
+    not node.isPublished() ? 'node--unpublished',
+    view_mode ? 'node--view-mode-' ~ view_mode|clean_class,
+    'slnt-directory-card',
+    'slnt-directory-card--' ~ node.bundle|clean_class,
+  ]
+%}
+{% set card_url = field_url_href ?: path('entity.node.canonical', {'node': node.id}) %}
+{% set is_external = field_url_external ?? false %}
+
+<article{{ attributes.addClass(classes) }}>
+
+  <h3 class="slnt-directory-card__title">
+    <a href="{{ card_url }}" class="slnt-directory-card__link"
+       {% if is_external %}target="_blank" rel="noopener noreferrer"{% endif %}>
+      <span class="slnt-directory-card__title-text">{{ label }}</span>
+      {%- if is_external -%}
+        <span class="visually-hidden"> ({{ 'opens in a new tab'|t }})</span>
+        <svg class="slnt-directory-card__external-icon"
+             viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2.5"
+             stroke-linecap="round" stroke-linejoin="round"
+             aria-hidden="true">
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+          <polyline points="15 3 21 3 21 9"/>
+          <line x1="10" y1="14" x2="21" y2="3"/>
+        </svg>
+      {%- endif -%}
+    </a>
+  </h3>
+
+  {# Print the raw field value and let Twig escape it once. Rendering the
+     field and then stripping tags leaves already-escaped text, which Twig
+     escapes again (&amp;amp;, &amp;quot; showing on the page). The render
+     below is only for the field's cache metadata. #}
+  {% set _rendered = content.field_standfirst|render %}
+  {% set standfirst = node.field_standfirst.value|default('')|trim %}
+  {% if standfirst %}
+    <p class="slnt-directory-card__standfirst">{{ standfirst }}</p>
+  {% endif %}
+
+  <div class="slnt-directory-card__footer">
+    {% if card_type_label %}
+      <span class="slnt-directory-card__type">{{ card_type_label }}</span>
+    {% endif %}
+    {{ in_kicker_lazy }}
+    {{ from_kicker_lazy }}
+  </div>
+
+</article>
+
+{# Fields are rendered manually above; suppress the defaults. #}
+{{ content|without('field_url', 'field_standfirst', 'field_primary_topic', 'field_related_topics') }}

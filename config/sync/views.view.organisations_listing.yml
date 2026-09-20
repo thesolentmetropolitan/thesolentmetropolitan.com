@@ -3,7 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
-    - core.entity_view_mode.node.teaser
+    - core.entity_view_mode.node.compact
     - node.type.organisation
     - taxonomy.vocabulary.topic
   module:
@@ -193,7 +193,7 @@ display:
         type: 'entity:node'
         options:
           relationship: none
-          view_mode: teaser
+          view_mode: compact
       query:
         type: views_query
         options:
@@ -269,7 +269,7 @@ display:
         type: 'entity:node'
         options:
           relationship: none
-          view_mode: teaser
+          view_mode: compact
       defaults:
         empty: false
         use_ajax: false
@@ -529,7 +529,7 @@ display:
         type: 'entity:node'
         options:
           relationship: none
-          view_mode: teaser
+          view_mode: compact
       defaults:
         empty: false
         pager: false
@@ -641,7 +641,7 @@ display:
         type: 'entity:node'
         options:
           relationship: none
-          view_mode: teaser
+          view_mode: compact
       defaults:
         empty: false
         pager: false
