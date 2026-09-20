@@ -110,3 +110,21 @@ composer install --no-dev --optimize-autoloader
 bash scripts/release-2026-09-20-section-strip.sh
 ```
 DDEV snapshot `pre-strip-signpost-20260920` was taken before applying locally.
+
+---
+
+## Follow-up — item 11 and a question
+
+**Item 11, done: desktop submenu is white.** It was warm-grey, which became the page background
+on section pages and the front page, so the open submenu vanished into it. The three surfaces that
+make up the open submenu — the full-width strip (`::before`), the active `<li>` and its button
+"tab" — now use `--submenu-bg` (white), plus the no-JS hover fallback. Desktop only; the mobile
+menu keeps warm-grey. CSS only, no release script needed (`git pull` + `drush cr`).
+
+**Question: can a filter be added to `/culture/music/organisations`?** Yes, and nothing needs
+placing. The filter on a listing page is built from the topic's **child topics**, and Music has
+none yet. Add the genres as child terms of *Culture / Music* and the filter appears by itself on
+`/culture/music/organisations` and `/culture/music/events`; the signpost box on `/culture/music`
+gains its "Browse by" row at the same time. For comparison `/culture/stage/organisations` already
+has one, because Stage has children. Items show under a genre once they are tagged with it as
+primary or related topic. Genre names may not be Events, Organisations, Links or Articles.

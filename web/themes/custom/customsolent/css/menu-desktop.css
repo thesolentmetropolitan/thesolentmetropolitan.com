@@ -102,7 +102,7 @@
     right: 0px;
     position: absolute;
     padding-top: 16px; /* submenu_padding_top in JS */
-    padding-bottom: 16px; /* TODO: submenu-bottom-fill — warm-grey background extends to header border-bottom. May need further refinement. */
+    padding-bottom: 16px; /* TODO: submenu-bottom-fill — submenu background extends to header border-bottom. May need further refinement. */
   }
 
   /* Desktop: Apply transition to submenu for slide animation */
@@ -156,19 +156,23 @@
     z-index: -1;
   }
 
-  /* Background color when submenu is visible */
+  /* The open submenu is one white surface: the full-width strip, the active
+     item's <li>, and its button (the "tab" that joins the strip). It was
+     warm-grey until 2026-09, which is now the page background on section
+     pages and the front page — the submenu vanished into it. Desktop only;
+     the mobile menu keeps warm-grey (menu-mobile.css). */
   .sub-menu-container.visible-2l::before {
-    background-color: var(--warm-grey);
+    background-color: var(--submenu-bg, #fff);
   }
 
   /* Background color for entire li when its submenu is expanded (active item) */
   .main-menu-item-container>li:has(.sub-menu-container.visible-2l) {
-    background-color: var(--warm-grey);
+    background-color: var(--submenu-bg, #fff);
   }
 
   /* Background color for main menu button when its submenu is expanded (active item) */
   li:has(.sub-menu-container.visible-2l)>button.main_nav_link {
-    background-color: var(--warm-grey);
+    background-color: var(--submenu-bg, #fff);
   }
 
   /* Constrain submenu content to 1200px — explicit calc matches .first-link centering */
@@ -403,7 +407,7 @@ a.main_nav_link {
   /* Navigation-indicated main item, active (submenu open) — bold dark-magenta
      text + chevron, persistently (not only on hover). Overrides the generic
      active solent-blue text/chevron rules (extra .is-current-section class
-     wins on specificity). Background (warm-grey) still comes from the existing
+     wins on specificity). Background (white) still comes from the existing
      active rules. */
   .main-menu-item-container > li.is-current-section:has(.sub-menu-container.visible-2l) button.main_nav_link > span,
   .main-menu-item-container > li.is-current-section:has(.sub-menu-container.visible-2l) a.main_nav_link {
@@ -486,10 +490,10 @@ a.main_nav_link {
     z-index: 100;
   }
 
-  /* The warm-grey full-width backdrop normally comes with .visible-2l. */
+  /* The white full-width backdrop normally comes with .visible-2l. */
   html:not(.js) .main-menu-item-wrapper:hover .sub-menu-container.hidden-2l::before,
   html:not(.js) .main-menu-item-wrapper:focus-within .sub-menu-container.hidden-2l::before {
-    background-color: var(--warm-grey);
+    background-color: var(--submenu-bg, #fff);
   }
 
 }
