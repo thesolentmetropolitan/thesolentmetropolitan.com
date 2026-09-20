@@ -1,0 +1,11 @@
+uuid: 37216135-db38-4c00-b715-7ac783132e74
+langcode: en
+status: true
+dependencies:
+  module:
+    - paragraphs
+id: paragraph.listing_page
+label: 'Listing page'
+description: 'How a View Display paragraph is rendered on its automated /{topic}/{type} listing page: always the full listing, with its own topic filter.'
+targetEntityType: paragraph
+cache: true

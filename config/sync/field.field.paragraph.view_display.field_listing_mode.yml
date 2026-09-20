@@ -1,0 +1,23 @@
+uuid: 64ed24c7-b660-4ec5-b532-c0ece85f386e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_listing_mode
+    - paragraphs.paragraphs_type.view_display
+  module:
+    - options
+id: paragraph.view_display.field_listing_mode
+field_name: field_listing_mode
+entity_type: paragraph
+bundle: view_display
+label: 'Listing mode'
+description: 'Applies to the events, organisations and links listings by topic. Preview is the default: a section page shows a few items of each kind and links to the full listing at /{topic}/events or /{topic}/organisations. Choose Full listing only on a page whose whole purpose is this one list (for example Explore → Events).'
+required: false
+translatable: true
+default_value:
+  -
+    value: preview
+default_value_callback: ''
+settings: {  }
+field_type: list_string

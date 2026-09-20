@@ -1,0 +1,11 @@
+services:
+  customsolent_helpers.topic_listing_path_processor:
+    class: Drupal\customsolent_helpers\PathProcessor\TopicListingPathProcessor
+    arguments: ['@path_alias.manager', '@path_alias.repository', '@language_manager']
+    tags:
+      # Inbound: must run BEFORE core's alias processor (priority 100) so it
+      # sees the path the visitor typed.
+      - { name: path_processor_inbound, priority: 200 }
+      # Outbound: pager and filter links are built from the internal route;
+      # turn them back into the pretty URL.
+      - { name: path_processor_outbound, priority: 200 }

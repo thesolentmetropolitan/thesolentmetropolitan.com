@@ -182,3 +182,11 @@
   line-height: 1.4;
 }
 
+/* ── Preview blocks on section pages: 8 cards as two rows of four, like
+   the front page. The full listing page keeps three wider columns. ── */
+@media (min-width: 1000px) {
+  .slnt-directory-compact-grid--preview [class*="js-view-dom-id-"] {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+

@@ -57,18 +57,54 @@
 {% endif %}
 
 {% set wrapper_attributes = attributes.addClass(classes).addClass(extra_classes) %}
+{# By-topic listings get their card grid automatically (set in preprocess),
+   so a listing added by hand needs no classy style to look right. #}
+{% if listing_grid_class %}
+  {% set wrapper_attributes = wrapper_attributes.addClass(listing_grid_class|split(' ')) %}
+{% endif %}
 {% if section_key %}
   {% set wrapper_attributes = wrapper_attributes.setAttribute('data-section', section_key) %}
 {% endif %}
 
 {% block paragraph %}
+{% if listing_suppressed %}
+  {# Preview mode with nothing to show, or a links block on a page whose
+     organisations block already shows the combined list: render nothing. #}
+{% elseif listing_mode == 'preview' %}
+  {# ── Preview: heading + "View more" on one row, up to 8 cards, and a
+     second "View more" under the cards for narrow screens. A media query
+     shows one link or the other (css/text-link.css); the hidden one is
+     display:none, so assistive tech meets it once. ── #}
+  <div{{ wrapper_attributes.addClass('slnt-listing-preview') }}>
+    <div class="slnt-listing-preview__head">
+      <h2 class="slnt-listing__heading">{{ preview_heading }}</h2>
+      {% if more_url %}
+        <div class="slnt-text-link-outer slnt-view-more slnt-view-more--wide">
+          <a href="{{ more_url }}" class="slnt-text-link">
+            <span class="slnt-text-link__text">{{ 'View more'|t }}<span class="visually-hidden">: {{ preview_heading }}</span></span>
+            <svg class="slnt-text-link__caret slnt-cta__chevron" role="presentation" focusable="false" aria-hidden="true"><use href="#tvip-down-triangle"></use></svg>
+          </a>
+        </div>
+      {% endif %}
+    </div>
+    {{ preview_build }}
+    {% if more_url %}
+      <div class="slnt-text-link-outer slnt-view-more slnt-view-more--narrow">
+        <a href="{{ more_url }}" class="slnt-text-link">
+          <span class="slnt-text-link__text">{{ 'View more'|t }}<span class="visually-hidden">: {{ preview_heading }}</span></span>
+          <svg class="slnt-text-link__caret slnt-cta__chevron" role="presentation" focusable="false" aria-hidden="true"><use href="#tvip-down-triangle"></use></svg>
+        </a>
+      </div>
+    {% endif %}
+  </div>
+{% else %}
   <div{{ wrapper_attributes }}>
     {% block content %}
 
       {# Editor-supplied heading for the listing — "Organisations",
          "Related reading", "Events", etc. Renders above sidebar +
          content so it spans the full block width. #}
-      {% if content.field_heading|render|striptags|trim %}
+      {% if not listing_hide_heading and content.field_heading|render|striptags|trim %}
         <h2 class="slnt-listing__heading">{{ content.field_heading }}</h2>
       {% endif %}
 
@@ -133,4 +169,5 @@
 
     {% endblock %}
   </div>
+{% endif %}
 {% endblock paragraph %}

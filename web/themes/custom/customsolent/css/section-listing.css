@@ -705,3 +705,65 @@ a.slnt-teaser__from-term:hover {
   font-weight: 400;
   text-transform: none;
 }
+
+/* ══════════════════════════════════════
+   Preview blocks on section pages
+   (paragraph--view-display.html.twig, listing_mode = preview)
+   and the automated listing pages
+   (slnt-topic-listing.html.twig).
+   ══════════════════════════════════════ */
+
+/* Heading and "View more" share a row, baselines level; on narrow screens
+   the wide link is display:none and the heading has the row to itself. */
+.slnt-listing-preview {
+  margin-bottom: 2.4rem;
+}
+
+.slnt-listing-preview__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin-bottom: 0.8rem;
+}
+
+.slnt-listing-preview__head .slnt-listing__heading {
+  margin: 0;
+}
+
+/* Section pages add 1.2rem side padding to listings at ≤799px; preview
+   grids align with the page edge instead, as on the front page. */
+@media (max-width: 799px) {
+  .slnt-listing-preview.slnt-section-listing {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+/* ── Automated listing page ── */
+.slnt-topic-listing {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--content-pad, 2rem) max(var(--align-floor, 1em), 1em) var(--content-pad, 2rem);
+  box-sizing: border-box;
+}
+
+.slnt-topic-listing__header {
+  margin-bottom: 1.6rem;
+}
+
+.slnt-topic-listing__title {
+  font-family: 'Atkinson Hyperlegible Next', sans-serif;
+  font-size: 2.4rem;
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--solent-blue, #2c4f6e);
+  margin: 0;
+}
+
+@media (max-width: 799px) {
+  .slnt-topic-listing__title {
+    font-size: 1.75rem;
+  }
+}
+

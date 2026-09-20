@@ -22,6 +22,15 @@ declare(strict_types=1);
  */
 function customsolent_helpers_theme($existing, $type, $theme, $path) {
   return [
+    // The automated /{topic}/{events|organisations} listing page.
+    'slnt_topic_listing' => [
+      'variables' => [
+        'node' => NULL,
+        'listing_type' => NULL,
+        'heading' => NULL,
+        'listing' => NULL,
+      ],
+    ],
     'in_kicker' => [
       'variables' => [
         'show_in_kicker' => TRUE,
@@ -113,4 +122,50 @@ function customsolent_helpers_form_node_form_alter(array &$form, \Drupal\Core\Fo
       $form[$field_name]['#access'] = FALSE;
     }
   }
+}
+
+/**
+ * URL words that have an automated listing page today.
+ */
+function customsolent_helpers_listing_route_words(): array {
+  return ['events', 'organisations'];
+}
+
+/**
+ * URL words a topic term may not use as its name.
+ *
+ * /{topic path}/{word} is the automated listing page for that topic, so a
+ * child topic called "Events" would collide with its parent's events
+ * listing. "links" and "articles" are reserved ahead of being built.
+ */
+function customsolent_helpers_reserved_listing_words(): array {
+  return ['events', 'organisations', 'links', 'articles'];
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter() for the Topic term form.
+ */
+function customsolent_helpers_form_taxonomy_term_topic_form_alter(array &$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id): void {
+  $form['#validate'][] = 'customsolent_helpers_topic_term_validate';
+}
+
+/**
+ * Refuses a topic name whose last segment is a reserved listing word.
+ *
+ * Top-level terms are exempt: "Explore / Events" is a child of Explore and
+ * is the all-events page itself, which predates the rule and is the one
+ * place the word is wanted.
+ */
+function customsolent_helpers_topic_term_validate(array &$form, \Drupal\Core\Form\FormStateInterface $form_state): void {
+  $name = (string) ($form_state->getValue(['name', 0, 'value']) ?? '');
+  $parts = explode(' / ', $name);
+  $last = trim((string) end($parts));
+  $slug = trim((string) preg_replace('/[^a-z0-9]+/', '-', mb_strtolower($last)), '-');
+  if (!in_array($slug, customsolent_helpers_reserved_listing_words(), TRUE)) {
+    return;
+  }
+  if (str_starts_with($name, 'Explore / ')) {
+    return;
+  }
+  $form_state->setErrorByName('name', t('"@word" cannot be used as a topic name: the address ending /@slug is the automatic @slug listing for the parent topic. Choose another name, such as "@word & …".', ['@word' => $last, '@slug' => $slug]));
 }

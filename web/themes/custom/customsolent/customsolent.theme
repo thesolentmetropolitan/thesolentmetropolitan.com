@@ -16,10 +16,38 @@ function customsolent_preprocess_html(array &$variables): void {
   // the front page (all Composite Pages) the off-white page background
   // without touching the site-wide colour — see css/elements.css.
   $node = \Drupal::routeMatch()->getParameter('node');
-  if ($node instanceof \Drupal\node\NodeInterface
-    && \Drupal::routeMatch()->getRouteName() === 'entity.node.canonical') {
+  $route_name = \Drupal::routeMatch()->getRouteName();
+  if ($node instanceof \Drupal\node\NodeInterface && $route_name === 'entity.node.canonical') {
     $variables['attributes']['class'][] = 'page-node-type-' . \Drupal\Component\Utility\Html::getClass($node->bundle());
   }
+  // The automated /{topic}/{type} listing pages belong to the section they
+  // list, so they share its off-white page background.
+  if ($route_name === 'customsolent_helpers.topic_listing') {
+    $variables['attributes']['class'][] = 'page-node-type-composite-page';
+    $variables['attributes']['class'][] = 'page-topic-listing';
+  }
+}
+
+/**
+ * Implements hook_preprocess_HOOK() for slnt-topic-listing.html.twig.
+ *
+ * The automated listing page: topic trail (every term clickable, the last
+ * one leading back to the section page), a plain h1, then the listing.
+ */
+function customsolent_preprocess_slnt_topic_listing(array &$variables): void {
+  $node = $variables['node'];
+  $variables['trail_ancestors'] = [];
+  if ($node && $node->hasField('field_primary_topic') && !$node->get('field_primary_topic')->isEmpty()) {
+    $term = $node->get('field_primary_topic')->entity;
+    if ($term) {
+      $trail = _customsolent_build_topic_trail($term, FALSE);
+      $variables['trail_ancestors'] = $trail['ancestors'];
+      $top = _customsolent_topic_top_level($term);
+      $variables['section_key'] = $top ? strtolower($top->getName()) : NULL;
+    }
+  }
+  $variables['back_url'] = $node ? $node->toUrl()->toString() : NULL;
+  $variables['back_label'] = $node ? $node->label() : NULL;
 }
 
 /**
@@ -697,6 +725,285 @@ function customsolent_preprocess_paragraph__view_display(&$variables) {
   }
   else {
     $variables['filter_has_options'] = FALSE;
+  }
+
+  // Preview / full-listing behaviour for the by-topic listings.
+  _customsolent_preprocess_listing_mode($variables, $paragraph, $host, $context, $active_filter_tid);
+}
+
+/**
+ * The three displays that list content by topic.
+ */
+function _customsolent_topic_listing_displays(): array {
+  return ['view_display_primary_and_related', 'view_display_primary_topic', 'view_display_related_topics'];
+}
+
+/**
+ * Listing views by topic => the URL word of their listing page.
+ *
+ * Organisations and links share one combined listing, so both map to
+ * "organisations". These words are reserved: see
+ * customsolent_helpers_reserved_listing_words().
+ */
+function _customsolent_topic_listing_types(): array {
+  return [
+    'events_listing' => 'events',
+    'organisations_listing' => 'organisations',
+    'links_listing' => 'organisations',
+  ];
+}
+
+/**
+ * Resolves how a View Display paragraph should behave.
+ *
+ * @return string
+ *   - 'plain':   not a by-topic listing (front page grids etc.) — untouched.
+ *   - 'full':    filter + pager on this page. The paragraph's Listing mode
+ *                field says so, or it is being rendered on its automated
+ *                listing page (paragraph view mode "listing_page").
+ *   - 'preview': up to 8 cards and a "View more" link. The default.
+ */
+function _customsolent_listing_mode($paragraph, string $view_mode = 'default'): string {
+  if ($paragraph->bundle() !== 'view_display' || $paragraph->get('field_view')->isEmpty()) {
+    return 'plain';
+  }
+  $view = $paragraph->get('field_view')->target_id;
+  $display = $paragraph->get('field_view')->display_id;
+  if (!isset(_customsolent_topic_listing_types()[$view])
+    || !in_array($display, _customsolent_topic_listing_displays(), TRUE)) {
+    return 'plain';
+  }
+  if ($view_mode === 'listing_page') {
+    return 'full';
+  }
+  if ($paragraph->hasField('field_listing_mode') && $paragraph->get('field_listing_mode')->value === 'full') {
+    return 'full';
+  }
+  return 'preview';
+}
+
+/**
+ * All by-topic listing paragraphs on a host node, in page order.
+ */
+function _customsolent_topic_listing_paragraphs($host): array {
+  $cache = &drupal_static(__FUNCTION__, []);
+  if (!$host || $host->getEntityTypeId() !== 'node') {
+    return [];
+  }
+  if (!isset($cache[$host->id()])) {
+    $found = [];
+    $walk = function ($entity, int $depth) use (&$walk, &$found) {
+      if ($depth <= 0) {
+        return;
+      }
+      foreach ($entity->getFields(FALSE) as $field) {
+        if ($field->getFieldDefinition()->getType() !== 'entity_reference_revisions') {
+          continue;
+        }
+        foreach ($field->referencedEntities() as $p) {
+          if (_customsolent_listing_mode($p) !== 'plain') {
+            $found[] = $p;
+          }
+          $walk($p, $depth - 1);
+        }
+      }
+    };
+    $walk($host, 6);
+    $cache[$host->id()] = $found;
+  }
+  return $cache[$host->id()];
+}
+
+/**
+ * The heading paragraph immediately before $paragraph in its parent, if any.
+ */
+function _customsolent_preceding_heading_paragraph($paragraph) {
+  $parent = $paragraph->getParentEntity();
+  $field_name = $paragraph->get('parent_field_name')->value;
+  if (!$parent || !$field_name || !$parent->hasField($field_name)) {
+    return NULL;
+  }
+  $previous = NULL;
+  foreach ($parent->get($field_name)->referencedEntities() as $sibling) {
+    if ((int) $sibling->id() === (int) $paragraph->id()) {
+      return ($previous && $previous->bundle() === 'heading') ? $previous : NULL;
+    }
+    $previous = $sibling;
+  }
+  return NULL;
+}
+
+/**
+ * Preview / full-listing variables for paragraph--view-display.html.twig.
+ *
+ * Preview mode (section pages):
+ *  - Renders the view's view_display_preview display: compact cards, no
+ *    pager. That display fetches 9 rows; a 9th means there is more than the
+ *    8 shown, which is what switches the "View more" link on.
+ *  - Organisations and links are one combined list (view directory_listing).
+ *    Where a page has both an organisations block and a links block, the
+ *    first renders the combined preview and the later one renders nothing.
+ *  - The block owns its heading: the editor's own field_heading, else the
+ *    text of the heading paragraph just before it (which then does not
+ *    render itself — see customsolent_preprocess_paragraph__heading). That
+ *    is what lets "View more" sit on the heading's line without editing 74
+ *    pages, and it means an empty block takes its heading away with it.
+ *  - "View more" goes to {this page's path}/{events|organisations}, the
+ *    automated listing page served by customsolent_helpers.
+ *
+ * Full mode swaps organisations/links to the combined view only on the
+ * automated listing page; a page an editor has marked "Full listing" keeps
+ * exactly the view they chose.
+ */
+function _customsolent_preprocess_listing_mode(array &$variables, $paragraph, $host, array $context, $active_filter_tid): void {
+  $mode = _customsolent_listing_mode($paragraph, $variables['view_mode'] ?? 'default');
+  $variables['listing_mode'] = $mode;
+  if ($mode === 'plain') {
+    return;
+  }
+
+  $view_name = $paragraph->get('field_view')->target_id;
+  $type_word = _customsolent_topic_listing_types()[$view_name];
+  $is_directory = ($type_word === 'organisations');
+  $is_listing_page = (($variables['view_mode'] ?? '') === 'listing_page');
+
+  // Cards need their grid wherever they appear — no classy style to remember.
+  $variables['listing_grid_class'] = NULL;
+  if ($is_directory) {
+    $variables['listing_grid_class'] = 'slnt-directory-compact-grid';
+  }
+
+  if ($mode === 'full') {
+    if ($is_listing_page) {
+      if ($is_directory) {
+        $variables['view_name'] = 'directory_listing';
+        $variables['display_id'] = 'view_display_primary_and_related';
+      }
+      // The listing page has no section_filter paragraph, so the listing
+      // carries the topic filter itself; and the page supplies the h1.
+      if (!empty($context['filter_options'])) {
+        _customsolent_apply_filter_options_to_variables($variables, $context, $active_filter_tid);
+      }
+      $variables['listing_hide_heading'] = TRUE;
+    }
+    return;
+  }
+
+  // ── Preview ──
+  $variables['filter_has_options'] = FALSE;
+  $variables['listing_suppressed'] = FALSE;
+
+  if ($is_directory) {
+    foreach (_customsolent_topic_listing_paragraphs($host) as $other) {
+      if ((int) $other->id() === (int) $paragraph->id()) {
+        break;
+      }
+      if (_customsolent_topic_listing_types()[$other->get('field_view')->target_id] === 'organisations'
+        && _customsolent_listing_mode($other) === 'preview') {
+        // An earlier block on this page already shows the combined list.
+        $variables['listing_suppressed'] = TRUE;
+        return;
+      }
+    }
+  }
+
+  $preview_view = $is_directory ? 'directory_listing' : $view_name;
+  $tids = $variables['primary_topic_tid'] ?? '';
+  $build = NULL;
+  $has_more = FALSE;
+  $view = \Drupal\views\Views::getView($preview_view);
+  if ($view && $tids !== '' && $view->access('view_display_preview')) {
+    $view->setDisplay('view_display_preview');
+    $view->setArguments([$tids, $tids]);
+    $view->preExecute();
+    $view->execute();
+    if (count($view->result) > 8) {
+      $has_more = TRUE;
+      $view->result = array_slice($view->result, 0, 8);
+    }
+    if ($view->result) {
+      $build = $view->render();
+      $build['#cache']['tags'] = \Drupal\Core\Cache\Cache::mergeTags(
+        $build['#cache']['tags'] ?? [],
+        $is_directory ? ['node_list:organisation', 'node_list:link'] : ['node_list:event']
+      );
+    }
+  }
+  if (!$build && !$active_filter_tid) {
+    // Nothing to show: no heading, no block.
+    $variables['listing_suppressed'] = TRUE;
+    return;
+  }
+  if (!$build) {
+    // The visitor has chosen a topic filter and this block has no matches.
+    // Keep the block and say so — a heading that silently disappears
+    // right after a click looks like a fault.
+    $build = [
+      '#type' => 'html_tag',
+      '#tag' => 'p',
+      '#attributes' => ['class' => ['slnt-view-empty']],
+      '#value' => t('Nothing here matches the current filter.'),
+    ];
+  }
+  $variables['preview_build'] = $build;
+  $variables['listing_grid_class'] = $is_directory
+    ? 'slnt-directory-compact-grid slnt-directory-compact-grid--preview'
+    : 'slnt-events-compact-grid';
+
+  // Heading.
+  $heading = '';
+  if (!$paragraph->get('field_heading')->isEmpty()) {
+    $heading = trim((string) $paragraph->get('field_heading')->value);
+  }
+  elseif ($sibling = _customsolent_preceding_heading_paragraph($paragraph)) {
+    $heading = trim(preg_replace('/\s+/', ' ', (string) $sibling->get('field_heading')->value));
+  }
+  if ($is_directory && in_array(mb_strtolower($heading), ['organisations', 'links', ''], TRUE)) {
+    $heading = (string) t('Organisations & links');
+  }
+  elseif ($heading === '') {
+    $heading = (string) t('Events');
+  }
+  $variables['preview_heading'] = $heading;
+
+  // View more.
+  $variables['more_url'] = NULL;
+  if ($has_more && $host && $host->getEntityTypeId() === 'node') {
+    $base = rtrim($host->toUrl()->toString(), '/');
+    $query = $active_filter_tid ? '?topic=' . (int) $active_filter_tid : '';
+    $variables['more_url'] = $base . '/' . $type_word . $query;
+  }
+}
+
+/**
+ * Implements hook_preprocess_HOOK() for paragraph--heading.html.twig.
+ *
+ * A heading paragraph that sits directly above a listing in Preview mode
+ * hands its text to that listing, which renders heading + "View more" as
+ * one row (and drops both when the listing is empty). So it must not also
+ * render itself.
+ */
+function customsolent_preprocess_paragraph__heading(&$variables) {
+  $paragraph = $variables['paragraph'];
+  $variables['heading_handed_over'] = FALSE;
+  $parent = $paragraph->getParentEntity();
+  $field_name = $paragraph->get('parent_field_name')->value;
+  if (!$parent || !$field_name || !$parent->hasField($field_name)) {
+    return;
+  }
+  $take_next = FALSE;
+  foreach ($parent->get($field_name)->referencedEntities() as $sibling) {
+    if ($take_next) {
+      if (_customsolent_listing_mode($sibling) === 'preview' && $sibling->get('field_heading')->isEmpty()) {
+        $variables['heading_handed_over'] = TRUE;
+      }
+      // Re-render this heading when the listing below it is edited.
+      $variables['content']['field_heading']['#cache']['tags'][] = 'paragraph:' . $sibling->id();
+      return;
+    }
+    if ((int) $sibling->id() === (int) $paragraph->id()) {
+      $take_next = TRUE;
+    }
   }
 }
 

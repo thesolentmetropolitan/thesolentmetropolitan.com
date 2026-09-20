@@ -5,6 +5,7 @@ dependencies:
   config:
     - field.field.paragraph.view_display.field_classy
     - field.field.paragraph.view_display.field_heading
+    - field.field.paragraph.view_display.field_listing_mode
     - field.field.paragraph.view_display.field_topic
     - field.field.paragraph.view_display.field_view
     - paragraphs.paragraphs_type.view_display
@@ -47,4 +48,5 @@ content:
     third_party_settings: {  }
     weight: 2
     region: content
-hidden: {  }
+hidden:
+  field_listing_mode: true
