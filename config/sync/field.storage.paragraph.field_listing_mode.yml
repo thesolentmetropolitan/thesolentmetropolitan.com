@@ -1,0 +1,27 @@
+uuid: a94872ad-463f-429b-9e6c-f02acf381dee
+langcode: en
+status: true
+dependencies:
+  module:
+    - options
+    - paragraphs
+id: paragraph.field_listing_mode
+field_name: field_listing_mode
+entity_type: paragraph
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: preview
+      label: 'Preview — up to 8 cards and a "View more" link (section pages)'
+    -
+      value: full
+      label: 'Full listing — filter and pager on this page'
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

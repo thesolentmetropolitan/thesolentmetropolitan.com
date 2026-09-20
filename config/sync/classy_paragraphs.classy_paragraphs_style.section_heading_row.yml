@@ -4,4 +4,4 @@ status: true
 dependencies: {  }
 id: section_heading_row
 label: 'Section Heading Row'
-classes: 'slnt-section-head-row'
+classes: slnt-section-head-row

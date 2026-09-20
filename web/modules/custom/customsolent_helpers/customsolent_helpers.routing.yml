@@ -1,0 +1,16 @@
+# The automated by-topic listing pages: /{topic path}/events and
+# /{topic path}/organisations. Visitors never see this internal path —
+# TopicListingPathProcessor maps the pretty URL in and out.
+customsolent_helpers.topic_listing:
+  path: '/topic-listing/{node}/{listing_type}'
+  defaults:
+    _controller: '\Drupal\customsolent_helpers\Controller\TopicListingController::view'
+    _title_callback: '\Drupal\customsolent_helpers\Controller\TopicListingController::title'
+  requirements:
+    _entity_access: 'node.view'
+    node: \d+
+    listing_type: 'events|organisations'
+  options:
+    parameters:
+      node:
+        type: entity:node

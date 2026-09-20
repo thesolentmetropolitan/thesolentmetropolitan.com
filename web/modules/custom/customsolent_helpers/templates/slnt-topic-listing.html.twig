@@ -1,0 +1,28 @@
+{#
+/**
+ * @file
+ * The automated by-topic listing page (/{topic path}/events etc.).
+ *
+ * Variables:
+ *   - trail_ancestors: topic breadcrumb terms, all clickable; the last one
+ *     is the section page this listing belongs to
+ *   - heading: "Events" / "Organisations & links"
+ *   - listing: the section page's own View Display paragraph, rendered in
+ *     the listing_page view mode (full list, topic filter, one pager)
+ *   - back_url / back_label: the section page
+ *   - section_key: culture / sectors / living / …
+ */
+#}
+<div class="slnt-topic-listing"{% if section_key %} data-section="{{ section_key }}"{% endif %}>
+  <header class="slnt-topic-listing__header">
+    {% if trail_ancestors %}
+      {% include '@customsolent/components/topic-trail.html.twig' with {
+        ancestors: trail_ancestors,
+        current_label: null,
+        current_as_heading: false,
+      } only %}
+    {% endif %}
+    <h1 class="slnt-topic-listing__title">{{ heading }}</h1>
+  </header>
+  {{ listing }}
+</div>

@@ -158,6 +158,15 @@ class KickerLazyBuilder implements TrustedCallbackInterface {
     $alias_manager = \Drupal::service('path_alias.manager');
     $internal = $alias_manager->getPathByAlias($path_info);
 
+    // On an automated listing page (/culture/music/events) the path is not
+    // an alias; the page it belongs to is the path without its last
+    // segment. Kickers there behave as they do on that section page.
+    if (!preg_match('|^/node/(\d+)$|', $internal)
+      && function_exists('customsolent_helpers_listing_route_words')
+      && preg_match('#^(/.+)/(' . implode('|', customsolent_helpers_listing_route_words()) . ')$#', $path_info, $lm)) {
+      $internal = $alias_manager->getPathByAlias($lm[1]);
+    }
+
     if (!preg_match('|^/node/(\d+)$|', $internal, $m)) {
       return $cache = $default;
     }
