@@ -13,7 +13,10 @@ settings:
   allowed_values:
     -
       value: preview
-      label: 'Preview — up to 8 cards and a "View more" link (section pages)'
+      label: 'Preview — up to 8 cards and a "View more" link'
+    -
+      value: signpost
+      label: 'Signpost — a count and a link to the full list, no cards'
     -
       value: full
       label: 'Full listing — filter and pager on this page'

@@ -46,6 +46,7 @@ function customsolent_preprocess_slnt_topic_listing(array &$variables): void {
       $variables['section_key'] = $top ? strtolower($top->getName()) : NULL;
     }
   }
+  $variables['strip'] = $node ? _customsolent_build_section_strip($node, (string) $variables['listing_type']) : NULL;
   $variables['back_url'] = $node ? $node->toUrl()->toString() : NULL;
   $variables['back_label'] = $node ? $node->label() : NULL;
 }
@@ -406,7 +407,10 @@ function customsolent_preprocess_paragraph__hero_with_art_style(&$variables) {
       $trail = _customsolent_build_topic_trail($term, TRUE);
       $variables['topic_trail_ancestors'] = $trail['ancestors'];
       $variables['topic_trail_current'] = $trail['current_label'];
-      $variables['topic_trail_as_heading'] = TRUE;
+      // On an automated listing page (/culture/music/events) the same
+      // banner is shown, but that page's h1 is "Events": the topic name
+      // renders as a span with the same look, so there is one h1.
+      $variables['topic_trail_as_heading'] = (($variables['view_mode'] ?? '') !== 'listing_page');
     }
   }
 }
@@ -761,7 +765,12 @@ function _customsolent_topic_listing_types(): array {
  *   - 'full':    filter + pager on this page. The paragraph's Listing mode
  *                field says so, or it is being rendered on its automated
  *                listing page (paragraph view mode "listing_page").
- *   - 'preview': up to 8 cards and a "View more" link. The default.
+ *   - 'preview': up to 8 cards and a "View more" link. Automatic for
+ *                events; for organisations only when the editor picks it
+ *                (a sponsors row, "who has joined the cause").
+ *   - 'signpost': a box with a count and a link to the full list, no
+ *                cards. Automatic for organisations and links: the first
+ *                eight of an A–Z list mean nothing, a count does.
  */
 function _customsolent_listing_mode($paragraph, string $view_mode = 'default'): string {
   if ($paragraph->bundle() !== 'view_display' || $paragraph->get('field_view')->isEmpty()) {
@@ -776,10 +785,190 @@ function _customsolent_listing_mode($paragraph, string $view_mode = 'default'): 
   if ($view_mode === 'listing_page') {
     return 'full';
   }
-  if ($paragraph->hasField('field_listing_mode') && $paragraph->get('field_listing_mode')->value === 'full') {
+  $chosen = $paragraph->hasField('field_listing_mode') ? $paragraph->get('field_listing_mode')->value : NULL;
+  if ($chosen === 'full') {
     return 'full';
   }
-  return 'preview';
+  $is_directory = (_customsolent_topic_listing_types()[$view] === 'organisations');
+  if (!$is_directory) {
+    return 'preview';
+  }
+  return $chosen === 'preview' ? 'preview' : 'signpost';
+}
+
+/**
+ * TRUE for the two modes in which a listing renders its own heading row.
+ */
+function _customsolent_listing_owns_heading(string $mode): bool {
+  return in_array($mode, ['preview', 'signpost'], TRUE);
+}
+
+/**
+ * Counts of what a topic scope holds, for the section strip and signpost.
+ *
+ * One query per kind, cached for the request.
+ *
+ * @param int[] $tids
+ *   The topic scope: a term and all its descendants.
+ *
+ * @return array{events:int, organisation:int, link:int, directory:int, directory_tids:array<int,int[]>}
+ *   directory_tids maps topic tid => node ids tagged with it (primary or
+ *   related), for working out which sub-topics have anything in them.
+ */
+function _customsolent_topic_scope_stats(array $tids): array {
+  $cache = &drupal_static(__FUNCTION__, []);
+  sort($tids);
+  $key = implode(',', $tids);
+  if (isset($cache[$key])) {
+    return $cache[$key];
+  }
+  $stats = ['events' => 0, 'organisation' => 0, 'link' => 0, 'directory' => 0, 'directory_tids' => []];
+  if (!$tids) {
+    return $cache[$key] = $stats;
+  }
+  $db = \Drupal::database();
+  $tagged = function (array $types) use ($db, $tids) {
+    $primary = $db->select('node__field_primary_topic', 'p');
+    $primary->join('node_field_data', 'n', 'n.nid = p.entity_id AND n.status = 1');
+    $primary->addField('n', 'nid'); $primary->addField('n', 'type');
+    $primary->addField('p', 'field_primary_topic_target_id', 'tid');
+    $primary->condition('n.type', $types, 'IN')->condition('p.field_primary_topic_target_id', $tids, 'IN');
+    $related = $db->select('node__field_related_topics', 'r');
+    $related->join('node_field_data', 'n', 'n.nid = r.entity_id AND n.status = 1');
+    $related->addField('n', 'nid'); $related->addField('n', 'type');
+    $related->addField('r', 'field_related_topics_target_id', 'tid');
+    $related->condition('n.type', $types, 'IN')->condition('r.field_related_topics_target_id', $tids, 'IN');
+    return array_merge($primary->execute()->fetchAll(), $related->execute()->fetchAll());
+  };
+
+  // Organisations + links.
+  $seen = [];
+  foreach ($tagged(['organisation', 'link']) as $row) {
+    $stats['directory_tids'][(int) $row->tid][(int) $row->nid] = (int) $row->nid;
+    if (!isset($seen[$row->nid])) {
+      $seen[$row->nid] = TRUE;
+      $stats[$row->type]++;
+    }
+  }
+  $stats['directory'] = count($seen);
+
+  // Events that have not ended — the same rule as the listing views.
+  $event_nids = array_unique(array_map(fn($r) => (int) $r->nid, $tagged(['event'])));
+  if ($event_nids) {
+    $today = (new \DateTimeImmutable('today', new \DateTimeZone(date_default_timezone_get())))->getTimestamp();
+    $stats['events'] = (int) $db->select('node__field_when', 'w')
+      ->condition('w.entity_id', $event_nids, 'IN')
+      ->condition('w.field_when_end_value', $today, '>=')
+      ->distinct()->fields('w', ['entity_id'])->countQuery()->execute()->fetchField();
+  }
+  return $cache[$key] = $stats;
+}
+
+/**
+ * The topic scope a section page works in: term, scope ids, section key.
+ *
+ * Mirrors _customsolent_resolve_topic_context(): an explicit topic on the
+ * page's section filter wins, otherwise the node's primary topic.
+ */
+function _customsolent_node_topic_context($node): ?array {
+  if (!$node || !$node->hasField('field_primary_topic') || $node->get('field_primary_topic')->isEmpty()) {
+    return NULL;
+  }
+  $term = NULL;
+  $section_filter = _customsolent_find_section_filter_on_host($node);
+  if ($section_filter && !$section_filter->get('field_topic')->isEmpty()) {
+    $term = $section_filter->get('field_topic')->entity;
+  }
+  $term = $term ?: $node->get('field_primary_topic')->entity;
+  return $term ? _customsolent_topic_context_for_term($term) : NULL;
+}
+
+/**
+ * The section strip: Overview · Events 12 · Organisations & links 38.
+ *
+ * Navigation between a topic's own page and its per-type listing pages —
+ * real links to real addresses, with the current one marked; not an ARIA
+ * tab widget. Shown on Culture, Sectors and Living section pages and on
+ * their listing pages. A type with nothing in it is left out, and if only
+ * "Overview" would remain there is no strip at all.
+ *
+ * @param \Drupal\node\NodeInterface $node
+ *   The section page.
+ * @param string $current
+ *   'overview', 'events' or 'organisations'.
+ */
+function _customsolent_build_section_strip($node, string $current): ?array {
+  if (!$node || $node->bundle() !== 'composite_page') {
+    return NULL;
+  }
+  $context = _customsolent_node_topic_context($node);
+  if (!$context || !in_array($context['section_key'], ['culture', 'sectors', 'living'], TRUE)) {
+    return NULL;
+  }
+  $stats = _customsolent_topic_scope_stats($context['scope_ids']);
+  $base = rtrim($node->toUrl()->toString(), '/');
+  $items = [[
+    'key' => 'overview',
+    'label' => t('Overview'),
+    'url' => $base,
+    'count' => NULL,
+  ]];
+  if ($stats['events'] > 0) {
+    $items[] = ['key' => 'events', 'label' => t('Events'), 'url' => $base . '/events', 'count' => $stats['events']];
+  }
+  if ($stats['directory'] > 0) {
+    $items[] = ['key' => 'organisations', 'label' => t('Organisations & links'), 'url' => $base . '/organisations', 'count' => $stats['directory']];
+  }
+  if (count($items) < 2) {
+    return NULL;
+  }
+  foreach ($items as &$item) {
+    $item['current'] = ($item['key'] === $current);
+  }
+  unset($item);
+
+  // The events count drops as dates pass: do not keep it beyond today.
+  $midnight = (new \DateTimeImmutable('tomorrow', new \DateTimeZone(date_default_timezone_get())))->getTimestamp();
+  return [
+    '#theme' => 'slnt_section_strip',
+    '#items' => $items,
+    '#label' => t('@topic section', ['@topic' => $node->label()]),
+    '#section_key' => $context['section_key'],
+    '#cache' => [
+      'tags' => array_merge($node->getCacheTags(), ['node_list:event', 'node_list:organisation', 'node_list:link']),
+      'max-age' => max(60, $midnight - \Drupal::time()->getRequestTime()),
+    ],
+  ];
+}
+
+/**
+ * Implements hook_preprocess_HOOK() for field.html.twig.
+ *
+ * Puts the section strip directly under the banner on section pages, with
+ * no content edits: on a Composite Page's full view, if the first content
+ * component is the hero, the strip becomes the second item.
+ */
+function customsolent_preprocess_field(array &$variables): void {
+  $element = $variables['element'];
+  if (($element['#field_name'] ?? '') !== 'field_content_component'
+    || ($element['#entity_type'] ?? '') !== 'node'
+    || ($element['#bundle'] ?? '') !== 'composite_page'
+    || ($element['#view_mode'] ?? '') !== 'full') {
+    return;
+  }
+  $node = $element['#object'];
+  $first = $node->get('field_content_component')->first();
+  if (!$first || !$first->entity || $first->entity->bundle() !== 'hero_with_art_style') {
+    return;
+  }
+  $strip = _customsolent_build_section_strip($node, 'overview');
+  if (!$strip) {
+    return;
+  }
+  array_splice($variables['items'], 1, 0, [[
+    'content' => $strip,
+    'attributes' => new \Drupal\Core\Template\Attribute(['class' => ['field__item', 'field__item--section-strip']]),
+  ]]);
 }
 
 /**
@@ -921,12 +1110,56 @@ function _customsolent_preprocess_listing_mode(array &$variables, $paragraph, $h
         break;
       }
       if (_customsolent_topic_listing_types()[$other->get('field_view')->target_id] === 'organisations'
-        && _customsolent_listing_mode($other) === 'preview') {
+        && _customsolent_listing_owns_heading(_customsolent_listing_mode($other))) {
         // An earlier block on this page already shows the combined list.
         $variables['listing_suppressed'] = TRUE;
         return;
       }
     }
+  }
+
+  // ── Signpost: a count and a link, no cards ──
+  if ($mode === 'signpost') {
+    $scope = $variables['primary_topic_tid'] ?? '';
+    $scope_tids = array_values(array_filter(array_map('intval', explode('+', (string) $scope))));
+    $stats = _customsolent_topic_scope_stats($scope_tids);
+    if ($stats['directory'] === 0) {
+      $variables['listing_suppressed'] = TRUE;
+      return;
+    }
+    $variables['listing_grid_class'] = NULL;
+    $variables['signpost'] = [
+      'heading' => t('Organisations & links'),
+      'organisations' => $stats['organisation'],
+      'links' => $stats['link'],
+      'total' => $stats['directory'],
+      'topic' => ($context['mode'] ?? '') === 'term' && !empty($context['term'])
+        ? _customsolent_strip_term_prefix($context['term']->getName()) : NULL,
+      'url' => NULL,
+      'children' => [],
+    ];
+    if ($host && $host->getEntityTypeId() === 'node') {
+      $base = rtrim($host->toUrl()->toString(), '/') . '/organisations';
+      $variables['signpost']['url'] = $base . ($active_filter_tid ? '?topic=' . (int) $active_filter_tid : '');
+      // "Browse by": sub-topics that actually hold something. Only where
+      // the page has no section filter doing that job already.
+      if (!_customsolent_section_filter_exists_on_host($host) && ($context['mode'] ?? '') === 'term' && !empty($context['term'])) {
+        foreach (_customsolent_load_topic_children_sorted($context['term']->id()) as $child) {
+          $nids = [];
+          foreach (_customsolent_get_term_with_descendants($child->id()) as $tid) {
+            $nids += $stats['directory_tids'][$tid] ?? [];
+          }
+          if ($nids) {
+            $variables['signpost']['children'][] = [
+              'label' => _customsolent_strip_term_prefix($child->getName()),
+              'url' => $base . '?topic=' . (int) $child->id(),
+              'count' => count($nids),
+            ];
+          }
+        }
+      }
+    }
+    return;
   }
 
   $preview_view = $is_directory ? 'directory_listing' : $view_name;
@@ -1016,7 +1249,7 @@ function customsolent_preprocess_paragraph__heading(&$variables) {
   $take_next = FALSE;
   foreach ($parent->get($field_name)->referencedEntities() as $sibling) {
     if ($take_next) {
-      if (_customsolent_listing_mode($sibling) === 'preview' && $sibling->get('field_heading')->isEmpty()) {
+      if (_customsolent_listing_owns_heading(_customsolent_listing_mode($sibling)) && $sibling->get('field_heading')->isEmpty()) {
         $variables['heading_handed_over'] = TRUE;
       }
       // Re-render this heading when the listing below it is edited.

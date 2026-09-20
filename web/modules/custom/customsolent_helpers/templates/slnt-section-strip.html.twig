@@ -1,0 +1,30 @@
+{#
+/**
+ * @file
+ * The section strip: Overview · Events 12 · Organisations & links 38.
+ *
+ * Navigation between a topic's page and its per-type listing pages. Real
+ * links to real addresses with the current one marked (aria-current) — not
+ * an ARIA tab widget, so every view is shareable and printable.
+ *
+ * One row on wide screens, wrapping to a second line if it must. Below
+ * 600px it becomes a stacked list of 44px rows. It never scrolls sideways.
+ *
+ * Variables:
+ *   - items: [{ key, label, url, count|null, current }]
+ *   - label: accessible name for the nav, e.g. "Music section"
+ *   - section_key: culture / sectors / living
+ */
+#}
+<div class="slnt-section-strip"{% if section_key %} data-section="{{ section_key }}"{% endif %}>
+  <nav class="slnt-section-strip__nav" aria-label="{{ label }}">
+    {% for item in items %}
+      <a class="slnt-section-strip__item" href="{{ item.url }}"{% if item.current %} aria-current="page"{% endif %}>
+        <span class="slnt-section-strip__label">{{ item.label }}</span>
+        {%- if item.count is not null %}
+          <span class="slnt-section-strip__count">{{ item.count }}<span class="visually-hidden"> {{ 'items'|t }}</span></span>
+        {%- endif %}
+      </a>
+    {% endfor %}
+  </nav>
+</div>

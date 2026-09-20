@@ -63,7 +63,7 @@
             {% include '@customsolent/components/topic-trail.html.twig' with {
               ancestors: topic_trail_ancestors|default([]),
               current_label: topic_trail_current|default(null),
-              current_as_heading: topic_trail_as_heading|default(true),
+              current_as_heading: (topic_trail_as_heading is defined and topic_trail_as_heading is not null) ? topic_trail_as_heading : true,
             } only %}
           </div>
         {% elseif paragraph.field_title.value %}
