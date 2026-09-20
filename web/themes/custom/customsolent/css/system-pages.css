@@ -1,0 +1,236 @@
+/* ══════════════════════════════════════
+   Drupal's own bare pages: log in, reset password, 404, 403
+   (page.html.twig + _customsolent_system_page()), and the
+   maintenance page (maintenance-page.html.twig).
+
+   A heading, an intro and a white box on the off-white ground. Form
+   controls deliberately mirror css/webform.css (the contact form): 2px
+   solent-blue border, square corners, Atkinson 1rem, orange focus ring,
+   and a submit button in the site's button shape. If the contact form's
+   look changes, change this too.
+   ══════════════════════════════════════ */
+
+.slnt-system-page {
+  /* Left edge on the same line as the logo and the banner's title box. */
+  padding: 2.4rem max(3rem, calc((100% - var(--container-max, 1200px)) / 2 + 3rem)) 3.2rem;
+  box-sizing: border-box;
+}
+
+@media (max-width: 799px) {
+  .slnt-system-page {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
+.slnt-system-page__title {
+  font-family: 'Atkinson Hyperlegible Next', sans-serif;
+  font-size: 2.4rem;
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--solent-blue, #2c4f6e);
+  margin: 0 0 0.6rem;
+}
+
+.slnt-system-page__intro {
+  max-width: 60ch;
+  margin: 0 0 1.6rem;
+  font-size: 1.1rem;
+}
+
+.slnt-system-page__box {
+  max-width: 30rem;
+  padding: 1.4rem 1.5rem 1.6rem;
+  background: #fff;
+  border-top: 1px solid var(--solent-blue, #2c4f6e);
+}
+
+/* ── Form: labels above full-width fields ── */
+.slnt-system-page form .form-item {
+  margin: 0 0 1.1rem;
+}
+
+.slnt-system-page form label {
+  display: block;
+  margin-bottom: 0.3rem;
+  font-family: 'Atkinson Hyperlegible Next', sans-serif;
+  font-weight: 700;
+  color: var(--solent-blue, #2c4f6e);
+}
+
+.slnt-system-page form .form-required::after {
+  content: ' *';
+  color: var(--magenta, #c5007a);
+}
+
+.slnt-system-page form input[type='text'],
+.slnt-system-page form input[type='password'],
+.slnt-system-page form input[type='email'] {
+  width: 100%;
+  height: 2.6em;
+  box-sizing: border-box;
+  border: 2px solid var(--solent-blue, #2c4f6e);
+  border-radius: 0;
+  background-color: #fff;
+  font-family: 'Atkinson Hyperlegible Next', sans-serif;
+  font-size: 1rem;
+  color: var(--text, #1a1a1a);
+  padding: 0.35em 0.5em;
+}
+
+.slnt-system-page form input:focus-visible {
+  outline: 3px solid #e8870e;
+  outline-offset: 1px;
+}
+
+.slnt-system-page form .description {
+  margin-top: 0.3rem;
+  font-size: 0.9rem;
+  color: var(--text-mid, #444);
+}
+
+.slnt-system-page form .form-actions {
+  margin-top: 1.4rem;
+}
+
+.slnt-system-page form .form-submit {
+  font-family: 'Atkinson Hyperlegible Next', sans-serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  line-height: 1.2;
+  padding: 0.54rem 1.2rem;
+  border: 3px solid var(--solent-blue, #2c4f6e);
+  border-radius: 4px;
+  background: var(--solent-blue, #2c4f6e);
+  color: #fff;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.slnt-system-page form .form-submit:hover {
+  opacity: 0.88;
+}
+
+.slnt-system-page form .form-submit:focus-visible {
+  outline: 3px solid var(--text, #1a1a1a);
+  outline-offset: 2px;
+}
+
+/* ── Links under the box / the 404's way onward ── */
+.slnt-system-page__links {
+  list-style: none;
+  margin: 1.4rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.6rem;
+}
+
+.layout-content .slnt-system-page__links a {
+  display: inline-block;
+  font-weight: 700;
+}
+
+/* On the 404 and 403 the links ARE the content: make them chips. */
+.layout-content .slnt-system-page--404 .slnt-system-page__links a,
+.layout-content .slnt-system-page--403 .slnt-system-page__links a {
+  padding: 0.45rem 0.9rem;
+  min-height: 24px;
+  border: 1.5px solid var(--solent-blue, #2c4f6e);
+  border-radius: 4px;
+  background: #fff;
+  color: var(--solent-blue, #2c4f6e);
+  text-decoration: none;
+  text-decoration-color: transparent;
+}
+
+.layout-content .slnt-system-page--404 .slnt-system-page__links a:hover,
+.layout-content .slnt-system-page--404 .slnt-system-page__links a:focus-visible,
+.layout-content .slnt-system-page--403 .slnt-system-page__links a:hover,
+.layout-content .slnt-system-page--403 .slnt-system-page__links a:focus-visible {
+  background: var(--solent-blue, #2c4f6e);
+  color: #fff;
+}
+
+@media (max-width: 799px) {
+  .slnt-system-page__title {
+    font-size: 1.75rem;
+  }
+}
+
+/* ══════════════════════════════════════
+   Maintenance page — a standalone document: no menu, no footer blocks,
+   so it carries its own header band. 3rem side padding puts the logo
+   where the live site's header has it.
+   ══════════════════════════════════════ */
+.slnt-maintenance {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--warm-grey, #f5f3f0);
+  font-family: 'Atkinson Hyperlegible Next', sans-serif;
+  color: var(--text, #1a1a1a);
+}
+
+.slnt-maintenance__header {
+  background: var(--solent-blue, #2c4f6e);
+  color: #fff;
+  padding: 1rem max(3rem, calc((100% - var(--container-max, 1200px)) / 2 + 3rem));
+}
+
+.slnt-maintenance__header img {
+  display: block;
+  height: 64px;
+  width: auto;
+}
+
+.slnt-maintenance__name {
+  font-size: 1.4rem;
+  font-weight: 700;
+  line-height: 1.1;
+  color: #fff;
+}
+
+.slnt-maintenance__main {
+  flex: 1;
+  padding: 2.4rem max(3rem, calc((100% - var(--container-max, 1200px)) / 2 + 3rem)) 3.2rem;
+}
+
+.slnt-maintenance__title {
+  font-size: 2.4rem;
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--solent-blue, #2c4f6e);
+  margin: 0 0 1rem;
+}
+
+.slnt-maintenance__box {
+  max-width: 44rem;
+  padding: 1.4rem 1.5rem 1.6rem;
+  background: #fff;
+  border-top: 1px solid var(--solent-blue, #2c4f6e);
+  font-size: 1.1rem;
+  line-height: 1.5;
+}
+
+.slnt-maintenance__box > :first-child { margin-top: 0; }
+.slnt-maintenance__box > :last-child { margin-bottom: 0; }
+
+.slnt-maintenance__footer {
+  background: var(--solent-blue, #2c4f6e);
+  color: #dfe7ee;
+  padding: 1rem max(3rem, calc((100% - var(--container-max, 1200px)) / 2 + 3rem));
+  font-size: 0.95rem;
+}
+
+@media (max-width: 799px) {
+  .slnt-maintenance__title {
+    font-size: 1.75rem;
+  }
+  .slnt-maintenance__header,
+  .slnt-maintenance__main,
+  .slnt-maintenance__footer {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}

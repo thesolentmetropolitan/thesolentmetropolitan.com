@@ -88,7 +88,35 @@
 		{# link is in html.html.twig #}
 
 		<div class="layout-content">
-			{{ page.content }}
+			{% if system_page %}
+				{# Drupal's own bare pages — log in, reset password, 404, 403 —
+				   get a heading, an intro and a white box. See
+				   _customsolent_system_page() and css/system-pages.css. #}
+				<div class="slnt-system-page slnt-system-page--{{ system_page.key }}">
+					<h1 class="slnt-system-page__title">{{ system_page.title }}</h1>
+					{% if system_page.intro %}
+						<p class="slnt-system-page__intro">{{ system_page.intro }}</p>
+					{% endif %}
+					{% if system_page.replace_content %}
+						{# Render the region for its messages and cache metadata, but
+						   show our own content instead of Drupal's one-line sentence. #}
+						{% set _content = page.content|render %}
+					{% else %}
+						<div class="slnt-system-page__box">
+							{{ page.content }}
+						</div>
+					{% endif %}
+					{% if system_page.links %}
+						<ul class="slnt-system-page__links">
+							{% for label, path in system_page.links %}
+								<li><a href="{{ path }}">{{ label }}</a></li>
+							{% endfor %}
+						</ul>
+					{% endif %}
+				</div>
+			{% else %}
+				{{ page.content }}
+			{% endif %}
 		</div>
 		{# /.layout-content #}
 
