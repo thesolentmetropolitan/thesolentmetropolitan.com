@@ -68,7 +68,7 @@
 
 /* Constrain the content to the site's max width, centred. */
 .klaro.klaro-theme-customsolent .cookie-notice:not(.cookie-modal-notice) .cn-body {
-  max-width: 1200px;
+  max-width: var(--container-max, 1200px);
   margin: 0 auto;
   padding: 1.2rem 2rem;
 }

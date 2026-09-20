@@ -10,7 +10,7 @@
    the same menu-grid padding across desktop / tablet / mobile. */
 
 .slnt-node-full {
-  max-width: 1200px;
+  max-width: var(--container-max, 1200px);
   margin: 0 auto;
   padding: 2em var(--align-floor, 1em) 0;
   box-sizing: border-box;

@@ -133,7 +133,7 @@
 /* ── Standfirst — three lines, then an ellipsis ── */
 .slnt-directory-card__standfirst {
   font-family: 'Atkinson Hyperlegible Next', sans-serif;
-  font-size: 1rem;
+  font-size: 0.9375rem; /* 15px — see the note in event-compact.css */
   line-height: 1.4;
   color: var(--text-mid, #444);
   margin: 0 0 0.8rem 0;

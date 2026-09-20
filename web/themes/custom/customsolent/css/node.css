@@ -4,7 +4,7 @@
 
 /* ── Outer container — aligns with main menu "Home" text via --align-floor ── */
 .slnt-article {
-  max-width: 1200px;
+  max-width: var(--container-max, 1200px);
   margin: 0 auto;
   padding: 2em var(--align-floor, 1em) 0;
   box-sizing: border-box;
@@ -200,7 +200,7 @@
 /* No padding — parent paragraph wrappers (enclosure, sections) already
    handle outer alignment. Adding our own here just doubled the inset. */
 .slnt-view-display {
-  max-width: 1200px;
+  max-width: var(--container-max, 1200px);
   margin: 0 auto;
   padding: 0;
   box-sizing: border-box;
