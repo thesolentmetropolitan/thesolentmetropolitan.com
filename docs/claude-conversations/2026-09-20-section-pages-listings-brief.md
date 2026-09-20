@@ -2,7 +2,7 @@
 
 **Date:** 2026-09-20
 **Branch:** `section-pages-listings` (cut from `main`)
-**Status:** Brief for Rob to review. No code written yet.
+**Status:** Approved by Rob 2026-09-20 — all four open questions answered (see below). Build in the order given.
 **Drupal 11 compatible.**
 
 ---
@@ -15,9 +15,6 @@ there is pagination at the bottom. Which list does the pager belong to? It isn't
 
 It is worse than unclear. Every listing display uses a full pager on the **same page counter**
 (`?page=`), so on `/culture/music` clicking "2" pages the events *and* the organisations together.
-And a single View Display paragraph can already hold two lists: the "primary and related" display
-renders the primary-topic list and then the related-topic list, each with its own pager. So even a
-page with one listing has the problem.
 
 ### Scale (published content, 2026-09-20)
 
@@ -136,8 +133,8 @@ itself: URL = the page's topic path + the type word; hidden when the topic has n
 are shown; same look and hidden-heading accessible name as the front-page links. On the front
 page the hand-placed links stay as they are.
 
-**One list, not two.** In Preview mode primary-topic and related-topic items appear as one list of
-8, primary first. See "The one hard part" below.
+**One list.** Primary-topic and related-topic items already come back as one de-duplicated list;
+Preview mode takes the first 8. See below.
 
 ### 4. Automated listing pages *(step 2)*
 
@@ -158,21 +155,25 @@ One route in `customsolent_helpers`, not ~200 nodes (2 types × 107 topics).
 - Cache contexts `url.path`, `url.query_args:topic` and `url.query_args.pagers`; cache tags
   `node_list:{type}`.
 
-### The one hard part: primary + related in one paged list
+### Primary + related in one paged list — already solved
 
-Today the "primary and related" display is *virtual*: the paragraph template renders the
-primary-topic display, then the related-topic display — two queries, two pagers. A listing page
-needs **one** query: items whose primary topic **or** any related topic is in scope, de-duplicated,
-with a single sort and a single pager.
+> **Correction (2026-09-20).** An earlier draft called this "the one hard part" and said the
+> "primary and related" display renders two lists with two pagers. That was wrong — it came from an
+> out-of-date doc comment in `customsolent.theme`, repeated without checking the config.
 
-Proposed: a new display per listing view, `view_display_topic_listing`, taking one contextual
-argument (the scope's term ids, `+`-joined as now) applied as an OR across both topic fields via
-`hook_views_query_alter` in `customsolent_helpers`, `DISTINCT` on nid. Sort: events by start date
-ascending, upcoming only; organisations + links by title. Preview blocks use the same query with a
-limit of 8 plus a primary-first sort, so a section page and its listing page can never disagree
-about what belongs to a topic.
+`view_display_primary_and_related` is already **one** query. It has two contextual filters
+(primary topic, related topics), the `views_contextual_filters_or` module is installed and the
+display sets `contextual_filters_or: true` with `distinct: true`; the paragraph template passes the
+same `+`-joined term ids to both arguments. So a listing page can reuse these displays as they are,
+with one pager, and no query alter is needed. Preview blocks need the same query with a limit of 8
+and no pager.
 
-Two Views gotchas already recorded for this site apply here: contextual filters taking multiple
+Still to decide when building: whether preview blocks sort primary-topic items first. The OR query
+has no notion of "matched via primary"; a sort on that would need an added expression. Simplest is
+to keep the listing's own sort (events by date, organisations + links by title) in the preview too,
+so a section page and its listing page never disagree about order.
+
+Two Views gotchas already recorded for this site still apply: contextual filters taking multiple
 values need **both** "allow multiple" settings or the validator silently drops the filter and every
 node matches; and pager element 0 is request-global, so an embedded view can clobber a page's
 pager (the existing fix lives in `customsolent_helpers_views_pre_build`).
@@ -180,8 +181,8 @@ pager (the existing fix lives in `customsolent_helpers_views_pre_build`).
 ### 5. Combined organisations + links view
 
 Both are nodes, so one view filtered to `type IN (organisation, link)` sorted by title. New view
-`directory_listing` (machine name only — nothing visitor-facing says "directory") with the
-`view_display_topic_listing` display. `organisations_listing` and `links_listing` stay, because
+`directory_listing` (machine name only — nothing visitor-facing says "directory") with a
+`view_display_primary_and_related` display built the same way as the existing ones. `organisations_listing` and `links_listing` stay, because
 74 pages reference them; in Preview mode the paragraph can render the combined view in place of
 either, and a page holding both an organisations block and a links block collapses them into one.
 That collapse is the fiddliest content rule here — **decision needed** (open question 1).
@@ -204,7 +205,7 @@ That collapse is the fiddliest content rule here — **decision needed** (open q
 Not built now. Two things in this work keep it cheap later:
 
 - Listing logic takes two inputs — **topic scope** and **content type(s)** — in one reusable place
-  (the query alter plus a small scope-resolving service), so `/search/culture/music/jazz` can
+  (a small scope-resolving service feeding the existing OR-query displays), so `/search/culture/music/jazz` can
   resolve its scope the same way.
 - The **shared, type-labelled card** is what a mixed-type results page needs.
 
@@ -226,7 +227,7 @@ colour-scheme chat about how much is stored per organisation, which this session
 | Step | What | Depends on |
 |---|---|---|
 | **1** | Shared organisation/link card (compact view mode, template, CSS, classy grid style); uniform "Event info" button | nothing — visible, self-contained, deployable alone |
-| **2a** | `view_display_topic_listing` displays + query alter (primary OR related, one pager); combined view | — |
+| **2a** | Preview displays (limit 8, no pager) alongside the existing OR-query displays; combined organisations + links view | — |
 | **2b** | Listing route: path processor, controller, reserved words, real-page-wins | 2a |
 | **2c** | `field_listing_mode`, Preview rendering with automatic "View more", script to mark the Explore pages *Full listing* | 2a, 2b |
 | later | Location on organisations; search centre | 1, 2 |
@@ -234,18 +235,19 @@ colour-scheme chat about how much is stored per organisation, which this session
 Each step ends with a release script in the established pattern (backup → maintenance → `cim` →
 content scripts → `cr`), rehearsed locally against a pre-change database first.
 
-## Open questions for Rob
+## Questions answered by Rob, 2026-09-20
 
-1. **Pages that have both an organisations block and a links block today** (17 pages have a links
-   listing). In Preview mode, collapse them into one "Organisations & links" block automatically,
-   or leave the blocks as the editor placed them and only combine on the listing page?
-   *Recommendation: collapse automatically — a links block with one item looks thin.*
-2. **Events preview: upcoming only?** *Recommendation: yes, soonest first, matching the front page;
-   the listing page can offer past events later.*
-3. **Articles.** Only 7 exist and no topic page lists them yet. Reserve `/{topic}/articles` now and
-   build it when there is content? *Recommendation: reserve the word, build later.*
-4. **Heading wording on listing pages** — "Music: events", "Events in Music", or just "Events" under
-   the topic trail? *Recommendation: topic trail above, plain "Events" as the h1.*
+1. **Pages with both an organisations block and a links block** — collapse them into one
+   "Organisations & links" block automatically. **Yes.**
+2. **Events preview shows upcoming events only, soonest first.** **Yes.**
+   *Parked idea:* Rob considered using "Promoted to front page" as a section-level promotion flag,
+   so a preview block shows promoted items, separately from the site's own front page. Judged
+   over-complicated for now. If wanted later, a promotion **tag term** is the likelier route than
+   overloading the promote flag. Not part of this work.
+3. **Articles** — reserve the word `articles` now, build `/{topic}/articles` when there is content.
+   **Yes.**
+4. **Listing page heading** — topic trail above, plain "Events" / "Organisations & links" as the
+   h1. **Yes.**
 
 ## Verification checklist (for when it is built)
 
