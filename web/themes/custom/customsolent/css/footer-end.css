@@ -72,17 +72,18 @@ block_classes-end-footer
 
 .classy_footer_menu .paragraph-menu__nav a {
   color: rgba(255, 255, 255, 0.85);
-  /* Underlined at rest, in the same pink the link turns on hover, so the
-     footer's links read as links without relying on position alone. Pink
-     #f5b0d8 is 5:1 on the solent-blue footer. */
+  text-decoration: none;
+}
+
+/* On hover and keyboard focus: pink text with a pink underline (#f5b0d8,
+   5:1 on the solent-blue footer). No underline at rest. */
+.classy_footer_menu .paragraph-menu__nav a:hover,
+.classy_footer_menu .paragraph-menu__nav a:focus-visible {
+  color: var(--pink-hover, #f5b0d8);
   text-decoration: underline;
   text-decoration-color: var(--pink-hover, #f5b0d8);
   text-decoration-thickness: 2px;
   text-underline-offset: 4px;
-}
-
-.classy_footer_menu .paragraph-menu__nav a:hover {
-  color: var(--pink-hover, #f5b0d8);
 }
 
 /* Vertical divider centred between the two menu columns.
@@ -214,19 +215,21 @@ block_classes-end-footer
 
 .classy_footer_legal .paragraph-menu__nav a {
   color: #ffffff;
-  /* Same pink underline as the footer menu above. It sits under the text
-     only, not under the link's side padding. */
-  text-decoration: underline;
-  text-decoration-color: var(--pink-hover, #f5b0d8);
-  text-decoration-thickness: 2px;
-  text-underline-offset: 4px;
+  text-decoration: none;
   font-weight: 400;
   padding: 0.3em 1em;
   transition: color 0.15s;
 }
 
-.classy_footer_legal .paragraph-menu__nav a:hover {
+/* Same hover / focus treatment as the footer menu above. The underline
+   sits under the text only, not under the link's side padding. */
+.classy_footer_legal .paragraph-menu__nav a:hover,
+.classy_footer_legal .paragraph-menu__nav a:focus-visible {
   color: var(--pink-hover, #f5b0d8);
+  text-decoration: underline;
+  text-decoration-color: var(--pink-hover, #f5b0d8);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
 }
 
 @media screen and (max-width: 799px) {
