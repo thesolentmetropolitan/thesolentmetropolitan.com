@@ -238,11 +238,11 @@
   display: flex;
   gap: 1.5rem;
   padding: 0.25rem 0;
-  border-bottom: 1px solid var(--warm-grey, #f5f3f0);
+  border-bottom: 1px solid var(--rule-soft, #ddd8d0);
 }
 
 .slnt-article-teaser-link:first-of-type .slnt-article-teaser {
-  border-top: 1px solid var(--warm-grey, #f5f3f0);
+  border-top: 1px solid var(--rule-soft, #ddd8d0);
 }
 
 .slnt-article-teaser-link:hover .slnt-article-teaser__title {
