@@ -4,7 +4,7 @@
    ══════════════════════════════════════ */
 
 .slnt-section-listing {
-  max-width: 1200px;
+  max-width: var(--container-max, 1200px);
   margin: 0 auto;
   /*padding: 0 var(--content-pad, 2rem);*/
 }
@@ -375,7 +375,7 @@
      grid bleeding outwards to an enclosing field_content_component
      and breaking sibling paragraphs like hero_with_art_style.
 
-     The width container — `max(var(--align-floor), calc((100% - 1200px) / 2 ...))`
+     The width container — `max(var(--align-floor), calc((100% - var(--container-max, 1200px)) / 2 ...))`
      padding — is supplied by the enclosure paragraph, so the grid
      itself needs no max-width / centering. */
   .field--name-field-content-component:has(> .field__item > .paragraph--type--section-filter) {
@@ -742,7 +742,7 @@ a.slnt-teaser__from-term:hover {
 
 /* ── Automated listing page ── */
 .slnt-topic-listing {
-  max-width: 1200px;
+  max-width: var(--container-max, 1200px);
   margin: 0 auto;
   padding: var(--content-pad, 2rem) max(var(--align-floor, 1em), 1em) var(--content-pad, 2rem);
   box-sizing: border-box;
@@ -782,7 +782,7 @@ a.slnt-teaser__from-term:hover {
    to the 1200px grid (the enclosures do the same). On a listing page it
    sits inside .slnt-topic-listing, which is already aligned. */
 .field__item--section-strip > .slnt-section-strip {
-  padding: 0.6rem max(var(--align-floor, 1em), calc((100% - 1200px) / 2 + 1em)) 0;
+  padding: 0.6rem max(var(--align-floor, 1em), calc((100% - var(--container-max, 1200px)) / 2 + 1em)) 0;
   box-sizing: border-box;
 }
 

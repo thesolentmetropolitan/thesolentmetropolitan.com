@@ -9,13 +9,13 @@
     
     /*
     width: 100%;
-    max-width: 1200px;
+    max-width: var(--container-max, 1200px);
     margin-left: auto;
     margin-right: auto;
     */
 
-        padding-left: max(0em, calc((100% - 1200px) / 2 + 0em));
-    padding-right: max(var(--align-floor), calc((100% - 1200px) / 2 + var(--align-floor)));
+        padding-left: max(0em, calc((100% - var(--container-max, 1200px)) / 2 + 0em));
+    padding-right: max(var(--align-floor), calc((100% - var(--container-max, 1200px)) / 2 + var(--align-floor)));
   }
 }
 

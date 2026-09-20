@@ -530,8 +530,8 @@ body.search-results-page #search-page-form-container input[type='text'] {
 body.search-results-page .layout-content {
   /* + (1em - 12px) matches the menu's own text offset (menu-desktop.css)
      so headings align with the "Home" item, not just the menu box. */
-  padding-left: max(var(--align-floor), calc((100% - 1200px) / 2 + (1em - 12px)));
-  padding-right: max(var(--align-floor), calc((100% - 1200px) / 2));
+  padding-left: max(var(--align-floor), calc((100% - var(--container-max, 1200px)) / 2 + (1em - 12px)));
+  padding-right: max(var(--align-floor), calc((100% - var(--container-max, 1200px)) / 2));
   box-sizing: border-box;
 }
 

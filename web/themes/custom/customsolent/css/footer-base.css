@@ -16,7 +16,7 @@ footer[role="contentinfo"] {
 
   /* Constrain footer content to 1200px */
   .region.region-footer {
-    max-width: 1200px;
+    max-width: var(--container-max, 1200px);
     margin-left: auto;
     margin-right: auto;
   }
