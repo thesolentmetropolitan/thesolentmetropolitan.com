@@ -83,6 +83,27 @@ For 3 icon types (A, B, C): positions cycle A, B, C, A.
 For 2 icon types (A, B): positions cycle A, B, A, B.
 For 1 icon type (A): all 4 positions use A.
 
+## Composite tiles (every icon at once)
+
+Two banners use a wider tile so that every icon appears once instead of
+three or four icons cycling (`COMPOSITE_TILES` in `build_tiles.py`):
+
+| Tile              | Icons                                   | Columns | CSS background-size |
+|-------------------|-----------------------------------------|---------|---------------------|
+| `culture_culture` | union of all `culture_*` tiles (73)     | 37      | 2220px 103.92px     |
+| `home`            | union of every tile in `PAGE_MAP` (164) | 82      | 4920px 103.92px     |
+
+Same hex geometry and icon size, still two hex rows tall (so the whole tile
+fits inside the banner's height), just more columns. The icon order is a
+seeded shuffle, so a rebuild gives the same file. Adding an icon to any
+topic tile grows the composite: rebuild it and paste the new
+`background-size` the build prints into `hero-art-styles.css`.
+
+Tiles are written with one `<symbol>` per icon and `<use>` per placement,
+so the 164-icon tile is ~110 KB rather than ~300 KB.
+
+To rebuild only some tiles: `bash fetch_and_build_tiles.sh culture_culture home`.
+
 ## Adjusting
 
 - **Icon spacing**: Change `SPACING` in fetch_and_build_tiles.sh (default: 60px, tile = 2×spacing wide)

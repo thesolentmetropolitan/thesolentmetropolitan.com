@@ -5,7 +5,9 @@
 # ============================================================
 # Downloads Phosphor Bold SVGs and builds repeating tile SVGs.
 #
-# Usage: bash fetch_and_build_tiles.sh
+# Usage: bash fetch_and_build_tiles.sh [tile_name ...]
+#   No names: every tile is rebuilt. With names (e.g. culture_culture home)
+#   only those tiles are, so a one-off rework leaves the other files untouched.
 #
 # Requires: curl, python3
 #
@@ -55,7 +57,6 @@ ICONS=(
   "chat-text"
   "chats"
   "church"
-  "circuit-board"
   "clipboard-text"
   "clock"
   "coat-hanger"
@@ -63,7 +64,6 @@ ICONS=(
   "coffee"
   "compass"
   "compass-tool"
-  "conveyor-belt"
   "cpu"
   "crane"
   "cross"
@@ -84,7 +84,6 @@ ICONS=(
   "gear"
   "globe-simple"
   "graduation-cap"
-  "grain"
   "hammer"
   "hand-heart"
   "hands-clapping"
@@ -103,7 +102,7 @@ ICONS=(
   "lightning"
   "map-pin"
   "map-trifold"
-  "masks-theater"
+  "mask-happy"
   "medal"
   "medal-military"
   "megaphone"
@@ -202,7 +201,8 @@ for icon in "${ICONS[@]}"; do
   if [ ! -f "$ICON_CACHE_DIR/$icon.svg" ]; then
     url="https://raw.githubusercontent.com/phosphor-icons/core/main/assets/bold/$icon-bold.svg"
     echo "  Downloading: $icon"
-    curl -sL "$url" -o "$ICON_CACHE_DIR/$icon.svg"
+    # -f: a 404 must fail rather than save "404: Not Found" as the icon.
+    curl -fsL "$url" -o "$ICON_CACHE_DIR/$icon.svg" || true
     if [ ! -s "$ICON_CACHE_DIR/$icon.svg" ]; then
       echo "    WARNING: Failed to download $icon"
       rm -f "$ICON_CACHE_DIR/$icon.svg"
@@ -216,7 +216,7 @@ echo ""
 echo "Building tile SVGs..."
 
 # Python script to build the actual tile SVGs
-python3 build_tiles.py "$ICON_CACHE_DIR" "$TILE_OUTPUT_DIR" $SPACING $ICON_SIZE
+python3 build_tiles.py "$ICON_CACHE_DIR" "$TILE_OUTPUT_DIR" $SPACING $ICON_SIZE "$@"
 
 echo ""
 echo "Done. Tile SVGs are in: $TILE_OUTPUT_DIR/"

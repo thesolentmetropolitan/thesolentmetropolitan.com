@@ -109,7 +109,12 @@
     var(--card-tile, none),
     var(--card-tile, none);
   background-repeat: no-repeat, repeat, repeat;
-  background-size: auto, 84px 72.74px, 84px 72.74px;
+  /* 70% of the tile's hero size. Width comes from the node preprocess
+     (--card-tile-width) because a composite tile is many columns wide. */
+  background-size:
+    auto,
+    var(--card-tile-width, 84px) 72.74px,
+    var(--card-tile-width, 84px) 72.74px;
 }
 
 /* ── Title + the card's main link ── */

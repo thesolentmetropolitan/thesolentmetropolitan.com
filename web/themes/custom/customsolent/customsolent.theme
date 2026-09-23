@@ -361,8 +361,21 @@ function _customsolent_preprocess_article_compact_extras($node, array &$variable
   $tile_candidates[] = 'explore_articles';
   $tile_dir = \Drupal::service('extension.list.theme')->getPath('customsolent') . '/images/hero-tiles';
   foreach ($tile_candidates as $candidate) {
-    if (is_file(DRUPAL_ROOT . "/$tile_dir/$candidate.svg")) {
-      $variables['card_tile_url'] = \Drupal::service('file_url_generator')->generateString("$tile_dir/$candidate.svg");
+    $tile_file = DRUPAL_ROOT . "/$tile_dir/$candidate.svg";
+    if (is_file($tile_file)) {
+      // The file's mtime as a cache-buster: the tiles are served with a
+      // ten-year cache lifetime, so a reworked tile would otherwise be
+      // drawn from the browser's old copy.
+      $variables['card_tile_url'] = \Drupal::service('file_url_generator')->generateString("$tile_dir/$candidate.svg")
+        . '?v=' . filemtime($tile_file);
+      // The card draws the tile at 70% of its hero size. Most tiles are
+      // 120px wide, but a composite tile (every icon once, e.g.
+      // culture_culture) is much wider, so read the width from the file
+      // and pass it on; css/article-compact.css falls back to 84px.
+      $head = (string) file_get_contents($tile_file, FALSE, NULL, 0, 300);
+      if (preg_match('/<svg[^>]*\swidth="([\d.]+)"/', $head, $wm) && (float) $wm[1] > 0) {
+        $variables['card_tile_width'] = round((float) $wm[1] * 0.7, 2);
+      }
       break;
     }
   }
@@ -460,6 +473,14 @@ function customsolent_preprocess_paragraph__hero_with_art_style(&$variables) {
   // Look up the parent composite_page node and pull its primary topic
   // so the hero can render the topic trail in place of the plain title.
   $parent = $paragraph->getParentEntity();
+
+  // The front page has no topic, so its banner shows field_title - and
+  // that title ("Welcome to The Solent Metropolitan") is the page's h1.
+  $front = (string) \Drupal::config('system.site')->get('page.front');
+  if ($parent && $parent->getEntityTypeId() === 'node' && $front === '/node/' . $parent->id()) {
+    $variables['hero_title_tag'] = 'h1';
+    $variables['#cache']['tags'][] = 'config:system.site';
+  }
   if ($parent
     && $parent->getEntityTypeId() === 'node'
     && $parent->bundle() === 'composite_page'

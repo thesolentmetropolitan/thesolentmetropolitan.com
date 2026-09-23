@@ -1,0 +1,7 @@
+uuid: f218e12d-e14e-435e-b7f8-2eb5303dc8d1
+langcode: en
+status: true
+dependencies: {  }
+id: hero_art_style_home
+label: 'Home - Front page'
+classes: hero-art-style--home

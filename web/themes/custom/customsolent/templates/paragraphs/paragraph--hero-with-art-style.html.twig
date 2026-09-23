@@ -67,7 +67,10 @@
             } only %}
           </div>
         {% elseif paragraph.field_title.value %}
-          <h2 class="hero-art-style__title">{{ paragraph.field_title.value }}</h2>
+          {# hero_title_tag is h1 on the front page (the banner carries the
+             page's only heading there) and h2 everywhere else. #}
+          {% set title_tag = hero_title_tag|default('h2') %}
+          <{{ title_tag }} class="hero-art-style__title">{{ paragraph.field_title.value }}</{{ title_tag }}>
         {% endif %}
       {% endblock %}
     </div>
