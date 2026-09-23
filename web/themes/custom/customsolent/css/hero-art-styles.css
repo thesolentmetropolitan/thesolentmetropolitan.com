@@ -882,12 +882,17 @@
   background-size: 120px 103.92px, cover;
 }
 
-/* Home (front page) */
+/* Home (front page) - "Peacock" */
 /* Icons: every icon on the site (164), each once, in an 82-column tile.
    Gradient: the three section colours as diagonal thirds, corner to
    corner - Culture purple at the top left, Sectors blue through the
    middle, Living green at the bottom right. "to bottom right" keeps the
-   diagonal corner-to-corner whatever the banner's width and height. */
+   diagonal corner-to-corner whatever the banner's width and height.
+   Rob named it Peacock (2026-09-23): purple, blue and green sweeping
+   into each other like the tail - the site's colours as the spectacle.
+   Purple > green > blue and a four-colour purple > green > yellow > blue
+   were tried and rejected: green as a middle band reads as a streak,
+   and yellow next to blue blends through khaki. Keep this order. */
 .hero-art-style--home {
   background:
     url('../images/hero-tiles/home.svg') repeat,
