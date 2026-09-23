@@ -20,12 +20,16 @@
 }
 
 /* Culture - View All Culture */
-/* Icons: palette, music-notes, masks-theater */
+/* Icons: every icon from the Culture topic tiles (73), each once. The tile
+   is the same hex pattern, two rows tall, but 37 columns wide, so its
+   background-size differs from the four-position tiles below. ?v=2 is a
+   cache-buster: browsers holding the old four-icon file would otherwise
+   draw it centred in the wider box. */
 .hero-art-style--culture-culture {
   background:
-    url('../images/hero-tiles/culture_culture.svg') repeat,
+    url('../images/hero-tiles/culture_culture.svg?v=2') repeat,
     linear-gradient(135deg, #6B21A8 0%, #7C3AED 50%, #A855F7 100%);
-  background-size: 120px 103.92px, cover;
+  background-size: 2220px 103.92px, cover;
 }
 
 /* Culture - Art & Design */
@@ -200,10 +204,10 @@
 }
 
 /* Culture - Stage */
-/* Icons: masks-theater, microphone-stage, ticket */
+/* Icons: mask-happy, microphone-stage, ticket */
 .hero-art-style--culture-stage {
   background:
-    url('../images/hero-tiles/culture_stage.svg') repeat,
+    url('../images/hero-tiles/culture_stage.svg?v=2') repeat,
     linear-gradient(135deg, #6B21A8 0%, #7C3AED 50%, #A855F7 100%);
   background-size: 120px 103.92px, cover;
 }
@@ -876,4 +880,33 @@
     url('../images/hero-tiles/search.svg') repeat,
     linear-gradient(135deg, #1f3a52 0%, #2c4f6e 50%, #3a6489 100%);
   background-size: 120px 103.92px, cover;
+}
+
+/* Home (front page) */
+/* Icons: every icon on the site (164), each once, in an 82-column tile.
+   Gradient: the three section colours as diagonal thirds, corner to
+   corner - Culture purple at the top left, Sectors blue through the
+   middle, Living green at the bottom right. "to bottom right" keeps the
+   diagonal corner-to-corner whatever the banner's width and height. */
+.hero-art-style--home {
+  background:
+    url('../images/hero-tiles/home.svg') repeat,
+    linear-gradient(to bottom right,
+      #6B21A8 0%, #7C3AED 24%,
+      #2563EB 50%,
+      #059669 76%, #10B981 100%);
+  background-size: 4920px 103.92px, cover;
+  /* A little shorter than the 150px section banners: the front page
+     should keep its events above the fold. */
+  min-height: 110px;
+  max-height: 110px;
+}
+
+/* On a phone the title wraps to two lines, which would leave less than
+   one row of icons showing above it at 110px. */
+@media (max-width: 799px) {
+  .hero-art-style--home {
+    min-height: 130px;
+    max-height: 130px;
+  }
 }

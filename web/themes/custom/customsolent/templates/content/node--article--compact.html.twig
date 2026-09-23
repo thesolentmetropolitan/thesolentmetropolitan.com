@@ -48,7 +48,7 @@
 
 <article{{ attributes.addClass(classes) }}
   {% if section_key %}data-section="{{ section_key }}"{% endif %}
-  {% if card_tile_url %}style="--card-tile: url('{{ card_tile_url }}');"{% endif %}>
+  {% if card_tile_url %}style="--card-tile: url('{{ card_tile_url }}');{% if card_tile_width %} --card-tile-width: {{ card_tile_width }}px;{% endif %}"{% endif %}>
 
   <h3 class="slnt-article-compact__title">
     <a href="{{ path('entity.node.canonical', {'node': node.id}) }}"
