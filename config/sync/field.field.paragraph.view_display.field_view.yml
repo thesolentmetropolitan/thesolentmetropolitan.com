@@ -25,6 +25,10 @@ settings:
   plugin_types:
     block: block
   preselect_views:
-    articles: articles
+    articles_listing: articles_listing
+    events_listing: events_listing
+    organisations_listing: organisations_listing
+    links_listing: links_listing
+    directory_listing: directory_listing
   enabled_settings: {  }
 field_type: viewsreference
