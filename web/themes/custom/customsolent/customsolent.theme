@@ -1074,9 +1074,19 @@ function _customsolent_build_section_strip($node, string $current): ?array {
     'count' => NULL,
   ]];
   $tags = $node->getCacheTags();
+  // A kind whose placed listing is "Preview, all topics" (Writing's
+  // articles) is a window on the whole site, so its strip item must say
+  // the same thing: the site-wide count, linking to the site-wide page.
+  $sitewide = _customsolent_sitewide_listing_kinds($node);
+  $all_stats = $sitewide ? _customsolent_topic_scope_stats(_customsolent_topic_context_all()['scope_ids']) : [];
   foreach (_customsolent_listing_kinds() as $key => $kind) {
     $tags = array_merge($tags, $kind['tags']);
-    if ($stats[$kind['stat']] > 0) {
+    if (isset($sitewide[$key])) {
+      if ($all_stats[$kind['stat']] > 0 && ($url = _customsolent_sitewide_listing_url($key))) {
+        $items[] = ['key' => $key, 'label' => $kind['label'], 'url' => $url, 'count' => $all_stats[$kind['stat']]];
+      }
+    }
+    elseif ($stats[$kind['stat']] > 0) {
       $items[] = ['key' => $key, 'label' => $kind['label'], 'url' => $base . '/' . $key, 'count' => $stats[$kind['stat']]];
     }
   }
@@ -1162,6 +1172,29 @@ function _customsolent_topic_listing_paragraphs($host): array {
     $cache[$host->id()] = $found;
   }
   return $cache[$host->id()];
+}
+
+/**
+ * The listing kinds a section page shows site-wide, keyed by URL word.
+ *
+ * TRUE for each kind whose placed View Display paragraph is in the
+ * "Preview, all topics" mode. The section strip and the automated listing
+ * route both defer to this: the strip counts and links site-wide, the route
+ * hands over to the site-wide page.
+ *
+ * @return array<string, true>
+ */
+function _customsolent_sitewide_listing_kinds($node): array {
+  $kinds = [];
+  foreach (_customsolent_topic_listing_paragraphs($node) as $paragraph) {
+    if (_customsolent_listing_mode($paragraph) === 'preview_all') {
+      $word = _customsolent_topic_listing_types()[$paragraph->get('field_view')->target_id] ?? NULL;
+      if ($word) {
+        $kinds[$word] = TRUE;
+      }
+    }
+  }
+  return $kinds;
 }
 
 /**
@@ -1396,16 +1429,12 @@ function _customsolent_preprocess_listing_mode(array &$variables, $paragraph, $h
  * The site-wide listing page for a content type, as used by the
  * "Preview, all topics" listing mode.
  *
- * These are Explore landing pages (nodes 92, 91 and 338) addressed by
- * their path aliases rather than their IDs, so the alias stays the single
- * source of truth. If one of those pages is ever moved, update it here.
+ * The map itself lives in customsolent_helpers_sitewide_listing_url(), in
+ * the module, because the listing route controller needs it too and a
+ * controller cannot rely on the theme being loaded.
  */
 function _customsolent_sitewide_listing_url(string $type_word): ?string {
-  return [
-    'articles' => '/explore/articles',
-    'events' => '/explore/events',
-    'organisations' => '/explore/organisations',
-  ][$type_word] ?? NULL;
+  return customsolent_helpers_sitewide_listing_url($type_word);
 }
 
 /**

@@ -110,3 +110,62 @@ behaviour and not part of this brief.
 `scripts/release-2026-09-24-writing-all-articles.sh` on the prod server:
 backup, maintenance on, cim, cr, Writing-page script, filter script, cr,
 maintenance off. Editor step: none.
+
+## Part 3 (same session): Articles on the Writing strip; three columns
+
+Rob, after reviewing part 2:
+
+> Please can 'Articles' be added to the tab strip on /culture/writing —
+> this will link to /explore/articles. If possible, please have the total
+> number of articles next to 'Articles' in the tab, consistent with the
+> other content types.
+>
+> On /explore/articles, please have 3 columns instead of 4 because the
+> cards look too narrow with the filter. Please use classy_paragraphs
+> and/or page_specific_class modules as required.
+
+### Strip
+
+The strip left Articles out on /culture/writing because it counts what
+is tagged with the page's topic, and nothing is tagged Writing. The rule
+now: a kind whose placed listing paragraph is in "Preview, all topics"
+mode is a window on the whole site, so its strip item says the same
+thing — the site-wide count (the same all-topics scope the block uses,
+Culture + Sectors + Living and descendants) linking to the site-wide page.
+New helper `_customsolent_sitewide_listing_kinds($node)` reads that off
+the page's listing paragraphs; nothing is page-specific. Other section
+pages are untouched (Identity still shows "Articles 2" to its own
+sub-listing).
+
+Consequence handled: `/culture/writing/articles` would otherwise still
+render a Writing-only list and contradict both the strip and "View
+more", so `TopicListingController` now answers a 302 to the site-wide
+page when the placed paragraph is in that mode. Temporary rather than
+permanent on purpose: the mode is an editor choice that can change back,
+and a 301 would be cached by browsers. The URL map moved from the theme
+to `customsolent_helpers_sitewide_listing_url()` in the module, because a
+controller cannot rely on the theme being loaded; the theme function now
+delegates to it.
+
+### Three columns
+
+A general classy_paragraphs style rather than page-specific code, per
+Rob's standing preference: **"Articles Grid, 3 columns"**
+(`articles_grid_three_columns`, class `slnt-articles-compact-grid--3-col`),
+created through the API and exported. One CSS rule in
+`article-compact.css` overrides the four-column track list at ≥1000px;
+below that the existing 2 / 1 column rules apply unchanged. It goes in the
+paragraph's classy field alongside the existing "Articles Compact Grid".
+`scripts/set_explore_articles_three_columns.php` applies it to the
+Articles page's listing paragraph (page by alias, node 92 fallback;
+aborts if the style has not been imported; idempotent; `--dry-run`).
+page_specific_class was not needed.
+
+### Verified locally
+
+- /culture/writing strip: Overview · Events 1 · **Articles 7 → /explore/articles** · Organisations & links 11. Same on /culture/writing/events.
+- /culture/writing/articles → 302 → /explore/articles.
+- /culture/identity strip unchanged: Articles 2 → /culture/identity/articles, which still returns 200.
+- /explore/articles at 1400px wide: three cards per row beside the sidebar filter (screenshot checked), classes `slnt-articles-compact-grid slnt-articles-compact-grid--3-col`.
+
+Release script is now 9 steps (step 7 runs the columns script).

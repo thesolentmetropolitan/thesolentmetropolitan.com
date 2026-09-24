@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Drupal\customsolent_helpers\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
+use Drupal\Core\Routing\LocalRedirectResponse;
 use Drupal\node\NodeInterface;
 use Drupal\paragraphs\ParagraphInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -39,11 +40,23 @@ class TopicListingController extends ControllerBase {
   /**
    * Page callback.
    */
-  public function view(NodeInterface $node, string $listing_type): array {
+  public function view(NodeInterface $node, string $listing_type): array|LocalRedirectResponse {
     if ($node->bundle() !== 'composite_page' || !$node->hasField('field_primary_topic') || $node->get('field_primary_topic')->isEmpty()) {
       throw new NotFoundHttpException();
     }
     $paragraph = $this->findListingParagraph($node, $listing_type);
+    // A "Preview, all topics" block (Writing's articles) is a window on the
+    // whole site, and its section-strip item and "View more" already point
+    // at the site-wide page. This page would show only the topic's own
+    // items — contradicting both — so hand over. Temporary, not permanent:
+    // the mode is an editor choice that can change back.
+    if ($paragraph && $paragraph->hasField('field_listing_mode')
+      && $paragraph->get('field_listing_mode')->value === 'preview_all'
+      && ($sitewide = customsolent_helpers_sitewide_listing_url($listing_type))) {
+      $response = new LocalRedirectResponse($sitewide, 302);
+      $response->addCacheableDependency($node);
+      return $response;
+    }
     if (!$paragraph) {
       // The section page has no listing of this kind placed on it. Every
       // topic still has its listing pages (the section strip links to them
