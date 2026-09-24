@@ -7,6 +7,16 @@
     padding-left: max(var(--align-floor), calc((100% - var(--container-max, 1200px)) / 2));
     padding-right: max(var(--align-floor), calc((100% - var(--container-max, 1200px)) / 2));
   }
+
+  /* Classy style "Hero: Title Flush Left (desktop)". Drops the 1em
+     indent on the cut-out so the title text lands on the same line as
+     the headings that follow the banner (the front page's "What's on").
+     The cut-out box itself then starts one em left of that line, which
+     is the intended look: the text aligns, the solid block overhangs.
+     Stacks with the per-page art styles (field_classy is multi-value). */
+  .paragraph--type--hero-with-art-style.slnt-hero-title-flush-left > .alignment-clamp {
+    padding-left: 0;
+  }
 }
 
 .paragraph--type--hero-with-art-style {
