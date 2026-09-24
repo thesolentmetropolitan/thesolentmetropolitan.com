@@ -13,7 +13,7 @@ use Drupal\path_alias\AliasRepositoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Maps /{topic page path}/{events|organisations} to the listing route.
+ * Maps /{topic page path}/{events|articles|organisations} to the listing route.
  *
  * One route serves every topic, instead of a node per topic per type.
  *

@@ -836,8 +836,51 @@ function _customsolent_topic_listing_displays(): array {
 function _customsolent_topic_listing_types(): array {
   return [
     'events_listing' => 'events',
+    'articles_listing' => 'articles',
     'organisations_listing' => 'organisations',
     'links_listing' => 'organisations',
+  ];
+}
+
+/**
+ * What each kind of by-topic listing needs, keyed by its URL word.
+ *
+ * - label:     the heading a preview falls back to, and the strip label.
+ * - tags:      node_list cache tags — an empty block must reappear when
+ *              the first item is tagged with the topic.
+ * - grid:      the card grid class for a preview.
+ * - full:      [view, display] rendered in Full mode (the listing page),
+ *              and the grid class that goes with it. Events keep their
+ *              date pills on a separate cards display; articles' by-topic
+ *              display is already the card grid.
+ * - stat:      the key in _customsolent_topic_scope_stats().
+ */
+function _customsolent_listing_kinds(): array {
+  return [
+    'events' => [
+      'label' => t('Events'),
+      'tags' => ['node_list:event'],
+      'grid' => 'slnt-events-compact-grid',
+      'full' => ['events_listing', 'view_display_listing_cards'],
+      'full_grid' => 'slnt-events-compact-grid slnt-events-compact-grid--listing',
+      'stat' => 'events',
+    ],
+    'articles' => [
+      'label' => t('Articles'),
+      'tags' => ['node_list:article'],
+      'grid' => 'slnt-articles-compact-grid',
+      'full' => ['articles_listing', 'view_display_primary_and_related'],
+      'full_grid' => 'slnt-articles-compact-grid',
+      'stat' => 'articles',
+    ],
+    'organisations' => [
+      'label' => t('Organisations & links'),
+      'tags' => ['node_list:organisation', 'node_list:link'],
+      'grid' => 'slnt-directory-compact-grid slnt-directory-compact-grid--preview',
+      'full' => ['directory_listing', 'view_display_primary_and_related'],
+      'full_grid' => 'slnt-directory-compact-grid',
+      'stat' => 'directory',
+    ],
   ];
 }
 
@@ -895,7 +938,7 @@ function _customsolent_listing_owns_heading(string $mode): bool {
  * @param int[] $tids
  *   The topic scope: a term and all its descendants.
  *
- * @return array{events:int, organisation:int, link:int, directory:int, directory_tids:array<int,int[]>}
+ * @return array{events:int, articles:int, organisation:int, link:int, directory:int, directory_tids:array<int,int[]>}
  *   directory_tids maps topic tid => node ids tagged with it (primary or
  *   related), for working out which sub-topics have anything in them.
  */
@@ -906,7 +949,7 @@ function _customsolent_topic_scope_stats(array $tids): array {
   if (isset($cache[$key])) {
     return $cache[$key];
   }
-  $stats = ['events' => 0, 'organisation' => 0, 'link' => 0, 'directory' => 0, 'directory_tids' => []];
+  $stats = ['events' => 0, 'articles' => 0, 'organisation' => 0, 'link' => 0, 'directory' => 0, 'directory_tids' => []];
   if (!$tids) {
     return $cache[$key] = $stats;
   }
@@ -945,6 +988,9 @@ function _customsolent_topic_scope_stats(array $tids): array {
       ->condition('w.field_when_end_value', $today, '>=')
       ->distinct()->fields('w', ['entity_id'])->countQuery()->execute()->fetchField();
   }
+
+  // Published articles tagged with the topic, primary or related.
+  $stats['articles'] = count(array_unique(array_map(fn($r) => (int) $r->nid, $tagged(['article']))));
   return $cache[$key] = $stats;
 }
 
@@ -968,7 +1014,7 @@ function _customsolent_node_topic_context($node): ?array {
 }
 
 /**
- * The section strip: Overview · Events 12 · Organisations & links 38.
+ * The section strip: Overview · Events 12 · Articles 3 · Organisations & links 38.
  *
  * Navigation between a topic's own page and its per-type listing pages —
  * real links to real addresses, with the current one marked; not an ARIA
@@ -979,7 +1025,7 @@ function _customsolent_node_topic_context($node): ?array {
  * @param \Drupal\node\NodeInterface $node
  *   The section page.
  * @param string $current
- *   'overview', 'events' or 'organisations'.
+ *   'overview', 'events', 'articles' or 'organisations'.
  */
 function _customsolent_build_section_strip($node, string $current): ?array {
   if (!$node || $node->bundle() !== 'composite_page') {
@@ -997,11 +1043,12 @@ function _customsolent_build_section_strip($node, string $current): ?array {
     'url' => $base,
     'count' => NULL,
   ]];
-  if ($stats['events'] > 0) {
-    $items[] = ['key' => 'events', 'label' => t('Events'), 'url' => $base . '/events', 'count' => $stats['events']];
-  }
-  if ($stats['directory'] > 0) {
-    $items[] = ['key' => 'organisations', 'label' => t('Organisations & links'), 'url' => $base . '/organisations', 'count' => $stats['directory']];
+  $tags = $node->getCacheTags();
+  foreach (_customsolent_listing_kinds() as $key => $kind) {
+    $tags = array_merge($tags, $kind['tags']);
+    if ($stats[$kind['stat']] > 0) {
+      $items[] = ['key' => $key, 'label' => $kind['label'], 'url' => $base . '/' . $key, 'count' => $stats[$kind['stat']]];
+    }
   }
   if (count($items) < 2) {
     return NULL;
@@ -1019,7 +1066,7 @@ function _customsolent_build_section_strip($node, string $current): ?array {
     '#label' => t('@topic section', ['@topic' => $node->label()]),
     '#section_key' => $context['section_key'],
     '#cache' => [
-      'tags' => array_merge($node->getCacheTags(), ['node_list:event', 'node_list:organisation', 'node_list:link']),
+      'tags' => $tags,
       'max-age' => max(60, $midnight - \Drupal::time()->getRequestTime()),
     ],
   ];
@@ -1140,19 +1187,16 @@ function _customsolent_preprocess_listing_mode(array &$variables, $paragraph, $h
   // when an event is added (node_list tags), and must not be cached as
   // "empty" for a different ?topic= (contexts). The template prints this
   // in all branches; it renders as nothing.
-  $list_types = (_customsolent_topic_listing_types()[$paragraph->get('field_view')->target_id] === 'organisations')
-    ? ['node_list:organisation', 'node_list:link']
-    : ['node_list:event'];
+  $view_name = $paragraph->get('field_view')->target_id;
+  $type_word = _customsolent_topic_listing_types()[$view_name];
+  $kind = _customsolent_listing_kinds()[$type_word];
+  $is_directory = ($type_word === 'organisations');
   $variables['listing_cache'] = [
     '#cache' => [
       'contexts' => ['url.query_args:topic', 'url.query_args:date_filter_id'],
-      'tags' => $list_types,
+      'tags' => $kind['tags'],
     ],
   ];
-
-  $view_name = $paragraph->get('field_view')->target_id;
-  $type_word = _customsolent_topic_listing_types()[$view_name];
-  $is_directory = ($type_word === 'organisations');
   $is_listing_page = (($variables['view_mode'] ?? '') === 'listing_page');
 
   // Cards need their grid wherever they appear — no classy style to remember.
@@ -1162,12 +1206,12 @@ function _customsolent_preprocess_listing_mode(array &$variables, $paragraph, $h
   }
 
   if ($mode === 'full') {
-    // Events full listings are a card grid too (the front-page event card),
-    // with the date pills and one pager: display view_display_listing_cards.
+    // Full listings are card grids: events swap to view_display_listing_cards
+    // (the front-page event card, date pills, one pager); the articles
+    // by-topic display is already the card grid.
     if (!$is_directory) {
-      $variables['view_name'] = 'events_listing';
-      $variables['display_id'] = 'view_display_listing_cards';
-      $variables['listing_grid_class'] = 'slnt-events-compact-grid slnt-events-compact-grid--listing';
+      [$variables['view_name'], $variables['display_id']] = $kind['full'];
+      $variables['listing_grid_class'] = $kind['full_grid'];
     }
     if ($is_listing_page) {
       if ($is_directory) {
@@ -1262,10 +1306,7 @@ function _customsolent_preprocess_listing_mode(array &$variables, $paragraph, $h
     }
     if ($view->result) {
       $build = $view->render();
-      $build['#cache']['tags'] = \Drupal\Core\Cache\Cache::mergeTags(
-        $build['#cache']['tags'] ?? [],
-        $is_directory ? ['node_list:organisation', 'node_list:link'] : ['node_list:event']
-      );
+      $build['#cache']['tags'] = \Drupal\Core\Cache\Cache::mergeTags($build['#cache']['tags'] ?? [], $kind['tags']);
     }
   }
   if (!$build && !$active_filter_tid) {
@@ -1285,9 +1326,7 @@ function _customsolent_preprocess_listing_mode(array &$variables, $paragraph, $h
     ];
   }
   $variables['preview_build'] = $build;
-  $variables['listing_grid_class'] = $is_directory
-    ? 'slnt-directory-compact-grid slnt-directory-compact-grid--preview'
-    : 'slnt-events-compact-grid';
+  $variables['listing_grid_class'] = $kind['grid'];
 
   // Heading.
   $heading = '';
@@ -1297,16 +1336,16 @@ function _customsolent_preprocess_listing_mode(array &$variables, $paragraph, $h
   elseif ($sibling = _customsolent_preceding_heading_paragraph($paragraph)) {
     $heading = trim(preg_replace('/\s+/', ' ', (string) $sibling->get('field_heading')->value));
   }
-  if ($is_directory && in_array(mb_strtolower($heading), ['organisations', 'links', ''], TRUE)) {
-    $heading = (string) t('Organisations & links');
+  if ($is_directory && in_array(mb_strtolower($heading), ['organisations', 'links'], TRUE)) {
+    $heading = '';
   }
-  elseif ($heading === '') {
-    $heading = (string) t('Events');
+  if ($heading === '') {
+    $heading = (string) $kind['label'];
   }
   $variables['preview_heading'] = $heading;
   // "View more Events" rather than a bare "View more": several can share a
   // page, and the label should say what there is more of.
-  $variables['more_label'] = $is_directory ? t('View more Organisations & links') : t('View more Events');
+  $variables['more_label'] = t('View more @kind', ['@kind' => $kind['label']]);
 
   // View more.
   $variables['more_url'] = NULL;

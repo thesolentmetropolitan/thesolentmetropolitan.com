@@ -22,7 +22,7 @@ declare(strict_types=1);
  */
 function customsolent_helpers_theme($existing, $type, $theme, $path) {
   return [
-    // The automated /{topic}/{events|organisations} listing page.
+    // The automated /{topic}/{events|articles|organisations} listing page.
     'slnt_topic_listing' => [
       'variables' => [
         'node' => NULL,
@@ -138,7 +138,7 @@ function customsolent_helpers_form_node_form_alter(array &$form, \Drupal\Core\Fo
  * URL words that have an automated listing page today.
  */
 function customsolent_helpers_listing_route_words(): array {
-  return ['events', 'organisations'];
+  return ['events', 'articles', 'organisations'];
 }
 
 /**
@@ -146,7 +146,7 @@ function customsolent_helpers_listing_route_words(): array {
  *
  * /{topic path}/{word} is the automated listing page for that topic, so a
  * child topic called "Events" would collide with its parent's events
- * listing. "links" and "articles" are reserved ahead of being built.
+ * listing. "links" is reserved ahead of being built.
  */
 function customsolent_helpers_reserved_listing_words(): array {
   return ['events', 'organisations', 'links', 'articles'];
@@ -204,7 +204,7 @@ function customsolent_helpers_paragraph_view_alter(array &$build, \Drupal\Core\E
  * Listing views whose results can be narrowed by ?topic=.
  */
 function customsolent_helpers_topic_filtered_views(): array {
-  return ['events_listing', 'organisations_listing', 'links_listing', 'directory_listing'];
+  return ['events_listing', 'articles_listing', 'organisations_listing', 'links_listing', 'directory_listing'];
 }
 
 /**
