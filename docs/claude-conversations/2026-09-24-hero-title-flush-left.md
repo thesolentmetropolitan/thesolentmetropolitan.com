@@ -58,5 +58,9 @@ be reused on any other page whose hero is followed directly by a heading.
 
 ## Deploy
 
-Config only (one new classy style YAML) plus theme CSS. Normal deploy.sh,
-then the editor step above.
+`scripts/release-2026-09-24-hero-title-flush-left.sh`, run on the prod
+server after `git pull`. It imports the classy style config, then runs
+`scripts/front_page_hero_flush_left.php`, which adds the style to the
+front page hero paragraph, keeping the styles already on it. Both are
+idempotent; the PHP script takes `--dry-run`. Tested locally on both
+paths (style missing, style already present).
