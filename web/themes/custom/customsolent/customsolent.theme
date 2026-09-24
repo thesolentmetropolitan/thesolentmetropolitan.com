@@ -252,6 +252,15 @@ function customsolent_preprocess_node(array &$variables): void {
       ],
       '#create_placeholder' => TRUE,
     ];
+    // Compact cards: the primary topic's full trail, dropped on that
+    // topic's own page. White on the filled article card.
+    $variables['trail_kicker_lazy'] = [
+      '#lazy_builder' => [
+        'Drupal\customsolent_helpers\Render\KickerLazyBuilder::trailKicker',
+        [$nid, $node->bundle() === 'article' ? '#ffffff' : ''],
+      ],
+      '#create_placeholder' => TRUE,
+    ];
   }
 }
 

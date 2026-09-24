@@ -22,7 +22,9 @@
  *                                          link, parent topics linkable
  *
  * Variables added by customsolent_preprocess_node:
- *   - topic_trail_ancestors      — clickable kicker terms
+ *   - trail_kicker_lazy          — the kicker: the primary topic's trail,
+ *                                  resolved per request so it is left out
+ *                                  on that topic's own page (KickerLazyBuilder)
  *   - section_color, section_key — top-level Topic colour
  *   - field_url_href / field_url_external — extracted from field_url.
  *   - where_name      — plain Location term name.
@@ -99,13 +101,7 @@
      and nothing about it sits before its heading. Still outside the
      clickable link so the parent terms remain independently navigable
      (nested links are invalid HTML). #}
-  {% if topic_trail_ancestors is not empty %}
-    {% include '@customsolent/components/topic-trail.html.twig' with {
-      ancestors: topic_trail_ancestors,
-      current_label: null,
-      current_as_heading: false,
-    } only %}
-  {% endif %}
+  {{ trail_kicker_lazy }}
 
 </div>
 

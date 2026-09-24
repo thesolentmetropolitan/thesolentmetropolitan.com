@@ -71,13 +71,29 @@ heading paragraph is placed: the preview falls back to "Articles".
 | /culture/dance | no Articles tab, no Articles block |
 | /explore/articles | unchanged, 7 articles |
 
-## Noticed, not changed
+## Follow-up the same session: the card kicker on the topic's own page
 
-Article cards on a section page show the kicker "SECTORS / REGIONAL
-DEVELOPMENT" even when that is the page's own topic. Event cards suppress
-the "in" kicker in that case (teaser preprocess); the article compact card
-prints its kicker unconditionally because it was designed for the front
-page. Rob's call whether section-page article cards should drop it.
+Article cards on a section page showed the kicker "SECTORS / REGIONAL
+DEVELOPMENT" even when that is the page's own topic. Rob's rule: don't
+show it there, visibly or to a screen reader; but where an item is on the
+page through a RELATED topic and its primary topic differs, show the
+primary topic's trail, because that is what says where the item is from.
+
+Correction to what I first told Rob: the event COMPACT card did not
+suppress it either. Only the event teaser has that logic, through the
+per-request lazy builders in `KickerLazyBuilder` (compact cards are
+render-cached per node and shared across pages, so a decision made in
+preprocess would be baked into whichever page warmed the cache).
+
+Done: a third lazy-builder callback, `trailKicker(nid, color)`, returns
+the primary topic's full trail via the topic-trail component, or nothing
+when the page's resolved topic (section filter, primary topic, or a valid
+?topic=) is the item's primary topic. Both compact card templates now
+print `trail_kicker_lazy` instead of including the trail directly; the
+article card passes white as the colour. Checked: no kicker on the
+Regional Development page or its articles listing; "Sectors / Creative"
+kept on the event that is there by related topic; full trails on /sectors,
+the front page and /explore/articles; none on /culture/identity's two.
 
 ## Deploy
 
