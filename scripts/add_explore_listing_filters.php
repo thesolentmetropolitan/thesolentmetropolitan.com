@@ -2,13 +2,13 @@
 
 /**
  * @file
- * Drush script: add the topic filter to Explore → Directories & Networks
- * and Explore → Organisations.
+ * Drush script: add the topic filter to Explore → Directories & Networks,
+ * Explore → Organisations and (added 2026-09-24) Explore → Articles.
  *
- * Both are long lists (2 and ~20 pages). Explore → Events already has a
+ * These are long, site-wide lists. Explore → Events already has a
  * Section Filter paragraph above its listing — Culture / Sectors / Living,
  * each expanding to its sub-topics. This puts the same paragraph, with
- * "show sub-topics" on, directly above the listing on the other two pages.
+ * "show sub-topics" on, directly above the listing on the other pages.
  *
  * The narrowing itself is done by customsolent_helpers_views_query_alter():
  * on these pages ?topic= filters WITHIN the list instead of replacing its
@@ -27,7 +27,7 @@ use Drupal\paragraphs\Entity\Paragraph;
 $dry_run = isset($extra) && is_array($extra) && (in_array('--dry-run', $extra, TRUE) || in_array('-n', $extra, TRUE));
 $say = static function (string $m): void { echo $m . PHP_EOL; };
 
-const PAGE_TOPICS = ['Explore / Directories & Networks', 'Explore / Organisations'];
+const PAGE_TOPICS = ['Explore / Directories & Networks', 'Explore / Organisations', 'Explore / Articles'];
 
 $find = function ($entity, string $bundle) use (&$find): ?Paragraph {
   foreach ($entity->getFields(FALSE) as $field) {
