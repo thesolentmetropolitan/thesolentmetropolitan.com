@@ -1,0 +1,7 @@
+uuid: ca7c5258-3b7a-41b0-a1a1-d0f64c155e7a
+langcode: en
+status: true
+dependencies: {  }
+id: hero_title_flush_left
+label: 'Hero: Title Flush Left (desktop)'
+classes: slnt-hero-title-flush-left
