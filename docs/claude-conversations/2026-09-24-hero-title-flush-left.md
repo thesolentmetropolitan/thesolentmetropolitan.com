@@ -64,3 +64,43 @@ server after `git pull`. It imports the classy style config, then runs
 front page hero paragraph, keeping the styles already on it. Both are
 idempotent; the PHP script takes `--dry-run`. Tested locally on both
 paths (style missing, style already present).
+
+## Follow-up the same day: no right gap on small phones
+
+On an iPhone SE (375px) the title wraps to two lines and the white
+cut-out ran to the right-hand screen edge. Cause: the hero is a flex
+row, so the clamp shrink-wraps to the text while it fits on one line.
+Once the text wraps the clamp takes the full width and the title block
+fills it. On desktop the hero's own centring padding keeps a gap; below
+800px that padding is zero and only the clamp's 1em left indent exists.
+
+Fix: `padding-right: 1em` on the clamp at max-width 799px, in
+`paragraph-hero-art-style.css`. Checked at 375px (front page, and
+/culture/screen with its topic trail) and 320px: the block now ends 16px
+short of the edge, two lines, no horizontal scroll. Pure CSS, no deploy
+step beyond the release script's cache rebuild.
+
+## Future: choosing where the hero title breaks
+
+Rob would prefer "Welcome to" / "The Solent Metropolitan" rather than
+"Welcome to The Solent" / "Metropolitan". The hero's `field_title` is a
+plain `string` field with a single-line text widget, so an editor cannot
+type a line break and the template cannot split on one.
+
+The Heading paragraph already solves this: `field_heading` is
+`string_long` (textarea), the template splits on newline into
+`.slnt-heading__line` spans (block by default, inline again at desktop
+via the "Heading One Line Desktop" classy style). The hero could do the
+same, but that means changing `field_title` from `string` to
+`string_long`, which Drupal cannot do in place. Plan when wanted:
+
+1. Add `field_title_long` (string_long, textarea widget) to
+   hero_with_art_style; hero template reads it and splits on newline
+   into spans, with "Heading One Line Desktop" (or a hero equivalent)
+   rejoining them at desktop.
+2. Drush script copies `field_title` into `field_title_long` for every
+   hero paragraph (about 110 of them, all section pages), idempotent.
+3. Later release removes `field_title` (see the field-delete-renames-
+   tables note: migrate before the cim that drops it).
+
+Only the front page needs a break today, so this is queued, not done.
