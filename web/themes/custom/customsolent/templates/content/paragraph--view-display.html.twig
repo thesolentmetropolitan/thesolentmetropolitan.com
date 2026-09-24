@@ -111,11 +111,15 @@
       {% endif %}
     </div>
   </div>
-{% elseif listing_mode == 'preview' %}
+{% elseif listing_mode == 'preview' or listing_mode == 'preview_all' %}
   {# ── Preview: heading + "View more" on one row, up to 8 cards, and a
      second "View more" under the cards for narrow screens. A media query
      shows one link or the other (css/text-link.css); the hidden one is
-     display:none, so assistive tech meets it once. ── #}
+     display:none, so assistive tech meets it once.
+
+     'preview_all' is the same chrome over an all-topics scope: the cards
+     come from across the site and "View more" goes to the site-wide
+     listing page rather than this page's own sub-listing. ── #}
   <div{{ wrapper_attributes.addClass('slnt-listing-preview') }}>
     <div class="slnt-listing-preview__head">
       <h2 class="slnt-listing__heading">

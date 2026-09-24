@@ -755,7 +755,17 @@ function customsolent_preprocess_paragraph__view_display(&$variables) {
     }
   }
 
-  $context = _customsolent_resolve_topic_context($anchor_paragraph, $host);
+  // "Preview, all topics" ignores the page's topic anchor entirely: the
+  // block is a window on the whole site, not on this page's subject. Doing
+  // this here rather than in the listing-mode helper keeps primary_topic_tid,
+  // the page_topic_tids request attribute and the card kickers consistent
+  // with what the block actually shows.
+  if (_customsolent_listing_mode($paragraph, $variables['view_mode'] ?? 'default') === 'preview_all') {
+    $context = _customsolent_topic_context_all();
+  }
+  else {
+    $context = _customsolent_resolve_topic_context($anchor_paragraph, $host);
+  }
 
   $variables['section_key']   = $context['section_key'];
   $variables['section_color'] = $context['section_color'];
@@ -904,6 +914,12 @@ function _customsolent_listing_kinds(): array {
  *   - 'preview': up to 8 cards and a "View more" link. Automatic for
  *                events; for organisations only when the editor picks it
  *                (a sponsors row, "who has joined the cause").
+ *   - 'preview_all': as 'preview', but deliberately NOT scoped to the
+ *                page's topic — the newest cards from across the whole
+ *                site, with "View more" pointing at the site-wide
+ *                listing page rather than this page's own sub-listing.
+ *                For pages whose subject IS the content type (e.g.
+ *                /culture/writing listing all articles).
  *   - 'signpost': a box with a count and a link to the full list, no
  *                cards. Automatic for organisations and links: the first
  *                eight of an A–Z list mean nothing, a count does.
@@ -925,6 +941,11 @@ function _customsolent_listing_mode($paragraph, string $view_mode = 'default'): 
   if ($chosen === 'full') {
     return 'full';
   }
+  // All-topics preview is an explicit editor choice for any listing type;
+  // unlike 'preview' it is never inferred.
+  if ($chosen === 'preview_all') {
+    return 'preview_all';
+  }
   $is_directory = (_customsolent_topic_listing_types()[$view] === 'organisations');
   if (!$is_directory) {
     return 'preview';
@@ -936,7 +957,7 @@ function _customsolent_listing_mode($paragraph, string $view_mode = 'default'): 
  * TRUE for the two modes in which a listing renders its own heading row.
  */
 function _customsolent_listing_owns_heading(string $mode): bool {
-  return in_array($mode, ['preview', 'signpost'], TRUE);
+  return in_array($mode, ['preview', 'preview_all', 'signpost'], TRUE);
 }
 
 /**
@@ -1053,9 +1074,19 @@ function _customsolent_build_section_strip($node, string $current): ?array {
     'count' => NULL,
   ]];
   $tags = $node->getCacheTags();
+  // A kind whose placed listing is "Preview, all topics" (Writing's
+  // articles) is a window on the whole site, so its strip item must say
+  // the same thing: the site-wide count, linking to the site-wide page.
+  $sitewide = _customsolent_sitewide_listing_kinds($node);
+  $all_stats = $sitewide ? _customsolent_topic_scope_stats(_customsolent_topic_context_all()['scope_ids']) : [];
   foreach (_customsolent_listing_kinds() as $key => $kind) {
     $tags = array_merge($tags, $kind['tags']);
-    if ($stats[$kind['stat']] > 0) {
+    if (isset($sitewide[$key])) {
+      if ($all_stats[$kind['stat']] > 0 && ($url = _customsolent_sitewide_listing_url($key))) {
+        $items[] = ['key' => $key, 'label' => $kind['label'], 'url' => $url, 'count' => $all_stats[$kind['stat']]];
+      }
+    }
+    elseif ($stats[$kind['stat']] > 0) {
       $items[] = ['key' => $key, 'label' => $kind['label'], 'url' => $base . '/' . $key, 'count' => $stats[$kind['stat']]];
     }
   }
@@ -1141,6 +1172,29 @@ function _customsolent_topic_listing_paragraphs($host): array {
     $cache[$host->id()] = $found;
   }
   return $cache[$host->id()];
+}
+
+/**
+ * The listing kinds a section page shows site-wide, keyed by URL word.
+ *
+ * TRUE for each kind whose placed View Display paragraph is in the
+ * "Preview, all topics" mode. The section strip and the automated listing
+ * route both defer to this: the strip counts and links site-wide, the route
+ * hands over to the site-wide page.
+ *
+ * @return array<string, true>
+ */
+function _customsolent_sitewide_listing_kinds($node): array {
+  $kinds = [];
+  foreach (_customsolent_topic_listing_paragraphs($node) as $paragraph) {
+    if (_customsolent_listing_mode($paragraph) === 'preview_all') {
+      $word = _customsolent_topic_listing_types()[$paragraph->get('field_view')->target_id] ?? NULL;
+      if ($word) {
+        $kinds[$word] = TRUE;
+      }
+    }
+  }
+  return $kinds;
 }
 
 /**
@@ -1358,11 +1412,29 @@ function _customsolent_preprocess_listing_mode(array &$variables, $paragraph, $h
 
   // View more.
   $variables['more_url'] = NULL;
-  if ($has_more && $host && $host->getEntityTypeId() === 'node') {
+  if ($mode === 'preview_all') {
+    // Always linked, even with eight or fewer cards: the destination is a
+    // richer page (filter, pager) rather than merely "the rest of them", so
+    // the link earns its place whatever the count.
+    $variables['more_url'] = _customsolent_sitewide_listing_url($type_word);
+  }
+  elseif ($has_more && $host && $host->getEntityTypeId() === 'node') {
     $base = rtrim($host->toUrl()->toString(), '/');
     $query = $active_filter_tid ? '?topic=' . (int) $active_filter_tid : '';
     $variables['more_url'] = $base . '/' . $type_word . $query;
   }
+}
+
+/**
+ * The site-wide listing page for a content type, as used by the
+ * "Preview, all topics" listing mode.
+ *
+ * The map itself lives in customsolent_helpers_sitewide_listing_url(), in
+ * the module, because the listing route controller needs it too and a
+ * controller cannot rely on the theme being loaded.
+ */
+function _customsolent_sitewide_listing_url(string $type_word): ?string {
+  return customsolent_helpers_sitewide_listing_url($type_word);
 }
 
 /**
