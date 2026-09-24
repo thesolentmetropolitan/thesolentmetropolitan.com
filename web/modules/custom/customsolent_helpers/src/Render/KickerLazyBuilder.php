@@ -36,7 +36,58 @@ class KickerLazyBuilder implements TrustedCallbackInterface {
    * {@inheritdoc}
    */
   public static function trustedCallbacks() {
-    return ['inKicker', 'fromKicker'];
+    return ['inKicker', 'fromKicker', 'trailKicker'];
+  }
+
+  /**
+   * Lazy-builder for the compact cards' kicker: the primary topic's trail.
+   *
+   * Event and article compact cards show the full trail of the content's
+   * primary topic ("Sectors / Creative") - except on that topic's own
+   * page, where it would only repeat the page title. Content reaches a
+   * section page through its primary OR a related topic, so a card whose
+   * primary topic differs from the page's keeps its trail: that is what
+   * tells the reader where the item is from.
+   *
+   * @param int $nid
+   *   The node ID whose card the kicker belongs to.
+   * @param string $color
+   *   Colour for the trail's links, or '' for the section colour. The
+   *   article card is a filled rectangle and needs white.
+   */
+  public static function trailKicker(int $nid, string $color = ''): array {
+    $ctx = self::resolvePageContext();
+    $node = Node::load($nid);
+    if (!$node || !$node->hasField('field_primary_topic') || $node->get('field_primary_topic')->isEmpty()) {
+      return self::emptyBuild($nid);
+    }
+    $primary_term = $node->get('field_primary_topic')->entity;
+    if (!$primary_term) {
+      return self::emptyBuild($nid);
+    }
+    // The page's own topic: no kicker, visibly or to a screen reader.
+    if ($ctx['tid'] !== NULL && $ctx['tid'] === (int) $primary_term->id()) {
+      return self::emptyBuild($nid);
+    }
+    $trail = _customsolent_build_topic_trail($primary_term, FALSE);
+    if (!$trail['ancestors']) {
+      return self::emptyBuild($nid);
+    }
+    if ($color !== '') {
+      foreach ($trail['ancestors'] as &$ancestor) {
+        $ancestor['color'] = $color;
+      }
+      unset($ancestor);
+    }
+    return [
+      '#type' => 'inline_template',
+      '#template' => "{% include '@customsolent/components/topic-trail.html.twig' with { ancestors: ancestors, current_label: null, current_as_heading: false } only %}",
+      '#context' => ['ancestors' => $trail['ancestors']],
+      '#cache' => [
+        'contexts' => ['url.path', 'url.query_args:topic'],
+        'tags' => ['node:' . $nid],
+      ],
+    ];
   }
 
   /**

@@ -31,7 +31,9 @@
  *                                          the topic links still work.
  *
  * Variables added by customsolent_preprocess_node:
- *   - topic_trail_ancestors — clickable kicker terms
+ *   - trail_kicker_lazy     — the kicker: the primary topic's trail in
+ *                             white, resolved per request so it is left
+ *                             out on that topic's own page (KickerLazyBuilder)
  *   - section_key           — top-level Topic, lower-case (culture, …)
  *   - card_summary          — standfirst or body fallback
  *   - card_tile_url         — hero tile SVG for the article's topic
@@ -60,15 +62,9 @@
   {% endif %}
 
   {# Kicker — white on the card colour rather than section-coloured
-     (purple on purple is unreadable), so override the colour the
-     component would otherwise set inline. #}
-  {% if topic_trail_ancestors is not empty %}
-    {% include '@customsolent/components/topic-trail.html.twig' with {
-      ancestors: topic_trail_ancestors|map(a => a|merge({'color': '#ffffff'})),
-      current_label: null,
-      current_as_heading: false,
-    } only %}
-  {% endif %}
+     (purple on purple is unreadable); the lazy builder is passed the
+     colour. Left out on the page of the article's own primary topic. #}
+  {{ trail_kicker_lazy }}
 
 </article>
 
