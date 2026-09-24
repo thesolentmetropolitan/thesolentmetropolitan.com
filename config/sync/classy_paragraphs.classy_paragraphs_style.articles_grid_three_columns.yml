@@ -1,0 +1,7 @@
+uuid: d6ff0f6f-49c6-4086-9a76-0098855ee543
+langcode: en
+status: true
+dependencies: {  }
+id: articles_grid_three_columns
+label: 'Articles Grid, 3 columns'
+classes: slnt-articles-compact-grid--3-col

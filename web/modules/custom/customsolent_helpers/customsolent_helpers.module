@@ -208,6 +208,23 @@ function customsolent_helpers_topic_filtered_views(): array {
 }
 
 /**
+ * The site-wide listing page for a content type, by listing URL word.
+ *
+ * Where a "Preview, all topics" block's "View more" goes, and where the
+ * section strip and the by-topic listing route hand over for such a block.
+ * These are Explore landing pages (nodes 92, 91 and 338) addressed by their
+ * path aliases rather than their IDs, so the alias stays the single source
+ * of truth. If one of those pages is ever moved, update it here.
+ */
+function customsolent_helpers_sitewide_listing_url(string $type_word): ?string {
+  return [
+    'articles' => '/explore/articles',
+    'events' => '/explore/events',
+    'organisations' => '/explore/organisations',
+  ][$type_word] ?? NULL;
+}
+
+/**
  * Implements hook_views_query_alter().
  *
  * Makes ?topic=<tid> work as a filter WITHIN a list, for the listings whose
