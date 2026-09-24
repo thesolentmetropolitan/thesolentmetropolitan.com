@@ -28,6 +28,17 @@
   padding-left: 1em;
 }
 
+/* Below 800px the hero has no container padding of its own, so once the
+   title wraps the clamp takes the full width and the cut-out ran to the
+   right-hand screen edge (iPhone SE, 375px). Mirror the 1em left indent
+   on the right so the block always ends short of the edge. On desktop
+   the hero's own centring padding provides that gap. */
+@media screen and (max-width: 799px) {
+  .paragraph--type--hero-with-art-style > .alignment-clamp {
+    padding-right: 1em;
+  }
+}
+
 /* Cut-out title: solid body-bg background behind the text */
 .paragraph--type--hero-with-art-style .hero-art-style__title {
   background-color: var(--body-bg);
