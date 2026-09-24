@@ -15,6 +15,9 @@ settings:
       value: preview
       label: 'Preview — up to 8 cards and a "View more" link'
     -
+      value: preview_all
+      label: 'Preview, all topics — up to 8 cards from across the site'
+    -
       value: signpost
       label: 'Signpost — a count and a link to the full list, no cards'
     -
