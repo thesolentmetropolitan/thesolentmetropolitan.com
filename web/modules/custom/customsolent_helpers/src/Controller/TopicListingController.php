@@ -45,13 +45,14 @@ class TopicListingController extends ControllerBase {
       throw new NotFoundHttpException();
     }
     $paragraph = $this->findListingParagraph($node, $listing_type);
-    // A "Preview, all topics" block (Writing's articles) is a window on the
-    // whole site, and its section-strip item and "View more" already point
-    // at the site-wide page. This page would show only the topic's own
-    // items — contradicting both — so hand over. Temporary, not permanent:
-    // the mode is an editor choice that can change back.
-    if ($paragraph && $paragraph->hasField('field_listing_mode')
-      && $paragraph->get('field_listing_mode')->value === 'preview_all'
+    // When the page's ONLY block of this kind is "Preview, all topics"
+    // (Writing's articles before it had any of its own), that block is a
+    // window on the whole site and its "View more" already points at the
+    // site-wide page. This page would show only the topic's own items —
+    // contradicting it — so hand over. Temporary, not permanent: the mode
+    // is an editor choice that can change back. A page that also places a
+    // topic-scoped block never gets here: findListingParagraph() prefers it.
+    if ($paragraph && self::isAllTopics($paragraph)
       && ($sitewide = customsolent_helpers_sitewide_listing_url($listing_type))) {
       $response = new LocalRedirectResponse($sitewide, 302);
       $response->addCacheableDependency($node);
@@ -120,39 +121,53 @@ class TopicListingController extends ControllerBase {
    * First by-topic View Display paragraph of the given type on the node.
    */
   protected function findListingParagraph(NodeInterface $node, string $listing_type): ?ParagraphInterface {
+    $all_topics = NULL;
     foreach (self::VIEWS[$listing_type] as $view_id) {
-      if ($found = $this->search($node, $view_id, 6)) {
-        return $found;
+      foreach ($this->searchAll($node, $view_id, 6) as $found) {
+        if (!self::isAllTopics($found)) {
+          return $found;
+        }
+        $all_topics ??= $found;
       }
     }
-    return NULL;
+    return $all_topics;
   }
 
   /**
-   * Depth-first search of the node's nested paragraphs.
+   * TRUE for a block in the "Preview, all topics" listing mode.
    */
-  protected function search($entity, string $view_id, int $depth): ?ParagraphInterface {
+  protected static function isAllTopics(ParagraphInterface $paragraph): bool {
+    return $paragraph->hasField('field_listing_mode')
+      && $paragraph->get('field_listing_mode')->value === 'preview_all';
+  }
+
+  /**
+   * Every View Display paragraph for the view on the node, in page order.
+   *
+   * @return \Drupal\paragraphs\ParagraphInterface[]
+   */
+  protected function searchAll($entity, string $view_id, int $depth): array {
     if ($depth <= 0) {
-      return NULL;
+      return [];
     }
+    $found = [];
     foreach ($entity->getFields(FALSE) as $field) {
       if ($field->getFieldDefinition()->getType() !== 'entity_reference_revisions') {
         continue;
       }
-      foreach ($field->referencedEntities() as $p) {
-        if ($p instanceof ParagraphInterface) {
-          if ($p->bundle() === 'view_display' && !$p->get('field_view')->isEmpty()
-            && $p->get('field_view')->target_id === $view_id
-            && in_array($p->get('field_view')->display_id, self::DISPLAYS, TRUE)) {
-            return $p;
-          }
-          if ($found = $this->search($p, $view_id, $depth - 1)) {
-            return $found;
-          }
+      foreach ($field->referencedEntities() as $paragraph) {
+        if (!$paragraph instanceof ParagraphInterface) {
+          continue;
         }
+        if ($paragraph->bundle() === 'view_display' && !$paragraph->get('field_view')->isEmpty()
+          && $paragraph->get('field_view')->target_id === $view_id
+          && in_array($paragraph->get('field_view')->display_id, self::DISPLAYS, TRUE)) {
+          $found[] = $paragraph;
+        }
+        $found = array_merge($found, $this->searchAll($paragraph, $view_id, $depth - 1));
       }
     }
-    return NULL;
+    return $found;
   }
 
 }
