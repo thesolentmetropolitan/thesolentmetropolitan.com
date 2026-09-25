@@ -1175,26 +1175,34 @@ function _customsolent_topic_listing_paragraphs($host): array {
 }
 
 /**
- * The listing kinds a section page shows site-wide, keyed by URL word.
+ * The listing kinds a section page shows ONLY site-wide, keyed by URL word.
  *
- * TRUE for each kind whose placed View Display paragraph is in the
- * "Preview, all topics" mode. The section strip and the automated listing
- * route both defer to this: the strip counts and links site-wide, the route
- * hands over to the site-wide page.
+ * TRUE for each kind whose placed View Display paragraphs are all in the
+ * "Preview, all topics" mode. The section strip defers to this: it counts
+ * and links site-wide for such a kind. A page that places both — a
+ * topic-scoped block and an all-topics block, as Writing does for
+ * articles — is not site-wide for that kind: its strip item and its
+ * listing page belong to the topic-scoped block, exactly as on every
+ * other section page. The listing route applies the same rule through
+ * TopicListingController::findListingParagraph().
  *
  * @return array<string, true>
  */
 function _customsolent_sitewide_listing_kinds($node): array {
   $kinds = [];
   foreach (_customsolent_topic_listing_paragraphs($node) as $paragraph) {
+    $word = _customsolent_topic_listing_types()[$paragraph->get('field_view')->target_id] ?? NULL;
+    if (!$word) {
+      continue;
+    }
     if (_customsolent_listing_mode($paragraph) === 'preview_all') {
-      $word = _customsolent_topic_listing_types()[$paragraph->get('field_view')->target_id] ?? NULL;
-      if ($word) {
-        $kinds[$word] = TRUE;
-      }
+      $kinds[$word] = $kinds[$word] ?? TRUE;
+    }
+    else {
+      $kinds[$word] = FALSE;
     }
   }
-  return $kinds;
+  return array_filter($kinds);
 }
 
 /**

@@ -169,3 +169,75 @@ page_specific_class was not needed.
 - /explore/articles at 1400px wide: three cards per row beside the sidebar filter (screenshot checked), classes `slnt-articles-compact-grid slnt-articles-compact-grid--3-col`.
 
 Release script is now 9 steps (step 7 runs the columns script).
+
+## Part 4 (2026-09-25): the Writing page's two-block shape
+
+Rob reflected on the all-topics block:
+
+> The idea of the articles on this page was to say: "given that this is
+> our culture/writing section, here are our own articles we and our
+> contributors have written", inviting others to contribute — so I'd be
+> looking for some words on that and perhaps a CTA. But also I am
+> wondering if I also want to have the original mechanism _as well_,
+> where the articles are filtered on the term for the section page — to
+> actually have articles about writing _itself_. The overall message is:
+> we write, and here are articles about the process of writing. I don't
+> know whether having 2 lots of article cards, one for writing and one for
+> everything makes sense.
+
+My assessment, which Rob accepted: two grids make sense because they
+answer two different questions, provided the section's own subject comes
+first. Page shape, top to bottom: intro text extended with the "we write"
+message; "Articles about writing" (topic-scoped, automatic mode, renders
+nothing until the first article is tagged Writing); "Latest from our
+contributors" (the all-topics block); a "Write for us" call to action;
+then organisations and links as before. Events keep their place directly
+after the intro, as on every other section page. Duplication (an article
+about writing that is also among the eight newest) is small and honest;
+a "skip items already shown above" feature is possible later but not
+built.
+
+### Code
+
+- `_customsolent_sitewide_listing_kinds()` now means "shown ONLY
+  site-wide": a kind is site-wide for the strip only when every placed
+  listing of that kind is all-topics. With a topic-scoped block placed as
+  well, the strip counts and links that block's topic, as on every other
+  section page.
+- `TopicListingController::findListingParagraph()` prefers a topic-scoped
+  block and only falls back to an all-topics one; the 302 to the site-wide
+  page fires only for that fallback. The old single-result `search()` is
+  replaced by `searchAll()` (same display check).
+- `cta.css`: whatever follows a call to action in the same enclosure gets
+  1.5rem of top margin. The button has no margin of its own because it may
+  sit last in a column; on Writing it sat hard against the Organisations
+  & links box.
+
+### Content
+
+`scripts/shape_writing_page_two_blocks.php` (page by alias, node 27
+fallback; each of the four parts checked separately; `--dry-run`):
+appends the "we write" paragraph to the intro text, sets the all-topics
+block's heading, inserts the topic-scoped block before it, and a
+`call_to_action` (Culture background, white text, `internal:/about/contact`,
+"Write for us") after it. First-draft copy for Rob to re-voice:
+
+> We write too. Everything published on The Solent Metropolitan is written
+> by people who live and work in the region, on our own team and among our
+> contributors. If you have a story, an argument or a piece of local
+> knowledge worth sharing, we would like to hear from you.
+
+### Verified locally
+
+Nothing tagged Writing (today): strip Overview · Events 2 · Organisations
+& links 11 (no Articles item); h2s Events · Latest from our contributors ·
+Organisations & links; 7 cards; both "View more Articles" → /explore/articles;
+"Write for us" → /about/contact. Screenshot at 1400px checked.
+
+With article 4 temporarily tagged Writing (local DB only, reverted):
+strip gains "Articles 1" → /culture/writing/articles; h2 "Articles about
+writing" appears above "Latest from our contributors"; 8 cards on the
+page; /culture/writing/articles renders one card with the strip. Reverted
+and re-checked.
+
+Release script now 10 steps (step 8 runs the shape script).

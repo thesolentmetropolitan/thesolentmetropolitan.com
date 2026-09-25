@@ -13,8 +13,14 @@
 # already have, so the hand-over lands on a page that can be narrowed, and
 # shows three cards per row rather than four now that the filter sits beside
 # them. The Writing page's section strip gains an Articles item with the
-# site-wide count, linking to /explore/articles; /culture/writing/articles
-# itself now hands over there too.
+# site-wide count, linking to /explore/articles.
+#
+# Then (2026-09-25) the Writing page takes its two-block shape: the intro
+# carries the "we write" message, a topic-scoped "Articles about writing"
+# block sits above the all-topics "Latest from our contributors" block, and a
+# "Write for us" call to action follows the cards. With a topic-scoped block
+# placed, the strip and /culture/writing/articles belong to it, as on every
+# other section page; the all-topics block keeps its own "View more".
 #
 # The listing mode itself is general: any View Display paragraph for articles,
 # events or organisations can be set to "Preview, all topics" in the editor.
@@ -38,31 +44,34 @@ echo "============================================"
 echo "  Release 2026-09-24: Writing lists all articles"
 echo "============================================"
 
-echo "==> Step 1/9: Backing up database..."
+echo "==> Step 1/10: Backing up database..."
 $DRUSH sql:dump --gzip --result-file="$BACKUP_DIR/backup-pre-release-2026-09-24-writing-$(date +%Y%m%d-%H%M%S).sql"
 
-echo "==> Step 2/9: Enabling maintenance mode..."
+echo "==> Step 2/10: Enabling maintenance mode..."
 $DRUSH state:set system.maintenance_mode 1 -y
 
-echo "==> Step 3/9: Importing configuration (listing-mode option, 3-column classy style)..."
+echo "==> Step 3/10: Importing configuration (listing-mode option, 3-column classy style)..."
 $DRUSH config:import -y
 
-echo "==> Step 4/9: Clearing caches (theme code and template change)..."
+echo "==> Step 4/10: Clearing caches (theme code and template change)..."
 $DRUSH cr
 
-echo "==> Step 5/9: Switching the Writing page's Articles block to all topics..."
+echo "==> Step 5/10: Switching the Writing page's Articles block to all topics..."
 $DRUSH php:script scripts/set_writing_articles_all_topics.php
 
-echo "==> Step 6/9: Adding the topic filter to /explore/articles..."
+echo "==> Step 6/10: Adding the topic filter to /explore/articles..."
 $DRUSH php:script scripts/add_explore_listing_filters.php
 
-echo "==> Step 7/9: Three columns on /explore/articles..."
+echo "==> Step 7/10: Three columns on /explore/articles..."
 $DRUSH php:script scripts/set_explore_articles_three_columns.php
 
-echo "==> Step 8/9: Final cache rebuild..."
+echo "==> Step 8/10: Shaping the Writing page (intro, two article blocks, call to action)..."
+$DRUSH php:script scripts/shape_writing_page_two_blocks.php
+
+echo "==> Step 9/10: Final cache rebuild..."
 $DRUSH cr
 
-echo "==> Step 9/9: Disabling maintenance mode..."
+echo "==> Step 10/10: Disabling maintenance mode..."
 $DRUSH state:set system.maintenance_mode 0 -y
 
 echo ""
@@ -70,12 +79,15 @@ echo "============================================"
 echo "  Release complete."
 echo ""
 echo "  Check by eye:"
-echo "    /culture/writing        Articles block shows the newest articles from"
-echo "                            across the site, not just Writing ones; its"
-echo "                            heading and both 'View more Articles' links"
-echo "                            point at /explore/articles; the section strip"
-echo "                            has 'Articles N' linking to /explore/articles"
-echo "    /culture/writing/articles   redirects to /explore/articles"
+echo "    /culture/writing        intro ends with the 'We write too' paragraph;"
+echo "                            'Latest from our contributors' shows the newest"
+echo "                            articles from across the site, both 'View more"
+echo "                            Articles' links go to /explore/articles; 'Write"
+echo "                            for us' button below the cards, with a gap"
+echo "                            before Organisations & links; NO Articles item"
+echo "                            on the strip and no 'Articles about writing'"
+echo "                            block until an article is tagged Writing"
+echo "    Then re-voice the intro copy and the button wording in the editor."
 echo "    /culture/identity       unchanged: still only its own topic's articles,"
 echo "                            'View more' still goes to /culture/identity/articles"
 echo "    /sectors/regional-development   unchanged, same check as above"
