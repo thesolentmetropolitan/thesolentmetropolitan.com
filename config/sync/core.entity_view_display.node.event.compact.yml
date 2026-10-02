@@ -45,7 +45,7 @@ content:
         refresh: '60'
         enabled: 0
         description: ''
-      date_format: 'j M'
+      date_format: 'D j M'
       custom_date_format: ''
       timezone: Europe/London
       tooltip:
