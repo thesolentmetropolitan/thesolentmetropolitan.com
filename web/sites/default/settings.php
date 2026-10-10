@@ -797,6 +797,23 @@ if (file_exists($app_root . '/' . $site_path . '/settings.ddev.php') && getenv('
   include $app_root . '/' . $site_path . '/settings.ddev.php';
 }
 
+/**
+ * Local development (DDEV) overrides.
+ *
+ * The exported configuration (config/sync/system.performance.yml) has CSS and
+ * JS aggregation switched ON, which is what production should run. These
+ * $config overrides switch it OFF only when the site is running inside DDEV,
+ * so theme edits show up immediately without clearing caches.
+ *
+ * Overrides set via $config are never exported by `drush config:export`, so
+ * the sync directory keeps the production values. Note that the Performance
+ * admin form shows the stored (production) value, not the overridden one.
+ */
+if (getenv('IS_DDEV_PROJECT') == 'true') {
+  $config['system.performance']['css']['preprocess'] = FALSE;
+  $config['system.performance']['js']['preprocess'] = FALSE;
+}
+
 // do this last, so we stick to our config dir and dont allow prior env, like ddev to override them
 
 
