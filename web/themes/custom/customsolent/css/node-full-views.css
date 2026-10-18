@@ -111,6 +111,35 @@
   border-color: var(--solent-blue-light, #3a6489);
 }
 
+/* Text colour: white at rest, the light pink used on the menu bar on
+   hover and focus. Doubled selector so `.layout-content a:hover`
+   (fonts.css), which turns link text magenta, cannot win — magenta on
+   solent blue is only 2.6:1; the pink is 5:1. */
+.layout-content .slnt-node-full__cta a,
+.slnt-node-full__cta a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.layout-content .slnt-node-full__cta a:hover,
+.layout-content .slnt-node-full__cta a:focus-visible,
+.slnt-node-full__cta a:hover,
+.slnt-node-full__cta a:focus-visible {
+  color: var(--pink-hover, #f5b0d8);
+  text-decoration: none;
+}
+
+.slnt-node-full__cta a:focus-visible {
+  outline: 3px solid var(--pink-hover, #f5b0d8);
+  outline-offset: 2px;
+}
+
+.slnt-node-full__cta-icon {
+  width: 1em;
+  height: 1em;
+  flex-shrink: 0;
+}
+
 /* ── Tablet — viewport narrower than the 1200px container. Match the menu
    text inset (2em from the viewport edge), as .slnt-article does. ── */
 @media (min-width: 800px) and (max-width: 1199px) {

@@ -326,6 +326,45 @@ class ContentRelations {
   }
 
   /**
+   * Published events organised by $organisation that have not finished.
+   *
+   * "Not finished" = at least one field_when item ends at or after today
+   * (same bound as the events listings). Ordered by the earliest such
+   * instance. Render arrays built from these carry eventsCacheTags().
+   *
+   * @return \Drupal\node\NodeInterface[]
+   */
+  public function upcomingEventsOrganisedBy(NodeInterface $organisation): array {
+    $nid = (int) $organisation->id();
+    if ($nid === 0) {
+      return [];
+    }
+    $storage = $this->entityTypeManager->getStorage('node');
+    $ids = $storage->getQuery()
+      ->accessCheck(TRUE)
+      ->condition('type', 'event')
+      ->condition('status', NodeInterface::PUBLISHED)
+      ->condition('field_organiser.target_id', $nid)
+      ->condition('field_when.end_value', strtotime('today'), '>=')
+      ->sort('field_when.value', 'ASC')
+      ->execute();
+    if (!$ids) {
+      return [];
+    }
+    // A recurring event matches once per future instance; keep each once.
+    return array_values($storage->loadMultiple(array_unique($ids)));
+  }
+
+  /**
+   * Cache tags for anything rendered from upcomingEventsOrganisedBy().
+   *
+   * @return string[]
+   */
+  public function eventsCacheTags(): array {
+    return ['node_list:event'];
+  }
+
+  /**
    * Seconds until the next local midnight: the status word may change then.
    */
   public function maxAgeUntilMidnight(): int {

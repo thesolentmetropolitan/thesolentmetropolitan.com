@@ -178,6 +178,19 @@ function customsolent_preprocess_node(array &$variables): void {
     _customsolent_preprocess_collaborator_extras($node, $variables);
   }
 
+  // Organisation page: the events it organises that are still to come.
+  if ($node->bundle() === 'organisation' && ($variables['view_mode'] ?? '') === 'full') {
+    /** @var \Drupal\customsolent_helpers\ContentRelations $relations */
+    $relations = \Drupal::service('customsolent_helpers.content_relations');
+    $view_builder = \Drupal::entityTypeManager()->getViewBuilder('node');
+    $variables['organiser_events'] = [];
+    foreach ($relations->upcomingEventsOrganisedBy($node) as $event) {
+      $variables['organiser_events'][] = $view_builder->view($event, 'compact');
+    }
+    // Refresh when events change, and at midnight when "today" moves on.
+    $variables['organiser_events_cache'] = ['#cache' => ['tags' => $relations->eventsCacheTags(), 'max-age' => $relations->maxAgeUntilMidnight()]];
+  }
+
   // "Part of a collaboration" on full pages: outcomes (event, article,
   // series — directly or via a series) and participants (person,
   // organisation — via collaborator nodes).
@@ -463,6 +476,8 @@ function _customsolent_preprocess_event_shared_extras($node, array &$variables):
     }
   }
 
+  $variables['event_cta_text'] = _customsolent_event_cta_text($node);
+
   // Organiser.
   if ($node->hasField('field_organiser') && !$node->get('field_organiser')->isEmpty()) {
     $org = $node->get('field_organiser')->entity;
@@ -615,6 +630,25 @@ function _customsolent_preprocess_article_compact_extras($node, array &$variable
       $variables['card_summary'] = \Drupal\Component\Utility\Unicode::truncate($text, 120, TRUE, TRUE);
     }
   }
+}
+
+/**
+ * The standard wording for an event's outward link button.
+ *
+ * Two phrases only, so every button in a listing reads the same and no
+ * long event title ends up inside a button: "Tickets" when the editor's
+ * link title mentions tickets or booking, otherwise "Event details".
+ * The template adds the external-link icon and a visually hidden
+ * "(opens in a new tab)".
+ */
+function _customsolent_event_cta_text($node): string {
+  $title = '';
+  if ($node->hasField('field_url') && !$node->get('field_url')->isEmpty()) {
+    $title = (string) $node->get('field_url')->first()->title;
+  }
+  return preg_match('/ticket|book|reserve|register|rsvp|sign.?up/i', $title)
+    ? (string) t('Tickets')
+    : (string) t('Event details');
 }
 
 /**
