@@ -437,8 +437,15 @@
   text-decoration-thickness: 2px;
 }
 
+/* Phones: the warm-grey band runs to the viewport edges (negative margin
+   = the page's side padding, see .slnt-node-full in node-full-views.css)
+   and its inner padding is that same amount, so the cards' outer edges
+   line up with the text above them instead of sitting 0.6rem further in.
+   Each card gains ~10px of width. Never 100vw here (scrollbar). */
 @media (max-width: 799px) {
   .slnt-series-items__grid {
-    padding: 0.6rem;
+    margin-left: calc(-1 * var(--content-pad-mobile, 1.2rem));
+    margin-right: calc(-1 * var(--content-pad-mobile, 1.2rem));
+    padding: 0.7rem var(--content-pad-mobile, 1.2rem);
   }
 }

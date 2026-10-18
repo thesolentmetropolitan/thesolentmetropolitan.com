@@ -138,20 +138,20 @@
     collaborations_cache: collaborations_cache,
   } only %}
 
-  {# Related events — upcoming events sharing a topic with this one
-     (ContentRelations::relatedEvents), as compact cards. Last on the page.
-     related_events_cache is printed in every branch: the list changes when
-     events are saved and when a day passes. #}
-  {% if related_events is not empty %}
+  {# The organiser's other upcoming events (the organisation page's
+     "Coming up" list minus this event), as compact cards. Last on the page.
+     organiser_events_cache is printed in every branch: the list changes
+     when events are saved and when a day passes. #}
+  {% if organiser_other_events is not empty %}
     <section class="slnt-series-items slnt-event-full__related" aria-labelledby="event-related-heading">
-      <h2 id="event-related-heading" class="slnt-series-items__heading">{{ 'Related events'|t }}</h2>
+      <h2 id="event-related-heading" class="slnt-series-items__heading">{{ 'Coming up from @organiser'|t({'@organiser': organiser_label}) }}</h2>
       <div class="slnt-series-items__grid slnt-series-items__grid--events">
-        {% for item in related_events %}
+        {% for item in organiser_other_events %}
           <div class="slnt-series-items__cell">{{ item }}</div>
         {% endfor %}
       </div>
     </section>
   {% endif %}
-  {{ related_events_cache }}
+  {{ organiser_events_cache }}
 
 </article>

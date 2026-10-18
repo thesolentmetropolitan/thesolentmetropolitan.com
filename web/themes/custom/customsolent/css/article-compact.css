@@ -252,3 +252,13 @@
     padding-right: 0;
   }
 }
+
+/* ── Front page, phones: same pull-out as the events grid above it, so the
+   article cards share the events cards' outer edges (see the matching
+   rule at the end of event-compact.css). ── */
+@media (max-width: 799px) {
+  .path-frontpage .slnt-articles-compact-grid {
+    margin-left: calc(var(--content-pad-mobile, 1.2rem) - 2rem);
+    margin-right: calc(var(--content-pad-mobile, 1.2rem) - 2rem);
+  }
+}

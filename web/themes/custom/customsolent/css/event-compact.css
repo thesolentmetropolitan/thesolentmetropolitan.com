@@ -323,7 +323,6 @@
     padding: 0.5rem 0.3rem 0;
     min-height: 2.6em;
   }
-  .slnt-event-compact__title,
   .slnt-event-compact__value {
     overflow-wrap: anywhere;
   }
@@ -342,24 +341,70 @@
 
 
 /* ── Regular (recurring) events ──
-   Badge under the title; the date row reads "Every Monday, 7 - 8:30pm"
-   with "Next: Mon 20 Oct" on its own line. Several venues collapse to
-   "4 venues" + the towns (the full page lists them). */
+   Badge at the top right of the title row (since 2026-10-18 afternoon; it
+   sat under the title before and cost a line on narrow cards). The title
+   wraps on the left and never pushes the badge down. The date row reads
+   "Every Monday, 7 - 8:30pm" with "Next: Mon 20 Oct" on its own line.
+   Several venues collapse to "4 venues" + the towns. */
+.slnt-event-compact__head {
+  display: flex;
+  flex-wrap: wrap; /* see the title's min-width below */
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.25rem 0.5rem;
+  margin: 0 0 0.3rem 0;
+}
+
+/* Basis 0 + min-width min-content: the title takes what is left beside
+   the badge and wraps its words, but can never be squeezed narrower than
+   its longest word — so "Andysmanclub" is not broken mid-word; in that one
+   case the badge drops under the title instead. break-word only bites on
+   a word wider than the whole card. */
+.slnt-event-compact__head .slnt-event-compact__title {
+  flex: 1 1 0;
+  min-width: min-content;
+  margin: 0;
+  overflow-wrap: break-word;
+}
+
 .slnt-event-badge {
   display: inline-block;
+  flex: 0 0 auto;
   font-family: 'Atkinson Hyperlegible Next', sans-serif;
   font-size: 0.68rem;
   font-weight: 700;
+  line-height: 1.4;
   text-transform: uppercase;
   letter-spacing: 0.06em;
   padding: 0.15em 0.55em;
   border-radius: 3px;
-  margin: 0 0 0.35rem 0;
+  margin: 0.15rem 0 0 0; /* optical: level with the title's first line */
+  white-space: nowrap;
 }
 
 .slnt-event-badge--regular {
-  color: #fff;
-  background: #047857; /* Living green: ongoing, like an ongoing series */
+  /* Very light blue, dark text (7.3:1), so it reads as a label, not a
+     button or a section colour. Was white on Living green. */
+  color: var(--solent-blue, #2c4f6e);
+  background: #dbeafe;
+}
+
+/* Phones, two narrow columns (~140px of card): "REGULAR" alone and a
+   touch smaller (~54px), so a one-word title like "Mangang" still has
+   the badge beside it; only a longer single word ("Andysmanclub") makes
+   the badge drop under the title. */
+@media (max-width: 499px) {
+  .slnt-event-compact__head {
+    gap: 0.25rem 0.4rem;
+  }
+  .slnt-event-compact__head .slnt-event-badge {
+    font-size: 0.62rem;
+    letter-spacing: 0.04em;
+    padding: 0.15em 0.45em;
+  }
+  .slnt-event-compact__head .slnt-event-badge__word {
+    display: none;
+  }
 }
 
 .slnt-event-compact__recurrence,
@@ -369,4 +414,19 @@
 
 .slnt-event-compact__next {
   color: var(--solent-blue, #2c4f6e);
+}
+
+/* ── Front page, phones: pull the events grid out to the node pages' side
+   padding ──
+   On Home the grid sits inside two nested enclosures (1rem padding each),
+   so its cards start 2rem in, while on a series or organisation page the
+   cards start at the page padding (1.2rem, .slnt-node-full). Pull the grid
+   out by the difference so the two read the same and each card gains
+   ~13px. Front page only (body.path-frontpage): on topic listing pages the
+   grid is wrapped differently and already sits flush. */
+@media (max-width: 799px) {
+  .path-frontpage .slnt-events-compact-grid {
+    margin-left: calc(var(--content-pad-mobile, 1.2rem) - 2rem);
+    margin-right: calc(var(--content-pad-mobile, 1.2rem) - 2rem);
+  }
 }

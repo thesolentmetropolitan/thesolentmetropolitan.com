@@ -203,8 +203,8 @@
 }
 
 .slnt-node-full__past-kicker.slnt-event-badge--regular {
-  color: #fff;
-  background: #047857;
+  color: var(--solent-blue, #2c4f6e);
+  background: #dbeafe; /* same light blue as the cards' badge */
 }
 
 /* Organisation page: "Coming up" sits after the website button. Doubled
