@@ -1,6 +1,7 @@
+uuid: null
 langcode: en
 status: true
 dependencies: {  }
 id: hero_art_style_culture_maritime
-label: 'Culture - Maritime'
+label: 'Culture - Maritime & Marine'
 classes: hero-art-style--culture-maritime
