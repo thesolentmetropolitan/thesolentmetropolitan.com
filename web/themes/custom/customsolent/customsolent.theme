@@ -1528,6 +1528,8 @@ function _customsolent_topic_listing_types(): array {
     'articles_listing' => 'articles',
     'organisations_listing' => 'organisations',
     'links_listing' => 'organisations',
+    'series_listing' => 'series',
+    'collaborations_listing' => 'collaborations',
   ];
 }
 
@@ -1561,6 +1563,25 @@ function _customsolent_listing_kinds(): array {
       'full' => ['articles_listing', 'view_display_primary_and_related'],
       'full_grid' => 'slnt-articles-compact-grid',
       'stat' => 'articles',
+    ],
+    // Series and Collaborations joined the strip on 2026-10-18 (afternoon).
+    // Their cards are teasers; the same classy grid as /explore/series and
+    // /explore/collaborations.
+    'series' => [
+      'label' => t('Series'),
+      'tags' => ['node_list:series'],
+      'grid' => 'slnt-series-grid',
+      'full' => ['series_listing', 'view_display_primary_and_related'],
+      'full_grid' => 'slnt-series-grid',
+      'stat' => 'series',
+    ],
+    'collaborations' => [
+      'label' => t('Collaborations'),
+      'tags' => ['node_list:collaboration'],
+      'grid' => 'slnt-collaborations-grid',
+      'full' => ['collaborations_listing', 'view_display_primary_and_related'],
+      'full_grid' => 'slnt-collaborations-grid',
+      'stat' => 'collaborations',
     ],
     'organisations' => [
       'label' => t('Organisations & links'),
@@ -1638,7 +1659,7 @@ function _customsolent_listing_owns_heading(string $mode): bool {
  * @param int[] $tids
  *   The topic scope: a term and all its descendants.
  *
- * @return array{events:int, articles:int, organisation:int, link:int, directory:int, directory_tids:array<int,int[]>}
+ * @return array{events:int, articles:int, series:int, collaborations:int, organisation:int, link:int, directory:int, directory_tids:array<int,int[]>}
  *   directory_tids maps topic tid => node ids tagged with it (primary or
  *   related), for working out which sub-topics have anything in them.
  */
@@ -1649,7 +1670,7 @@ function _customsolent_topic_scope_stats(array $tids): array {
   if (isset($cache[$key])) {
     return $cache[$key];
   }
-  $stats = ['events' => 0, 'articles' => 0, 'organisation' => 0, 'link' => 0, 'directory' => 0, 'directory_tids' => []];
+  $stats = ['events' => 0, 'articles' => 0, 'series' => 0, 'collaborations' => 0, 'organisation' => 0, 'link' => 0, 'directory' => 0, 'directory_tids' => []];
   if (!$tids) {
     return $cache[$key] = $stats;
   }
@@ -1691,6 +1712,10 @@ function _customsolent_topic_scope_stats(array $tids): array {
 
   // Published articles tagged with the topic, primary or related.
   $stats['articles'] = count(array_unique(array_map(fn($r) => (int) $r->nid, $tagged(['article']))));
+  // Series and collaborations likewise — past ones included: a series page
+  // keeps its "Past series" badge and stays worth finding.
+  $stats['series'] = count(array_unique(array_map(fn($r) => (int) $r->nid, $tagged(['series']))));
+  $stats['collaborations'] = count(array_unique(array_map(fn($r) => (int) $r->nid, $tagged(['collaboration']))));
   return $cache[$key] = $stats;
 }
 
@@ -1725,7 +1750,8 @@ function _customsolent_node_topic_context($node): ?array {
  * @param \Drupal\node\NodeInterface $node
  *   The section page.
  * @param string $current
- *   'overview', 'events', 'articles' or 'organisations'.
+ *   'overview', 'events', 'articles', 'series', 'collaborations' or
+ *   'organisations'.
  */
 function _customsolent_build_section_strip($node, string $current): ?array {
   if (!$node || $node->bundle() !== 'composite_page') {
