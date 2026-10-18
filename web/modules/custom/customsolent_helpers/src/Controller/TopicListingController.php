@@ -11,7 +11,8 @@ use Drupal\paragraphs\ParagraphInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
- * The automated by-topic listing page: /{topic path}/{events|articles|organisations}.
+ * The automated by-topic listing page:
+ * /{topic path}/{events|articles|series|collaborations|organisations}.
  *
  * It does not build its own list. It finds the View Display paragraph of
  * that type on the topic's own page and renders THAT paragraph in the
@@ -28,6 +29,8 @@ class TopicListingController extends ControllerBase {
   protected const VIEWS = [
     'events' => ['events_listing'],
     'articles' => ['articles_listing'],
+    'series' => ['series_listing'],
+    'collaborations' => ['collaborations_listing'],
     'organisations' => ['organisations_listing', 'links_listing'],
   ];
 
@@ -113,6 +116,8 @@ class TopicListingController extends ControllerBase {
     return match ($listing_type) {
       'events' => (string) $this->t('Events'),
       'articles' => (string) $this->t('Articles'),
+      'series' => (string) $this->t('Series'),
+      'collaborations' => (string) $this->t('Collaborations'),
       default => (string) $this->t('Organisations & links'),
     };
   }

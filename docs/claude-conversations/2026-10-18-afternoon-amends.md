@@ -33,3 +33,19 @@ Rob's amends after reviewing the overnight work, with the remaining 3.5 items re
 - Before/after at 390px: `amends2-front-mobile-before/after.png`, `amends2-series-mobile-before/after.png`.
 
 Rob will take organisation names out of event titles where the organiser row now carries them (Common Ground's events), leaving them where the title is the organisation (Mangang).
+
+## Round 3: Series and Collaborations in the section strip
+
+Rob's last item for the day: add Series and Collaborations to the strip on /culture and its sub-topics, only when the topic holds some, by the same mechanism as Events, Articles and Organisations & links.
+
+The strip is one table in the theme, `_customsolent_listing_kinds()`, read by the strip builder, the paragraph listing modes and the automated listing route. Adding a kind meant:
+
+- **Views** (config, needs `cim`): `series_listing` and `collaborations_listing` gained a `view_display_primary_and_related` block display, cloned from `articles_listing`'s by a throw-away PHP script (topic arguments primary OR related with `contextual_filters_or`, `distinct`, full pager of 24, row = teaser). Their existing `view_display_preview` displays gained the same arguments (`default_action: ignore`, so a placed preview without a topic still lists everything) and fetch 9 rows so the "View more" rule works. Saved through the entity API so `cache_metadata` is right ([[feedback_views_cache_metadata_not_recomputed_on_cim]]). Nothing is placed with those displays yet; only the route uses them.
+- **Theme**: `_customsolent_topic_listing_types()` maps the two views to the URL words `series` and `collaborations`; `_customsolent_listing_kinds()` has the two new kinds between Articles and Organisations & links (labels, `node_list` tags, the existing classy grid classes `slnt-series-grid` / `slnt-collaborations-grid`, the full display); `_customsolent_topic_scope_stats()` counts published series and collaborations tagged (primary or related) within the scope, past ones included.
+- **Module**: route requirement and `customsolent_helpers_listing_route_words()` accept `series` and `collaborations` (the path processor maps `/culture/community/series` to the listing route; `/explore/series` is a real alias so it wins and is untouched); the words are reserved as topic names; `TopicListingController::VIEWS` and `heading()` know them; site-wide pages `/explore/series`, `/explore/collaborations` for the "Preview, all topics" hand-over; the two views join the `?topic=` filtered list.
+
+Result: `/culture` reads Overview · Events · Articles · Series 1 · Collaborations 1 · Organisations & links; `/culture/community` has both (the BHM series and Push & Play both carry Community as a related topic); `/culture/sport` has Collaborations only; `/living` and `/sectors` are unchanged. `/culture/series`, `/culture/music/series`, `/culture/sport/collaborations` render the right cards in the right grid with the section banner and "Culture: Series" titles. `config:status` clean.
+
+Release: `scripts/release-2026-10-18-strip-series-collaborations.sh` (backup, maintenance, `cim`, `cr`), after the three overnight releases. It also carries rounds 1 and 2, which are code only.
+
+Next for Rob (his words): re-align some topic terms and add new ones with their menu items, without increasing the number of items. The reserved-word rule now also refuses a topic named "Series" or "Collaborations".
