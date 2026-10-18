@@ -204,3 +204,12 @@
   color: #fff;
   background: #047857;
 }
+
+/* Organisation page: "Coming up" sits after the website button. */
+.slnt-org-full__events {
+  margin-top: 2.2rem;
+}
+
+.slnt-org-full__components {
+  margin-top: 1.5rem;
+}
