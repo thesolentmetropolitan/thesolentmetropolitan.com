@@ -16,9 +16,10 @@
  *     h3.slnt-directory-card__title
  *       a.slnt-directory-card__link      — the card's one main link; its
  *                                          ::after is stretched over the
- *                                          whole card. Goes to field_url
- *                                          (new tab, external icon) or
- *                                          the node page when there is none.
+ *                                          whole card. Organisation: its
+ *                                          own page. Link: field_url (new
+ *                                          tab, external icon), or the node
+ *                                          page when there is none.
  *     p.slnt-directory-card__standfirst  — clamped to three lines in CSS
  *     .slnt-directory-card__footer       — pinned to the bottom of the card
  *       .slnt-directory-card__type       — "Organisation" / "Link"
@@ -44,8 +45,16 @@
     'slnt-directory-card--' ~ node.bundle|clean_class,
   ]
 %}
-{% set card_url = field_url_href ?: path('entity.node.canonical', {'node': node.id}) %}
-{% set is_external = field_url_external ?? false %}
+{# An Organisation's card goes to its own page (since 2026-10-18: the page
+   carries "Coming up", collaborations, location). A Link's card still goes
+   straight to the destination, new tab, external icon. #}
+{% if node.bundle == 'organisation' %}
+  {% set card_url = path('entity.node.canonical', {'node': node.id}) %}
+  {% set is_external = false %}
+{% else %}
+  {% set card_url = field_url_href ?: path('entity.node.canonical', {'node': node.id}) %}
+  {% set is_external = field_url_external ?? false %}
+{% endif %}
 
 <article{{ attributes.addClass(classes) }}>
 

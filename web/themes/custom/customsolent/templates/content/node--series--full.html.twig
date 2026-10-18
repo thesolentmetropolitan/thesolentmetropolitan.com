@@ -33,10 +33,20 @@
 <article{{ attributes.addClass(classes) }}{% if primary_topic_menu_path is defined and primary_topic_menu_path %} data-primary-topic-path="{{ primary_topic_menu_path }}"{% endif %}>
   <div class="slnt-node-full__header">
 
-    {# Status badge — same slot and look as the event page's past-event badge. #}
-    {% if series_status_label %}
-      <div class="slnt-node-full__past-kicker slnt-series-full__status slnt-series-full__status--{{ series_status }}">{{ series_status_label }}</div>
-    {% endif %}
+    {# Kind-of-page kicker: "Series", linking back to /explore/series, with
+       the status badge beside it (same look as the event page's badge). #}
+    <div class="slnt-node-full__type-kicker">
+      <a href="{{ type_home_url }}" class="slnt-node-full__type-link">
+        <span class="slnt-node-full__type-icon" aria-hidden="true">
+          {# Feather "layers" (MIT) — the series icon on cards. #}
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 12 12 17 22 12"/><polyline points="2 17 12 22 22 17"/></svg>
+        </span>
+        <span>{{ 'Series'|t }}<span class="visually-hidden">: {{ 'all series'|t }}</span></span>
+      </a>
+      {% if series_status_label %}
+        <span class="slnt-node-full__past-kicker slnt-series-full__status slnt-series-full__status--{{ series_status }}">{{ series_status_label }}</span>
+      {% endif %}
+    </div>
 
     {# Topic trail kicker — clickable, section-coloured ancestor terms. #}
     {% if topic_trail_ancestors is not empty %}

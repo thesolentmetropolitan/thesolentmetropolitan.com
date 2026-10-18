@@ -144,14 +144,16 @@
    text inset (2em from the viewport edge), as .slnt-article does. ── */
 @media (min-width: 800px) and (max-width: 1199px) {
   .slnt-node-full {
-    padding: 0 calc(var(--align-floor, 1em) * 2);
+    /* Top: air between the menu bar and the first badge / kicker, as the
+       2em on desktop gives (it was 0 here until 2026-10-18). */
+    padding: 1.5rem calc(var(--align-floor, 1em) * 2) 0;
   }
 }
 
 /* ── Mobile ── */
 @media (max-width: 799px) {
   .slnt-node-full {
-    padding: 0 var(--content-pad-mobile, 1.2rem);
+    padding: 1.4rem var(--content-pad-mobile, 1.2rem) 0;
   }
 
   .slnt-node-full__title {
@@ -214,4 +216,54 @@
 
 .slnt-org-full__components {
   margin-top: 1.5rem;
+}
+
+/* ── Kind-of-page kicker (Series / Collaboration pages) ──
+   "SERIES" with its icon, linking back to the listing; the status badge
+   sits beside it on the same row. Doubled selectors beat
+   `.layout-content a` / `a:hover` (magenta). */
+.slnt-node-full__type-kicker {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.7rem;
+  margin-bottom: 0.45rem;
+}
+
+.slnt-node-full__type-kicker .slnt-node-full__past-kicker {
+  margin-bottom: 0;
+}
+
+.slnt-node-full .slnt-node-full__type-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
+  font-family: 'Atkinson Hyperlegible Next', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--solent-blue, #2c4f6e);
+  text-decoration: none;
+}
+
+.slnt-node-full .slnt-node-full__type-link:hover,
+.slnt-node-full .slnt-node-full__type-link:focus-visible {
+  color: var(--solent-blue, #2c4f6e);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 2px;
+}
+
+.slnt-node-full__type-icon svg {
+  display: block;
+  width: 1.15em;
+  height: 1.15em;
+}
+
+/* Event page: "Related events" is the last section; keep clear of what
+   sits above it (the collaborations block or the button). Doubled
+   selector for the same reason as .slnt-org-full__events. */
+.slnt-node-full .slnt-event-full__related {
+  margin-top: 2.4rem;
 }
