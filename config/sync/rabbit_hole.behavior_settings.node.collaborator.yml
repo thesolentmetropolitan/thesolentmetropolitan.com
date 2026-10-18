@@ -1,0 +1,16 @@
+uuid: 2a388951-7341-40d7-92a3-e76a0e8176a8
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.collaborator
+id: node.collaborator
+targetEntityType: node
+bundle: collaborator
+action: page_redirect
+no_bypass: false
+bypass_message: false
+configuration:
+  redirect: '[node:field_collaborator:entity:url]'
+  redirect_code: 301
+  redirect_fallback_action: access_denied

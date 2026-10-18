@@ -1,0 +1,11 @@
+uuid: 4944dd7c-4553-4eaa-a0c5-6ff142cc1490
+langcode: en
+status: true
+dependencies: {  }
+name: Collaborator
+type: collaborator
+description: 'An organisation or person as they take part in collaborations: who they are (a reference), how they collaborate (terms) and a description. Reused across collaborations; has no page of its own — its URL redirects to the organisation or person.'
+help: null
+new_revision: true
+preview_mode: 1
+display_submitted: false

@@ -1,0 +1,22 @@
+uuid: 825725d8-cb1e-45c1-8e1b-2b7dc93908f1
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_description
+    - node.type.collaborator
+  module:
+    - text
+id: node.collaborator.field_description
+field_name: field_description
+entity_type: node
+bundle: collaborator
+label: Description
+description: 'What this collaborator brings, in a sentence or two.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  allowed_formats: {  }
+field_type: text_long

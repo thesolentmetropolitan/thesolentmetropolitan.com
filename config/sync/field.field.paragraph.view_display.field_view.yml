@@ -31,5 +31,7 @@ settings:
     links_listing: links_listing
     directory_listing: directory_listing
     series_listing: series_listing
+    people_listing: people_listing
+    collaborations_listing: collaborations_listing
   enabled_settings: {  }
 field_type: viewsreference

@@ -1,0 +1,27 @@
+{#
+/**
+ * @file
+ * "Part of a collaboration" block for event, article, series, person and
+ * organisation pages.
+ *
+ * Variables (from _customsolent_preprocess_collaboration_membership()):
+ *   - collaboration_items: render arrays (collaboration teaser cards)
+ *   - collaborations_cache: cache metadata — printed in every branch so a
+ *     page cached with no collaborations is refreshed when one is created
+ *   - heading: the h2 text; defaults by count
+ *   - heading_id: unique id for aria-labelledby
+ */
+#}
+{% if collaboration_items is not empty %}
+  <section class="slnt-collabs-block" aria-labelledby="{{ heading_id|default('collaborations-heading') }}">
+    <h2 id="{{ heading_id|default('collaborations-heading') }}" class="slnt-series-items__heading">
+      {{ heading|default(collaboration_items|length > 1 ? 'Collaborations'|t : 'Part of a collaboration'|t) }}
+    </h2>
+    <div class="slnt-collabs-block__grid">
+      {% for item in collaboration_items %}
+        <div class="slnt-collabs-block__cell">{{ item }}</div>
+      {% endfor %}
+    </div>
+  </section>
+{% endif %}
+{{ collaborations_cache }}

@@ -1,0 +1,7 @@
+uuid: 4fce4828-0e35-4fae-bf0a-2184425bcd95
+langcode: en
+status: true
+dependencies: {  }
+id: collaborations_grid
+label: 'Collaborations Grid'
+classes: slnt-collaborations-grid

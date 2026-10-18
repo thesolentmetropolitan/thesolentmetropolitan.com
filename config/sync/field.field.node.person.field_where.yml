@@ -1,0 +1,29 @@
+uuid: b6dd289d-f8da-4cb0-844b-3b34460b6425
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_where
+    - node.type.person
+    - taxonomy.vocabulary.location
+id: node.person.field_where
+field_name: field_where
+entity_type: node
+bundle: person
+label: Where
+description: 'Where they are based (town or area).'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      location: location
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

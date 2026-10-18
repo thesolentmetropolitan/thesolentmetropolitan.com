@@ -1,0 +1,11 @@
+uuid: 6fb3d7ac-bfab-433a-b555-f6370ef2a700
+langcode: en
+status: true
+dependencies: {  }
+name: Person
+type: person
+description: 'A person: a contributor, team member or collaborator. The title is composed from the first and last name on save.'
+help: null
+new_revision: true
+preview_mode: 1
+display_submitted: false

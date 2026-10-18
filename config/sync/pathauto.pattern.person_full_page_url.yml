@@ -1,0 +1,23 @@
+uuid: 91a0e340-0d56-4560-9e11-8f52c29a81a0
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.person
+  module:
+    - node
+id: person_full_page_url
+label: 'Person full page url'
+type: 'canonical_entities:node'
+pattern: '/people/[node:title]'
+selection_criteria:
+  b963ef30-04e3-475e-a08e-d18f9c3f58be:
+    id: 'entity_bundle:node'
+    negate: false
+    context_mapping:
+      node: node
+    bundles:
+      person: person
+selection_logic: and
+weight: -5
+relationships: {  }

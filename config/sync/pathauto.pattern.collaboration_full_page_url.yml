@@ -1,0 +1,23 @@
+uuid: 6d704189-3bb0-4a51-9705-f36b8d446163
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.collaboration
+  module:
+    - node
+id: collaboration_full_page_url
+label: 'Collaboration full page url'
+type: 'canonical_entities:node'
+pattern: '/collaborations/[node:title]'
+selection_criteria:
+  9cb6aaa4-435c-4c3c-94e7-6bce4e0272b7:
+    id: 'entity_bundle:node'
+    negate: false
+    context_mapping:
+      node: node
+    bundles:
+      collaboration: collaboration
+selection_logic: and
+weight: -5
+relationships: {  }

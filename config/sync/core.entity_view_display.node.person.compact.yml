@@ -1,0 +1,36 @@
+uuid: 441425b5-cce2-4a34-9595-e60df16fcee1
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.compact
+    - field.field.node.person.field_bio
+    - field.field.node.person.field_content_component
+    - field.field.node.person.field_first_name
+    - field.field.node.person.field_image
+    - field.field.node.person.field_last_name
+    - field.field.node.person.field_where
+    - node.type.person
+  module:
+    - user
+id: node.person.compact
+targetEntityType: node
+bundle: person
+mode: compact
+content:
+  field_image:
+    type: entity_reference_entity_view
+    label: hidden
+    settings:
+      view_mode: portrait_thumb
+      link: false
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  field_bio: true
+  field_content_component: true
+  field_first_name: true
+  field_last_name: true
+  field_where: true
+  links: true

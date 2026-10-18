@@ -46,10 +46,18 @@
       <p class="slnt-article__standfirst">{{ content.field_standfirst }}</p>
     {% endif %}
 
-    {# Date #}
-    <time class="slnt-article__date" datetime="{{ node.getCreatedTime()|date('Y-m-d') }}">
-      {{ node.getCreatedTime()|date('j F Y') }}
-    </time>
+    {# Byline + date. Authors render as Person chips (compact view mode:
+       portrait thumb + name, linking to /people/…) when set. #}
+    <div class="slnt-article__byline">
+      {% if content.field_author|render|striptags|trim %}
+        <span class="slnt-article__byline-label">{{ 'By'|t }}</span>
+        {{ content.field_author }}
+        <span aria-hidden="true">·</span>
+      {% endif %}
+      <time class="slnt-article__date" datetime="{{ node.getCreatedTime()|date('Y-m-d') }}">
+        {{ node.getCreatedTime()|date('j F Y') }}
+      </time>
+    </div>
 
   </div>
 
@@ -64,5 +72,11 @@
   <div class="slnt-article__body">
     {{ content.field_body }}
   </div>
+
+  {# Collaborations this article is part of (reverse lookup). #}
+  {% include '@customsolent/components/collaborations-block.html.twig' with {
+    collaboration_items: collaboration_items,
+    collaborations_cache: collaborations_cache,
+  } only %}
 
 </article>

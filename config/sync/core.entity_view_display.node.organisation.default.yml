@@ -3,12 +3,15 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.node.organisation.field_content_component
     - field.field.node.organisation.field_primary_topic
     - field.field.node.organisation.field_related_topics
     - field.field.node.organisation.field_standfirst
     - field.field.node.organisation.field_url
+    - field.field.node.organisation.field_where
     - node.type.organisation
   module:
+    - entity_reference_revisions
     - link
     - user
 id: node.organisation.default
@@ -16,6 +19,15 @@ targetEntityType: node
 bundle: organisation
 mode: default
 content:
+  field_content_component:
+    type: entity_reference_revisions_entity_view
+    label: hidden
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 8
+    region: content
   field_standfirst:
     type: string
     label: hidden
@@ -35,6 +47,14 @@ content:
       target: ''
     third_party_settings: {  }
     weight: 2
+    region: content
+  field_where:
+    type: entity_reference_label
+    label: hidden
+    settings:
+      link: false
+    third_party_settings: {  }
+    weight: 7
     region: content
 hidden:
   field_primary_topic: true

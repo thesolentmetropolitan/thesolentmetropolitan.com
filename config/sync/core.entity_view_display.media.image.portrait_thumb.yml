@@ -1,0 +1,36 @@
+uuid: 42a6b05c-9549-4688-89b0-8d44d679a674
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.media.portrait_thumb
+    - field.field.media.image.field_media_image
+    - image.style.portrait_thumb
+    - media.type.image
+  module:
+    - svg_image
+id: media.image.portrait_thumb
+targetEntityType: media
+bundle: image
+mode: portrait_thumb
+content:
+  field_media_image:
+    type: image
+    label: visually_hidden
+    settings:
+      image_link: ''
+      image_style: portrait_thumb
+      image_loading:
+        attribute: lazy
+      svg_attributes:
+        width: null
+        height: null
+      svg_render_as_image: true
+    third_party_settings: {  }
+    weight: 1
+    region: content
+hidden:
+  created: true
+  name: true
+  thumbnail: true
+  uid: true

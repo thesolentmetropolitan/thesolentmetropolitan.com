@@ -1,0 +1,22 @@
+uuid: 48a02747-9397-4e82-bee9-334efc05219f
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_description
+    - node.type.collaboration
+  module:
+    - text
+id: node.collaboration.field_description
+field_name: field_description
+entity_type: node
+bundle: collaboration
+label: Description
+description: 'The story of the collaboration and its outcomes.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  allowed_formats: {  }
+field_type: text_long

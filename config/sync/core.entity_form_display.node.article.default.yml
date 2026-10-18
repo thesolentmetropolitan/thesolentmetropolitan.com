@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.node.article.field_author
     - field.field.node.article.field_body
     - field.field.node.article.field_image
     - field.field.node.article.field_primary_topic
@@ -26,6 +27,16 @@ content:
     weight: 10
     region: content
     settings: {  }
+    third_party_settings: {  }
+  field_author:
+    type: entity_reference_autocomplete
+    weight: 1
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
     third_party_settings: {  }
   field_body:
     type: text_textarea

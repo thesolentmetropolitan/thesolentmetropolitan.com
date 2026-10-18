@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - core.entity_view_mode.node.compact
+    - field.field.node.article.field_author
     - field.field.node.article.field_body
     - field.field.node.article.field_image
     - field.field.node.article.field_primary_topic
@@ -18,6 +19,14 @@ targetEntityType: node
 bundle: article
 mode: compact
 content:
+  field_author:
+    type: entity_reference_label
+    label: hidden
+    settings:
+      link: false
+    third_party_settings: {  }
+    weight: -1
+    region: content
   field_standfirst:
     type: string
     label: hidden

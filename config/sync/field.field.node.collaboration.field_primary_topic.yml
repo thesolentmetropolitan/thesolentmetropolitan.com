@@ -1,0 +1,29 @@
+uuid: 0c58c738-dfee-4d3c-becc-f0033fd2fb45
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_primary_topic
+    - node.type.collaboration
+    - taxonomy.vocabulary.topic
+id: node.collaboration.field_primary_topic
+field_name: field_primary_topic
+entity_type: node
+bundle: collaboration
+label: 'Primary topic'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      topic: topic
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

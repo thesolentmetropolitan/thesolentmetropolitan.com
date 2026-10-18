@@ -61,6 +61,12 @@
     <p class="slnt-article-compact__summary">{{ card_summary }}</p>
   {% endif %}
 
+  {# Byline — plain text under the stretched link. #}
+  {% set _byline = content.field_author|render %}
+  {% if byline_text %}
+    <p class="slnt-article-compact__byline">{{ 'By'|t }} {{ byline_text }}</p>
+  {% endif %}
+
   {# Kicker — white on the card colour rather than section-coloured
      (purple on purple is unreadable); the lazy builder is passed the
      colour. Left out on the page of the article's own primary topic. #}
@@ -71,4 +77,4 @@
 {# We render the fields manually above; suppress defaults so they
    don't appear a second time. #}
 {{ content|without('field_standfirst', 'field_body', 'field_image',
-   'field_primary_topic', 'field_related_topics', 'field_where') }}
+   'field_primary_topic', 'field_related_topics', 'field_where', 'field_author') }}

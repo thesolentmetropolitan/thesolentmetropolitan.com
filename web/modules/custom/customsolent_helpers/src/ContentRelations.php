@@ -201,6 +201,131 @@ class ContentRelations {
   }
 
   /**
+   * Published articles whose field_author references $person, newest first.
+   *
+   * Render arrays built from these must carry articlesByCacheTags().
+   *
+   * @return \Drupal\node\NodeInterface[]
+   */
+  public function articlesBy(NodeInterface $person): array {
+    $nid = (int) $person->id();
+    if ($nid === 0) {
+      return [];
+    }
+    $storage = $this->entityTypeManager->getStorage('node');
+    $ids = $storage->getQuery()
+      ->accessCheck(TRUE)
+      ->condition('type', 'article')
+      ->condition('status', NodeInterface::PUBLISHED)
+      ->condition('field_author.target_id', $nid)
+      ->sort('created', 'DESC')
+      ->execute();
+    return $ids ? array_values($storage->loadMultiple($ids)) : [];
+  }
+
+  /**
+   * Cache tags for anything rendered from articlesBy().
+   *
+   * @return string[]
+   */
+  public function articlesByCacheTags(): array {
+    return ['node_list:article'];
+  }
+
+  /**
+   * Published collaborations a node is an outcome of, directly or via series.
+   *
+   * Direct: the node is in a collaboration's field_outcomes. Via series: the
+   * node is in a series (field_series_items) that is itself an outcome. The
+   * result is unique by id and ordered newest collaboration first.
+   *
+   * @return \Drupal\node\NodeInterface[]
+   */
+  public function collaborationsFor(NodeInterface $node): array {
+    $nid = (int) $node->id();
+    if ($nid === 0) {
+      return [];
+    }
+    $targets = [$nid];
+    if ($node->bundle() !== 'series') {
+      foreach ($this->seriesContaining($node) as $series) {
+        $targets[] = (int) $series->id();
+      }
+    }
+    return $this->loadCollaborations(
+      $this->entityTypeManager->getStorage('node')->getQuery()
+        ->accessCheck(TRUE)
+        ->condition('type', 'collaboration')
+        ->condition('status', NodeInterface::PUBLISHED)
+        ->condition('field_outcomes.target_id', $targets, 'IN')
+    );
+  }
+
+  /**
+   * Published collaborations an organisation or person takes part in.
+   *
+   * Collaborator nodes reference the organisation/person in
+   * field_collaborator; collaborations reference collaborators in
+   * field_collaborators.
+   *
+   * @return \Drupal\node\NodeInterface[]
+   */
+  public function collaborationsInvolving(NodeInterface $who): array {
+    $nid = (int) $who->id();
+    if ($nid === 0) {
+      return [];
+    }
+    $storage = $this->entityTypeManager->getStorage('node');
+    $collaborator_ids = $storage->getQuery()
+      ->accessCheck(TRUE)
+      ->condition('type', 'collaborator')
+      ->condition('status', NodeInterface::PUBLISHED)
+      ->condition('field_collaborator.target_id', $nid)
+      ->execute();
+    if (!$collaborator_ids) {
+      return [];
+    }
+    return $this->loadCollaborations(
+      $storage->getQuery()
+        ->accessCheck(TRUE)
+        ->condition('type', 'collaboration')
+        ->condition('status', NodeInterface::PUBLISHED)
+        ->condition('field_collaborators.target_id', array_values($collaborator_ids), 'IN')
+    );
+  }
+
+  /**
+   * Cache tags for anything rendered from the collaboration lookups.
+   *
+   * @param \Drupal\node\NodeInterface[] $collaborations
+   *   The collaborations found (may be empty).
+   *
+   * @return string[]
+   */
+  public function collaborationsCacheTags(array $collaborations): array {
+    // Series membership feeds collaborationsFor(); collaborator nodes feed
+    // collaborationsInvolving(); both must refresh the result.
+    $tags = ['node_list:collaboration', 'node_list:collaborator', 'node_list:series'];
+    foreach ($collaborations as $c) {
+      $tags = Cache::mergeTags($tags, $c->getCacheTags());
+    }
+    return $tags;
+  }
+
+  /**
+   * Runs a collaboration query, newest first, unique.
+   *
+   * @return \Drupal\node\NodeInterface[]
+   */
+  private function loadCollaborations(\Drupal\Core\Entity\Query\QueryInterface $query): array {
+    $ids = $query->sort('created', 'DESC')->sort('title', 'ASC')->execute();
+    if (!$ids) {
+      return [];
+    }
+    return array_values($this->entityTypeManager->getStorage('node')->loadMultiple(array_unique($ids)));
+  }
+
+  /**
    * Seconds until the next local midnight: the status word may change then.
    */
   public function maxAgeUntilMidnight(): int {

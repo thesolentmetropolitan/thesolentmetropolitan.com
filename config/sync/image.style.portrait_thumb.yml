@@ -1,0 +1,17 @@
+uuid: cb8934c3-a981-4cc4-a8d4-3a3eb6154c32
+langcode: en
+status: true
+dependencies:
+  module:
+    - focal_point
+name: portrait_thumb
+label: 'Portrait thumb'
+effects:
+  c9ea8825-961c-4594-a370-d8fa5e6efd0e:
+    uuid: c9ea8825-961c-4594-a370-d8fa5e6efd0e
+    id: focal_point_scale_and_crop
+    weight: 1
+    data:
+      width: 96
+      height: 96
+      crop_type: focal_point
