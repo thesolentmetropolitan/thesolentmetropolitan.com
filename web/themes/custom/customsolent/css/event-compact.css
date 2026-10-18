@@ -340,3 +340,33 @@
   }
 }
 
+
+/* ── Regular (recurring) events ──
+   Badge under the title; the date row reads "Every Monday, 7 - 8:30pm"
+   with "Next: Mon 20 Oct" on its own line. Several venues collapse to
+   "4 venues" + the towns (the full page lists them). */
+.slnt-event-badge {
+  display: inline-block;
+  font-family: 'Atkinson Hyperlegible Next', sans-serif;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 0.15em 0.55em;
+  border-radius: 3px;
+  margin: 0 0 0.35rem 0;
+}
+
+.slnt-event-badge--regular {
+  color: #fff;
+  background: #047857; /* Living green: ongoing, like an ongoing series */
+}
+
+.slnt-event-compact__recurrence,
+.slnt-event-compact__next {
+  display: block;
+}
+
+.slnt-event-compact__next {
+  color: var(--solent-blue, #2c4f6e);
+}

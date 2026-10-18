@@ -179,3 +179,37 @@
   line-height: 1.45;
   color: var(--text-mid, #444);
 }
+
+/* ── Several venues, organiser, regular badge ── */
+.slnt-event-teaser__venues {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.slnt-event-teaser__venues li {
+  margin: 0 0 0.15rem 0;
+}
+
+.slnt-event-teaser__venue-area {
+  color: var(--text-mid, #444);
+}
+
+.layout-content a.slnt-event-teaser__organiser-link,
+.slnt-event-teaser__organiser-link {
+  color: var(--solent-blue, #2c4f6e);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.layout-content a.slnt-event-teaser__organiser-link:hover,
+.slnt-event-teaser__organiser-link:hover {
+  text-decoration: underline;
+  text-decoration-color: var(--magenta, #c5007a);
+  text-underline-offset: 3px;
+  text-decoration-thickness: 2px;
+}
+
+.slnt-event-teaser .slnt-event-badge {
+  margin-bottom: 0.4rem;
+}

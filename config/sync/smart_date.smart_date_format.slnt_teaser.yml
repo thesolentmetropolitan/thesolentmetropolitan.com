@@ -1,0 +1,15 @@
+uuid: 1d7d0c1d-e813-4f45-9dc1-ba52d0a1a61b
+langcode: en
+status: true
+dependencies: {  }
+id: slnt_teaser
+label: 'Solent teaser (D, j M Y, g:ia)'
+date_format: 'D, j M Y'
+time_format: 'g:ia'
+time_hour_format: ga
+allday_label: ''
+separator: ' - '
+join: ', '
+ampm_reduce: '1'
+date_first: '1'
+site_time_toggle: '1'

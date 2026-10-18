@@ -5,6 +5,7 @@ dependencies:
   config:
     - core.entity_view_mode.node.teaser
     - field.field.node.event.field_image
+    - field.field.node.event.field_organiser
     - field.field.node.event.field_primary_topic
     - field.field.node.event.field_related_topics
     - field.field.node.event.field_standfirst
@@ -14,7 +15,7 @@ dependencies:
     - node.type.event
   module:
     - link
-    - smart_date
+    - smart_date_recur
     - user
 id: node.event.teaser
 targetEntityType: node
@@ -51,30 +52,29 @@ content:
     weight: 3
     region: content
   field_when:
-    type: smartdate_custom
+    type: smartdate_recurring
     label: above
     settings:
-      separator: ' - '
-      time_diff:
-        future_format: '@interval hence'
-        past_format: '@interval ago'
-        granularity: '2'
-        refresh: '60'
-        enabled: 0
-        description: ''
-      date_format: 'D, j M Y'
-      custom_date_format: ''
-      timezone: Europe/London
-      tooltip:
-        date_format: long
-        custom_date_format: ''
-      join: ', '
-      time_format: 'g:ia'
-      time_hour_format: ga
-      allday_label: ''
-      date_first: '1'
-      ampm_reduce: '1'
-      site_time_toggle: '1'
+      timezone_override: Europe/London
+      format_type: medium
+      format: slnt_teaser
+      force_chronological: false
+      add_classes: false
+      time_wrapper: true
+      localize: false
+      parts:
+        - start
+        - end
+      duration:
+        separator: ' | '
+        unit: ''
+        decimals: 2
+        suffix: h
+      past_display: 0
+      upcoming_display: 1
+      show_next: false
+      current_upcoming: true
+      filter_parameter_key: date
     third_party_settings: {  }
     weight: 1
     region: content
@@ -87,6 +87,7 @@ content:
     weight: 2
     region: content
 hidden:
+  field_organiser: true
   field_primary_topic: true
   field_related_topics: true
   links: true

@@ -36,10 +36,14 @@
 <article{{ attributes.addClass(classes) }}{% if primary_topic_menu_path is defined and primary_topic_menu_path %} data-primary-topic-path="{{ primary_topic_menu_path }}"{% endif %}>
   <div class="slnt-node-full__header">
 
-    {# Past-event badge — sits above the topic trail. #}
+    {# Badges — above the topic trail: past event, regular (recurring) event. #}
     {% if is_past_event is defined and is_past_event %}
       <div class="slnt-node-full__past-kicker">Past event</div>
     {% endif %}
+    {% if event_is_recurring and not (is_past_event is defined and is_past_event) %}
+      <div class="slnt-node-full__past-kicker slnt-event-badge--regular">{{ 'Regular event'|t }}</div>
+    {% endif %}
+    {{ event_when_cache }}
 
     {# Topic trail kicker — clickable, section-coloured ancestor terms. #}
     {% if topic_trail_ancestors is not empty %}
@@ -53,15 +57,36 @@
     {# Title #}
     <h1 class="slnt-node-full__title">{{ label }}</h1>
 
-    {# Date and time — field_when (Smart Date). #}
-    {% if content.field_when|render|striptags|trim %}
+    {# Date and time — recurring: the rule, times and next dates; otherwise
+       field_when (Smart Date). #}
+    {% if event_is_recurring %}
+      <div class="slnt-node-full__when slnt-node-full__when--recurring">
+        <span class="slnt-node-full__recurrence">{{ event_recurrence_text }}{% if event_recurrence_times %}, {{ event_recurrence_times }}{% endif %}</span>
+        {% if event_next_dates is not empty %}
+          <span class="slnt-node-full__next">{{ 'Next'|t }}: {{ event_next_dates|join(' · ') }}</span>
+        {% endif %}
+      </div>
+      {% set _when = content.field_when|render %}
+    {% elseif content.field_when|render|striptags|trim %}
       <div class="slnt-node-full__when">{{ content.field_when }}</div>
     {% endif %}
 
-    {# Location — field_where (Location term). Plain text only: strip the
-       formatter's link to the term so just the venue name shows. #}
-    {% if content.field_where|render|striptags|trim %}
-      <div class="slnt-node-full__where">{{ content.field_where|render|striptags|trim }}</div>
+    {# Location(s) — field_where (Location terms). Plain text: one venue on
+       a line, or a list when the event runs at several places at once. #}
+    {% set _where = content.field_where|render %}
+    {% if where_list|length > 1 %}
+      <ul class="slnt-node-full__where slnt-node-full__venues">
+        {% for venue in where_list %}
+          <li>{{ venue.name }}{% if venue.area %}<span class="slnt-node-full__venue-area">, {{ venue.area }}</span>{% endif %}</li>
+        {% endfor %}
+      </ul>
+    {% elseif where_list is not empty %}
+      <div class="slnt-node-full__where">{{ where_list[0].name }}</div>
+    {% endif %}
+
+    {# Organiser — the organisation running it. #}
+    {% if organiser_label %}
+      <div class="slnt-node-full__organiser">{{ 'Organised by'|t }} <a href="{{ organiser_url }}">{{ organiser_label }}</a></div>
     {% endif %}
 
   </div>
@@ -97,6 +122,8 @@
     </aside>
   {% endif %}
   {{ series_cache }}
+  {{ content|without('field_when', 'field_where', 'field_standfirst', 'field_url', 'field_image',
+     'field_primary_topic', 'field_related_topics', 'field_organiser', 'links') }}
 
   {# Collaborations this event is part of (reverse lookup). #}
   {% include '@customsolent/components/collaborations-block.html.twig' with {

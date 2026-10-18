@@ -1,0 +1,15 @@
+uuid: 24b7a31d-413c-43e8-a446-aa2ec676206e
+langcode: en
+status: true
+dependencies: {  }
+id: slnt_full
+label: 'Solent full page (D, M j Y, g:ia)'
+date_format: 'D, M j Y'
+time_format: 'g:ia'
+time_hour_format: ga
+allday_label: ''
+separator: ' - '
+join: ', '
+ampm_reduce: '1'
+date_first: '1'
+site_time_toggle: '1'
