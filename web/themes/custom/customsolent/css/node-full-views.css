@@ -205,9 +205,11 @@
   background: #047857;
 }
 
-/* Organisation page: "Coming up" sits after the website button. */
-.slnt-org-full__events {
-  margin-top: 2.2rem;
+/* Organisation page: "Coming up" sits after the website button. Doubled
+   selector: series.css sets `.slnt-series-items { margin: 0 0 2.2rem }`
+   and loads later, so a single class here lost. */
+.slnt-node-full .slnt-org-full__events {
+  margin-top: 2.4rem;
 }
 
 .slnt-org-full__components {
