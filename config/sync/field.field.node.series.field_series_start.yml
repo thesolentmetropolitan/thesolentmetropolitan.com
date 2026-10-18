@@ -13,7 +13,7 @@ entity_type: node
 bundle: series
 label: 'Series start'
 description: 'The day the series starts (or started). Date only.'
-required: true
+required: false
 translatable: false
 default_value: {  }
 default_value_callback: ''
