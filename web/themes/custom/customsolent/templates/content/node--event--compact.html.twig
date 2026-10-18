@@ -18,6 +18,8 @@
  *         h3 (title)
  *         .slnt-event-compact__date      — calendar-dots icon + date
  *         .slnt-event-compact__where     — map-pin icon + venue / area
+ *         .slnt-event-compact__organiser — users icon + organiser name
+ *                                          (plain text; linked on the page)
  *     .slnt-topic-trail (kicker)         — last; outside the clickable
  *                                          link, parent topics linkable
  *
@@ -127,6 +129,18 @@
         </div>
       {% endif %}
 
+      {# Organiser — plain text inside the card link (the organisation is
+         linked on the event page). #}
+      {% if organiser_label %}
+        <div class="slnt-event-compact__row slnt-event-compact__organiser">
+          <span class="slnt-event-compact__icon" aria-hidden="true">
+            {# Feather "users" (MIT) — matches the teaser's organiser row. #}
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </span>
+          <span class="slnt-event-compact__value"><span class="visually-hidden">{{ 'Organiser'|t }}: </span>{{ organiser_label }}</span>
+        </div>
+      {% endif %}
+
     </article>
   </a>
 
@@ -150,5 +164,5 @@
 {# We render the fields manually above; suppress defaults so they
    don't appear a second time. #}
 {{ content|without('field_when', 'field_where', 'field_image',
-   'field_standfirst', 'field_url',
+   'field_standfirst', 'field_url', 'field_organiser',
    'field_primary_topic', 'field_related_topics') }}

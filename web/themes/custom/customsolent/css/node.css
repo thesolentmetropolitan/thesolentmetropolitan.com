@@ -162,14 +162,16 @@
    (1em header padding + 1em menu inset). Match it. */
 @media (min-width: 800px) and (max-width: 1199px) {
   .slnt-article {
-    padding: 0 calc(var(--align-floor, 1em) * 2);
+    /* Top: air between the menu bar and the kicker, as the 2em on desktop
+       gives (was 0 here until 2026-10-18; same fix as .slnt-node-full). */
+    padding: 1.5rem calc(var(--align-floor, 1em) * 2) 0;
   }
 }
 
 /* ── Mobile adjustments ── */
 @media (max-width: 799px) {
   .slnt-article {
-    padding: 0 var(--content-pad-mobile, 1.2rem);
+    padding: 1.4rem var(--content-pad-mobile, 1.2rem) 0;
   }
 
   .slnt-article__title {

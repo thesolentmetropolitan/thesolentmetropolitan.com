@@ -14,3 +14,36 @@ customsolent_helpers.topic_listing:
     parameters:
       node:
         type: entity:node
+
+# The bare URL prefixes of the new content types redirect (301) to their
+# listing pages: /series -> /explore/series, /collaborations and
+# /collaboration -> /explore/collaborations, /people -> /about/team.
+# See ListingHomeRedirectController.
+customsolent_helpers.series_home:
+  path: '/series'
+  defaults:
+    _controller: '\Drupal\customsolent_helpers\Controller\ListingHomeRedirectController::redirectToListing'
+    listing: '/explore/series'
+  requirements:
+    _access: 'TRUE'
+customsolent_helpers.collaborations_home:
+  path: '/collaborations'
+  defaults:
+    _controller: '\Drupal\customsolent_helpers\Controller\ListingHomeRedirectController::redirectToListing'
+    listing: '/explore/collaborations'
+  requirements:
+    _access: 'TRUE'
+customsolent_helpers.collaboration_home:
+  path: '/collaboration'
+  defaults:
+    _controller: '\Drupal\customsolent_helpers\Controller\ListingHomeRedirectController::redirectToListing'
+    listing: '/explore/collaborations'
+  requirements:
+    _access: 'TRUE'
+customsolent_helpers.people_home:
+  path: '/people'
+  defaults:
+    _controller: '\Drupal\customsolent_helpers\Controller\ListingHomeRedirectController::redirectToListing'
+    listing: '/about/team'
+  requirements:
+    _access: 'TRUE'

@@ -191,6 +191,26 @@ function customsolent_preprocess_node(array &$variables): void {
     $variables['organiser_events_cache'] = ['#cache' => ['tags' => $relations->eventsCacheTags(), 'max-age' => $relations->maxAgeUntilMidnight()]];
   }
 
+  // Event page: related events (same topics, still to come) at the foot.
+  if ($node->bundle() === 'event' && ($variables['view_mode'] ?? '') === 'full') {
+    /** @var \Drupal\customsolent_helpers\ContentRelations $relations */
+    $relations = \Drupal::service('customsolent_helpers.content_relations');
+    $view_builder = \Drupal::entityTypeManager()->getViewBuilder('node');
+    $variables['related_events'] = [];
+    foreach ($relations->relatedEvents($node) as $event) {
+      $variables['related_events'][] = $view_builder->view($event, 'compact');
+    }
+    $variables['related_events_cache'] = ['#cache' => ['tags' => $relations->eventsCacheTags(), 'max-age' => $relations->maxAgeUntilMidnight()]];
+  }
+
+  // Series and Collaboration pages: the kicker that names the kind of
+  // page and links back to its listing (/explore/series, /explore/collaborations).
+  if (($variables['view_mode'] ?? '') === 'full'
+    && in_array($node->bundle(), ['series', 'collaboration'], TRUE)) {
+    $home = $node->bundle() === 'series' ? '/explore/series' : '/explore/collaborations';
+    $variables['type_home_url'] = \Drupal\Core\Url::fromUserInput($home)->toString();
+  }
+
   // "Part of a collaboration" on full pages: outcomes (event, article,
   // series — directly or via a series) and participants (person,
   // organisation — via collaborator nodes).
