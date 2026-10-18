@@ -147,6 +147,12 @@ function customsolent_preprocess_node(array &$variables): void {
     }
   }
 
+  // Event: venues (one or several), organiser, recurrence — every surface.
+  if ($node->bundle() === 'event'
+    && in_array(($variables['view_mode'] ?? ''), ['teaser', 'compact', 'full'], TRUE)) {
+    _customsolent_preprocess_event_shared_extras($node, $variables);
+  }
+
   // Event teaser extras.
   if ($node->bundle() === 'event' && ($variables['view_mode'] ?? '') === 'teaser') {
     _customsolent_preprocess_event_teaser_extras($node, $variables);
@@ -232,11 +238,15 @@ function customsolent_preprocess_node(array &$variables): void {
     if ($node->bundle() === 'event'
       && $node->hasField('field_when') && !$node->get('field_when')->isEmpty()) {
       // Smart Date stores Unix timestamps in `value` (start) and `end_value`
-      // (end). The event is "past" once its end time has elapsed.
-      $item = $node->get('field_when')->first();
-      $end = $item->end_value ?? $item->value;
-      if ($end !== NULL && $end !== '') {
-        $variables['is_past_event'] = ((int) $end < \Drupal::time()->getRequestTime());
+      // (end). The event is "past" once its LAST date has ended — a
+      // recurring event holds one item per instance.
+      $last_end = 0;
+      foreach ($node->get('field_when') as $item) {
+        $end = (int) ($item->end_value ?? $item->value ?? 0);
+        $last_end = max($last_end, $end);
+      }
+      if ($last_end > 0) {
+        $variables['is_past_event'] = ($last_end < \Drupal::time()->getRequestTime());
       }
     }
   }
@@ -322,11 +332,9 @@ function _customsolent_preprocess_event_teaser_extras($node, array &$variables):
     }
   }
 
-  if ($node->hasField('field_where') && !$node->get('field_where')->isEmpty()) {
-    $where = $node->get('field_where')->entity;
-    if ($where) {
-      $variables['where_name'] = $where->getName();
-    }
+  // Venue(s): where_list from the shared extras; where_name = the first.
+  if (!empty($variables['where_list'])) {
+    $variables['where_name'] = $variables['where_list'][0]['name'];
   }
 
   _customsolent_extract_field_url_meta($node, $variables);
@@ -356,21 +364,177 @@ function _customsolent_preprocess_event_compact_extras($node, array &$variables)
     }
   }
 
-  if ($node->hasField('field_where') && !$node->get('field_where')->isEmpty()) {
-    $where = $node->get('field_where')->entity;
-    if ($where) {
-      $variables['where_name'] = $where->getName();
-      /** @var \Drupal\taxonomy\TermStorageInterface $term_storage */
-      $term_storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
-      $parents = $term_storage->loadParents($where->id());
-      if (!empty($parents)) {
-        $parent = reset($parents);
-        $variables['location_area'] = $parent->getName();
-      }
-    }
+  // Venue(s): where_list from the shared extras; where_name / location_area
+  // describe the first venue, for the single-venue layout.
+  if (!empty($variables['where_list'])) {
+    $variables['where_name'] = $variables['where_list'][0]['name'];
+    $variables['location_area'] = $variables['where_list'][0]['area'];
   }
 
   _customsolent_extract_field_url_meta($node, $variables);
+}
+
+/**
+ * A reader-facing phrase for a recurrence rule: "Every Monday", "Every
+ * other Wednesday", "Every day", "Monthly", "Every year".
+ *
+ * Smart Date Recur's own text ("Weekly on Monday, 7 - 9pm") includes the
+ * times and theme-debug markup; the cards add the times themselves, so
+ * build the phrase from the rule's frequency and interval instead. Falls
+ * back to the module's text, stripped, for anything unusual.
+ */
+function _customsolent_recurrence_phrase($rule, int $first_start, \DateTimeZone $tz): string {
+  $freq = (string) $rule->get('freq')->getString();
+  $interval = 1;
+  $params = $rule->getParametersArray();
+  if (!empty($params['interval'])) {
+    $interval = (int) $params['interval'];
+  }
+  $weekday = (new \DateTimeImmutable('@' . $first_start))->setTimezone($tz)->format('l');
+  switch ($freq) {
+    case 'DAILY':
+      return $interval > 1 ? (string) t('Every @n days', ['@n' => $interval]) : (string) t('Every day');
+
+    case 'WEEKLY':
+      if ($interval === 1) {
+        return (string) t('Every @day', ['@day' => $weekday]);
+      }
+      if ($interval === 2) {
+        return (string) t('Every other @day', ['@day' => $weekday]);
+      }
+      return (string) t('Every @n weeks on @day', ['@n' => $interval, '@day' => $weekday]);
+
+    case 'MONTHLY':
+      return $interval > 1 ? (string) t('Every @n months', ['@n' => $interval]) : (string) t('Monthly');
+
+    case 'YEARLY':
+      return (string) t('Every year');
+  }
+  $text = $rule->getTextRule();
+  $rendered = is_array($text) ? (string) \Drupal::service('renderer')->renderInIsolation($text) : (string) $text;
+  $rendered = preg_replace('/<!--.*?-->/s', '', $rendered) ?? $rendered;
+  return trim(preg_replace('/\s+/', ' ', strip_tags($rendered)) ?? '');
+}
+
+/**
+ * Event variables shared by the compact card, the teaser and the full page.
+ *
+ * Sets:
+ *   - where_list      — list of {name, area, url}: every venue with its
+ *                       parent term (the town). One entry for a normal
+ *                       event; several when the event runs at more than one
+ *                       place at once (field_where is multi-value).
+ *   - where_areas     — the distinct towns, in venue order ("Southampton,
+ *                       Fareham and Portsmouth"), for the compact card's
+ *                       "4 venues" line.
+ *   - organiser_label / organiser_url — field_organiser (an Organisation).
+ *   - event_is_recurring   — TRUE when any date item carries a rule.
+ *   - event_recurrence_text — "Every Monday" (Smart Date Recur's rule text).
+ *   - event_recurrence_times — "7:00pm - 8:30pm" from the rule's first
+ *                       instance, or '' for all-day.
+ *   - event_next_dates — the next instances after now as "Mon 20 Oct"
+ *                       strings (up to three; the first is the one cards
+ *                       show), and event_next_count how many were found.
+ *   - event_when_cache — cache metadata: a max-age to the next instance's
+ *                       start (so "Next" moves on) plus the rule's tag.
+ */
+function _customsolent_preprocess_event_shared_extras($node, array &$variables): void {
+  // Venues.
+  $variables['where_list'] = [];
+  $variables['where_areas'] = '';
+  if ($node->hasField('field_where') && !$node->get('field_where')->isEmpty()) {
+    /** @var \Drupal\taxonomy\TermStorageInterface $term_storage */
+    $term_storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
+    $areas = [];
+    foreach ($node->get('field_where')->referencedEntities() as $where) {
+      $parents = $term_storage->loadParents($where->id());
+      $parent = $parents ? reset($parents) : NULL;
+      $variables['where_list'][] = [
+        'name' => $where->getName(),
+        'area' => $parent ? $parent->getName() : NULL,
+      ];
+      if ($parent && !in_array($parent->getName(), $areas, TRUE)) {
+        $areas[] = $parent->getName();
+      }
+    }
+    if ($areas) {
+      $last = array_pop($areas);
+      $variables['where_areas'] = $areas ? implode(', ', $areas) . ' ' . t('and') . ' ' . $last : $last;
+    }
+  }
+
+  // Organiser.
+  if ($node->hasField('field_organiser') && !$node->get('field_organiser')->isEmpty()) {
+    $org = $node->get('field_organiser')->entity;
+    if ($org && $org->access('view')) {
+      $variables['organiser_label'] = $org->label();
+      $variables['organiser_url'] = $org->toUrl()->toString();
+    }
+  }
+
+  // Recurrence.
+  $variables['event_is_recurring'] = FALSE;
+  $variables['event_next_dates'] = [];
+  $variables['event_next_count'] = 0;
+  $variables['event_when_cache'] = ['#cache' => []];
+  if (!$node->hasField('field_when') || $node->get('field_when')->isEmpty()) {
+    return;
+  }
+  $now = \Drupal::time()->getRequestTime();
+  $rule_id = NULL;
+  $instances = [];
+  foreach ($node->get('field_when') as $item) {
+    if (!empty($item->rrule)) {
+      $rule_id ??= (int) $item->rrule;
+      $instances[] = ['start' => (int) $item->value, 'end' => (int) $item->end_value, 'duration' => (int) $item->duration, 'tz' => $item->timezone ?: 'Europe/London'];
+    }
+  }
+  if ($rule_id === NULL || !$instances) {
+    return;
+  }
+  $variables['event_is_recurring'] = TRUE;
+  usort($instances, static fn($a, $b) => $a['start'] <=> $b['start']);
+  $tz = new \DateTimeZone($instances[0]['tz']);
+  $fmt = static fn(int $ts, string $f) => (new \DateTimeImmutable('@' . $ts))->setTimezone($tz)->format($f);
+  $time_fmt = static function (int $ts) use ($fmt): string {
+    // "7pm" when on the hour, "7:30pm" otherwise — as the cards do.
+    return $fmt($ts, 'i') === '00' ? $fmt($ts, 'ga') : $fmt($ts, 'g:ia');
+  };
+  $first = $instances[0];
+  $variables['event_recurrence_times'] = $first['duration'] >= 1439
+    ? ''
+    : $time_fmt($first['start']) . ' - ' . $time_fmt($first['end']);
+  $variables['event_recurrence_text'] = '';
+  if (\Drupal::moduleHandler()->moduleExists('smart_date_recur')) {
+    $rule = \Drupal\smart_date_recur\Entity\SmartDateRule::load($rule_id);
+    if ($rule) {
+      $variables['event_recurrence_text'] = _customsolent_recurrence_phrase($rule, $first['start'], $tz);
+      $variables['event_when_cache']['#cache']['tags'] = $rule->getCacheTags();
+    }
+  }
+  $next_start = NULL;
+  foreach ($instances as $instance) {
+    if ($instance['end'] >= $now) {
+      $variables['event_next_dates'][] = $fmt($instance['start'], 'D j M');
+      $next_start ??= $instance['start'];
+      if (count($variables['event_next_dates']) === 3) {
+        break;
+      }
+    }
+  }
+  $variables['event_next_count'] = count(array_filter($instances, static fn($i) => $i['end'] >= $now));
+  if ($next_start !== NULL) {
+    // Move "Next" on when the current instance ends (its start may already
+    // be in the past while it is running).
+    $current_end = NULL;
+    foreach ($instances as $instance) {
+      if ($instance['end'] >= $now) {
+        $current_end = $instance['end'];
+        break;
+      }
+    }
+    $variables['event_when_cache']['#cache']['max-age'] = max(60, ($current_end ?? $next_start) - $now + 1);
+  }
 }
 
 /**

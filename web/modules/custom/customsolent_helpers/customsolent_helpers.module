@@ -248,6 +248,9 @@ function customsolent_helpers_sitewide_listing_url(string $type_word): ?string {
  * the chosen term being among the view's arguments, and left alone.
  */
 function customsolent_helpers_views_query_alter(\Drupal\views\ViewExecutable $view, \Drupal\views\Plugin\views\query\QueryPluginBase $query): void {
+  if ($view->id() === 'events_listing' && $query instanceof \Drupal\views\Plugin\views\query\Sql) {
+    _customsolent_helpers_one_row_per_recurring_event($query);
+  }
   if (!in_array($view->id(), customsolent_helpers_topic_filtered_views(), TRUE)
     || $view->current_display === 'view_display_front_page'
     || !$query instanceof \Drupal\views\Plugin\views\query\Sql) {
@@ -321,4 +324,33 @@ function customsolent_helpers_node_presave(\Drupal\node\NodeInterface $node): vo
       $node->setTitle($title);
     }
   }
+}
+
+
+/**
+ * Keeps a recurring event to one row in the events listings.
+ *
+ * Smart Date Recur stores one field_when item per instance (a weekly event
+ * holds a year of Mondays), and the listings join that table and sort by
+ * it, so without this every instance would be its own card. For items that
+ * belong to a rule, keep only the rule's earliest instance that has not yet
+ * ended today; items without a rule are untouched. The date pills (today,
+ * this weekend, …) all look forward from today, so the same bound serves
+ * them. A finished recurring event therefore has no row in any listing,
+ * which the upcoming-only displays already imply.
+ */
+function _customsolent_helpers_one_row_per_recurring_event(\Drupal\views\Plugin\views\query\Sql $query): void {
+  $alias = $query->ensureTable('node__field_when');
+  if (!$alias) {
+    return;
+  }
+  $query->addWhereExpression(0,
+    "$alias.field_when_rrule IS NULL OR $alias.field_when_end_value = (
+      SELECT MIN(slnt_w.field_when_end_value) FROM {node__field_when} slnt_w
+      WHERE slnt_w.entity_id = $alias.entity_id
+        AND slnt_w.field_when_rrule = $alias.field_when_rrule
+        AND slnt_w.field_when_end_value >= :slnt_today
+    )",
+    [':slnt_today' => strtotime('today')]
+  );
 }

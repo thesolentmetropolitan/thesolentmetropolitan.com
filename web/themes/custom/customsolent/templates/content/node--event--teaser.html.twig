@@ -55,8 +55,22 @@
       <div class="slnt-event-teaser__standfirst">{{ content.field_standfirst }}</div>
     {% endif %}
 
-    {# When — calendar-dots icon + label + Smart Date value. #}
-    {% if content.field_when|render|striptags|trim %}
+    {% if event_is_recurring %}
+      <span class="slnt-event-badge slnt-event-badge--regular">{{ 'Regular event'|t }}</span>
+    {% endif %}
+    {{ event_when_cache }}
+
+    {# When — recurring: rule text and next date; otherwise the Smart Date value. #}
+    {% if event_is_recurring %}
+      <div class="slnt-event-teaser__row slnt-event-teaser__when">
+        <span class="slnt-event-teaser__icon" aria-hidden="true">
+          <svg viewBox="0 0 256 256" fill="currentColor"><path d="M224,48V96a8,8,0,0,1-8,8H168a8,8,0,0,1,0-16h28.69L182.06,73.37a79.56,79.56,0,0,0-56.13-23.43h-.45A79.52,79.52,0,0,0,69.59,72.71,8,8,0,0,1,58.41,61.27a96,96,0,0,1,135,.79L208,76.69V48a8,8,0,0,1,16,0ZM186.41,183.29a80,80,0,0,1-112.47-.66L59.31,168H88a8,8,0,0,0,0-16H40a8,8,0,0,0-8,8v48a8,8,0,0,0,16,0V179.31l14.63,14.63A95.43,95.43,0,0,0,130,222.06h.53a95.36,95.36,0,0,0,67.07-27.33,8,8,0,0,0-11.18-11.44Z"/></svg>
+        </span>
+        <span class="slnt-event-teaser__label">{{ 'When'|t }}</span>
+        <span class="slnt-event-teaser__value">{{ event_recurrence_text }}{% if event_recurrence_times %}, {{ event_recurrence_times }}{% endif %}{% if event_next_dates is not empty %} · {{ 'Next'|t }}: {{ event_next_dates[0] }}{% endif %}</span>
+      </div>
+      {% set _when = content.field_when|render %}
+    {% elseif content.field_when|render|striptags|trim %}
       <div class="slnt-event-teaser__row slnt-event-teaser__when">
         <span class="slnt-event-teaser__icon" aria-hidden="true">
           <svg viewBox="0 0 256 256" fill="currentColor"><path d="M208,28H188V24a12,12,0,0,0-24,0v4H92V24a12,12,0,0,0-24,0v4H48A20,20,0,0,0,28,48V208a20,20,0,0,0,20,20H208a20,20,0,0,0,20-20V48A20,20,0,0,0,208,28ZM68,52a12,12,0,0,0,24,0h72a12,12,0,0,0,24,0h16V76H52V52ZM52,204V100H204V204Zm92-76a16,16,0,1,1-16-16A16,16,0,0,1,144,128Zm48,0a16,16,0,1,1-16-16A16,16,0,0,1,192,128ZM96,176a16,16,0,1,1-16-16A16,16,0,0,1,96,176Zm48,0a16,16,0,1,1-16-16A16,16,0,0,1,144,176Zm48,0a16,16,0,1,1-16-16A16,16,0,0,1,192,176Z"/></svg>
@@ -73,7 +87,29 @@
           <svg viewBox="0 0 256 256" fill="currentColor"><path d="M128,60a44,44,0,1,0,44,44A44.05,44.05,0,0,0,128,60Zm0,64a20,20,0,1,1,20-20A20,20,0,0,1,128,124Zm0-112a92.1,92.1,0,0,0-92,92c0,77.36,81.64,135.4,85.12,137.83a12,12,0,0,0,13.76,0,259,259,0,0,0,42.18-39C205.15,170.57,220,136.37,220,104A92.1,92.1,0,0,0,128,12Zm31.3,174.71A249.35,249.35,0,0,1,128,216.89a249.35,249.35,0,0,1-31.3-30.18C80,167.37,60,137.31,60,104a68,68,0,0,1,136,0C196,137.31,176,167.37,159.3,186.71Z"/></svg>
         </span>
         <span class="slnt-event-teaser__label">Where</span>
-        <span class="slnt-event-teaser__value">{{ where_name }}</span>
+        <span class="slnt-event-teaser__value">
+          {%- if where_list|length > 1 -%}
+            <ul class="slnt-event-teaser__venues">
+              {% for venue in where_list %}
+                <li>{{ venue.name }}{% if venue.area %}<span class="slnt-event-teaser__venue-area">, {{ venue.area }}</span>{% endif %}</li>
+              {% endfor %}
+            </ul>
+          {%- else -%}
+            {{ where_name }}
+          {%- endif -%}
+        </span>
+      </div>
+    {% endif %}
+
+    {# Organiser — the organisation running it, linked. #}
+    {% if organiser_label %}
+      <div class="slnt-event-teaser__row slnt-event-teaser__organiser">
+        <span class="slnt-event-teaser__icon" aria-hidden="true">
+          {# Feather "users" (MIT). #}
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </span>
+        <span class="slnt-event-teaser__label">{{ 'Organiser'|t }}</span>
+        <span class="slnt-event-teaser__value"><a href="{{ organiser_url }}" class="slnt-event-teaser__organiser-link">{{ organiser_label }}</a></span>
       </div>
     {% endif %}
 
@@ -110,6 +146,6 @@
   </div>
 
   {# Suppress defaults — we render these manually above. #}
-  {{ content|without('field_image', 'field_standfirst', 'field_when', 'field_where', 'field_url') }}
+  {{ content|without('field_image', 'field_standfirst', 'field_when', 'field_where', 'field_url', 'field_organiser') }}
 
 </article>

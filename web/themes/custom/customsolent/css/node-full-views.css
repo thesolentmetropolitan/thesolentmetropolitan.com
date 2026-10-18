@@ -134,3 +134,44 @@
     max-width: 100%;
   }
 }
+
+/* ── Event page: regular events, several venues, organiser ── */
+.slnt-node-full__when--recurring {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.2rem 0.8rem;
+}
+
+.slnt-node-full__next {
+  color: var(--text-mid, #444);
+}
+
+.slnt-node-full__venues {
+  list-style: none;
+  margin: 0 0 0.3rem 0;
+  padding: 0;
+}
+
+.slnt-node-full__venues li {
+  margin: 0 0 0.15rem 0;
+}
+
+.slnt-node-full__venue-area {
+  color: var(--text-mid, #666);
+}
+
+.slnt-node-full__organiser {
+  font-family: 'Atkinson Hyperlegible Next', sans-serif;
+  font-size: 1rem;
+  color: var(--text-mid, #444);
+  margin-top: 0.3rem;
+}
+
+.slnt-node-full__organiser a {
+  font-weight: 700;
+}
+
+.slnt-node-full__past-kicker.slnt-event-badge--regular {
+  color: #fff;
+  background: #047857;
+}

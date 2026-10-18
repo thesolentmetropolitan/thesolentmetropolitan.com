@@ -1,0 +1,29 @@
+uuid: aa387f7d-4e4e-41da-b35c-5e32d888a881
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_organiser
+    - node.type.event
+    - node.type.organisation
+id: node.event.field_organiser
+field_name: field_organiser
+entity_type: node
+bundle: event
+label: Organiser
+description: 'The organisation running the event (or the lead organisation when several are involved). Collaborations are recorded separately.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      organisation: organisation
+    sort:
+      field: title
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference
