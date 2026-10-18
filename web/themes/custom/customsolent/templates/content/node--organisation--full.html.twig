@@ -68,6 +68,23 @@
     </div>
   {% endif %}
 
+  {# Events this organisation is running that have not finished (reverse
+     lookup on field_organiser), as compact cards. #}
+  {% if organiser_events is not empty %}
+    <section class="slnt-series-items slnt-org-full__events" aria-labelledby="org-events-heading">
+      <h2 id="org-events-heading" class="slnt-series-items__heading">
+        {{ 'Coming up'|t }}
+        <span class="slnt-series-items__count">{{ organiser_events|length }}</span>
+      </h2>
+      <div class="slnt-series-items__grid slnt-series-items__grid--events">
+        {% for item in organiser_events %}
+          <div class="slnt-series-items__cell">{{ item }}</div>
+        {% endfor %}
+      </div>
+    </section>
+  {% endif %}
+  {{ organiser_events_cache }}
+
   {# Collaborations this organisation is part of (reverse lookup). #}
   {% include '@customsolent/components/collaborations-block.html.twig' with {
     collaboration_items: collaboration_items,

@@ -96,10 +96,17 @@
     <div class="slnt-node-full__standfirst">{{ content.field_standfirst }}</div>
   {% endif %}
 
-  {# External-link CTA — rendered manually so external links open in a new tab. #}
+  {# Outward link — the organiser's event page, tickets. Standard wording
+     (see _customsolent_event_cta_text), external icon, new tab. #}
   {% if field_url_href %}
     <div class="slnt-node-full__cta">
-      <a href="{{ field_url_href }}"{% if field_url_external %} target="_blank" rel="noopener noreferrer"{% endif %}>{{ field_url_text }}</a>
+      <a href="{{ field_url_href }}" class="slnt-node-full__cta-link"{% if field_url_external %} target="_blank" rel="noopener noreferrer"{% endif %}>
+        <span>{{ event_cta_text }}</span>
+        {% if field_url_external %}
+          <svg class="slnt-node-full__cta-icon" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false"><path d="M228,104a12,12,0,0,1-24,0V69l-59.51,59.51a12,12,0,0,1-17-17L187,52H152a12,12,0,0,1,0-24h64a12,12,0,0,1,12,12Zm-44,24a12,12,0,0,0-12,12v64H52V84h64a12,12,0,0,0,0-24H48A20,20,0,0,0,28,80V208a20,20,0,0,0,20,20H176a20,20,0,0,0,20-20V140A12,12,0,0,0,184,128Z"/></svg>
+          <span class="visually-hidden">({{ 'opens in a new tab'|t }})</span>
+        {% endif %}
+      </a>
     </div>
   {% endif %}
 

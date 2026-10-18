@@ -36,3 +36,13 @@ Rob's additions after the People + Collaborations work: 3.5.1.3 (recurring event
 - Editing a recurring event: the form shows the rule once (not 52 rows); changing the rule regenerates instances. Smart Date Recur also offers per-instance overrides (cancel/move one Monday) via the "Manage instances" link.
 - A recurring event's listing position is its next instance, so it floats to the top of "What's on" every week. If that proves too prominent, a "regular events" block or a lower sort weight is the next step.
 - The compact card shows "4 venues" and towns; the parent of a venue term is what shows as the town, so "University of Portsmouth" appears as an area because Rob asked for that parent.
+
+## Round 2 (same night, after Rob's review)
+- **Andysmanclub published** (Rob confirmed the 9pm end); the examples script now creates it published and Mangang as a draft, and publishes an existing Andysmanclub on re-run.
+- **Organisers on 776 and 777** (the Common Ground walks) via `scripts/set_event_organisers.php`, an explicit nid → organisation map checked by title; release step 7.
+- **Organisation page: "Coming up"** — events the organisation runs that have not finished (`ContentRelations::upcomingEventsOrganisedBy()`, bound = today, recurring events once), as compact cards, placed before "Part of a collaboration". Cache: `node_list:event` + max-age to midnight.
+- **Event cards link to the event page** (3.5.1.1): the compact card's whole-card link and the teaser's title now go to the node; the external icon left the compact title. The outward link lives on the event page as the button.
+- **Standard button wording** `_customsolent_event_cta_text()`: "Tickets" when the editor's link title mentions tickets/booking/registering, otherwise "Event details"; used by the teaser CTA and the full page. The full-page button gains the arrow-square-out icon and a hidden "(opens in a new tab)".
+- **Button colours**: white text at rest, `--pink-hover` (#f5b0d8, 5:1 on solent blue) on hover and focus, with a doubled selector so the global magenta link hover cannot win.
+- Past-event badge on the full page was already there (since the Rabbit Hole change); confirmed on event 706.
+- Collaborator nodes already redirect (301) to the organisation/person; nothing to change.

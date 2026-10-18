@@ -12,8 +12,8 @@
  *     (Southampton), Hexagon Centre (Eastleigh) and Emmaus Wellbeing Hub
  *     (Winchester).
  *
- * Both are created unpublished so Rob can check titles, topics, links and
- * end times before they go live. Venue Location terms are created under
+ * Andysmanclub is created PUBLISHED (Rob confirmed the details on
+ * 2026-10-18); Mangang stays an unpublished draft until he has checked it. Venue Location terms are created under
  * their towns (University of Portsmouth under Portsmouth). Each event gets
  * a weekly Smart Date rule with twelve months of instances, as the form
  * would; cron keeps extending them.
@@ -85,6 +85,7 @@ $next = static function (string $weekday, string $time): int {
 $events = [
   [
     'title' => 'Andysmanclub',
+    'status' => 1,
     'standfirst' => 'Free, peer-to-peer talking groups for men, every Monday at 7pm — walk in, no referral needed. Four groups across the Solent.',
     'weekday' => 'Monday',
     'start' => '19:00',
@@ -98,6 +99,7 @@ $events = [
   ],
   [
     'title' => 'Mangang',
+    'status' => 0,
     'standfirst' => 'A weekly Wednesday evening get-together, 6.30pm, at three venues across the Solent.',
     'weekday' => 'Wednesday',
     'start' => '18:30',
@@ -131,10 +133,23 @@ foreach ($events as $e) {
   $existing = $node_storage->loadByProperties(['type' => 'event', 'title' => $e['title']]);
   if ($existing) {
     $event = reset($existing);
+    $changes = [];
     if ($organiser_nid && $event->hasField('field_organiser') && (int) ($event->get('field_organiser')->target_id ?? 0) !== $organiser_nid) {
-      $say(($dry_run ? 'WOULD ' : 'SET   ') . "event '{$e['title']}' ({$event->id()}): organiser = organisation $organiser_nid.");
+      $changes[] = "organiser = organisation $organiser_nid";
+    }
+    if ($e['status'] && !$event->isPublished()) {
+      $changes[] = 'publish';
+    }
+    if ($changes) {
+      $say(($dry_run ? 'WOULD ' : 'SET   ') . "event '{$e['title']}' ({$event->id()}): " . implode(', ', $changes) . '.');
       if (!$dry_run) {
-        $event->set('field_organiser', ['target_id' => $organiser_nid])->save();
+        if ($organiser_nid && $event->hasField('field_organiser')) {
+          $event->set('field_organiser', ['target_id' => $organiser_nid]);
+        }
+        if ($e['status']) {
+          $event->setPublished();
+        }
+        $event->save();
       }
     }
     else {
@@ -142,7 +157,7 @@ foreach ($events as $e) {
     }
     continue;
   }
-  $say(($dry_run ? 'WOULD ' : 'ADD   ') . "event '{$e['title']}' (unpublished, every {$e['weekday']} {$e['start']}, " . count($e['venues']) . ' venues).');
+  $say(($dry_run ? 'WOULD ' : 'ADD   ') . "event '{$e['title']}' (" . ($e['status'] ? 'published' : 'unpublished') . ", every {$e['weekday']} {$e['start']}, " . count($e['venues']) . ' venues).');
   if ($dry_run) {
     continue;
   }
@@ -186,7 +201,7 @@ foreach ($events as $e) {
     'type' => 'event',
     'title' => $e['title'],
     'uid' => 1,
-    'status' => 0,
+    'status' => $e['status'],
     'field_standfirst' => $e['standfirst'],
     'field_when' => $when,
     'field_where' => $where,

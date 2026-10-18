@@ -213,3 +213,24 @@
 .slnt-event-teaser .slnt-event-badge {
   margin-bottom: 0.4rem;
 }
+
+/* Title links to the event page (since 2026-10-18). */
+.layout-content a.slnt-event-teaser__title-link,
+.slnt-event-teaser__title-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.layout-content a.slnt-event-teaser__title-link:hover,
+.slnt-event-teaser__title-link:hover {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: var(--magenta, #c5007a);
+  text-underline-offset: 3px;
+  text-decoration-thickness: 2px;
+}
+
+.slnt-event-teaser__title-link:focus-visible {
+  outline: 3px solid var(--text, #1a1a1a);
+  outline-offset: 2px;
+}

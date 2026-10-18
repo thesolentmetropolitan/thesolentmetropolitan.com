@@ -30,28 +30,31 @@ echo "============================================"
 echo "  Release 2026-10-18: Events (organiser, venues, recurring) + Push & Play"
 echo "============================================"
 
-echo "==> Step 1/8: Backing up database..."
+echo "==> Step 1/9: Backing up database..."
 $DRUSH sql:dump --gzip --result-file="$BACKUP_DIR/backup-pre-release-2026-10-18-events-$(date +%Y%m%d-%H%M%S).sql"
 
-echo "==> Step 2/8: Enabling maintenance mode..."
+echo "==> Step 2/9: Enabling maintenance mode..."
 $DRUSH state:set system.maintenance_mode 1 -y
 
-echo "==> Step 3/8: Importing configuration (organiser field, venues unlimited, recurring dates, date formats)..."
+echo "==> Step 3/9: Importing configuration (organiser field, venues unlimited, recurring dates, date formats)..."
 $DRUSH config:import -y
 
-echo "==> Step 4/8: Clearing caches..."
+echo "==> Step 4/9: Clearing caches..."
 $DRUSH cr
 
-echo "==> Step 5/8: Push & Play: organisations, collaborators, collaboration; event 706 published..."
+echo "==> Step 5/9: Push & Play: organisations, collaborators, collaboration; event 706 published..."
 $DRUSH php:script scripts/create_push_and_play_collaboration.php
 
-echo "==> Step 6/8: Regular-event examples (Andysmanclub, Mangang) as UNPUBLISHED drafts..."
+echo "==> Step 6/9: Regular events: Andysmanclub (published), Mangang (draft)..."
 $DRUSH php:script scripts/create_regular_events_examples.php
 
-echo "==> Step 7/8: Final cache rebuild..."
+echo "==> Step 7/9: Organisers on known events (Common Ground Regen CIC on 776, 777)..."
+$DRUSH php:script scripts/set_event_organisers.php
+
+echo "==> Step 8/9: Final cache rebuild..."
 $DRUSH cr
 
-echo "==> Step 8/8: Disabling maintenance mode..."
+echo "==> Step 9/9: Disabling maintenance mode..."
 $DRUSH state:set system.maintenance_mode 0 -y
 
 echo ""
@@ -64,7 +67,9 @@ echo "                                 Who: ten collaborators (Partner); Events:
 echo "    /events/push-play-new-hoglands-park-skatepark-2026-08-23-1100"
 echo "                                 Past event · Organised by We Skate Soton CIC · Part of a collaboration"
 echo "    /organisations/we-skate-soton-cic     Part of a collaboration"
-echo "    /admin/content?type=event&status=2    Andysmanclub + Mangang drafts: open, check, publish"
+echo "    /                                Andysmanclub card: Regular event badge, Every Monday, Next: …"
+echo "    /organisations/common-ground-regen-cic   Coming up: the two walks events"
+echo "    /admin/content?type=event&status=2    Mangang draft: open, check, publish"
 echo "    /node/add/event                  Organiser field; 'Add another' on Where; repeat options on When"
 echo "  Then: $DRUSH config:status     (expect: no differences)"
 echo "============================================"
