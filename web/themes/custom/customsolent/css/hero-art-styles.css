@@ -131,11 +131,11 @@
   background-size: 120px 103.92px, cover;
 }
 
-/* Culture - Maritime */
+/* Culture - Maritime & Marine (was Maritime until 2026-10-19; class name kept) */
 /* Icons: anchor, sailboat, waves */
 .hero-art-style--culture-maritime {
   background:
-    url('../images/hero-tiles/culture_maritime.svg') repeat,
+    url('../images/hero-tiles/culture_maritime_marine.svg') repeat,
     linear-gradient(135deg, #6B21A8 0%, #7C3AED 50%, #A855F7 100%);
   background-size: 120px 103.92px, cover;
 }
@@ -149,11 +149,11 @@
   background-size: 120px 103.92px, cover;
 }
 
-/* Culture - Outdoor & Active */
+/* Culture - Active & Outdoor (was Outdoor & Active until 2026-10-19; class name kept) */
 /* Icons: tree, mountains, person-simple-run */
 .hero-art-style--culture-outdoor-active {
   background:
-    url('../images/hero-tiles/culture_outdoor_active.svg') repeat,
+    url('../images/hero-tiles/culture_active_outdoor.svg') repeat,
     linear-gradient(135deg, #6B21A8 0%, #7C3AED 50%, #A855F7 100%);
   background-size: 120px 103.92px, cover;
 }
@@ -455,11 +455,11 @@
   background-size: 120px 103.92px, cover;
 }
 
-/* Sectors - Maritime */
+/* Sectors - Maritime & Marine (was Maritime until 2026-10-19; class name kept) */
 /* Icons: anchor, boat, waves */
 .hero-art-style--sectors-maritime {
   background:
-    url('../images/hero-tiles/sectors_maritime.svg') repeat,
+    url('../images/hero-tiles/sectors_maritime_marine.svg') repeat,
     linear-gradient(135deg, #1D4ED8 0%, #2563EB 50%, #3B82F6 100%);
   background-size: 120px 103.92px, cover;
 }
@@ -473,11 +473,11 @@
   background-size: 120px 103.92px, cover;
 }
 
-/* Sectors - Media */
+/* Sectors - Media & Publishing (was Media until 2026-10-19; class name kept) */
 /* Icons: newspaper, broadcast, video-camera */
 .hero-art-style--sectors-media {
   background:
-    url('../images/hero-tiles/sectors_media.svg') repeat,
+    url('../images/hero-tiles/sectors_media_publishing.svg') repeat,
     linear-gradient(135deg, #1D4ED8 0%, #2563EB 50%, #3B82F6 100%);
   background-size: 120px 103.92px, cover;
 }
@@ -828,14 +828,6 @@
   background-size: 120px 103.92px, cover;
 }
 
-/* Explore - Jobs boards */
-/* Icons: briefcase, magnifying-glass, user */
-.hero-art-style--explore-jobs-boards {
-  background:
-    url('../images/hero-tiles/explore_jobs_boards.svg') repeat,
-    linear-gradient(135deg, #B45309 0%, #D97706 50%, #F59E0B 100%);
-  background-size: 120px 103.92px, cover;
-}
 
 /* Explore - Maps */
 /* Icons: map-trifold, map-pin, globe */

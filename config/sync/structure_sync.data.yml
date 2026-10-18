@@ -296,10 +296,10 @@ menus:
     options: {  }
   -
     menu_name: main
-    title: Maritime
+    title: 'Maritime & Marine'
     parent: 'menu_link_content:ca4916ec-7269-42dc-abf5-5864739fbddd'
-    uri: 'internal:/sectors/maritime'
-    link_title: ''
+    uri: 'internal:/sectors/maritime-marine'
+    link_title: null
     description: null
     enabled: true
     expanded: false
@@ -504,10 +504,10 @@ menus:
     options: {  }
   -
     menu_name: main
-    title: Media
+    title: 'Media & Publishing'
     parent: 'menu_link_content:ca4916ec-7269-42dc-abf5-5864739fbddd'
-    uri: 'internal:/sectors/media'
-    link_title: ''
+    uri: 'internal:/sectors/media-publishing'
+    link_title: null
     description: null
     enabled: true
     expanded: false
@@ -1086,10 +1086,10 @@ menus:
         target: _self
   -
     menu_name: main
-    title: Maritime
+    title: 'Maritime & Marine'
     parent: 'menu_link_content:9548ba9b-5ae0-4248-8c2e-f76e52ef31f5'
-    uri: 'internal:/culture/maritime'
-    link_title: ''
+    uri: 'internal:/culture/maritime-marine'
+    link_title: null
     description: null
     enabled: true
     expanded: false
@@ -1112,10 +1112,10 @@ menus:
     options: {  }
   -
     menu_name: main
-    title: 'Outdoor & Active'
+    title: 'Active & Outdoor'
     parent: 'menu_link_content:9548ba9b-5ae0-4248-8c2e-f76e52ef31f5'
-    uri: 'internal:/culture/outdoor-active'
-    link_title: ''
+    uri: 'internal:/culture/active-outdoor'
+    link_title: null
     description: null
     enabled: true
     expanded: false
@@ -3196,6 +3196,19 @@ taxonomies:
           value: 'The arts, heritage, food, sport, community life and creative energy of the Greater Solent.'
     -
       vid: topic
+      tid: '45'
+      langcode: en
+      name: 'Culture / Active & Outdoor'
+      description__value: null
+      description__format: null
+      weight: '12'
+      parent: '29'
+      uuid: 384e5f96-7743-4ea8-bbee-bcef4596917e
+      field_reader_summary:
+        -
+          value: 'Walks, rides, open water and the active outdoor life of the Solent coast and countryside.'
+    -
+      vid: topic
       tid: '34'
       langcode: en
       name: 'Culture / Art & Design'
@@ -3328,7 +3341,7 @@ taxonomies:
       vid: topic
       tid: '43'
       langcode: en
-      name: 'Culture / Maritime'
+      name: 'Culture / Maritime & Marine'
       description__value: null
       description__format: null
       weight: '10'
@@ -3350,19 +3363,6 @@ taxonomies:
       field_reader_summary:
         -
           value: "Gigs, venues, festivals and the musicians making up the Solent's music scene."
-    -
-      vid: topic
-      tid: '45'
-      langcode: en
-      name: 'Culture / Outdoor & Active'
-      description__value: null
-      description__format: null
-      weight: '12'
-      parent: '29'
-      uuid: 384e5f96-7743-4ea8-bbee-bcef4596917e
-      field_reader_summary:
-        -
-          value: 'Walks, rides, open water and the active outdoor life of the Solent coast and countryside.'
     -
       vid: topic
       tid: '46'
@@ -3685,19 +3685,6 @@ taxonomies:
       field_reader_summary:
         -
           value: "Events happening across the Solent — what's on, where and when."
-    -
-      vid: topic
-      tid: '108'
-      langcode: en
-      name: 'Explore / Jobs Boards'
-      description__value: null
-      description__format: null
-      weight: '5'
-      parent: '32'
-      uuid: 90bb9bbd-3682-4175-aa29-50716bb4c30c
-      field_reader_summary:
-        -
-          value: 'Job listings and employment opportunities from around the Solent.'
     -
       vid: topic
       tid: '110'
@@ -4225,7 +4212,7 @@ taxonomies:
       vid: topic
       tid: '79'
       langcode: en
-      name: 'Sectors / Maritime'
+      name: 'Sectors / Maritime & Marine'
       description__value: null
       description__format: null
       weight: '22'
@@ -4251,7 +4238,7 @@ taxonomies:
       vid: topic
       tid: '81'
       langcode: en
-      name: 'Sectors / Media'
+      name: 'Sectors / Media & Publishing'
       description__value: null
       description__format: null
       weight: '24'
