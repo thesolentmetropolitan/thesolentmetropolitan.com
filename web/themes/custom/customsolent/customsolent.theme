@@ -162,6 +162,18 @@ function customsolent_preprocess_node(array &$variables): void {
     _customsolent_preprocess_article_compact_extras($node, $variables);
   }
 
+  // Series card and full page: status word, date range, counts, members.
+  if ($node->bundle() === 'series'
+    && in_array(($variables['view_mode'] ?? ''), ['teaser', 'compact', 'full'], TRUE)) {
+    _customsolent_preprocess_series_extras($node, $variables);
+  }
+
+  // Events: the series they belong to (reverse lookup), on every surface.
+  if ($node->bundle() === 'event'
+    && in_array(($variables['view_mode'] ?? ''), ['teaser', 'compact', 'full'], TRUE)) {
+    _customsolent_preprocess_series_membership($node, $variables);
+  }
+
   // Link / Organisation teaser — both render field_url as a primary
   // link with a trailing arrow-square-out icon for external URLs.
   // Same field_url meta extraction works for both.
@@ -205,7 +217,7 @@ function customsolent_preprocess_node(array &$variables): void {
   // lives at /articles, /events, /organisations, which don't match any menu
   // item. Read by js/menu-state.js via the data-primary-topic-path attribute.
   if (($variables['view_mode'] ?? '') === 'full'
-    && in_array($node->bundle(), ['article', 'event', 'organisation', 'link'], TRUE)
+    && in_array($node->bundle(), ['article', 'event', 'organisation', 'link', 'series'], TRUE)
     && $node->hasField('field_primary_topic')
     && !$node->get('field_primary_topic')->isEmpty()) {
     $term = $node->get('field_primary_topic')->entity;
@@ -431,6 +443,177 @@ function _customsolent_extract_field_url_meta($node, array &$variables): void {
   }
   catch (\Throwable) {
     // Malformed URI — leave variables unset; template falls back.
+  }
+}
+
+/**
+ * Adds the series a node belongs to, for event cards and full pages.
+ *
+ * Sets:
+ *   - series_links  — list of {label, url, range, status, status_label};
+ *                     empty when the node is in no published series.
+ *   - series_cache  — a render array carrying the cache tags (and max-age)
+ *                     of the lookup. The template MUST print it in every
+ *                     branch, including "no series", so that creating a
+ *                     series later refreshes cards cached as series-less.
+ *
+ * Series membership is stored on the Series (field_series_items), so this
+ * is a reverse lookup via the content_relations service.
+ */
+function _customsolent_preprocess_series_membership($node, array &$variables): void {
+  /** @var \Drupal\customsolent_helpers\ContentRelations $relations */
+  $relations = \Drupal::service('customsolent_helpers.content_relations');
+  $series = $relations->seriesContaining($node);
+  // On a series' own page its name on every member card would only repeat
+  // the h1. The series page renders its members with a distinct cache key
+  // (see _customsolent_preprocess_series_extras), so dropping it here does
+  // not leak into the cards cached for other pages.
+  $on_series_page = _customsolent_rendering_members_of_series();
+  if ($on_series_page) {
+    $series = array_values(array_filter($series, static fn($s) => (int) $s->id() !== $on_series_page));
+  }
+  $variables['series_links'] = [];
+  foreach ($series as $s) {
+    $status = $relations->seriesStatus($s);
+    $variables['series_links'][] = [
+      'label' => $s->label(),
+      'url' => $s->toUrl()->toString(),
+      'range' => $relations->seriesDateRange($s),
+      'status' => $status,
+      'status_label' => $relations->statusLabel($status),
+    ];
+  }
+  $variables['series_cache'] = [
+    '#cache' => [
+      'tags' => $relations->seriesCacheTags($series),
+      // Only the full page prints a status word; cards print just the name.
+      'max-age' => ($variables['view_mode'] ?? '') === 'full' ? $relations->maxAgeUntilMidnight() : \Drupal\Core\Cache\Cache::PERMANENT,
+    ],
+  ];
+}
+
+/**
+ * The series whose member cards are being rendered right now, or 0.
+ *
+ * Set by the SeriesMemberContext callbacks around each member card on a
+ * series page, read by _customsolent_preprocess_series_membership().
+ */
+function _customsolent_rendering_members_of_series(?int $set = NULL): int {
+  $current = &drupal_static(__FUNCTION__, 0);
+  if ($set !== NULL) {
+    $current = $set;
+  }
+  return $current;
+}
+
+/**
+ * The trusted callback class that brackets a member card's render.
+ */
+function _customsolent_series_member_pre_render_class(): string {
+  return \Drupal\customsolent_helpers\Render\SeriesMemberContext::class;
+}
+
+/**
+ * Series card and full-page variables.
+ *
+ * Sets:
+ *   - series_status / series_status_label — upcoming|current|ongoing|past
+ *     and its reader-facing word ("Now on"). Changes at midnight, so
+ *     series_cache carries a max-age to the next local midnight.
+ *   - series_range, series_start_iso, series_end_iso — "1–31 October 2026"
+ *     and the ISO dates for <time>.
+ *   - series_counts — {event, article, link} published members; and
+ *     series_count_parts — the non-zero counts as phrases ("7 events").
+ *   - series_groups — (full only) members rendered in the compact view
+ *     mode, grouped by bundle: list of {key, label, items[], grid_class}.
+ *   - related_topic_links — (full only) {label, url, color} per related
+ *     topic, section-coloured like the trail kicker.
+ *   - section_key / section_color — from the primary topic's section.
+ *   - series_cache — render array with the cache metadata of the above.
+ */
+function _customsolent_preprocess_series_extras($node, array &$variables): void {
+  /** @var \Drupal\customsolent_helpers\ContentRelations $relations */
+  $relations = \Drupal::service('customsolent_helpers.content_relations');
+  $view_mode = $variables['view_mode'] ?? '';
+
+  $status = $relations->seriesStatus($node);
+  $variables['series_status'] = $status;
+  $variables['series_status_label'] = $relations->statusLabel($status);
+  $variables['series_range'] = $relations->seriesDateRange($node);
+  [$variables['series_start_iso'], $variables['series_end_iso']] = $relations->seriesDates($node);
+
+  $counts = $relations->seriesCounts($node);
+  $variables['series_counts'] = $counts;
+  $parts = [];
+  if ($counts['event']) {
+    $parts[] = \Drupal::translation()->formatPlural($counts['event'], '1 event', '@count events');
+  }
+  if ($counts['article']) {
+    $parts[] = \Drupal::translation()->formatPlural($counts['article'], '1 article', '@count articles');
+  }
+  if ($counts['link']) {
+    $parts[] = \Drupal::translation()->formatPlural($counts['link'], '1 link', '@count links');
+  }
+  $variables['series_count_parts'] = $parts;
+
+  if ($node->hasField('field_primary_topic') && !$node->get('field_primary_topic')->isEmpty()) {
+    $term = $node->get('field_primary_topic')->entity;
+    if ($term && ($top = _customsolent_topic_top_level($term))) {
+      $variables['section_key'] = strtolower($top->getName());
+      $variables['section_color'] = _customsolent_topic_section_colors()[$top->getName()] ?? NULL;
+    }
+  }
+
+  // Cache: the members' own tags come with their render arrays; the status
+  // word is the only time-dependent part.
+  $tags = ['node_list:event', 'node_list:article', 'node_list:link'];
+  $variables['series_cache'] = [
+    '#cache' => [
+      'tags' => $tags,
+      'max-age' => $relations->maxAgeUntilMidnight(),
+    ],
+  ];
+
+  if ($view_mode !== 'full') {
+    return;
+  }
+
+  // Members, grouped by kind, each as its compact card. Editor order within
+  // a group is kept (field_series_items is a sortable multi-value field).
+  $view_builder = \Drupal::entityTypeManager()->getViewBuilder('node');
+  $group_defs = [
+    'event' => ['label' => t('Events'), 'grid_class' => 'slnt-series-items__grid--events'],
+    'article' => ['label' => t('Articles'), 'grid_class' => 'slnt-series-items__grid--articles'],
+    'link' => ['label' => t('Links'), 'grid_class' => 'slnt-series-items__grid--links'],
+  ];
+  $groups = [];
+  foreach ($relations->seriesMembers($node) as $member) {
+    $bundle = $member->bundle();
+    if (!isset($group_defs[$bundle])) {
+      continue;
+    }
+    $groups[$bundle] ??= ['key' => $bundle, 'items' => []] + $group_defs[$bundle];
+    $build = $view_builder->view($member, 'compact');
+    // A member card on its own series' page leaves that series' name out
+    // (see _customsolent_preprocess_series_membership). That variant must
+    // not share a render-cache entry with the card as shown elsewhere.
+    $build['#cache']['keys'][] = 'in_series_' . $node->id();
+    $build['#pre_render'][] = [_customsolent_series_member_pre_render_class(), 'enter'];
+    $build['#post_render'][] = [_customsolent_series_member_pre_render_class(), 'leave'];
+    $groups[$bundle]['items'][] = $build;
+  }
+  $variables['series_groups'] = array_values($groups);
+
+  // Related topics as section-coloured links to their section pages.
+  $variables['related_topic_links'] = [];
+  if ($node->hasField('field_related_topics')) {
+    foreach ($node->get('field_related_topics')->referencedEntities() as $term) {
+      $trail = _customsolent_build_topic_trail($term, FALSE);
+      $leaf = end($trail['ancestors']);
+      if ($leaf) {
+        $variables['related_topic_links'][] = $leaf;
+      }
+    }
   }
 }
 

@@ -1,0 +1,107 @@
+{#
+/**
+ * @file
+ * Series node — full view mode (/series/<title>-<year>).
+ *
+ * Same container and header grammar as node--event--full.html.twig
+ * (.slnt-node-full): status badge, topic-trail kicker, h1, date range,
+ * standfirst. Then the description in the article reading column, the
+ * members grouped as Events / Articles / Links (each rendered as its own
+ * compact card), and the related topics as section-coloured links.
+ *
+ * Collaborations this series is an outcome of will be listed after the
+ * members once the Collaboration type exists (see the 2026-10-18 brief).
+ *
+ * Variables from _customsolent_preprocess_series_extras():
+ *   series_status, series_status_label, series_range, series_groups
+ *   ({key, label, items[], grid_class}), related_topic_links
+ *   ({label, url, color}), series_cache (print in every branch).
+ */
+#}
+{%
+  set classes = [
+    'node',
+    'node--type-' ~ node.bundle|clean_class,
+    not node.isPublished() ? 'node--unpublished',
+    view_mode ? 'node--view-mode-' ~ view_mode|clean_class,
+    'slnt-node-full',
+    'slnt-series-full',
+    series_status ? 'slnt-series-full--' ~ series_status,
+  ]
+%}
+
+<article{{ attributes.addClass(classes) }}{% if primary_topic_menu_path is defined and primary_topic_menu_path %} data-primary-topic-path="{{ primary_topic_menu_path }}"{% endif %}>
+  <div class="slnt-node-full__header">
+
+    {# Status badge — same slot and look as the event page's past-event badge. #}
+    {% if series_status_label %}
+      <div class="slnt-node-full__past-kicker slnt-series-full__status slnt-series-full__status--{{ series_status }}">{{ series_status_label }}</div>
+    {% endif %}
+
+    {# Topic trail kicker — clickable, section-coloured ancestor terms. #}
+    {% if topic_trail_ancestors is not empty %}
+      {% include '@customsolent/components/topic-trail.html.twig' with {
+        ancestors: topic_trail_ancestors,
+        current_label: null,
+        current_as_heading: false,
+      } only %}
+    {% endif %}
+
+    <h1 class="slnt-node-full__title">{{ label }}</h1>
+
+    {% if series_range %}
+      <div class="slnt-node-full__when slnt-series-full__dates">
+        <span class="slnt-series-full__icon" aria-hidden="true">
+          <svg viewBox="0 0 256 256" fill="currentColor"><path d="M208,28H188V24a12,12,0,0,0-24,0v4H92V24a12,12,0,0,0-24,0v4H48A20,20,0,0,0,28,48V208a20,20,0,0,0,20,20H208a20,20,0,0,0,20-20V48A20,20,0,0,0,208,28ZM68,52a12,12,0,0,0,24,0h72a12,12,0,0,0,24,0h16V76H52V52ZM52,204V100H204V204Zm92-76a16,16,0,1,1-16-16A16,16,0,0,1,144,128Zm48,0a16,16,0,1,1-16-16A16,16,0,0,1,192,128ZM96,176a16,16,0,1,1-16-16A16,16,0,0,1,96,176Zm48,0a16,16,0,1,1-16-16A16,16,0,0,1,144,176Zm48,0a16,16,0,1,1-16-16A16,16,0,0,1,192,176Z"/></svg>
+        </span>
+        <span>{{ series_range }}</span>
+      </div>
+    {% endif %}
+
+  </div>
+
+  {% if content.field_standfirst|render|striptags|trim %}
+    <div class="slnt-node-full__standfirst">{{ content.field_standfirst }}</div>
+  {% endif %}
+
+  {# Description — the article reading column (740px) so long text reads
+     well; slnt-article__body supplies the paragraph, list and link styles. #}
+  {% if content.field_description|render|striptags|trim %}
+    <div class="slnt-article__body slnt-series-full__description">
+      {{ content.field_description }}
+    </div>
+  {% endif %}
+
+  {# Members, grouped by kind. Each item is its own compact card, so an
+     event here looks exactly like an event on the front page. #}
+  {% for group in series_groups %}
+    <section class="slnt-series-items slnt-series-items--{{ group.key }}" aria-labelledby="series-items-{{ group.key }}">
+      <h2 id="series-items-{{ group.key }}" class="slnt-series-items__heading">
+        {{ group.label }}
+        <span class="slnt-series-items__count">{{ group.items|length }}</span>
+      </h2>
+      <div class="slnt-series-items__grid {{ group.grid_class }}">
+        {% for item in group.items %}
+          <div class="slnt-series-items__cell">{{ item }}</div>
+        {% endfor %}
+      </div>
+    </section>
+  {% endfor %}
+
+  {% if related_topic_links is not empty %}
+    <nav class="slnt-series-full__related" aria-label="{{ 'Related topics'|t }}">
+      <span class="slnt-series-full__related-label">{{ 'Also in'|t }}</span>
+      {% for topic in related_topic_links %}
+        <a href="{{ topic.url }}" class="slnt-series-full__related-link" style="color: {{ topic.color }};">{{ topic.label }}</a>
+      {% endfor %}
+    </nav>
+  {% endif %}
+
+  {{ series_cache }}
+
+  {# Rendered by hand above; suppress the defaults. #}
+  {{ content|without('field_standfirst', 'field_series_start', 'field_series_end',
+     'field_description', 'field_series_items', 'field_primary_topic',
+     'field_related_topics', 'links') }}
+
+</article>

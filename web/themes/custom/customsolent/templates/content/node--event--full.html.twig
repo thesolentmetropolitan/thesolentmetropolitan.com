@@ -18,7 +18,7 @@
  * set in customsolent_preprocess_node()).
  *
  * is_past_event is set in customsolent_preprocess_node() (Smart Date end time
- * in the past).
+ * in the past). series_links / series_cache list the series the event is in.
  */
 #}
 {%
@@ -77,5 +77,25 @@
       <a href="{{ field_url_href }}"{% if field_url_external %} target="_blank" rel="noopener noreferrer"{% endif %}>{{ field_url_text }}</a>
     </div>
   {% endif %}
+
+  {# Series this event belongs to (reverse lookup, see
+     _customsolent_preprocess_series_membership). series_cache is printed
+     in every case so the "no series" page is refreshed when one is made. #}
+  {% if series_links is not empty %}
+    <aside class="slnt-node-full__series" aria-labelledby="event-series-heading">
+      <h2 id="event-series-heading" class="slnt-node-full__series-heading">
+        {{ series_links|length > 1 ? 'Part of these series'|t : 'Part of a series'|t }}
+      </h2>
+      <ul class="slnt-node-full__series-list">
+        {% for series in series_links %}
+          <li>
+            <a href="{{ series.url }}">{{ series.label }}</a>
+            <span class="slnt-node-full__series-meta">{{ series.range }}{% if series.status_label %} · {{ series.status_label }}{% endif %}</span>
+          </li>
+        {% endfor %}
+      </ul>
+    </aside>
+  {% endif %}
+  {{ series_cache }}
 
 </article>

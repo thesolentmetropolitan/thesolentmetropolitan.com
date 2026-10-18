@@ -17,6 +17,7 @@
  *   - section_color, section_key      — top-level Topic colour.
  *   - where_name                      — plain Location term name.
  *   - field_url_external/href/text    — for the CTA.
+ *   - series_links / series_cache     — the series this event is in.
  */
 #}
 {%
@@ -75,6 +76,13 @@
         <span class="slnt-event-teaser__value">{{ where_name }}</span>
       </div>
     {% endif %}
+
+    {# "Part of the series …" — after the facts, before the CTA. #}
+    {% include '@customsolent/components/series-line.html.twig' with {
+      series_links: series_links,
+      series_cache: series_cache,
+      variant: 'teaser',
+    } only %}
 
     {# CTA — section-coloured button with trailing icon. #}
     {% if field_url_href %}

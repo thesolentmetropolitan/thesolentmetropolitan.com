@@ -1,0 +1,22 @@
+uuid: 51cd9693-3ed9-46c2-a5b7-89203d9b9351
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_description
+    - node.type.series
+  module:
+    - text
+id: node.series.field_description
+field_name: field_description
+entity_type: node
+bundle: series
+label: Description
+description: 'The story of the series: what it is, who is behind it, what to look out for.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  allowed_formats: {  }
+field_type: text_long

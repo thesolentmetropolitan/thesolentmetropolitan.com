@@ -1,0 +1,83 @@
+uuid: e6b52230-03d8-48c8-8fc5-969a3593ac7d
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.series.field_description
+    - field.field.node.series.field_primary_topic
+    - field.field.node.series.field_related_topics
+    - field.field.node.series.field_series_end
+    - field.field.node.series.field_series_items
+    - field.field.node.series.field_series_start
+    - field.field.node.series.field_standfirst
+    - node.type.series
+  module:
+    - datetime
+    - text
+    - user
+id: node.series.default
+targetEntityType: node
+bundle: series
+mode: default
+content:
+  field_description:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  field_primary_topic:
+    type: entity_reference_label
+    label: hidden
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 5
+    region: content
+  field_related_topics:
+    type: entity_reference_label
+    label: hidden
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 6
+    region: content
+  field_series_end:
+    type: datetime_custom
+    label: hidden
+    settings:
+      timezone_override: ''
+      date_format: 'j F Y'
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_series_items:
+    type: entity_reference_entity_view
+    label: hidden
+    settings:
+      view_mode: compact
+      link: false
+    third_party_settings: {  }
+    weight: 4
+    region: content
+  field_series_start:
+    type: datetime_custom
+    label: hidden
+    settings:
+      timezone_override: ''
+      date_format: 'j F Y'
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_standfirst:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+      link_rel: canonical
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  links: true

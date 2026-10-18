@@ -1,0 +1,77 @@
+{#
+/**
+ * @file
+ * Series node — teaser: the card on /explore/series.
+ *
+ * Used by the series_listing View (view_display_listing_cards) inside a
+ * View Display paragraph carrying the "Series Grid" classy style
+ * (slnt-series-grid), three cards per row on desktop.
+ *
+ * Card structure (DOM order = reading order):
+ *   article.slnt-series-card                — white box, 1px solent-blue
+ *                                             top rule like the event card
+ *     span.slnt-series-card__status         — Now on · Coming up · Ongoing
+ *                                             · Past series
+ *     h3 > a.slnt-series-card__link         — the card's one main link; its
+ *                                             ::after is stretched over the
+ *                                             card so the whole box clicks
+ *     .slnt-series-card__dates              — calendar icon + "1–31 October 2026"
+ *     p.slnt-series-card__standfirst
+ *     p.slnt-series-card__counts            — "7 events · 2 articles"
+ *     .slnt-topic-trail (kicker)            — LAST, raised above the
+ *                                             stretched link so the topic
+ *                                             links still work
+ *
+ * Variables from _customsolent_preprocess_series_extras():
+ *   series_status, series_status_label, series_range, series_count_parts,
+ *   section_key, series_cache (print in every branch: carries the
+ *   max-age to midnight, when the status word may change).
+ */
+#}
+{%
+  set classes = [
+    'node',
+    'node--type-' ~ node.bundle|clean_class,
+    view_mode ? 'node--view-mode-' ~ view_mode|clean_class,
+    'slnt-series-card',
+    series_status ? 'slnt-series-card--' ~ series_status,
+  ]
+%}
+
+<article{{ attributes.addClass(classes) }}{% if section_key %} data-section="{{ section_key }}"{% endif %}>
+
+  {% if series_status_label %}
+    <span class="slnt-series-card__status slnt-series-card__status--{{ series_status }}">{{ series_status_label }}</span>
+  {% endif %}
+
+  <h3 class="slnt-series-card__title">
+    <a href="{{ url }}" class="slnt-series-card__link">{{ label }}</a>
+  </h3>
+
+  {% if series_range %}
+    <div class="slnt-series-card__row slnt-series-card__dates">
+      <span class="slnt-series-card__icon" aria-hidden="true">
+        {# Phosphor calendar-dots — matches the event cards. #}
+        <svg viewBox="0 0 256 256" fill="currentColor"><path d="M208,28H188V24a12,12,0,0,0-24,0v4H92V24a12,12,0,0,0-24,0v4H48A20,20,0,0,0,28,48V208a20,20,0,0,0,20,20H208a20,20,0,0,0,20-20V48A20,20,0,0,0,208,28ZM68,52a12,12,0,0,0,24,0h72a12,12,0,0,0,24,0h16V76H52V52ZM52,204V100H204V204Zm92-76a16,16,0,1,1-16-16A16,16,0,0,1,144,128Zm48,0a16,16,0,1,1-16-16A16,16,0,0,1,192,128ZM96,176a16,16,0,1,1-16-16A16,16,0,0,1,96,176Zm48,0a16,16,0,1,1-16-16A16,16,0,0,1,144,176Zm48,0a16,16,0,1,1-16-16A16,16,0,0,1,192,176Z"/></svg>
+      </span>
+      <span class="slnt-series-card__value">{{ series_range }}</span>
+    </div>
+  {% endif %}
+
+  {% if content.field_standfirst|render|striptags|trim %}
+    <p class="slnt-series-card__standfirst">{{ content.field_standfirst }}</p>
+  {% endif %}
+
+  {% if series_count_parts is not empty %}
+    <p class="slnt-series-card__counts">{{ series_count_parts|join(' · ') }}</p>
+  {% endif %}
+
+  {{ trail_kicker_lazy }}
+  {{ series_cache }}
+
+</article>
+
+{# Rendered by hand above; suppress the defaults. #}
+{{ content|without('field_standfirst', 'field_series_start', 'field_series_end',
+   'field_description', 'field_series_items', 'field_primary_topic',
+   'field_related_topics', 'links') }}

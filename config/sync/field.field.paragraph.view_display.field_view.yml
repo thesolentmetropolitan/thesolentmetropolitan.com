@@ -30,5 +30,6 @@ settings:
     organisations_listing: organisations_listing
     links_listing: links_listing
     directory_listing: directory_listing
+    series_listing: series_listing
   enabled_settings: {  }
 field_type: viewsreference

@@ -1,0 +1,23 @@
+uuid: 234e0a3d-97e6-4428-8b2b-664b2ed32f98
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.series
+  module:
+    - node
+id: series_full_page_url
+label: 'Series full page url'
+type: 'canonical_entities:node'
+pattern: '/series/[node:title]-[node:field_series_start:date:html_year]'
+selection_criteria:
+  3b550db0-51d6-44b7-b5f2-f2fc12e6dc49:
+    id: 'entity_bundle:node'
+    negate: false
+    context_mapping:
+      node: node
+    bundles:
+      series: series
+selection_logic: and
+weight: -5
+relationships: {  }

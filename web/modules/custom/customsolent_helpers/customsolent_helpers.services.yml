@@ -9,3 +9,8 @@ services:
       # Outbound: pager and filter links are built from the internal route;
       # turn them back into the pretty URL.
       - { name: path_processor_outbound, priority: 200 }
+  # "What is this content part of?" — series (and later collaborations)
+  # that reference a node, with the cache tags a card must carry.
+  customsolent_helpers.content_relations:
+    class: Drupal\customsolent_helpers\ContentRelations
+    arguments: ['@entity_type.manager', '@datetime.time']

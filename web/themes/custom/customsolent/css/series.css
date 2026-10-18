@@ -1,0 +1,444 @@
+/* ══════════════════════════════════════
+   Series — a themed collection of events,
+   articles and links over a period.
+
+   1. .slnt-series-grid        the card grid on /explore/series (classy
+                               style "Series Grid" on the View Display
+                               paragraph; the view renders plain)
+   2. .slnt-series-card        the teaser card
+   3. .slnt-series-line        "Part of the series …" on event cards
+   4. .slnt-series-full        the series page: members grouped as cards
+   ══════════════════════════════════════ */
+
+/* ── 1. Card grid: 3 per row ≥1000px, 2 at 500–999px, 1 below ──
+   Views renders rows directly inside the wrapper that carries the
+   js-view-dom-id class, as the other card grids do. */
+.slnt-series-grid [class*="js-view-dom-id-"] {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  margin: 1.5rem 0 1.2rem; /* air above: the intro text sits directly before the grid */
+}
+
+.slnt-series-grid [class*="js-view-dom-id-"] > :not(.views-row) {
+  grid-column: 1 / -1;
+}
+
+@media (max-width: 999px) {
+  .slnt-series-grid [class*="js-view-dom-id-"] {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 499px) {
+  .slnt-series-grid [class*="js-view-dom-id-"] {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.slnt-series-grid .views-row {
+  display: flex;
+  min-width: 0;
+}
+
+/* ── 2. Card ──
+   Same grammar as the compact event card: white box, 1px solent-blue top
+   rule, kicker pinned to the bottom. The whole box is clickable through
+   the title link's stretched ::after (see the article compact card). */
+.slnt-series-card {
+  position: relative; /* containing block for the stretched link */
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+  background: #fff;
+  border-top: 1px solid var(--solent-blue, #2c4f6e);
+  padding: 0.7rem 0.8rem 0.8rem;
+  transition: box-shadow 0.15s;
+}
+
+.slnt-series-card:hover {
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12);
+}
+
+/* Status pill. Colours are the site's existing palette: current =
+   magenta (the accent), upcoming = solent blue, ongoing = Living green,
+   past = the muted grey of the event page's past badge. All ≥ 4.5:1 with
+   white text. */
+.slnt-series-card__status,
+.slnt-series-full__status {
+  display: inline-block;
+  align-self: flex-start;
+  font-family: 'Atkinson Hyperlegible Next', sans-serif;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 0.2em 0.6em;
+  border-radius: 3px;
+  margin-bottom: 0.45rem;
+  color: #fff;
+  background: var(--text-mid, #444);
+}
+
+.slnt-series-card__status--current,
+.slnt-series-full__status--current {
+  background: var(--magenta, #c5007a);
+}
+
+.slnt-series-card__status--upcoming,
+.slnt-series-full__status--upcoming {
+  background: var(--solent-blue, #2c4f6e);
+}
+
+.slnt-series-card__status--ongoing,
+.slnt-series-full__status--ongoing {
+  background: #047857;
+}
+
+.slnt-series-card__status--past,
+.slnt-series-full__status--past {
+  color: var(--text-mid, #444);
+  background: var(--warm-grey, #f5f3f0);
+}
+
+.slnt-series-card__title {
+  font-family: 'Atkinson Hyperlegible Next', sans-serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--solent-blue, #2c4f6e);
+  margin: 0 0 0.35rem 0;
+}
+
+.layout-content a.slnt-series-card__link,
+.slnt-series-card__link {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Stretch the title link over the whole card. */
+.slnt-series-card__link::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+}
+
+.slnt-series-card:hover .slnt-series-card__link,
+.layout-content a.slnt-series-card__link:hover {
+  text-decoration: underline;
+  text-decoration-color: var(--magenta, #c5007a);
+  text-underline-offset: 3px;
+  text-decoration-thickness: 2px;
+}
+
+.slnt-series-card__link:focus-visible {
+  outline: none;
+}
+
+.slnt-series-card:has(.slnt-series-card__link:focus-visible) {
+  outline: 3px solid var(--text, #1a1a1a);
+  outline-offset: 2px;
+}
+
+.slnt-series-card__row {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.4em;
+  font-family: 'Atkinson Hyperlegible Next', sans-serif;
+  font-size: 0.9375rem;
+  line-height: 1.3;
+  color: var(--text-mid, #444);
+  margin: 0 0 0.4rem 0;
+}
+
+.slnt-series-card__icon {
+  display: inline-flex;
+  flex-shrink: 0;
+  width: 0.95em;
+  height: 0.95em;
+  margin-top: 0.15em;
+  color: var(--text-mid, #555);
+}
+
+.slnt-series-card__icon svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.slnt-series-card__standfirst {
+  font-family: 'Atkinson Hyperlegible Next', sans-serif;
+  font-size: 0.9375rem;
+  line-height: 1.4;
+  color: var(--text, #1a1a1a);
+  margin: 0 0 0.5rem 0;
+}
+
+.slnt-series-card__standfirst .field,
+.slnt-series-card__standfirst .field__item {
+  display: inline;
+  margin: 0;
+}
+
+.slnt-series-card__counts {
+  font-family: 'Atkinson Hyperlegible Next', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--solent-blue, #2c4f6e);
+  margin: 0 0 0.3rem 0;
+}
+
+/* Kicker last, pinned to the bottom, raised above the stretched link. */
+.slnt-series-card .slnt-topic-trail {
+  position: relative;
+  z-index: 1;
+  margin: auto 0 0 0;
+  padding-top: 0.5rem;
+}
+
+.slnt-series-card .slnt-topic-trail__ancestors {
+  margin-bottom: 0;
+}
+
+.slnt-series-card .slnt-topic-trail .slnt-topic-trail__ancestor,
+.slnt-series-card .slnt-topic-trail__separator {
+  font-size: 0.8rem;
+}
+
+/* ── 3. "Part of the series …" line on event cards ──
+   Sits between the card's link block and the kicker (compact) or between
+   Where and the CTA (teaser). Same 15px supporting size as the date and
+   venue rows; the link is solent-blue with the site's magenta underline
+   on hover so it reads as a link without shouting. */
+.slnt-series-line {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.4em;
+  font-family: 'Atkinson Hyperlegible Next', sans-serif;
+  font-size: 0.9375rem;
+  line-height: 1.3;
+  color: var(--text-mid, #444);
+}
+
+.slnt-series-line--compact {
+  padding: 0.35rem 0.5rem 0;
+}
+
+.slnt-series-line--teaser {
+  margin: 0.4rem 0 0.2rem;
+}
+
+.slnt-series-line__icon {
+  display: inline-flex;
+  flex-shrink: 0;
+  width: 0.95em;
+  height: 0.95em;
+  margin-top: 0.15em;
+  color: var(--text-mid, #555);
+}
+
+.slnt-series-line__icon svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.slnt-series-line__label {
+  margin-right: 0.25em;
+}
+
+.layout-content a.slnt-series-line__link,
+.slnt-series-line__link {
+  color: var(--solent-blue, #2c4f6e);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.layout-content a.slnt-series-line__link:hover,
+.slnt-series-line__link:hover {
+  text-decoration: underline;
+  text-decoration-color: var(--magenta, #c5007a);
+  text-underline-offset: 3px;
+  text-decoration-thickness: 2px;
+}
+
+.slnt-series-line__link:focus-visible {
+  outline: 3px solid var(--text, #1a1a1a);
+  outline-offset: 2px;
+}
+
+@media (max-width: 799px) {
+  .slnt-series-line--compact {
+    padding: 0.35rem 0.7rem 0;
+  }
+}
+
+@media (max-width: 499px) {
+  .slnt-series-line--compact {
+    padding: 0.35rem 0.3rem 0;
+  }
+}
+
+/* Event full page: "Part of a series" block after the CTA. */
+.slnt-node-full__series {
+  max-width: 740px;
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--warm-grey-dark, #e3dfd9);
+}
+
+.slnt-node-full__series-heading {
+  font-family: 'Atkinson Hyperlegible Next', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--solent-blue, #2c4f6e);
+  margin: 0 0 0.5rem 0;
+}
+
+.slnt-node-full__series-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.slnt-node-full__series-list li {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.25em 0.6em;
+  font-family: 'Atkinson Hyperlegible Next', sans-serif;
+  font-size: 1rem;
+  margin-bottom: 0.3rem;
+}
+
+.slnt-node-full__series-meta {
+  color: var(--text-mid, #444);
+  font-size: 0.9375rem;
+}
+
+/* ── 4. Series page ── */
+.slnt-series-full__dates {
+  display: flex;
+  align-items: center;
+  gap: 0.4em;
+}
+
+.slnt-series-full__icon {
+  display: inline-flex;
+  width: 1em;
+  height: 1em;
+  color: var(--text-mid, #555);
+}
+
+.slnt-series-full__icon svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.slnt-series-full__description {
+  margin-bottom: 2rem;
+}
+
+.slnt-series-items {
+  margin: 0 0 2.2rem 0;
+}
+
+.slnt-series-items__heading {
+  font-family: 'Atkinson Hyperlegible Next', sans-serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--solent-blue, #2c4f6e);
+  margin: 0 0 0.8rem 0;
+}
+
+.slnt-series-items__count {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text-mid, #444);
+  margin-left: 0.3em;
+}
+
+/* Member cards: same column steps as the site's compact grids. The cards
+   sit on the white page rather than the warm-grey band, so give the grid
+   the band so the white boxes still read as boxes. */
+.slnt-series-items__grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem;
+  padding: 1rem;
+  background: var(--warm-grey, #f5f3f0);
+}
+
+.slnt-series-items__grid--links {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+@media (max-width: 999px) {
+  .slnt-series-items__grid,
+  .slnt-series-items__grid--links {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 339px) {
+  .slnt-series-items__grid,
+  .slnt-series-items__grid--links {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 499px) {
+  .slnt-series-items__grid--articles,
+  .slnt-series-items__grid--links {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.slnt-series-items__cell {
+  display: flex;
+  min-width: 0;
+}
+
+.slnt-series-items__cell > * {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Related topics: "Also in  Identity  Community  Festivals". */
+.slnt-series-full__related {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.3rem 0.9rem;
+  margin: 0 0 2rem 0;
+  font-family: 'Atkinson Hyperlegible Next', sans-serif;
+}
+
+.slnt-series-full__related-label {
+  font-size: 0.9rem;
+  color: var(--text-mid, #444);
+}
+
+.layout-content a.slnt-series-full__related-link,
+.slnt-series-full__related-link {
+  font-size: 0.9rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.layout-content a.slnt-series-full__related-link:hover,
+.slnt-series-full__related-link:hover {
+  text-decoration: underline;
+  text-decoration-color: currentColor;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 2px;
+}
+
+@media (max-width: 799px) {
+  .slnt-series-items__grid {
+    padding: 0.6rem;
+  }
+}
