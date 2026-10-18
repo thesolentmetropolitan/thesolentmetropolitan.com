@@ -19,6 +19,8 @@ Rob's additions after the People + Collaborations work: 3.5.1.3 (recurring event
 - Cache: `event_when_cache` carries the rule's cache tag and a max-age to the end of the current/next instance, so "Next" moves on without a cache clear. Full page "past event" now means the LAST instance has ended.
 
 ## One row per recurring event in listings
+**Regression fixed the same night:** the first version added the condition to Views where-group 0, which `views_contextual_filters_or` makes an OR group holding the topic arguments; every one-off event then matched on every section page (Rob saw /living/mental-health listing far more than its six tagged events). The condition now sits in its own AND group (`$query->setWhereGroup('AND')`).
+
 `_customsolent_helpers_one_row_per_recurring_event()` (called from the existing `hook_views_query_alter` for `events_listing`) adds `field_when_rrule IS NULL OR field_when_end_value = (SELECT MIN(end) … same rule … end >= today)`. One-off events are untouched; a recurring event appears once, at its next instance, in every display (front page, section pages, date pills). A finished recurring event has no row anywhere, which the upcoming-only displays already imply. Verified: Andysmanclub (52 instances) appears exactly once in `view_display_listing_cards` and once on the front page.
 
 ## Content

@@ -344,7 +344,12 @@ function _customsolent_helpers_one_row_per_recurring_event(\Drupal\views\Plugin\
   if (!$alias) {
     return;
   }
-  $query->addWhereExpression(0,
+  // Its own AND group. Group 0 holds the topic contextual filters, which
+  // views_contextual_filters_or turns into an OR group — a condition added
+  // there would be OR-ed with the topic match and let every one-off event
+  // through on every section page (regression seen 2026-10-18).
+  $group = $query->setWhereGroup('AND');
+  $query->addWhereExpression($group,
     "$alias.field_when_rrule IS NULL OR $alias.field_when_end_value = (
       SELECT MIN(slnt_w.field_when_end_value) FROM {node__field_when} slnt_w
       WHERE slnt_w.entity_id = $alias.entity_id
