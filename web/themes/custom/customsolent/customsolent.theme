@@ -162,6 +162,36 @@ function customsolent_preprocess_node(array &$variables): void {
     _customsolent_preprocess_article_compact_extras($node, $variables);
   }
 
+  // Collaboration card and page; collaborator row.
+  if ($node->bundle() === 'collaboration'
+    && in_array(($variables['view_mode'] ?? ''), ['teaser', 'compact', 'full'], TRUE)) {
+    _customsolent_preprocess_collaboration_extras($node, $variables);
+  }
+  if ($node->bundle() === 'collaborator'
+    && in_array(($variables['view_mode'] ?? ''), ['teaser', 'compact', 'full'], TRUE)) {
+    _customsolent_preprocess_collaborator_extras($node, $variables);
+  }
+
+  // "Part of a collaboration" on full pages: outcomes (event, article,
+  // series — directly or via a series) and participants (person,
+  // organisation — via collaborator nodes).
+  if (($variables['view_mode'] ?? '') === 'full'
+    && in_array($node->bundle(), ['event', 'article', 'series', 'link', 'person', 'organisation'], TRUE)) {
+    _customsolent_preprocess_collaboration_membership($node, $variables);
+  }
+
+  // Person chip, team card and page: initials, location, their articles.
+  if ($node->bundle() === 'person'
+    && in_array(($variables['view_mode'] ?? ''), ['teaser', 'compact', 'full'], TRUE)) {
+    _customsolent_preprocess_person_extras($node, $variables);
+  }
+
+  // Article cards and page: plain author names for the byline.
+  if ($node->bundle() === 'article'
+    && in_array(($variables['view_mode'] ?? ''), ['teaser', 'compact', 'full'], TRUE)) {
+    _customsolent_preprocess_article_byline($node, $variables);
+  }
+
   // Series card and full page: status word, date range, counts, members.
   if ($node->bundle() === 'series'
     && in_array(($variables['view_mode'] ?? ''), ['teaser', 'compact', 'full'], TRUE)) {
@@ -217,7 +247,7 @@ function customsolent_preprocess_node(array &$variables): void {
   // lives at /articles, /events, /organisations, which don't match any menu
   // item. Read by js/menu-state.js via the data-primary-topic-path attribute.
   if (($variables['view_mode'] ?? '') === 'full'
-    && in_array($node->bundle(), ['article', 'event', 'organisation', 'link', 'series'], TRUE)
+    && in_array($node->bundle(), ['article', 'event', 'organisation', 'link', 'series', 'collaboration'], TRUE)
     && $node->hasField('field_primary_topic')
     && !$node->get('field_primary_topic')->isEmpty()) {
     $term = $node->get('field_primary_topic')->entity;
@@ -514,6 +544,240 @@ function _customsolent_series_member_pre_render_class(): string {
 }
 
 /**
+ * Related topics as section-coloured links, for the "Also in" row.
+ *
+ * @return array<int, array{label: string, url: string, color: string}>
+ */
+function _customsolent_related_topic_links($node): array {
+  $links = [];
+  if ($node->hasField('field_related_topics')) {
+    foreach ($node->get('field_related_topics')->referencedEntities() as $term) {
+      $trail = _customsolent_build_topic_trail($term, FALSE);
+      $leaf = end($trail['ancestors']);
+      if ($leaf) {
+        $links[] = $leaf;
+      }
+    }
+  }
+  return $links;
+}
+
+/**
+ * Collaboration variables for the card (teaser) and the page (full).
+ *
+ * Sets:
+ *   - collab_who          — "A, B and C" / "A, B and 3 more" (card).
+ *   - collab_count_parts  — non-zero outcome counts as phrases (card).
+ *   - section_key / section_color.
+ *   - collab_collaborators — (full) collaborator nodes rendered as teaser
+ *     rows, published only, editor order.
+ *   - collab_groups        — (full) outcomes grouped by bundle as compact
+ *     cards: {key, label, items[], grid_class}.
+ *   - related_topic_links  — (full) {label, url, color}.
+ *   - collab_cache         — cache metadata to print in every branch.
+ */
+function _customsolent_preprocess_collaboration_extras($node, array &$variables): void {
+  $view_mode = $variables['view_mode'] ?? '';
+  $view_builder = \Drupal::entityTypeManager()->getViewBuilder('node');
+
+  if ($node->hasField('field_primary_topic') && !$node->get('field_primary_topic')->isEmpty()) {
+    $term = $node->get('field_primary_topic')->entity;
+    if ($term && ($top = _customsolent_topic_top_level($term))) {
+      $variables['section_key'] = strtolower($top->getName());
+      $variables['section_color'] = _customsolent_topic_section_colors()[$top->getName()] ?? NULL;
+    }
+  }
+
+  // Collaborators: published collaborator nodes whose organisation/person
+  // is itself viewable. Name = the organisation's / person's label.
+  $collaborators = [];
+  foreach ($node->get('field_collaborators')->referencedEntities() as $c) {
+    if (!$c->isPublished() || !$c->access('view')) {
+      continue;
+    }
+    $collaborators[] = $c;
+  }
+  $names = [];
+  foreach ($collaborators as $c) {
+    $who = $c->get('field_collaborator')->entity;
+    $names[] = $who ? $who->label() : $c->label();
+  }
+  $shown = array_slice($names, 0, 3);
+  $more = count($names) - count($shown);
+  if ($more > 0) {
+    $variables['collab_who'] = implode(', ', $shown) . ' ' . t('and @count more', ['@count' => $more]);
+  }
+  elseif (count($shown) > 1) {
+    $last = array_pop($shown);
+    $variables['collab_who'] = implode(', ', $shown) . ' ' . t('and') . ' ' . $last;
+  }
+  else {
+    $variables['collab_who'] = $shown[0] ?? '';
+  }
+
+  // Outcomes grouped by bundle.
+  $group_defs = [
+    'event' => ['label' => t('Events'), 'grid_class' => 'slnt-series-items__grid--events', 'one' => '1 event', 'many' => '@count events'],
+    'article' => ['label' => t('Articles'), 'grid_class' => 'slnt-series-items__grid--articles', 'one' => '1 article', 'many' => '@count articles'],
+    'series' => ['label' => t('Series'), 'grid_class' => 'slnt-series-items__grid--links', 'one' => '1 series', 'many' => '@count series'],
+    'link' => ['label' => t('Links'), 'grid_class' => 'slnt-series-items__grid--links', 'one' => '1 link', 'many' => '@count links'],
+  ];
+  $outcomes = [];
+  foreach ($node->get('field_outcomes')->referencedEntities() as $o) {
+    if ($o->isPublished() && $o->access('view') && isset($group_defs[$o->bundle()])) {
+      $outcomes[$o->bundle()][] = $o;
+    }
+  }
+  $parts = [];
+  foreach ($group_defs as $bundle => $def) {
+    if (!empty($outcomes[$bundle])) {
+      $parts[] = \Drupal::translation()->formatPlural(count($outcomes[$bundle]), $def['one'], $def['many']);
+    }
+  }
+  $variables['collab_count_parts'] = $parts;
+
+  $variables['collab_cache'] = [
+    '#cache' => [
+      'tags' => ['node_list:collaborator', 'node_list:event', 'node_list:article', 'node_list:series', 'node_list:link'],
+    ],
+  ];
+
+  if ($view_mode !== 'full') {
+    return;
+  }
+
+  $variables['collab_collaborators'] = [];
+  foreach ($collaborators as $c) {
+    $variables['collab_collaborators'][] = $view_builder->view($c, 'teaser');
+  }
+  $groups = [];
+  foreach ($group_defs as $bundle => $def) {
+    foreach ($outcomes[$bundle] ?? [] as $o) {
+      // Series are shown as their teaser card (status, dates, counts); the
+      // rest as compact cards, as on a series page.
+      $groups[$bundle] ??= ['key' => $bundle, 'label' => $def['label'], 'grid_class' => $def['grid_class'], 'items' => []];
+      $groups[$bundle]['items'][] = $view_builder->view($o, $bundle === 'series' ? 'teaser' : 'compact');
+    }
+  }
+  $variables['collab_groups'] = array_values($groups);
+  $variables['related_topic_links'] = _customsolent_related_topic_links($node);
+}
+
+/**
+ * Collaborator row variables: who, where they link to, their role terms.
+ *
+ * A collaborator is an organisation or person (field_collaborator) plus
+ * how they take part (field_collaborator_type) and a description. Sets
+ * who_label, who_url, who_kind, who_types and, for a person, who_chip
+ * (the Person chip render array).
+ */
+function _customsolent_preprocess_collaborator_extras($node, array &$variables): void {
+  $variables['who_label'] = NULL;
+  $variables['who_url'] = NULL;
+  $variables['who_kind'] = NULL;
+  $variables['who_chip'] = NULL;
+  $variables['who_types'] = [];
+  $who = $node->get('field_collaborator')->entity;
+  if ($who && $who->access('view')) {
+    $variables['who_label'] = $who->label();
+    $variables['who_url'] = $who->toUrl()->toString();
+    $variables['who_kind'] = $who->bundle();
+    if ($who->bundle() === 'person') {
+      $variables['who_chip'] = \Drupal::entityTypeManager()->getViewBuilder('node')->view($who, 'compact');
+    }
+  }
+  foreach ($node->get('field_collaborator_type')->referencedEntities() as $term) {
+    $variables['who_types'][] = $term->getName();
+  }
+}
+
+/**
+ * "Part of a collaboration" for full pages.
+ *
+ * Outcomes (event, article, series, link) ask collaborationsFor(); people
+ * and organisations ask collaborationsInvolving(). Sets collaboration_items
+ * (teaser cards) and collaborations_cache (print in every branch).
+ */
+function _customsolent_preprocess_collaboration_membership($node, array &$variables): void {
+  /** @var \Drupal\customsolent_helpers\ContentRelations $relations */
+  $relations = \Drupal::service('customsolent_helpers.content_relations');
+  $collaborations = in_array($node->bundle(), ['person', 'organisation'], TRUE)
+    ? $relations->collaborationsInvolving($node)
+    : $relations->collaborationsFor($node);
+  $view_builder = \Drupal::entityTypeManager()->getViewBuilder('node');
+  $variables['collaboration_items'] = [];
+  foreach ($collaborations as $c) {
+    $variables['collaboration_items'][] = $view_builder->view($c, 'teaser');
+  }
+  $variables['collaborations_cache'] = ['#cache' => ['tags' => $relations->collaborationsCacheTags($collaborations)]];
+}
+
+/**
+ * Person variables for the chip (compact), team card (teaser) and page.
+ *
+ * Sets:
+ *   - person_initials — up to two letters for the no-photo avatar.
+ *   - person_where    — the Location term's name, plain.
+ *   - person_articles / person_articles_cache — (full only) the articles
+ *     this person wrote, as compact cards, and the cache metadata to print.
+ */
+function _customsolent_preprocess_person_extras($node, array &$variables): void {
+  $first = trim((string) ($node->get('field_first_name')->value ?? ''));
+  $last = trim((string) ($node->get('field_last_name')->value ?? ''));
+  $initials = mb_strtoupper(mb_substr($first, 0, 1) . mb_substr($last, 0, 1));
+  $variables['person_initials'] = $initials !== '' ? $initials : mb_strtoupper(mb_substr($node->label(), 0, 1));
+
+  if ($node->hasField('field_where') && !$node->get('field_where')->isEmpty()) {
+    $where = $node->get('field_where')->entity;
+    if ($where) {
+      $variables['person_where'] = $where->getName();
+    }
+  }
+
+  if (($variables['view_mode'] ?? '') !== 'full') {
+    return;
+  }
+  /** @var \Drupal\customsolent_helpers\ContentRelations $relations */
+  $relations = \Drupal::service('customsolent_helpers.content_relations');
+  $view_builder = \Drupal::entityTypeManager()->getViewBuilder('node');
+  $variables['person_articles'] = [];
+  foreach ($relations->articlesBy($node) as $article) {
+    $variables['person_articles'][] = $view_builder->view($article, 'compact');
+  }
+  $variables['person_articles_cache'] = ['#cache' => ['tags' => $relations->articlesByCacheTags()]];
+}
+
+/**
+ * Article byline: the authors' names as plain text.
+ *
+ * Sets byline_names (list of strings, published persons only) and
+ * byline_text ("Rob Davis", "Rob Davis and Jo Bloggs", "A, B and C").
+ * The teaser card is one big link and the compact card has a stretched
+ * link, so neither can hold the author as its own link; they print the
+ * text. The full page renders content.field_author (Person chips) instead.
+ */
+function _customsolent_preprocess_article_byline($node, array &$variables): void {
+  $variables['byline_names'] = [];
+  $variables['byline_text'] = '';
+  if (!$node->hasField('field_author') || $node->get('field_author')->isEmpty()) {
+    return;
+  }
+  foreach ($node->get('field_author')->referencedEntities() as $person) {
+    if ($person->isPublished() || \Drupal::currentUser()->hasPermission('view own unpublished content')) {
+      $variables['byline_names'][] = $person->label();
+    }
+  }
+  $names = $variables['byline_names'];
+  if (!$names) {
+    return;
+  }
+  $last = array_pop($names);
+  $variables['byline_text'] = $names
+    ? implode(', ', $names) . ' ' . t('and') . ' ' . $last
+    : $last;
+}
+
+/**
  * Series card and full-page variables.
  *
  * Sets:
@@ -605,16 +869,7 @@ function _customsolent_preprocess_series_extras($node, array &$variables): void 
   $variables['series_groups'] = array_values($groups);
 
   // Related topics as section-coloured links to their section pages.
-  $variables['related_topic_links'] = [];
-  if ($node->hasField('field_related_topics')) {
-    foreach ($node->get('field_related_topics')->referencedEntities() as $term) {
-      $trail = _customsolent_build_topic_trail($term, FALSE);
-      $leaf = end($trail['ancestors']);
-      if ($leaf) {
-        $variables['related_topic_links'][] = $leaf;
-      }
-    }
-  }
+  $variables['related_topic_links'] = _customsolent_related_topic_links($node);
 }
 
 

@@ -1,0 +1,42 @@
+uuid: e1b0507d-3308-4c18-8469-2826a1776310
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.collaborator.field_collaborator
+    - field.field.node.collaborator.field_collaborator_type
+    - field.field.node.collaborator.field_description
+    - node.type.collaborator
+  module:
+    - text
+    - user
+id: node.collaborator.default
+targetEntityType: node
+bundle: collaborator
+mode: default
+content:
+  field_collaborator:
+    type: entity_reference_label
+    label: hidden
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_collaborator_type:
+    type: entity_reference_label
+    label: hidden
+    settings:
+      link: false
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_description:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 2
+    region: content
+hidden:
+  links: true

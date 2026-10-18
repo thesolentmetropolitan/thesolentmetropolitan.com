@@ -1,7 +1,7 @@
 # People, Series and Collaborations — design brief
 
 **Date:** 2026-10-18 (session start 00:46)
-**Status:** brief for Rob to react to; Phase 1 (Series + Black History Month content) built in the same session on branch `series-and-black-history-month`
+**Status:** Phase 1 (Series + Black History Month) built on branch `series-and-black-history-month`; Phases 2 and 3 (People, Collaborations) built the same night on branch `people-and-collaborations` after Rob's decisions: Collaborator as a reusable **node** (not the paragraph recommended in §2.2), location on Organisation and Person, plural URL prefixes. Logs: `2026-10-18-series-implementation.md`, `2026-10-18-people-collaborations-implementation.md`
 **Rob's request:** extend Article and Event, add Person, Series, Collaborator and Collaboration, populate `/explore/series` with Black History Month South 2026, and advise on names, dates, URLs, images and external articles.
 
 ---

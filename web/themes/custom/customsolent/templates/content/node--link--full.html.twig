@@ -54,4 +54,10 @@
     </div>
   {% endif %}
 
+  {# Collaborations this link is part of (reverse lookup). #}
+  {% include '@customsolent/components/collaborations-block.html.twig' with {
+    collaboration_items: collaboration_items,
+    collaborations_cache: collaborations_cache,
+  } only %}
+
 </article>

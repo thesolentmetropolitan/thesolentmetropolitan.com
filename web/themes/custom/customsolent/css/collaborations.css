@@ -1,0 +1,281 @@
+/* ══════════════════════════════════════
+   Collaborations.
+
+   1. .slnt-collaborations-grid   card grid on /explore/collaborations
+   2. .slnt-collab-card           the collaboration teaser card
+   3. .slnt-collab-full           the collaboration page ("Who" list)
+   4. .slnt-collaborator          one collaborator row
+   5. .slnt-collabs-block         "Part of a collaboration" on other pages
+   ══════════════════════════════════════ */
+
+/* ── 1. Grid: 3 / 2 / 1 ── */
+.slnt-collaborations-grid [class*="js-view-dom-id-"] {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  margin: 1.5rem 0 1.2rem;
+}
+
+.slnt-collaborations-grid [class*="js-view-dom-id-"] > :not(.views-row) {
+  grid-column: 1 / -1;
+}
+
+@media (max-width: 999px) {
+  .slnt-collaborations-grid [class*="js-view-dom-id-"] {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 499px) {
+  .slnt-collaborations-grid [class*="js-view-dom-id-"] {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.slnt-collaborations-grid .views-row {
+  display: flex;
+  min-width: 0;
+}
+
+/* ── 2. Card (same grammar as the series card) ── */
+.slnt-collab-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+  background: #fff;
+  border-top: 1px solid var(--solent-blue, #2c4f6e);
+  padding: 0.7rem 0.8rem 0.8rem;
+  transition: box-shadow 0.15s;
+}
+
+.slnt-collab-card:hover {
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12);
+}
+
+.slnt-collab-card__title {
+  font-family: 'Atkinson Hyperlegible Next', sans-serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--solent-blue, #2c4f6e);
+  margin: 0 0 0.35rem 0;
+}
+
+.layout-content a.slnt-collab-card__link,
+.slnt-collab-card__link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.slnt-collab-card__link::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+}
+
+.slnt-collab-card:hover .slnt-collab-card__link,
+.layout-content a.slnt-collab-card__link:hover {
+  text-decoration: underline;
+  text-decoration-color: var(--magenta, #c5007a);
+  text-underline-offset: 3px;
+  text-decoration-thickness: 2px;
+}
+
+.slnt-collab-card__link:focus-visible {
+  outline: none;
+}
+
+.slnt-collab-card:has(.slnt-collab-card__link:focus-visible) {
+  outline: 3px solid var(--text, #1a1a1a);
+  outline-offset: 2px;
+}
+
+.slnt-collab-card__standfirst {
+  font-family: 'Atkinson Hyperlegible Next', sans-serif;
+  font-size: 0.9375rem;
+  line-height: 1.4;
+  color: var(--text, #1a1a1a);
+  margin: 0 0 0.5rem 0;
+}
+
+.slnt-collab-card__standfirst .field,
+.slnt-collab-card__standfirst .field__item {
+  display: inline;
+  margin: 0;
+}
+
+.slnt-collab-card__who {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.4em;
+  font-family: 'Atkinson Hyperlegible Next', sans-serif;
+  font-size: 0.9375rem;
+  line-height: 1.3;
+  color: var(--text-mid, #444);
+  margin: 0 0 0.4rem 0;
+}
+
+.slnt-collab-card__icon {
+  display: inline-flex;
+  flex-shrink: 0;
+  width: 0.95em;
+  height: 0.95em;
+  margin-top: 0.15em;
+  color: var(--text-mid, #555);
+}
+
+.slnt-collab-card__icon svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.slnt-collab-card__counts {
+  font-family: 'Atkinson Hyperlegible Next', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--solent-blue, #2c4f6e);
+  margin: 0 0 0.3rem 0;
+}
+
+.slnt-collab-card .slnt-topic-trail {
+  position: relative;
+  z-index: 1;
+  margin: auto 0 0 0;
+  padding-top: 0.5rem;
+}
+
+.slnt-collab-card .slnt-topic-trail__ancestors {
+  margin-bottom: 0;
+}
+
+.slnt-collab-card .slnt-topic-trail .slnt-topic-trail__ancestor,
+.slnt-collab-card .slnt-topic-trail__separator {
+  font-size: 0.8rem;
+}
+
+/* ── 3. Collaboration page: Who ── */
+.slnt-collab-full__who {
+  max-width: 740px;
+  margin: 0 0 2rem 0;
+}
+
+.slnt-collab-full__who-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.slnt-collab-full__who-item {
+  padding: 0.7rem 0;
+  border-top: 1px solid var(--rule-soft, #ddd8d0);
+}
+
+.slnt-collab-full__who-item:last-child {
+  border-bottom: 1px solid var(--rule-soft, #ddd8d0);
+}
+
+.slnt-collab-full__description,
+.slnt-collab-full__components {
+  margin-bottom: 2rem;
+}
+
+/* ── 4. Collaborator row ── */
+.slnt-collaborator__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem 0.8rem;
+  font-family: 'Atkinson Hyperlegible Next', sans-serif;
+}
+
+.layout-content a.slnt-collaborator__who,
+.slnt-collaborator__who {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--solent-blue, #2c4f6e);
+  text-decoration: none;
+}
+
+.layout-content a.slnt-collaborator__who:hover,
+.slnt-collaborator__who:hover {
+  text-decoration: underline;
+  text-decoration-color: var(--magenta, #c5007a);
+  text-underline-offset: 3px;
+  text-decoration-thickness: 2px;
+}
+
+.slnt-collaborator__types {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.slnt-collaborator__type {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-mid, #444);
+  background: var(--warm-grey, #f5f3f0);
+  padding: 0.15em 0.55em;
+  border-radius: 3px;
+}
+
+.slnt-collaborator__description {
+  font-family: 'Atkinson Hyperlegible Next', sans-serif;
+  font-size: 0.9375rem;
+  line-height: 1.45;
+  color: var(--text, #1a1a1a);
+  margin-top: 0.35rem;
+}
+
+.slnt-collaborator__description p {
+  margin: 0 0 0.4em 0;
+}
+
+/* ── 5. "Part of a collaboration" on other pages ── */
+.slnt-collabs-block {
+  margin: 2rem 0;
+}
+
+.slnt-collabs-block__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  padding: 1rem;
+  background: var(--warm-grey, #f5f3f0);
+}
+
+@media (max-width: 999px) {
+  .slnt-collabs-block__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 499px) {
+  .slnt-collabs-block__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.slnt-collabs-block__cell {
+  display: flex;
+  min-width: 0;
+}
+
+.slnt-collabs-block__cell > * {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Full pages' slnt-node-full container gives no bottom padding; the
+   members/collaborations grids need air before the footer. */
+.slnt-node-full > :last-child {
+  margin-bottom: 2rem;
+}

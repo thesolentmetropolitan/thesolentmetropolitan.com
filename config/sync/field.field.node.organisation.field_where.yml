@@ -1,0 +1,29 @@
+uuid: 5fdaf811-d56d-4d8d-b258-911a9ef5fc6d
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_where
+    - node.type.organisation
+    - taxonomy.vocabulary.location
+id: node.organisation.field_where
+field_name: field_where
+entity_type: node
+bundle: organisation
+label: Where
+description: 'Where the organisation is based (town or area, or "Solent" for region-wide).'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      location: location
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

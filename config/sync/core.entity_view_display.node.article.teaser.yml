@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - core.entity_view_mode.node.teaser
+    - field.field.node.article.field_author
     - field.field.node.article.field_body
     - field.field.node.article.field_image
     - field.field.node.article.field_primary_topic
@@ -20,6 +21,14 @@ targetEntityType: node
 bundle: article
 mode: teaser
 content:
+  field_author:
+    type: entity_reference_label
+    label: hidden
+    settings:
+      link: false
+    third_party_settings: {  }
+    weight: -1
+    region: content
   field_image:
     type: entity_reference_entity_view
     label: hidden

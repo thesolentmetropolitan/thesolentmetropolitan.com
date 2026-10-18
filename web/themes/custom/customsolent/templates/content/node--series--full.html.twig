@@ -99,6 +99,12 @@
 
   {{ series_cache }}
 
+  {# Collaborations this series is part of (reverse lookup). #}
+  {% include '@customsolent/components/collaborations-block.html.twig' with {
+    collaboration_items: collaboration_items,
+    collaborations_cache: collaborations_cache,
+  } only %}
+
   {# Rendered by hand above; suppress the defaults. #}
   {{ content|without('field_standfirst', 'field_series_start', 'field_series_end',
      'field_description', 'field_series_items', 'field_primary_topic',

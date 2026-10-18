@@ -42,6 +42,11 @@
     {# Title — organisation name. #}
     <h1 class="slnt-node-full__title">{{ label }}</h1>
 
+    {# Where — the Location term, plain text. #}
+    {% if content.field_where|render|striptags|trim %}
+      <div class="slnt-node-full__where">{{ content.field_where|render|striptags|trim }}</div>
+    {% endif %}
+
   </div>
 
   {# Standfirst — only if populated. #}
@@ -55,5 +60,21 @@
       <a href="{{ field_url_href }}"{% if field_url_external %} target="_blank" rel="noopener noreferrer"{% endif %}>{{ field_url_text }}</a>
     </div>
   {% endif %}
+
+  {# Editor's content components (text, galleries, links, listings). #}
+  {% if content.field_content_component|render|striptags|trim %}
+    <div class="slnt-org-full__components">
+      {{ content.field_content_component }}
+    </div>
+  {% endif %}
+
+  {# Collaborations this organisation is part of (reverse lookup). #}
+  {% include '@customsolent/components/collaborations-block.html.twig' with {
+    collaboration_items: collaboration_items,
+    collaborations_cache: collaborations_cache,
+  } only %}
+
+  {{ content|without('field_standfirst', 'field_url', 'field_where', 'field_content_component',
+     'field_primary_topic', 'field_related_topics', 'links') }}
 
 </article>

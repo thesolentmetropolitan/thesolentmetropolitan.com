@@ -1,0 +1,23 @@
+uuid: 508d0c2a-6ad2-458d-9f81-44856d696f11
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.collaborator
+  module:
+    - node
+id: collaborator_url
+label: 'Collaborator url (redirects)'
+type: 'canonical_entities:node'
+pattern: '/collaborators/[node:title]'
+selection_criteria:
+  fdd3f032-fdcc-4205-be88-bbca66e5b0b9:
+    id: 'entity_bundle:node'
+    negate: false
+    context_mapping:
+      node: node
+    bundles:
+      collaborator: collaborator
+selection_logic: and
+weight: -5
+relationships: {  }

@@ -1,0 +1,11 @@
+uuid: 9f532e17-19a9-4411-aad7-68aa8d6c7ca8
+langcode: en
+status: true
+dependencies:
+  module:
+    - media
+id: media.portrait_thumb
+label: 'Portrait thumb'
+description: null
+targetEntityType: media
+cache: true

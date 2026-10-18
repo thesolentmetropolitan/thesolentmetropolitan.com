@@ -35,6 +35,13 @@
       {{ in_kicker_lazy }}
       {{ from_kicker_lazy }}
 
+      {# Byline — plain text: the whole card is already one link. The
+         render is only for the field's cache metadata. #}
+      {% set _byline = content.field_author|render %}
+      {% if byline_text %}
+        <p class="slnt-article-teaser__byline">{{ 'By'|t }} {{ byline_text }}</p>
+      {% endif %}
+
       {% if content.field_standfirst|render|striptags|trim %}
         <p class="slnt-article-teaser__standfirst">{{ content.field_standfirst }}</p>
       {% endif %}

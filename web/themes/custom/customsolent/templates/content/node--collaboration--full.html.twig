@@ -1,0 +1,99 @@
+{#
+/**
+ * @file
+ * Collaboration — full view mode (/collaborations/<title>).
+ *
+ * Same header grammar as the other full pages (.slnt-node-full): topic
+ * trail, h1, standfirst. Then "Who" (each collaborator as its teaser row),
+ * the description in the article reading column, the outcomes grouped as
+ * Events / Articles / Series / Links (each as its compact card), the
+ * editor's content components, and the related topics.
+ *
+ * Variables from _customsolent_preprocess_collaboration_extras():
+ *   collab_collaborators (render arrays, teaser), collab_groups
+ *   ({key, label, items[], grid_class}), related_topic_links,
+ *   collab_cache (print in every branch).
+ */
+#}
+{%
+  set classes = [
+    'node',
+    'node--type-' ~ node.bundle|clean_class,
+    not node.isPublished() ? 'node--unpublished',
+    view_mode ? 'node--view-mode-' ~ view_mode|clean_class,
+    'slnt-node-full',
+    'slnt-collab-full',
+  ]
+%}
+
+<article{{ attributes.addClass(classes) }}{% if primary_topic_menu_path is defined and primary_topic_menu_path %} data-primary-topic-path="{{ primary_topic_menu_path }}"{% endif %}>
+  <div class="slnt-node-full__header">
+
+    {% if topic_trail_ancestors is not empty %}
+      {% include '@customsolent/components/topic-trail.html.twig' with {
+        ancestors: topic_trail_ancestors,
+        current_label: null,
+        current_as_heading: false,
+      } only %}
+    {% endif %}
+
+    <h1 class="slnt-node-full__title">{{ label }}</h1>
+
+  </div>
+
+  {% if content.field_standfirst|render|striptags|trim %}
+    <div class="slnt-node-full__standfirst">{{ content.field_standfirst }}</div>
+  {% endif %}
+
+  {% if collab_collaborators is not empty %}
+    <section class="slnt-collab-full__who" aria-labelledby="collab-who-heading">
+      <h2 id="collab-who-heading" class="slnt-series-items__heading">{{ 'Who'|t }}</h2>
+      <ul class="slnt-collab-full__who-list">
+        {% for item in collab_collaborators %}
+          <li class="slnt-collab-full__who-item">{{ item }}</li>
+        {% endfor %}
+      </ul>
+    </section>
+  {% endif %}
+
+  {% if content.field_description|render|striptags|trim %}
+    <div class="slnt-article__body slnt-collab-full__description">
+      {{ content.field_description }}
+    </div>
+  {% endif %}
+
+  {% for group in collab_groups %}
+    <section class="slnt-series-items slnt-series-items--{{ group.key }}" aria-labelledby="collab-outcomes-{{ group.key }}">
+      <h2 id="collab-outcomes-{{ group.key }}" class="slnt-series-items__heading">
+        {{ group.label }}
+        <span class="slnt-series-items__count">{{ group.items|length }}</span>
+      </h2>
+      <div class="slnt-series-items__grid {{ group.grid_class }}">
+        {% for item in group.items %}
+          <div class="slnt-series-items__cell">{{ item }}</div>
+        {% endfor %}
+      </div>
+    </section>
+  {% endfor %}
+
+  {% if content.field_content_component|render|striptags|trim %}
+    <div class="slnt-collab-full__components">
+      {{ content.field_content_component }}
+    </div>
+  {% endif %}
+
+  {% if related_topic_links is not empty %}
+    <nav class="slnt-series-full__related" aria-label="{{ 'Related topics'|t }}">
+      <span class="slnt-series-full__related-label">{{ 'Also in'|t }}</span>
+      {% for topic in related_topic_links %}
+        <a href="{{ topic.url }}" class="slnt-series-full__related-link" style="color: {{ topic.color }};">{{ topic.label }}</a>
+      {% endfor %}
+    </nav>
+  {% endif %}
+
+  {{ collab_cache }}
+
+  {{ content|without('field_standfirst', 'field_description', 'field_collaborators',
+     'field_outcomes', 'field_content_component', 'field_primary_topic',
+     'field_related_topics', 'links') }}
+</article>

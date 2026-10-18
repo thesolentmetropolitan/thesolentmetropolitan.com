@@ -1,0 +1,58 @@
+uuid: 60842b14-ca2e-4b06-af7c-7b6dbcfb0b13
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.person.field_bio
+    - field.field.node.person.field_content_component
+    - field.field.node.person.field_first_name
+    - field.field.node.person.field_image
+    - field.field.node.person.field_last_name
+    - field.field.node.person.field_where
+    - node.type.person
+  module:
+    - entity_reference_revisions
+    - text
+    - user
+id: node.person.default
+targetEntityType: node
+bundle: person
+mode: default
+content:
+  field_bio:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_content_component:
+    type: entity_reference_revisions_entity_view
+    label: hidden
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  field_image:
+    type: entity_reference_entity_view
+    label: hidden
+    settings:
+      view_mode: portrait
+      link: false
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_where:
+    type: entity_reference_label
+    label: hidden
+    settings:
+      link: false
+    third_party_settings: {  }
+    weight: 1
+    region: content
+hidden:
+  field_first_name: true
+  field_last_name: true
+  links: true

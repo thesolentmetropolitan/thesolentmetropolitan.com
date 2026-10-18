@@ -1,0 +1,19 @@
+uuid: 053e6a58-0bb9-4d68-b8bb-c9a716fe914a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_standfirst
+    - node.type.collaboration
+id: node.collaboration.field_standfirst
+field_name: field_standfirst
+entity_type: node
+bundle: collaboration
+label: Standfirst
+description: 'A single sentence that hooks the reader — what this collaboration is.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

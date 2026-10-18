@@ -1,0 +1,7 @@
+uuid: 4a1ab671-5527-4cea-b8ab-d876ffcc04d6
+langcode: en
+status: true
+dependencies: {  }
+id: people_grid
+label: 'People Grid'
+classes: slnt-people-grid

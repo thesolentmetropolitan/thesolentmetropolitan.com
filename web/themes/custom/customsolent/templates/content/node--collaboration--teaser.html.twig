@@ -1,0 +1,62 @@
+{#
+/**
+ * @file
+ * Collaboration — teaser: the card on /explore/collaborations and the
+ * "Part of a collaboration" blocks on event, article, series, person and
+ * organisation pages.
+ *
+ * Card structure (DOM order = reading order):
+ *   article.slnt-collab-card               — white box, solent-blue top rule
+ *     h3 > a.slnt-collab-card__link        — the one link; ::after stretched
+ *     p.slnt-collab-card__standfirst
+ *     p.slnt-collab-card__who              — "WeSkateSoton, GO Southampton
+ *                                             and 3 more"
+ *     p.slnt-collab-card__counts           — "2 events · 1 article"
+ *     .slnt-topic-trail (kicker)           — last, raised above the link
+ *
+ * Variables from _customsolent_preprocess_collaboration_extras():
+ *   collab_who (string), collab_count_parts (list), section_key,
+ *   collab_cache (print in every branch).
+ */
+#}
+{%
+  set classes = [
+    'node',
+    'node--type-' ~ node.bundle|clean_class,
+    view_mode ? 'node--view-mode-' ~ view_mode|clean_class,
+    'slnt-collab-card',
+  ]
+%}
+
+<article{{ attributes.addClass(classes) }}{% if section_key %} data-section="{{ section_key }}"{% endif %}>
+
+  <h3 class="slnt-collab-card__title">
+    <a href="{{ url }}" class="slnt-collab-card__link">{{ label }}</a>
+  </h3>
+
+  {% if content.field_standfirst|render|striptags|trim %}
+    <p class="slnt-collab-card__standfirst">{{ content.field_standfirst }}</p>
+  {% endif %}
+
+  {% if collab_who %}
+    <p class="slnt-collab-card__who">
+      <span class="slnt-collab-card__icon" aria-hidden="true">
+        {# Feather "users" (MIT). #}
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      </span>
+      <span>{{ collab_who }}</span>
+    </p>
+  {% endif %}
+
+  {% if collab_count_parts is not empty %}
+    <p class="slnt-collab-card__counts">{{ collab_count_parts|join(' · ') }}</p>
+  {% endif %}
+
+  {{ trail_kicker_lazy }}
+  {{ collab_cache }}
+
+</article>
+
+{{ content|without('field_standfirst', 'field_description', 'field_collaborators',
+   'field_outcomes', 'field_content_component', 'field_primary_topic',
+   'field_related_topics', 'links') }}

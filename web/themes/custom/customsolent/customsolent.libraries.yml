@@ -38,6 +38,8 @@ global:
       css/article-compact.css: {}
       css/directory-compact.css: {}
       css/series.css: {}
+      css/people.css: {}
+      css/collaborations.css: {}
       css/heading-gradient.css: {}
       css/topic-trail.css: {}
       css/klaro-overrides.css: {}

@@ -1,0 +1,31 @@
+{#
+/**
+ * @file
+ * Person — compact view mode: a byline chip (portrait thumb + name).
+ *
+ * Used where a person is named inside other content: the author line on
+ * an article's full page, a collaborator row. One link, the person's page.
+ *
+ * Note: never place this inside another <a> (article teaser cards are one
+ * big link); those cards print plain names instead.
+ */
+#}
+{%
+  set classes = [
+    'node',
+    'node--type-' ~ node.bundle|clean_class,
+    view_mode ? 'node--view-mode-' ~ view_mode|clean_class,
+    'slnt-person-chip',
+    content.field_image|render|striptags|trim ? 'slnt-person-chip--has-image' : 'slnt-person-chip--no-image',
+  ]
+%}
+<a href="{{ url }}"{{ attributes.addClass(classes) }}>
+  {% if content.field_image|render|striptags|trim %}
+    <span class="slnt-person-chip__avatar">{{ content.field_image }}</span>
+  {% else %}
+    {# Initials as a fallback avatar. #}
+    <span class="slnt-person-chip__avatar slnt-person-chip__avatar--initials" aria-hidden="true">{{ person_initials }}</span>
+  {% endif %}
+  <span class="slnt-person-chip__name">{{ label }}</span>
+</a>
+{{ content|without('field_image', 'field_bio', 'field_where', 'field_content_component', 'links') }}

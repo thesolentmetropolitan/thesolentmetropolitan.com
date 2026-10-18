@@ -1,0 +1,58 @@
+{#
+/**
+ * @file
+ * Person — teaser: the team card on /about/team.
+ *
+ * Used by the people_listing View inside a View Display paragraph with the
+ * "People Grid" classy style (slnt-people-grid), three per row on desktop.
+ *
+ * Card structure (DOM order = reading order):
+ *   article.slnt-person-card
+ *     .slnt-person-card__portrait        — square 400px focal-point crop,
+ *                                          or initials when no photo
+ *     h3 > a.slnt-person-card__link      — the one link; ::after stretched
+ *                                          over the card
+ *     .slnt-person-card__where           — town / area
+ *     .slnt-person-card__bio             — clamped to five lines in CSS
+ *
+ * Variables from _customsolent_preprocess_person_extras():
+ *   person_initials, person_where
+ */
+#}
+{%
+  set classes = [
+    'node',
+    'node--type-' ~ node.bundle|clean_class,
+    view_mode ? 'node--view-mode-' ~ view_mode|clean_class,
+    'slnt-person-card',
+    content.field_image|render|striptags|trim ? 'slnt-person-card--has-image' : 'slnt-person-card--no-image',
+  ]
+%}
+
+<article{{ attributes.addClass(classes) }}>
+
+  <div class="slnt-person-card__portrait">
+    {% if content.field_image|render|striptags|trim %}
+      {{ content.field_image }}
+    {% else %}
+      <span class="slnt-person-card__initials" aria-hidden="true">{{ person_initials }}</span>
+    {% endif %}
+  </div>
+
+  <div class="slnt-person-card__text">
+    <h3 class="slnt-person-card__name">
+      <a href="{{ url }}" class="slnt-person-card__link">{{ label }}</a>
+    </h3>
+
+    {% if person_where %}
+      <p class="slnt-person-card__where">{{ person_where }}</p>
+    {% endif %}
+
+    {% if content.field_bio|render|striptags|trim %}
+      <div class="slnt-person-card__bio">{{ content.field_bio }}</div>
+    {% endif %}
+  </div>
+
+</article>
+
+{{ content|without('field_image', 'field_bio', 'field_where', 'field_content_component', 'links') }}

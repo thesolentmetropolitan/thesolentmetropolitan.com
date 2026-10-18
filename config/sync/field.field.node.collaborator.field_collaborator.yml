@@ -1,0 +1,31 @@
+uuid: 5fac398e-939c-4b9b-80ae-462f8aa4d728
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_collaborator
+    - node.type.collaborator
+    - node.type.organisation
+    - node.type.person
+id: node.collaborator.field_collaborator
+field_name: field_collaborator
+entity_type: node
+bundle: collaborator
+label: Who
+description: 'The organisation or person. Create them first if they do not exist yet.'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      organisation: organisation
+      person: person
+    sort:
+      field: title
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

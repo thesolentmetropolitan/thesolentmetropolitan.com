@@ -1,0 +1,22 @@
+uuid: c75f762a-cd9e-4267-9882-0b6bacbd37d3
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_bio
+    - node.type.person
+  module:
+    - text
+id: node.person.field_bio
+field_name: field_bio
+entity_type: node
+bundle: person
+label: Bio
+description: 'Who they are, in a few paragraphs.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  allowed_formats: {  }
+field_type: text_long

@@ -1,0 +1,319 @@
+/* ══════════════════════════════════════
+   People — contributors and team.
+
+   1. .slnt-person-chip     byline chip (compact): thumb + name
+   2. .slnt-people-grid     team card grid on /about/team
+   3. .slnt-person-card     the team card (teaser)
+   4. .slnt-person-full     the person page
+   5. article bylines       "By …" on article cards and pages
+   ══════════════════════════════════════ */
+
+/* ── 1. Byline chip ── */
+.layout-content a.slnt-person-chip,
+.slnt-person-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  font-family: 'Atkinson Hyperlegible Next', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--solent-blue, #2c4f6e);
+  text-decoration: none;
+}
+
+.layout-content a.slnt-person-chip:hover .slnt-person-chip__name,
+.slnt-person-chip:hover .slnt-person-chip__name {
+  text-decoration: underline;
+  text-decoration-color: var(--magenta, #c5007a);
+  text-underline-offset: 3px;
+  text-decoration-thickness: 2px;
+}
+
+.slnt-person-chip__avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+  background: var(--warm-grey, #f5f3f0);
+}
+
+.slnt-person-chip__avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.slnt-person-chip__avatar .field,
+.slnt-person-chip__avatar .field__item,
+.slnt-person-chip__avatar .media {
+  display: contents;
+}
+
+.slnt-person-chip__avatar--initials,
+.slnt-person-card__initials,
+.slnt-person-full__initials {
+  font-family: 'Atkinson Hyperlegible Next', sans-serif;
+  font-weight: 700;
+  color: #fff;
+  background: var(--solent-blue, #2c4f6e);
+  letter-spacing: 0.04em;
+}
+
+.slnt-person-chip__avatar--initials {
+  font-size: 0.8rem;
+}
+
+/* ── 2. Team grid: 3 per row ≥1000px, 2 at 500–999px, 1 below ── */
+.slnt-people-grid [class*="js-view-dom-id-"] {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.2rem;
+  margin: 1.5rem 0 1.2rem;
+}
+
+.slnt-people-grid [class*="js-view-dom-id-"] > :not(.views-row) {
+  grid-column: 1 / -1;
+}
+
+@media (max-width: 999px) {
+  .slnt-people-grid [class*="js-view-dom-id-"] {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 499px) {
+  .slnt-people-grid [class*="js-view-dom-id-"] {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.slnt-people-grid .views-row {
+  display: flex;
+  min-width: 0;
+}
+
+/* ── 3. Team card ── */
+.slnt-person-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+  background: #fff;
+  border-top: 1px solid var(--solent-blue, #2c4f6e);
+  padding: 0.8rem;
+  transition: box-shadow 0.15s;
+}
+
+.slnt-person-card:hover {
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12);
+}
+
+.slnt-person-card__portrait {
+  width: 7.5rem;
+  height: 7.5rem;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-bottom: 0.8rem;
+  background: var(--warm-grey, #f5f3f0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.slnt-person-card__portrait img,
+.slnt-person-full__portrait img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.slnt-person-card__portrait .field,
+.slnt-person-card__portrait .field__item,
+.slnt-person-card__portrait .media,
+.slnt-person-full__portrait .field,
+.slnt-person-full__portrait .field__item,
+.slnt-person-full__portrait .media {
+  display: contents;
+}
+
+.slnt-person-card__initials {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  font-size: 2.2rem;
+}
+
+.slnt-person-card__name {
+  font-family: 'Atkinson Hyperlegible Next', sans-serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--solent-blue, #2c4f6e);
+  margin: 0 0 0.2rem 0;
+}
+
+.layout-content a.slnt-person-card__link,
+.slnt-person-card__link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.slnt-person-card__link::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+}
+
+.slnt-person-card:hover .slnt-person-card__link,
+.layout-content a.slnt-person-card__link:hover {
+  text-decoration: underline;
+  text-decoration-color: var(--magenta, #c5007a);
+  text-underline-offset: 3px;
+  text-decoration-thickness: 2px;
+}
+
+.slnt-person-card__link:focus-visible {
+  outline: none;
+}
+
+.slnt-person-card:has(.slnt-person-card__link:focus-visible) {
+  outline: 3px solid var(--text, #1a1a1a);
+  outline-offset: 2px;
+}
+
+.slnt-person-card__where {
+  font-family: 'Atkinson Hyperlegible Next', sans-serif;
+  font-size: 0.9rem;
+  color: var(--text-mid, #444);
+  margin: 0 0 0.5rem 0;
+}
+
+.slnt-person-card__bio {
+  font-family: 'Atkinson Hyperlegible Next', sans-serif;
+  font-size: 0.9375rem;
+  line-height: 1.45;
+  color: var(--text, #1a1a1a);
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 5;
+  overflow: hidden;
+}
+
+.slnt-person-card__bio p {
+  margin: 0 0 0.5em 0;
+}
+
+/* Links inside the clamped bio sit under the stretched card link; raise
+   them so they stay clickable. */
+.slnt-person-card__bio a {
+  position: relative;
+  z-index: 1;
+}
+
+/* ── 4. Person page ── */
+.slnt-person-full__header {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.slnt-person-full__portrait {
+  width: 9rem;
+  height: 9rem;
+  flex-shrink: 0;
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--warm-grey, #f5f3f0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.slnt-person-full__initials {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  font-size: 2.8rem;
+}
+
+.slnt-person-full__heading .slnt-node-full__title {
+  margin-bottom: 0.2rem;
+}
+
+.slnt-person-full__bio {
+  margin-bottom: 2rem;
+}
+
+.slnt-person-full__components {
+  margin-top: 1.5rem;
+}
+
+@media (max-width: 799px) {
+  .slnt-person-full__header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.8rem;
+  }
+
+  .slnt-person-full__portrait {
+    width: 7rem;
+    height: 7rem;
+  }
+}
+
+/* ── 5. Article bylines ── */
+.slnt-article__byline {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem 0.75rem;
+  margin: 0.4rem 0 0;
+  font-family: 'Atkinson Hyperlegible Next', sans-serif;
+  font-size: 0.9rem;
+  color: var(--text-mid, #444);
+}
+
+.slnt-article__byline-label {
+  font-size: 0.9rem;
+}
+
+.slnt-article__byline .field,
+.slnt-article__byline .field__items {
+  display: contents;
+}
+
+.slnt-article__byline .field__item {
+  display: inline-flex;
+}
+
+.slnt-article__byline .slnt-article__date {
+  margin-left: 0.25rem;
+}
+
+/* Teaser (whole card is one link): plain text. */
+.slnt-article-teaser__byline {
+  font-family: 'Atkinson Hyperlegible Next', sans-serif;
+  font-size: 0.9rem;
+  color: var(--text-mid, #444);
+  margin: 0 0 0.4rem 0;
+}
+
+/* Compact card (filled, white text): plain text above the kicker. */
+.slnt-article-compact__byline {
+  font-family: 'Atkinson Hyperlegible Next', sans-serif;
+  font-size: 0.85rem;
+  color: #fff;
+  opacity: 0.92;
+  margin: 0.4rem 0 0 0;
+}

@@ -124,7 +124,16 @@ function _customsolent_helpers_is_front_page_node(\Drupal\node\NodeInterface $no
  */
 function customsolent_helpers_form_node_form_alter(array &$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id): void {
   $node = $form_state->getFormObject()->getEntity();
-  if (!$node instanceof \Drupal\node\NodeInterface || !_customsolent_helpers_is_front_page_node($node)) {
+  if (!$node instanceof \Drupal\node\NodeInterface) {
+    return;
+  }
+  // Person: the title is "First Last", composed from the two name fields.
+  // The title widget is left out of the form display; this builder fills
+  // the title before entity validation so the NotNull constraint passes.
+  if ($node->bundle() === 'person') {
+    $form['#entity_builders'][] = 'customsolent_helpers_person_title_builder';
+  }
+  if (!_customsolent_helpers_is_front_page_node($node)) {
     return;
   }
   foreach (['field_primary_topic', 'field_related_topics'] as $field_name) {
@@ -279,3 +288,37 @@ function customsolent_helpers_views_query_alter(\Drupal\views\ViewExecutable $vi
   $query->addWhere('slnt_topic_within', 'node_field_data.nid', $related, 'IN');
 }
 
+/**
+ * The display name of a Person: first name, a space, last name.
+ */
+function customsolent_helpers_person_title(\Drupal\node\NodeInterface $node): string {
+  $first = trim((string) ($node->get('field_first_name')->value ?? ''));
+  $last = trim((string) ($node->get('field_last_name')->value ?? ''));
+  return trim(preg_replace('/\s+/u', ' ', "$first $last") ?? '');
+}
+
+/**
+ * Entity builder for the Person form: compose the title from the names.
+ */
+function customsolent_helpers_person_title_builder(string $entity_type, \Drupal\node\NodeInterface $node, array &$form, \Drupal\Core\Form\FormStateInterface $form_state): void {
+  $title = customsolent_helpers_person_title($node);
+  if ($title !== '') {
+    $node->setTitle($title);
+  }
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_presave() for node.
+ *
+ * Programmatic saves (scripts, migrations) get the same composed title as
+ * the form; a Person is never saved with a title that disagrees with its
+ * name fields.
+ */
+function customsolent_helpers_node_presave(\Drupal\node\NodeInterface $node): void {
+  if ($node->bundle() === 'person') {
+    $title = customsolent_helpers_person_title($node);
+    if ($title !== '') {
+      $node->setTitle($title);
+    }
+  }
+}

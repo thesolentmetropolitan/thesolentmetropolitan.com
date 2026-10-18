@@ -1,0 +1,29 @@
+uuid: 926baeb9-9b3a-4a0f-a54a-e27d1e862a88
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_collaborator_type
+    - node.type.collaborator
+    - taxonomy.vocabulary.collaborator_type
+id: node.collaborator.field_collaborator_type
+field_name: field_collaborator_type
+entity_type: node
+bundle: collaborator
+label: 'How they collaborate'
+description: 'One or more roles: writer, sponsor, project manager, producer, supplier, partner, venue…'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      collaborator_type: collaborator_type
+    sort:
+      field: name
+      direction: asc
+    auto_create: true
+    auto_create_bundle: collaborator_type
+field_type: entity_reference

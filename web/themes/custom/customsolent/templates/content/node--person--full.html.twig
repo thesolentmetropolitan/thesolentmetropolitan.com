@@ -1,0 +1,82 @@
+{#
+/**
+ * @file
+ * Person — full view mode (/people/<first-last>).
+ *
+ * Header: portrait beside the name and location. Then the bio in the
+ * article reading column, the articles this person wrote (reverse lookup,
+ * compact article cards), the editor's content components, and later the
+ * collaborations they are part of.
+ *
+ * Variables from _customsolent_preprocess_person_extras():
+ *   person_initials, person_where, person_articles (render arrays, compact),
+ *   person_articles_cache (print in every branch).
+ */
+#}
+{%
+  set classes = [
+    'node',
+    'node--type-' ~ node.bundle|clean_class,
+    not node.isPublished() ? 'node--unpublished',
+    view_mode ? 'node--view-mode-' ~ view_mode|clean_class,
+    'slnt-node-full',
+    'slnt-person-full',
+    content.field_image|render|striptags|trim ? 'slnt-person-full--has-image' : 'slnt-person-full--no-image',
+  ]
+%}
+
+<article{{ attributes.addClass(classes) }}>
+  <div class="slnt-node-full__header slnt-person-full__header">
+
+    <div class="slnt-person-full__portrait">
+      {% if content.field_image|render|striptags|trim %}
+        {{ content.field_image }}
+      {% else %}
+        <span class="slnt-person-full__initials" aria-hidden="true">{{ person_initials }}</span>
+      {% endif %}
+    </div>
+
+    <div class="slnt-person-full__heading">
+      <h1 class="slnt-node-full__title">{{ label }}</h1>
+      {% if person_where %}
+        <div class="slnt-node-full__where">{{ person_where }}</div>
+      {% endif %}
+    </div>
+
+  </div>
+
+  {% if content.field_bio|render|striptags|trim %}
+    <div class="slnt-article__body slnt-person-full__bio">
+      {{ content.field_bio }}
+    </div>
+  {% endif %}
+
+  {% if person_articles is not empty %}
+    <section class="slnt-series-items slnt-person-full__articles" aria-labelledby="person-articles-heading">
+      <h2 id="person-articles-heading" class="slnt-series-items__heading">
+        {{ 'Articles'|t }}
+        <span class="slnt-series-items__count">{{ person_articles|length }}</span>
+      </h2>
+      <div class="slnt-series-items__grid slnt-series-items__grid--articles">
+        {% for item in person_articles %}
+          <div class="slnt-series-items__cell">{{ item }}</div>
+        {% endfor %}
+      </div>
+    </section>
+  {% endif %}
+  {{ person_articles_cache }}
+
+  {% if content.field_content_component|render|striptags|trim %}
+    <div class="slnt-person-full__components">
+      {{ content.field_content_component }}
+    </div>
+  {% endif %}
+
+  {# Collaborations this person is part of (reverse lookup). #}
+  {% include '@customsolent/components/collaborations-block.html.twig' with {
+    collaboration_items: collaboration_items,
+    collaborations_cache: collaborations_cache,
+  } only %}
+
+  {{ content|without('field_image', 'field_bio', 'field_where', 'field_content_component', 'links') }}
+</article>

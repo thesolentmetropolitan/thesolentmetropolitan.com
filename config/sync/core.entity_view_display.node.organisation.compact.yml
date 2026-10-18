@@ -4,10 +4,12 @@ status: true
 dependencies:
   config:
     - core.entity_view_mode.node.compact
+    - field.field.node.organisation.field_content_component
     - field.field.node.organisation.field_primary_topic
     - field.field.node.organisation.field_related_topics
     - field.field.node.organisation.field_standfirst
     - field.field.node.organisation.field_url
+    - field.field.node.organisation.field_where
     - node.type.organisation
   module:
     - user
@@ -25,7 +27,9 @@ content:
     weight: 0
     region: content
 hidden:
+  field_content_component: true
   field_primary_topic: true
   field_related_topics: true
   field_url: true
+  field_where: true
   links: true

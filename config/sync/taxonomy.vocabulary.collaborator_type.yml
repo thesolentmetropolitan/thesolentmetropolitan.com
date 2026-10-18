@@ -1,0 +1,9 @@
+uuid: 41f5c794-6b34-4361-a018-5689283f6fec
+langcode: en
+status: true
+dependencies: {  }
+name: 'Collaborator type'
+vid: collaborator_type
+description: 'How a collaborator took part: writer, sponsor, producer, venue…'
+weight: 0
+new_revision: false

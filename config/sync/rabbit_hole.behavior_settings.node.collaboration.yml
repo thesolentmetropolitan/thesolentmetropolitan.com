@@ -1,0 +1,13 @@
+uuid: ce8ace11-db7c-4269-ad1d-10fd76bcbf21
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.collaboration
+id: node.collaboration
+targetEntityType: node
+bundle: collaboration
+action: display_page
+no_bypass: false
+bypass_message: false
+configuration: {  }
