@@ -1,0 +1,21 @@
+uuid: eb79cd3e-52c7-43e0-8eb4-c023ccc2a11f
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_series_start
+    - node.type.series
+  module:
+    - datetime
+id: node.series.field_series_start
+field_name: field_series_start
+entity_type: node
+bundle: series
+label: 'Series start'
+description: 'The day the series starts (or started). Date only.'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: datetime

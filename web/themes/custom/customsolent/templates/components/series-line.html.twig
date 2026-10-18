@@ -1,0 +1,35 @@
+{#
+/**
+ * @file
+ * "Part of the series …" line for event cards.
+ *
+ * One small line: a layers icon and the series name(s) as links. Sits
+ * OUTSIDE the card's main link (nested links are invalid HTML), so it is
+ * independently clickable, like the topic kicker beside it.
+ *
+ * Variables (from _customsolent_preprocess_series_membership()):
+ *   - series_links: list of {label, url}
+ *   - series_cache: render array with the lookup's cache tags — printed in
+ *     every branch so a card cached as "in no series" is refreshed when a
+ *     series is created
+ *   - variant:      'compact' | 'teaser' — a class hook for the host card
+ *   - show_label:   true prints "Part of the series" visibly; false keeps
+ *                   it for screen readers only
+ */
+#}
+{% if series_links is not empty %}
+  <div class="slnt-series-line slnt-series-line--{{ variant|default('compact') }}">
+    <span class="slnt-series-line__icon" aria-hidden="true">
+      {# Feather "layers" (MIT). #}
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 12 12 17 22 12"/><polyline points="2 17 12 22 22 17"/></svg>
+    </span>
+    <span class="slnt-series-line__text">
+      <span class="{{ show_label|default(false) ? 'slnt-series-line__label' : 'visually-hidden' }}">{{ 'Part of the series'|t }}{{ show_label|default(false) ? '' : ':' }} </span>
+      {%- for series in series_links -%}
+        <a href="{{ series.url }}" class="slnt-series-line__link">{{ series.label }}</a>
+        {%- if not loop.last %}<span class="slnt-series-line__sep" aria-hidden="true">, </span>{% endif -%}
+      {%- endfor -%}
+    </span>
+  </div>
+{% endif %}
+{{ series_cache }}

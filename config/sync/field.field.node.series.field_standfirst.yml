@@ -1,0 +1,19 @@
+uuid: 46ff8759-8ec2-4b97-8fcc-c00895e37b2f
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_standfirst
+    - node.type.series
+id: node.series.field_standfirst
+field_name: field_standfirst
+entity_type: node
+bundle: series
+label: Standfirst
+description: 'A single sentence that hooks the reader — what this series is about.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

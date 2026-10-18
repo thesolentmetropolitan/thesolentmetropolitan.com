@@ -1,0 +1,33 @@
+uuid: 59a46269-9607-42bb-90ec-b7be1460db19
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_series_items
+    - node.type.article
+    - node.type.event
+    - node.type.link
+    - node.type.series
+id: node.series.field_series_items
+field_name: field_series_items
+entity_type: node
+bundle: series
+label: 'Series items'
+description: 'The events, articles and links that make up this series, in the order you want them shown within each group.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      event: event
+      article: article
+      link: link
+    sort:
+      field: title
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

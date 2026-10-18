@@ -31,6 +31,8 @@
  *   - location_area   — name of the Location term's parent (e.g. the
  *                       venue's town), or null if the venue has no
  *                       parent term.
+ *   - series_links / series_cache — the series this event is in (reverse
+ *                       lookup; _customsolent_preprocess_series_membership)
  */
 #}
 {%
@@ -95,6 +97,14 @@
 
     </article>
   </a>
+
+  {# "Part of the series …" — outside the card link (nested links are
+     invalid HTML), before the kicker, so the series name is its own link. #}
+  {% include '@customsolent/components/series-line.html.twig' with {
+    series_links: series_links,
+    series_cache: series_cache,
+    variant: 'compact',
+  } only %}
 
   {# Kicker — LAST, after the title and facts, so that a screen-reader
      user who jumps to the h3 hears everything belonging to this card

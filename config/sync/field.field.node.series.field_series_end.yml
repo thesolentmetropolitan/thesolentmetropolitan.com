@@ -1,0 +1,21 @@
+uuid: 48e37ea6-5444-4053-a7ea-894db758b205
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_series_end
+    - node.type.series
+  module:
+    - datetime
+id: node.series.field_series_end
+field_name: field_series_end
+entity_type: node
+bundle: series
+label: 'Series end'
+description: 'The day the series ends. Leave empty for an open-ended, ongoing series.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: datetime

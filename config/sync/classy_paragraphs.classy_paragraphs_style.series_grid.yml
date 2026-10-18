@@ -1,0 +1,7 @@
+uuid: d152eb31-98be-4bab-b7c8-7edfea5d38d4
+langcode: en
+status: true
+dependencies: {  }
+id: series_grid
+label: 'Series Grid'
+classes: slnt-series-grid
