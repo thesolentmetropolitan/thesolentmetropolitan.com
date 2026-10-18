@@ -210,8 +210,24 @@
   text-decoration-thickness: 2px;
 }
 
+/* Title row: title left (wraps), "Regular event" badge at the top right. */
+.slnt-event-teaser__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.3rem 0.6rem;
+}
+
+/* As on the compact card: never narrower than the longest word. */
+.slnt-event-teaser__head .slnt-event-teaser__title {
+  flex: 1 1 0;
+  min-width: min-content;
+  overflow-wrap: break-word;
+}
+
 .slnt-event-teaser .slnt-event-badge {
-  margin-bottom: 0.4rem;
+  margin: 0.3rem 0 0 0;
 }
 
 /* Title links to the event page (since 2026-10-18). */

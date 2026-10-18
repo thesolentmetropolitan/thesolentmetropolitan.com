@@ -356,58 +356,7 @@ class ContentRelations {
   }
 
   /**
-   * Upcoming published events that share a topic with $event.
-   *
-   * "Share a topic" = the other event's primary or related topics include
-   * any of $event's primary or related topics. Ordered by the next start,
-   * soonest first; $event itself is left out; a recurring event counts
-   * once. Render arrays built from these carry eventsCacheTags() and
-   * maxAgeUntilMidnight() (the "not finished" bound moves at midnight).
-   *
-   * @return \Drupal\node\NodeInterface[]
-   */
-  public function relatedEvents(NodeInterface $event, int $limit = 4): array {
-    $topics = [];
-    foreach (['field_primary_topic', 'field_related_topics'] as $field) {
-      if ($event->hasField($field)) {
-        foreach ($event->get($field) as $item) {
-          if ($item->target_id) {
-            $topics[] = (int) $item->target_id;
-          }
-        }
-      }
-    }
-    $topics = array_values(array_unique($topics));
-    if (!$topics || !$event->id()) {
-      return [];
-    }
-    $storage = $this->entityTypeManager->getStorage('node');
-    $query = $storage->getQuery()
-      ->accessCheck(TRUE)
-      ->condition('type', 'event')
-      ->condition('status', NodeInterface::PUBLISHED)
-      ->condition('nid', (int) $event->id(), '<>')
-      ->condition('field_when.end_value', strtotime('today'), '>=')
-      ->sort('field_when.value', 'ASC');
-    $or = $query->orConditionGroup()
-      ->condition('field_primary_topic.target_id', $topics, 'IN')
-      ->condition('field_related_topics.target_id', $topics, 'IN');
-    $query->condition($or);
-    $ids = $query->execute();
-    if (!$ids) {
-      return [];
-    }
-    // One row per matching topic and per future instance: keep each event
-    // once, in date order, then cut to the limit.
-    $ids = array_slice(array_values(array_unique($ids)), 0, $limit);
-    $nodes = $storage->loadMultiple($ids);
-    // loadMultiple() returns by id, not in query order; restore it.
-    return array_values(array_filter(array_map(fn($id) => $nodes[$id] ?? NULL, $ids)));
-  }
-
-  /**
-   * Cache tags for anything rendered from upcomingEventsOrganisedBy()
-   * and relatedEvents().
+   * Cache tags for anything rendered from upcomingEventsOrganisedBy().
    *
    * @return string[]
    */

@@ -20,6 +20,12 @@ function customsolent_preprocess_html(array &$variables): void {
   if ($node instanceof \Drupal\node\NodeInterface && $route_name === 'entity.node.canonical') {
     $variables['attributes']['class'][] = 'page-node-type-' . \Drupal\Component\Utility\Html::getClass($node->bundle());
   }
+  // Drupal's usual front-page class (the template prints its own
+  // attributes, so core's body_classes never reach the page). CSS uses it
+  // for Home-only layout, e.g. the phones' pulled-out event/article grids.
+  if (\Drupal::service('path.matcher')->isFrontPage()) {
+    $variables['attributes']['class'][] = 'path-frontpage';
+  }
   // The automated /{topic}/{type} listing pages belong to the section they
   // list, so they share its off-white page background.
   if ($route_name === 'customsolent_helpers.topic_listing') {
@@ -191,16 +197,24 @@ function customsolent_preprocess_node(array &$variables): void {
     $variables['organiser_events_cache'] = ['#cache' => ['tags' => $relations->eventsCacheTags(), 'max-age' => $relations->maxAgeUntilMidnight()]];
   }
 
-  // Event page: related events (same topics, still to come) at the foot.
+  // Event page: the organiser's other upcoming events at the foot — the
+  // same list as the organisation page's "Coming up", minus this event.
+  // (A topic-overlap "related events" list was tried on 18 Oct and
+  // dropped the same day as too loosely connected.)
   if ($node->bundle() === 'event' && ($variables['view_mode'] ?? '') === 'full') {
     /** @var \Drupal\customsolent_helpers\ContentRelations $relations */
     $relations = \Drupal::service('customsolent_helpers.content_relations');
     $view_builder = \Drupal::entityTypeManager()->getViewBuilder('node');
-    $variables['related_events'] = [];
-    foreach ($relations->relatedEvents($node) as $event) {
-      $variables['related_events'][] = $view_builder->view($event, 'compact');
+    $variables['organiser_other_events'] = [];
+    $organiser = $node->hasField('field_organiser') ? $node->get('field_organiser')->entity : NULL;
+    if ($organiser) {
+      foreach ($relations->upcomingEventsOrganisedBy($organiser) as $event) {
+        if ((int) $event->id() !== (int) $node->id()) {
+          $variables['organiser_other_events'][] = $view_builder->view($event, 'compact');
+        }
+      }
     }
-    $variables['related_events_cache'] = ['#cache' => ['tags' => $relations->eventsCacheTags(), 'max-age' => $relations->maxAgeUntilMidnight()]];
+    $variables['organiser_events_cache'] = ['#cache' => ['tags' => $relations->eventsCacheTags(), 'max-age' => $relations->maxAgeUntilMidnight()]];
   }
 
   // Series and Collaboration pages: the kicker that names the kind of

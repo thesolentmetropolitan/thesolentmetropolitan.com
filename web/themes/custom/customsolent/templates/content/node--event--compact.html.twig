@@ -59,24 +59,29 @@
      {% if is_external %}target="_blank" rel="noopener noreferrer"{% endif %}>
     <article{{ attributes.addClass(classes) }}>
 
-      <h3 class="slnt-event-compact__title">
-        <span class="slnt-event-compact__title-text">{{ label }}</span>
-        {% if is_external %}
-          <svg class="slnt-event-compact__external-icon"
-               viewBox="0 0 24 24" fill="none"
-               stroke="currentColor" stroke-width="2.5"
-               stroke-linecap="round" stroke-linejoin="round"
-               aria-hidden="true">
-            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
-            <polyline points="15 3 21 3 21 9"/>
-            <line x1="10" y1="14" x2="21" y2="3"/>
-          </svg>
+      {# Title row: the title wraps on the left, the "Regular event" badge
+         keeps its place at the top right (it never drops below the title). #}
+      <div class="slnt-event-compact__head">
+        <h3 class="slnt-event-compact__title">
+          <span class="slnt-event-compact__title-text">{{ label }}</span>
+          {% if is_external %}
+            <svg class="slnt-event-compact__external-icon"
+                 viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2.5"
+                 stroke-linecap="round" stroke-linejoin="round"
+                 aria-hidden="true">
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+              <polyline points="15 3 21 3 21 9"/>
+              <line x1="10" y1="14" x2="21" y2="3"/>
+            </svg>
+          {% endif %}
+        </h3>
+        {% if event_is_recurring %}
+          {# On phones the second word is dropped (CSS) so the title keeps
+             room; the full page always says "Regular event". #}
+          <span class="slnt-event-badge slnt-event-badge--regular">{{ 'Regular'|t }}<span class="slnt-event-badge__word"> {{ 'event'|t }}</span></span>
         {% endif %}
-      </h3>
-
-      {% if event_is_recurring %}
-        <span class="slnt-event-badge slnt-event-badge--regular">{{ 'Regular event'|t }}</span>
-      {% endif %}
+      </div>
       {{ event_when_cache }}
 
       {# Recurring event: "Every Monday, 7 - 8:30pm" and the next date,

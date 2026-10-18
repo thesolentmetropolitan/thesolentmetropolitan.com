@@ -47,16 +47,18 @@
   {% endif %}
 
   <div class="slnt-event-teaser__text">
-    <h2 class="slnt-event-teaser__title"><a href="{{ url }}" class="slnt-event-teaser__title-link">{{ label }}</a></h2>
+    {# Title row: title left (wraps), "Regular event" badge top right. #}
+    <div class="slnt-event-teaser__head">
+      <h2 class="slnt-event-teaser__title"><a href="{{ url }}" class="slnt-event-teaser__title-link">{{ label }}</a></h2>
+      {% if event_is_recurring %}
+        <span class="slnt-event-badge slnt-event-badge--regular">{{ 'Regular event'|t }}</span>
+      {% endif %}
+    </div>
     {{ in_kicker_lazy }}
     {{ from_kicker_lazy }}
 
     {% if content.field_standfirst|render|striptags|trim %}
       <div class="slnt-event-teaser__standfirst">{{ content.field_standfirst }}</div>
-    {% endif %}
-
-    {% if event_is_recurring %}
-      <span class="slnt-event-badge slnt-event-badge--regular">{{ 'Regular event'|t }}</span>
     {% endif %}
     {{ event_when_cache }}
 
