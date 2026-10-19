@@ -550,9 +550,18 @@ function _customsolent_preprocess_event_shared_extras($node, array &$variables):
     return $fmt($ts, 'i') === '00' ? $fmt($ts, 'ga') : $fmt($ts, 'g:ia');
   };
   $first = $instances[0];
-  $variables['event_recurrence_times'] = $first['duration'] >= 1439
-    ? ''
-    : $time_fmt($first['start']) . ' - ' . $time_fmt($first['end']);
+  // No end time is entered as end = start (the same convention as one-off
+  // events, whose formatter then prints one time): show "7:30pm", never
+  // "7:30pm - 7:30pm".
+  if ($first['duration'] >= 1439) {
+    $variables['event_recurrence_times'] = '';
+  }
+  elseif ($first['end'] <= $first['start']) {
+    $variables['event_recurrence_times'] = $time_fmt($first['start']);
+  }
+  else {
+    $variables['event_recurrence_times'] = $time_fmt($first['start']) . ' - ' . $time_fmt($first['end']);
+  }
   $variables['event_recurrence_text'] = '';
   if (\Drupal::moduleHandler()->moduleExists('smart_date_recur')) {
     $rule = \Drupal\smart_date_recur\Entity\SmartDateRule::load($rule_id);
