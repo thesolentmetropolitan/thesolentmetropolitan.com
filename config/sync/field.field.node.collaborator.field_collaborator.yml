@@ -5,6 +5,7 @@ dependencies:
   config:
     - field.storage.node.field_collaborator
     - node.type.collaborator
+    - node.type.link
     - node.type.organisation
     - node.type.person
 id: node.collaborator.field_collaborator
@@ -21,11 +22,12 @@ settings:
   handler: 'default:node'
   handler_settings:
     target_bundles:
+      link: link
       organisation: organisation
       person: person
     sort:
       field: title
       direction: ASC
     auto_create: false
-    auto_create_bundle: ''
+    auto_create_bundle: organisation
 field_type: entity_reference
