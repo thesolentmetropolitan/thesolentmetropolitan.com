@@ -13,7 +13,7 @@ field_name: field_collaborator
 entity_type: node
 bundle: collaborator
 label: Who
-description: 'The organisation or person. Create them first if they do not exist yet.'
+description: 'The organisation, link or person. Create them first if they do not exist yet.'
 required: true
 translatable: false
 default_value: {  }
