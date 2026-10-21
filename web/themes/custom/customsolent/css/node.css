@@ -76,6 +76,18 @@
   margin: 0;
 }
 
+/* ── The same measure for editor text on every other page (issue 437) ──
+   A Text paragraph inside an Enclosure in the main content (the About
+   pages, section intros, organisation and composite pages) is capped at
+   the article body's 740px: at the 1360px container those lines ran to
+   180+ characters. Capped, not centred, so the left edge still lines up
+   with the headings around it. The footer blocks sit outside
+   .layout-content and keep their own layout; two-column slices are
+   already narrower than this. */
+.layout-content .paragraph--type--enclosure .paragraph--type--text {
+  max-width: 740px;
+}
+
 /* Body text inherits from fonts.css but ensure base styles */
 .slnt-article__body p {
   font-family: 'Atkinson Hyperlegible Next', sans-serif;
