@@ -13,7 +13,8 @@
  * members once the Collaboration type exists (see the 2026-10-18 brief).
  *
  * Variables from _customsolent_preprocess_series_extras():
- *   series_status, series_status_label, series_range, series_groups
+ *   series_status, series_status_label, series_range, organiser_label /
+ *   organiser_url (the curating organisation, or ''), series_groups
  *   ({key, label, items[], grid_class}), related_topic_links
  *   ({label, url, color}), series_cache (print in every branch).
  */
@@ -68,6 +69,12 @@
       </div>
     {% endif %}
 
+    {# Organiser — the organisation curating the series; nothing when none
+       is named (issue 436). Same line as the event page. #}
+    {% if organiser_label %}
+      <div class="slnt-node-full__organiser">{{ 'Organised by'|t }} <a href="{{ organiser_url }}">{{ organiser_label }}</a></div>
+    {% endif %}
+
   </div>
 
   {% if content.field_standfirst|render|striptags|trim %}
@@ -118,6 +125,6 @@
   {# Rendered by hand above; suppress the defaults. #}
   {{ content|without('field_standfirst', 'field_series_start', 'field_series_end',
      'field_description', 'field_series_items', 'field_primary_topic',
-     'field_related_topics', 'links') }}
+     'field_related_topics', 'field_organiser', 'links') }}
 
 </article>

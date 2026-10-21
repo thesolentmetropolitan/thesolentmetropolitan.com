@@ -1,0 +1,29 @@
+uuid: 4d5442b7-6cb5-41d5-b60d-723a1bea53f7
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_organiser
+    - node.type.organisation
+    - node.type.series
+id: node.series.field_organiser
+field_name: field_organiser
+entity_type: node
+bundle: series
+label: Organiser
+description: 'The organisation that curates or arranges the series. Leave empty when there is none; several organisations working together is a Collaboration.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      organisation: organisation
+    sort:
+      field: title
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

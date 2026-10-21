@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.node.series.field_description
+    - field.field.node.series.field_organiser
     - field.field.node.series.field_primary_topic
     - field.field.node.series.field_related_topics
     - field.field.node.series.field_series_end
@@ -32,6 +33,16 @@ content:
     region: content
     settings:
       rows: 9
+      placeholder: ''
+    third_party_settings: {  }
+  field_organiser:
+    type: entity_reference_autocomplete
+    weight: 4
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
       placeholder: ''
     third_party_settings: {  }
   field_primary_topic:
