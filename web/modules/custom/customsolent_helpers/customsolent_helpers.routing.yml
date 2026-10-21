@@ -47,3 +47,19 @@ customsolent_helpers.people_home:
     listing: '/about/team'
   requirements:
     _access: 'TRUE'
+# /link is the Link content type's URL prefix (/link/<title>, issue 444); the
+# bare prefix, and /links, go to the organisations and links listing.
+customsolent_helpers.link_home:
+  path: '/link'
+  defaults:
+    _controller: '\Drupal\customsolent_helpers\Controller\ListingHomeRedirectController::redirectToListing'
+    listing: '/explore/organisations'
+  requirements:
+    _access: 'TRUE'
+customsolent_helpers.links_home:
+  path: '/links'
+  defaults:
+    _controller: '\Drupal\customsolent_helpers\Controller\ListingHomeRedirectController::redirectToListing'
+    listing: '/explore/organisations'
+  requirements:
+    _access: 'TRUE'
