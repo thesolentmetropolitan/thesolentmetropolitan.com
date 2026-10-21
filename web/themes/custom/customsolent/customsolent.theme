@@ -116,6 +116,26 @@ function customsolent_preprocess_slnt_topic_listing(array &$variables): void {
 }
 
 /**
+ * Implements hook_page_attachments_alter().
+ *
+ * Favicon (issue 148). Drupal itself links favicon.ico from the theme root
+ * (a file there replaces core's default). This adds the SVG mark, which
+ * modern browsers prefer at any size, and the Apple touch icon. All three
+ * are the square "SLNT" social mark (logo202604g_social).
+ */
+function customsolent_page_attachments_alter(array &$attachments): void {
+  $base = base_path() . \Drupal::service('extension.list.theme')->getPath('customsolent');
+  $attachments['#attached']['html_head_link'][] = [
+    ['rel' => 'icon', 'href' => $base . '/favicon.svg', 'type' => 'image/svg+xml'],
+    FALSE,
+  ];
+  $attachments['#attached']['html_head_link'][] = [
+    ['rel' => 'apple-touch-icon', 'href' => $base . '/apple-touch-icon.png', 'sizes' => '180x180'],
+    FALSE,
+  ];
+}
+
+/**
  * Implements hook_preprocess_HOOK() for page.html.twig.
  */
 function customsolent_preprocess_page(array &$variables): void {
@@ -184,8 +204,18 @@ function customsolent_preprocess_node(array &$variables): void {
     _customsolent_preprocess_collaborator_extras($node, $variables);
   }
 
-  // Organisation page: the events it organises that are still to come.
+  // Organisation page: where it is based — every Location term as one
+  // phrase ("Southampton and Portsmouth"; field_where is multi-value,
+  // issue 460) — and the events it organises that are still to come.
   if ($node->bundle() === 'organisation' && ($variables['view_mode'] ?? '') === 'full') {
+    $variables['organisation_where'] = '';
+    if ($node->hasField('field_where') && !$node->get('field_where')->isEmpty()) {
+      $names = [];
+      foreach ($node->get('field_where')->referencedEntities() as $where) {
+        $names[] = $where->getName();
+      }
+      $variables['organisation_where'] = _customsolent_join_names($names);
+    }
     /** @var \Drupal\customsolent_helpers\ContentRelations $relations */
     $relations = \Drupal::service('customsolent_helpers.content_relations');
     $view_builder = \Drupal::entityTypeManager()->getViewBuilder('node');
@@ -423,12 +453,17 @@ function _customsolent_preprocess_event_compact_extras($node, array &$variables)
 
 /**
  * A reader-facing phrase for a recurrence rule: "Every Monday", "Every
- * other Wednesday", "Every day", "Monthly", "Every year".
+ * Wednesday and Thursday", "Every other Wednesday", "Every day",
+ * "Monthly", "Every year".
  *
  * Smart Date Recur's own text ("Weekly on Monday, 7 - 9pm") includes the
  * times and theme-debug markup; the cards add the times themselves, so
  * build the phrase from the rule's frequency and interval instead. Falls
  * back to the module's text, stripped, for anything unusual.
+ *
+ * A weekly rule may repeat on several days (BYDAY=WE,TH): every day in the
+ * rule is named, in the rule's order, Monday first. With no BYDAY the day
+ * is the first instance's weekday.
  */
 function _customsolent_recurrence_phrase($rule, int $first_start, \DateTimeZone $tz): string {
   $freq = (string) $rule->get('freq')->getString();
@@ -443,13 +478,16 @@ function _customsolent_recurrence_phrase($rule, int $first_start, \DateTimeZone 
       return $interval > 1 ? (string) t('Every @n days', ['@n' => $interval]) : (string) t('Every day');
 
     case 'WEEKLY':
+      $days = _customsolent_recurrence_day_names($params['byday'] ?? []) ?: [$weekday];
+      $last = array_pop($days);
+      $day_list = $days ? implode(', ', $days) . ' ' . t('and') . ' ' . $last : $last;
       if ($interval === 1) {
-        return (string) t('Every @day', ['@day' => $weekday]);
+        return (string) t('Every @day', ['@day' => $day_list]);
       }
       if ($interval === 2) {
-        return (string) t('Every other @day', ['@day' => $weekday]);
+        return (string) t('Every other @day', ['@day' => $day_list]);
       }
-      return (string) t('Every @n weeks on @day', ['@n' => $interval, '@day' => $weekday]);
+      return (string) t('Every @n weeks on @day', ['@n' => $interval, '@day' => $day_list]);
 
     case 'MONTHLY':
       return $interval > 1 ? (string) t('Every @n months', ['@n' => $interval]) : (string) t('Monthly');
@@ -461,6 +499,41 @@ function _customsolent_recurrence_phrase($rule, int $first_start, \DateTimeZone 
   $rendered = is_array($text) ? (string) \Drupal::service('renderer')->renderInIsolation($text) : (string) $text;
   $rendered = preg_replace('/<!--.*?-->/s', '', $rendered) ?? $rendered;
   return trim(preg_replace('/\s+/', ' ', strip_tags($rendered)) ?? '');
+}
+
+/**
+ * Weekday names for an RRULE BYDAY list (["WE", "TH"] -> ["Wednesday",
+ * "Thursday"]), sorted Monday first. Unknown codes are dropped.
+ */
+function _customsolent_recurrence_day_names(array $byday): array {
+  $names = ['MO' => 'Monday', 'TU' => 'Tuesday', 'WE' => 'Wednesday', 'TH' => 'Thursday', 'FR' => 'Friday', 'SA' => 'Saturday', 'SU' => 'Sunday'];
+  $found = [];
+  foreach ($byday as $code) {
+    $code = strtoupper(trim((string) $code));
+    if (isset($names[$code])) {
+      $found[$code] = (string) t($names[$code]);
+    }
+  }
+  // Monday-first order regardless of how the rule lists them.
+  $ordered = [];
+  foreach (array_keys($names) as $code) {
+    if (isset($found[$code])) {
+      $ordered[] = $found[$code];
+    }
+  }
+  return $ordered;
+}
+
+/**
+ * Joins names for reading: "A", "A and B", "A, B and C". '' for none.
+ */
+function _customsolent_join_names(array $names): string {
+  $names = array_values(array_filter(array_map('strval', $names), 'strlen'));
+  if (!$names) {
+    return '';
+  }
+  $last = array_pop($names);
+  return $names ? implode(', ', $names) . ' ' . t('and') . ' ' . $last : $last;
 }
 
 /**
@@ -504,10 +577,7 @@ function _customsolent_preprocess_event_shared_extras($node, array &$variables):
         $areas[] = $parent->getName();
       }
     }
-    if ($areas) {
-      $last = array_pop($areas);
-      $variables['where_areas'] = $areas ? implode(', ', $areas) . ' ' . t('and') . ' ' . $last : $last;
-    }
+    $variables['where_areas'] = _customsolent_join_names($areas);
   }
 
   $variables['event_cta_text'] = _customsolent_event_cta_text($node);
@@ -1046,6 +1116,19 @@ function _customsolent_preprocess_series_extras($node, array &$variables): void 
   $variables['series_status_label'] = $relations->statusLabel($status);
   $variables['series_range'] = $relations->seriesDateRange($node);
   [$variables['series_start_iso'], $variables['series_end_iso']] = $relations->seriesDates($node);
+
+  // Organiser — the organisation curating the series, when one is named
+  // (issue 436). Same variables as the event page, so the template line
+  // is the same; empty means the line is not printed.
+  $variables['organiser_label'] = '';
+  $variables['organiser_url'] = '';
+  if ($node->hasField('field_organiser') && !$node->get('field_organiser')->isEmpty()) {
+    $org = $node->get('field_organiser')->entity;
+    if ($org && $org->access('view')) {
+      $variables['organiser_label'] = $org->label();
+      $variables['organiser_url'] = $org->toUrl()->toString();
+    }
+  }
 
   $counts = $relations->seriesCounts($node);
   $variables['series_counts'] = $counts;

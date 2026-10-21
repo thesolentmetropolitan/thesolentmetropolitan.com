@@ -42,9 +42,10 @@
     {# Title — organisation name. #}
     <h1 class="slnt-node-full__title">{{ label }}</h1>
 
-    {# Where — the Location term, plain text. #}
-    {% if content.field_where|render|striptags|trim %}
-      <div class="slnt-node-full__where">{{ content.field_where|render|striptags|trim }}</div>
+    {# Where — the Location term(s) as plain text: "Southampton and
+       Portsmouth" (organisation_where, from customsolent_preprocess_node). #}
+    {% if organisation_where %}
+      <div class="slnt-node-full__where">{{ organisation_where }}</div>
     {% endif %}
 
   </div>
