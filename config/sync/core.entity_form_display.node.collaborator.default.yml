@@ -32,7 +32,7 @@ content:
       placeholder: ''
     third_party_settings: {  }
   field_collaborator_type:
-    type: entity_reference_autocomplete_tags
+    type: entity_reference_autocomplete
     weight: 2
     region: content
     settings:
