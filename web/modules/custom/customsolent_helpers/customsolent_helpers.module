@@ -326,6 +326,121 @@ function customsolent_helpers_node_presave(\Drupal\node\NodeInterface $node): vo
       $node->setTitle($title);
     }
   }
+  // A new node that arrives already carrying a recurrence rule id (an
+  // import, a clone made some other way than quick_node_clone) must not
+  // share that rule with the node it came from — see
+  // customsolent_helpers_cloned_node_alter().
+  if ($node->isNew()) {
+    customsolent_helpers_own_recurrence_rules($node, TRUE);
+  }
+}
+
+/**
+ * Implements hook_cloned_node_alter() (quick_node_clone).
+ *
+ * Smart Date Recur keeps a recurring event's rule ("every Wednesday and
+ * Thursday") in its own smart_date_rule entity and stores only that rule's
+ * id on each field_when item. A clone copies the field values, id
+ * included, so the clone and the original point at ONE rule; saving either
+ * then rewrites that rule in place and the other event's days change too
+ * (issue 462: nodes 914, 916, 918). Give the clone its own copy of every
+ * rule before its form is shown, so the save updates the copy.
+ */
+function customsolent_helpers_cloned_node_alter(\Drupal\node\NodeInterface &$node, \Drupal\node\NodeInterface $original): void {
+  customsolent_helpers_own_recurrence_rules($node, FALSE);
+}
+
+/**
+ * Implements hook_cron().
+ *
+ * Deletes recurrence-rule copies made by
+ * customsolent_helpers_own_recurrence_rules() that no node references a
+ * day later: the clone form makes a copy each time it is built, so an
+ * abandoned clone, and the GET before a POST, each leave one behind.
+ * Smart Date Recur itself only skips such rules.
+ */
+function customsolent_helpers_cron(): void {
+  $state = \Drupal::state();
+  $made = $state->get('customsolent_helpers.recurrence_rule_copies', []);
+  if (!$made || !\Drupal::moduleHandler()->moduleExists('smart_date_recur')) {
+    return;
+  }
+  $cutoff = \Drupal::time()->getRequestTime() - 86400;
+  $db = \Drupal::database();
+  foreach ($made as $rid => $when) {
+    if ($when > $cutoff) {
+      continue;
+    }
+    $rule = \Drupal\smart_date_recur\Entity\SmartDateRule::load($rid);
+    if ($rule) {
+      $table = $rule->entity_type->getString() . '__' . $rule->field_name->getString();
+      $column = $rule->field_name->getString() . '_rrule';
+      $referenced = $db->schema()->tableExists($table)
+        && $db->query("SELECT 1 FROM {{$table}} WHERE $column = :rid LIMIT 1", [':rid' => $rid])->fetchField();
+      if (!$referenced) {
+        $rule->delete();
+        \Drupal::logger('customsolent_helpers')->notice('Deleted unused recurrence rule copy @rid.', ['@rid' => $rid]);
+      }
+    }
+    unset($made[$rid]);
+  }
+  $state->set('customsolent_helpers.recurrence_rule_copies', $made);
+}
+
+/**
+ * Replaces the recurrence rules referenced by $node with copies of its own.
+ *
+ * Every Smart Date field on the node is covered. With $only_if_shared a
+ * rule is copied only when some other node already references it (one
+ * query per rule); without it every rule is copied (the clone case, where
+ * the original certainly still references them). Returns the number of
+ * rules copied.
+ */
+function customsolent_helpers_own_recurrence_rules(\Drupal\node\NodeInterface $node, bool $only_if_shared): int {
+  if (!\Drupal::moduleHandler()->moduleExists('smart_date_recur')) {
+    return 0;
+  }
+  $copies = [];
+  foreach ($node->getFieldDefinitions() as $field_name => $definition) {
+    if ($definition->getType() !== 'smartdate' || !$node->hasField($field_name)) {
+      continue;
+    }
+    foreach ($node->get($field_name) as $item) {
+      $rid = (int) ($item->rrule ?? 0);
+      if (!$rid) {
+        continue;
+      }
+      if (!array_key_exists($rid, $copies)) {
+        $copies[$rid] = NULL;
+        $shared = TRUE;
+        if ($only_if_shared) {
+          $query = \Drupal::entityQuery('node')->accessCheck(FALSE)->condition("$field_name.rrule", $rid);
+          if (!$node->isNew()) {
+            $query->condition('nid', $node->id(), '<>');
+          }
+          $shared = (bool) $query->range(0, 1)->count()->execute();
+        }
+        if ($shared) {
+          $rule = \Drupal\smart_date_recur\Entity\SmartDateRule::load($rid);
+          if ($rule) {
+            $copy = $rule->createDuplicate();
+            $copy->save();
+            $copies[$rid] = (int) $copy->id();
+            // Remember the copy so cron can sweep it if the form it was made
+            // for is never saved (the clone form copies on every request).
+            $state = \Drupal::state();
+            $made = $state->get('customsolent_helpers.recurrence_rule_copies', []);
+            $made[(int) $copy->id()] = \Drupal::time()->getRequestTime();
+            $state->set('customsolent_helpers.recurrence_rule_copies', $made);
+          }
+        }
+      }
+      if ($copies[$rid]) {
+        $item->rrule = $copies[$rid];
+      }
+    }
+  }
+  return count(array_filter($copies));
 }
 
 
