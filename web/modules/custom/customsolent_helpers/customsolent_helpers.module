@@ -451,10 +451,22 @@ function customsolent_helpers_own_recurrence_rules(\Drupal\node\NodeInterface $n
  * holds a year of Mondays), and the listings join that table and sort by
  * it, so without this every instance would be its own card. For items that
  * belong to a rule, keep only the rule's earliest instance that has not yet
- * ended today; items without a rule are untouched. The date pills (today,
- * this weekend, …) all look forward from today, so the same bound serves
- * them. A finished recurring event therefore has no row in any listing,
- * which the upcoming-only displays already imply.
+ * ended; items without a rule are untouched. "Not yet ended" is measured
+ * against the clock, not against today: the card's "Next: …" line
+ * (customsolent.theme) moves on the moment an instance ends, and the row
+ * the event sorts by has to move with it, or a regular event whose 7pm
+ * instance has finished still sorts among this evening's events while its
+ * card already names next week (issue 465). A finished recurring event
+ * therefore has no row in any listing, which the upcoming-only displays
+ * already imply.
+ *
+ * The clock is the database's (UNIX_TIMESTAMP()), not a query argument:
+ * the Views results cache is keyed on the query and its arguments, and a
+ * per-request timestamp would make every execution a cache miss that
+ * leaves a permanent entry behind. With a stable query the results are
+ * cached once and expired by the view's cache plugin (EventsTag) at the
+ * first moment they can change; the end and rule columns added here are
+ * what it reads to find that moment.
  */
 function _customsolent_helpers_one_row_per_recurring_event(\Drupal\views\Plugin\views\query\Sql $query): void {
   $alias = $query->ensureTable('node__field_when');
@@ -466,13 +478,26 @@ function _customsolent_helpers_one_row_per_recurring_event(\Drupal\views\Plugin\
   // there would be OR-ed with the topic match and let every one-off event
   // through on every section page (regression seen 2026-10-18).
   $group = $query->setWhereGroup('AND');
+  $args = [];
+  if (\Drupal::database()->databaseType() === 'mysql') {
+    $now = 'UNIX_TIMESTAMP()';
+  }
+  else {
+    // Other engines: a request-time argument (correct, but every execution
+    // is then a results-cache miss, see above).
+    $now = ':slnt_now';
+    $args[':slnt_now'] = \Drupal::time()->getRequestTime();
+  }
   $query->addWhereExpression($group,
     "$alias.field_when_rrule IS NULL OR $alias.field_when_end_value = (
       SELECT MIN(slnt_w.field_when_end_value) FROM {node__field_when} slnt_w
       WHERE slnt_w.entity_id = $alias.entity_id
         AND slnt_w.field_when_rrule = $alias.field_when_rrule
-        AND slnt_w.field_when_end_value >= :slnt_today
+        AND slnt_w.field_when_end_value >= $now
     )",
-    [':slnt_today' => strtotime('today')]
+    $args
   );
+  // For the cache plugin: when does the chosen row of a regular event end?
+  $query->addField($alias, 'field_when_end_value', 'slnt_when_end');
+  $query->addField($alias, 'field_when_rrule', 'slnt_when_rrule');
 }

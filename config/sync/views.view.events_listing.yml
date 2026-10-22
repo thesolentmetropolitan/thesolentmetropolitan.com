@@ -110,7 +110,7 @@ display:
         options:
           perm: 'access content'
       cache:
-        type: tag
+        type: customsolent_events_tag
         options: {  }
       empty: {  }
       sorts:
