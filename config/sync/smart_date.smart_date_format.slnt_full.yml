@@ -3,8 +3,8 @@ langcode: en
 status: true
 dependencies: {  }
 id: slnt_full
-label: 'Solent full page (D, M j Y, g:ia)'
-date_format: 'D, M j Y'
+label: 'Solent full page (D, j M Y, g:ia)'
+date_format: 'D, j M Y'
 time_format: 'g:ia'
 time_hour_format: ga
 allday_label: ''
