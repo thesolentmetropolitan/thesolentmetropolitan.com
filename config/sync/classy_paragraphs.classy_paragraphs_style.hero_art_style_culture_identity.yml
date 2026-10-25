@@ -3,5 +3,5 @@ langcode: en
 status: true
 dependencies: {  }
 id: hero_art_style_culture_identity
-label: 'Culture - Identity'
+label: 'Culture - Identity & Belonging'
 classes: hero-art-style--culture-identity
