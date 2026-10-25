@@ -697,6 +697,15 @@ function _customsolent_preprocess_article_compact_extras($node, array &$variable
         // take the last segment for the tile filename.
         $name_parts = explode(' / ', $term->getName());
         $tile_candidates[] = $slug($top->getName()) . '_' . $slug(end($name_parts));
+        // A third-level term without a tile of its own (Stage / Comedy)
+        // uses its parent's, before the section's "view all" tile.
+        foreach (\Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadAllParents($term->id()) as $ancestor) {
+          if ($ancestor->id() === $term->id() || $ancestor->id() === $top->id()) {
+            continue;
+          }
+          $ancestor_parts = explode(' / ', $ancestor->getName());
+          $tile_candidates[] = $slug($top->getName()) . '_' . $slug(end($ancestor_parts));
+        }
         $tile_candidates[] = $slug($top->getName()) . '_' . $slug($top->getName());
       }
     }
