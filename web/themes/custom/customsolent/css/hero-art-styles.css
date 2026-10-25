@@ -117,7 +117,7 @@
 /* Icons: fingerprint, compass, flag-banner */
 .hero-art-style--culture-identity {
   background:
-    url('../images/hero-tiles/culture_identity.svg') repeat,
+    url('../images/hero-tiles/culture_identity_belonging.svg') repeat,
     linear-gradient(135deg, #6B21A8 0%, #7C3AED 50%, #A855F7 100%);
   background-size: 120px 103.92px, cover;
 }
