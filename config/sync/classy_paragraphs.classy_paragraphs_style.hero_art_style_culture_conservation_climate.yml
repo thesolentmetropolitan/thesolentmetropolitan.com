@@ -1,0 +1,7 @@
+uuid: 44d30fcb-a3d3-4ee9-82ac-0e0a1d0723a3
+langcode: en
+status: true
+dependencies: {  }
+id: hero_art_style_culture_conservation_climate
+label: 'Culture - Conservation & Climate'
+classes: hero-art-style--culture-conservation-climate

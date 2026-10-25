@@ -1,6 +1,7 @@
+uuid: bd041890-48d8-4dc9-8eda-c5e705ad28b8
 langcode: en
 status: true
 dependencies: {  }
 id: hero_art_style_culture_science
-label: 'Culture - Science'
+label: 'Culture - Science & Nature'
 classes: hero-art-style--culture-science

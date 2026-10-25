@@ -176,11 +176,20 @@
   background-size: 120px 103.92px, cover;
 }
 
-/* Culture - Science */
-/* Icons: atom, flask, microscope */
+/* Culture - Science & Nature (class name kept from the Science days) */
+/* Icons: atom, flask, microscope, tree */
 .hero-art-style--culture-science {
   background:
-    url('../images/hero-tiles/culture_science.svg') repeat,
+    url('../images/hero-tiles/culture_science_nature.svg') repeat,
+    linear-gradient(135deg, #6B21A8 0%, #7C3AED 50%, #A855F7 100%);
+  background-size: 120px 103.92px, cover;
+}
+
+/* Culture - Science & Nature - Conservation & Climate */
+/* Icons: tree, globe-simple, hand-heart */
+.hero-art-style--culture-conservation-climate {
+  background:
+    url('../images/hero-tiles/culture_conservation_climate.svg') repeat,
     linear-gradient(135deg, #6B21A8 0%, #7C3AED 50%, #A855F7 100%);
   background-size: 120px 103.92px, cover;
 }
