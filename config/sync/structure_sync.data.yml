@@ -88,10 +88,10 @@ menus:
     options: {  }
   -
     menu_name: main
-    title: 'Health & Fitness'
+    title: Wellbeing
     parent: 'menu_link_content:756c53bd-5480-481e-8ee9-dc1cc63d4c34'
-    uri: 'internal:/living/health-fitness'
-    link_title: ''
+    uri: 'internal:/living/wellbeing'
+    link_title: null
     description: null
     enabled: true
     expanded: false
@@ -361,10 +361,10 @@ menus:
     options: {  }
   -
     menu_name: main
-    title: Marketing
+    title: 'Marketing & Advertising'
     parent: 'menu_link_content:ca4916ec-7269-42dc-abf5-5864739fbddd'
-    uri: 'internal:/sectors/marketing'
-    link_title: ''
+    uri: 'internal:/sectors/marketing-advertising'
+    link_title: null
     description: null
     enabled: true
     expanded: false
@@ -530,10 +530,10 @@ menus:
     options: {  }
   -
     menu_name: main
-    title: 'Event & Venue'
+    title: 'Events & Venues'
     parent: 'menu_link_content:ca4916ec-7269-42dc-abf5-5864739fbddd'
-    uri: 'internal:/sectors/event-venue'
-    link_title: ''
+    uri: 'internal:/sectors/events-venues'
+    link_title: null
     description: null
     enabled: true
     expanded: false
@@ -1177,10 +1177,10 @@ menus:
     options: {  }
   -
     menu_name: main
-    title: Science
+    title: 'Science & Nature'
     parent: 'menu_link_content:9548ba9b-5ae0-4248-8c2e-f76e52ef31f5'
-    uri: 'internal:/culture/science'
-    link_title: ''
+    uri: 'internal:/culture/science-nature'
+    link_title: null
     description: null
     enabled: true
     expanded: false
@@ -4076,19 +4076,6 @@ taxonomies:
           value: 'Parenting, childcare, family services and support for Solent families.'
     -
       vid: topic
-      tid: '97'
-      langcode: en
-      name: 'Living / Health & Fitness'
-      description__value: null
-      description__format: null
-      weight: '5'
-      parent: '31'
-      uuid: 6e108409-2af3-42d0-83fc-7c40a37fb1f6
-      field_reader_summary:
-        -
-          value: 'Healthcare, wellbeing and health services for Solent residents.'
-    -
-      vid: topic
       tid: '98'
       langcode: en
       name: 'Living / Home & Garden'
@@ -4150,6 +4137,19 @@ taxonomies:
       parent: '31'
       uuid: db533297-d7f6-4827-b442-5eadc419a2be
       field_reader_summary: {  }
+    -
+      vid: topic
+      tid: '97'
+      langcode: en
+      name: 'Living / Wellbeing'
+      description__value: null
+      description__format: null
+      weight: '5'
+      parent: '31'
+      uuid: 6e108409-2af3-42d0-83fc-7c40a37fb1f6
+      field_reader_summary:
+        -
+          value: 'Feeling well in body and mind: wellness groups, walks and movement, yoga, rest and the informal things that help people thrive.'
     -
       vid: topic
       tid: '102'
@@ -4529,7 +4529,7 @@ taxonomies:
       vid: topic
       tid: '80'
       langcode: en
-      name: 'Sectors / Marketing'
+      name: 'Sectors / Marketing & Advertising'
       description__value: null
       description__format: null
       weight: '23'
@@ -4537,7 +4537,7 @@ taxonomies:
       uuid: f4358db3-b36b-46cc-a103-d6b69b36a115
       field_reader_summary:
         -
-          value: 'Marketing, PR and communications agencies based around the Solent.'
+          value: 'Marketing, advertising, PR and communications agencies based around the Solent.'
     -
       vid: topic
       tid: '81'
