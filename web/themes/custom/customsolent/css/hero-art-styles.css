@@ -473,11 +473,11 @@
   background-size: 120px 103.92px, cover;
 }
 
-/* Sectors - Marketing */
+/* Sectors - Marketing & Advertising (class name kept) */
 /* Icons: megaphone, target, chart-bar */
 .hero-art-style--sectors-marketing {
   background:
-    url('../images/hero-tiles/sectors_marketing.svg') repeat,
+    url('../images/hero-tiles/sectors_marketing_advertising.svg') repeat,
     linear-gradient(135deg, #1D4ED8 0%, #2563EB 50%, #3B82F6 100%);
   background-size: 120px 103.92px, cover;
 }
@@ -644,11 +644,11 @@
   background-size: 120px 103.92px, cover;
 }
 
-/* Living - Health */
-/* Icons: heartbeat, stethoscope, pill */
+/* Living - Wellbeing (class name kept from the Health & Fitness days) */
+/* Icons: flower-lotus, sun, person-simple-run, heart */
 .hero-art-style--living-health {
   background:
-    url('../images/hero-tiles/living_health.svg') repeat,
+    url('../images/hero-tiles/living_wellbeing.svg') repeat,
     linear-gradient(135deg, #047857 0%, #059669 50%, #10B981 100%);
   background-size: 120px 103.92px, cover;
 }

@@ -1,6 +1,7 @@
+uuid: bc4a3087-bf5d-4f19-a2e5-b9e663aa4140
 langcode: en
 status: true
 dependencies: {  }
 id: hero_art_style_sectors_marketing
-label: 'Sectors - Marketing'
+label: 'Sectors - Marketing & Advertising'
 classes: hero-art-style--sectors-marketing

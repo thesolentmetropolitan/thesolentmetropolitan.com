@@ -1,6 +1,7 @@
+uuid: b560fb70-c474-4ef1-b511-541bf3444a0d
 langcode: en
 status: true
 dependencies: {  }
 id: hero_art_style_living_health
-label: 'Living - Health'
+label: 'Living - Wellbeing'
 classes: hero-art-style--living-health
