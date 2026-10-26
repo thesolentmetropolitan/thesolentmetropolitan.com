@@ -193,7 +193,7 @@ PAGE_MAP = {
     'sectors_engineering': ['gear', 'wrench', 'calculator'],
     'sectors_entrepreneur': ['rocket', 'lightbulb', 'chart-line-up'],
     'sectors_environment': ['leaf', 'globe-simple', 'recycle'],
-    'sectors_event_venue': ['calendar', 'map-pin', 'ticket'],
+    'sectors_events_venues': ['calendar', 'map-pin', 'ticket'],
     'sectors_facilities': ['building-office', 'toolbox', 'clipboard-text'],
     'sectors_farming': ['plant', 'sun', 'leaf', 'barn'],
     'sectors_finance': ['currency-gbp', 'chart-line', 'bank'],

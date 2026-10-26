@@ -374,11 +374,11 @@
   background-size: 120px 103.92px, cover;
 }
 
-/* Sectors - Event & Venue */
+/* Sectors - Events & Venues (class name kept from the Event & Venue days) */
 /* Icons: calendar, map-pin, ticket */
 .hero-art-style--sectors-event-venue {
   background:
-    url('../images/hero-tiles/sectors_event_venue.svg') repeat,
+    url('../images/hero-tiles/sectors_events_venues.svg') repeat,
     linear-gradient(135deg, #1D4ED8 0%, #2563EB 50%, #3B82F6 100%);
   background-size: 120px 103.92px, cover;
 }
