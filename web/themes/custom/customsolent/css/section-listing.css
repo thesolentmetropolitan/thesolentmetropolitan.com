@@ -1,6 +1,6 @@
 /* ══════════════════════════════════════
    Section landing page — filtered listing
-   See: docs/claude-conversations/2026-05-02-04-section-landing-filters-brief.md
+   See: scripts/docs/claude-conversations/2026-05-02-04-section-landing-filters-brief.md (private scripts repo)
    ══════════════════════════════════════ */
 
 .slnt-section-listing {
@@ -354,7 +354,7 @@
 /* ══════════════════════════════════════
    Section Filter paragraph — page-level
    sidebar layout via :has()
-   See: docs/claude-conversations/2026-05-13-section-listing-enhancements-brief.md
+   See: scripts/docs/claude-conversations/2026-05-13-section-listing-enhancements-brief.md (private scripts repo)
    ══════════════════════════════════════ */
 
 /* Section-colour vars on the paragraph element itself, so the panel
@@ -620,7 +620,7 @@ html.js-auto-submit .views-exposed-form[data-drupal-selector^="views-exposed-for
    Topic kickers on teaser content
    "in" kicker — content is within the current section (ABOVE title)
    "from" kicker — content from another section, via related_topics (BELOW title)
-   See: docs/claude-conversations/2026-05-17-term-display-in-kicker-brief.md
+   See: scripts/docs/claude-conversations/2026-05-17-term-display-in-kicker-brief.md (private scripts repo)
    ══════════════════════════════════════ */
 
 /* Shared typography for both kicker types. ~75% of the event-teaser

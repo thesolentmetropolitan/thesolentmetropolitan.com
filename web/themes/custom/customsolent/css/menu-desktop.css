@@ -348,7 +348,7 @@ a.main_nav_link {
 
   /* =====================================================================
      Menu visual states (desktop) — hover + navigation-indicated states.
-     See docs/claude-conversations/2026-07-05-desktop-menu-visual-states-brief.md
+     See scripts/docs/claude-conversations/2026-07-05-desktop-menu-visual-states-brief.md (private scripts repo)
 
      "Active" (submenu open) is represented by
        li:has(.sub-menu-container.visible-2l)

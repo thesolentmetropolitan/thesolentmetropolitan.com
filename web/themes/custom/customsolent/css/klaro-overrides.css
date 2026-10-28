@@ -1,6 +1,6 @@
 /* ══════════════════════════════════════════════════════════════
    Klaro cookie consent — site-specific overrides
-   Issue #141. See docs/claude-conversations/2026-08-30-cookie-consent-klaro-brief.md
+   Issue #141. See scripts/docs/claude-conversations/2026-08-30-cookie-consent-klaro-brief.md (private scripts repo)
 
    Layering (load order): klaro.min.css (library) → klaro-extend.css +
    klaro-override.css (module, "Adjust UI to Drupal themes") → this file.
