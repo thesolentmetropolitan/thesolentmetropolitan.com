@@ -18,7 +18,7 @@
 #
 set -euo pipefail
 
-REPO_URL="${PRIVATE_SCRIPTS_REPO:-git@github.com:thesolentmetropolitan/thesolentmetropolitan.com-scripts.git}"
+REPO_URL="${PRIVATE_SCRIPTS_REPO:-git@github.com:thesolentmetropolitan/thesolentmetropolitan.com-content-refactoring.git}"
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd -P)"
 DIR="$ROOT/scripts"
 cd "$ROOT"

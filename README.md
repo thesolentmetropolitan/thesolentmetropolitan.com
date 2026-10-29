@@ -4,9 +4,18 @@ Drupal site code for [thesolentmetropolitan.com](https://thesolentmetropolitan.c
 Local development uses [DDEV](https://ddev.com); the custom theme is in
 `web/themes/custom/customsolent/` and configuration in `config/`.
 
-## Maintenance scripts
+## Hero banner generator
 
-Site maintenance and release scripts live in a separate private repository.
+`tools/hero-banner-generator/` builds the patterned hero banner tiles from
+[Phosphor](https://phosphoricons.com) icons (MIT licence). `build_tiles.py`
+places the icons on a hexagonal grid, so every icon is the same distance from
+its neighbours, including across tile edges, and writes one seamless repeating
+SVG tile per section; `fetch_and_build_tiles.sh` fetches the icons and runs it.
+See its README.
+
+## Content scripts
+
+Content refactoring and release scripts live in a separate private repository.
 Maintainers with access can fetch and run them in a checkout's context:
 
 ```bash
