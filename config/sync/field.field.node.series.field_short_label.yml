@@ -1,0 +1,19 @@
+uuid: 6580701d-421e-4ba5-883c-ee9654e5dab3
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_short_label
+    - node.type.series
+id: node.series.field_short_label
+field_name: field_short_label
+entity_type: node
+bundle: series
+label: 'Short label'
+description: 'A short phrase used where there is no room for the series name, such as event cards: "Halloween special", "Christmas edition". Shown while the series is coming up or now on (its start and end dates); leave empty to show the series name.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

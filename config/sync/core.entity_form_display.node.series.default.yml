@@ -10,6 +10,7 @@ dependencies:
     - field.field.node.series.field_series_end
     - field.field.node.series.field_series_items
     - field.field.node.series.field_series_start
+    - field.field.node.series.field_short_label
     - field.field.node.series.field_standfirst
     - node.type.series
   module:
@@ -87,9 +88,17 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
-  field_standfirst:
+  field_short_label:
     type: string_textfield
     weight: 1
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_standfirst:
+    type: string_textfield
+    weight: 0
     region: content
     settings:
       size: 60

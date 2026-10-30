@@ -11,6 +11,7 @@ dependencies:
     - field.field.node.series.field_series_end
     - field.field.node.series.field_series_items
     - field.field.node.series.field_series_start
+    - field.field.node.series.field_short_label
     - field.field.node.series.field_standfirst
     - node.type.series
   module:
@@ -54,4 +55,5 @@ hidden:
   field_primary_topic: true
   field_related_topics: true
   field_series_items: true
+  field_short_label: true
   links: true
