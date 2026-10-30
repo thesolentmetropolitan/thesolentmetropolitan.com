@@ -823,25 +823,29 @@ function _customsolent_preprocess_series_membership($node, array &$variables): v
     $series = array_values(array_filter($series, static fn($s) => (int) $s->id() !== $on_series_page));
   }
   $variables['series_links'] = [];
+  $variables['series_specials'] = [];
   $is_card = ($variables['view_mode'] ?? '') !== 'full';
   $date_bound = FALSE;
   foreach ($series as $s) {
     $status = $relations->seriesStatus($s);
-    $label = $s->label();
-    // A series can carry a short label ("Halloween special") that stands in
-    // for its name on event cards while the series is coming up or on, so a
-    // regular event added to a seasonal series reads as the special for that
-    // week and then goes back to normal with no edit. The full page keeps
-    // the name and its status word.
+    // A series can carry a short label ("Halloween special"). On event cards,
+    // while the series is coming up or on, that label is printed directly
+    // under the date it applies to (plain text: the date sits inside the
+    // card's link, and a link inside a link is invalid HTML) and the series
+    // drops out of the "Part of the series" line so it is not said twice. A
+    // regular event added to a seasonal series therefore reads as the
+    // special for that week and goes back to normal with no edit. The full
+    // page keeps the name, its link and its status word.
     $short = $s->hasField('field_short_label') ? trim((string) $s->get('field_short_label')->value) : '';
     if ($is_card && $short !== '') {
       $date_bound = TRUE;
       if ($status !== $relations::STATUS_PAST) {
-        $label = $short;
+        $variables['series_specials'][] = $short;
+        continue;
       }
     }
     $variables['series_links'][] = [
-      'label' => $label,
+      'label' => $s->label(),
       'url' => $s->toUrl()->toString(),
       'range' => $relations->seriesDateRange($s),
       'status' => $status,
@@ -851,9 +855,9 @@ function _customsolent_preprocess_series_membership($node, array &$variables): v
   $variables['series_cache'] = [
     '#cache' => [
       'tags' => $relations->seriesCacheTags($series),
-      // The full page prints a status word, and a card printing a short
-      // label depends on the series dates: both expire at midnight. Other
-      // cards print just the name and keep for good.
+      // The full page prints a status word, and a card whose series has a
+      // short label depends on the series dates: both expire at midnight.
+      // Other cards print just the name and keep for good.
       'max-age' => (!$is_card || $date_bound) ? $relations->maxAgeUntilMidnight() : \Drupal\Core\Cache\Cache::PERMANENT,
     ],
   ];

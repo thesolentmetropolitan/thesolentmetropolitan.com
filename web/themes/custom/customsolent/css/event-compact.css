@@ -416,6 +416,15 @@
   color: var(--solent-blue, #2c4f6e);
 }
 
+/* A seasonal series' short label ("Halloween special") on its own line
+   under the date it applies to; bold so it reads as the headline fact
+   about this date, in the same blue as "Next". */
+.slnt-event-compact__special {
+  display: block;
+  font-weight: 700;
+  color: var(--solent-blue, #2c4f6e);
+}
+
 /* ── Front page, phones: pull the events grid out to the node pages' side
    padding ──
    On Home the grid sits inside two nested enclosures (1rem padding each),

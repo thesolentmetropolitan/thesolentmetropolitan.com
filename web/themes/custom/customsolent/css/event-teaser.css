@@ -64,6 +64,14 @@
   color: var(--text, #1a1a1a);
 }
 
+/* A seasonal series' short label ("Halloween special") on its own line
+   under the When value. */
+.slnt-event-teaser__special {
+  display: block;
+  font-weight: 700;
+  color: var(--solent-blue, #2c4f6e);
+}
+
 .slnt-event-teaser__icon {
   display: inline-flex;
   align-items: center;
