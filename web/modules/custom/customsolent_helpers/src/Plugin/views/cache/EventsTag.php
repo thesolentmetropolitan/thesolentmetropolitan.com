@@ -27,7 +27,7 @@ use Drupal\views\Plugin\views\cache\Tag;
 #[ViewsCache(
   id: 'customsolent_events_tag',
   title: new TranslatableMarkup('Tag based, events (expires as regular events move on)'),
-  help: new TranslatableMarkup('Tag based caching whose query results also expire when the earliest listed instance of a regular event ends, or at midnight.'),
+  help: new TranslatableMarkup('Tag based caching whose query results also expire when the earliest listed event (or instance of a regular event) ends, or at midnight.'),
 )]
 class EventsTag extends Tag {
 
@@ -42,10 +42,13 @@ class EventsTag extends Tag {
     $timezone = new \DateTimeZone(date_default_timezone_get());
     $expire = (new \DateTimeImmutable('@' . $now))->setTimezone($timezone)->modify('tomorrow')->getTimestamp();
     foreach ($this->view->result as $row) {
-      // Both columns are added to the query by the events query alter; a
+      // The columns are added to the query by the events query alter; a
       // row without them (another use of this plugin) just expires at
-      // midnight.
-      if (!empty($row->slnt_when_rrule) && !empty($row->slnt_when_end)) {
+      // midnight. Any listed event, regular or one-off, drops out when its
+      // end passes, except one entered without an end time (end = start),
+      // which stays until midnight.
+      if (!empty($row->slnt_when_end) && (int) $row->slnt_when_end > $now
+        && (empty($row->slnt_when_start) || (int) $row->slnt_when_end > (int) $row->slnt_when_start)) {
         $expire = min($expire, (int) $row->slnt_when_end + 1);
       }
     }

@@ -614,6 +614,15 @@ function _customsolent_preprocess_event_shared_extras($node, array &$variables):
     }
   }
   if ($rule_id === NULL || !$instances) {
+    // A one-off event leaves the listings when it ends (the events query
+    // alter applies the same clock), so its rendered card must expire then
+    // too, or the cached listing keeps showing it. No end time (end =
+    // start) means no known finish: the listing keeps it until midnight.
+    $first = $node->get('field_when')->first();
+    $end = (int) $first->end_value;
+    if ($end > (int) $first->value && $end >= $now) {
+      $variables['event_when_cache']['#cache']['max-age'] = max(60, $end - $now + 1);
+    }
     return;
   }
   $variables['event_is_recurring'] = TRUE;
@@ -1915,9 +1924,16 @@ function _customsolent_topic_scope_stats(array $tids): array {
   $event_nids = array_unique(array_map(fn($r) => (int) $r->nid, $tagged(['event'])));
   if ($event_nids) {
     $today = (new \DateTimeImmutable('today', new \DateTimeZone(date_default_timezone_get())))->getTimestamp();
-    $stats['events'] = (int) $db->select('node__field_when', 'w')
-      ->condition('w.entity_id', $event_nids, 'IN')
-      ->condition('w.field_when_end_value', $today, '>=')
+    // The same clock as the listings (events query alter): an event has not
+    // ended, or has no end time (end = start) and is today's or later.
+    $events_q = $db->select('node__field_when', 'w')
+      ->condition('w.entity_id', $event_nids, 'IN');
+    $not_ended = $events_q->orConditionGroup()
+      ->condition('w.field_when_end_value', \Drupal::time()->getRequestTime(), '>=')
+      ->condition($events_q->andConditionGroup()
+        ->where('w.field_when_end_value <= w.field_when_value')
+        ->condition('w.field_when_end_value', $today, '>='));
+    $stats['events'] = (int) $events_q->condition($not_ended)
       ->distinct()->fields('w', ['entity_id'])->countQuery()->execute()->fetchField();
   }
 

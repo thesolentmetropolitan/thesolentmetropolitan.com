@@ -451,14 +451,14 @@ function customsolent_helpers_own_recurrence_rules(\Drupal\node\NodeInterface $n
  * holds a year of Mondays), and the listings join that table and sort by
  * it, so without this every instance would be its own card. For items that
  * belong to a rule, keep only the rule's earliest instance that has not yet
- * ended; items without a rule are untouched. "Not yet ended" is measured
+ * ended; items without a rule must not have ended either. "Not yet ended" is measured
  * against the clock, not against today: the card's "Next: …" line
  * (customsolent.theme) moves on the moment an instance ends, and the row
  * the event sorts by has to move with it, or a regular event whose 7pm
  * instance has finished still sorts among this evening's events while its
- * card already names next week (issue 465). A finished recurring event
- * therefore has no row in any listing, which the upcoming-only displays
- * already imply.
+ * card already names next week (issue 465). A finished event, regular or
+ * one-off, therefore has no row in any listing, which the upcoming-only
+ * displays already imply.
  *
  * The clock is the database's (UNIX_TIMESTAMP()), not a query argument:
  * the Views results cache is keyed on the query and its arguments, and a
@@ -488,8 +488,14 @@ function _customsolent_helpers_one_row_per_recurring_event(\Drupal\views\Plugin\
     $now = ':slnt_now';
     $args[':slnt_now'] = \Drupal::time()->getRequestTime();
   }
+  // One-off events follow the same clock: a 7-10pm event leaves the
+  // listings at 10pm, not at midnight (the view's own filter only keeps
+  // today's). An event entered without an end time (end = start) has no
+  // known finish, so it stays until the view's midnight bound.
   $query->addWhereExpression($group,
-    "$alias.field_when_rrule IS NULL OR $alias.field_when_end_value = (
+    "($alias.field_when_rrule IS NULL AND (
+        $alias.field_when_end_value >= $now OR $alias.field_when_end_value <= $alias.field_when_value
+     )) OR $alias.field_when_end_value = (
       SELECT MIN(slnt_w.field_when_end_value) FROM {node__field_when} slnt_w
       WHERE slnt_w.entity_id = $alias.entity_id
         AND slnt_w.field_when_rrule = $alias.field_when_rrule
@@ -497,7 +503,8 @@ function _customsolent_helpers_one_row_per_recurring_event(\Drupal\views\Plugin\
     )",
     $args
   );
-  // For the cache plugin: when does the chosen row of a regular event end?
+  // For the cache plugin: when does the listed row end?
   $query->addField($alias, 'field_when_end_value', 'slnt_when_end');
+  $query->addField($alias, 'field_when_value', 'slnt_when_start');
   $query->addField($alias, 'field_when_rrule', 'slnt_when_rrule');
 }
