@@ -596,9 +596,14 @@ function _customsolent_preprocess_event_shared_extras($node, array &$variables):
   $variables['event_next_dates'] = [];
   $variables['event_next_count'] = 0;
   $variables['event_when_cache'] = ['#cache' => []];
+  // The date a card shows for this event: its own date, or for a regular
+  // event the next instance (set below). Read by the series membership
+  // preprocess to decide whether a seasonal series' label applies to it.
+  $variables['event_card_date'] = NULL;
   if (!$node->hasField('field_when') || $node->get('field_when')->isEmpty()) {
     return;
   }
+  $variables['event_card_date'] = (int) $node->get('field_when')->first()->value;
   $now = \Drupal::time()->getRequestTime();
   $rule_id = NULL;
   $instances = [];
@@ -652,6 +657,7 @@ function _customsolent_preprocess_event_shared_extras($node, array &$variables):
   }
   $variables['event_next_count'] = count(array_filter($instances, static fn($i) => $i['end'] >= $now));
   if ($next_start !== NULL) {
+    $variables['event_card_date'] = $next_start;
     // Move "Next" on when the current instance ends (its start may already
     // be in the past while it is running).
     $current_end = NULL;
@@ -826,6 +832,13 @@ function _customsolent_preprocess_series_membership($node, array &$variables): v
   $variables['series_specials'] = [];
   $is_card = ($variables['view_mode'] ?? '') !== 'full';
   $date_bound = FALSE;
+  // The date this card shows, Y-m-d in the site timezone (NULL when unknown).
+  $card_date = NULL;
+  if (!empty($variables['event_card_date'])) {
+    $card_date = (new \DateTimeImmutable('@' . $variables['event_card_date']))
+      ->setTimezone(new \DateTimeZone(\Drupal::config('system.date')->get('timezone.default') ?: 'Europe/London'))
+      ->format('Y-m-d');
+  }
   foreach ($series as $s) {
     $status = $relations->seriesStatus($s);
     // A series can carry a short label ("Halloween special"). On event cards,
@@ -839,8 +852,22 @@ function _customsolent_preprocess_series_membership($node, array &$variables): v
     $short = $s->hasField('field_short_label') ? trim((string) $s->get('field_short_label')->value) : '';
     if ($is_card && $short !== '') {
       $date_bound = TRUE;
-      if ($status !== $relations::STATUS_PAST) {
-        $variables['series_specials'][] = $short;
+      // The label belongs to the date it sits under: a regular event whose
+      // next instance falls after the series ends (Ballroom on 4 Nov, the
+      // Halloween series ending 2 Nov) shows the series name below instead.
+      [$s_start, $s_end] = $relations->seriesDates($s);
+      $in_window = $card_date === NULL
+        || (($s_start === NULL || $card_date >= $s_start) && ($s_end === NULL || $card_date <= $s_end));
+      if ($status !== $relations::STATUS_PAST && $in_window) {
+        // Do not say what the title already says: "Halloween Market" needs
+        // no "Halloween special" under its date, and the series line would
+        // repeat it too, so the series is left off the card altogether. Only
+        // the label's own words count, not the series name's, so a series
+        // called "Cost of Living" never silences an event with "living" in
+        // its title.
+        if (!_customsolent_title_already_says($node->getTitle(), [$short])) {
+          $variables['series_specials'][] = $short;
+        }
         continue;
       }
     }
@@ -861,6 +888,39 @@ function _customsolent_preprocess_series_membership($node, array &$variables): v
       'max-age' => (!$is_card || $date_bound) ? $relations->maxAgeUntilMidnight() : \Drupal\Core\Cache\Cache::PERMANENT,
     ],
   ];
+}
+
+/**
+ * Whether a title already contains a distinctive word from the given phrases.
+ *
+ * Words of four or more letters count, except generic ones ("special",
+ * "edition", "night"…), so "Halloween Market" already says "Halloween
+ * Special 🎃" but "Christmas Special" does not say "Halloween Special".
+ * Callers pass the short label only: it is written to be said on a card,
+ * so its words are the ones worth not repeating.
+ * Case-insensitive, whole words, emoji and punctuation ignored.
+ */
+function _customsolent_title_already_says(string $title, array $phrases): bool {
+  static $generic = ['special', 'specials', 'edition', 'editions', 'event', 'events', 'series', 'night', 'nights', 'week', 'weekend', 'month', 'festival', 'season', 'party', 'with', 'from', 'this', 'that', 'year'];
+  $words = [];
+  foreach ($phrases as $phrase) {
+    preg_match_all('/\p{L}{4,}/u', mb_strtolower($phrase), $m);
+    foreach ($m[0] as $word) {
+      if (!in_array($word, $generic, TRUE) && !preg_match('/^\d+$/', $word)) {
+        $words[$word] = TRUE;
+      }
+    }
+  }
+  if (!$words) {
+    return FALSE;
+  }
+  $haystack = mb_strtolower($title);
+  foreach (array_keys($words) as $word) {
+    if (preg_match('/(?<!\p{L})' . preg_quote($word, '/') . '(?!\p{L})/u', $haystack)) {
+      return TRUE;
+    }
+  }
+  return FALSE;
 }
 
 /**
