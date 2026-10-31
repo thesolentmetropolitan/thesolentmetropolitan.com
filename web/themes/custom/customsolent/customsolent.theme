@@ -876,6 +876,18 @@ function _customsolent_preprocess_series_membership($node, array &$variables): v
   }
   foreach ($series as $s) {
     $status = $relations->seriesStatus($s);
+    // A series is shown for an event only while the date the page or card
+    // shows falls on or before the series' end: a weekly event whose next
+    // instance is 4 Nov is not "part of" a Halloween series that ended on
+    // the 2nd, even though its 30 Oct instance was. (On the series' own page
+    // the card shows the instance inside the window, so it still counts.)
+    [$s_start, $s_end] = $relations->seriesDates($s);
+    if ($s_end !== NULL) {
+      $date_bound = TRUE;
+      if ($card_date !== NULL && $card_date > $s_end) {
+        continue;
+      }
+    }
     // A series can carry a short label ("Halloween special"). On event cards,
     // while the series is coming up or on, that label is printed directly
     // under the date it applies to (plain text: the date sits inside the
@@ -887,12 +899,10 @@ function _customsolent_preprocess_series_membership($node, array &$variables): v
     $short = $s->hasField('field_short_label') ? trim((string) $s->get('field_short_label')->value) : '';
     if ($is_card && $short !== '') {
       $date_bound = TRUE;
-      // The label belongs to the date it sits under: a regular event whose
-      // next instance falls after the series ends (Ballroom on 4 Nov, the
-      // Halloween series ending 2 Nov) shows the series name below instead.
-      [$s_start, $s_end] = $relations->seriesDates($s);
-      $in_window = $card_date === NULL
-        || (($s_start === NULL || $card_date >= $s_start) && ($s_end === NULL || $card_date <= $s_end));
+      // The label belongs to the date it sits under: before the series starts
+      // the card shows the series name below instead (after the end the
+      // series is not shown at all, above).
+      $in_window = $card_date === NULL || $s_start === NULL || $card_date >= $s_start;
       if ($status !== $relations::STATUS_PAST && $in_window) {
         // Do not say what the title already says: "Halloween Market" needs
         // no "Halloween special" under its date, and the series line would
@@ -921,8 +931,8 @@ function _customsolent_preprocess_series_membership($node, array &$variables): v
     '#cache' => [
       'tags' => $relations->seriesCacheTags($series),
       // The full page prints a status word, and a card whose series has a
-      // short label depends on the series dates: both expire at midnight.
-      // Other cards print just the name and keep for good.
+      // short label or an end date depends on the series dates: both expire
+      // at midnight. Other cards print just the name and keep for good.
       'max-age' => (!$is_card || $date_bound) ? $relations->maxAgeUntilMidnight() : \Drupal\Core\Cache\Cache::PERMANENT,
     ],
   ];
