@@ -2215,6 +2215,26 @@ taxonomies:
       uuid: df077526-2df8-4463-b16e-11595b25f167
     -
       vid: location
+      tid: '332'
+      langcode: en
+      name: Fratton
+      description__value: null
+      description__format: null
+      weight: '0'
+      parent: '139'
+      uuid: b7057d63-89af-4ded-9795-adc990478a85
+    -
+      vid: location
+      tid: '333'
+      langcode: en
+      name: 'Fratton Community Centre'
+      description__value: null
+      description__format: null
+      weight: '0'
+      parent: '141'
+      uuid: 2f7272cc-b8ac-4a91-ad91-597d5e7d8dde
+    -
+      vid: location
       tid: '150'
       langcode: en
       name: "God's House Tower"
@@ -2443,6 +2463,16 @@ taxonomies:
       weight: '30'
       parent: '139'
       uuid: b4153f3a-6502-4db1-abe1-20c2554cb838
+    -
+      vid: location
+      tid: '331'
+      langcode: en
+      name: 'Maritimo Lounge'
+      description__value: null
+      description__format: null
+      weight: '0'
+      parent: '139'
+      uuid: 3edb89a5-9807-4536-9b94-96e397f288e9
     -
       vid: location
       tid: '281'
@@ -2713,6 +2743,16 @@ taxonomies:
       weight: '24'
       parent: '141'
       uuid: 29368cee-c7e0-4c25-aeb0-b6c13fc0dbca
+    -
+      vid: location
+      tid: '329'
+      langcode: en
+      name: 'Portsmouth Wellbeing Centre'
+      description__value: null
+      description__format: null
+      weight: '0'
+      parent: '141'
+      uuid: 0f509b9a-f7ba-4659-84cc-16bd80ab5cfd
     -
       vid: location
       tid: '225'
@@ -3015,6 +3055,16 @@ taxonomies:
       uuid: 6e0243f6-4ebe-4f1c-906a-481b9dbc3cfc
     -
       vid: location
+      tid: '330'
+      langcode: en
+      name: 'The Loft'
+      description__value: null
+      description__format: null
+      weight: '0'
+      parent: '139'
+      uuid: ee64be68-d5e4-4fcf-8aee-cb333f99c735
+    -
+      vid: location
       tid: '292'
       langcode: en
       name: 'The Royal British Legion, Park Gate'
@@ -3083,6 +3133,16 @@ taxonomies:
       weight: '29'
       parent: '141'
       uuid: 0149f80f-c7d1-47f7-b3f3-62fe37ea94c7
+    -
+      vid: location
+      tid: '334'
+      langcode: en
+      name: Treadgolds
+      description__value: null
+      description__format: null
+      weight: '0'
+      parent: '141'
+      uuid: 3cbea889-0280-4354-a1a5-7c626991fe59
     -
       vid: location
       tid: '197'
