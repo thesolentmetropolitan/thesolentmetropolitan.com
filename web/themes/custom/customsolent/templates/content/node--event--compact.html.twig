@@ -97,7 +97,7 @@
           <span class="slnt-event-compact__value">
             <span class="slnt-event-compact__recurrence">{{ event_recurrence_text }}{% if event_recurrence_times %}, {{ event_recurrence_times }}{% endif %}</span>
             {% if event_next_dates is not empty %}
-              <span class="slnt-event-compact__next">{{ 'Next'|t }}: {{ event_next_dates[0] }}</span>
+              <span class="slnt-event-compact__next">{% if event_next_prefix %}{{ event_next_prefix }}: {% endif %}{{ event_next_dates[0] }}</span>
             {% endif %}
             {# A seasonal series' short label, under the date it applies to
                (from _customsolent_preprocess_series_membership). #}

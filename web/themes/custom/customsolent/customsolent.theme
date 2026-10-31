@@ -620,6 +620,26 @@ function _customsolent_preprocess_event_shared_extras($node, array &$variables):
   usort($instances, static fn($a, $b) => $a['start'] <=> $b['start']);
   $tz = new \DateTimeZone($instances[0]['tz']);
   $fmt = static fn(int $ts, string $f) => (new \DateTimeImmutable('@' . $ts))->setTimezone($tz)->format($f);
+  // On a series page a regular event is there for the instance(s) that fell
+  // within the series' dates (the Halloween edition), so "Next" is the next
+  // instance inside that window and, once they have all passed, the card
+  // shows the last one as a date, like any past member. Elsewhere the card
+  // shows the next instance overall.
+  $variables['event_next_prefix'] = (string) t('Next');
+  $pool = $instances;
+  if ($series_id = _customsolent_rendering_members_of_series()) {
+    $series_node = \Drupal\node\Entity\Node::load($series_id);
+    if ($series_node) {
+      [$w_start, $w_end] = \Drupal::service('customsolent_helpers.content_relations')->seriesDates($series_node);
+      if ($w_start !== NULL || $w_end !== NULL) {
+        $pool = array_values(array_filter($instances, static function ($i) use ($fmt, $w_start, $w_end) {
+          $day = $fmt($i['start'], 'Y-m-d');
+          return ($w_start === NULL || $day >= $w_start) && ($w_end === NULL || $day <= $w_end);
+        }));
+      }
+      $variables['event_when_cache']['#cache']['tags'][] = 'node:' . $series_id;
+    }
+  }
   $time_fmt = static function (int $ts) use ($fmt): string {
     // "7pm" when on the hour, "7:30pm" otherwise — as the cards do.
     return $fmt($ts, 'i') === '00' ? $fmt($ts, 'ga') : $fmt($ts, 'g:ia');
@@ -646,7 +666,7 @@ function _customsolent_preprocess_event_shared_extras($node, array &$variables):
     }
   }
   $next_start = NULL;
-  foreach ($instances as $instance) {
+  foreach ($pool as $instance) {
     if ($instance['end'] >= $now) {
       $variables['event_next_dates'][] = $fmt($instance['start'], 'D j M');
       $next_start ??= $instance['start'];
@@ -655,7 +675,14 @@ function _customsolent_preprocess_event_shared_extras($node, array &$variables):
       }
     }
   }
-  $variables['event_next_count'] = count(array_filter($instances, static fn($i) => $i['end'] >= $now));
+  $variables['event_next_count'] = count(array_filter($pool, static fn($i) => $i['end'] >= $now));
+  if ($next_start === NULL && $pool && $pool !== $instances) {
+    // Every instance in the series' window has passed: show the last one.
+    $last = end($pool);
+    $variables['event_next_dates'] = [$fmt($last['start'], 'D j M')];
+    $variables['event_next_prefix'] = '';
+    $variables['event_card_date'] = $last['start'];
+  }
   if ($next_start !== NULL) {
     $variables['event_card_date'] = $next_start;
     // Move "Next" on when the current instance ends (its start may already
@@ -824,10 +851,9 @@ function _customsolent_preprocess_series_membership($node, array &$variables): v
   // the h1. The series page renders its members with a distinct cache key
   // (see _customsolent_preprocess_series_extras), so dropping it here does
   // not leak into the cards cached for other pages.
+  // The seasonal label under the date is still wanted there (the title may
+  // not say it), so only the name line is dropped, below.
   $on_series_page = _customsolent_rendering_members_of_series();
-  if ($on_series_page) {
-    $series = array_values(array_filter($series, static fn($s) => (int) $s->id() !== $on_series_page));
-  }
   $variables['series_links'] = [];
   $variables['series_specials'] = [];
   $is_card = ($variables['view_mode'] ?? '') !== 'full';
@@ -870,6 +896,9 @@ function _customsolent_preprocess_series_membership($node, array &$variables): v
         }
         continue;
       }
+    }
+    if ($on_series_page && (int) $s->id() === $on_series_page) {
+      continue;
     }
     $variables['series_links'][] = [
       'label' => $s->label(),
