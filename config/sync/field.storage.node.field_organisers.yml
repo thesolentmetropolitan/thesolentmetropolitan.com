@@ -1,0 +1,19 @@
+uuid: a8a20b91-278c-4b9d-a5c2-c412e19b7003
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.field_organisers
+field_name: field_organisers
+entity_type: node
+type: entity_reference
+settings:
+  target_type: node
+module: core
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

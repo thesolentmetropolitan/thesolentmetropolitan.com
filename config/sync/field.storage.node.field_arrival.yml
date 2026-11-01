@@ -1,0 +1,30 @@
+uuid: ff3d33eb-ecd6-49c9-b816-9f7c17dfa8fd
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+    - options
+id: node.field_arrival
+field_name: field_arrival
+entity_type: node
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: anytime
+      label: 'Drop in any time'
+    -
+      value: on_time
+      label: 'Be there for the start'
+    -
+      value: sessions
+      label: 'Join at the start of a session'
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

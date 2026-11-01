@@ -7,7 +7,8 @@ dependencies:
     - field.field.node.organisation.field_primary_topic
     - field.field.node.organisation.field_related_topics
     - field.field.node.organisation.field_standfirst
-    - field.field.node.organisation.field_url
+    - field.field.node.organisation.field_subsidiary_organisations
+    - field.field.node.organisation.field_urls
     - field.field.node.organisation.field_where
     - node.type.organisation
   module:
@@ -36,7 +37,7 @@ content:
     third_party_settings: {  }
     weight: 0
     region: content
-  field_url:
+  field_urls:
     type: link
     label: hidden
     settings:
@@ -59,4 +60,5 @@ content:
 hidden:
   field_primary_topic: true
   field_related_topics: true
+  field_subsidiary_organisations: true
   links: true

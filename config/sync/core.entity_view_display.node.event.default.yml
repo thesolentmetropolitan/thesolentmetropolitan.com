@@ -3,12 +3,13 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.node.event.field_arrival
     - field.field.node.event.field_image
-    - field.field.node.event.field_organiser
+    - field.field.node.event.field_organisers
     - field.field.node.event.field_primary_topic
     - field.field.node.event.field_related_topics
     - field.field.node.event.field_standfirst
-    - field.field.node.event.field_url
+    - field.field.node.event.field_urls
     - field.field.node.event.field_when
     - field.field.node.event.field_where
     - node.type.event
@@ -30,7 +31,7 @@ content:
     third_party_settings: {  }
     weight: 1
     region: content
-  field_organiser:
+  field_organisers:
     type: entity_reference_label
     label: hidden
     settings:
@@ -62,7 +63,7 @@ content:
     third_party_settings: {  }
     weight: 0
     region: content
-  field_url:
+  field_urls:
     type: link
     label: hidden
     settings:
@@ -114,4 +115,5 @@ content:
     third_party_settings: {  }
     weight: 100
     region: content
-hidden: {  }
+hidden:
+  field_arrival: true

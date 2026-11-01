@@ -170,10 +170,10 @@ class ContentRelations {
   /**
    * How many published items of each kind the series holds.
    *
-   * @return array{event: int, article: int, link: int}
+   * @return array{event: int, article: int, link: int, organisation: int}
    */
   public function seriesCounts(NodeInterface $series): array {
-    $counts = ['event' => 0, 'article' => 0, 'link' => 0];
+    $counts = ['event' => 0, 'article' => 0, 'link' => 0, 'organisation' => 0];
     foreach ($this->seriesMembers($series) as $member) {
       if (isset($counts[$member->bundle()])) {
         $counts[$member->bundle()]++;
@@ -330,7 +330,9 @@ class ContentRelations {
    *
    * "Not finished" = at least one field_when item ends at or after today
    * (same bound as the events listings). Ordered by the earliest such
-   * instance. Render arrays built from these carry eventsCacheTags().
+   * instance. An event names its organisers in field_organisers (several
+   * when two groups put it on together). Render arrays built from these
+   * carry eventsCacheTags().
    *
    * @return \Drupal\node\NodeInterface[]
    */
@@ -344,7 +346,7 @@ class ContentRelations {
       ->accessCheck(TRUE)
       ->condition('type', 'event')
       ->condition('status', NodeInterface::PUBLISHED)
-      ->condition('field_organiser.target_id', $nid)
+      ->condition('field_organisers.target_id', $nid)
       ->condition('field_when.end_value', strtotime('today'), '>=')
       ->sort('field_when.value', 'ASC')
       ->execute();
@@ -362,6 +364,40 @@ class ContentRelations {
    */
   public function eventsCacheTags(): array {
     return ['node_list:event'];
+  }
+
+  /**
+   * The published organisations that list $node among their subsidiaries.
+   *
+   * The link is stored on the parent (field_subsidiary_organisations), so
+   * this is a reverse lookup. A subsidiary can have more than one parent.
+   * Render arrays built from these carry parentOrganisationsCacheTags().
+   *
+   * @return \Drupal\node\NodeInterface[]
+   */
+  public function parentOrganisationsOf(NodeInterface $node): array {
+    $nid = (int) $node->id();
+    if ($nid === 0) {
+      return [];
+    }
+    $storage = $this->entityTypeManager->getStorage('node');
+    $ids = $storage->getQuery()
+      ->accessCheck(TRUE)
+      ->condition('type', 'organisation')
+      ->condition('status', NodeInterface::PUBLISHED)
+      ->condition('field_subsidiary_organisations.target_id', $nid)
+      ->sort('title', 'ASC')
+      ->execute();
+    return $ids ? array_values($storage->loadMultiple($ids)) : [];
+  }
+
+  /**
+   * Cache tags for anything rendered from parentOrganisationsOf().
+   *
+   * @return string[]
+   */
+  public function parentOrganisationsCacheTags(): array {
+    return ['node_list:organisation'];
   }
 
   /**

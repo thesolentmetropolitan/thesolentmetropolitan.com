@@ -4,12 +4,13 @@ status: true
 dependencies:
   config:
     - core.entity_view_mode.node.teaser
+    - field.field.node.event.field_arrival
     - field.field.node.event.field_image
-    - field.field.node.event.field_organiser
+    - field.field.node.event.field_organisers
     - field.field.node.event.field_primary_topic
     - field.field.node.event.field_related_topics
     - field.field.node.event.field_standfirst
-    - field.field.node.event.field_url
+    - field.field.node.event.field_urls
     - field.field.node.event.field_when
     - field.field.node.event.field_where
     - node.type.event
@@ -39,7 +40,7 @@ content:
     third_party_settings: {  }
     weight: 0
     region: content
-  field_url:
+  field_urls:
     type: link
     label: hidden
     settings:
@@ -87,7 +88,8 @@ content:
     weight: 2
     region: content
 hidden:
-  field_organiser: true
+  field_arrival: true
+  field_organisers: true
   field_primary_topic: true
   field_related_topics: true
   links: true

@@ -3,18 +3,20 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.node.event.field_arrival
     - field.field.node.event.field_image
-    - field.field.node.event.field_organiser
+    - field.field.node.event.field_organisers
     - field.field.node.event.field_primary_topic
     - field.field.node.event.field_related_topics
     - field.field.node.event.field_standfirst
-    - field.field.node.event.field_url
+    - field.field.node.event.field_urls
     - field.field.node.event.field_when
     - field.field.node.event.field_where
     - node.type.event
   module:
     - link
     - media_library
+    - options
     - path
     - smart_date
 id: node.event.default
@@ -28,6 +30,12 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
+  field_arrival:
+    type: options_select
+    weight: 124
+    region: content
+    settings: {  }
+    third_party_settings: {  }
   field_image:
     type: media_library_widget
     weight: 122
@@ -35,9 +43,9 @@ content:
     settings:
       media_types: {  }
     third_party_settings: {  }
-  field_organiser:
+  field_organisers:
     type: entity_reference_autocomplete
-    weight: 125
+    weight: 126
     region: content
     settings:
       match_operator: CONTAINS
@@ -73,9 +81,9 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-  field_url:
+  field_urls:
     type: link_default
-    weight: 126
+    weight: 127
     region: content
     settings:
       placeholder_url: ''
@@ -108,7 +116,7 @@ content:
     third_party_settings: {  }
   field_where:
     type: entity_reference_autocomplete
-    weight: 124
+    weight: 125
     region: content
     settings:
       match_operator: CONTAINS

@@ -13,7 +13,8 @@
  * target="_blank" rel="noopener noreferrer".
  *
  * Variables added by customsolent_preprocess_node:
- *   - field_url_external/href/text — populated when field_url is set.
+ *   - field_url_external/href/text — the first of field_urls (an
+ *     organisation's website comes first), or a Link's field_url.
  */
 #}
 {%
@@ -47,6 +48,6 @@
   {% endif %}
 
   {# Suppress defaults — link and standfirst rendered manually above. #}
-  {{ content|without('field_url', 'field_standfirst') }}
+  {{ content|without('field_urls', 'field_standfirst', 'field_subsidiary_organisations') }}
 
 </article>

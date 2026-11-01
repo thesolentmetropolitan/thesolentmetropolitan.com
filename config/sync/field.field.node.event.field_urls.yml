@@ -1,0 +1,23 @@
+uuid: 6f31e6a3-228b-46ff-8aa6-fba4732a8901
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_urls
+    - node.type.event
+  module:
+    - link
+id: node.event.field_urls
+field_name: field_urls
+entity_type: node
+bundle: event
+label: Links
+description: "Where to go for tickets or details. One link if there is a ticketing page (Eventbrite, TicketTailor, Meetup…) or the organiser's own web page for the event; only when there is neither, add every social media page for it (Facebook, Instagram…) so people find it on the platform they use. The button shows a ticket, globe or platform icon from the address."
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  title: 1
+  link_type: 17
+field_type: link

@@ -1,0 +1,29 @@
+uuid: c52be48c-6594-44bf-bf93-b5a2b3c9678b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_organisers
+    - node.type.event
+    - node.type.organisation
+id: node.event.field_organisers
+field_name: field_organisers
+entity_type: node
+bundle: event
+label: Organisers
+description: 'The organisation(s) running the event. Two dance clubs putting on one all-dayer are both organisers; a bigger joint effort with several partners is a Collaboration.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      organisation: organisation
+    sort:
+      field: title
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

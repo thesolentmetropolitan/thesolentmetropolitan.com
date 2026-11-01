@@ -1,17 +1,17 @@
-uuid: 4d5442b7-6cb5-41d5-b60d-723a1bea53f7
+uuid: 17942203-b2e0-465b-a6e5-9797afc1241f
 langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.node.field_organiser
+    - field.storage.node.field_organisers
     - node.type.organisation
     - node.type.series
-id: node.series.field_organiser
-field_name: field_organiser
+id: node.series.field_organisers
+field_name: field_organisers
 entity_type: node
 bundle: series
-label: Organiser
-description: 'The organisation that curates or arranges the series. Leave empty when there is none; several organisations working together is a Collaboration.'
+label: Organisers
+description: 'The organisation(s) that curate or arrange the series. Leave empty when there is none; a bigger joint effort with several partners is a Collaboration.'
 required: false
 translatable: true
 default_value: {  }

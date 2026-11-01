@@ -585,3 +585,171 @@ function customsolent_helpers_recurrence_day_names(array $byday): array {
   }
   return $ordered;
 }
+
+/**
+ * What kind of address a link is, from its host: tickets, a social media
+ * page, or a plain web page.
+ *
+ * Drives the icon and the standard wording on link buttons (event pages
+ * and cards, organisation pages). Decided at render time from the URL —
+ * the platform names are in the address, the check is a string match on
+ * a handful of links, and the page is render-cached anyway — so editors
+ * enter nothing extra and a new platform is one line here.
+ *
+ * @return array{kind: string, icon: string, platform: string}
+ *   kind: 'tickets' | 'social' | 'web'. icon: a name the link-icon
+ *   component knows. platform: "Facebook" etc. for social, '' otherwise.
+ */
+function customsolent_helpers_link_kind(string $url): array {
+  $host = strtolower((string) parse_url($url, PHP_URL_HOST));
+  $host = preg_replace('/^(www|m|mobile|en-gb|en)\./', '', $host) ?? $host;
+  static $social = [
+    'facebook.com' => ['Facebook', 'facebook'], 'fb.com' => ['Facebook', 'facebook'], 'fb.me' => ['Facebook', 'facebook'],
+    'instagram.com' => ['Instagram', 'instagram'],
+    'linkedin.com' => ['LinkedIn', 'linkedin'],
+    'x.com' => ['X', 'x'], 'twitter.com' => ['X', 'x'],
+    'tiktok.com' => ['TikTok', 'tiktok'],
+    'youtube.com' => ['YouTube', 'youtube'], 'youtu.be' => ['YouTube', 'youtube'],
+    'whatsapp.com' => ['WhatsApp', 'whatsapp'], 'wa.me' => ['WhatsApp', 'whatsapp'],
+    'threads.net' => ['Threads', 'threads'], 'threads.com' => ['Threads', 'threads'],
+    'bsky.app' => ['Bluesky', 'bluesky'],
+    'discord.gg' => ['Discord', 'discord'], 'discord.com' => ['Discord', 'discord'],
+    't.me' => ['Telegram', 'telegram'], 'telegram.me' => ['Telegram', 'telegram'],
+    'mastodon.social' => ['Mastodon', 'mastodon'], 'mastodon.online' => ['Mastodon', 'mastodon'], 'mastodon.org.uk' => ['Mastodon', 'mastodon'], 'mstdn.social' => ['Mastodon', 'mastodon'],
+    'pinterest.com' => ['Pinterest', 'pinterest'], 'pinterest.co.uk' => ['Pinterest', 'pinterest'],
+    'snapchat.com' => ['Snapchat', 'snapchat'],
+    'spotify.com' => ['Spotify', 'spotify'],
+    'soundcloud.com' => ['SoundCloud', 'soundcloud'],
+    'twitch.tv' => ['Twitch', 'twitch'],
+    'reddit.com' => ['Reddit', 'reddit'],
+    'nextdoor.co.uk' => ['Nextdoor', 'web'], 'nextdoor.com' => ['Nextdoor', 'web'],
+  ];
+  static $tickets = [
+    'eventbrite.co.uk', 'eventbrite.com', 'tickettailor.com', 'universe.com', 'ticketmaster.co.uk', 'ticketmaster.com',
+    'meetup.com', 'fatsoma.com', 'skiddle.com', 'seetickets.com', 'gigantic.com', 'eventcube.io', 'bookwhen.com',
+    'headfirstbristol.co.uk', 'dice.fm', 'wegottickets.com', 'ticketsource.co.uk', 'ticketsolve.com', 'ents24.com',
+    'billetto.co.uk', 'eventim.co.uk', 'axs.com', 'ticketweb.uk', 'ticketweb.co.uk', 'ra.co', 'outsavvy.com',
+    'trybooking.com', 'ticketlab.co.uk', 'fixr.co', 'eventcreate.com', 'lu.ma', 'hopin.com', 'ticketpass.org',
+    'alttickets.com', 'theticketsellers.co.uk', 'stagedoorapp.com', 'ticketsignup.io',
+  ];
+  foreach ($social as $domain => [$name, $icon]) {
+    if ($host === $domain || str_ends_with($host, '.' . $domain)) {
+      return ['kind' => 'social', 'icon' => $icon, 'platform' => $name];
+    }
+  }
+  foreach ($tickets as $domain) {
+    if ($host === $domain || str_ends_with($host, '.' . $domain)) {
+      return ['kind' => 'tickets', 'icon' => 'ticket', 'platform' => ''];
+    }
+  }
+  return ['kind' => 'web', 'icon' => 'globe', 'platform' => ''];
+}
+
+/**
+ * A node's outward links (field_urls, or field_url on a Link), ready for
+ * buttons: one entry per link, in editor order.
+ *
+ * Each entry: href, external, kind/icon/platform (see
+ * customsolent_helpers_link_kind()), title (the editor's link text, or
+ * ''). A link whose text mentions tickets or booking counts as tickets
+ * whatever its host ("Book now" on the organiser's own site).
+ *
+ * @return array<int, array{href: string, external: bool, kind: string, icon: string, platform: string, title: string}>
+ */
+function customsolent_helpers_node_links(\Drupal\node\NodeInterface $node): array {
+  $field = $node->hasField('field_urls') ? 'field_urls' : ($node->hasField('field_url') ? 'field_url' : NULL);
+  if ($field === NULL || $node->get($field)->isEmpty()) {
+    return [];
+  }
+  $links = [];
+  foreach ($node->get($field) as $item) {
+    try {
+      $url = $item->getUrl();
+      $href = $url->toString();
+    }
+    catch (\Throwable) {
+      continue;
+    }
+    $title = trim((string) $item->title);
+    $kind = customsolent_helpers_link_kind($item->uri ?? $href);
+    if ($kind['kind'] === 'web' && preg_match('/ticket|book|reserve|register|rsvp|sign.?up/i', $title)) {
+      $kind = ['kind' => 'tickets', 'icon' => 'ticket', 'platform' => ''];
+    }
+    $links[] = $kind + ['href' => $href, 'external' => $url->isExternal(), 'title' => $title];
+  }
+  return $links;
+}
+
+/**
+ * The URL fragment that says how a regular event repeats, for its alias:
+ * "regular-every-mon-1930", "regular-every-wed-fri-2000",
+ * "regular-every-other-wed-1930", "regular-monthly-1900". No time for an
+ * all-day rule; several rules are joined with "and".
+ *
+ * Built from the same rule data as the cards' phrase (see
+ * customsolent_helpers_recurrence_phrase()) so the address says what the
+ * card says. A one-off event (no rule) gives ''.
+ */
+function customsolent_helpers_recurrence_slug(\Drupal\node\NodeInterface $node): string {
+  if (!$node->hasField('field_when') || $node->get('field_when')->isEmpty()
+    || !\Drupal::moduleHandler()->moduleExists('smart_date_recur')) {
+    return '';
+  }
+  $first_by_rule = [];
+  foreach ($node->get('field_when') as $item) {
+    if (!empty($item->rrule) && !isset($first_by_rule[(int) $item->rrule])) {
+      $first_by_rule[(int) $item->rrule] = $item;
+    }
+  }
+  if (!$first_by_rule) {
+    return '';
+  }
+  $tz = new \DateTimeZone(\Drupal::config('system.date')->get('timezone.default') ?: 'Europe/London');
+  $short = ['MO' => 'mon', 'TU' => 'tue', 'WE' => 'wed', 'TH' => 'thu', 'FR' => 'fri', 'SA' => 'sat', 'SU' => 'sun'];
+  $parts = [];
+  foreach ($first_by_rule as $rid => $item) {
+    $rule = \Drupal\smart_date_recur\Entity\SmartDateRule::load($rid);
+    if (!$rule) {
+      continue;
+    }
+    $start = (new \DateTimeImmutable('@' . (int) $item->value))->setTimezone($tz);
+    $params = $rule->getParametersArray();
+    $interval = max(1, (int) ($params['interval'] ?? 1));
+    $words = [];
+    switch ((string) $rule->get('freq')->getString()) {
+      case 'DAILY':
+        $words = $interval > 1 ? ['every', $interval, 'days'] : ['every', 'day'];
+        break;
+
+      case 'WEEKLY':
+        $days = [];
+        foreach ($params['byday'] ?? [] as $code) {
+          $code = strtoupper(trim((string) $code));
+          if (isset($short[$code])) {
+            $days[$code] = $short[$code];
+          }
+        }
+        // Monday-first, as the phrase.
+        $days = array_values(array_intersect_key($short, $days)) ?: [strtolower($start->format('D'))];
+        $words = $interval === 1 ? ['every'] : ($interval === 2 ? ['every', 'other'] : ['every', $interval, 'weeks']);
+        $words = array_merge($words, $days);
+        break;
+
+      case 'MONTHLY':
+        $words = $interval > 1 ? ['every', $interval, 'months'] : ['monthly'];
+        break;
+
+      case 'YEARLY':
+        $words = ['every', 'year'];
+        break;
+
+      default:
+        $words = ['repeats'];
+    }
+    if ((int) $item->duration < 1439) {
+      $words[] = $start->format('Hi');
+    }
+    $parts[] = implode('-', $words);
+  }
+  return $parts ? 'regular-' . implode('-and-', $parts) : '';
+}

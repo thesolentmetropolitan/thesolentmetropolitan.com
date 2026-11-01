@@ -225,6 +225,26 @@ function customsolent_preprocess_node(array &$variables): void {
     }
     // Refresh when events change, and at midnight when "today" moves on.
     $variables['organiser_events_cache'] = ['#cache' => ['tags' => $relations->eventsCacheTags(), 'max-age' => $relations->maxAgeUntilMidnight()]];
+
+    // Outward links: website, social pages — one button each.
+    $variables['node_links'] = _customsolent_node_link_buttons($node);
+
+    // Part of a larger organisation (reverse lookup: the parent lists its
+    // subsidiaries), and the organisations that are part of this one. Both
+    // as the directory cards used for organisations everywhere else.
+    $variables['parent_organisations'] = [];
+    foreach ($relations->parentOrganisationsOf($node) as $parent) {
+      $variables['parent_organisations'][] = $view_builder->view($parent, 'compact');
+    }
+    $variables['subsidiary_organisations'] = [];
+    if ($node->hasField('field_subsidiary_organisations')) {
+      foreach ($node->get('field_subsidiary_organisations')->referencedEntities() as $child) {
+        if ($child->isPublished() && $child->access('view')) {
+          $variables['subsidiary_organisations'][] = $view_builder->view($child, 'compact');
+        }
+      }
+    }
+    $variables['organisation_links_cache'] = ['#cache' => ['tags' => $relations->parentOrganisationsCacheTags()]];
   }
 
   // Event page: the organiser's other upcoming events at the foot — the
@@ -236,10 +256,12 @@ function customsolent_preprocess_node(array &$variables): void {
     $relations = \Drupal::service('customsolent_helpers.content_relations');
     $view_builder = \Drupal::entityTypeManager()->getViewBuilder('node');
     $variables['organiser_other_events'] = [];
-    $organiser = $node->hasField('field_organiser') ? $node->get('field_organiser')->entity : NULL;
-    if ($organiser) {
+    $seen = [(int) $node->id() => TRUE];
+    $organisers = $node->hasField('field_organisers') ? $node->get('field_organisers')->referencedEntities() : [];
+    foreach ($organisers as $organiser) {
       foreach ($relations->upcomingEventsOrganisedBy($organiser) as $event) {
-        if ((int) $event->id() !== (int) $node->id()) {
+        if (empty($seen[(int) $event->id()])) {
+          $seen[(int) $event->id()] = TRUE;
           $variables['organiser_other_events'][] = $view_builder->view($event, 'compact');
         }
       }
@@ -470,7 +492,13 @@ function _customsolent_join_names(array $names): string {
  *   - where_areas     — the distinct towns, in venue order ("Southampton,
  *                       Fareham and Portsmouth"), for the compact card's
  *                       "4 venues" line.
- *   - organiser_label / organiser_url — field_organiser (an Organisation).
+ *   - organisers        — list of {label, url}: field_organisers (one or
+ *                       several Organisations); organiser_label joins the
+ *                       names ("A and B"), organiser_url is the first.
+ *   - node_links        — outward links as buttons (field_urls), see
+ *                       _customsolent_node_link_buttons().
+ *   - event_arrival     — "Be there for the start" / "Join at the start of
+ *                       a session", or '' (drop in any time).
  *   - is_past_event   — TRUE once the last date has ended.
  *   - event_is_recurring   — TRUE when any date item carries a rule.
  *   - event_recurrence_lines — one phrase per rule, "Every Monday,
@@ -507,15 +535,37 @@ function _customsolent_preprocess_event_shared_extras($node, array &$variables):
     $variables['where_areas'] = _customsolent_join_names($areas);
   }
 
-  $variables['event_cta_text'] = _customsolent_event_cta_text($node);
+  // Outward links as buttons: tickets, the event page, or social pages.
+  $variables['node_links'] = _customsolent_node_link_buttons($node);
+  $variables['event_cta_text'] = $variables['node_links'][0]['label'] ?? (string) t('Event details');
 
-  // Organiser.
-  if ($node->hasField('field_organiser') && !$node->get('field_organiser')->isEmpty()) {
-    $org = $node->get('field_organiser')->entity;
-    if ($org && $org->access('view')) {
-      $variables['organiser_label'] = $org->label();
-      $variables['organiser_url'] = $org->toUrl()->toString();
+  // Organisers — one or several (two clubs putting on one all-dayer).
+  // organisers: list of {label, url}; organiser_label: "A and B" for the
+  // "Coming up from …" heading; organiser_url: the first, for anything
+  // that wants a single link.
+  $variables['organisers'] = [];
+  if ($node->hasField('field_organisers') && !$node->get('field_organisers')->isEmpty()) {
+    foreach ($node->get('field_organisers')->referencedEntities() as $org) {
+      if ($org->access('view')) {
+        $variables['organisers'][] = ['label' => $org->label(), 'url' => $org->toUrl()->toString()];
+      }
     }
+  }
+  if ($variables['organisers']) {
+    $variables['organiser_label'] = _customsolent_join_names(array_column($variables['organisers'], 'label'));
+    $variables['organiser_url'] = $variables['organisers'][0]['url'];
+  }
+
+  // Arrival: whether it matters when people turn up. "Drop in any time" is
+  // the default and prints nothing; the other two print a short line by
+  // the date (a walk sets off on time; a class evening has sessions).
+  $variables['event_arrival'] = '';
+  if ($node->hasField('field_arrival') && !$node->get('field_arrival')->isEmpty()) {
+    $variables['event_arrival'] = match ((string) $node->get('field_arrival')->value) {
+      'on_time' => (string) t('Be there for the start'),
+      'sessions' => (string) t('Join at the start of a session'),
+      default => '',
+    };
   }
 
   // Recurrence.
@@ -755,22 +805,30 @@ function _customsolent_preprocess_article_compact_extras($node, array &$variable
 }
 
 /**
- * The standard wording for an event's outward link button.
+ * A node's outward links as buttons: {href, external, icon, label, platform}.
  *
- * Two phrases only, so every button in a listing reads the same and no
- * long event title ends up inside a button: "Tickets" when the editor's
- * link title mentions tickets or booking, otherwise "Event details".
- * The template adds the external-link icon and a visually hidden
- * "(opens in a new tab)".
+ * Standard wording, so every button in a listing reads the same and no
+ * long event title ends up inside one: "Tickets" for a ticketing site
+ * (or a link whose text mentions booking), the platform's name for a
+ * social media page ("Facebook"), and otherwise "Event details" on an
+ * event or the editor's link text (or "Website") on an organisation. The
+ * icon says the same thing at a glance — ticket, platform logo, globe —
+ * and the template adds a visually hidden "(opens in a new tab)".
+ *
+ * Kinds are decided from the address at render time
+ * (customsolent_helpers_link_kind()).
  */
-function _customsolent_event_cta_text($node): string {
-  $title = '';
-  if ($node->hasField('field_url') && !$node->get('field_url')->isEmpty()) {
-    $title = (string) $node->get('field_url')->first()->title;
+function _customsolent_node_link_buttons($node): array {
+  $buttons = [];
+  foreach (customsolent_helpers_node_links($node) as $link) {
+    $label = match ($link['kind']) {
+      'tickets' => (string) t('Tickets'),
+      'social' => $link['platform'],
+      default => $node->bundle() === 'event' ? (string) t('Event details') : ($link['title'] !== '' ? $link['title'] : (string) t('Website')),
+    };
+    $buttons[] = ['href' => $link['href'], 'external' => $link['external'], 'icon' => $link['icon'], 'kind' => $link['kind'], 'label' => $label, 'platform' => $link['platform']];
   }
-  return preg_match('/ticket|book|reserve|register|rsvp|sign.?up/i', $title)
-    ? (string) t('Tickets')
-    : (string) t('Event details');
+  return $buttons;
 }
 
 /**
@@ -781,10 +839,13 @@ function _customsolent_event_cta_text($node): string {
  * the URL is malformed or absent.
  */
 function _customsolent_extract_field_url_meta($node, array &$variables): void {
-  if (!$node->hasField('field_url') || $node->get('field_url')->isEmpty()) {
+  // Events and organisations carry several links (field_urls); the first
+  // is the main one. Links keep their single field_url.
+  $field = $node->hasField('field_urls') ? 'field_urls' : 'field_url';
+  if (!$node->hasField($field) || $node->get($field)->isEmpty()) {
     return;
   }
-  $item = $node->get('field_url')->first();
+  $item = $node->get($field)->first();
   try {
     $url = $item->getUrl();
     $variables['field_url_external'] = $url->isExternal();
@@ -1218,12 +1279,17 @@ function _customsolent_preprocess_series_extras($node, array &$variables): void 
   // is the same; empty means the line is not printed.
   $variables['organiser_label'] = '';
   $variables['organiser_url'] = '';
-  if ($node->hasField('field_organiser') && !$node->get('field_organiser')->isEmpty()) {
-    $org = $node->get('field_organiser')->entity;
-    if ($org && $org->access('view')) {
-      $variables['organiser_label'] = $org->label();
-      $variables['organiser_url'] = $org->toUrl()->toString();
+  $variables['organisers'] = [];
+  if ($node->hasField('field_organisers') && !$node->get('field_organisers')->isEmpty()) {
+    foreach ($node->get('field_organisers')->referencedEntities() as $org) {
+      if ($org->access('view')) {
+        $variables['organisers'][] = ['label' => $org->label(), 'url' => $org->toUrl()->toString()];
+      }
     }
+  }
+  if ($variables['organisers']) {
+    $variables['organiser_label'] = _customsolent_join_names(array_column($variables['organisers'], 'label'));
+    $variables['organiser_url'] = $variables['organisers'][0]['url'];
   }
 
   $counts = $relations->seriesCounts($node);
@@ -1238,6 +1304,9 @@ function _customsolent_preprocess_series_extras($node, array &$variables): void 
   if ($counts['link']) {
     $parts[] = \Drupal::translation()->formatPlural($counts['link'], '1 link', '@count links');
   }
+  if ($counts['organisation']) {
+    $parts[] = \Drupal::translation()->formatPlural($counts['organisation'], '1 organisation', '@count organisations');
+  }
   $variables['series_count_parts'] = $parts;
 
   if ($node->hasField('field_primary_topic') && !$node->get('field_primary_topic')->isEmpty()) {
@@ -1250,7 +1319,7 @@ function _customsolent_preprocess_series_extras($node, array &$variables): void 
 
   // Cache: the members' own tags come with their render arrays; the status
   // word is the only time-dependent part.
-  $tags = ['node_list:event', 'node_list:article', 'node_list:link'];
+  $tags = ['node_list:event', 'node_list:article', 'node_list:link', 'node_list:organisation'];
   $variables['series_cache'] = [
     '#cache' => [
       'tags' => $tags,
@@ -1269,6 +1338,7 @@ function _customsolent_preprocess_series_extras($node, array &$variables): void 
     'event' => ['label' => t('Events'), 'grid_class' => 'slnt-series-items__grid--events'],
     'article' => ['label' => t('Articles'), 'grid_class' => 'slnt-series-items__grid--articles'],
     'link' => ['label' => t('Links'), 'grid_class' => 'slnt-series-items__grid--links'],
+    'organisation' => ['label' => t('Organisations'), 'grid_class' => 'slnt-series-items__grid--links'],
   ];
   $groups = [];
   foreach ($relations->seriesMembers($node) as $member) {

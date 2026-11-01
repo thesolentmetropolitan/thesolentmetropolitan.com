@@ -7,13 +7,14 @@ dependencies:
     - node.type.article
     - node.type.event
     - node.type.link
+    - node.type.organisation
     - node.type.series
 id: node.series.field_series_items
 field_name: field_series_items
 entity_type: node
 bundle: series
 label: 'Series items'
-description: 'The events, articles and links that make up this series, in the order you want them shown within each group.'
+description: 'The events, articles, links and organisations that make up this series, in the order you want them shown within each group.'
 required: false
 translatable: false
 default_value: {  }
@@ -25,6 +26,7 @@ settings:
       event: event
       article: article
       link: link
+      organisation: organisation
     sort:
       field: title
       direction: ASC

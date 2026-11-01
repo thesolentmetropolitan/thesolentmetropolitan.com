@@ -1,0 +1,23 @@
+uuid: 2a9da93a-b8cf-48d4-b7ab-e07b2c8eadd4
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_arrival
+    - node.type.event
+  module:
+    - options
+id: node.event.field_arrival
+field_name: field_arrival
+entity_type: node
+bundle: event
+label: Arrival
+description: 'Does it matter when people turn up? A walk sets off on time, so be there for the start; a class evening runs in sessions you can join at the start of; a fair or market is drop in any time (the default, which prints nothing).'
+required: false
+translatable: false
+default_value:
+  -
+    value: anytime
+default_value_callback: ''
+settings: {  }
+field_type: list_string

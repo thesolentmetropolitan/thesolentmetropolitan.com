@@ -4,12 +4,13 @@ status: true
 dependencies:
   config:
     - core.entity_view_mode.node.compact
+    - field.field.node.event.field_arrival
     - field.field.node.event.field_image
-    - field.field.node.event.field_organiser
+    - field.field.node.event.field_organisers
     - field.field.node.event.field_primary_topic
     - field.field.node.event.field_related_topics
     - field.field.node.event.field_standfirst
-    - field.field.node.event.field_url
+    - field.field.node.event.field_urls
     - field.field.node.event.field_when
     - field.field.node.event.field_where
     - node.type.event
@@ -22,7 +23,7 @@ targetEntityType: node
 bundle: event
 mode: compact
 content:
-  field_url:
+  field_urls:
     type: link
     label: hidden
     settings:
@@ -70,8 +71,9 @@ content:
     weight: 1
     region: content
 hidden:
+  field_arrival: true
   field_image: true
-  field_organiser: true
+  field_organisers: true
   field_primary_topic: true
   field_related_topics: true
   field_standfirst: true

@@ -111,6 +111,24 @@
 
 .slnt-event-teaser__cta-outer {
   margin-top: 0.3rem;
+  /* One button per link (tickets, or every social page when that is all
+     there is), wrapping on narrow cards. */
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+/* The kind-of-link icon (ticket, globe, platform logo) leads the text. */
+.slnt-event-teaser__cta .slnt-cta__icon--kind {
+  width: 1.15em;
+  height: 1.15em;
+}
+
+/* "Be there for the start" under the date, like the seasonal label. */
+.slnt-event-teaser__arrival {
+  display: block;
+  font-weight: 700;
+  color: var(--solent-blue, #2c4f6e);
 }
 
 .slnt-event-teaser__cta {

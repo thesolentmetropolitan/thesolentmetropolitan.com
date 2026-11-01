@@ -6,8 +6,9 @@
  * Same container and header grammar as node--event--full.html.twig
  * (.slnt-node-full): status badge, topic-trail kicker, h1, date range,
  * standfirst. Then the description in the article reading column, the
- * members grouped as Events / Articles / Links (each rendered as its own
- * compact card), and the related topics as section-coloured links.
+ * members grouped as Events / Articles / Links / Organisations (each
+ * rendered as its own compact card), and the related topics as
+ * section-coloured links.
  *
  * Collaborations this series is an outcome of will be listed after the
  * members once the Collaboration type exists (see the 2026-10-18 brief).
@@ -71,8 +72,10 @@
 
     {# Organiser — the organisation curating the series; nothing when none
        is named (issue 436). Same line as the event page. #}
-    {% if organiser_label %}
-      <div class="slnt-node-full__organiser">{{ 'Organised by'|t }} <a href="{{ organiser_url }}">{{ organiser_label }}</a></div>
+    {% if organisers is not empty %}
+      <div class="slnt-node-full__organiser">{{ 'Organised by'|t }}
+        {% for org in organisers %}<a href="{{ org.url }}">{{ org.label }}</a>{% if not loop.last %}{{ loop.index == organisers|length - 1 ? ' ' ~ 'and'|t ~ ' ' : ', ' }}{% endif %}{% endfor %}
+      </div>
     {% endif %}
 
   </div>
@@ -125,6 +128,6 @@
   {# Rendered by hand above; suppress the defaults. #}
   {{ content|without('field_standfirst', 'field_series_start', 'field_series_end',
      'field_description', 'field_series_items', 'field_primary_topic',
-     'field_related_topics', 'field_organiser', 'links') }}
+     'field_related_topics', 'field_organisers', 'links') }}
 
 </article>

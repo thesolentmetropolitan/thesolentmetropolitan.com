@@ -19,7 +19,7 @@ function customsolent_tokens_token_info() {
 
   $info['tokens']['node']['event_date_formatted'] = [
     'name' => t('Event date formatted'),
-    'description' => t('The event start date from field_when, in the site timezone. Timed events are formatted YYYY-MM-DD-HHMM (e.g. 2026-05-24-1930); all-day events omit the time (e.g. 2026-05-24). Only available on nodes with a field_when value; empty otherwise.'),
+    'description' => t('The event start date from field_when, in the site timezone. Timed events are formatted YYYY-MM-DD-HHMM (e.g. 2026-05-24-1930); all-day events omit the time (e.g. 2026-05-24). A regular (recurring) event gives how it repeats instead: regular-every-mon-1930, regular-every-wed-fri-2000. Only available on nodes with a field_when value; empty otherwise.'),
   ];
 
   return $info;
@@ -43,6 +43,19 @@ function customsolent_tokens_tokens($type, $tokens, array $data, array $options,
       // Default to an empty string so Pathauto simply omits the segment when a
       // node has no start date (e.g. a non-event, or an event missing a date).
       $replacements[$original] = '';
+
+      // A regular event's address says how it repeats, not when it first
+      // ran ("…/andysmanclub-regular-every-mon-1900"): the first date is
+      // soon in the past and means nothing to a reader. Same words as the
+      // cards' "Every Monday, 7pm" line.
+      if (function_exists('customsolent_helpers_recurrence_slug')) {
+        $slug = customsolent_helpers_recurrence_slug($node);
+        if ($slug !== '') {
+          $replacements[$original] = $slug;
+          $bubbleable_metadata->addCacheableDependency($node);
+          continue;
+        }
+      }
 
       if ($node->hasField('field_when') && !$node->get('field_when')->isEmpty()) {
         // Smart Date stores the start and end as Unix timestamps in the

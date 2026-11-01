@@ -431,8 +431,10 @@
 
 /* A seasonal series' short label ("Halloween special") on its own line
    under the date it applies to; bold so it reads as the headline fact
-   about this date, in the same blue as "Next". */
-.slnt-event-compact__special {
+   about this date, in the same blue as "Next". "Be there for the start"
+   (field_arrival) sits the same way. */
+.slnt-event-compact__special,
+.slnt-event-compact__arrival {
   display: block;
   font-weight: 700;
   color: var(--solent-blue, #2c4f6e);

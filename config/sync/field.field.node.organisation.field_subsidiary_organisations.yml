@@ -1,0 +1,30 @@
+uuid: 3622e7ec-df7b-4f2a-bb40-e118be855b83
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_subsidiary_organisations
+    - node.type.link
+    - node.type.organisation
+id: node.organisation.field_subsidiary_organisations
+field_name: field_subsidiary_organisations
+entity_type: node
+bundle: organisation
+label: 'Subsidiary organisations'
+description: "Organisations (or links) that are part of this one: a university's departments, a council's services, a group's branches. They are listed on this page, and each of them names this organisation as its parent."
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      organisation: organisation
+      link: link
+    sort:
+      field: title
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

@@ -7,7 +7,8 @@ dependencies:
     - field.field.node.organisation.field_primary_topic
     - field.field.node.organisation.field_related_topics
     - field.field.node.organisation.field_standfirst
-    - field.field.node.organisation.field_url
+    - field.field.node.organisation.field_subsidiary_organisations
+    - field.field.node.organisation.field_urls
     - field.field.node.organisation.field_where
     - node.type.organisation
   module:
@@ -71,7 +72,17 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-  field_url:
+  field_subsidiary_organisations:
+    type: entity_reference_autocomplete
+    weight: 127
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_urls:
     type: link_default
     weight: 126
     region: content

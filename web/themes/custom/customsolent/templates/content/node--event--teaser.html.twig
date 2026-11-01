@@ -8,10 +8,10 @@
  *     (calendar-dots / map-pin),
  *   - render field_where as plain text (rabbit_hole disables event
  *     access; we also don't want a link to the Location term),
- *   - render field_url as a CTA coloured to match the section
+ *   - render field_urls as CTA buttons coloured to match the section
  *     (Culture purple, Sectors blue, Living green, About slate,
- *     Explore amber) with a trailing right-chevron for internal
- *     URLs and arrow-square-out for external URLs.
+ *     Explore amber), one per link (node_links), each with the icon
+ *     for its kind of address (ticket, platform logo, globe).
  *
  * Variables added by customsolent_preprocess_node:
  *   - section_color, section_key      — top-level Topic colour.
@@ -71,6 +71,7 @@
         <span class="slnt-event-teaser__label">{{ 'When'|t }}</span>
         <span class="slnt-event-teaser__value">{{ event_recurrence_lines|join(' · ') }}{% if event_next_dates is not empty %} · {% if event_next_prefix %}{{ event_next_prefix }}: {% endif %}{{ event_next_dates[0] }}{% endif %}
           {% for special in series_specials %}<span class="slnt-event-teaser__special">{{ special }}</span>{% endfor %}
+          {% if event_arrival %}<span class="slnt-event-teaser__arrival">{{ event_arrival }}</span>{% endif %}
         </span>
       </div>
       {% set _when = content.field_when|render %}
@@ -82,6 +83,7 @@
         <span class="slnt-event-teaser__label">When</span>
         <span class="slnt-event-teaser__value">{{ content.field_when[0] }}
           {% for special in series_specials %}<span class="slnt-event-teaser__special">{{ special }}</span>{% endfor %}
+          {% if event_arrival %}<span class="slnt-event-teaser__arrival">{{ event_arrival }}</span>{% endif %}
         </span>
       </div>
     {% endif %}
@@ -114,8 +116,8 @@
           {# Feather "users" (MIT). #}
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
         </span>
-        <span class="slnt-event-teaser__label">{{ 'Organiser'|t }}</span>
-        <span class="slnt-event-teaser__value"><a href="{{ organiser_url }}" class="slnt-event-teaser__organiser-link">{{ organiser_label }}</a></span>
+        <span class="slnt-event-teaser__label">{{ organisers|length > 1 ? 'Organisers'|t : 'Organiser'|t }}</span>
+        <span class="slnt-event-teaser__value">{% for org in organisers %}<a href="{{ org.url }}" class="slnt-event-teaser__organiser-link">{{ org.label }}</a>{% if not loop.last %}{{ loop.index == organisers|length - 1 ? ' ' ~ 'and'|t ~ ' ' : ', ' }}{% endif %}{% endfor %}</span>
       </div>
     {% endif %}
 
@@ -126,33 +128,37 @@
       variant: 'teaser',
     } only %}
 
-    {# CTA — section-coloured button with trailing icon. Not once the event
-       has passed: organisers take their event pages down. #}
-    {% if field_url_href and not is_past_event %}
+    {# CTA — one section-coloured button per link, each with the icon for
+       its kind of address (ticket, platform logo, globe). Not once the
+       event has passed: organisers take their event pages down. #}
+    {% if node_links is not empty and not is_past_event %}
       <div class="slnt-event-teaser__cta-outer">
-        <a class="slnt-cta slnt-event-teaser__cta"
-           href="{{ field_url_href }}"
-           {% if field_url_external %}rel="noopener noreferrer" target="_blank"{% endif %}
-           {% if section_color %}style="background-color: {{ section_color }}; border-color: {{ section_color }}; color: #fff;"{% endif %}>
-          {# Standard wording ("Event details" / "Tickets", see
-             _customsolent_event_cta_text) so every button in a listing
-             reads the same; the event title is hidden text so each button
-             is announced distinctly. #}
-          <span class="slnt-cta__text">{{ event_cta_text }}<span class="visually-hidden">: {{ label }}{% if field_url_external %} ({{ 'opens in a new tab'|t }}){% endif %}</span></span>
-          {% if field_url_external %}
-            <svg class="slnt-cta__icon" viewBox="0 0 256 256" fill="currentColor" role="presentation" focusable="false"><path d="M228,104a12,12,0,0,1-24,0V69l-59.51,59.51a12,12,0,0,1-17-17L187,52H152a12,12,0,0,1,0-24h64a12,12,0,0,1,12,12Zm-44,24a12,12,0,0,0-12,12v64H52V84h64a12,12,0,0,0,0-24H48A20,20,0,0,0,28,80V208a20,20,0,0,0,20,20H176a20,20,0,0,0,20-20V140A12,12,0,0,0,184,128Z"/></svg>
-          {% else %}
-            <svg class="slnt-cta__chevron" role="presentation" focusable="false">
-              <use href="#tvip-down-triangle"></use>
-            </svg>
-          {% endif %}
-        </a>
+        {% for link in node_links %}
+          <a class="slnt-cta slnt-event-teaser__cta slnt-event-teaser__cta--{{ link.kind }}"
+             href="{{ link.href }}"
+             {% if link.external %}rel="noopener noreferrer" target="_blank"{% endif %}
+             {% if section_color %}style="background-color: {{ section_color }}; border-color: {{ section_color }}; color: #fff;"{% endif %}>
+            {% include '@customsolent/components/link-icon.html.twig' with { icon: link.icon, class: 'slnt-cta__icon slnt-cta__icon--kind' } only %}
+            {# Standard wording ("Event details" / "Tickets" / "Facebook",
+               see _customsolent_node_link_buttons) so every button in a
+               listing reads the same; the event title is hidden text so
+               each button is announced distinctly. #}
+            <span class="slnt-cta__text">{{ link.label }}<span class="visually-hidden">: {{ label }}{% if link.external %} ({{ 'opens in a new tab'|t }}){% endif %}</span></span>
+            {% if link.external %}
+              <svg class="slnt-cta__icon" viewBox="0 0 256 256" fill="currentColor" role="presentation" focusable="false"><path d="M228,104a12,12,0,0,1-24,0V69l-59.51,59.51a12,12,0,0,1-17-17L187,52H152a12,12,0,0,1,0-24h64a12,12,0,0,1,12,12Zm-44,24a12,12,0,0,0-12,12v64H52V84h64a12,12,0,0,0,0-24H48A20,20,0,0,0,28,80V208a20,20,0,0,0,20,20H176a20,20,0,0,0,20-20V140A12,12,0,0,0,184,128Z"/></svg>
+            {% else %}
+              <svg class="slnt-cta__chevron" role="presentation" focusable="false">
+                <use href="#tvip-down-triangle"></use>
+              </svg>
+            {% endif %}
+          </a>
+        {% endfor %}
       </div>
     {% endif %}
 
   </div>
 
   {# Suppress defaults — we render these manually above. #}
-  {{ content|without('field_image', 'field_standfirst', 'field_when', 'field_where', 'field_url', 'field_organiser') }}
+  {{ content|without('field_image', 'field_standfirst', 'field_when', 'field_where', 'field_urls', 'field_organisers', 'field_arrival') }}
 
 </article>
