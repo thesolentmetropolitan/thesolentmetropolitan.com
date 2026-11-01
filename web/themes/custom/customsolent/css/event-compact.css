@@ -146,6 +146,19 @@
   text-decoration-thickness: 2px;
 }
 
+/* On hover every line of the card underlines, not only the title (as the
+   BBC's cards do), so the whole box reads as one link. The supporting
+   lines take a thinner rule than the title's 2px. The decoration is set
+   on each row's value and propagates to the text inside, including the
+   block spans (venue, area, "Next", the seasonal label); the badge and
+   the icons sit outside the values and stay plain. */
+.slnt-event-compact__link:hover .slnt-event-compact__value {
+  text-decoration: underline;
+  text-decoration-color: var(--magenta, #c5007a);
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+
 /* ── Card body — every field on its own line ── */
 .slnt-event-compact {
   display: block;

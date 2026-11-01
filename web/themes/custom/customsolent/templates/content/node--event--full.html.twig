@@ -8,8 +8,11 @@
  * the same 1200px container aligned to the menu grid, a topic-trail kicker,
  * and a manually rendered <h1>.
  *
- * Stacking order: past-event badge, topic trail, title, date/time
- * (field_when), location (field_where), standfirst, external-link CTA.
+ * Stacking order: regular-event badge, topic trail, title, date/time
+ * (field_when) with "Past event" beside it and the series the date belongs
+ * to directly under it, location(s) (field_where) with a map pin,
+ * organiser, standfirst, external-link CTA (not for a past event: organisers
+ * take their pages down).
  *
  * Field display (full view mode): hide the built-in node title — it is
  * rendered here via {{ label }}. field_when / field_where / field_standfirst
@@ -17,8 +20,10 @@
  * new-tab CTA button (field_url_href / field_url_text / field_url_external are
  * set in customsolent_preprocess_node()).
  *
- * is_past_event is set in customsolent_preprocess_node() (Smart Date end time
- * in the past). series_links / series_cache list the series the event is in.
+ * is_past_event (last date ended), event_recurrence_lines and the next dates
+ * come from _customsolent_preprocess_event_shared_extras(); series_links /
+ * series_cache list the series the event is in (series whose end has passed
+ * the shown date are already left out).
  */
 #}
 {%
@@ -36,11 +41,9 @@
 <article{{ attributes.addClass(classes) }}{% if primary_topic_menu_path is defined and primary_topic_menu_path %} data-primary-topic-path="{{ primary_topic_menu_path }}"{% endif %}>
   <div class="slnt-node-full__header">
 
-    {# Badges — above the topic trail: past event, regular (recurring) event. #}
-    {% if is_past_event is defined and is_past_event %}
-      <div class="slnt-node-full__past-kicker">Past event</div>
-    {% endif %}
-    {% if event_is_recurring and not (is_past_event is defined and is_past_event) %}
+    {# Badge above the topic trail: regular (recurring) event. "Past event"
+       sits by the date below, where it is read with the date. #}
+    {% if event_is_recurring and not is_past_event %}
       <div class="slnt-node-full__past-kicker slnt-event-badge--regular">{{ 'Regular event'|t }}</div>
     {% endif %}
     {{ event_when_cache }}
@@ -57,31 +60,69 @@
     {# Title #}
     <h1 class="slnt-node-full__title">{{ label }}</h1>
 
-    {# Date and time — recurring: the rule, times and next dates; otherwise
-       field_when (Smart Date). #}
-    {% if event_is_recurring %}
-      <div class="slnt-node-full__when slnt-node-full__when--recurring">
-        <span class="slnt-node-full__recurrence">{{ event_recurrence_text }}{% if event_recurrence_times %}, {{ event_recurrence_times }}{% endif %}</span>
-        {% if event_next_dates is not empty %}
-          <span class="slnt-node-full__next">{{ 'Next'|t }}: {{ event_next_dates|join(' · ') }}</span>
+    {# Date and time — recurring: one line per rule, then the next dates;
+       otherwise field_when (Smart Date). A past event says so here, beside
+       the date, so the two facts are read together. #}
+    <div class="slnt-node-full__dates">
+      {% if is_past_event %}
+        <span class="slnt-node-full__past-badge">{{ 'Past event'|t }}</span>
+      {% endif %}
+      {% if event_is_recurring %}
+        <div class="slnt-node-full__when slnt-node-full__when--recurring">
+          {% for line in event_recurrence_lines %}
+            <span class="slnt-node-full__recurrence">{{ line }}</span>
+          {% endfor %}
+          {% if event_next_dates is not empty %}
+            <span class="slnt-node-full__next">{% if event_next_prefix %}{{ event_next_prefix }}: {% endif %}{{ event_next_dates|join(' · ') }}</span>
+          {% endif %}
+        </div>
+        {% set _when = content.field_when|render %}
+      {% elseif content.field_when|render|striptags|trim %}
+        <div class="slnt-node-full__when">{{ content.field_when }}</div>
+      {% endif %}
+
+      {# The series this date belongs to — directly under the date, as the
+         cards do, so that on a regular event it reads as applying to the
+         date shown and not to every week of the event. series_cache is
+         printed in every case so the "no series" page is refreshed when a
+         series is made. #}
+      {% if series_links is not empty %}
+        <div class="slnt-node-full__series-line">
+          <span class="slnt-node-full__series-icon" aria-hidden="true">
+            {# Feather "layers" (MIT) — the series icon on cards. #}
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 12 12 17 22 12"/><polyline points="2 17 12 22 22 17"/></svg>
+          </span>
+          <span class="slnt-node-full__series-text">
+            <span class="slnt-node-full__series-label">{{ series_links|length > 1 ? 'Part of these series'|t : 'Part of a series'|t }}:</span>
+            {% for series in series_links %}
+              <a href="{{ series.url }}" class="slnt-node-full__series-link">{{ series.label }}</a>{% if series.range or series.status_label %} <span class="slnt-node-full__series-meta">({{ series.range }}{% if series.range and series.status_label %} · {% endif %}{{ series.status_label }})</span>{% endif %}{% if not loop.last %}, {% endif %}
+            {% endfor %}
+          </span>
+        </div>
+      {% endif %}
+      {{ series_cache }}
+    </div>
+
+    {# Location(s) — field_where (Location terms), after a map pin. Plain
+       text: one venue on a line, or a list when the event runs at several
+       places at once. #}
+    {% set _where = content.field_where|render %}
+    {% if where_list is not empty %}
+      <div class="slnt-node-full__where-row">
+        <span class="slnt-node-full__where-icon" aria-hidden="true">
+          {# Phosphor map-pin — matches the cards. #}
+          <svg viewBox="0 0 256 256" fill="currentColor"><path d="M128,60a44,44,0,1,0,44,44A44.05,44.05,0,0,0,128,60Zm0,64a20,20,0,1,1,20-20A20,20,0,0,1,128,124Zm0-112a92.1,92.1,0,0,0-92,92c0,77.36,81.64,135.4,85.12,137.83a12,12,0,0,0,13.76,0,259,259,0,0,0,42.18-39C205.15,170.57,220,136.37,220,104A92.1,92.1,0,0,0,128,12Zm31.3,174.71A249.35,249.35,0,0,1,128,216.89a249.35,249.35,0,0,1-31.3-30.18C80,167.37,60,137.31,60,104a68,68,0,0,1,136,0C196,137.31,176,167.37,159.3,186.71Z"/></svg>
+        </span>
+        {% if where_list|length > 1 %}
+          <ul class="slnt-node-full__where slnt-node-full__venues">
+            {% for venue in where_list %}
+              <li>{{ venue.name }}{% if venue.area %}<span class="slnt-node-full__venue-area">, {{ venue.area }}</span>{% endif %}</li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <div class="slnt-node-full__where">{{ where_list[0].name }}</div>
         {% endif %}
       </div>
-      {% set _when = content.field_when|render %}
-    {% elseif content.field_when|render|striptags|trim %}
-      <div class="slnt-node-full__when">{{ content.field_when }}</div>
-    {% endif %}
-
-    {# Location(s) — field_where (Location terms). Plain text: one venue on
-       a line, or a list when the event runs at several places at once. #}
-    {% set _where = content.field_where|render %}
-    {% if where_list|length > 1 %}
-      <ul class="slnt-node-full__where slnt-node-full__venues">
-        {% for venue in where_list %}
-          <li>{{ venue.name }}{% if venue.area %}<span class="slnt-node-full__venue-area">, {{ venue.area }}</span>{% endif %}</li>
-        {% endfor %}
-      </ul>
-    {% elseif where_list is not empty %}
-      <div class="slnt-node-full__where">{{ where_list[0].name }}</div>
     {% endif %}
 
     {# Organiser — the organisation running it. #}
@@ -97,8 +138,9 @@
   {% endif %}
 
   {# Outward link — the organiser's event page, tickets. Standard wording
-     (see _customsolent_event_cta_text), external icon, new tab. #}
-  {% if field_url_href %}
+     (see _customsolent_event_cta_text), external icon, new tab. Not once
+     the event has passed: organisers take their event pages down. #}
+  {% if field_url_href and not is_past_event %}
     <div class="slnt-node-full__cta">
       <a href="{{ field_url_href }}" class="slnt-node-full__cta-link"{% if field_url_external %} target="_blank" rel="noopener noreferrer"{% endif %}>
         <span>{{ event_cta_text }}</span>
@@ -110,25 +152,6 @@
     </div>
   {% endif %}
 
-  {# Series this event belongs to (reverse lookup, see
-     _customsolent_preprocess_series_membership). series_cache is printed
-     in every case so the "no series" page is refreshed when one is made. #}
-  {% if series_links is not empty %}
-    <aside class="slnt-node-full__series" aria-labelledby="event-series-heading">
-      <h2 id="event-series-heading" class="slnt-node-full__series-heading">
-        {{ series_links|length > 1 ? 'Part of these series'|t : 'Part of a series'|t }}
-      </h2>
-      <ul class="slnt-node-full__series-list">
-        {% for series in series_links %}
-          <li>
-            <a href="{{ series.url }}">{{ series.label }}</a>
-            <span class="slnt-node-full__series-meta">{{ series.range }}{% if series.status_label %} · {{ series.status_label }}{% endif %}</span>
-          </li>
-        {% endfor %}
-      </ul>
-    </aside>
-  {% endif %}
-  {{ series_cache }}
   {{ content|without('field_when', 'field_where', 'field_standfirst', 'field_url', 'field_image',
      'field_primary_topic', 'field_related_topics', 'field_organiser', 'links') }}
 

@@ -173,8 +173,114 @@
   gap: 0.2rem 0.8rem;
 }
 
+/* One rule per line when an event carries several ("Every Monday and
+   Wednesday, 2 - 3:30pm" / "Every Tuesday and Thursday, 10 - 11:30am");
+   "Next:" follows on the last line. */
+.slnt-node-full__recurrence {
+  flex: 1 0 100%;
+}
+
+.slnt-node-full__recurrence + .slnt-node-full__next {
+  flex: 1 0 100%;
+}
+
 .slnt-node-full__next {
   color: var(--text-mid, #444);
+}
+
+/* The dates block: the date(s), with "Past event" beside them and the
+   series the date belongs to beneath. */
+.slnt-node-full__dates {
+  margin-bottom: 0.3rem;
+}
+
+/* "Past event" — by the date, not above the kicker, and a step larger
+   than the small regular-event badge: the reader should see it with the
+   date. Warm grey ground, dark text (10:1). */
+.slnt-node-full__past-badge {
+  display: inline-block;
+  font-family: 'Atkinson Hyperlegible Next', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text, #1a1a1a);
+  background: var(--warm-grey, #f5f3f0);
+  border: 1px solid #d9d4cc;
+  padding: 0.2em 0.6em;
+  border-radius: 3px;
+  margin-bottom: 0.35rem;
+}
+
+/* "Part of a series: Halloween (24 October – 2 November · Now on)" — a
+   small line directly under the date, as on the cards, so on a regular
+   event it is read as belonging to the date shown. */
+.slnt-node-full__series-line {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.4em;
+  font-family: 'Atkinson Hyperlegible Next', sans-serif;
+  font-size: 0.95rem;
+  line-height: 1.35;
+  color: var(--text-mid, #444);
+  margin-top: 0.25rem;
+}
+
+.slnt-node-full__series-icon {
+  display: inline-flex;
+  flex-shrink: 0;
+  width: 0.95em;
+  height: 0.95em;
+  margin-top: 0.2em;
+  color: var(--text-mid, #555);
+}
+
+.slnt-node-full__series-icon svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.layout-content .slnt-node-full__series-link,
+.slnt-node-full__series-link {
+  color: var(--solent-blue, #2c4f6e);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.layout-content .slnt-node-full__series-link:hover,
+.slnt-node-full__series-link:hover {
+  text-decoration: underline;
+  text-decoration-color: var(--magenta, #c5007a);
+  text-underline-offset: 3px;
+  text-decoration-thickness: 2px;
+}
+
+.slnt-node-full__series-meta {
+  color: var(--text-mid, #555);
+  font-weight: 400;
+}
+
+/* Venue(s) after a map pin, one per line. */
+.slnt-node-full__where-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.4em;
+}
+
+.slnt-node-full__where-icon {
+  display: inline-flex;
+  flex-shrink: 0;
+  width: 1em;
+  height: 1em;
+  margin-top: 0.2em;
+  color: var(--text-mid, #555);
+}
+
+.slnt-node-full__where-icon svg {
+  width: 100%;
+  height: 100%;
+  display: block;
 }
 
 .slnt-node-full__venues {

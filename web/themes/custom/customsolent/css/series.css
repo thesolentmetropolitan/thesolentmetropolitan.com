@@ -280,42 +280,8 @@
   }
 }
 
-/* Event full page: "Part of a series" block after the CTA. */
-.slnt-node-full__series {
-  max-width: 740px;
-  margin-top: 2rem;
-  padding-top: 1rem;
-  border-top: 1px solid var(--warm-grey-dark, #e3dfd9);
-}
-
-.slnt-node-full__series-heading {
-  font-family: 'Atkinson Hyperlegible Next', sans-serif;
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: var(--solent-blue, #2c4f6e);
-  margin: 0 0 0.5rem 0;
-}
-
-.slnt-node-full__series-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.slnt-node-full__series-list li {
-  display: flex;
-  align-items: baseline;
-  flex-wrap: wrap;
-  gap: 0.25em 0.6em;
-  font-family: 'Atkinson Hyperlegible Next', sans-serif;
-  font-size: 1rem;
-  margin-bottom: 0.3rem;
-}
-
-.slnt-node-full__series-meta {
-  color: var(--text-mid, #444);
-  font-size: 0.9375rem;
-}
+/* (The event page's "Part of a series" line moved under the date on
+   1 Nov 2026; its styles are in node-full-views.css.) */
 
 /* ── 4. Series page ── */
 .slnt-series-full__dates {

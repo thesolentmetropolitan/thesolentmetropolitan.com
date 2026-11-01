@@ -311,21 +311,7 @@ function customsolent_preprocess_node(array &$variables): void {
   if (($variables['view_mode'] ?? '') === 'full'
     && in_array($node->bundle(), ['event', 'link', 'organisation'], TRUE)) {
     _customsolent_extract_field_url_meta($node, $variables);
-
-    if ($node->bundle() === 'event'
-      && $node->hasField('field_when') && !$node->get('field_when')->isEmpty()) {
-      // Smart Date stores Unix timestamps in `value` (start) and `end_value`
-      // (end). The event is "past" once its LAST date has ended — a
-      // recurring event holds one item per instance.
-      $last_end = 0;
-      foreach ($node->get('field_when') as $item) {
-        $end = (int) ($item->end_value ?? $item->value ?? 0);
-        $last_end = max($last_end, $end);
-      }
-      if ($last_end > 0) {
-        $variables['is_past_event'] = ($last_end < \Drupal::time()->getRequestTime());
-      }
-    }
+    // (is_past_event for events is set in _customsolent_preprocess_event_shared_extras.)
   }
 
   // Full node views for content types (article, event, organisation, link):
@@ -452,76 +438,13 @@ function _customsolent_preprocess_event_compact_extras($node, array &$variables)
 }
 
 /**
- * A reader-facing phrase for a recurrence rule: "Every Monday", "Every
- * Wednesday and Thursday", "Every other Wednesday", "Every day",
- * "Monthly", "Every year".
+ * A reader-facing phrase for a recurrence rule ("Every Monday").
  *
- * Smart Date Recur's own text ("Weekly on Monday, 7 - 9pm") includes the
- * times and theme-debug markup; the cards add the times themselves, so
- * build the phrase from the rule's frequency and interval instead. Falls
- * back to the module's text, stripped, for anything unusual.
- *
- * A weekly rule may repeat on several days (BYDAY=WE,TH): every day in the
- * rule is named, in the rule's order, Monday first. With no BYDAY the day
- * is the first instance's weekday.
+ * The phrase is built in customsolent_helpers so the event URL pattern
+ * can use the same words; see customsolent_helpers_recurrence_phrase().
  */
 function _customsolent_recurrence_phrase($rule, int $first_start, \DateTimeZone $tz): string {
-  $freq = (string) $rule->get('freq')->getString();
-  $interval = 1;
-  $params = $rule->getParametersArray();
-  if (!empty($params['interval'])) {
-    $interval = (int) $params['interval'];
-  }
-  $weekday = (new \DateTimeImmutable('@' . $first_start))->setTimezone($tz)->format('l');
-  switch ($freq) {
-    case 'DAILY':
-      return $interval > 1 ? (string) t('Every @n days', ['@n' => $interval]) : (string) t('Every day');
-
-    case 'WEEKLY':
-      $days = _customsolent_recurrence_day_names($params['byday'] ?? []) ?: [$weekday];
-      $last = array_pop($days);
-      $day_list = $days ? implode(', ', $days) . ' ' . t('and') . ' ' . $last : $last;
-      if ($interval === 1) {
-        return (string) t('Every @day', ['@day' => $day_list]);
-      }
-      if ($interval === 2) {
-        return (string) t('Every other @day', ['@day' => $day_list]);
-      }
-      return (string) t('Every @n weeks on @day', ['@n' => $interval, '@day' => $day_list]);
-
-    case 'MONTHLY':
-      return $interval > 1 ? (string) t('Every @n months', ['@n' => $interval]) : (string) t('Monthly');
-
-    case 'YEARLY':
-      return (string) t('Every year');
-  }
-  $text = $rule->getTextRule();
-  $rendered = is_array($text) ? (string) \Drupal::service('renderer')->renderInIsolation($text) : (string) $text;
-  $rendered = preg_replace('/<!--.*?-->/s', '', $rendered) ?? $rendered;
-  return trim(preg_replace('/\s+/', ' ', strip_tags($rendered)) ?? '');
-}
-
-/**
- * Weekday names for an RRULE BYDAY list (["WE", "TH"] -> ["Wednesday",
- * "Thursday"]), sorted Monday first. Unknown codes are dropped.
- */
-function _customsolent_recurrence_day_names(array $byday): array {
-  $names = ['MO' => 'Monday', 'TU' => 'Tuesday', 'WE' => 'Wednesday', 'TH' => 'Thursday', 'FR' => 'Friday', 'SA' => 'Saturday', 'SU' => 'Sunday'];
-  $found = [];
-  foreach ($byday as $code) {
-    $code = strtoupper(trim((string) $code));
-    if (isset($names[$code])) {
-      $found[$code] = (string) t($names[$code]);
-    }
-  }
-  // Monday-first order regardless of how the rule lists them.
-  $ordered = [];
-  foreach (array_keys($names) as $code) {
-    if (isset($found[$code])) {
-      $ordered[] = $found[$code];
-    }
-  }
-  return $ordered;
+  return customsolent_helpers_recurrence_phrase($rule, $first_start, $tz);
 }
 
 /**
@@ -548,10 +471,14 @@ function _customsolent_join_names(array $names): string {
  *                       Fareham and Portsmouth"), for the compact card's
  *                       "4 venues" line.
  *   - organiser_label / organiser_url — field_organiser (an Organisation).
+ *   - is_past_event   — TRUE once the last date has ended.
  *   - event_is_recurring   — TRUE when any date item carries a rule.
- *   - event_recurrence_text — "Every Monday" (Smart Date Recur's rule text).
- *   - event_recurrence_times — "7:00pm - 8:30pm" from the rule's first
- *                       instance, or '' for all-day.
+ *   - event_recurrence_lines — one phrase per rule, "Every Monday,
+ *                       7pm - 8:30pm"; several when the event's sessions
+ *                       differ by day.
+ *   - event_recurrence_text — the first rule's "Every Monday".
+ *   - event_recurrence_times — "7:00pm - 8:30pm" from the first rule's
+ *                       first instance, or '' for all-day.
  *   - event_next_dates — the next instances after now as "Mon 20 Oct"
  *                       strings (up to three; the first is the one cards
  *                       show), and event_next_count how many were found.
@@ -605,12 +532,20 @@ function _customsolent_preprocess_event_shared_extras($node, array &$variables):
   }
   $variables['event_card_date'] = (int) $node->get('field_when')->first()->value;
   $now = \Drupal::time()->getRequestTime();
+  // Over once its LAST date has ended (a regular event holds one item per
+  // instance). Read by the page (badge by the date, no outward link) and
+  // by the cards (no button).
+  $last_end = 0;
+  foreach ($node->get('field_when') as $item) {
+    $last_end = max($last_end, (int) ($item->end_value ?: $item->value ?: 0));
+  }
+  $variables['is_past_event'] = $last_end > 0 && $last_end < $now;
   $rule_id = NULL;
   $instances = [];
   foreach ($node->get('field_when') as $item) {
     if (!empty($item->rrule)) {
       $rule_id ??= (int) $item->rrule;
-      $instances[] = ['start' => (int) $item->value, 'end' => (int) $item->end_value, 'duration' => (int) $item->duration, 'tz' => $item->timezone ?: 'Europe/London'];
+      $instances[] = ['rule' => (int) $item->rrule, 'start' => (int) $item->value, 'end' => (int) $item->end_value, 'duration' => (int) $item->duration, 'tz' => $item->timezone ?: 'Europe/London'];
     }
   }
   if ($rule_id === NULL || !$instances) {
@@ -653,27 +588,50 @@ function _customsolent_preprocess_event_shared_extras($node, array &$variables):
     // "7pm" when on the hour, "7:30pm" otherwise — as the cards do.
     return $fmt($ts, 'i') === '00' ? $fmt($ts, 'ga') : $fmt($ts, 'g:ia');
   };
-  $first = $instances[0];
+  // One line per rule: "Every Monday and Wednesday, 2 - 3:30pm". An event
+  // whose sessions differ by day carries several rules in field_when (a
+  // drop-in on Mon/Wed afternoons and Tue/Thu mornings); every rule is
+  // named, in order of first instance, or the card tells only half the
+  // story. event_recurrence_text / _times keep the first rule's words for
+  // anything that wants a single phrase.
   // No end time is entered as end = start (the same convention as one-off
   // events, whose formatter then prints one time): show "7:30pm", never
   // "7:30pm - 7:30pm".
-  if ($first['duration'] >= 1439) {
-    $variables['event_recurrence_times'] = '';
+  $times_of = static function (array $first) use ($time_fmt): string {
+    if ($first['duration'] >= 1439) {
+      return '';
+    }
+    if ($first['end'] <= $first['start']) {
+      return $time_fmt($first['start']);
+    }
+    return $time_fmt($first['start']) . ' - ' . $time_fmt($first['end']);
+  };
+  $first_by_rule = [];
+  foreach ($instances as $instance) {
+    $first_by_rule[$instance['rule']] ??= $instance;
   }
-  elseif ($first['end'] <= $first['start']) {
-    $variables['event_recurrence_times'] = $time_fmt($first['start']);
-  }
-  else {
-    $variables['event_recurrence_times'] = $time_fmt($first['start']) . ' - ' . $time_fmt($first['end']);
-  }
+  $has_recur = \Drupal::moduleHandler()->moduleExists('smart_date_recur');
+  $variables['event_recurrence_lines'] = [];
   $variables['event_recurrence_text'] = '';
-  if (\Drupal::moduleHandler()->moduleExists('smart_date_recur')) {
-    $rule = \Drupal\smart_date_recur\Entity\SmartDateRule::load($rule_id);
-    if ($rule) {
-      $variables['event_recurrence_text'] = _customsolent_recurrence_phrase($rule, $first['start'], $tz);
-      $variables['event_when_cache']['#cache']['tags'] = $rule->getCacheTags();
+  $variables['event_recurrence_times'] = '';
+  $variables['event_when_cache']['#cache']['tags'] = $variables['event_when_cache']['#cache']['tags'] ?? [];
+  foreach ($first_by_rule as $rid => $first) {
+    $text = '';
+    if ($has_recur && ($rule = \Drupal\smart_date_recur\Entity\SmartDateRule::load($rid))) {
+      $text = _customsolent_recurrence_phrase($rule, $first['start'], $tz);
+      $variables['event_when_cache']['#cache']['tags'] = array_merge($variables['event_when_cache']['#cache']['tags'], $rule->getCacheTags());
+    }
+    $times = $times_of($first);
+    if ($variables['event_recurrence_text'] === '' && $variables['event_recurrence_times'] === '') {
+      $variables['event_recurrence_text'] = $text;
+      $variables['event_recurrence_times'] = $times;
+    }
+    $line = trim($text . ($text !== '' && $times !== '' ? ', ' : '') . $times);
+    if ($line !== '') {
+      $variables['event_recurrence_lines'][] = $line;
     }
   }
+  $first = $instances[0];
   $next_start = NULL;
   foreach ($pool as $instance) {
     if ($instance['end'] >= $now) {

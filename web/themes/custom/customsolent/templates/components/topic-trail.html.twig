@@ -14,6 +14,10 @@
  *     content pages where the node provides its own h1)
  *   - current_as_heading: bool — true wraps current_label in <h1>,
  *     false wraps it in <span>
+ *   - also_in: optional list of chains, each a list of { label, url|null,
+ *     color } — the related topics that put this card on the current page
+ *     when its primary topic is elsewhere ("also in DEFENCE & MILITARY").
+ *     From KickerLazyBuilder::trailKicker; empty on content pages.
  */
 #}
 {% if ancestors is not empty or current_label %}
@@ -25,6 +29,22 @@
         {% if not loop.last %}
           <span class="slnt-topic-trail__separator" aria-hidden="true"> / </span>
         {% endif %}
+      {% endfor %}
+    </div>
+  {% endif %}
+  {% if also_in is defined and also_in is not empty %}
+    <div class="slnt-topic-trail__also">
+      <span class="slnt-topic-trail__also-prefix">{{ 'also in'|t }}</span>
+      {% for chain in also_in %}
+        {% for item in chain %}
+          {%- if item.url -%}
+            <a href="{{ item.url }}" class="slnt-topic-trail__ancestor" style="color: {{ item.color }};">{{ item.label }}</a>
+          {%- else -%}
+            <span class="slnt-topic-trail__ancestor slnt-topic-trail__ancestor--plain" style="color: {{ item.color }};">{{ item.label }}</span>
+          {%- endif -%}
+          {%- if not loop.last -%}<span class="slnt-topic-trail__separator" aria-hidden="true"> / </span>{%- endif -%}
+        {% endfor %}
+        {%- if not loop.last -%}<span class="slnt-topic-trail__separator" aria-hidden="true">, </span>{%- endif -%}
       {% endfor %}
     </div>
   {% endif %}

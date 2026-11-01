@@ -73,16 +73,24 @@ class KickerLazyBuilder implements TrustedCallbackInterface {
     if (!$trail['ancestors']) {
       return self::emptyBuild($nid);
     }
+    $also_in = self::alsoInItems($node, $primary_term, $ctx);
     if ($color !== '') {
       foreach ($trail['ancestors'] as &$ancestor) {
         $ancestor['color'] = $color;
       }
       unset($ancestor);
+      foreach ($also_in as &$chain) {
+        foreach ($chain as &$item) {
+          $item['color'] = $color;
+        }
+        unset($item);
+      }
+      unset($chain);
     }
     return [
       '#type' => 'inline_template',
-      '#template' => "{% include '@customsolent/components/topic-trail.html.twig' with { ancestors: ancestors, current_label: null, current_as_heading: false } only %}",
-      '#context' => ['ancestors' => $trail['ancestors']],
+      '#template' => "{% include '@customsolent/components/topic-trail.html.twig' with { ancestors: ancestors, also_in: also_in, current_label: null, current_as_heading: false } only %}",
+      '#context' => ['ancestors' => $trail['ancestors'], 'also_in' => $also_in],
       '#cache' => [
         'contexts' => ['url.path', 'url.query_args:topic'],
         'tags' => ['node:' . $nid],
@@ -163,12 +171,61 @@ class KickerLazyBuilder implements TrustedCallbackInterface {
       '#theme' => 'from_kicker',
       '#show_primary_kicker' => TRUE,
       '#primary_kicker_ancestors' => _customsolent_build_from_kicker($primary_term),
+      '#primary_kicker_also_in' => self::alsoInItems($node, $primary_term, $ctx),
       '#primary_kicker_section' => $top ? strtolower($top->getName()) : '',
       '#cache' => [
         'contexts' => ['url.path', 'url.query_args:topic'],
         'tags' => ['node:' . $nid],
       ],
     ];
+  }
+
+  /**
+   * The related topics that put this card on the current page.
+   *
+   * Content reaches a topic page through its primary topic OR a related
+   * one. When the primary topic lies outside the page's scope, the card's
+   * kicker names where the item is from ("CULTURE / HERITAGE & HISTORY"),
+   * and this adds why it is here: the related topic(s) inside the scope
+   * ("also in DEFENCE & MILITARY"). Without it a Remembrance service on
+   * /sectors looks misfiled, and the page looks as if it gathers things
+   * loosely. Each related topic is shown from the page's depth down, as
+   * the "in" kicker does; the page's own topic is named plainly, unlinked
+   * (the reader is already there).
+   *
+   * Empty when the page has no topic scope or the primary topic is inside
+   * it: then the kicker alone explains the card.
+   *
+   * @return array<int, array<int, array{label: string, url: ?string, color: string}>>
+   *   One chain of {label, url, color} items per related topic in scope.
+   */
+  protected static function alsoInItems($node, $primary_term, array $ctx): array {
+    if (!$ctx['scope_ids'] || in_array((int) $primary_term->id(), $ctx['scope_ids'], TRUE)) {
+      return [];
+    }
+    if (!$node->hasField('field_related_topics') || $node->get('field_related_topics')->isEmpty()) {
+      return [];
+    }
+    $chains = [];
+    foreach ($node->get('field_related_topics')->referencedEntities() as $term) {
+      $tid = (int) $term->id();
+      if (!in_array($tid, $ctx['scope_ids'], TRUE)) {
+        continue;
+      }
+      if ($tid === $ctx['tid']) {
+        $chains[] = [[
+          'label' => _customsolent_strip_term_prefix($term->getName()),
+          'url' => NULL,
+          'color' => _customsolent_get_section_color($term),
+        ]];
+        continue;
+      }
+      $chain = _customsolent_build_in_kicker($term, $ctx['depth']);
+      if ($chain) {
+        $chains[] = $chain;
+      }
+    }
+    return $chains;
   }
 
   /**

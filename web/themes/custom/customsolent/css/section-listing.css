@@ -668,6 +668,13 @@ html.js-auto-submit .views-exposed-form[data-drupal-selector^="views-exposed-for
   text-transform: none;
 }
 
+/* "also in …" after the "from" chain: the related topic inside the
+   page's scope that put the item here. Breaks onto its own line and
+   keeps the kicker's type size. */
+.slnt-teaser__from-also {
+  display: block;
+}
+
 /* Term text (linked AND plain) — uppercase, in section colour
    set inline from the helper. */
 a.slnt-teaser__in-term,

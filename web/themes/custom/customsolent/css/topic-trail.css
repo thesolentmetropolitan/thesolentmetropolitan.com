@@ -84,3 +84,33 @@ h1.slnt-topic-trail__current {
     font-size: 0.82rem;
   }
 }
+
+/* ── "also in …" — second row under a card's kicker ──
+   On a topic page, a card whose primary topic is elsewhere names the
+   related topic that put it here (KickerLazyBuilder::alsoInItems). The
+   prefix is lower-case and plain so the row reads as an aside to the
+   trail above; the term keeps the trail's uppercase section-coloured
+   style. Same idea as the teasers' "from … also in …" kicker. */
+.slnt-topic-trail__also {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  margin-top: 0.1rem;
+}
+
+.slnt-topic-trail__also-prefix {
+  font-family: 'Atkinson Hyperlegible Next', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 400;
+  color: var(--text-mid, #444);
+  margin-right: 0.35rem;
+}
+
+.slnt-topic-trail__also .slnt-topic-trail__ancestor {
+  font-size: 0.82rem;
+}
+
+.slnt-topic-trail__also .slnt-topic-trail__ancestor--plain {
+  text-decoration: none;
+  cursor: default;
+}

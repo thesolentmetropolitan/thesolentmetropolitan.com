@@ -15,6 +15,10 @@
  *   - primary_kicker_ancestors array of { label, url|null, color } —
  *                              full chain from root to the content's
  *                              primary term.
+ *   - primary_kicker_also_in   list of chains of { label, url|null, color }
+ *                              — the related topic(s) inside the page's
+ *                              scope that put the item here ("also in
+ *                              DEFENCE & MILITARY"); may be empty.
  *   - primary_kicker_section   lowercased top-level Topic name
  *                              (data-section hook).
  */
@@ -31,5 +35,21 @@
       {% endif %}
       {% if not loop.last %}<span class="slnt-teaser__from-separator" aria-hidden="true"> / </span>{% endif %}
     {% endfor %}
+    {% if primary_kicker_also_in is defined and primary_kicker_also_in is not empty %}
+      <span class="slnt-teaser__from-also">
+        <span class="slnt-teaser__from-prefix">{{ 'also in'|t }}</span>
+        {% for chain in primary_kicker_also_in %}
+          {% for item in chain %}
+            {%- if item.url -%}
+              <a href="{{ item.url }}" class="slnt-teaser__from-term" style="color: {{ item.color }};">{{ item.label }}</a>
+            {%- else -%}
+              <span class="slnt-teaser__from-term slnt-teaser__from-term--plain" style="color: {{ item.color }};">{{ item.label }}</span>
+            {%- endif -%}
+            {%- if not loop.last -%}<span class="slnt-teaser__from-separator" aria-hidden="true"> / </span>{%- endif -%}
+          {% endfor %}
+          {%- if not loop.last -%}<span class="slnt-teaser__from-separator" aria-hidden="true">, </span>{%- endif -%}
+        {% endfor %}
+      </span>
+    {% endif %}
   </div>
 {% endif %}

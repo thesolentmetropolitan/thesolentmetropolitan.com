@@ -55,6 +55,7 @@ function customsolent_helpers_theme($existing, $type, $theme, $path) {
       'variables' => [
         'show_primary_kicker' => TRUE,
         'primary_kicker_ancestors' => [],
+        'primary_kicker_also_in' => [],
         'primary_kicker_section' => '',
       ],
       // The theme's existing file is primary-kicker.html.twig — name
@@ -507,4 +508,80 @@ function _customsolent_helpers_one_row_per_recurring_event(\Drupal\views\Plugin\
   $query->addField($alias, 'field_when_end_value', 'slnt_when_end');
   $query->addField($alias, 'field_when_value', 'slnt_when_start');
   $query->addField($alias, 'field_when_rrule', 'slnt_when_rrule');
+}
+
+/**
+ * A reader-facing phrase for a recurrence rule: "Every Monday", "Every
+ * Wednesday and Thursday", "Every other Wednesday", "Every day",
+ * "Monthly", "Every year".
+ *
+ * Smart Date Recur's own text ("Weekly on Monday, 7 - 9pm") includes the
+ * times and theme-debug markup; the cards add the times themselves, so
+ * build the phrase from the rule's frequency and interval instead. Falls
+ * back to the module's text, stripped, for anything unusual.
+ *
+ * Lives in this module (moved from the theme on 1 Nov 2026) so the same
+ * words drive the cards, the event page and the regular events' URLs.
+ *
+ * A weekly rule may repeat on several days (BYDAY=WE,TH): every day in the
+ * rule is named, in the rule's order, Monday first. With no BYDAY the day
+ * is the first instance's weekday.
+ */
+function customsolent_helpers_recurrence_phrase($rule, int $first_start, \DateTimeZone $tz): string {
+  $freq = (string) $rule->get('freq')->getString();
+  $interval = 1;
+  $params = $rule->getParametersArray();
+  if (!empty($params['interval'])) {
+    $interval = (int) $params['interval'];
+  }
+  $weekday = (new \DateTimeImmutable('@' . $first_start))->setTimezone($tz)->format('l');
+  switch ($freq) {
+    case 'DAILY':
+      return $interval > 1 ? (string) t('Every @n days', ['@n' => $interval]) : (string) t('Every day');
+
+    case 'WEEKLY':
+      $days = customsolent_helpers_recurrence_day_names($params['byday'] ?? []) ?: [$weekday];
+      $last = array_pop($days);
+      $day_list = $days ? implode(', ', $days) . ' ' . t('and') . ' ' . $last : $last;
+      if ($interval === 1) {
+        return (string) t('Every @day', ['@day' => $day_list]);
+      }
+      if ($interval === 2) {
+        return (string) t('Every other @day', ['@day' => $day_list]);
+      }
+      return (string) t('Every @n weeks on @day', ['@n' => $interval, '@day' => $day_list]);
+
+    case 'MONTHLY':
+      return $interval > 1 ? (string) t('Every @n months', ['@n' => $interval]) : (string) t('Monthly');
+
+    case 'YEARLY':
+      return (string) t('Every year');
+  }
+  $text = $rule->getTextRule();
+  $rendered = is_array($text) ? (string) \Drupal::service('renderer')->renderInIsolation($text) : (string) $text;
+  $rendered = preg_replace('/<!--.*?-->/s', '', $rendered) ?? $rendered;
+  return trim(preg_replace('/\s+/', ' ', strip_tags($rendered)) ?? '');
+}
+
+/**
+ * Weekday names for an RRULE BYDAY list (["WE", "TH"] -> ["Wednesday",
+ * "Thursday"]), sorted Monday first. Unknown codes are dropped.
+ */
+function customsolent_helpers_recurrence_day_names(array $byday): array {
+  $names = ['MO' => 'Monday', 'TU' => 'Tuesday', 'WE' => 'Wednesday', 'TH' => 'Thursday', 'FR' => 'Friday', 'SA' => 'Saturday', 'SU' => 'Sunday'];
+  $found = [];
+  foreach ($byday as $code) {
+    $code = strtoupper(trim((string) $code));
+    if (isset($names[$code])) {
+      $found[$code] = (string) t($names[$code]);
+    }
+  }
+  // Monday-first order regardless of how the rule lists them.
+  $ordered = [];
+  foreach (array_keys($names) as $code) {
+    if (isset($found[$code])) {
+      $ordered[] = $found[$code];
+    }
+  }
+  return $ordered;
 }
