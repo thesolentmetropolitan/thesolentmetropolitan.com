@@ -2005,6 +2005,16 @@ taxonomies:
       uuid: 7d397990-49fa-4880-a5b4-cafb5b7b6441
     -
       vid: location
+      tid: '338'
+      langcode: en
+      name: 'Cenotaph, Watts Park'
+      description__value: null
+      description__format: null
+      weight: '0'
+      parent: '139'
+      uuid: 89ab4c88-bb7f-404c-a41b-99ee5f8b3659
+    -
+      vid: location
       tid: '169'
       langcode: en
       name: 'City Buildings'
@@ -2445,6 +2455,16 @@ taxonomies:
       uuid: 41e1ff18-f160-4e72-9886-c95ea150fb86
     -
       vid: location
+      tid: '336'
+      langcode: en
+      name: 'Level 2, Focal Space, Westquay North'
+      description__value: null
+      description__format: null
+      weight: '0'
+      parent: '139'
+      uuid: 9d96f312-6539-4123-bcd6-f59446f38175
+    -
+      vid: location
       tid: '317'
       langcode: en
       name: 'London Road, PO2 9DU'
@@ -2613,6 +2633,16 @@ taxonomies:
       weight: '15'
       parent: '141'
       uuid: 7535d76e-9223-4985-8809-e44f038cfeed
+    -
+      vid: location
+      tid: '337'
+      langcode: en
+      name: 'Places Leisure'
+      description__value: null
+      description__format: null
+      weight: '0'
+      parent: '220'
+      uuid: d05a26e6-a307-4315-89db-716cde6ba10b
     -
       vid: location
       tid: '264'
@@ -3343,6 +3373,16 @@ taxonomies:
       weight: '7'
       parent: '139'
       uuid: 29df46a9-1bbf-46ff-92e3-f39aef7b94cf
+    -
+      vid: location
+      tid: '335'
+      langcode: en
+      name: 'Westquay Shopping Centre'
+      description__value: null
+      description__format: null
+      weight: '0'
+      parent: '139'
+      uuid: ed87e37c-7f7b-4cfc-8a33-60b2bc54dcf6
     -
       vid: location
       tid: '147'
