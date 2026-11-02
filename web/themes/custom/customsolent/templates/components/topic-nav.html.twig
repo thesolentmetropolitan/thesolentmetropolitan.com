@@ -1,0 +1,45 @@
+{#
+/**
+ * @file
+ * The topic sidebar's list, shared by the Section Filter paragraph and a
+ * View Display paragraph that carries its own sidebar (listing pages).
+ *
+ * On Culture, Sectors and Living it is the section's navigation: every
+ * item links to that topic's own page (or its listing of the kind this
+ * page is), the current page's topic is marked and its branch is open so
+ * its sub-topics sit beneath it. On Explore pages, and for a topic
+ * without a page of its own, the items are ?topic= filters of this page
+ * instead — same list, same markup.
+ *
+ * Variables (from _customsolent_apply_filter_options_to_variables):
+ *   - filter_options    array of {tid, label, url, active, branch_active,
+ *                       children?: [{tid, label, url, active, is_all?}]}
+ *   - filter_all_url    the "All Topics" address
+ *   - filter_all_active TRUE when no topic is current
+ */
+#}
+<div class="slnt-filter-section">
+  <a href="{{ filter_all_url }}" class="slnt-filter-item{{ filter_all_active ? ' is-active' : '' }}"{% if filter_all_active %} aria-current="page"{% endif %}>{{ 'All Topics'|t }}</a>
+  {% for option in filter_options %}
+    <a href="{{ option.url }}"
+       class="slnt-filter-item{{ option.active ? ' is-active' : '' }}{{ option.branch_active ? ' is-branch-active' : '' }}"{% if option.active %} aria-current="page"{% endif %}>
+      {{ option.label }}
+    </a>
+    {# The option's children show when its branch is current (the option
+       itself or one of its descendants). "All in <Topic>" only appears
+       when a deeper child is current — when the option itself is, it
+       already says that. #}
+    {% if option.children and option.branch_active %}
+      <div class="slnt-filter-children">
+        {% for child in option.children %}
+          {% if not (child.is_all and option.active) %}
+            <a href="{{ child.url }}"
+               class="slnt-filter-item slnt-filter-item--child{{ child.active ? ' is-active' : '' }}{{ child.is_all ? ' slnt-filter-item--all-in' : '' }}"{% if child.active %} aria-current="page"{% endif %}>
+              {{ child.label }}
+            </a>
+          {% endif %}
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endfor %}
+</div>

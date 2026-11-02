@@ -3,9 +3,11 @@
  * @file
  * Theme override for the "Section Filter" paragraph type.
  *
- * Renders the page-level topic filter — a sticky sidebar on desktop and
- * a sticky bar + slide-up panel on mobile. The View Display paragraphs
- * below it read the ?topic= query parameter and refilter their listings.
+ * Renders the page-level topic sidebar — sticky on desktop, a sticky bar
+ * + slide-up panel on mobile. On Culture, Sectors and Living its items
+ * are the section's pages (see components/topic-nav.html.twig); on
+ * Explore pages they are ?topic= filters that the View Display paragraphs
+ * below read to refilter their listings.
  *
  * When this paragraph is present on a page, the View Display paragraph
  * preprocess suppresses its own (per-paragraph) filter sidebar so the
@@ -21,39 +23,6 @@
  *   - filter_active_label  label of the active term, or NULL.
  */
 #}
-{% macro topic_list(filter_options, filter_all_url, filter_all_active) %}
-  <div class="slnt-filter-section">
-    <a href="{{ filter_all_url }}" class="slnt-filter-item{{ filter_all_active ? ' is-active' : '' }}">All Topics</a>
-    {% for option in filter_options %}
-      <a href="{{ option.url }}"
-         class="slnt-filter-item{{ option.active ? ' is-active' : '' }}{{ option.branch_active ? ' is-branch-active' : '' }}">
-        {{ option.label }}
-      </a>
-      {# Auto-expand: render the option's children inline when this
-         option's branch is currently active (parent selected or one of
-         its descendants). The "All in <Section>" child only appears
-         when a *deeper* child is the active filter — when the parent
-         term itself is the active filter, the parent pill already
-         represents that state and "All in <Section>" would just
-         duplicate it. #}
-      {% if option.children and option.branch_active %}
-        <div class="slnt-filter-children">
-          {% for child in option.children %}
-            {% if not (child.is_all and option.active) %}
-              <a href="{{ child.url }}"
-                 class="slnt-filter-item slnt-filter-item--child{{ child.active ? ' is-active' : '' }}{{ child.is_all ? ' slnt-filter-item--all-in' : '' }}">
-                {{ child.label }}
-              </a>
-            {% endif %}
-          {% endfor %}
-        </div>
-      {% endif %}
-    {% endfor %}
-  </div>
-{% endmacro %}
-
-{% import _self as filter %}
-
 {%
   set classes = [
     'paragraph',
@@ -75,8 +44,8 @@
       {% block content %}
 
         {# Desktop sidebar. #}
-        <aside class="slnt-section-filter__sidebar" aria-label="Topic filter">
-          {{ filter.topic_list(filter_options, filter_all_url, filter_all_active) }}
+        <aside class="slnt-section-filter__sidebar" aria-label="Topics">
+          {% include '@customsolent/components/topic-nav.html.twig' with { filter_options: filter_options, filter_all_url: filter_all_url, filter_all_active: filter_all_active } only %}
         </aside>
 
         {# Mobile sticky bar — the panel below opens on tap. #}
@@ -89,22 +58,22 @@
             {% endif %}
           </div>
           <button type="button" class="slnt-filter-bar__button" data-filter-toggle aria-haspopup="dialog" aria-expanded="false">
-            Filter
+            {{ 'Topics'|t }}
           </button>
         </div>
 
         {# Mobile slide-up panel — overlay outside the sticky flow. #}
         <div class="slnt-filter-overlay" data-filter-overlay aria-hidden="true"></div>
-        <div class="slnt-filter-panel" data-filter-panel role="dialog" aria-modal="true" aria-label="Filter">
+        <div class="slnt-filter-panel" data-filter-panel role="dialog" aria-modal="true" aria-label="Topics">
           <div class="slnt-filter-panel__handle">
             <span class="slnt-filter-panel__handle-bar"></span>
           </div>
           <div class="slnt-filter-panel__header">
-            <span class="slnt-filter-panel__title">Filter</span>
+            <span class="slnt-filter-panel__title">{{ 'Topics'|t }}</span>
             <a href="{{ filter_all_url }}" class="slnt-filter-panel__clear">Clear</a>
           </div>
           <div class="slnt-filter-panel__body">
-            {{ filter.topic_list(filter_options, filter_all_url, filter_all_active) }}
+            {% include '@customsolent/components/topic-nav.html.twig' with { filter_options: filter_options, filter_all_url: filter_all_url, filter_all_active: filter_all_active } only %}
           </div>
         </div>
 

@@ -1755,7 +1755,7 @@ function customsolent_preprocess_paragraph__view_display(&$variables) {
   //   (b) no section_filter paragraph exists on the host page.
   $is_primary_display = ($display_id === 'view_display_primary_topic');
   $has_section_filter = $host ? _customsolent_section_filter_exists_on_host($host) : FALSE;
-  if ($is_primary_display && !$has_section_filter && !empty($context['filter_options'])) {
+  if ($is_primary_display && !$has_section_filter && _customsolent_topic_sidebar_has_options($context)) {
     _customsolent_apply_filter_options_to_variables($variables, $context, $active_filter_tid);
   }
   else {
@@ -2225,7 +2225,7 @@ function _customsolent_preprocess_listing_mode(array &$variables, $paragraph, $h
   $is_directory = ($type_word === 'organisations');
   $variables['listing_cache'] = [
     '#cache' => [
-      'contexts' => ['url.query_args:topic', 'url.query_args:date_filter_id'],
+      'contexts' => ['url.path', 'url.query_args:topic', 'url.query_args:date_filter_id'],
       'tags' => $kind['tags'],
     ],
   ];
@@ -2252,7 +2252,7 @@ function _customsolent_preprocess_listing_mode(array &$variables, $paragraph, $h
       }
       // The listing page has no section_filter paragraph, so the listing
       // carries the topic filter itself; and the page supplies the h1.
-      if (!empty($context['filter_options'])) {
+      if (_customsolent_topic_sidebar_has_options($context)) {
         _customsolent_apply_filter_options_to_variables($variables, $context, $active_filter_tid);
       }
       $variables['listing_hide_heading'] = TRUE;
@@ -2312,7 +2312,8 @@ function _customsolent_preprocess_listing_mode(array &$variables, $paragraph, $h
           if ($nids) {
             $variables['signpost']['children'][] = [
               'label' => _customsolent_strip_term_prefix($child->getName()),
-              'url' => $base . '?topic=' . (int) $child->id(),
+              'url' => (!empty($context['nav']) ? _customsolent_topic_nav_url((int) $child->id(), 'organisations') : NULL)
+                ?? $base . '?topic=' . (int) $child->id(),
               'count' => count($nids),
             ];
           }
@@ -2543,22 +2544,100 @@ function _customsolent_resolve_topic_context($paragraph, $host, $with_children =
  */
 function _customsolent_topic_context_for_term($term, $with_children = FALSE) {
   $scope_ids = _customsolent_get_term_with_descendants($term->id());
+  $top = _customsolent_topic_top_level($term);
+  $top_name = $top ? $top->getName() : '';
+  $section_key = $top_name !== '' ? strtolower($top_name) : NULL;
+  $nav = _customsolent_topic_nav_enabled($section_key);
   $children = _customsolent_load_topic_children_sorted($term->id());
   $filter_options = [];
   foreach ($children as $child) {
-    $option = _customsolent_build_filter_option($child, $with_children);
+    $option = _customsolent_build_filter_option($child, $with_children, $nav);
     $filter_options[] = $option;
   }
-  $top = _customsolent_topic_top_level($term);
-  $top_name = $top ? $top->getName() : '';
   return [
     'mode'           => 'term',
     'term'           => $term,
+    'root'           => $top,
+    'nav'            => $nav,
     'scope_ids'      => $scope_ids,
     'filter_options' => $filter_options,
-    'section_key'    => $top_name !== '' ? strtolower($top_name) : NULL,
+    'section_key'    => $section_key,
     'section_color'  => _customsolent_topic_section_colors()[$top_name] ?? NULL,
   ];
+}
+
+/**
+ * Whether the topic sidebar on this section is navigation between pages
+ * rather than a ?topic= filter of the page it is on.
+ *
+ * Culture, Sectors and Living: every topic has its own page, and that
+ * page (or its /events, /articles … listing) is the right place for a
+ * topic's content — the strip counts, the intro and the banner all
+ * belong to the topic, where a ?topic= filter leaves the parent's in
+ * place and, on a phone, hardly looks like a change at all. So there
+ * the sidebar links to the topic's page: /culture/art-design, and on a
+ * listing page /culture/art-design/events. A term without a page of its
+ * own falls back to the ?topic= filter. Explore pages keep the filter:
+ * they are windows across every section, and clicking "Culture" there
+ * means "narrow this", not "go to Culture".
+ */
+function _customsolent_topic_nav_enabled(?string $section_key): bool {
+  return in_array($section_key, ['culture', 'sectors', 'living'], TRUE);
+}
+
+/**
+ * The listing kind of the current page ('events', 'articles' …) when it
+ * is an automated topic listing page, else NULL (a topic's own page).
+ */
+function _customsolent_current_listing_kind(): ?string {
+  $route_match = \Drupal::routeMatch();
+  if ($route_match->getRouteName() === 'customsolent_helpers.topic_listing') {
+    $kind = $route_match->getParameter('listing_type');
+    return is_string($kind) && $kind !== '' ? $kind : NULL;
+  }
+  return NULL;
+}
+
+/**
+ * The address the sidebar sends a reader to for a topic: the topic's own
+ * page, or its listing of the kind this page is (/culture/art-design on
+ * /culture, /culture/art-design/events on /culture/events), keeping the
+ * date filter and any other query parameters but never ?topic= or the
+ * page number. NULL when the topic has no page of its own.
+ *
+ * @param int $tid
+ *   The topic term.
+ * @param string|null $kind
+ *   A listing kind to go to, or NULL for the kind of the current page.
+ */
+function _customsolent_topic_nav_url(int $tid, ?string $kind = NULL): ?string {
+  $nid = _customsolent_term_landing_nid($tid);
+  if (!$nid) {
+    return NULL;
+  }
+  $cache = &drupal_static(__FUNCTION__, []);
+  if (!isset($cache[$nid])) {
+    $cache[$nid] = rtrim(\Drupal\Core\Url::fromRoute('entity.node.canonical', ['node' => $nid])->toString(), '/');
+  }
+  $path = $cache[$nid];
+  $kind ??= _customsolent_current_listing_kind();
+  if ($kind !== NULL) {
+    $path .= '/' . $kind;
+  }
+  $query = \Drupal::request()->query->all();
+  unset($query['topic'], $query['page']);
+  return $path . (empty($query) ? '' : '?' . http_build_query($query));
+}
+
+/**
+ * A topic's link in the sidebar: its page when the section navigates
+ * between pages and the page exists, else the ?topic= filter.
+ */
+function _customsolent_topic_option_url(int $tid, bool $nav): string {
+  if ($nav && ($url = _customsolent_topic_nav_url($tid))) {
+    return $url;
+  }
+  return _customsolent_build_filter_url(['topic' => $tid]);
 }
 
 /**
@@ -2566,16 +2645,16 @@ function _customsolent_topic_context_for_term($term, $with_children = FALSE) {
  * immediate sub-topics (one level only) and the term-plus-descendants
  * scope so the template can determine "branch active" state.
  */
-function _customsolent_build_filter_option($term, $with_children = FALSE) {
+function _customsolent_build_filter_option($term, $with_children = FALSE, bool $nav = FALSE) {
   $tid = (int) $term->id();
   $option = [
     'tid'   => $tid,
     'label' => _customsolent_strip_term_prefix($term->getName()),
-    'url'   => _customsolent_build_filter_url(['topic' => $tid]),
+    'url'   => _customsolent_topic_option_url($tid, $nav),
   ];
   if ($with_children) {
     $option['scope_tids'] = _customsolent_get_term_with_descendants($tid);
-    $option['children'] = _customsolent_build_filter_option_children($term);
+    $option['children'] = _customsolent_build_filter_option_children($term, $nav);
   }
   return $option;
 }
@@ -2587,7 +2666,7 @@ function _customsolent_build_filter_option($term, $with_children = FALSE) {
  * the parent term's direct children, alphabetical-by-weight as
  * _customsolent_load_topic_children_sorted defines.
  */
-function _customsolent_build_filter_option_children($parent_term) {
+function _customsolent_build_filter_option_children($parent_term, bool $nav = FALSE) {
   $parent_tid = (int) $parent_term->id();
   $parent_label = _customsolent_strip_term_prefix($parent_term->getName());
 
@@ -2595,7 +2674,7 @@ function _customsolent_build_filter_option_children($parent_term) {
   $children[] = [
     'tid'    => $parent_tid,
     'label'  => 'All in ' . $parent_label,
-    'url'    => _customsolent_build_filter_url(['topic' => $parent_tid]),
+    'url'    => _customsolent_topic_option_url($parent_tid, $nav),
     'is_all' => TRUE,
   ];
   foreach (_customsolent_load_topic_children_sorted($parent_tid) as $child) {
@@ -2603,7 +2682,7 @@ function _customsolent_build_filter_option_children($parent_term) {
     $children[] = [
       'tid'   => $child_tid,
       'label' => _customsolent_strip_term_prefix($child->getName()),
-      'url'   => _customsolent_build_filter_url(['topic' => $child_tid]),
+      'url'   => _customsolent_topic_option_url($child_tid, $nav),
     ];
   }
   return $children;
@@ -2648,11 +2727,45 @@ function _customsolent_topic_context_all($with_children = FALSE) {
 }
 
 /**
+ * TRUE when the context's topic navigates between pages and sits below
+ * its section root, so the sidebar should show the whole section.
+ */
+function _customsolent_topic_nav_below_root(array $context): bool {
+  return !empty($context['nav'])
+    && ($context['mode'] ?? '') === 'term'
+    && !empty($context['term']) && !empty($context['root'])
+    && (int) $context['term']->id() !== (int) $context['root']->id();
+}
+
+/**
+ * Whether a topic sidebar has anything to show for this context: the
+ * term's own sub-topics, or — on a page below a navigating section's
+ * root — the section's list, which exists even for a topic with no
+ * sub-topics of its own (/culture/music lists all of Culture).
+ */
+function _customsolent_topic_sidebar_has_options(array $context): bool {
+  return !empty($context['filter_options']) || _customsolent_topic_nav_below_root($context);
+}
+
+/**
  * Decorate $variables with the filter sidebar / mobile bar fields,
  * marking the option matching $active_filter_tid as active and computing
  * the All link + currently-selected label.
  */
 function _customsolent_apply_filter_options_to_variables(array &$variables, array $context, $active_filter_tid) {
+  // A page below the section root (/culture/art-design) lists the whole
+  // section — the sidebar is the section's navigation, the same list on
+  // every page of it — with this page's topic marked and its branch open
+  // so its own sub-topics show beneath it. "All Topics" is then the
+  // section's root page. A ?topic= in the address (an old link) still
+  // marks that topic instead.
+  $all_url = NULL;
+  if (_customsolent_topic_nav_below_root($context)) {
+    $root = $context['root'];
+    $context = _customsolent_topic_context_for_term($root, TRUE) + ['page_term' => $context['term']];
+    $active_filter_tid ??= (int) $context['page_term']->id();
+    $all_url = _customsolent_topic_nav_url((int) $root->id());
+  }
   $filter_options = $context['filter_options'];
   foreach ($filter_options as &$option) {
     $option_tid = (int) $option['tid'];
@@ -2686,7 +2799,7 @@ function _customsolent_apply_filter_options_to_variables(array &$variables, arra
   $variables['filter_has_options'] = !empty($filter_options);
   // "All" link clears the topic param but preserves the rest (date,
   // future filters) so the user's other selections survive.
-  $variables['filter_all_url']     = _customsolent_build_filter_url(['topic' => NULL]);
+  $variables['filter_all_url']     = $all_url ?? _customsolent_build_filter_url(['topic' => NULL]);
   $variables['filter_all_active']  = ($active_filter_tid === NULL);
 
   $variables['filter_active_label'] = NULL;
@@ -3013,8 +3126,15 @@ function _customsolent_get_term_depth($term) {
  * unique term.
  */
 function _customsolent_term_has_landing_page($tid) {
+  return _customsolent_term_landing_nid((int) $tid) !== NULL;
+}
+
+/**
+ * The published composite_page whose field_primary_topic is the term —
+ * the topic's own page — or NULL. Statically cached per term.
+ */
+function _customsolent_term_landing_nid(int $tid): ?int {
   $cache = &drupal_static(__FUNCTION__, []);
-  $tid = (int) $tid;
   if (array_key_exists($tid, $cache)) {
     return $cache[$tid];
   }
@@ -3025,7 +3145,7 @@ function _customsolent_term_has_landing_page($tid) {
     ->range(0, 1)
     ->accessCheck(TRUE);
   $results = $query->execute();
-  $cache[$tid] = !empty($results);
+  $cache[$tid] = $results ? (int) reset($results) : NULL;
   return $cache[$tid];
 }
 

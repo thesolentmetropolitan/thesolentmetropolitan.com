@@ -24,17 +24,6 @@
  * - filter_active_label:  label of the active child term, or NULL.
  */
 #}
-{% macro topic_list(filter_options, filter_all_url, filter_all_active) %}
-  <div class="slnt-filter-section">
-    <a href="{{ filter_all_url }}" class="slnt-filter-item{{ filter_all_active ? ' is-active' : '' }}">All Topics</a>
-    {% for option in filter_options %}
-      <a href="{{ option.url }}" class="slnt-filter-item{{ option.active ? ' is-active' : '' }}">{{ option.label }}</a>
-    {% endfor %}
-  </div>
-{% endmacro %}
-
-{% import _self as filter %}
-
 {%
   set classes = [
     'paragraph',
@@ -166,15 +155,15 @@
             {% endif %}
           </div>
           <button type="button" class="slnt-filter-bar__button" data-filter-toggle aria-haspopup="dialog" aria-expanded="false">
-            Filter
+            {{ 'Topics'|t }}
           </button>
         </div>
       {% endif %}
 
       <div class="slnt-section-listing__layout">
         {% if filter_has_options %}
-          <aside class="slnt-section-listing__sidebar" aria-label="Topic filter">
-            {{ filter.topic_list(filter_options, filter_all_url, filter_all_active) }}
+          <aside class="slnt-section-listing__sidebar" aria-label="Topics">
+            {% include '@customsolent/components/topic-nav.html.twig' with { filter_options: filter_options, filter_all_url: filter_all_url, filter_all_active: filter_all_active } only %}
           </aside>
         {% endif %}
 
@@ -200,16 +189,16 @@
       {# Mobile slide-up filter panel — outside the layout flow. #}
       {% if filter_has_options %}
         <div class="slnt-filter-overlay" data-filter-overlay aria-hidden="true"></div>
-        <div class="slnt-filter-panel" data-filter-panel role="dialog" aria-modal="true" aria-label="Filter">
+        <div class="slnt-filter-panel" data-filter-panel role="dialog" aria-modal="true" aria-label="Topics">
           <div class="slnt-filter-panel__handle">
             <span class="slnt-filter-panel__handle-bar"></span>
           </div>
           <div class="slnt-filter-panel__header">
-            <span class="slnt-filter-panel__title">Filter</span>
+            <span class="slnt-filter-panel__title">{{ 'Topics'|t }}</span>
             <a href="{{ filter_all_url }}" class="slnt-filter-panel__clear">Clear</a>
           </div>
           <div class="slnt-filter-panel__body">
-            {{ filter.topic_list(filter_options, filter_all_url, filter_all_active) }}
+            {% include '@customsolent/components/topic-nav.html.twig' with { filter_options: filter_options, filter_all_url: filter_all_url, filter_all_active: filter_all_active } only %}
           </div>
         </div>
       {% endif %}

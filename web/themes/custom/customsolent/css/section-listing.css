@@ -175,6 +175,7 @@
    underline, no fill. Reads as "this is the section your active
    leaf belongs to" without competing with the active leaf's
    magenta-dark fill below it. */
+.slnt-section-listing .slnt-filter-item.is-branch-active:not(.is-active),
 .slnt-section-filter .slnt-filter-item.is-branch-active:not(.is-active) {
   color: var(--magenta-dark, #a30065);
   font-weight: 600;
