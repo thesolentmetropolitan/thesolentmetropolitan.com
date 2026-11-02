@@ -382,8 +382,19 @@
   .field--name-field-content-component:has(> .field__item > .paragraph--type--section-filter) {
     display: grid;
     grid-template-columns: 220px 1fr;
+    /* Explicit rows, so the sidebar can span "to the end" (-1): one row
+       per paragraph, more than any page places, then a final 1fr row.
+       The sidebar is usually taller than the listings beside it; the fr
+       row takes that excess, so each listing's row stays the height of
+       the listing and the listings sit one under the next. Without this
+       the first listing's row was as tall as the sidebar and the next
+       listing began a whole sidebar-height down (Housing, Construction,
+       Nov 2026). Rows are 0 when unused. */
+    grid-template-rows: repeat(12, auto) 1fr;
     column-gap: 2rem;
-    row-gap: 1.5rem;
+    /* Spacing between rows is a margin on the items, not row-gap: a gap
+       would also open between the unused rows at the end. */
+    row-gap: 0;
   }
 
   /* Default placement inside the grid: every field__item spans both
@@ -392,6 +403,7 @@
   .field--name-field-content-component:has(> .field__item > .paragraph--type--section-filter)
     > .field__item {
     grid-column: 1 / -1;
+    margin-bottom: 1.5rem;
   }
 
   /* The field__item containing the section_filter occupies column 1.
@@ -413,7 +425,26 @@
     position: sticky;
     top: 1rem;
     align-self: start;
+    margin-bottom: 0;
   }
+
+  /* The sidebar spans from its own row to the end of the grid, so every
+     listing after it gets a row of its own beside it. Its start row is
+     its position among the siblings (the paragraphs before it — the
+     intro text, or the hero and the strip when the filter is placed at
+     the page's top level — each take one full-width row). */
+  .field--name-field-content-component:has(> .field__item > .paragraph--type--section-filter)
+    > .field__item:has(> .paragraph--type--section-filter):nth-child(1) { grid-row: 1 / -1; }
+  .field--name-field-content-component:has(> .field__item > .paragraph--type--section-filter)
+    > .field__item:has(> .paragraph--type--section-filter):nth-child(2) { grid-row: 2 / -1; }
+  .field--name-field-content-component:has(> .field__item > .paragraph--type--section-filter)
+    > .field__item:has(> .paragraph--type--section-filter):nth-child(3) { grid-row: 3 / -1; }
+  .field--name-field-content-component:has(> .field__item > .paragraph--type--section-filter)
+    > .field__item:has(> .paragraph--type--section-filter):nth-child(4) { grid-row: 4 / -1; }
+  .field--name-field-content-component:has(> .field__item > .paragraph--type--section-filter)
+    > .field__item:has(> .paragraph--type--section-filter):nth-child(5) { grid-row: 5 / -1; }
+  .field--name-field-content-component:has(> .field__item > .paragraph--type--section-filter)
+    > .field__item:has(> .paragraph--type--section-filter):nth-child(6) { grid-row: 6 / -1; }
 
   /* A paragraph that renders nothing on this page — a Heading handed
      over to the listing below it, a listing with nothing to show — still
