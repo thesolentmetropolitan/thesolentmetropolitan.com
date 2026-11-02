@@ -215,8 +215,15 @@
   border-top: 1px solid rgba(255, 255, 255, 0.35);
 }
 
+/* The trail as a tag: a hollow white box round the primary topic's
+   trail. "also in" chains (below) are filled boxes, so the card's own
+   topic and the related one that put it on this page read as two kinds
+   of tag at a glance, whatever colours the sections are. */
 .slnt-article-compact-card .slnt-topic-trail__ancestors {
+  display: inline-flex;
   margin-bottom: 0;
+  padding: 0.15em 0.5em;
+  border: 1px solid rgba(255, 255, 255, 0.85);
 }
 
 .slnt-article-compact-card .slnt-topic-trail .slnt-topic-trail__ancestor {
@@ -228,6 +235,35 @@
   font-size: 0.8rem;
   color: #fff;
   margin: 0 0.3rem;
+}
+
+/* "also in …" — the related topic as a filled tag in ITS section's
+   colour (--slnt-chain-color from the component), white text and a white
+   edge: Living's green sits on a blue Sectors card as a block, never as
+   green text on blue. A chain from the card's own section fills with the
+   card colour and shows as its edge. The prefix and any comma between
+   chains are white, like everything else on the card. */
+.slnt-article-compact-card .slnt-topic-trail__also {
+  align-items: center;
+  gap: 0.3em 0.35em;
+  margin-top: 0.4rem;
+}
+
+.slnt-article-compact-card .slnt-topic-trail__also-prefix {
+  color: #fff;
+  margin-right: 0;
+}
+
+.slnt-article-compact-card .slnt-topic-trail__also-chain {
+  display: inline-flex;
+  align-items: baseline;
+  padding: 0.15em 0.5em;
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  background-color: var(--slnt-chain-color, transparent);
+}
+
+.slnt-article-compact-card .slnt-topic-trail__separator--chains {
+  display: none;
 }
 
 .slnt-article-compact-card .slnt-topic-trail__ancestor:focus-visible {

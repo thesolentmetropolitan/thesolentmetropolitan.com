@@ -207,17 +207,45 @@
 
 /* One rule per line when an event carries several ("Every Monday and
    Wednesday, 2 - 3:30pm" / "Every Tuesday and Thursday, 10 - 11:30am");
-   "Next:" follows on the last line. */
-.slnt-node-full__recurrence {
-  flex: 1 0 100%;
-}
-
-.slnt-node-full__recurrence + .slnt-node-full__next {
+   "Next:" follows on the last line. Each line starts with its icon:
+   repeat before a rule, calendar before the date — as on the cards. */
+.slnt-node-full__recurrence,
+.slnt-node-full__next {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 0.4em;
   flex: 1 0 100%;
 }
 
 .slnt-node-full__next {
   color: var(--text-mid, #444);
+}
+
+/* A dated (one-off) event: calendar icon beside the Smart Date field. */
+.slnt-node-full__when--dated {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.4em;
+}
+
+.slnt-node-full__when--dated .field,
+.slnt-node-full__when--dated .field__item {
+  margin: 0;
+}
+
+.slnt-node-full__when-icon {
+  display: inline-flex;
+  flex-shrink: 0;
+  width: 0.95em;
+  height: 0.95em;
+  margin-top: 0.2em;
+  color: var(--text-mid, #555);
+}
+
+.slnt-node-full__when-icon svg {
+  width: 100%;
+  height: 100%;
+  display: block;
 }
 
 /* The dates block: the date(s), with "Past event" beside them and the

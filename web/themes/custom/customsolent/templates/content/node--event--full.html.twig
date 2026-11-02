@@ -72,17 +72,28 @@
         <span class="slnt-node-full__arrival">{{ event_arrival }}</span>
       {% endif %}
       {% if event_is_recurring %}
+        {# Each rule after a repeat icon, "Next:" after a calendar icon —
+           the same icons as the cards, so the page reads like them. #}
         <div class="slnt-node-full__when slnt-node-full__when--recurring">
           {% for line in event_recurrence_lines %}
-            <span class="slnt-node-full__recurrence">{{ line }}</span>
+            <span class="slnt-node-full__recurrence">
+              {%- include '@customsolent/components/when-icon.html.twig' with { icon: 'repeat', class: 'slnt-node-full__when-icon' } only -%}
+              <span>{{ line }}</span>
+            </span>
           {% endfor %}
           {% if event_next_dates is not empty %}
-            <span class="slnt-node-full__next">{% if event_next_prefix %}{{ event_next_prefix }}: {% endif %}{{ event_next_dates|join(' · ') }}</span>
+            <span class="slnt-node-full__next">
+              {%- include '@customsolent/components/when-icon.html.twig' with { icon: 'calendar', class: 'slnt-node-full__when-icon' } only -%}
+              <span>{% if event_next_prefix %}{{ event_next_prefix }}: {% endif %}{{ event_next_dates|join(' · ') }}</span>
+            </span>
           {% endif %}
         </div>
         {% set _when = content.field_when|render %}
       {% elseif content.field_when|render|striptags|trim %}
-        <div class="slnt-node-full__when">{{ content.field_when }}</div>
+        <div class="slnt-node-full__when slnt-node-full__when--dated">
+          {%- include '@customsolent/components/when-icon.html.twig' with { icon: 'calendar', class: 'slnt-node-full__when-icon' } only -%}
+          {{ content.field_when }}
+        </div>
       {% endif %}
 
       {# The series this date belongs to — directly under the date, as the

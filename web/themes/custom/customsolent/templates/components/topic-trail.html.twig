@@ -15,9 +15,14 @@
  *   - current_as_heading: bool — true wraps current_label in <h1>,
  *     false wraps it in <span>
  *   - also_in: optional list of chains, each a list of { label, url|null,
- *     color } — the related topics that put this card on the current page
- *     when its primary topic is elsewhere ("also in DEFENCE & MILITARY").
- *     From KickerLazyBuilder::trailKicker; empty on content pages.
+ *     color, section_color? } — the related topics that put this card on
+ *     the current page when its primary topic is elsewhere ("also in
+ *     DEFENCE & MILITARY"). From KickerLazyBuilder::trailKicker; empty on
+ *     content pages. Each chain is wrapped in .slnt-topic-trail__also-chain
+ *     carrying its topic's own section colour as --slnt-chain-color, so a
+ *     filled card can draw the chain as a tag in that colour even though
+ *     its text is white (section_color is the colour before the card's
+ *     override).
  */
 #}
 {% if ancestors is not empty or current_label %}
@@ -36,15 +41,17 @@
     <div class="slnt-topic-trail__also">
       <span class="slnt-topic-trail__also-prefix">{{ 'also in'|t }}</span>
       {% for chain in also_in %}
-        {% for item in chain %}
+        <span class="slnt-topic-trail__also-chain" style="--slnt-chain-color: {{ chain[0].section_color ?? chain[0].color }};">
+        {%- for item in chain -%}
           {%- if item.url -%}
             <a href="{{ item.url }}" class="slnt-topic-trail__ancestor" style="color: {{ item.color }};">{{ item.label }}</a>
           {%- else -%}
             <span class="slnt-topic-trail__ancestor slnt-topic-trail__ancestor--plain" style="color: {{ item.color }};">{{ item.label }}</span>
           {%- endif -%}
           {%- if not loop.last -%}<span class="slnt-topic-trail__separator" aria-hidden="true"> / </span>{%- endif -%}
-        {% endfor %}
-        {%- if not loop.last -%}<span class="slnt-topic-trail__separator" aria-hidden="true">, </span>{%- endif -%}
+        {%- endfor -%}
+        </span>
+        {%- if not loop.last -%}<span class="slnt-topic-trail__separator slnt-topic-trail__separator--chains" aria-hidden="true">, </span>{%- endif -%}
       {% endfor %}
     </div>
   {% endif %}

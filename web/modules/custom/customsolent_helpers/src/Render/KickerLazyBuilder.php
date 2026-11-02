@@ -81,6 +81,9 @@ class KickerLazyBuilder implements TrustedCallbackInterface {
       unset($ancestor);
       foreach ($also_in as &$chain) {
         foreach ($chain as &$item) {
+          // The chain's own section colour survives as the tag's fill on
+          // the filled article card (topic-trail.html.twig).
+          $item['section_color'] = $item['color'];
           $item['color'] = $color;
         }
         unset($item);
