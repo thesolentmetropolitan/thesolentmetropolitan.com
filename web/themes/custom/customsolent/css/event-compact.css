@@ -115,12 +115,18 @@
   transition: background-color 0.15s, box-shadow 0.15s;
 }
 
-/* Beat .layout-content a magenta-underline rule. */
+/* Beat .layout-content a magenta-underline rule — and its bold: the
+   whole card is one link, so without this every line inherits 700 and
+   the card shouts. Regular here; the lines that matter most set bold
+   themselves: the title, "Every …", "Next: …" / the date, and the
+   seasonal and arrival notes. Venues, towns and the organiser stay
+   regular — supporting detail. */
 .layout-content a.slnt-event-compact__link,
 .layout-content a.slnt-event-compact__link:hover {
   text-decoration: none;
   text-decoration-color: transparent;
   color: inherit;
+  font-weight: 400;
 }
 
 .slnt-event-compact__link:hover {
@@ -423,6 +429,12 @@
 .slnt-event-compact__recurrence,
 .slnt-event-compact__next {
   display: block;
+}
+
+/* The date lines — "Every Monday, 7pm", "Next: Mon 9 Nov", or a one-off
+   date — are the card's second headline, bold like the title. */
+.slnt-event-compact__date .slnt-event-compact__value {
+  font-weight: 700;
 }
 
 .slnt-event-compact__next {

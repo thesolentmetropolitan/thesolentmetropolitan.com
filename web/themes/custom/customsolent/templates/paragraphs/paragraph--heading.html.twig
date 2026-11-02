@@ -47,16 +47,6 @@
   ]
 %}
 
-<style>
-
-
-    .field--name-field-footer-section-builder > .field__item {
-
-    width: 100%;
-}
-
-</style>
-
 {# Collect any class strings from field_classy. The gradient classy
    styles set their own colour/background-clip rules on the heading
    element, which override the inherited colour from field_color_text.
@@ -77,6 +67,11 @@
      Render the field for its cache metadata only. #}
   {% set _handed_over = content.field_heading|render %}
 {% else %}
+  <style>
+    .field--name-field-footer-section-builder > .field__item {
+      width: 100%;
+    }
+  </style>
   <div style="
      color: {{ paragraph.field_color_text.0.entity.field_color.value.0.color|default('inherit') }};
      ">

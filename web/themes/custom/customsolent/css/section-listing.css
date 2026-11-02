@@ -415,6 +415,18 @@
     align-self: start;
   }
 
+  /* A paragraph that renders nothing on this page — a Heading handed
+     over to the listing below it, a listing with nothing to show — still
+     leaves its field__item behind. In the grid that empty item would
+     take the first cell of column 2, beside the sidebar, and push the
+     real first listing to the next row: the full height of the sidebar
+     below where it should start (Music, Nov 2026). Items with no
+     element content (a <style> block does not count) take no cell. */
+  .field--name-field-content-component:has(> .field__item > .paragraph--type--section-filter)
+    > .field__item:not(:has(:not(style))) {
+    display: none;
+  }
+
   /* field__items AFTER the section_filter's field__item sit in column 2. */
   .field--name-field-content-component:has(> .field__item > .paragraph--type--section-filter)
     > .field__item:has(> .paragraph--type--section-filter)
