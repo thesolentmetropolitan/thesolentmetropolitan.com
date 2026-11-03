@@ -6,6 +6,7 @@ dependencies:
     - field.field.node.series.field_description
     - field.field.node.series.field_organisers
     - field.field.node.series.field_primary_topic
+    - field.field.node.series.field_related_organisations
     - field.field.node.series.field_related_topics
     - field.field.node.series.field_series_end
     - field.field.node.series.field_series_items
@@ -90,5 +91,6 @@ content:
     weight: 0
     region: content
 hidden:
+  field_related_organisations: true
   field_short_label: true
   links: true

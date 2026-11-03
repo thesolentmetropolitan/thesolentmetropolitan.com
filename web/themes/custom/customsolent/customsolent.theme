@@ -1258,6 +1258,10 @@ function _customsolent_preprocess_article_byline($node, array &$variables): void
  *     series_count_parts — the non-zero counts as phrases ("7 events").
  *   - series_groups — (full only) members rendered in the compact view
  *     mode, grouped by bundle: list of {key, label, items[], grid_class}.
+ *   - related_organisations — (full only) field_related_organisations
+ *     rendered as compact cards: organisations that were not part of the
+ *     series but are relevant to it, shown under their own heading after
+ *     the members.
  *   - related_topic_links — (full only) {label, url, color} per related
  *     topic, section-coloured like the trail kicker.
  *   - section_key / section_color — from the primary topic's section.
@@ -1357,6 +1361,17 @@ function _customsolent_preprocess_series_extras($node, array &$variables): void 
     $groups[$bundle]['items'][] = $build;
   }
   $variables['series_groups'] = array_values($groups);
+
+  // Related organisations: not members, so plain compact cards (no
+  // "part of this series" variant), in the editor's order.
+  $variables['related_organisations'] = [];
+  if ($node->hasField('field_related_organisations')) {
+    foreach ($node->get('field_related_organisations')->referencedEntities() as $org) {
+      if ($org->access('view')) {
+        $variables['related_organisations'][] = $view_builder->view($org, 'compact');
+      }
+    }
+  }
 
   // Related topics as section-coloured links to their section pages.
   $variables['related_topic_links'] = _customsolent_related_topic_links($node);
