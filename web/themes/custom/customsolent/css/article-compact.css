@@ -77,6 +77,10 @@
 .slnt-article-compact-card {
   --card-bg: var(--solent-blue, #2c4f6e);
   --card-fade: 6rem; /* depth of the tile band = where the title starts */
+  /* One white, at the rule's transparency, for the rule above the kicker
+     and the edges of its tags: a solid white box read heavier than the
+     line it sits under. */
+  --card-rule: rgba(255, 255, 255, 0.35);
 }
 .slnt-article-compact-card[data-section="culture"] { --card-bg: #6d28d9; }
 .slnt-article-compact-card[data-section="sectors"] { --card-bg: #1d4ed8; }
@@ -143,14 +147,17 @@
   text-decoration-color: transparent;
 }
 
-/* Stretch the link over the whole rectangle. */
+/* Stretch the link over the whole rectangle. Hovering the stretched
+   ::after hovers the link itself, so the title underline below keys off
+   the link, not the card: the kicker sits above the ::after (z-index 1),
+   and a pointer on a topic tag must not underline the title as well. */
 .slnt-article-compact__link::after {
   content: '';
   position: absolute;
   inset: 0;
 }
 
-.layout-content .slnt-article-compact-card:hover a.slnt-article-compact__link,
+.layout-content a.slnt-article-compact__link:hover,
 .layout-content a.slnt-article-compact__link:focus-visible {
   text-decoration: underline;
   text-decoration-color: #fff;
@@ -212,7 +219,7 @@
   z-index: 1;
   margin: auto 0 0 0; /* pin to the bottom edge of the card */
   padding-top: 0.5rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.35);
+  border-top: 1px solid var(--card-rule);
 }
 
 /* The trail as a tag: a hollow white box round the primary topic's
@@ -223,7 +230,7 @@
   display: inline-flex;
   margin-bottom: 0;
   padding: 0.15em 0.5em;
-  border: 1px solid rgba(255, 255, 255, 0.85);
+  border: 1px solid var(--card-rule);
 }
 
 .slnt-article-compact-card .slnt-topic-trail .slnt-topic-trail__ancestor {
@@ -237,12 +244,13 @@
   margin: 0 0.3rem;
 }
 
-/* "also in …" — the related topic as a filled tag in ITS section's
-   colour (--slnt-chain-color from the component), white text and a white
-   edge: Living's green sits on a blue Sectors card as a block, never as
-   green text on blue. A chain from the card's own section fills with the
-   card colour and shows as its edge. The prefix and any comma between
-   chains are white, like everything else on the card. */
+/* "here in …" / "also in …" — the related topic as a filled tag in ITS
+   section's colour (--slnt-chain-color from the component), white text
+   and a white edge: Living's green sits on a blue Sectors card as a
+   block, never as green text on blue. A chain from the card's own
+   section fills with the card colour and shows as its edge. The prefixes
+   and any comma between chains are white, like everything else on the
+   card. */
 .slnt-article-compact-card .slnt-topic-trail__also {
   align-items: center;
   gap: 0.3em 0.35em;
@@ -258,7 +266,7 @@
   display: inline-flex;
   align-items: baseline;
   padding: 0.15em 0.5em;
-  border: 1px solid rgba(255, 255, 255, 0.85);
+  border: 1px solid var(--card-rule);
   background-color: var(--slnt-chain-color, transparent);
 }
 

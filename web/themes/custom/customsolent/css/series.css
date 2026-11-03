@@ -124,7 +124,9 @@
   inset: 0;
 }
 
-.slnt-series-card:hover .slnt-series-card__link,
+/* Hovering the stretched ::after hovers the link, so this keys off the
+   link rather than the card: the kicker sits above the ::after and a
+   pointer on a topic term must not underline the title too. */
 .layout-content a.slnt-series-card__link:hover {
   text-decoration: underline;
   text-decoration-color: var(--magenta, #c5007a);

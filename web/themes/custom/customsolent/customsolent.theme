@@ -3150,18 +3150,19 @@ function _customsolent_term_landing_nid(int $tid): ?int {
 }
 
 /**
- * Build the "in" kicker display chain for a content item appearing on
- * a section page. Strips ancestors already represented by the page
- * (so on /culture, "Culture / Music" shows as "MUSIC" not
- * "CULTURE / MUSIC"; on /culture/music it shows nothing because it
- * matches the page exactly).
+ * Build a kicker display chain for a content item's topic term.
+ *
+ * Every caller now passes -1 (the whole chain from the section root):
+ * since 3 Nov 2026 the "in", "also in" and "here in" kickers all name
+ * the section, because a topic name alone is ambiguous when the same
+ * word sits under two sections. Trimming is kept for any future use.
  *
  * @param \Drupal\taxonomy\TermInterface $content_term
  *   The content's primary topic term.
  * @param int $page_term_depth
- *   Depth of the page's resolved term. 0 = root (Culture / Sectors /
- *   Living), 1 = direct child, etc. -1 = no specific section (e.g.
- *   /explore/events all-topics fallback) — show the full chain.
+ *   Depth of a term whose ancestors should be left out: 0 strips the
+ *   root (Culture / Sectors / Living), 1 the root and its child, etc.
+ *   -1 strips nothing and shows the full chain.
  *
  * @return array|null
  *   Array of {label, url, color} for each remaining term, or NULL when

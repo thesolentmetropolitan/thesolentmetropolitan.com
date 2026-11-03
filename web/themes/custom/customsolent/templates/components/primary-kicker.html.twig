@@ -18,7 +18,13 @@
  *   - primary_kicker_also_in   list of chains of { label, url|null, color }
  *                              — the related topic(s) inside the page's
  *                              scope that put the item here ("also in
- *                              DEFENCE & MILITARY"); may be empty.
+ *                              SECTORS / DEFENCE & MILITARY"), each chain
+ *                              from its section root; may be empty.
+ *   - primary_kicker_here_in   same shape — the page's own topic when it
+ *                              is what put the item here ("here in
+ *                              LIVING / WELLBEING"); its last term is
+ *                              plain text since the reader is already
+ *                              there. Printed before the "also in" list.
  *   - primary_kicker_section   lowercased top-level Topic name
  *                              (data-section hook).
  */
@@ -35,21 +41,27 @@
       {% endif %}
       {% if not loop.last %}<span class="slnt-teaser__from-separator" aria-hidden="true"> / </span>{% endif %}
     {% endfor %}
-    {% if primary_kicker_also_in is defined and primary_kicker_also_in is not empty %}
-      <span class="slnt-teaser__from-also">
-        <span class="slnt-teaser__from-prefix">{{ 'also in'|t }}</span>
-        {% for chain in primary_kicker_also_in %}
-          {% for item in chain %}
-            {%- if item.url -%}
-              <a href="{{ item.url }}" class="slnt-teaser__from-term" style="color: {{ item.color }};">{{ item.label }}</a>
-            {%- else -%}
-              <span class="slnt-teaser__from-term slnt-teaser__from-term--plain" style="color: {{ item.color }};">{{ item.label }}</span>
-            {%- endif -%}
-            {%- if not loop.last -%}<span class="slnt-teaser__from-separator" aria-hidden="true"> / </span>{%- endif -%}
+    {% set _groups = [
+      { prefix: 'here in'|t, chains: primary_kicker_here_in is defined ? primary_kicker_here_in : [] },
+      { prefix: 'also in'|t, chains: primary_kicker_also_in is defined ? primary_kicker_also_in : [] },
+    ] %}
+    {% for group in _groups %}
+      {% if group.chains is not empty %}
+        <span class="slnt-teaser__from-also">
+          <span class="slnt-teaser__from-prefix">{{ group.prefix }}</span>
+          {% for chain in group.chains %}
+            {% for item in chain %}
+              {%- if item.url -%}
+                <a href="{{ item.url }}" class="slnt-teaser__from-term" style="color: {{ item.color }};">{{ item.label }}</a>
+              {%- else -%}
+                <span class="slnt-teaser__from-term slnt-teaser__from-term--plain" style="color: {{ item.color }};">{{ item.label }}</span>
+              {%- endif -%}
+              {%- if not loop.last -%}<span class="slnt-teaser__from-separator" aria-hidden="true"> / </span>{%- endif -%}
+            {% endfor %}
+            {%- if not loop.last -%}<span class="slnt-teaser__from-separator" aria-hidden="true">, </span>{%- endif -%}
           {% endfor %}
-          {%- if not loop.last -%}<span class="slnt-teaser__from-separator" aria-hidden="true">, </span>{%- endif -%}
-        {% endfor %}
-      </span>
-    {% endif %}
+        </span>
+      {% endif %}
+    {% endfor %}
   </div>
 {% endif %}

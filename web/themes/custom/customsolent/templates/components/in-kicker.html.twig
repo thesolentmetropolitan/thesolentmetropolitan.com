@@ -2,11 +2,11 @@
 /**
  * @file
  * "in" kicker — sits ABOVE the title on a teaser whose primary topic
- * is within the current page's topic scope. Shows the sub-topic chain
- * with ancestors stripped to the page's depth (so on /culture,
- * "Culture / Music" displays as "MUSIC" not "CULTURE / MUSIC"; on
- * /culture/stage, "Culture / Stage / Theatre School" displays as
- * "THEATRE SCHOOL").
+ * is within the current page's topic scope (but is not the page's own
+ * topic). Shows the whole chain from the section root — on /culture,
+ * "Culture / Music" displays as "CULTURE / MUSIC" — because a topic
+ * name on its own can belong to more than one section (Technology sits
+ * under Culture and under Sectors) and the cards are read one by one.
  *
  * Each term is linked to its landing page IF a published composite_page
  * exists for that term — otherwise it renders as plain text. Lets the

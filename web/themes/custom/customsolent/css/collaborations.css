@@ -75,7 +75,8 @@
   inset: 0;
 }
 
-.slnt-collab-card:hover .slnt-collab-card__link,
+/* Keyed off the link, not the card: a pointer on the kicker (above the
+   stretched ::after) must not underline the title. */
 .layout-content a.slnt-collab-card__link:hover {
   text-decoration: underline;
   text-decoration-color: var(--magenta, #c5007a);

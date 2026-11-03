@@ -98,7 +98,9 @@
   inset: 0;
 }
 
-.layout-content .slnt-directory-card:hover .slnt-directory-card__title-text,
+/* Keyed off the link (whose ::after covers the card), not the card: a
+   pointer on the kicker in the footer must not underline the title. */
+.layout-content a.slnt-directory-card__link:hover .slnt-directory-card__title-text,
 .layout-content a.slnt-directory-card__link:focus-visible .slnt-directory-card__title-text {
   text-decoration: underline;
   text-decoration-color: var(--magenta, #c5007a);

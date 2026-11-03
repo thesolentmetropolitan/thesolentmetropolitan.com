@@ -17,12 +17,16 @@
  *   - also_in: optional list of chains, each a list of { label, url|null,
  *     color, section_color? } — the related topics that put this card on
  *     the current page when its primary topic is elsewhere ("also in
- *     DEFENCE & MILITARY"). From KickerLazyBuilder::trailKicker; empty on
- *     content pages. Each chain is wrapped in .slnt-topic-trail__also-chain
- *     carrying its topic's own section colour as --slnt-chain-color, so a
- *     filled card can draw the chain as a tag in that colour even though
- *     its text is white (section_color is the colour before the card's
- *     override).
+ *     SECTORS / DEFENCE & MILITARY"), each chain from its section root.
+ *     From KickerLazyBuilder::trailKicker; empty on content pages. Each
+ *     chain is wrapped in .slnt-topic-trail__also-chain carrying its
+ *     topic's own section colour as --slnt-chain-color, so a filled card
+ *     can draw the chain as a tag in that colour even though its text is
+ *     white (section_color is the colour before the card's override).
+ *   - here_in: optional list of chains in the same shape — the page's own
+ *     topic when it is what put the card here ("here in LIVING /
+ *     WELLBEING"): the reader has arrived, so its last term is plain text.
+ *     Printed before the "also in" chains, in the same row.
  */
 #}
 {% if ancestors is not empty or current_label %}
@@ -37,21 +41,29 @@
       {% endfor %}
     </div>
   {% endif %}
-  {% if also_in is defined and also_in is not empty %}
+  {% set _groups = [
+    { prefix: 'here in'|t, chains: here_in is defined ? here_in : [] },
+    { prefix: 'also in'|t, chains: also_in is defined ? also_in : [] },
+  ] %}
+  {% if _groups[0].chains is not empty or _groups[1].chains is not empty %}
     <div class="slnt-topic-trail__also">
-      <span class="slnt-topic-trail__also-prefix">{{ 'also in'|t }}</span>
-      {% for chain in also_in %}
-        <span class="slnt-topic-trail__also-chain" style="--slnt-chain-color: {{ chain[0].section_color ?? chain[0].color }};">
-        {%- for item in chain -%}
-          {%- if item.url -%}
-            <a href="{{ item.url }}" class="slnt-topic-trail__ancestor" style="color: {{ item.color }};">{{ item.label }}</a>
-          {%- else -%}
-            <span class="slnt-topic-trail__ancestor slnt-topic-trail__ancestor--plain" style="color: {{ item.color }};">{{ item.label }}</span>
-          {%- endif -%}
-          {%- if not loop.last -%}<span class="slnt-topic-trail__separator" aria-hidden="true"> / </span>{%- endif -%}
-        {%- endfor -%}
-        </span>
-        {%- if not loop.last -%}<span class="slnt-topic-trail__separator slnt-topic-trail__separator--chains" aria-hidden="true">, </span>{%- endif -%}
+      {% for group in _groups %}
+        {% if group.chains is not empty %}
+          <span class="slnt-topic-trail__also-prefix">{{ group.prefix }}</span>
+          {% for chain in group.chains %}
+            <span class="slnt-topic-trail__also-chain" style="--slnt-chain-color: {{ chain[0].section_color ?? chain[0].color }};">
+            {%- for item in chain -%}
+              {%- if item.url -%}
+                <a href="{{ item.url }}" class="slnt-topic-trail__ancestor" style="color: {{ item.color }};">{{ item.label }}</a>
+              {%- else -%}
+                <span class="slnt-topic-trail__ancestor slnt-topic-trail__ancestor--plain" style="color: {{ item.color }};">{{ item.label }}</span>
+              {%- endif -%}
+              {%- if not loop.last -%}<span class="slnt-topic-trail__separator" aria-hidden="true"> / </span>{%- endif -%}
+            {%- endfor -%}
+            </span>
+            {%- if not loop.last -%}<span class="slnt-topic-trail__separator slnt-topic-trail__separator--chains" aria-hidden="true">, </span>{%- endif -%}
+          {% endfor %}
+        {% endif %}
       {% endfor %}
     </div>
   {% endif %}

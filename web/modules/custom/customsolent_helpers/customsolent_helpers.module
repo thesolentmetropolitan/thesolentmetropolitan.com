@@ -56,6 +56,7 @@ function customsolent_helpers_theme($existing, $type, $theme, $path) {
         'show_primary_kicker' => TRUE,
         'primary_kicker_ancestors' => [],
         'primary_kicker_also_in' => [],
+        'primary_kicker_here_in' => [],
         'primary_kicker_section' => '',
       ],
       // The theme's existing file is primary-kicker.html.twig — name
