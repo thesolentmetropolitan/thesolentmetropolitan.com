@@ -2015,6 +2015,16 @@ taxonomies:
       uuid: 89ab4c88-bb7f-404c-a41b-99ee5f8b3659
     -
       vid: location
+      tid: '341'
+      langcode: en
+      name: Chichester
+      description__value: null
+      description__format: null
+      weight: '0'
+      parent: '0'
+      uuid: d42e03a0-ce38-489c-bb0b-6b5805a27837
+    -
+      vid: location
       tid: '169'
       langcode: en
       name: 'City Buildings'
@@ -2313,6 +2323,16 @@ taxonomies:
       weight: '20'
       parent: '139'
       uuid: d2fe48b4-9cd0-4166-b9a0-07cfa6a1fced
+    -
+      vid: location
+      tid: '340'
+      langcode: en
+      name: Havant
+      description__value: null
+      description__format: null
+      weight: '0'
+      parent: '140'
+      uuid: 95b714ce-98ac-4476-b3e9-b5932aef657a
     -
       vid: location
       tid: '236'
