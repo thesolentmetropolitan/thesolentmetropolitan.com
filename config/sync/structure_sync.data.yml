@@ -1945,6 +1945,16 @@ taxonomies:
       uuid: f6c9e7f6-0603-4329-9e48-e649a27632c8
     -
       vid: location
+      tid: '342'
+      langcode: en
+      name: Bournemouth
+      description__value: null
+      description__format: null
+      weight: '0'
+      parent: '0'
+      uuid: 04eede79-b697-4975-af3a-344930436b67
+    -
+      vid: location
       tid: '239'
       langcode: en
       name: 'Brass Monkey, Shirley'
