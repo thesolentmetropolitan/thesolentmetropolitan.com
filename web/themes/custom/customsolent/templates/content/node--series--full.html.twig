@@ -7,8 +7,9 @@
  * (.slnt-node-full): status badge, topic-trail kicker, h1, date range,
  * standfirst. Then the description in the article reading column, the
  * members grouped as Events / Articles / Links / Organisations (each
- * rendered as its own compact card), and the related topics as
- * section-coloured links.
+ * rendered as its own compact card), the related organisations (not
+ * members, but relevant: a way on to other things around the site), and
+ * the related topics as section-coloured links.
  *
  * Collaborations this series is an outcome of will be listed after the
  * members once the Collaboration type exists (see the 2026-10-18 brief).
@@ -16,8 +17,9 @@
  * Variables from _customsolent_preprocess_series_extras():
  *   series_status, series_status_label, series_range, organiser_label /
  *   organiser_url (the curating organisation, or ''), series_groups
- *   ({key, label, items[], grid_class}), related_topic_links
- *   ({label, url, color}), series_cache (print in every branch).
+ *   ({key, label, items[], grid_class}), related_organisations (compact
+ *   cards), related_topic_links ({label, url, color}), series_cache
+ *   (print in every branch).
  */
 #}
 {%
@@ -108,6 +110,24 @@
     </section>
   {% endfor %}
 
+  {# Related organisations — field_related_organisations: not part of the
+     series, so after the members and under their own heading. Same card
+     and grid as the Organisations group, so they read as the same kind
+     of thing one step removed. #}
+  {% if related_organisations is not empty %}
+    <section class="slnt-series-items slnt-series-items--related-organisations" aria-labelledby="series-related-organisations">
+      <h2 id="series-related-organisations" class="slnt-series-items__heading">
+        {{ 'Related organisations'|t }}
+        <span class="slnt-series-items__count">{{ related_organisations|length }}</span>
+      </h2>
+      <div class="slnt-series-items__grid slnt-series-items__grid--links">
+        {% for item in related_organisations %}
+          <div class="slnt-series-items__cell">{{ item }}</div>
+        {% endfor %}
+      </div>
+    </section>
+  {% endif %}
+
   {% if related_topic_links is not empty %}
     <nav class="slnt-series-full__related" aria-label="{{ 'Related topics'|t }}">
       <span class="slnt-series-full__related-label">{{ 'Also in'|t }}</span>
@@ -127,7 +147,7 @@
 
   {# Rendered by hand above; suppress the defaults. #}
   {{ content|without('field_standfirst', 'field_series_start', 'field_series_end',
-     'field_description', 'field_series_items', 'field_primary_topic',
-     'field_related_topics', 'field_organisers', 'links') }}
+     'field_description', 'field_series_items', 'field_related_organisations',
+     'field_primary_topic', 'field_related_topics', 'field_organisers', 'links') }}
 
 </article>
