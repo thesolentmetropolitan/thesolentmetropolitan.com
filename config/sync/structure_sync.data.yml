@@ -4006,7 +4006,7 @@ taxonomies:
       tid: '363'
       langcode: en
       name: 'Culture / Music / Indie'
-      description__value: '<p>Indie and alternative guitar music: bands, gigs, independent labels, zines and blogs about them. Heavier bands are Metal; punk is Punk; classic and heritage rock is Rock.</p>'
+      description__value: '<p>Indie and alternative guitar music, Britpop and new wave included: bands, gigs, independent labels, zines and blogs about them. Heavier bands are Metal; punk and post-punk are Punk; classic and heritage rock is Rock.</p>'
       description__format: basic_html
       weight: '0'
       parent: '44'
