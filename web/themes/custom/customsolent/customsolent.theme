@@ -1553,9 +1553,12 @@ function _customsolent_build_term_url($chain, $index) {
   $path_parts = [];
   for ($i = 0; $i <= $index; $i++) {
     $part = _customsolent_strip_term_prefix($chain[$i]->getName());
-    // Lower-case, every run of anything but a letter or digit becomes one
-    // hyphen: "Art & Design" -> art-design, "Non-profit" -> non-profit,
-    // "R&B" -> r-b. The aliases the topic scripts create use the same rule.
+    // Lower-case; an ampersand inside a word is spelt out ("R&B" ->
+    // r-and-b) while one between words is dropped ("Art & Design" ->
+    // art-design); every other run of anything but a letter or digit
+    // becomes one hyphen ("Non-profit" -> non-profit). The aliases the
+    // topic scripts create use the same rule.
+    $part = preg_replace('/(?<=\S)&(?=\S)/', '-and-', $part);
     $path_parts[] = trim(preg_replace('/[^a-z0-9]+/', '-', strtolower($part)) ?? '', '-');
   }
   return '/' . implode('/', $path_parts);

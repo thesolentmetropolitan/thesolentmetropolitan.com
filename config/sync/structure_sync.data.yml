@@ -3808,6 +3808,19 @@ taxonomies:
           value: "Gigs, venues, festivals and the musicians making up the Solent's music scene."
     -
       vid: topic
+      tid: '377'
+      langcode: en
+      name: 'Culture / Music / Afrobeats'
+      description__value: '<p>Afrobeats in the current sense (Nigerian and Ghanaian pop and the UK scene around it), amapiano, Afro-fusion, Afroswing, plus the 1970s Afrobeat of Fela Kuti and the bands that carry it on. A night that mixes afrobeats with R&amp;B and hip hop takes Afrobeats when it leads the billing, else R&amp;B. Traditional and folk music from Africa is World.</p>'
+      description__format: basic_html
+      weight: '0'
+      parent: '44'
+      uuid: f069b16a-72fa-4502-981c-57aabed648b9
+      field_reader_summary:
+        -
+          value: 'Afrobeats, amapiano and Afro-fusion nights, DJs and artists across the Solent.'
+    -
+      vid: topic
       tid: '349'
       langcode: en
       name: 'Culture / Music / Ambient & Experimental'
@@ -4071,7 +4084,7 @@ taxonomies:
       tid: '369'
       langcode: en
       name: 'Culture / Music / R&B'
-      description__value: '<p>Contemporary R&amp;B and neo-soul: singers, showcases, R&amp;B nights and afrobeats-leaning parties. Classic soul and funk are Funk &amp; Soul; rap is Hip Hop.</p>'
+      description__value: '<p>Contemporary R&amp;B and neo-soul: singers, showcases, R&amp;B nights. Parties led by afrobeats are Afrobeats; classic soul and funk are Funk &amp; Soul; rap is Hip Hop.</p>'
       description__format: basic_html
       weight: '0'
       parent: '44'
@@ -4083,15 +4096,15 @@ taxonomies:
       vid: topic
       tid: '370'
       langcode: en
-      name: 'Culture / Music / Reggae'
-      description__value: '<p>Reggae, roots, dub, lovers rock, dancehall and the sound systems and bands that play them. Ska and 2 Tone are Ska; dubstep is Dubstep.</p>'
+      name: 'Culture / Music / Reggae & Dancehall'
+      description__value: '<p>Reggae and dancehall together: roots, dub, lovers rock, ragga, bashment and the sound systems, bands and DJs that play them. Ska and 2 Tone are Ska; dubstep is Dubstep; parties led by afrobeats are Afrobeats.</p>'
       description__format: basic_html
       weight: '0'
       parent: '44'
       uuid: b5eb9159-a262-4795-bad1-ebebf340530f
       field_reader_summary:
         -
-          value: 'Reggae, roots, dub and dancehall dances, bands and sound systems across the Solent.'
+          value: 'Reggae, roots, dub, lovers rock and dancehall dances, bands and sound systems across the Solent.'
     -
       vid: topic
       tid: '371'
@@ -4162,7 +4175,7 @@ taxonomies:
       tid: '376'
       langcode: en
       name: 'Culture / Music / World'
-      description__value: '<p>Music rooted in traditions outside Britain, Ireland and North America: West African kora and griot music, Latin and Afro-Cuban, Indian classical and Bollywood, Balkan, Greek, Turkish, Middle Eastern and more. Reggae, dancehall and afrobeats-leaning nights take Reggae or R&amp;B. Name the tradition in the item; this term may split by region once the content asks.</p>'
+      description__value: '<p>Music rooted in traditions outside Britain, Ireland and North America: West African kora and griot music, Latin and Afro-Cuban, Indian classical and Bollywood, Balkan, Greek, Turkish, Middle Eastern and more. Afrobeats, reggae and dancehall have their own terms. Name the tradition in the item; this term may split by region once the content asks.</p>'
       description__format: basic_html
       weight: '0'
       parent: '44'
@@ -4302,15 +4315,15 @@ taxonomies:
       vid: topic
       tid: '322'
       langcode: en
-      name: 'Culture / Stage / Spoken Word & Open Mic'
-      description__value: '<p>Performed words: poetry nights, open mics, storytelling and spoken-word events. Culture / Writing is the adjacency for the writing side.</p>'
+      name: 'Culture / Stage / Open Mic & Spoken Word'
+      description__value: '<p>Open mics in any art form (a song, a comedy set, a poem, a story) and spoken word as a subject: poetry nights, storytelling, performance poetry collectives. Primary for poetry and spoken-word nights and for mixed open mics; related for a music or comedy open mic, whose primary is its genre or Comedy. Culture / Writing is the adjacency for the writing side.</p>'
       description__format: basic_html
       weight: '0'
       parent: '51'
       uuid: 2e056a1e-3bc2-47f5-b6cd-7c52a5dccfa0
       field_reader_summary:
         -
-          value: 'Poetry nights, open mics, storytelling and spoken-word events across the Solent.'
+          value: 'Open mic nights of every kind, plus poetry, storytelling and spoken-word events across the Solent.'
     -
       vid: topic
       tid: '52'
