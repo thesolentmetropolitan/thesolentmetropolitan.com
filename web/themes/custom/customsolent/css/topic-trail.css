@@ -63,6 +63,24 @@ h1.slnt-topic-trail__current {
   margin: 0;
 }
 
+/* ── The big title as a link ──
+   On a topic page the leaf links to its own page, so a reader who has
+   filtered the listing (?topic=…) or is on /culture/music/events has a
+   way back to the plain page. It keeps the heading's colour and weight;
+   only hover and keyboard focus reveal it as a link, the same way the
+   small ancestors do. Doubled-up selector beats `.layout-content a`. */
+.slnt-topic-trail .slnt-topic-trail__current-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.slnt-topic-trail .slnt-topic-trail__current-link:hover {
+  text-decoration: underline;
+  text-decoration-color: currentColor;
+  text-underline-offset: 4px;
+  text-decoration-thickness: 3px;
+}
+
 /* ── Inside the hero cutout box on composite pages ──
    Drop the trail's trailing margin so the h1 leaf sits flush with
    the bottom of the white cutout, matching the pre-trail layout. */

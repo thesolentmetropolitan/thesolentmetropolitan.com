@@ -1443,6 +1443,10 @@ function customsolent_preprocess_paragraph__hero_with_art_style(&$variables) {
       $trail = _customsolent_build_topic_trail($term, TRUE);
       $variables['topic_trail_ancestors'] = $trail['ancestors'];
       $variables['topic_trail_current'] = $trail['current_label'];
+      // The big title links to the topic's own page: from a filtered
+      // view (?topic=…) or a listing page it is the way back to the
+      // unfiltered page, the same escape the small ancestors give.
+      $variables['topic_trail_current_url'] = $trail['current_url'];
       // On an automated listing page (/culture/music/events) the same
       // banner is shown, but that page's h1 is "Events": the topic name
       // renders as a span with the same look, so there is one h1.
@@ -1478,7 +1482,9 @@ function _customsolent_topic_section_colors() {
  *   is returned as ancestors (kicker), current_label is null.
  *
  * @return array
- *   ['ancestors' => array<{label, url, color}>, 'current_label' => ?string]
+ *   ['ancestors' => array<{label, url, color}>, 'current_label' => ?string,
+ *   'current_url' => ?string] — current_url is the leaf's own page, so a
+ *   banner can make the big title a link back to the unfiltered page.
  */
 function _customsolent_build_topic_trail($term, $leaf_as_title = TRUE) {
   // Walk from the leaf up to the top-level parent.
@@ -1511,14 +1517,17 @@ function _customsolent_build_topic_trail($term, $leaf_as_title = TRUE) {
   }
 
   $current_label = NULL;
+  $current_url = NULL;
   if ($leaf_as_title) {
     $leaf = end($chain);
     $current_label = _customsolent_strip_term_prefix($leaf->getName());
+    $current_url = _customsolent_build_term_url($chain, count($chain) - 1);
   }
 
   return [
     'ancestors' => $ancestors,
     'current_label' => $current_label,
+    'current_url' => $current_url,
   ];
 }
 

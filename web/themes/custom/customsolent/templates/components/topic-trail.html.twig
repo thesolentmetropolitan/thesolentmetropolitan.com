@@ -14,6 +14,10 @@
  *     content pages where the node provides its own h1)
  *   - current_as_heading: bool — true wraps current_label in <h1>,
  *     false wraps it in <span>
+ *   - current_url: string|null — when given, the current label is a link
+ *     to that page (the topic's own page), styled as plain heading text.
+ *     From a filtered or listing view it is the way back to the
+ *     unfiltered page.
  *   - also_in: optional list of chains, each a list of { label, url|null,
  *     color, section_color? } — the related topics that put this card on
  *     the current page when its primary topic is elsewhere ("also in
@@ -68,10 +72,17 @@
     </div>
   {% endif %}
   {% if current_label %}
+    {% set _current %}
+      {%- if current_url is defined and current_url -%}
+        <a href="{{ current_url }}" class="slnt-topic-trail__current-link">{{ current_label }}</a>
+      {%- else -%}
+        {{- current_label -}}
+      {%- endif -%}
+    {% endset %}
     {% if current_as_heading %}
-      <h1 class="slnt-topic-trail__current">{{ current_label }}</h1>
+      <h1 class="slnt-topic-trail__current">{{ _current }}</h1>
     {% else %}
-      <span class="slnt-topic-trail__current">{{ current_label }}</span>
+      <span class="slnt-topic-trail__current">{{ _current }}</span>
     {% endif %}
   {% endif %}
 </nav>
