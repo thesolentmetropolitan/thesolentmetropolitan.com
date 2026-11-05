@@ -1855,6 +1855,16 @@ taxonomies:
       uuid: afec5975-221b-4334-97d5-217b9dde9f24
     -
       vid: location
+      tid: '347'
+      langcode: en
+      name: 'Avenue Campus'
+      description__value: null
+      description__format: null
+      weight: '0'
+      parent: '187'
+      uuid: 7ea5ff36-f005-45d6-96e8-c911a9565fc7
+    -
+      vid: location
       tid: '172'
       langcode: en
       name: 'Beaulieu Inn, Brockenhurst'
@@ -2095,6 +2105,16 @@ taxonomies:
       uuid: f917f3e3-db2e-44a8-9476-228ff77bbd3c
     -
       vid: location
+      tid: '346'
+      langcode: en
+      name: 'Department, Ryde'
+      description__value: null
+      description__format: null
+      weight: '0'
+      parent: '180'
+      uuid: 64ec35ae-4a69-4e73-9005-34a34e5751c0
+    -
+      vid: location
       tid: '213'
       langcode: en
       name: 'Design Chapel'
@@ -2103,6 +2123,16 @@ taxonomies:
       weight: '15'
       parent: '139'
       uuid: 600e37fa-cbe1-4510-af5f-a4e29ef97c60
+    -
+      vid: location
+      tid: '344'
+      langcode: en
+      name: Diceheads
+      description__value: null
+      description__format: null
+      weight: '0'
+      parent: '212'
+      uuid: 7322f6e7-ee73-4fac-8765-66d625d17252
     -
       vid: location
       tid: '220'
@@ -2815,6 +2845,16 @@ taxonomies:
       uuid: 0f509b9a-f7ba-4659-84cc-16bd80ab5cfd
     -
       vid: location
+      tid: '343'
+      langcode: en
+      name: Reggies
+      description__value: null
+      description__format: null
+      weight: '0'
+      parent: '141'
+      uuid: 772fb82d-88fb-4505-9000-151fcb64d576
+    -
+      vid: location
       tid: '225'
       langcode: en
       name: Romsey
@@ -2843,6 +2883,16 @@ taxonomies:
       weight: '40'
       parent: '139'
       uuid: 2fcac0d8-cf00-4008-be94-c48db31e102e
+    -
+      vid: location
+      tid: '345'
+      langcode: en
+      name: 'Sholing FC'
+      description__value: null
+      description__format: null
+      weight: '0'
+      parent: '139'
+      uuid: a1a13144-c87a-47e0-9bce-e7369c656cef
     -
       vid: location
       tid: '229'
@@ -2953,6 +3003,16 @@ taxonomies:
       weight: '42'
       parent: '139'
       uuid: a1b8a315-1721-4788-b387-7a705e89fb37
+    -
+      vid: location
+      tid: '348'
+      langcode: en
+      name: "St James' Church, Milton"
+      description__value: null
+      description__format: null
+      weight: '0'
+      parent: '141'
+      uuid: f2c6dc26-1a34-48e0-b970-e13cf83042ce
     -
       vid: location
       tid: '312'
@@ -3608,8 +3668,8 @@ taxonomies:
       tid: '35'
       langcode: en
       name: 'Culture / Community'
-      description__value: null
-      description__format: null
+      description__value: "<p>Community-run cultural life that is not defined by who its members are: community centres' arts and social programmes, community arts groups, local festivals and fêtes, community radio such as Unity 101. Civic participation and support is Living / Community; heritage, ancestry, place and newcomer communities are Culture / Identity &amp; Belonging. Test for any tag: would a reader who chose this term be glad to find it? Two yeses mean both terms (the WI, Unity 101); a yes and a shrug mean one.</p>"
+      description__format: basic_html
       weight: '1'
       parent: '29'
       uuid: db7aea04-812c-4419-9150-69d2dd5ff7cb
@@ -3738,14 +3798,378 @@ taxonomies:
       tid: '44'
       langcode: en
       name: 'Culture / Music'
-      description__value: null
-      description__format: null
+      description__value: '<p>Tag the genre when there is one: the genre term is the primary topic (it sits under Music, so the item still shows here). Music itself stays primary for the industry and its infrastructure (venues, studios, labels, radio shows, conferences, guides, tuition, youth music charities) and for multi-genre things, which name their genres as related topics. Choirs, jams and open mics take their genre when they have one (a soul choir is Funk &amp; Soul), else Music.</p>'
+      description__format: basic_html
       weight: '11'
       parent: '29'
       uuid: aa8ba975-81bc-40a7-83d6-4a174b2a917c
       field_reader_summary:
         -
           value: "Gigs, venues, festivals and the musicians making up the Solent's music scene."
+    -
+      vid: topic
+      tid: '349'
+      langcode: en
+      name: 'Culture / Music / Ambient & Experimental'
+      description__value: '<p>Music made to be listened to rather than danced to: ambient, drone, noise, sound art, modular and live-coding sets, improvised electronics. Dance-floor styles take their own term.</p>'
+      description__format: basic_html
+      weight: '0'
+      parent: '44'
+      uuid: 6dba3407-578e-4d45-8f71-70fd360e1f1d
+      field_reader_summary:
+        -
+          value: 'Ambient, drone, sound art and experimental electronics: listening music and the people making it around the Solent.'
+    -
+      vid: topic
+      tid: '350'
+      langcode: en
+      name: 'Culture / Music / Bassline'
+      description__value: '<p>Bassline (4x4, niche) nights and DJs: a UK style in its own right. Use UK Garage or House when the night says so instead.</p>'
+      description__format: basic_html
+      weight: '0'
+      parent: '44'
+      uuid: 11c7a003-52ba-4ae4-aa10-dbc94b513e41
+      field_reader_summary:
+        -
+          value: 'Bassline and 4x4 garage nights and DJs across the Solent.'
+    -
+      vid: topic
+      tid: '351'
+      langcode: en
+      name: 'Culture / Music / Blues'
+      description__value: '<p>Blues and blues rock: gigs, jam nights, blues clubs. Rhythm and blues in the modern sense is R&amp;B; soul is Funk &amp; Soul.</p>'
+      description__format: basic_html
+      weight: '0'
+      parent: '44'
+      uuid: f7d08221-850a-4cb6-a509-82dea8b564d8
+      field_reader_summary:
+        -
+          value: 'Blues gigs, jam nights and clubs around the Solent.'
+    -
+      vid: topic
+      tid: '352'
+      langcode: en
+      name: 'Culture / Music / Classical'
+      description__value: "<p>Orchestral, chamber, choral and contemporary classical music, opera, early music: the orchestras, choral societies, ensembles, concert series and the venues' classical programmes. Community choirs singing pop and soul take their genre instead.</p>"
+      description__format: basic_html
+      weight: '0'
+      parent: '44'
+      uuid: f5ea8afe-81c0-4a25-bdf3-eaa040dd1300
+      field_reader_summary:
+        -
+          value: 'Orchestras, choirs, chamber music, opera and classical concerts across the Solent.'
+    -
+      vid: topic
+      tid: '353'
+      langcode: en
+      name: 'Culture / Music / Country & Americana'
+      description__value: '<p>Country, Americana, bluegrass, alt-country and roots rock. Traditional British and Irish folk is Folk.</p>'
+      description__format: basic_html
+      weight: '0'
+      parent: '44'
+      uuid: c4c700bb-2692-4dd6-aca2-eff668865cc0
+      field_reader_summary:
+        -
+          value: 'Country, Americana, bluegrass and roots-rock nights around the Solent.'
+    -
+      vid: topic
+      tid: '354'
+      langcode: en
+      name: 'Culture / Music / Disco'
+      description__value: '<p>Disco, boogie, Italo and nu-disco nights, all-dayers and DJs. Soul and funk nights that are not about the dance floor are Funk &amp; Soul; house is House.</p>'
+      description__format: basic_html
+      weight: '0'
+      parent: '44'
+      uuid: e7cf46d5-9384-4d68-b1c5-12f621b82b04
+      field_reader_summary:
+        -
+          value: 'Disco, boogie and nu-disco parties and all-dayers around the Solent.'
+    -
+      vid: topic
+      tid: '355'
+      langcode: en
+      name: 'Culture / Music / Drum & Bass'
+      description__value: '<p>Drum &amp; bass in all its forms: liquid, jump-up, neurofunk, halftime. Jungle has its own term for the nights and crews that call themselves jungle; a night that says both takes both.</p>'
+      description__format: basic_html
+      weight: '0'
+      parent: '44'
+      uuid: 22b66d68-0e39-413e-8992-4c27fb995988
+      field_reader_summary:
+        -
+          value: 'Drum & bass nights, crews, producers and DJs across the Solent.'
+    -
+      vid: topic
+      tid: '356'
+      langcode: en
+      name: 'Culture / Music / Dubstep'
+      description__value: '<p>Dubstep and the 140 bass-music scene around it (deep dubstep, UK bass, riddim). Reggae sound systems are Reggae; grime is Grime.</p>'
+      description__format: basic_html
+      weight: '0'
+      parent: '44'
+      uuid: c1d9ae81-b3c3-49af-ae56-b0bc3356eb3d
+      field_reader_summary:
+        -
+          value: 'Dubstep, 140 and bass-music nights and producers around the Solent.'
+    -
+      vid: topic
+      tid: '357'
+      langcode: en
+      name: 'Culture / Music / Electronic'
+      description__value: '<p>The broad term for electronic and dance music. Primary for things that span styles or name none (an electronic jam, a scene guide, a multi-room rave, a producer meet-up). Related alongside the specific style when a night clearly belongs to one scene but readers browsing Electronic would want it too. Not needed on a single-style night: its own term is enough.</p>'
+      description__format: basic_html
+      weight: '0'
+      parent: '44'
+      uuid: ced97c1f-4d38-486a-9707-00dc0f2c27db
+      field_reader_summary:
+        -
+          value: 'Electronic and dance music of every kind across the Solent: nights, collectives, producers and the scene around them.'
+    -
+      vid: topic
+      tid: '358'
+      langcode: en
+      name: 'Culture / Music / Folk'
+      description__value: '<p>Traditional and contemporary folk: folk clubs, sessions, singer-songwriters in the folk tradition, sea shanties, ceilidh bands. Country and Americana have their own term; music from other traditions is World.</p>'
+      description__format: basic_html
+      weight: '0'
+      parent: '44'
+      uuid: 36b0443f-9703-4b9d-ac9c-704c12e336e1
+      field_reader_summary:
+        -
+          value: 'Folk clubs, sessions, shanty crews and singer-songwriters across the Solent.'
+    -
+      vid: topic
+      tid: '359'
+      langcode: en
+      name: 'Culture / Music / Funk & Soul'
+      description__value: '<p>Soul, funk, Motown, northern soul, rare groove and the choirs and bands that sing them. Contemporary R&amp;B is R&amp;B; disco nights are Disco.</p>'
+      description__format: basic_html
+      weight: '0'
+      parent: '44'
+      uuid: 91afb3c0-a5ef-4a02-945f-f913f7522a38
+      field_reader_summary:
+        -
+          value: 'Soul, funk, Motown and northern soul nights, bands and choirs around the Solent.'
+    -
+      vid: topic
+      tid: '360'
+      langcode: en
+      name: 'Culture / Music / Grime'
+      description__value: '<p>Grime and UK drill: MCs, producers, sets, clashes, radio shows. Rap in the wider sense is Hip Hop; the 140 instrumental side is Dubstep.</p>'
+      description__format: basic_html
+      weight: '0'
+      parent: '44'
+      uuid: cb7cde75-869d-4fb5-8ee9-c2f14a97b191
+      field_reader_summary:
+        -
+          value: 'Grime and UK drill MCs, producers, sets and clashes around the Solent.'
+    -
+      vid: topic
+      tid: '361'
+      langcode: en
+      name: 'Culture / Music / Hip Hop'
+      description__value: '<p>Hip hop and rap: gigs, cyphers, open mics, beat-making and rap workshops, crews, record labels. Grime and drill have their own term; soul and funk are Funk &amp; Soul.</p>'
+      description__format: basic_html
+      weight: '0'
+      parent: '44'
+      uuid: 6d044b6c-abd3-41cc-8ecb-750e47c19383
+      field_reader_summary:
+        -
+          value: 'Hip hop and rap gigs, cyphers, workshops, crews and labels across the Solent.'
+    -
+      vid: topic
+      tid: '362'
+      langcode: en
+      name: 'Culture / Music / House'
+      description__value: '<p>House in all its forms: deep, tech, soulful, garage-house, disco-house. UK Garage and Bassline have their own terms; techno is Techno.</p>'
+      description__format: basic_html
+      weight: '0'
+      parent: '44'
+      uuid: 752decca-70ab-43ab-9b56-6a105ae857db
+      field_reader_summary:
+        -
+          value: 'House music nights, DJs, collectives and labels across the Solent.'
+    -
+      vid: topic
+      tid: '363'
+      langcode: en
+      name: 'Culture / Music / Indie'
+      description__value: '<p>Indie and alternative guitar music: bands, gigs, independent labels, zines and blogs about them. Heavier bands are Metal; punk is Punk; classic and heritage rock is Rock.</p>'
+      description__format: basic_html
+      weight: '0'
+      parent: '44'
+      uuid: e42e0d27-dbd3-49fd-ba61-6c9c18e71547
+      field_reader_summary:
+        -
+          value: 'Indie and alternative bands, gigs, labels, zines and blogs across the Solent.'
+    -
+      vid: topic
+      tid: '364'
+      langcode: en
+      name: 'Culture / Music / Jazz'
+      description__value: '<p>Jazz in all its forms: clubs, concert series, jam sessions, big bands, swing, fusion and jazz-adjacent improvised music. Blues is Blues; soul is Funk &amp; Soul.</p>'
+      description__format: basic_html
+      weight: '0'
+      parent: '44'
+      uuid: 8292ed2b-7264-4087-b36e-be79cecaa37b
+      field_reader_summary:
+        -
+          value: 'Jazz clubs, gigs, jam sessions and big bands across the Solent.'
+    -
+      vid: topic
+      tid: '365'
+      langcode: en
+      name: 'Culture / Music / Jungle'
+      description__value: '<p>Jungle: ragga jungle, old-skool and new jungle, the nights and crews that call it by that name. Drum &amp; Bass is the sibling term; a night that says both takes both.</p>'
+      description__format: basic_html
+      weight: '0'
+      parent: '44'
+      uuid: 8f12e15f-3ba9-4aca-a843-1f50d9ce1233
+      field_reader_summary:
+        -
+          value: 'Jungle nights, crews and sound systems around the Solent.'
+    -
+      vid: topic
+      tid: '366'
+      langcode: en
+      name: 'Culture / Music / Metal'
+      description__value: '<p>Metal and heavy music: doom, death, thrash, metalcore, hardcore, stoner, prog metal. Punk is Punk; indie and alternative guitar music is Indie.</p>'
+      description__format: basic_html
+      weight: '0'
+      parent: '44'
+      uuid: e3f296ea-a7bf-4146-be9d-52698c004151
+      field_reader_summary:
+        -
+          value: 'Metal and heavy music gigs, bands, all-dayers and promoters across the Solent.'
+    -
+      vid: topic
+      tid: '367'
+      langcode: en
+      name: 'Culture / Music / Pop'
+      description__value: '<p>Pop in the chart sense: pop acts, K-pop and J-pop events, tribute and party nights built on pop. Pop choirs take Funk &amp; Soul or Classical when that fits better, else Pop.</p>'
+      description__format: basic_html
+      weight: '0'
+      parent: '44'
+      uuid: 7d2d4bc7-3838-4567-9d4b-63e372e84ee5
+      field_reader_summary:
+        -
+          value: 'Pop, K-pop and chart music events, acts and party nights around the Solent.'
+    -
+      vid: topic
+      tid: '368'
+      langcode: en
+      name: 'Culture / Music / Punk'
+      description__value: '<p>Punk, post-punk, hardcore punk, ska-punk and the DIY scene around them. Ska and 2 Tone are Ska; metal and metalcore are Metal.</p>'
+      description__format: basic_html
+      weight: '0'
+      parent: '44'
+      uuid: 6e4669d4-8917-4eee-9217-b458820aedb8
+      field_reader_summary:
+        -
+          value: 'Punk, hardcore and DIY gigs, bands and collectives around the Solent.'
+    -
+      vid: topic
+      tid: '369'
+      langcode: en
+      name: 'Culture / Music / R&B'
+      description__value: '<p>Contemporary R&amp;B and neo-soul: singers, showcases, R&amp;B nights and afrobeats-leaning parties. Classic soul and funk are Funk &amp; Soul; rap is Hip Hop.</p>'
+      description__format: basic_html
+      weight: '0'
+      parent: '44'
+      uuid: 9c2a89d0-8f8c-4617-ba5c-2e21b70a8142
+      field_reader_summary:
+        -
+          value: 'R&B and neo-soul singers, showcases and nights around the Solent.'
+    -
+      vid: topic
+      tid: '370'
+      langcode: en
+      name: 'Culture / Music / Reggae'
+      description__value: '<p>Reggae, roots, dub, lovers rock, dancehall and the sound systems and bands that play them. Ska and 2 Tone are Ska; dubstep is Dubstep.</p>'
+      description__format: basic_html
+      weight: '0'
+      parent: '44'
+      uuid: b5eb9159-a262-4795-bad1-ebebf340530f
+      field_reader_summary:
+        -
+          value: 'Reggae, roots, dub and dancehall dances, bands and sound systems across the Solent.'
+    -
+      vid: topic
+      tid: '371'
+      langcode: en
+      name: 'Culture / Music / Rock'
+      description__value: '<p>Rock as a broad guitar genre: classic rock, blues rock, prog, psych, tribute acts, covers bands. Indie and alternative are Indie; heavy music is Metal; punk is Punk.</p>'
+      description__format: basic_html
+      weight: '0'
+      parent: '44'
+      uuid: 1d2fa4b8-0ac7-43a5-932c-a888927f1f98
+      field_reader_summary:
+        -
+          value: 'Rock gigs, bands, tribute acts and classic-rock nights across the Solent.'
+    -
+      vid: topic
+      tid: '372'
+      langcode: en
+      name: 'Culture / Music / Ska'
+      description__value: '<p>Ska, 2 Tone, rocksteady and skinhead reggae. Roots and dub are Reggae; ska-punk bands take Punk and Ska.</p>'
+      description__format: basic_html
+      weight: '0'
+      parent: '44'
+      uuid: 42caf493-7a20-49c3-9c18-915730f4ced4
+      field_reader_summary:
+        -
+          value: 'Ska, 2 Tone and rocksteady bands and nights around the Solent.'
+    -
+      vid: topic
+      tid: '373'
+      langcode: en
+      name: 'Culture / Music / Techno'
+      description__value: '<p>Techno: nights, DJs, collectives, labels; also electro and acid where the night calls itself techno, and hard dance (hardstyle, hard house) until it needs a term of its own. Trance is Trance; house is House.</p>'
+      description__format: basic_html
+      weight: '0'
+      parent: '44'
+      uuid: 5d480950-cb19-4125-bdbf-f8834792bc24
+      field_reader_summary:
+        -
+          value: 'Techno nights, DJs, collectives and labels across the Solent.'
+    -
+      vid: topic
+      tid: '374'
+      langcode: en
+      name: 'Culture / Music / Trance'
+      description__value: '<p>Trance: uplifting, progressive, psytrance, classics nights. Techno and hard dance are Techno; house is House.</p>'
+      description__format: basic_html
+      weight: '0'
+      parent: '44'
+      uuid: 4a8b8196-f335-4afa-a9d4-93a4d6de873b
+      field_reader_summary:
+        -
+          value: 'Trance and progressive nights, psytrance parties and classics reunions across the Solent.'
+    -
+      vid: topic
+      tid: '375'
+      langcode: en
+      name: 'Culture / Music / UK Garage'
+      description__value: '<p>UK garage, 2-step, speed garage and garage revival nights. Bassline has its own term; house is House.</p>'
+      description__format: basic_html
+      weight: '0'
+      parent: '44'
+      uuid: 9e2c6862-1477-47e4-a559-240452d609fd
+      field_reader_summary:
+        -
+          value: 'UK garage and 2-step nights, DJs and MCs across the Solent.'
+    -
+      vid: topic
+      tid: '376'
+      langcode: en
+      name: 'Culture / Music / World'
+      description__value: '<p>Music rooted in traditions outside Britain, Ireland and North America: West African kora and griot music, Latin and Afro-Cuban, Indian classical and Bollywood, Balkan, Greek, Turkish, Middle Eastern and more. Reggae, dancehall and afrobeats-leaning nights take Reggae or R&amp;B. Name the tradition in the item; this term may split by region once the content asks.</p>'
+      description__format: basic_html
+      weight: '0'
+      parent: '44'
+      uuid: 13f936e4-a80c-42ab-a4cc-17a45ad20e09
+      field_reader_summary:
+        -
+          value: 'Music from Africa, Asia, the Caribbean, Latin America and beyond, played and heard across the Solent.'
     -
       vid: topic
       tid: '46'
@@ -4161,12 +4585,14 @@ taxonomies:
       tid: '159'
       langcode: en
       name: 'Living / Community'
-      description__value: null
-      description__format: null
+      description__value: "<p>Civic life, participation and support: residents' and tenants' groups, community centres and halls as places people use, volunteering, advice and support networks, councils' community programmes. Community-run cultural life (arts groups, community radio, local festivals) is Culture / Community; who people are and where they feel they belong is Culture / Identity &amp; Belonging. Test for any tag: would a reader who chose this term be glad to find it? Two yeses mean both terms; a yes and a shrug mean one.</p>"
+      description__format: basic_html
       weight: '1'
       parent: '31'
       uuid: e6aa7ce4-0245-4b42-a001-c3b0177d3965
-      field_reader_summary: {  }
+      field_reader_summary:
+        -
+          value: "Civic life across the Solent: residents' groups, community centres, volunteering, support networks and the ways to take part."
     -
       vid: topic
       tid: '161'
