@@ -1544,7 +1544,10 @@ function _customsolent_build_term_url($chain, $index) {
   $path_parts = [];
   for ($i = 0; $i <= $index; $i++) {
     $part = _customsolent_strip_term_prefix($chain[$i]->getName());
-    $path_parts[] = strtolower(str_replace([' & ', ' '], ['-', '-'], $part));
+    // Lower-case, every run of anything but a letter or digit becomes one
+    // hyphen: "Art & Design" -> art-design, "Non-profit" -> non-profit,
+    // "R&B" -> r-b. The aliases the topic scripts create use the same rule.
+    $path_parts[] = trim(preg_replace('/[^a-z0-9]+/', '-', strtolower($part)) ?? '', '-');
   }
   return '/' . implode('/', $path_parts);
 }
