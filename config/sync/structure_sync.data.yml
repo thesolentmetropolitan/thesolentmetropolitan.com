@@ -1862,7 +1862,7 @@ taxonomies:
       description__format: null
       weight: '0'
       parent: '187'
-      uuid: 7ea5ff36-f005-45d6-96e8-c911a9565fc7
+      uuid: 4051905e-0906-4f31-b2a7-0cb758259f44
     -
       vid: location
       tid: '172'
@@ -2112,7 +2112,7 @@ taxonomies:
       description__format: null
       weight: '0'
       parent: '180'
-      uuid: 64ec35ae-4a69-4e73-9005-34a34e5751c0
+      uuid: c25e45fb-035e-4aa5-966f-b5a86e589eca
     -
       vid: location
       tid: '213'
@@ -2132,7 +2132,17 @@ taxonomies:
       description__format: null
       weight: '0'
       parent: '212'
-      uuid: 7322f6e7-ee73-4fac-8765-66d625d17252
+      uuid: 399bdd98-17b6-4a66-9bba-fc9314f7b082
+    -
+      vid: location
+      tid: '383'
+      langcode: en
+      name: Drayton
+      description__value: null
+      description__format: null
+      weight: '0'
+      parent: '141'
+      uuid: 2e9c0bcf-1263-4f47-97ee-145f25e80bd8
     -
       vid: location
       tid: '220'
@@ -2345,6 +2355,16 @@ taxonomies:
       uuid: 50fbcd74-fc5d-44cb-87f1-908e2cb61310
     -
       vid: location
+      tid: '382'
+      langcode: en
+      name: Hamble
+      description__value: null
+      description__format: null
+      weight: '0'
+      parent: '220'
+      uuid: 42051e3d-1a44-4e5d-9c7e-7f926c647221
+    -
+      vid: location
       tid: '143'
       langcode: en
       name: Hampshire
@@ -2423,6 +2443,16 @@ taxonomies:
       weight: '23'
       parent: '139'
       uuid: b6bb0755-e44f-4bda-9731-8d4e119c912d
+    -
+      vid: location
+      tid: '378'
+      langcode: en
+      name: 'Holiday Inn'
+      description__value: null
+      description__format: null
+      weight: '0'
+      parent: '220'
+      uuid: 6b18f45e-5699-4f84-b936-8c89bc72d1b6
     -
       vid: location
       tid: '318'
@@ -2735,6 +2765,16 @@ taxonomies:
       uuid: 8ebe701c-8776-4dbf-a47e-4c7b10248ab4
     -
       vid: location
+      tid: '381'
+      langcode: en
+      name: Portchester
+      description__value: null
+      description__format: null
+      weight: '0'
+      parent: '142'
+      uuid: 48121cbf-2731-4627-9393-b472dba4a35c
+    -
+      vid: location
       tid: '141'
       langcode: en
       name: Portsmouth
@@ -2852,7 +2892,7 @@ taxonomies:
       description__format: null
       weight: '0'
       parent: '141'
-      uuid: 772fb82d-88fb-4505-9000-151fcb64d576
+      uuid: 7b76b9e1-0c41-4c97-90df-423372d164b6
     -
       vid: location
       tid: '225'
@@ -2892,7 +2932,7 @@ taxonomies:
       description__format: null
       weight: '0'
       parent: '139'
-      uuid: a1a13144-c87a-47e0-9bce-e7369c656cef
+      uuid: 5ace134e-64ed-48b5-8031-4dbd1dd63921
     -
       vid: location
       tid: '229'
@@ -3012,7 +3052,17 @@ taxonomies:
       description__format: null
       weight: '0'
       parent: '141'
-      uuid: f2c6dc26-1a34-48e0-b970-e13cf83042ce
+      uuid: 5728606c-1146-4ec8-997d-4f5d21c61228
+    -
+      vid: location
+      tid: '380'
+      langcode: en
+      name: "St Luke's Church"
+      description__value: null
+      description__format: null
+      weight: '0'
+      parent: '141'
+      uuid: 2b52f708-2efa-4912-8271-006dfd3e7af1
     -
       vid: location
       tid: '312'
@@ -3183,6 +3233,16 @@ taxonomies:
       weight: '0'
       parent: '139'
       uuid: ee64be68-d5e4-4fcf-8aee-cb333f99c735
+    -
+      vid: location
+      tid: '379'
+      langcode: en
+      name: 'The Nutshell'
+      description__value: null
+      description__format: null
+      weight: '0'
+      parent: '147'
+      uuid: 4741818b-fea7-46ae-831b-05da72244be4
     -
       vid: location
       tid: '292'
@@ -3473,6 +3533,16 @@ taxonomies:
       weight: '0'
       parent: '139'
       uuid: ed87e37c-7f7b-4cfc-8a33-60b2bc54dcf6
+    -
+      vid: location
+      tid: '384'
+      langcode: en
+      name: wickham
+      description__value: null
+      description__format: null
+      weight: '0'
+      parent: '147'
+      uuid: 7db85b4a-aac9-4a68-9545-47d146b396c4
     -
       vid: location
       tid: '147'
@@ -3815,7 +3885,7 @@ taxonomies:
       description__format: basic_html
       weight: '0'
       parent: '44'
-      uuid: f069b16a-72fa-4502-981c-57aabed648b9
+      uuid: a00af7fc-23bd-413c-9d79-44b07c4e2006
       field_reader_summary:
         -
           value: 'Afrobeats, amapiano and Afro-fusion nights, DJs and artists across the Solent.'
@@ -3828,7 +3898,7 @@ taxonomies:
       description__format: basic_html
       weight: '0'
       parent: '44'
-      uuid: 6dba3407-578e-4d45-8f71-70fd360e1f1d
+      uuid: 8d72517c-38fa-4d74-bcb9-3920db7c65c6
       field_reader_summary:
         -
           value: 'Ambient, drone, sound art and experimental electronics: listening music and the people making it around the Solent.'
@@ -3841,7 +3911,7 @@ taxonomies:
       description__format: basic_html
       weight: '0'
       parent: '44'
-      uuid: 11c7a003-52ba-4ae4-aa10-dbc94b513e41
+      uuid: 7cb10a10-dd68-4bcc-b713-39cb6f55b51b
       field_reader_summary:
         -
           value: 'Bassline and 4x4 garage nights and DJs across the Solent.'
@@ -3854,7 +3924,7 @@ taxonomies:
       description__format: basic_html
       weight: '0'
       parent: '44'
-      uuid: f7d08221-850a-4cb6-a509-82dea8b564d8
+      uuid: 1807d433-0b6c-4fae-aeae-ced4838e4038
       field_reader_summary:
         -
           value: 'Blues gigs, jam nights and clubs around the Solent.'
@@ -3867,7 +3937,7 @@ taxonomies:
       description__format: basic_html
       weight: '0'
       parent: '44'
-      uuid: f5ea8afe-81c0-4a25-bdf3-eaa040dd1300
+      uuid: 09bed464-bf28-431d-983c-a59efd8ee9d9
       field_reader_summary:
         -
           value: 'Orchestras, choirs, chamber music, opera and classical concerts across the Solent.'
@@ -3880,7 +3950,7 @@ taxonomies:
       description__format: basic_html
       weight: '0'
       parent: '44'
-      uuid: c4c700bb-2692-4dd6-aca2-eff668865cc0
+      uuid: b1850edc-0d40-4541-9f6e-8b5324548e88
       field_reader_summary:
         -
           value: 'Country, Americana, bluegrass and roots-rock nights around the Solent.'
@@ -3893,7 +3963,7 @@ taxonomies:
       description__format: basic_html
       weight: '0'
       parent: '44'
-      uuid: e7cf46d5-9384-4d68-b1c5-12f621b82b04
+      uuid: e152b45d-192a-4bbd-b89c-a413ee49110a
       field_reader_summary:
         -
           value: 'Disco, boogie and nu-disco parties and all-dayers around the Solent.'
@@ -3906,7 +3976,7 @@ taxonomies:
       description__format: basic_html
       weight: '0'
       parent: '44'
-      uuid: 22b66d68-0e39-413e-8992-4c27fb995988
+      uuid: 6f0828a1-9eb9-4446-940c-766bc6ba146a
       field_reader_summary:
         -
           value: 'Drum & bass nights, crews, producers and DJs across the Solent.'
@@ -3919,7 +3989,7 @@ taxonomies:
       description__format: basic_html
       weight: '0'
       parent: '44'
-      uuid: c1d9ae81-b3c3-49af-ae56-b0bc3356eb3d
+      uuid: b15329be-c93a-4896-8a28-d54b55df8fc3
       field_reader_summary:
         -
           value: 'Dubstep, 140 and bass-music nights and producers around the Solent.'
@@ -3932,7 +4002,7 @@ taxonomies:
       description__format: basic_html
       weight: '0'
       parent: '44'
-      uuid: ced97c1f-4d38-486a-9707-00dc0f2c27db
+      uuid: f32d7f52-e6f5-4de3-9d5a-04963626a629
       field_reader_summary:
         -
           value: 'Electronic and dance music of every kind across the Solent: nights, collectives, producers and the scene around them.'
@@ -3945,7 +4015,7 @@ taxonomies:
       description__format: basic_html
       weight: '0'
       parent: '44'
-      uuid: 36b0443f-9703-4b9d-ac9c-704c12e336e1
+      uuid: 773108bd-3aa5-4e62-91c9-8469030758d7
       field_reader_summary:
         -
           value: 'Folk clubs, sessions, shanty crews and singer-songwriters across the Solent.'
@@ -3958,7 +4028,7 @@ taxonomies:
       description__format: basic_html
       weight: '0'
       parent: '44'
-      uuid: 91afb3c0-a5ef-4a02-945f-f913f7522a38
+      uuid: 72639b3f-c620-4feb-8518-204058ed476d
       field_reader_summary:
         -
           value: 'Soul, funk, Motown and northern soul nights, bands and choirs around the Solent.'
@@ -3971,7 +4041,7 @@ taxonomies:
       description__format: basic_html
       weight: '0'
       parent: '44'
-      uuid: cb7cde75-869d-4fb5-8ee9-c2f14a97b191
+      uuid: f2620c28-7e8d-4081-ba85-bef2008c16a2
       field_reader_summary:
         -
           value: 'Grime and UK drill MCs, producers, sets and clashes around the Solent.'
@@ -3984,7 +4054,7 @@ taxonomies:
       description__format: basic_html
       weight: '0'
       parent: '44'
-      uuid: 6d044b6c-abd3-41cc-8ecb-750e47c19383
+      uuid: ae9f0aa5-da7c-47d0-85ea-697b123f2999
       field_reader_summary:
         -
           value: 'Hip hop and rap gigs, cyphers, workshops, crews and labels across the Solent.'
@@ -3997,7 +4067,7 @@ taxonomies:
       description__format: basic_html
       weight: '0'
       parent: '44'
-      uuid: 752decca-70ab-43ab-9b56-6a105ae857db
+      uuid: eb99505c-ad31-414a-b8f3-4363cbd639a5
       field_reader_summary:
         -
           value: 'House music nights, DJs, collectives and labels across the Solent.'
@@ -4010,7 +4080,7 @@ taxonomies:
       description__format: basic_html
       weight: '0'
       parent: '44'
-      uuid: e42e0d27-dbd3-49fd-ba61-6c9c18e71547
+      uuid: 36c7a55f-345d-41c2-b0d7-0dd425648f71
       field_reader_summary:
         -
           value: 'Indie and alternative bands, gigs, labels, zines and blogs across the Solent.'
@@ -4023,7 +4093,7 @@ taxonomies:
       description__format: basic_html
       weight: '0'
       parent: '44'
-      uuid: 8292ed2b-7264-4087-b36e-be79cecaa37b
+      uuid: d69ef295-f10b-4e6e-a393-7749a29043c4
       field_reader_summary:
         -
           value: 'Jazz clubs, gigs, jam sessions and big bands across the Solent.'
@@ -4036,7 +4106,7 @@ taxonomies:
       description__format: basic_html
       weight: '0'
       parent: '44'
-      uuid: 8f12e15f-3ba9-4aca-a843-1f50d9ce1233
+      uuid: 006eaeef-ae2b-4b40-91af-b76ee9ecb1c2
       field_reader_summary:
         -
           value: 'Jungle nights, crews and sound systems around the Solent.'
@@ -4049,7 +4119,7 @@ taxonomies:
       description__format: basic_html
       weight: '0'
       parent: '44'
-      uuid: e3f296ea-a7bf-4146-be9d-52698c004151
+      uuid: 316cc3d1-ad2f-47e8-8f5b-f95ee39eb56f
       field_reader_summary:
         -
           value: 'Metal and heavy music gigs, bands, all-dayers and promoters across the Solent.'
@@ -4062,7 +4132,7 @@ taxonomies:
       description__format: basic_html
       weight: '0'
       parent: '44'
-      uuid: 7d2d4bc7-3838-4567-9d4b-63e372e84ee5
+      uuid: 8723b921-31dc-42b7-8ad0-9b0bf74a7bf6
       field_reader_summary:
         -
           value: 'Pop, K-pop and chart music events, acts and party nights around the Solent.'
@@ -4075,7 +4145,7 @@ taxonomies:
       description__format: basic_html
       weight: '0'
       parent: '44'
-      uuid: 6e4669d4-8917-4eee-9217-b458820aedb8
+      uuid: ed020cc2-ef7b-40e0-8f62-4a8663ed1d24
       field_reader_summary:
         -
           value: 'Punk, hardcore and DIY gigs, bands and collectives around the Solent.'
@@ -4088,7 +4158,7 @@ taxonomies:
       description__format: basic_html
       weight: '0'
       parent: '44'
-      uuid: 9c2a89d0-8f8c-4617-ba5c-2e21b70a8142
+      uuid: bf30d306-f1c1-43bd-916a-e8e2e0d51166
       field_reader_summary:
         -
           value: 'R&B and neo-soul singers, showcases and nights around the Solent.'
@@ -4101,7 +4171,7 @@ taxonomies:
       description__format: basic_html
       weight: '0'
       parent: '44'
-      uuid: b5eb9159-a262-4795-bad1-ebebf340530f
+      uuid: 8a4fcfb0-5c87-4337-8fe5-2712c876f3c3
       field_reader_summary:
         -
           value: 'Reggae, roots, dub, lovers rock and dancehall dances, bands and sound systems across the Solent.'
@@ -4114,7 +4184,7 @@ taxonomies:
       description__format: basic_html
       weight: '0'
       parent: '44'
-      uuid: 1d2fa4b8-0ac7-43a5-932c-a888927f1f98
+      uuid: a2ad65d2-062b-4b89-bc9c-936911924613
       field_reader_summary:
         -
           value: 'Rock gigs, bands, tribute acts and classic-rock nights across the Solent.'
@@ -4127,7 +4197,7 @@ taxonomies:
       description__format: basic_html
       weight: '0'
       parent: '44'
-      uuid: 42caf493-7a20-49c3-9c18-915730f4ced4
+      uuid: d29d2d00-d235-4946-9fbd-d8aeb76dc36a
       field_reader_summary:
         -
           value: 'Ska, 2 Tone and rocksteady bands and nights around the Solent.'
@@ -4140,7 +4210,7 @@ taxonomies:
       description__format: basic_html
       weight: '0'
       parent: '44'
-      uuid: 5d480950-cb19-4125-bdbf-f8834792bc24
+      uuid: 902e4939-2d9f-4f95-bc76-8615a2873d17
       field_reader_summary:
         -
           value: 'Techno nights, DJs, collectives and labels across the Solent.'
@@ -4153,7 +4223,7 @@ taxonomies:
       description__format: basic_html
       weight: '0'
       parent: '44'
-      uuid: 4a8b8196-f335-4afa-a9d4-93a4d6de873b
+      uuid: 7c358668-dcb0-4ad2-8cba-9be2541ab1c4
       field_reader_summary:
         -
           value: 'Trance and progressive nights, psytrance parties and classics reunions across the Solent.'
@@ -4166,7 +4236,7 @@ taxonomies:
       description__format: basic_html
       weight: '0'
       parent: '44'
-      uuid: 9e2c6862-1477-47e4-a559-240452d609fd
+      uuid: abeed361-d268-4050-930e-91f8ed1e2f8f
       field_reader_summary:
         -
           value: 'UK garage and 2-step nights, DJs and MCs across the Solent.'
@@ -4179,7 +4249,7 @@ taxonomies:
       description__format: basic_html
       weight: '0'
       parent: '44'
-      uuid: 13f936e4-a80c-42ab-a4cc-17a45ad20e09
+      uuid: 57660d8e-710c-43bf-91b6-e86fd7a58156
       field_reader_summary:
         -
           value: 'Music from Africa, Asia, the Caribbean, Latin America and beyond, played and heard across the Solent.'
