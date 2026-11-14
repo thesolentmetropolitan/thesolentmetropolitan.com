@@ -584,10 +584,12 @@ function _customsolent_preprocess_event_shared_extras($node, array &$variables):
   $now = \Drupal::time()->getRequestTime();
   // Over once its LAST date has ended (a regular event holds one item per
   // instance). Read by the page (badge by the date, no outward link) and
-  // by the cards (no button).
+  // by the cards (no button). An item with no end time runs to the end of
+  // its day, the same rule the listings' query applies
+  // (_customsolent_helpers_one_row_per_recurring_event).
   $last_end = 0;
   foreach ($node->get('field_when') as $item) {
-    $last_end = max($last_end, (int) ($item->end_value ?: $item->value ?: 0));
+    $last_end = max($last_end, _customsolent_event_item_end((int) $item->value, (int) $item->end_value, $item->timezone ?: NULL));
   }
   $variables['is_past_event'] = $last_end > 0 && $last_end < $now;
   $rule_id = NULL;
@@ -595,7 +597,17 @@ function _customsolent_preprocess_event_shared_extras($node, array &$variables):
   foreach ($node->get('field_when') as $item) {
     if (!empty($item->rrule)) {
       $rule_id ??= (int) $item->rrule;
-      $instances[] = ['rule' => (int) $item->rrule, 'start' => (int) $item->value, 'end' => (int) $item->end_value, 'duration' => (int) $item->duration, 'tz' => $item->timezone ?: 'Europe/London'];
+      // 'end' is the moment the instance is over for "Next:" and the card's
+      // expiry: the entered end, or the end of the day when none was.
+      // 'end_entered' keeps the stored value for the printed times.
+      $instances[] = [
+        'rule' => (int) $item->rrule,
+        'start' => (int) $item->value,
+        'end' => _customsolent_event_item_end((int) $item->value, (int) $item->end_value, $item->timezone ?: NULL),
+        'end_entered' => (int) $item->end_value,
+        'duration' => (int) $item->duration,
+        'tz' => $item->timezone ?: 'Europe/London',
+      ];
     }
   }
   if ($rule_id === NULL || !$instances) {
@@ -604,8 +616,8 @@ function _customsolent_preprocess_event_shared_extras($node, array &$variables):
     // too, or the cached listing keeps showing it. No end time (end =
     // start) means no known finish: the listing keeps it until midnight.
     $first = $node->get('field_when')->first();
-    $end = (int) $first->end_value;
-    if ($end > (int) $first->value && $end >= $now) {
+    $end = _customsolent_event_item_end((int) $first->value, (int) $first->end_value, $first->timezone ?: NULL);
+    if ($end >= $now) {
       $variables['event_when_cache']['#cache']['max-age'] = max(60, $end - $now + 1);
     }
     return;
@@ -651,10 +663,10 @@ function _customsolent_preprocess_event_shared_extras($node, array &$variables):
     if ($first['duration'] >= 1439) {
       return '';
     }
-    if ($first['end'] <= $first['start']) {
+    if ($first['end_entered'] <= $first['start']) {
       return $time_fmt($first['start']);
     }
-    return $time_fmt($first['start']) . ' - ' . $time_fmt($first['end']);
+    return $time_fmt($first['start']) . ' - ' . $time_fmt($first['end_entered']);
   };
   $first_by_rule = [];
   foreach ($instances as $instance) {
@@ -713,6 +725,25 @@ function _customsolent_preprocess_event_shared_extras($node, array &$variables):
     }
     $variables['event_when_cache']['#cache']['max-age'] = max(60, ($current_end ?? $next_start) - $now + 1);
   }
+}
+
+/**
+ * When a field_when item is over: its end, or, entered without one (end =
+ * start), the end of its day in its own timezone.
+ *
+ * The listings' query uses the same rule
+ * (_customsolent_helpers_one_row_per_recurring_event), so a page never
+ * says "Past event" while a listing still shows the event, or the reverse.
+ */
+function _customsolent_event_item_end(int $start, int $end, ?string $timezone = NULL): int {
+  if ($start <= 0) {
+    return $end;
+  }
+  if ($end > $start) {
+    return $end;
+  }
+  $tz = new \DateTimeZone($timezone ?: (\Drupal::config('system.date')->get('timezone.default') ?: 'Europe/London'));
+  return (new \DateTimeImmutable('@' . $start))->setTimezone($tz)->modify('tomorrow')->getTimestamp();
 }
 
 /**
@@ -895,17 +926,24 @@ function _customsolent_preprocess_series_membership($node, array &$variables): v
   }
   foreach ($series as $s) {
     $status = $relations->seriesStatus($s);
-    // A series is shown for an event only while the date the page or card
-    // shows falls on or before the series' end: a weekly event whose next
-    // instance is 4 Nov is not "part of" a Halloween series that ended on
-    // the 2nd, even though its 30 Oct instance was. (On the series' own page
-    // the card shows the instance inside the window, so it still counts.)
     [$s_start, $s_end] = $relations->seriesDates($s);
     if ($s_end !== NULL) {
       $date_bound = TRUE;
-      if ($card_date !== NULL && $card_date > $s_end) {
-        continue;
-      }
+    }
+    // Cards: a series that has ended is not mentioned at all. An exhibition
+    // that ran on past Black History Month is no longer "part of" it on its
+    // card (Rob, 14 Nov 2026); the series' own page still lists every
+    // member, and the full page says "Part of a past series". Before that,
+    // a series is shown for an event only while the date the card shows
+    // falls on or before the series' end: a weekly event whose next
+    // instance is 4 Nov is not "part of" a Halloween series that ended on
+    // the 2nd, even though its 30 Oct instance was. (On the series' own page
+    // the card shows the instance inside the window, so it still counts.)
+    if ($is_card && $status === $relations::STATUS_PAST) {
+      continue;
+    }
+    if ($is_card && $s_end !== NULL && $card_date !== NULL && $card_date > $s_end) {
+      continue;
     }
     // A series can carry a short label ("Halloween special"). On event cards,
     // while the series is coming up or on, that label is printed directly
@@ -946,6 +984,10 @@ function _customsolent_preprocess_series_membership($node, array &$variables): v
       'status_label' => $relations->statusLabel($status),
     ];
   }
+  // The full page's label: "Part of a past series" once every series the
+  // event is in has ended (the meta then needs no status word).
+  $variables['series_all_past'] = $variables['series_links'] !== []
+    && array_filter($variables['series_links'], static fn(array $s) => $s['status'] !== $relations::STATUS_PAST) === [];
   $variables['series_cache'] = [
     '#cache' => [
       'tags' => $relations->seriesCacheTags($series),

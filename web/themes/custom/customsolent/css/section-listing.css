@@ -304,6 +304,11 @@
   .slnt-filter-panel.is-open {
     transform: translateY(0);
   }
+  /* While a finger drags the sheet down (js/filter-panel.js) it follows
+     the finger directly; the slide transition would lag behind it. */
+  .slnt-filter-panel.is-dragging {
+    transition: none;
+  }
 
   .slnt-filter-panel__handle {
     padding: 0.8rem 0 0.3rem;

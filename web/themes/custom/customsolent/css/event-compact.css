@@ -374,56 +374,15 @@
   margin: 0 0 0.3rem 0;
 }
 
-/* Basis 0 + min-width min-content: the title takes what is left beside
-   the badge and wraps its words, but can never be squeezed narrower than
-   its longest word — so "Andysmanclub" is not broken mid-word; in that one
-   case the badge drops under the title instead. break-word only bites on
-   a word wider than the whole card. */
+/* Basis 0 + min-width min-content: the title wraps its words but can
+   never be squeezed narrower than its longest word, so "Andysmanclub" is
+   not broken mid-word. break-word only bites on a word wider than the
+   whole card. (The row held a "Regular event" badge until 14 Nov 2026.) */
 .slnt-event-compact__head .slnt-event-compact__title {
   flex: 1 1 0;
   min-width: min-content;
   margin: 0;
   overflow-wrap: break-word;
-}
-
-.slnt-event-badge {
-  display: inline-block;
-  flex: 0 0 auto;
-  font-family: 'Atkinson Hyperlegible Next', sans-serif;
-  font-size: 0.68rem;
-  font-weight: 700;
-  line-height: 1.4;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  padding: 0.15em 0.55em;
-  border-radius: 3px;
-  margin: 0.15rem 0 0 0; /* optical: level with the title's first line */
-  white-space: nowrap;
-}
-
-.slnt-event-badge--regular {
-  /* Very light blue, dark text (7.3:1), so it reads as a label, not a
-     button or a section colour. Was white on Living green. */
-  color: var(--solent-blue, #2c4f6e);
-  background: #dbeafe;
-}
-
-/* Phones, two narrow columns (~140px of card): "REGULAR" alone and a
-   touch smaller (~54px), so a one-word title like "Mangang" still has
-   the badge beside it; only a longer single word ("Andysmanclub") makes
-   the badge drop under the title. */
-@media (max-width: 499px) {
-  .slnt-event-compact__head {
-    gap: 0.25rem 0.4rem;
-  }
-  .slnt-event-compact__head .slnt-event-badge {
-    font-size: 0.62rem;
-    letter-spacing: 0.04em;
-    padding: 0.15em 0.45em;
-  }
-  .slnt-event-compact__head .slnt-event-badge__word {
-    display: none;
-  }
 }
 
 .slnt-event-compact__recurrence,

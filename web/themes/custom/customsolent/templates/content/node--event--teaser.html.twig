@@ -47,12 +47,10 @@
   {% endif %}
 
   <div class="slnt-event-teaser__text">
-    {# Title row: title left (wraps), "Regular event" badge top right. #}
+    {# Title row. (A "Regular event" badge sat at its right until 14 Nov
+       2026; the "Every Monday" line below already says it.) #}
     <div class="slnt-event-teaser__head">
       <h2 class="slnt-event-teaser__title"><a href="{{ url }}" class="slnt-event-teaser__title-link">{{ label }}</a></h2>
-      {% if event_is_recurring %}
-        <span class="slnt-event-badge slnt-event-badge--regular">{{ 'Regular event'|t }}</span>
-      {% endif %}
     </div>
     {{ in_kicker_lazy }}
     {{ from_kicker_lazy }}

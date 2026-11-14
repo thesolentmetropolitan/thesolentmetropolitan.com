@@ -14,3 +14,11 @@ services:
   customsolent_helpers.content_relations:
     class: Drupal\customsolent_helpers\ContentRelations
     arguments: ['@entity_type.manager', '@datetime.time']
+  # A page whose content has a lifetime (an event listing until the next
+  # event ends) gets an Expires header, which is the one thing the
+  # anonymous page cache honours besides tags.
+  customsolent_helpers.page_expiry:
+    class: Drupal\customsolent_helpers\EventSubscriber\PageExpirySubscriber
+    arguments: ['@datetime.time']
+    tags:
+      - { name: event_subscriber }

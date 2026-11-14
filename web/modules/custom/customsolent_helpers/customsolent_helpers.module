@@ -462,6 +462,14 @@ function customsolent_helpers_own_recurrence_rules(\Drupal\node\NodeInterface $n
  * one-off, therefore has no row in any listing, which the upcoming-only
  * displays already imply.
  *
+ * An item entered without an end time (stored as end = start) has no
+ * known finish, so it is taken to run to the end of its day: the row stays
+ * until the site's local midnight, and the page's "Past event" badge
+ * (customsolent.theme, _customsolent_event_item_end()) appears at the same
+ * moment. Before 14 Nov 2026 the page called such an event past from its
+ * start time while the listing kept it until midnight (private issue 17:
+ * a page marked past still listed on the front page).
+ *
  * The clock is the database's (UNIX_TIMESTAMP()), not a query argument:
  * the Views results cache is keyed on the query and its arguments, and a
  * per-request timestamp would make every execution a cache miss that
@@ -490,18 +498,25 @@ function _customsolent_helpers_one_row_per_recurring_event(\Drupal\views\Plugin\
     $now = ':slnt_now';
     $args[':slnt_now'] = \Drupal::time()->getRequestTime();
   }
-  // One-off events follow the same clock: a 7-10pm event leaves the
-  // listings at 10pm, not at midnight (the view's own filter only keeps
-  // today's). An event entered without an end time (end = start) has no
-  // known finish, so it stays until the view's midnight bound.
+  // Local midnight this morning, as a literal like the view's own "today"
+  // filter: the query text changes once a day, so the cached results do
+  // too, and the cache plugin expires them at midnight regardless.
+  $today = (new \DateTimeImmutable('today', new \DateTimeZone(date_default_timezone_get())))->getTimestamp();
+  // "Not yet ended" for a row of field_when: an item with an end time has
+  // not reached it; one without (end = start) is still on its day. One-off
+  // events follow the same clock as instances: a 7-10pm event leaves the
+  // listings at 10pm, not at midnight.
+  $not_ended = static fn(string $t): string =>
+    "(CASE WHEN $t.field_when_end_value > $t.field_when_value
+           THEN $t.field_when_end_value >= $now
+           ELSE $t.field_when_value >= $today END)";
   $query->addWhereExpression($group,
-    "($alias.field_when_rrule IS NULL AND (
-        $alias.field_when_end_value >= $now OR $alias.field_when_end_value <= $alias.field_when_value
-     )) OR $alias.field_when_end_value = (
+    "($alias.field_when_rrule IS NULL AND " . $not_ended($alias) . ")
+     OR $alias.field_when_end_value = (
       SELECT MIN(slnt_w.field_when_end_value) FROM {node__field_when} slnt_w
       WHERE slnt_w.entity_id = $alias.entity_id
         AND slnt_w.field_when_rrule = $alias.field_when_rrule
-        AND slnt_w.field_when_end_value >= $now
+        AND " . $not_ended('slnt_w') . "
     )",
     $args
   );

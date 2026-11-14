@@ -64,8 +64,8 @@
      {% if is_external %}target="_blank" rel="noopener noreferrer"{% endif %}>
     <article{{ attributes.addClass(classes) }}>
 
-      {# Title row: the title wraps on the left, the "Regular event" badge
-         keeps its place at the top right (it never drops below the title). #}
+      {# Title row. (A "Regular event" badge sat at its right until 14 Nov
+         2026; the "Every Monday" line below already says it.) #}
       <div class="slnt-event-compact__head">
         <h3 class="slnt-event-compact__title">
           <span class="slnt-event-compact__title-text">{{ label }}</span>
@@ -81,11 +81,6 @@
             </svg>
           {% endif %}
         </h3>
-        {% if event_is_recurring %}
-          {# On phones the second word is dropped (CSS) so the title keeps
-             room; the full page always says "Regular event". #}
-          <span class="slnt-event-badge slnt-event-badge--regular">{{ 'Regular'|t }}<span class="slnt-event-badge__word"> {{ 'event'|t }}</span></span>
-        {% endif %}
       </div>
       {{ event_when_cache }}
 

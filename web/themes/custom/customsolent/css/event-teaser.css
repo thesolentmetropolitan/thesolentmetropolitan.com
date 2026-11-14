@@ -236,7 +236,7 @@
   text-decoration-thickness: 2px;
 }
 
-/* Title row: title left (wraps), "Regular event" badge at the top right. */
+/* Title row (held a "Regular event" badge at its right until 14 Nov 2026). */
 .slnt-event-teaser__head {
   display: flex;
   flex-wrap: wrap;
@@ -252,9 +252,6 @@
   overflow-wrap: break-word;
 }
 
-.slnt-event-teaser .slnt-event-badge {
-  margin: 0.3rem 0 0 0;
-}
 
 /* Title links to the event page (since 2026-10-18). */
 .layout-content a.slnt-event-teaser__title-link,

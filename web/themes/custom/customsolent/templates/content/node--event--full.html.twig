@@ -42,11 +42,10 @@
 <article{{ attributes.addClass(classes) }}{% if primary_topic_menu_path is defined and primary_topic_menu_path %} data-primary-topic-path="{{ primary_topic_menu_path }}"{% endif %}>
   <div class="slnt-node-full__header">
 
-    {# Badge above the topic trail: regular (recurring) event. "Past event"
-       sits by the date below, where it is read with the date. #}
-    {% if event_is_recurring and not is_past_event %}
-      <div class="slnt-node-full__past-kicker slnt-event-badge--regular">{{ 'Regular event'|t }}</div>
-    {% endif %}
+    {# (A "Regular event" badge stood here until 14 Nov 2026: the "Every
+       Monday" line by the date says it, and a reader otherwise hears
+       badge, kicker, title before the content.) "Past event" sits by the
+       date below, where it is read with the date. #}
     {{ event_when_cache }}
 
     {# Topic trail kicker — clickable, section-coloured ancestor terms. #}
@@ -108,9 +107,17 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 12 12 17 22 12"/><polyline points="2 17 12 22 22 17"/></svg>
           </span>
           <span class="slnt-node-full__series-text">
-            <span class="slnt-node-full__series-label">{{ series_links|length > 1 ? 'Part of these series'|t : 'Part of a series'|t }}:</span>
+            {# Once every series has ended the label says so and the meta
+               keeps just the dates; while any is current or coming, each
+               series carries its own status word. #}
+            {% if series_all_past %}
+              <span class="slnt-node-full__series-label">{{ series_links|length > 1 ? 'Part of past series'|t : 'Part of a past series'|t }}:</span>
+            {% else %}
+              <span class="slnt-node-full__series-label">{{ series_links|length > 1 ? 'Part of these series'|t : 'Part of a series'|t }}:</span>
+            {% endif %}
             {% for series in series_links %}
-              <a href="{{ series.url }}" class="slnt-node-full__series-link">{{ series.label }}</a>{% if series.range or series.status_label %} <span class="slnt-node-full__series-meta">({{ series.range }}{% if series.range and series.status_label %} · {% endif %}{{ series.status_label }})</span>{% endif %}{% if not loop.last %}, {% endif %}
+              {% set _status = series_all_past ? '' : series.status_label %}
+              <a href="{{ series.url }}" class="slnt-node-full__series-link">{{ series.label }}</a>{% if series.range or _status %} <span class="slnt-node-full__series-meta">({{ series.range }}{% if series.range and _status %} · {% endif %}{{ _status }})</span>{% endif %}{% if not loop.last %}, {% endif %}
             {% endfor %}
           </span>
         </div>
