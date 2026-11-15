@@ -2855,6 +2855,16 @@ taxonomies:
       uuid: 19e2f114-60d4-416f-9f52-edbedced7f04
     -
       vid: location
+      tid: '387'
+      langcode: en
+      name: 'Portsmouth Historic Quarter'
+      description__value: null
+      description__format: null
+      weight: '0'
+      parent: '141'
+      uuid: f7ae9583-c7c4-4eb8-bdf5-91e8e3e6f886
+    -
+      vid: location
       tid: '203'
       langcode: en
       name: 'Portsmouth International Port'
@@ -3245,6 +3255,16 @@ taxonomies:
       uuid: 4741818b-fea7-46ae-831b-05da72244be4
     -
       vid: location
+      tid: '388'
+      langcode: en
+      name: 'The Old Pay Office'
+      description__value: null
+      description__format: null
+      weight: '0'
+      parent: '387'
+      uuid: d6c17a3f-cfa9-4c6e-a53e-a9636de5486a
+    -
+      vid: location
       tid: '292'
       langcode: en
       name: 'The Royal British Legion, Park Gate'
@@ -3363,6 +3383,16 @@ taxonomies:
       weight: '52'
       parent: '139'
       uuid: f36eedeb-5152-45bc-9707-a38f2f84fd5d
+    -
+      vid: location
+      tid: '385'
+      langcode: en
+      name: 'University of Winchester'
+      description__value: null
+      description__format: null
+      weight: '0'
+      parent: '147'
+      uuid: ceabeace-7c89-44e4-9d1f-7bb67351e751
     -
       vid: location
       tid: '316'
@@ -3523,6 +3553,16 @@ taxonomies:
       weight: '7'
       parent: '139'
       uuid: 29df46a9-1bbf-46ff-92e3-f39aef7b94cf
+    -
+      vid: location
+      tid: '386'
+      langcode: en
+      name: 'West Downs Quarter'
+      description__value: null
+      description__format: null
+      weight: '0'
+      parent: '385'
+      uuid: 697ae1b9-4113-413d-8c1f-50b22b9ca183
     -
       vid: location
       tid: '335'
@@ -4500,14 +4540,14 @@ taxonomies:
           value: 'The reading side: bookshops, book clubs and reading groups, author events and literary festivals around the Solent.'
     -
       vid: topic
-      tid: '385'
+      tid: '389'
       langcode: en
       name: 'Culture / Writing / Poetry'
       description__value: '<p>The poets and the writing: poetry collectives and groups, small presses and pamphlets, workshops on writing poetry, poetry as a subject. Poetry nights, slams and open mics are Culture / Stage / Open Mic &amp; Spoken Word with Poetry as a related topic, and so are the groups that exist to run a night (Pompey Poetry Party, Southsea Arts Poetry Collective). Replace a bare Culture / Writing tag with Poetry; it sits under Writing, so the item still shows there.</p>'
       description__format: basic_html
       weight: '0'
       parent: '55'
-      uuid: a234843d-576e-4ae0-8953-bbca5624cc45
+      uuid: 52f8481c-487a-4b86-b0a6-817960747237
       field_reader_summary:
         -
           value: 'Poets and poetry across the Solent: collectives and groups, small presses, workshops and the written word in verse.'
