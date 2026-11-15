@@ -847,11 +847,11 @@
   background-size: 120px 103.92px, cover;
 }
 
-/* Explore - Opinion */
-/* Icons: chat-circle, megaphone, pen-nib */
+/* Explore - Ideas & Opinion (style id kept as explore-opinion) */
+/* Icons: lightbulb, chat-circle, megaphone, pen-nib */
 .hero-art-style--explore-opinion {
   background:
-    url('../images/hero-tiles/explore_opinion.svg') repeat,
+    url('../images/hero-tiles/explore_ideas_opinion.svg') repeat,
     linear-gradient(135deg, #B45309 0%, #D97706 50%, #F59E0B 100%);
   background-size: 120px 103.92px, cover;
 }

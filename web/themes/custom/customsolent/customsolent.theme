@@ -2577,8 +2577,8 @@ function _customsolent_resolve_topic_context($paragraph, $host, $with_children =
   // Priority 1: field_topic on the paragraph itself. An explicit
   // editor choice — use it unconditionally, even if its top-level
   // parent is Explore/About. This lets editors use Explore children
-  // (e.g. "Explore / Data", "Explore / Opinion") as real content tags
-  // for /explore/data, /explore/opinion etc.
+  // (e.g. "Explore / Data", "Explore / Ideas & Opinion") as real content tags
+  // for /explore/data, /explore/ideas-opinion etc.
   if ($paragraph->hasField('field_topic') && !$paragraph->get('field_topic')->isEmpty()) {
     $term = $paragraph->get('field_topic')->entity;
     if ($term) {

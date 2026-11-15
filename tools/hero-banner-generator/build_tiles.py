@@ -247,7 +247,7 @@ PAGE_MAP = {
     'explore_data': ['chart-bar', 'database', 'table'],
     'explore_events': ['calendar', 'map-pin', 'ticket'],
     'explore_maps': ['map-trifold', 'map-pin', 'globe'],
-    'explore_opinion': ['chat-circle', 'megaphone', 'pen-nib'],
+    'explore_ideas_opinion': ['lightbulb', 'chat-circle', 'megaphone', 'pen-nib'],
     'explore_organisations': ['buildings', 'users', 'building-office'],
     'explore_themes': ['swatches', 'tag', 'grid-four'],
     # --- Search page ---

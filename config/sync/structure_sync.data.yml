@@ -1216,10 +1216,10 @@ menus:
     options: {  }
   -
     menu_name: main
-    title: Opinion
+    title: 'Ideas & Opinion'
     parent: 'menu_link_content:00eabb8c-58ed-4f9b-88c1-0c5b1aecf9e1'
-    uri: 'internal:/explore/opinion'
-    link_title: ''
+    uri: 'internal:/explore/ideas-opinion'
+    link_title: null
     description: null
     enabled: true
     expanded: false
@@ -4589,7 +4589,7 @@ taxonomies:
       vid: topic
       tid: '110'
       langcode: en
-      name: 'Explore / Opinion'
+      name: 'Explore / Ideas & Opinion'
       description__value: null
       description__format: null
       weight: '7'
@@ -4597,7 +4597,7 @@ taxonomies:
       uuid: 3c0fa54c-dbe4-4207-bef6-b3d6734705d0
       field_reader_summary:
         -
-          value: 'Comment, columns and opinion pieces on Solent life.'
+          value: 'Ideas, comment and opinion pieces on Solent life: proposals for the region and ways of seeing it.'
     -
       vid: topic
       tid: '111'
