@@ -314,6 +314,8 @@
     padding: 0.8rem 0 0.3rem;
     text-align: center;
     flex-shrink: 0;
+    /* A click on it closes the sheet (js/filter-panel.js). */
+    cursor: pointer;
   }
   .slnt-filter-panel__handle-bar {
     display: inline-block;

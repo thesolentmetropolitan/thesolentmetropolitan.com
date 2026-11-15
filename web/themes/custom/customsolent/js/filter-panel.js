@@ -49,6 +49,14 @@
 
     buttons.forEach(function (b) { b.addEventListener('click', open); });
     overlays.forEach(function (o) { o.addEventListener('click', close); });
+    // A click on the handle closes the sheet: with a mouse (a narrow window
+    // on a desktop) there is no swipe, and the bar invites a click anyway.
+    // A drag that ends short of the threshold fires no click, so the
+    // spring-back below is not undone by this.
+    panels.forEach(function (p) {
+      var handle = p.querySelector('.slnt-filter-panel__handle');
+      if (handle) handle.addEventListener('click', close);
+    });
     panels.forEach(enableSwipeToDismiss);
     document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape') close();

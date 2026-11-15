@@ -4477,8 +4477,8 @@ taxonomies:
       tid: '55'
       langcode: en
       name: 'Culture / Writing'
-      description__value: null
-      description__format: null
+      description__value: "<p>The written word as something people make: writers' circles and societies, creative-writing workshops and courses, zines and independent magazines as writing, blogging. Its sub-terms take the item when they fit: Poetry (the poets and the writing) and Books (the reading side: bookshops, book clubs, author events, literary festivals). Poetry and spoken-word nights are Culture / Stage / Open Mic &amp; Spoken Word; publishers and magazines as businesses are Sectors / Media &amp; Publishing. Fiction is not yet a term: a fiction-specific group or festival stays here until there are two.</p>"
+      description__format: basic_html
       weight: '22'
       parent: '29'
       uuid: 747a6530-b9ba-42a9-861f-e9eca60dba1b
@@ -4490,12 +4490,27 @@ taxonomies:
       tid: '179'
       langcode: en
       name: 'Culture / Writing / Books'
-      description__value: null
-      description__format: null
+      description__value: "<p>Reading rather than writing: bookshops, book clubs and reading groups, author talks and book launches, literary and readers' festivals (Coastal Crime), libraries' reading events. A bookshop is primary here with Sectors / Retail related. Writers' groups and workshops are Culture / Writing; publishers as businesses are Sectors / Media &amp; Publishing.</p>"
+      description__format: basic_html
       weight: '0'
       parent: '55'
       uuid: b96506ca-bcf4-4c0e-a538-21a3ddb9e2e8
-      field_reader_summary: {  }
+      field_reader_summary:
+        -
+          value: 'The reading side: bookshops, book clubs and reading groups, author events and literary festivals around the Solent.'
+    -
+      vid: topic
+      tid: '385'
+      langcode: en
+      name: 'Culture / Writing / Poetry'
+      description__value: '<p>The poets and the writing: poetry collectives and groups, small presses and pamphlets, workshops on writing poetry, poetry as a subject. Poetry nights, slams and open mics are Culture / Stage / Open Mic &amp; Spoken Word with Poetry as a related topic, and so are the groups that exist to run a night (Pompey Poetry Party, Southsea Arts Poetry Collective). Replace a bare Culture / Writing tag with Poetry; it sits under Writing, so the item still shows there.</p>'
+      description__format: basic_html
+      weight: '0'
+      parent: '55'
+      uuid: a234843d-576e-4ae0-8953-bbca5624cc45
+      field_reader_summary:
+        -
+          value: 'Poets and poetry across the Solent: collectives and groups, small presses, workshops and the written word in verse.'
     -
       vid: topic
       tid: '32'
