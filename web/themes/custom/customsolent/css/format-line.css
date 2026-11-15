@@ -21,7 +21,7 @@
   font-weight: 400;
 }
 
-/* On the page it sits with the date and venue lines: a touch larger. */
+/* On the page it sits under the title, above the date: a touch larger. */
 .slnt-format-line--full {
   font-size: 0.9rem;
   margin: 0 0 0.5rem 0;

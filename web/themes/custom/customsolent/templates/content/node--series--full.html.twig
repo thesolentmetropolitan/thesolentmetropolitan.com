@@ -63,6 +63,9 @@
 
     <h1 class="slnt-node-full__title">{{ label }}</h1>
 
+    {# Format and setting, above the date range as on the cards (issue 485). #}
+    {% include '@customsolent/components/format-line.html.twig' with { format_labels: format_labels, setting_label: setting_label, setting_key: setting_key, variant: 'full', show_indoor: true } only %}
+
     {% if series_range %}
       <div class="slnt-node-full__when slnt-series-full__dates">
         <span class="slnt-series-full__icon" aria-hidden="true">
@@ -71,9 +74,6 @@
         <span>{{ series_range }}</span>
       </div>
     {% endif %}
-
-    {# Format and setting (issue 485). #}
-    {% include '@customsolent/components/format-line.html.twig' with { format_labels: format_labels, setting_label: setting_label, setting_key: setting_key, variant: 'full', show_indoor: true } only %}
 
     {# Organiser — the organisation curating the series; nothing when none
        is named (issue 436). Same line as the event page. #}
