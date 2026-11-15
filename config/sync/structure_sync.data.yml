@@ -1800,7 +1800,7 @@ taxonomies:
       name: Broadcast
       description__value: "<p>Things you listen to or watch rather than attend: radio shows and stations' programmes, podcasts, TV programmes, live streams. An event that is also streamed keeps its own format with the Setting Online or Hybrid.</p>"
       description__format: basic_html
-      weight: '14'
+      weight: '15'
       parent: '0'
       uuid: 00b2d855-899a-4d4f-9d15-0d83c97af85c
       field_reader_summary:
@@ -1811,7 +1811,7 @@ taxonomies:
       tid: '398'
       langcode: en
       name: 'Class & Course'
-      description__value: '<p>Teaching that repeats or runs to a syllabus: dance and language classes, choirs you join to learn, evening courses, bootcamps, tasters for a course. A single session is Workshop.</p>'
+      description__value: '<p>Teaching that repeats or runs to a syllabus: dance and language classes, choirs you join to learn, evening courses, bootcamps. Add Drop-in when you can turn up to any one session without committing to the run; leave it off a course you sign up to. A single hands-on session is Workshop.</p>'
       description__format: basic_html
       weight: '8'
       parent: '0'
@@ -1839,12 +1839,25 @@ taxonomies:
       name: Conference
       description__value: '<p>A day or more of talks, panels and stands for a profession or industry: business shows, tech and music-industry conferences, trade exhibitions. A single talk is Talk; a public exhibition of work is Exhibition.</p>'
       description__format: basic_html
-      weight: '9'
+      weight: '10'
       parent: '0'
       uuid: 617ce626-550b-4f61-b8c7-b8a0b31a5f6f
       field_reader_summary:
         -
           value: 'Conferences, summits and trade shows for a sector.'
+    -
+      vid: format
+      tid: '405'
+      langcode: en
+      name: Drop-in
+      description__value: "<p>A modifier: you can just turn up to a single session with no booking and no commitment to a run. Sits beside the format it modifies (a drop-in dance class is Class &amp; Course + Drop-in; a taster lesson likewise; a repair café's open afternoon is Workshop + Drop-in) and stands alone for an advice or support drop-in. Leave it off a course you sign up to for the run, and off anything ticketed in advance.</p>"
+      description__format: basic_html
+      weight: '9'
+      parent: '0'
+      uuid: 5ff05dd6-2985-40c6-941a-cff96c1ea1f6
+      field_reader_summary:
+        -
+          value: 'Turn up when you like: no booking, no commitment to a run of sessions.'
     -
       vid: format
       tid: '394'
@@ -1878,7 +1891,7 @@ taxonomies:
       name: 'Guided Tour'
       description__value: "<p>Tours and trails with a guide: heritage and ghost tours, bus and boat tours, guided nature hikes, taster tours, open-studio trails. On foot, wheels or water, so the word is Tour, not Walk. A group that walks for the company is Social &amp; Meet-up; a band's tour is a Performance.</p>"
       description__format: basic_html
-      weight: '12'
+      weight: '13'
       parent: '0'
       uuid: 0efc564f-4e7d-43a1-8aab-f275cab40e29
       field_reader_summary:
@@ -1904,7 +1917,7 @@ taxonomies:
       name: Networking
       description__value: '<p>Events whose point is meeting people in a trade or scene: business breakfasts, creative networking, meet-ups for an industry. A friendly gathering with no trade angle is Social &amp; Meet-up.</p>'
       description__format: basic_html
-      weight: '10'
+      weight: '11'
       parent: '0'
       uuid: b9aae009-0b97-416a-b75e-71ba405a8d7d
       field_reader_summary:
@@ -1917,7 +1930,7 @@ taxonomies:
       name: 'Open Mic & Jam'
       description__value: '<p>Nights where the bill is whoever turns up: music, poetry and comedy open mics, jam sessions, singarounds, electronic jams. The subject stays in Topic (Open Mic &amp; Spoken Word, a music genre, Comedy).</p>'
       description__format: basic_html
-      weight: '13'
+      weight: '14'
       parent: '0'
       uuid: b321287c-8775-4871-86f3-5889fe6acecc
       field_reader_summary:
@@ -1956,7 +1969,7 @@ taxonomies:
       name: 'Social & Meet-up'
       description__value: "<p>Gatherings you turn up to for the company and the shared interest: coffee mornings, peer support groups, hobby clubs' regular meets, community assemblies, quiz nights, the social dancing after a dance class. Networking for work is Networking; a night that exists for the dancefloor is Club Night &amp; Party.</p>"
       description__format: basic_html
-      weight: '11'
+      weight: '12'
       parent: '0'
       uuid: 8abd97ef-e9fa-4d3e-b2d0-a9a6c6941212
       field_reader_summary:
