@@ -38,6 +38,7 @@ global:
       css/article-compact.css: {}
       css/directory-compact.css: {}
       css/series.css: {}
+      css/format-line.css: {}
       css/people.css: {}
       css/collaborations.css: {}
       css/heading-gradient.css: {}

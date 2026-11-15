@@ -1,0 +1,21 @@
+uuid: 52e3945c-c6dc-498e-b1a9-e157857affe0
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_setting
+    - node.type.event
+  module:
+    - options
+id: node.event.field_setting
+field_name: field_setting
+entity_type: node
+bundle: event
+label: setting
+description: 'Indoor: in a building. Outdoor: in the open. Online: only online. Hybrid: in a place and streamed too.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

@@ -44,6 +44,8 @@
 
     {# Title — organisation name. #}
     <h1 class="slnt-node-full__title">{{ label }}</h1>
+    {# What it puts on, when that is the point of it (issue 485). #}
+    {% include '@customsolent/components/format-line.html.twig' with { format_labels: format_labels, setting_label: setting_label, setting_key: setting_key, variant: 'full' } only %}
 
     {# Where — the Location term(s) as plain text: "Southampton and
        Portsmouth" (organisation_where, from customsolent_preprocess_node). #}

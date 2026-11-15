@@ -4,10 +4,12 @@ status: true
 dependencies:
   config:
     - field.field.node.event.field_arrival
+    - field.field.node.event.field_format
     - field.field.node.event.field_image
     - field.field.node.event.field_organisers
     - field.field.node.event.field_primary_topic
     - field.field.node.event.field_related_topics
+    - field.field.node.event.field_setting
     - field.field.node.event.field_standfirst
     - field.field.node.event.field_urls
     - field.field.node.event.field_when
@@ -117,3 +119,5 @@ content:
     region: content
 hidden:
   field_arrival: true
+  field_format: true
+  field_setting: true

@@ -5,6 +5,7 @@ dependencies:
   config:
     - core.entity_view_mode.node.compact
     - field.field.node.organisation.field_content_component
+    - field.field.node.organisation.field_format
     - field.field.node.organisation.field_primary_topic
     - field.field.node.organisation.field_related_topics
     - field.field.node.organisation.field_standfirst
@@ -29,6 +30,7 @@ content:
     region: content
 hidden:
   field_content_component: true
+  field_format: true
   field_primary_topic: true
   field_related_topics: true
   field_subsidiary_organisations: true

@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.node.organisation.field_content_component
+    - field.field.node.organisation.field_format
     - field.field.node.organisation.field_primary_topic
     - field.field.node.organisation.field_related_topics
     - field.field.node.organisation.field_standfirst
@@ -58,6 +59,7 @@ content:
     weight: 7
     region: content
 hidden:
+  field_format: true
   field_primary_topic: true
   field_related_topics: true
   field_subsidiary_organisations: true

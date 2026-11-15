@@ -40,6 +40,7 @@
     </a>
   {% endif %}
 
+  {% include '@customsolent/components/format-line.html.twig' with { format_labels: format_labels, setting_label: setting_label, setting_key: setting_key, variant: 'teaser' } only %}
   {{ in_kicker_lazy }}
   {{ from_kicker_lazy }}
 

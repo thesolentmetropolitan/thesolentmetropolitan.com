@@ -1,0 +1,19 @@
+uuid: 665a2b3f-2e55-4bfc-8c4a-2065ed67ab51
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_reader_summary
+    - taxonomy.vocabulary.format
+id: taxonomy_term.format.field_reader_summary
+field_name: field_reader_summary
+entity_type: taxonomy_term
+bundle: format
+label: 'reader summary'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

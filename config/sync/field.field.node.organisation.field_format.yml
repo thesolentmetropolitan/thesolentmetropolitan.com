@@ -1,0 +1,29 @@
+uuid: fbecf8c2-fd23-41e2-853d-af7b1271889e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_format
+    - node.type.organisation
+    - taxonomy.vocabulary.format
+id: node.organisation.field_format
+field_name: field_format
+entity_type: node
+bundle: organisation
+label: format
+description: 'What it puts on, when that is the point of it: a festival, talks, workshops, a radio show. Leave empty for most organisations.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      format: format
+    sort:
+      field: weight
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

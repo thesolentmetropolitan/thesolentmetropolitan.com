@@ -179,6 +179,13 @@ function customsolent_preprocess_node(array &$variables): void {
     _customsolent_preprocess_event_shared_extras($node, $variables);
   }
 
+  // Format and setting (the second axis to Topic, issue 485) on the cards
+  // and pages of the three types that carry them.
+  if (in_array($node->bundle(), ['event', 'series', 'organisation'], TRUE)
+    && in_array(($variables['view_mode'] ?? ''), ['teaser', 'compact', 'full'], TRUE)) {
+    _customsolent_preprocess_format_extras($node, $variables);
+  }
+
   // Event teaser extras.
   if ($node->bundle() === 'event' && ($variables['view_mode'] ?? '') === 'teaser') {
     _customsolent_preprocess_event_teaser_extras($node, $variables);
@@ -3321,5 +3328,34 @@ function customsolent_preprocess_item_list__search_results(array &$variables) {
       '#attributes' => ['class' => ['search-empty-prompt']],
       '#value' => t('Please enter search terms above to search the site.'),
     ];
+  }
+}
+
+/**
+ * Format and setting for cards and pages (issue 485).
+ *
+ * field_format (Format terms, several allowed) and field_setting (indoor,
+ * outdoor, online, hybrid) are the second axis to Topic. They print as one
+ * small line, "Workshop · Online", through components/format-line.html.twig;
+ * nothing when neither is set. Formats come in vocabulary order so a card
+ * reads "Festival · Market & Fair" the same way everywhere.
+ */
+function _customsolent_preprocess_format_extras($node, array &$variables): void {
+  $variables['format_labels'] = [];
+  $variables['setting_label'] = NULL;
+  $variables['setting_key'] = NULL;
+  if ($node->hasField('field_format') && !$node->get('field_format')->isEmpty()) {
+    $terms = $node->get('field_format')->referencedEntities();
+    usort($terms, static fn($a, $b) => [(int) $a->getWeight(), $a->label()] <=> [(int) $b->getWeight(), $b->label()]);
+    foreach ($terms as $term) {
+      $variables['format_labels'][] = $term->label();
+      $variables['#cache']['tags'][] = 'taxonomy_term:' . $term->id();
+    }
+  }
+  if ($node->hasField('field_setting') && !$node->get('field_setting')->isEmpty()) {
+    $item = $node->get('field_setting')->first();
+    $allowed = $item->getFieldDefinition()->getFieldStorageDefinition()->getSetting('allowed_values') ?? [];
+    $variables['setting_key'] = (string) $item->value;
+    $variables['setting_label'] = $allowed[$item->value] ?? ucfirst((string) $item->value);
   }
 }

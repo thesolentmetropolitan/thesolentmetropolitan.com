@@ -1,0 +1,9 @@
+uuid: ca12ab41-2ce2-489e-a9e6-fbb2804f3643
+langcode: en
+status: true
+dependencies: {  }
+name: Format
+vid: format
+description: 'The shape of an event, or what an organisation puts on: a workshop, a talk, a festival. A second axis to Topic, shared by Culture, Sectors and Living.'
+weight: 0
+new_revision: false

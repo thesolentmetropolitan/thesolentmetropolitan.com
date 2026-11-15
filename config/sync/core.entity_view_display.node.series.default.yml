@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.node.series.field_description
+    - field.field.node.series.field_format
     - field.field.node.series.field_organisers
     - field.field.node.series.field_primary_topic
     - field.field.node.series.field_related_organisations
@@ -11,6 +12,7 @@ dependencies:
     - field.field.node.series.field_series_end
     - field.field.node.series.field_series_items
     - field.field.node.series.field_series_start
+    - field.field.node.series.field_setting
     - field.field.node.series.field_short_label
     - field.field.node.series.field_standfirst
     - node.type.series
@@ -91,6 +93,8 @@ content:
     weight: 0
     region: content
 hidden:
+  field_format: true
   field_related_organisations: true
+  field_setting: true
   field_short_label: true
   links: true

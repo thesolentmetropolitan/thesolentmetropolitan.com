@@ -1,0 +1,38 @@
+/* ══════════════════════════════════════
+   Format line — "Workshop · Online" (issue 485)
+   The format(s) and setting of an event, series or organisation, printed
+   by components/format-line.html.twig under the title on cards and in the
+   meta block on pages. Same voice as the directory card's type label:
+   small, bold, uppercase, mid grey (9.7:1 on white). No pill, no colour:
+   the kicker carries the section colour and Rob wants less chrome.
+   ══════════════════════════════════════ */
+.slnt-format-line {
+  font-family: 'Atkinson Hyperlegible Next', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  line-height: 1.3;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: var(--text-mid, #444);
+  margin: 0 0 0.35rem 0;
+}
+
+.slnt-format-line__sep {
+  font-weight: 400;
+}
+
+/* On the page it sits with the date and venue lines: a touch larger. */
+.slnt-format-line--full {
+  font-size: 0.9rem;
+  margin: 0 0 0.5rem 0;
+}
+
+/* In the directory card's footer it shares the row with the type label. */
+.slnt-format-line--directory {
+  margin: 0;
+}
+
+/* Series cards: between the title and the dates. */
+.slnt-format-line--series {
+  margin: 0 0 0.4rem 0;
+}

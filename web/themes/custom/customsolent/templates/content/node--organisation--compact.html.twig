@@ -88,6 +88,7 @@
   {% endif %}
 
   <div class="slnt-directory-card__footer">
+    {% include '@customsolent/components/format-line.html.twig' with { format_labels: format_labels, setting_label: setting_label, setting_key: setting_key, variant: 'directory' } only %}
     {% if card_type_label %}
       <span class="slnt-directory-card__type">{{ card_type_label }}</span>
     {% endif %}

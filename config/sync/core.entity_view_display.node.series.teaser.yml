@@ -5,6 +5,7 @@ dependencies:
   config:
     - core.entity_view_mode.node.teaser
     - field.field.node.series.field_description
+    - field.field.node.series.field_format
     - field.field.node.series.field_organisers
     - field.field.node.series.field_primary_topic
     - field.field.node.series.field_related_organisations
@@ -12,6 +13,7 @@ dependencies:
     - field.field.node.series.field_series_end
     - field.field.node.series.field_series_items
     - field.field.node.series.field_series_start
+    - field.field.node.series.field_setting
     - field.field.node.series.field_short_label
     - field.field.node.series.field_standfirst
     - node.type.series
@@ -52,10 +54,12 @@ content:
     region: content
 hidden:
   field_description: true
+  field_format: true
   field_organisers: true
   field_primary_topic: true
   field_related_organisations: true
   field_related_topics: true
   field_series_items: true
+  field_setting: true
   field_short_label: true
   links: true

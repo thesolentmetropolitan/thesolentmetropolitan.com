@@ -147,6 +147,9 @@
       </div>
     {% endif %}
 
+    {# Format and setting: "Workshop · Online" (issue 485). #}
+    {% include '@customsolent/components/format-line.html.twig' with { format_labels: format_labels, setting_label: setting_label, setting_key: setting_key, variant: 'full', show_indoor: true } only %}
+
     {# Organiser(s) — the organisation(s) running it. #}
     {% if organisers is not empty %}
       <div class="slnt-node-full__organiser">{{ 'Organised by'|t }}

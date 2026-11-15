@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.node.organisation.field_content_component
+    - field.field.node.organisation.field_format
     - field.field.node.organisation.field_primary_topic
     - field.field.node.organisation.field_related_topics
     - field.field.node.organisation.field_standfirst
@@ -28,7 +29,7 @@ content:
     third_party_settings: {  }
   field_content_component:
     type: paragraphs
-    weight: 125
+    weight: 127
     region: content
     settings:
       title: Paragraph
@@ -43,6 +44,12 @@ content:
       features:
         collapse_edit_all: collapse_edit_all
         duplicate: duplicate
+    third_party_settings: {  }
+  field_format:
+    type: options_buttons
+    weight: 123
+    region: content
+    settings: {  }
     third_party_settings: {  }
   field_primary_topic:
     type: entity_reference_autocomplete
@@ -66,7 +73,7 @@ content:
     third_party_settings: {  }
   field_standfirst:
     type: string_textfield
-    weight: 123
+    weight: 125
     region: content
     settings:
       size: 60
@@ -74,7 +81,7 @@ content:
     third_party_settings: {  }
   field_subsidiary_organisations:
     type: entity_reference_autocomplete
-    weight: 127
+    weight: 129
     region: content
     settings:
       match_operator: CONTAINS
@@ -84,7 +91,7 @@ content:
     third_party_settings: {  }
   field_urls:
     type: link_default
-    weight: 126
+    weight: 128
     region: content
     settings:
       placeholder_url: ''
@@ -92,7 +99,7 @@ content:
     third_party_settings: {  }
   field_where:
     type: entity_reference_autocomplete
-    weight: 124
+    weight: 126
     region: content
     settings:
       match_operator: CONTAINS

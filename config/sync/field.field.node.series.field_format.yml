@@ -1,0 +1,29 @@
+uuid: 94680609-eeaf-4ce1-80d5-193007f67520
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_format
+    - node.type.series
+    - taxonomy.vocabulary.format
+id: node.series.field_format
+field_name: field_format
+entity_type: node
+bundle: series
+label: format
+description: 'The shape of it: a workshop, a talk, a festival, a market. Tick more than one when it really is more than one (a screening with networking after). The subject goes in the topics above.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      format: format
+    sort:
+      field: weight
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference
