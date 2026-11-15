@@ -1824,7 +1824,7 @@ taxonomies:
       tid: '391'
       langcode: en
       name: 'Club Night & Party'
-      description__value: '<p>Club nights, DJ sets, parties and dances where the point is the dancefloor: house nights, salsa socials, silent discos, a Halloween party. A live act to an audience is Performance; a dance lesson is Class &amp; Course.</p>'
+      description__value: '<p>Club nights, DJ sets, parties and dances where the point is the dancefloor: house nights, salsa socials, silent discos, a Halloween party. A live act to an audience is Performance; a dance lesson is Class &amp; Course, and the social dancing after a class is Class &amp; Course plus Social &amp; Meet-up, not a club night.</p>'
       description__format: basic_html
       weight: '1'
       parent: '0'
@@ -1871,6 +1871,19 @@ taxonomies:
       field_reader_summary:
         -
           value: 'Festivals: many events under one name, usually over a weekend or a season.'
+    -
+      vid: format
+      tid: '402'
+      langcode: en
+      name: 'Guided Tour'
+      description__value: "<p>Tours and trails with a guide: heritage and ghost tours, bus and boat tours, guided nature hikes, taster tours, open-studio trails. On foot, wheels or water, so the word is Tour, not Walk. A group that walks for the company is Social &amp; Meet-up; a band's tour is a Performance.</p>"
+      description__format: basic_html
+      weight: '12'
+      parent: '0'
+      uuid: 0efc564f-4e7d-43a1-8aab-f275cab40e29
+      field_reader_summary:
+        -
+          value: 'Guided tours and trails: someone leads you round, on foot, wheels or water.'
     -
       vid: format
       tid: '393'
@@ -1941,7 +1954,7 @@ taxonomies:
       tid: '401'
       langcode: en
       name: 'Social & Meet-up'
-      description__value: "<p>Gatherings you turn up to for the company and the shared interest: coffee mornings, peer support groups, hobby clubs' regular meets, community assemblies, quiz nights. Networking for work is Networking; a dancefloor is Club Night &amp; Party.</p>"
+      description__value: "<p>Gatherings you turn up to for the company and the shared interest: coffee mornings, peer support groups, hobby clubs' regular meets, community assemblies, quiz nights, the social dancing after a dance class. Networking for work is Networking; a night that exists for the dancefloor is Club Night &amp; Party.</p>"
       description__format: basic_html
       weight: '11'
       parent: '0'
@@ -1962,19 +1975,6 @@ taxonomies:
       field_reader_summary:
         -
           value: 'Talks, lectures, panels and seminars: someone speaks, you listen and ask.'
-    -
-      vid: format
-      tid: '402'
-      langcode: en
-      name: 'Walk & Tour'
-      description__value: '<p>Guided and group walks, heritage and ghost tours, bike rides, foraging walks, open days you move through. A regular walking group is also Social &amp; Meet-up when the company is the point.</p>'
-      description__format: basic_html
-      weight: '12'
-      parent: '0'
-      uuid: 0efc564f-4e7d-43a1-8aab-f275cab40e29
-      field_reader_summary:
-        -
-          value: 'Guided walks, tours and outings.'
     -
       vid: format
       tid: '397'
