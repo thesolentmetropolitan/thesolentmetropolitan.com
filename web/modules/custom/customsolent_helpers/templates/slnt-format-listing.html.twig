@@ -1,7 +1,7 @@
 {#
 /**
  * @file
- * The format landing page (/events/festivals …), issue 485.
+ * The format landing page (/explore/events/festivals …), issue 485.
  *
  * Variables:
  *   - banner: the format's hero banner; its big title is the page's h1
@@ -9,8 +9,6 @@
  *   - listing: the site-wide events listing, narrowed to the format, in
  *     listing_page mode (topic sidebar with the Format group, date pills,
  *     one pager)
- *   - organisations: the directory of organisations that put this on, or
- *     null when none does
  *   - section_key: explore
  */
 #}
@@ -20,9 +18,4 @@
     <p class="slnt-format-listing__summary">{{ summary }}</p>
   {% endif %}
   {{ listing }}
-  {% if organisations %}
-    <div class="slnt-format-listing__organisations">
-      {{ organisations }}
-    </div>
-  {% endif %}
 </div>

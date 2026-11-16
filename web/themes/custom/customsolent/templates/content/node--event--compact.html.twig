@@ -82,7 +82,7 @@
           {% endif %}
         </h3>
       </div>
-      {% include '@customsolent/components/format-line.html.twig' with { format_labels: format_labels, format_links: format_links, setting_label: setting_label, setting_key: setting_key, variant: 'compact', linked: false } only %}
+      {% include '@customsolent/components/format-line.html.twig' with { format_labels: format_labels, setting_label: setting_label, setting_key: setting_key, variant: 'compact' } only %}
       {{ event_when_cache }}
 
       {# Recurring event: "Every Monday, 7 - 8:30pm" after a repeat icon,

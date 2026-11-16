@@ -47,7 +47,7 @@
   <h3 class="slnt-series-card__title">
     <a href="{{ url }}" class="slnt-series-card__link">{{ label }}</a>
   </h3>
-  {% include '@customsolent/components/format-line.html.twig' with { format_labels: format_labels, format_links: format_links, setting_label: setting_label, setting_key: setting_key, variant: 'series' } only %}
+  {% include '@customsolent/components/format-line.html.twig' with { format_labels: format_labels, setting_label: setting_label, setting_key: setting_key, variant: 'series' } only %}
 
   {% if series_range %}
     <div class="slnt-series-card__row slnt-series-card__dates">

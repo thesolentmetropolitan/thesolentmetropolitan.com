@@ -2,14 +2,12 @@
 /**
  * @file
  * "Workshop · Online": the format(s) and setting of an event, series or
- * organisation as one small line (issue 485). Plain text for now; the
- * format landing pages (a later phase) will make each format a link.
+ * organisation as one small line (issue 485). Plain text by design: a link
+ * here would pull the eye from the event itself (Rob, 16 Nov 2026); the
+ * sidebar's Format group and the landing pages do the navigating.
  *
  * Variables (from _customsolent_preprocess_format_extras()):
  *   - format_labels: format names in vocabulary order
- *   - format_links:  [{label, url}] — url is the format's landing page
- *   - linked:        false inside a card that is itself a link (nested
- *                    links are invalid HTML): plain text there
  *   - setting_label / setting_key: Indoor, Outdoor, Online, Hybrid (or null)
  *   - variant:     a class hook for the host: teaser, compact, directory,
  *                  series, full
@@ -18,19 +16,14 @@
  */
 #}
 {% set _show_setting = setting_label and (show_indoor|default(false) or setting_key != 'indoor') %}
-{% if format_links is not empty or _show_setting %}
+{% if format_labels is not empty or _show_setting %}
   <div class="slnt-format-line slnt-format-line--{{ variant|default('compact') }}">
     <span class="visually-hidden">{{ 'Format'|t }}: </span>
-    {%- for f in format_links -%}
-      {%- if linked|default(true) and f.url -%}
-        <a href="{{ f.url }}" class="slnt-format-line__format slnt-format-line__link">{{ f.label }}</a>
-      {%- else -%}
-        <span class="slnt-format-line__format">{{ f.label }}</span>
-      {%- endif -%}
-      {% if not loop.last %}<span class="slnt-format-line__sep" aria-hidden="true"> · </span>{% endif %}
+    {%- for f in format_labels -%}
+      <span class="slnt-format-line__format">{{ f }}</span>{% if not loop.last %}<span class="slnt-format-line__sep" aria-hidden="true"> · </span>{% endif %}
     {%- endfor -%}
     {%- if _show_setting -%}
-      {% if format_links is not empty %}<span class="slnt-format-line__sep" aria-hidden="true"> · </span>{% endif %}
+      {% if format_labels is not empty %}<span class="slnt-format-line__sep" aria-hidden="true"> · </span>{% endif %}
       <span class="slnt-format-line__setting slnt-format-line__setting--{{ setting_key }}">{{ setting_label }}</span>
     {%- endif -%}
   </div>

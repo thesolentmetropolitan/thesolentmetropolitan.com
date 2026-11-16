@@ -64,7 +64,7 @@
     <h1 class="slnt-node-full__title">{{ label }}</h1>
 
     {# Format and setting, above the date range as on the cards (issue 485). #}
-    {% include '@customsolent/components/format-line.html.twig' with { format_labels: format_labels, format_links: format_links, setting_label: setting_label, setting_key: setting_key, variant: 'full', show_indoor: true } only %}
+    {% include '@customsolent/components/format-line.html.twig' with { format_labels: format_labels, setting_label: setting_label, setting_key: setting_key, variant: 'full', show_indoor: true } only %}
 
     {% if series_range %}
       <div class="slnt-node-full__when slnt-series-full__dates">

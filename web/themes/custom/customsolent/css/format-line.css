@@ -37,26 +37,11 @@
   margin: 0 0 0.4rem 0;
 }
 
-/* The formats link to their landing pages (/events/festivals): same grey,
-   underlined on hover like the kicker, never the body-link magenta. */
-.slnt-format-line__link {
-  color: inherit;
-  text-decoration: none;
-}
-.slnt-format-line__link:hover,
-.slnt-format-line__link:focus-visible {
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
-
-/* The format landing page (/events/<format>): the reader summary sits under
+/* The format landing page (/explore/events/<format>): the reader summary sits under
    the banner, in the same measure as a section page's intro. */
 .slnt-format-listing__summary {
   max-width: 740px;
   font-size: 1.1rem;
   line-height: 1.5;
   margin: 0 0 1.6rem 0;
-}
-.slnt-format-listing__organisations {
-  margin-top: 2.5rem;
 }

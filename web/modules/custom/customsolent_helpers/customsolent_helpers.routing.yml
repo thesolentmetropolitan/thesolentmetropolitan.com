@@ -64,10 +64,11 @@ customsolent_helpers.links_home:
   requirements:
     _access: 'TRUE'
 
-# Formats (issue 485): /events/<format> lists everything of that shape,
-# across the three pillars; the bare /events goes to the events page. An
-# event's own alias also starts /events/ but always ends in its date, so the
-# two never collide.
+# Formats (issue 485): /explore/events/<format> lists the events of that
+# shape across the three pillars, under Explore like every other listing
+# (an event's own page is /events/<title>-<date>). The bare /events goes to
+# the events page. No format slug is a listing word (events, articles …),
+# so TopicListingPathProcessor and this route never meet.
 customsolent_helpers.events_home:
   path: '/events'
   defaults:
@@ -76,7 +77,7 @@ customsolent_helpers.events_home:
   requirements:
     _access: 'TRUE'
 customsolent_helpers.format_listing:
-  path: '/events/{format}'
+  path: '/explore/events/{format}'
   defaults:
     _controller: '\Drupal\customsolent_helpers\Controller\FormatListingController::view'
     _title_callback: '\Drupal\customsolent_helpers\Controller\FormatListingController::title'

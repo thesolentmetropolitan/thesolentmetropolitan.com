@@ -32,14 +32,13 @@ function customsolent_helpers_theme($existing, $type, $theme, $path) {
         'banner' => NULL,
       ],
     ],
-    // The format landing page: /events/{format} (festivals, talks …).
+    // The format landing page: /explore/events/{format} (festivals, talks …).
     'slnt_format_listing' => [
       'variables' => [
         'format' => NULL,
         'summary' => NULL,
         'banner' => NULL,
         'listing' => NULL,
-        'organisations' => NULL,
         'section_key' => 'explore',
       ],
     ],
@@ -260,7 +259,7 @@ function customsolent_helpers_format_terms(): array {
       'slug' => $slug,
       'summary' => ($term->hasField('field_reader_summary') && !$term->get('field_reader_summary')->isEmpty())
         ? (string) $term->get('field_reader_summary')->value : '',
-      'url' => '/events/' . $slug,
+      'url' => customsolent_helpers_sitewide_listing_url('events') . '/' . $slug,
       'term' => $term,
     ];
   }
@@ -282,7 +281,7 @@ function customsolent_helpers_format_by_slug(string $slug): ?\Drupal\taxonomy\Te
 /**
  * The format narrowing the current request, as a term id, or NULL.
  *
- * Set by the landing page (/events/festivals puts it on the request) or
+ * Set by the landing page (/explore/events/festivals puts it on the request) or
  * by ?format=<slug> on any listing. An unknown slug narrows nothing.
  */
 function customsolent_helpers_active_format_tid(): ?int {
@@ -301,11 +300,11 @@ function customsolent_helpers_active_format_tid(): ?int {
 /**
  * Listing views whose results can be narrowed by a format.
  *
- * Links carry no format, so a format on the combined directory simply
- * leaves them out, which is right: a format is a shape of event.
+ * Links carry no format, so a format on a directory simply leaves them
+ * out, which is right: a format is a shape of event.
  */
 function customsolent_helpers_format_filtered_views(): array {
-  return ['events_listing', 'organisations_listing', 'directory_listing', 'series_listing'];
+  return ['events_listing', 'organisations_listing', 'directory_listing', 'links_listing', 'series_listing'];
 }
 
 /**
