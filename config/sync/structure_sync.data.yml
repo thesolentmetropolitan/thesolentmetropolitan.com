@@ -1800,7 +1800,7 @@ taxonomies:
       name: Broadcast
       description__value: "<p>Things you listen to or watch rather than attend: radio shows and stations' programmes, podcasts, TV programmes, live streams. An event that is also streamed keeps its own format with the Setting Online or Hybrid.</p>"
       description__format: basic_html
-      weight: '15'
+      weight: '16'
       parent: '0'
       uuid: 00b2d855-899a-4d4f-9d15-0d83c97af85c
       field_reader_summary:
@@ -1839,7 +1839,7 @@ taxonomies:
       name: Conference
       description__value: '<p>A day or more of talks, panels and stands for a profession or industry: business shows, tech and music-industry conferences, trade exhibitions. A single talk is Talk; a public exhibition of work is Exhibition.</p>'
       description__format: basic_html
-      weight: '10'
+      weight: '11'
       parent: '0'
       uuid: 617ce626-550b-4f61-b8c7-b8a0b31a5f6f
       field_reader_summary:
@@ -1886,12 +1886,25 @@ taxonomies:
           value: 'Festivals: many events under one name, usually over a weekend or a season.'
     -
       vid: format
+      tid: '406'
+      langcode: en
+      name: Fundraiser
+      description__value: '<p>A modifier: the event raises money for a cause, whatever its shape. Sits beside the format of the thing itself (a charity rave is Club Night &amp; Party + Fundraiser; a sponsored run is Fundraiser with its sport in Topic; a charity quiz is Social &amp; Meet-up + Fundraiser). Not for a ticketed event that merely covers its costs.</p>'
+      description__format: basic_html
+      weight: '10'
+      parent: '0'
+      uuid: 23105dbe-375e-4486-95fa-aa14afdf6be1
+      field_reader_summary:
+        -
+          value: 'Raising money for a cause: sponsored runs and walks, charity gigs, quizzes and raves.'
+    -
+      vid: format
       tid: '402'
       langcode: en
       name: 'Guided Tour'
       description__value: "<p>Tours and trails with a guide: heritage and ghost tours, bus and boat tours, guided nature hikes, taster tours, open-studio trails. On foot, wheels or water, so the word is Tour, not Walk. A group that walks for the company is Social &amp; Meet-up; a band's tour is a Performance.</p>"
       description__format: basic_html
-      weight: '13'
+      weight: '14'
       parent: '0'
       uuid: 0efc564f-4e7d-43a1-8aab-f275cab40e29
       field_reader_summary:
@@ -1917,7 +1930,7 @@ taxonomies:
       name: Networking
       description__value: '<p>Events whose point is meeting people in a trade or scene: business breakfasts, creative networking, meet-ups for an industry. A friendly gathering with no trade angle is Social &amp; Meet-up.</p>'
       description__format: basic_html
-      weight: '11'
+      weight: '12'
       parent: '0'
       uuid: b9aae009-0b97-416a-b75e-71ba405a8d7d
       field_reader_summary:
@@ -1930,7 +1943,7 @@ taxonomies:
       name: 'Open Mic & Jam'
       description__value: '<p>Nights where the bill is whoever turns up: music, poetry and comedy open mics, jam sessions, singarounds, electronic jams. The subject stays in Topic (Open Mic &amp; Spoken Word, a music genre, Comedy).</p>'
       description__format: basic_html
-      weight: '14'
+      weight: '15'
       parent: '0'
       uuid: b321287c-8775-4871-86f3-5889fe6acecc
       field_reader_summary:
@@ -1969,7 +1982,7 @@ taxonomies:
       name: 'Social & Meet-up'
       description__value: "<p>Gatherings you turn up to for the company and the shared interest: coffee mornings, peer support groups, hobby clubs' regular meets, community assemblies, quiz nights, the social dancing after a dance class. Networking for work is Networking; a night that exists for the dancefloor is Club Night &amp; Party.</p>"
       description__format: basic_html
-      weight: '12'
+      weight: '13'
       parent: '0'
       uuid: 8abd97ef-e9fa-4d3e-b2d0-a9a6c6941212
       field_reader_summary:
