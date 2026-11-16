@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.taxonomy_term.format.field_plural_label
     - field.field.taxonomy_term.format.field_reader_summary
     - taxonomy.vocabulary.format
   module:
@@ -16,6 +17,14 @@ content:
   description:
     type: text_textfield
     weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_plural_label:
+    type: string_textfield
+    weight: -4
     region: content
     settings:
       size: 60

@@ -3347,8 +3347,15 @@ function _customsolent_preprocess_format_extras($node, array &$variables): void 
   if ($node->hasField('field_format') && !$node->get('field_format')->isEmpty()) {
     $terms = $node->get('field_format')->referencedEntities();
     usort($terms, static fn($a, $b) => [(int) $a->getWeight(), $a->label()] <=> [(int) $b->getWeight(), $b->label()]);
+    // An organisation puts on many, so it reads in the plural ("Talks");
+    // an event or series is one occasion ("Talk").
+    $plural = $node->bundle() === 'organisation';
     foreach ($terms as $term) {
-      $variables['format_labels'][] = $term->label();
+      $label = $term->label();
+      if ($plural && $term->hasField('field_plural_label') && !$term->get('field_plural_label')->isEmpty()) {
+        $label = (string) $term->get('field_plural_label')->value;
+      }
+      $variables['format_labels'][] = $label;
       $variables['#cache']['tags'][] = 'taxonomy_term:' . $term->id();
     }
   }

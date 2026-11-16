@@ -1,0 +1,19 @@
+uuid: 19b96455-78d8-4f46-9fce-224110ca44db
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_plural_label
+    - taxonomy.vocabulary.format
+id: taxonomy_term.format.field_plural_label
+field_name: field_plural_label
+entity_type: taxonomy_term
+bundle: format
+label: 'plural label'
+description: 'The name in the plural, for an organisation that puts on many ("Talks", "Classes & Courses") and for the format landing pages.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

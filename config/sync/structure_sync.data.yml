@@ -1803,6 +1803,9 @@ taxonomies:
       weight: '15'
       parent: '0'
       uuid: 00b2d855-899a-4d4f-9d15-0d83c97af85c
+      field_plural_label:
+        -
+          value: Broadcasts
       field_reader_summary:
         -
           value: 'Radio shows, podcasts, TV programmes and live streams.'
@@ -1816,6 +1819,9 @@ taxonomies:
       weight: '8'
       parent: '0'
       uuid: cc88ebf1-3db2-4dff-9bbf-3c9b7c92f8f5
+      field_plural_label:
+        -
+          value: 'Classes & Courses'
       field_reader_summary:
         -
           value: 'Regular classes and courses: weekly lessons, night school, terms and bootcamps.'
@@ -1829,6 +1835,9 @@ taxonomies:
       weight: '1'
       parent: '0'
       uuid: 4f9e2dc0-f3a6-47f0-97f7-7e85554e7e45
+      field_plural_label:
+        -
+          value: 'Club Nights & Parties'
       field_reader_summary:
         -
           value: 'Club nights, DJ sets, parties and socials where the dancefloor is the point.'
@@ -1842,6 +1851,9 @@ taxonomies:
       weight: '9'
       parent: '0'
       uuid: 617ce626-550b-4f61-b8c7-b8a0b31a5f6f
+      field_plural_label:
+        -
+          value: Conferences
       field_reader_summary:
         -
           value: 'Conferences, summits and trade shows for a sector.'
@@ -1855,6 +1867,9 @@ taxonomies:
       weight: '16'
       parent: '0'
       uuid: 5ff05dd6-2985-40c6-941a-cff96c1ea1f6
+      field_plural_label:
+        -
+          value: Drop-ins
       field_reader_summary:
         -
           value: 'Turn up when you like: no booking, no commitment to a run of sessions.'
@@ -1868,6 +1883,9 @@ taxonomies:
       weight: '4'
       parent: '0'
       uuid: b06c077c-53c5-421a-a84a-2c7f4eeb94b2
+      field_plural_label:
+        -
+          value: Exhibitions
       field_reader_summary:
         -
           value: 'Exhibitions and shows of work on display, running for days or weeks.'
@@ -1881,6 +1899,9 @@ taxonomies:
       weight: '2'
       parent: '0'
       uuid: 64d00b92-9fd8-4d53-b9a4-e121293508ce
+      field_plural_label:
+        -
+          value: Festivals
       field_reader_summary:
         -
           value: 'Festivals: many events under one name, usually over a weekend or a season.'
@@ -1894,6 +1915,9 @@ taxonomies:
       weight: '17'
       parent: '0'
       uuid: 23105dbe-375e-4486-95fa-aa14afdf6be1
+      field_plural_label:
+        -
+          value: Fundraisers
       field_reader_summary:
         -
           value: 'Raising money for a cause: sponsored runs and walks, charity gigs, quizzes and raves.'
@@ -1907,6 +1931,9 @@ taxonomies:
       weight: '13'
       parent: '0'
       uuid: 0efc564f-4e7d-43a1-8aab-f275cab40e29
+      field_plural_label:
+        -
+          value: 'Guided Tours'
       field_reader_summary:
         -
           value: 'Guided tours and trails: someone leads you round, on foot, wheels or water.'
@@ -1920,6 +1947,9 @@ taxonomies:
       weight: '18'
       parent: '0'
       uuid: a47ed219-5455-4578-8657-d7ab4dc24e23
+      field_plural_label:
+        -
+          value: Launches
       field_reader_summary:
         -
           value: 'Opening nights and launches: the first night of something that then runs.'
@@ -1933,6 +1963,9 @@ taxonomies:
       weight: '3'
       parent: '0'
       uuid: d10d8754-79e2-45d2-b4b8-bbf93434e26d
+      field_plural_label:
+        -
+          value: 'Markets & Fairs'
       field_reader_summary:
         -
           value: 'Markets, fairs and sales: stalls to browse and buy from.'
@@ -1946,6 +1979,9 @@ taxonomies:
       weight: '10'
       parent: '0'
       uuid: b9aae009-0b97-416a-b75e-71ba405a8d7d
+      field_plural_label:
+        -
+          value: Networking
       field_reader_summary:
         -
           value: 'Networking events, business breakfasts and meet-the-scene nights.'
@@ -1959,6 +1995,9 @@ taxonomies:
       weight: '14'
       parent: '0'
       uuid: b321287c-8775-4871-86f3-5889fe6acecc
+      field_plural_label:
+        -
+          value: 'Open Mics & Jams'
       field_reader_summary:
         -
           value: 'Open mics, jams and sessions where anyone can get up.'
@@ -1972,6 +2011,9 @@ taxonomies:
       weight: '0'
       parent: '0'
       uuid: 0093b3e5-97b8-4e49-8c88-b384206ed220
+      field_plural_label:
+        -
+          value: Performances
       field_reader_summary:
         -
           value: 'Gigs, shows and concerts: music, theatre, comedy and dance performed to an audience.'
@@ -1985,6 +2027,9 @@ taxonomies:
       weight: '12'
       parent: '0'
       uuid: 531f8dd4-6adc-48be-a5f1-601cefda485a
+      field_plural_label:
+        -
+          value: 'Public Meetings'
       field_reader_summary:
         -
           value: 'Public meetings, assemblies and consultations: come to be heard and to hear.'
@@ -1998,6 +2043,9 @@ taxonomies:
       weight: '5'
       parent: '0'
       uuid: e6588388-67d6-4ff0-9f12-93e371d665a2
+      field_plural_label:
+        -
+          value: Screenings
       field_reader_summary:
         -
           value: 'Film screenings, with or without a discussion after.'
@@ -2011,6 +2059,9 @@ taxonomies:
       weight: '11'
       parent: '0'
       uuid: 8abd97ef-e9fa-4d3e-b2d0-a9a6c6941212
+      field_plural_label:
+        -
+          value: 'Socials & Meet-ups'
       field_reader_summary:
         -
           value: 'Socials, meet-ups, clubs and support groups: come along and meet people.'
@@ -2024,6 +2075,9 @@ taxonomies:
       weight: '6'
       parent: '0'
       uuid: 7cb9890b-8301-4f9e-bd02-e232e165bf95
+      field_plural_label:
+        -
+          value: Talks
       field_reader_summary:
         -
           value: 'Talks, lectures, panels and seminars: someone speaks, you listen and ask.'
@@ -2037,6 +2091,9 @@ taxonomies:
       weight: '7'
       parent: '0'
       uuid: a0260488-91ca-494e-8f97-f63f9f4dc8b2
+      field_plural_label:
+        -
+          value: Workshops
       field_reader_summary:
         -
           value: 'Hands-on sessions where you make, try or learn by doing.'
