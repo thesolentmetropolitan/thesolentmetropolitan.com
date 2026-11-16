@@ -1482,6 +1482,11 @@ function customsolent_preprocess_paragraph__hero_with_art_style(&$variables) {
     $variables['hero_title_tag'] = 'h1';
     $variables['#cache']['tags'][] = 'config:system.site';
   }
+  // A banner built on the fly by a landing page (/events/<format>) has no
+  // node; the controller says what its title tag is.
+  if (!$parent && $paragraph->isNew() && \Drupal::request()->attributes->has('slnt_hero_title_tag')) {
+    $variables['hero_title_tag'] = (string) \Drupal::request()->attributes->get('slnt_hero_title_tag');
+  }
   if ($parent
     && $parent->getEntityTypeId() === 'node'
     && $parent->bundle() === 'composite_page'
@@ -1715,6 +1720,14 @@ function customsolent_form_views_exposed_form_alter(array &$form, \Drupal\Core\F
       '#value' => $topic,
     ];
   }
+  // Likewise the format (issue 485).
+  $format = \Drupal::request()->query->get('format');
+  if (is_string($format) && $format !== '' && !isset($form['format'])) {
+    $form['format'] = [
+      '#type'  => 'hidden',
+      '#value' => $format,
+    ];
+  }
 }
 
 
@@ -1843,6 +1856,64 @@ function customsolent_preprocess_paragraph__view_display(&$variables) {
 
   // Preview / full-listing behaviour for the by-topic listings.
   _customsolent_preprocess_listing_mode($variables, $paragraph, $host, $context, $active_filter_tid);
+
+  // The Format group under the topics, where this listing can take one.
+  if (!empty($variables['filter_has_options'])) {
+    _customsolent_apply_format_options_to_variables($variables, in_array($view_name, customsolent_helpers_format_filtered_views(), TRUE));
+  }
+}
+
+/**
+ * The sidebar's Format group (issue 485): every format, linking to a
+ * ?format= filter of this page, or, on a format landing page, to the other
+ * landing pages. Nothing when the page's listings take no format.
+ */
+function _customsolent_apply_format_options_to_variables(array &$variables, bool $applies): void {
+  $variables['format_has_options'] = FALSE;
+  $variables['format_options'] = [];
+  $variables['format_all_url'] = NULL;
+  $variables['format_all_active'] = TRUE;
+  $variables['format_active_label'] = NULL;
+  if (!$applies) {
+    return;
+  }
+  $formats = customsolent_helpers_format_terms();
+  if (!$formats) {
+    return;
+  }
+  $variables['#cache']['tags'][] = 'taxonomy_term_list:format';
+  $variables['#cache']['contexts'][] = 'url.query_args:format';
+  $variables['#cache']['contexts'][] = 'route';
+  $on_landing = \Drupal::routeMatch()->getRouteName() === 'customsolent_helpers.format_listing';
+  $active = customsolent_helpers_active_format_tid();
+  foreach ($formats as $tid => $f) {
+    $variables['format_options'][] = [
+      'tid' => $tid,
+      'label' => $f['plural'],
+      'url' => $on_landing ? $f['url'] : _customsolent_build_filter_url(['format' => $f['slug']]),
+      'active' => $active === $tid,
+    ];
+    if ($active === $tid) {
+      $variables['format_active_label'] = $f['plural'];
+    }
+  }
+  $variables['format_has_options'] = TRUE;
+  $variables['format_all_active'] = ($active === NULL);
+  $variables['format_all_url'] = $on_landing
+    ? (customsolent_helpers_sitewide_listing_url('events') ?? '/')
+    : _customsolent_build_filter_url(['format' => NULL]);
+}
+
+/**
+ * TRUE when a page places a listing that a format can narrow.
+ */
+function _customsolent_host_has_format_listing($host): bool {
+  foreach (_customsolent_topic_listing_paragraphs($host) as $p) {
+    if ($p->hasField('field_view') && in_array($p->get('field_view')->target_id, customsolent_helpers_format_filtered_views(), TRUE)) {
+      return TRUE;
+    }
+  }
+  return FALSE;
 }
 
 /**
@@ -2304,7 +2375,7 @@ function _customsolent_preprocess_listing_mode(array &$variables, $paragraph, $h
   $is_directory = ($type_word === 'organisations');
   $variables['listing_cache'] = [
     '#cache' => [
-      'contexts' => ['url.path', 'url.query_args:topic', 'url.query_args:date_filter_id'],
+      'contexts' => ['url.path', 'url.query_args:topic', 'url.query_args:date_filter_id', 'url.query_args:format'],
       'tags' => $kind['tags'],
     ],
   ];
@@ -2571,6 +2642,7 @@ function customsolent_preprocess_paragraph__section_filter(&$variables) {
   $variables['section_color'] = $context['section_color'];
   $variables['has_children']  = $with_children;
   _customsolent_apply_filter_options_to_variables($variables, $context, $active_filter_tid);
+  _customsolent_apply_format_options_to_variables($variables, _customsolent_host_has_format_listing($host));
 }
 
 /**
@@ -3341,7 +3413,9 @@ function customsolent_preprocess_item_list__search_results(array &$variables) {
  * reads "Festival · Market & Fair" the same way everywhere.
  */
 function _customsolent_preprocess_format_extras($node, array &$variables): void {
+  $variables['#cache']['contexts'][] = 'route';
   $variables['format_labels'] = [];
+  $variables['format_links'] = [];
   $variables['setting_label'] = NULL;
   $variables['setting_key'] = NULL;
   if ($node->hasField('field_format') && !$node->get('field_format')->isEmpty()) {
@@ -3350,12 +3424,23 @@ function _customsolent_preprocess_format_extras($node, array &$variables): void 
     // An organisation puts on many, so it reads in the plural ("Talks");
     // an event or series is one occasion ("Talk").
     $plural = $node->bundle() === 'organisation';
+    $all = customsolent_helpers_format_terms();
+    // On a format's own landing page the cards leave that format out, as
+    // the kicker leaves out the page's topic: the page already says it.
+    $page_format = \Drupal::routeMatch()->getRouteName() === 'customsolent_helpers.format_listing'
+      ? customsolent_helpers_active_format_tid() : NULL;
     foreach ($terms as $term) {
+      if ($page_format && (int) $term->id() === $page_format) {
+        $variables['#cache']['tags'][] = 'taxonomy_term:' . $term->id();
+        continue;
+      }
       $label = $term->label();
       if ($plural && $term->hasField('field_plural_label') && !$term->get('field_plural_label')->isEmpty()) {
         $label = (string) $term->get('field_plural_label')->value;
       }
       $variables['format_labels'][] = $label;
+      // Each format links to its landing page (/events/festivals).
+      $variables['format_links'][] = ['label' => $label, 'url' => $all[(int) $term->id()]['url'] ?? NULL];
       $variables['#cache']['tags'][] = 'taxonomy_term:' . $term->id();
     }
   }

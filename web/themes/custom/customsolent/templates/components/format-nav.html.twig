@@ -1,0 +1,25 @@
+{#
+/**
+ * @file
+ * The Format group under the topics in the sidebar and the sheet (issue 485).
+ *
+ * On a listing or section page each format is a ?format= filter of the
+ * page, composing with the topic and the date; on a format landing page
+ * (/events/festivals) each links to its sibling landing page and "All
+ * formats" goes back to the events page.
+ *
+ * Variables (from _customsolent_apply_format_options_to_variables):
+ *   - format_options    [{tid, label, url, active}]
+ *   - format_all_url
+ *   - format_all_active
+ */
+#}
+{% if format_options is not empty %}
+  <div class="slnt-filter-section slnt-filter-section--formats">
+    <div class="slnt-filter-section__title">{{ 'Format'|t }}</div>
+    <a href="{{ format_all_url }}" class="slnt-filter-item{{ format_all_active ? ' is-active' : '' }}"{% if format_all_active %} aria-current="page"{% endif %}>{{ 'All formats'|t }}</a>
+    {% for option in format_options %}
+      <a href="{{ option.url }}" class="slnt-filter-item{{ option.active ? ' is-active' : '' }}"{% if option.active %} aria-current="page"{% endif %}>{{ option.label }}</a>
+    {% endfor %}
+  </div>
+{% endif %}

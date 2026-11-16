@@ -1031,3 +1031,14 @@ a.slnt-section-strip__item {
   }
 }
 
+
+/* ══════════════════════════════════════
+   Format group in the topic sidebar / sheet (issue 485)
+   A second list under the topics, with a small title; the items are the
+   same .slnt-filter-item as the topics.
+   ══════════════════════════════════════ */
+.slnt-filter-section--formats {
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+}

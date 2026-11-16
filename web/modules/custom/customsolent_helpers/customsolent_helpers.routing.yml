@@ -63,3 +63,23 @@ customsolent_helpers.links_home:
     listing: '/explore/organisations'
   requirements:
     _access: 'TRUE'
+
+# Formats (issue 485): /events/<format> lists everything of that shape,
+# across the three pillars; the bare /events goes to the events page. An
+# event's own alias also starts /events/ but always ends in its date, so the
+# two never collide.
+customsolent_helpers.events_home:
+  path: '/events'
+  defaults:
+    _controller: '\Drupal\customsolent_helpers\Controller\ListingHomeRedirectController::redirectToListing'
+    listing: '/explore/events'
+  requirements:
+    _access: 'TRUE'
+customsolent_helpers.format_listing:
+  path: '/events/{format}'
+  defaults:
+    _controller: '\Drupal\customsolent_helpers\Controller\FormatListingController::view'
+    _title_callback: '\Drupal\customsolent_helpers\Controller\FormatListingController::title'
+  requirements:
+    _access: 'TRUE'
+    format: '[a-z0-9-]+'

@@ -32,6 +32,17 @@ function customsolent_helpers_theme($existing, $type, $theme, $path) {
         'banner' => NULL,
       ],
     ],
+    // The format landing page: /events/{format} (festivals, talks …).
+    'slnt_format_listing' => [
+      'variables' => [
+        'format' => NULL,
+        'summary' => NULL,
+        'banner' => NULL,
+        'listing' => NULL,
+        'organisations' => NULL,
+        'section_key' => 'explore',
+      ],
+    ],
     // Overview · Events · Organisations & links — built by the theme's
     // _customsolent_build_section_strip().
     'slnt_section_strip' => [
@@ -208,7 +219,93 @@ function customsolent_helpers_paragraph_view_alter(array &$build, \Drupal\Core\E
   if (in_array($entity->bundle(), ['view_display', 'section_filter', 'heading'], TRUE)) {
     $build['#cache']['contexts'][] = 'url.query_args:topic';
     $build['#cache']['contexts'][] = 'url.query_args:date_filter_id';
+    $build['#cache']['contexts'][] = 'url.query_args:format';
   }
+}
+
+/**
+ * The URL slug of a Format term's plural: "Club Nights & Parties" ->
+ * club-nights-parties, "Drop-ins" -> drop-ins. Same rule as the topic URLs.
+ */
+function customsolent_helpers_format_slug(string $name): string {
+  $name = preg_replace('/(?<=\S)&(?=\S)/', '-and-', $name);
+  return trim(preg_replace('/[^a-z0-9]+/', '-', strtolower($name)) ?? '', '-');
+}
+
+/**
+ * The Format terms in vocabulary order, keyed by tid.
+ *
+ * Each: tid, name, plural (field_plural_label, else the name), slug,
+ * summary (field_reader_summary), url (the landing page), term.
+ */
+function customsolent_helpers_format_terms(): array {
+  $cache = &drupal_static(__FUNCTION__);
+  if ($cache !== NULL) {
+    return $cache;
+  }
+  $cache = [];
+  $storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
+  foreach ($storage->loadTree('format', 0, 1, TRUE) as $term) {
+    if (!$term->isPublished()) {
+      continue;
+    }
+    $plural = ($term->hasField('field_plural_label') && !$term->get('field_plural_label')->isEmpty())
+      ? (string) $term->get('field_plural_label')->value : $term->label();
+    // The landing page is named in the plural: /events/festivals, /events/talks.
+    $slug = customsolent_helpers_format_slug($plural);
+    $cache[(int) $term->id()] = [
+      'tid' => (int) $term->id(),
+      'name' => $term->label(),
+      'plural' => $plural,
+      'slug' => $slug,
+      'summary' => ($term->hasField('field_reader_summary') && !$term->get('field_reader_summary')->isEmpty())
+        ? (string) $term->get('field_reader_summary')->value : '',
+      'url' => '/events/' . $slug,
+      'term' => $term,
+    ];
+  }
+  return $cache;
+}
+
+/**
+ * The Format term for a URL slug, or NULL.
+ */
+function customsolent_helpers_format_by_slug(string $slug): ?\Drupal\taxonomy\TermInterface {
+  foreach (customsolent_helpers_format_terms() as $f) {
+    if ($f['slug'] === $slug) {
+      return $f['term'];
+    }
+  }
+  return NULL;
+}
+
+/**
+ * The format narrowing the current request, as a term id, or NULL.
+ *
+ * Set by the landing page (/events/festivals puts it on the request) or
+ * by ?format=<slug> on any listing. An unknown slug narrows nothing.
+ */
+function customsolent_helpers_active_format_tid(): ?int {
+  $request = \Drupal::request();
+  if ($request->attributes->has('slnt_format_tid')) {
+    return (int) $request->attributes->get('slnt_format_tid') ?: NULL;
+  }
+  $slug = $request->query->get('format');
+  if (is_string($slug) && $slug !== '') {
+    $term = customsolent_helpers_format_by_slug($slug);
+    return $term ? (int) $term->id() : NULL;
+  }
+  return NULL;
+}
+
+/**
+ * Listing views whose results can be narrowed by a format.
+ *
+ * Links carry no format, so a format on the combined directory simply
+ * leaves them out, which is right: a format is a shape of event.
+ */
+function customsolent_helpers_format_filtered_views(): array {
+  return ['events_listing', 'organisations_listing', 'directory_listing', 'series_listing'];
 }
 
 /**
@@ -254,6 +351,18 @@ function customsolent_helpers_sitewide_listing_url(string $type_word): ?string {
 function customsolent_helpers_views_query_alter(\Drupal\views\ViewExecutable $view, \Drupal\views\Plugin\views\query\QueryPluginBase $query): void {
   if ($view->id() === 'events_listing' && $query instanceof \Drupal\views\Plugin\views\query\Sql) {
     _customsolent_helpers_one_row_per_recurring_event($query);
+  }
+  // A format (issue 485) narrows the listing to items carrying it: the
+  // landing page /events/<format>, or ?format=<slug> on any listing. Its
+  // own AND group, never group 0 (the OR of the topic arguments).
+  $format_tid = customsolent_helpers_active_format_tid();
+  if ($format_tid && in_array($view->id(), customsolent_helpers_format_filtered_views(), TRUE)
+    && $view->current_display !== 'view_display_front_page'
+    && $query instanceof \Drupal\views\Plugin\views\query\Sql) {
+    $with_format = \Drupal::database()->select('node__field_format', 'slnt_f')->fields('slnt_f', ['entity_id'])
+      ->condition('slnt_f.field_format_target_id', $format_tid);
+    $query->setWhereGroup('AND', 'slnt_format');
+    $query->addWhere('slnt_format', 'node_field_data.nid', $with_format, 'IN');
   }
   if (!in_array($view->id(), customsolent_helpers_topic_filtered_views(), TRUE)
     || $view->current_display === 'view_display_front_page'

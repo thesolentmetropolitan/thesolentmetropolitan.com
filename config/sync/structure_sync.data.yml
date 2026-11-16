@@ -543,32 +543,6 @@ menus:
     options: {  }
   -
     menu_name: main
-    title: Talks
-    parent: 'menu_link_content:9548ba9b-5ae0-4248-8c2e-f76e52ef31f5'
-    uri: 'internal:/culture/talks'
-    link_title: ''
-    description: null
-    enabled: true
-    expanded: false
-    weight: -79
-    langcode: en
-    uuid: 13aa2a20-b941-4dd5-8a27-e4e1dd4b61be
-    options: {  }
-  -
-    menu_name: main
-    title: Workshops
-    parent: 'menu_link_content:9548ba9b-5ae0-4248-8c2e-f76e52ef31f5'
-    uri: 'internal:/culture/workshops'
-    link_title: ''
-    description: null
-    enabled: true
-    expanded: false
-    weight: -76
-    langcode: en
-    uuid: 76cf4d5f-3016-4103-9798-2ac3f1793846
-    options: {  }
-  -
-    menu_name: main
     title: Retail
     parent: 'menu_link_content:ca4916ec-7269-42dc-abf5-5864739fbddd'
     uri: 'internal:/sectors/retail'
@@ -605,19 +579,6 @@ menus:
     weight: -85
     langcode: en
     uuid: 0fec7440-af88-4538-bfd1-5422b795b14d
-    options: {  }
-  -
-    menu_name: main
-    title: Festivals
-    parent: 'menu_link_content:9548ba9b-5ae0-4248-8c2e-f76e52ef31f5'
-    uri: 'internal:/culture/festivals'
-    link_title: ''
-    description: null
-    enabled: true
-    expanded: false
-    weight: -95
-    langcode: en
-    uuid: 2cb98f06-787e-4109-a6ed-0bc032237980
     options: {  }
   -
     menu_name: main
@@ -4119,19 +4080,6 @@ taxonomies:
           value: 'Places of worship, faith communities and interfaith life across the Greater Solent.'
     -
       vid: topic
-      tid: '38'
-      langcode: en
-      name: 'Culture / Festivals'
-      description__value: null
-      description__format: null
-      weight: '4'
-      parent: '29'
-      uuid: c4b90002-ec7c-4524-807c-c8652ee9ba75
-      field_reader_summary:
-        -
-          value: "Festivals, carnivals and celebrations that mark the Solent's cultural calendar."
-    -
-      vid: topic
       tid: '39'
       langcode: en
       name: 'Culture / Food & Drink'
@@ -4754,19 +4702,6 @@ taxonomies:
           value: 'Fashion, local designers and the style shaping Solent life.'
     -
       vid: topic
-      tid: '53'
-      langcode: en
-      name: 'Culture / Talks'
-      description__value: null
-      description__format: null
-      weight: '20'
-      parent: '29'
-      uuid: d9a3cf2e-707d-4672-a311-b4dd8ef34c65
-      field_reader_summary:
-        -
-          value: 'Lectures, panels and public talks happening across the Solent.'
-    -
-      vid: topic
       tid: '54'
       langcode: en
       name: 'Culture / Technology'
@@ -4804,19 +4739,6 @@ taxonomies:
       field_reader_summary:
         -
           value: 'Ways to get involved — volunteering projects and community contributions across the Solent.'
-    -
-      vid: topic
-      tid: '56'
-      langcode: en
-      name: 'Culture / Workshops'
-      description__value: null
-      description__format: null
-      weight: '23'
-      parent: '29'
-      uuid: 664a1791-cf2a-433b-879c-9ce2d053c380
-      field_reader_summary:
-        -
-          value: 'Hands-on workshops, courses and skill-sharing sessions open to the Solent public.'
     -
       vid: topic
       tid: '55'

@@ -61,7 +61,7 @@
     <h1 class="slnt-node-full__title">{{ label }}</h1>
 
     {# Format and setting, "Workshop · Online", above the date as on the cards (issue 485). #}
-    {% include '@customsolent/components/format-line.html.twig' with { format_labels: format_labels, setting_label: setting_label, setting_key: setting_key, variant: 'full', show_indoor: true } only %}
+    {% include '@customsolent/components/format-line.html.twig' with { format_labels: format_labels, format_links: format_links, setting_label: setting_label, setting_key: setting_key, variant: 'full', show_indoor: true } only %}
 
     {# Date and time — recurring: one line per rule, then the next dates;
        otherwise field_when (Smart Date). A past event says so here, beside

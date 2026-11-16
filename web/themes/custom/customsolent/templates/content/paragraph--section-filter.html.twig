@@ -46,6 +46,7 @@
         {# Desktop sidebar. #}
         <aside class="slnt-section-filter__sidebar" aria-label="Topics">
           {% include '@customsolent/components/topic-nav.html.twig' with { filter_options: filter_options, filter_all_url: filter_all_url, filter_all_active: filter_all_active } only %}
+          {% include '@customsolent/components/format-nav.html.twig' with { format_options: format_options|default([]), format_all_url: format_all_url, format_all_active: format_all_active } only %}
         </aside>
 
         {# Mobile sticky bar — the panel below opens on tap. #}
@@ -55,6 +56,9 @@
               Topic: <strong>{{ filter_active_label }}</strong>
             {% else %}
               All topics
+            {% endif %}
+            {% if format_active_label %}
+              · Format: <strong>{{ format_active_label }}</strong>
             {% endif %}
           </div>
           <button type="button" class="slnt-filter-bar__button" data-filter-toggle aria-haspopup="dialog" aria-expanded="false">
@@ -74,6 +78,7 @@
           </div>
           <div class="slnt-filter-panel__body">
             {% include '@customsolent/components/topic-nav.html.twig' with { filter_options: filter_options, filter_all_url: filter_all_url, filter_all_active: filter_all_active } only %}
+            {% include '@customsolent/components/format-nav.html.twig' with { format_options: format_options|default([]), format_all_url: format_all_url, format_all_active: format_all_active } only %}
           </div>
         </div>
 
