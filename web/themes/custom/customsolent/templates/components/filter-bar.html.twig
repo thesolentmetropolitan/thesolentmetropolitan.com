@@ -1,0 +1,27 @@
+{#
+/**
+ * @file
+ * The mobile filter bar (under 800px): one button per kind of filter, then
+ * what is selected. The button does two jobs, it names the kind and opens
+ * that kind's sheet (components/filter-sheets.html.twig); the value beside
+ * it, in the section colour, says the current choice or "All". Groups wrap
+ * onto more rows as filters are added (location, age group, tickets …).
+ *
+ * Variables:
+ *   - filter_active_label   the current topic, or null
+ *   - format_has_options    whether this page filters by format
+ *   - format_active_label   the current format, or null
+ */
+#}
+<div class="slnt-filter-bar">
+  <div class="slnt-filter-bar__group">
+    <button type="button" class="slnt-filter-bar__button" data-filter-toggle="topics" aria-haspopup="dialog" aria-expanded="false">{{ 'Topic'|t }}</button>
+    <span class="slnt-filter-bar__value{{ filter_active_label ? ' is-set' : '' }}">{{ filter_active_label ?: 'All'|t }}</span>
+  </div>
+  {% if format_has_options %}
+    <div class="slnt-filter-bar__group">
+      <button type="button" class="slnt-filter-bar__button" data-filter-toggle="formats" aria-haspopup="dialog" aria-expanded="false">{{ 'Format'|t }}</button>
+      <span class="slnt-filter-bar__value{{ format_active_label ? ' is-set' : '' }}">{{ format_active_label ?: 'All'|t }}</span>
+    </div>
+  {% endif %}
+</div>

@@ -216,11 +216,14 @@
     display: none;
   }
 
-  /* Sticky bar — sits below the main nav. */
+  /* Sticky bar — sits below the main nav. One group per kind of filter
+     (Topic · Music   Format · Performances); groups wrap onto more rows as
+     filters are added. */
   .slnt-filter-bar {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
-    justify-content: space-between;
+    gap: 0.5rem 1.4rem;
     background: white;
     border-bottom: 1px solid #e0e0e0;
     padding: 0.6rem var(--content-pad-mobile, 1.2rem);
@@ -230,13 +233,23 @@
     z-index: 9;
   }
 
-  .slnt-filter-bar__status {
+  .slnt-filter-bar__group {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    min-width: 0;
+  }
+
+  /* What is selected, in the section colour; "All" when nothing is. */
+  .slnt-filter-bar__value {
     font-family: 'Atkinson Hyperlegible Next', sans-serif;
     font-size: 0.78rem;
     color: var(--text-mid, #444);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
-
-  .slnt-filter-bar__status strong {
+  .slnt-filter-bar__value.is-set {
     color: var(--section-color, #475569);
     font-weight: 700;
   }
@@ -1041,4 +1054,16 @@ a.slnt-section-strip__item {
   margin-top: 1.25rem;
   padding-top: 1rem;
   border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+/* In a sheet the title row already says "Format": no group title, no rule. */
+@media (max-width: 799px) {
+  .slnt-filter-panel .slnt-filter-section--formats {
+    margin-top: 0;
+    padding-top: 0;
+    border-top: 0;
+  }
+  .slnt-filter-panel .slnt-filter-section__title {
+    display: none;
+  }
 }

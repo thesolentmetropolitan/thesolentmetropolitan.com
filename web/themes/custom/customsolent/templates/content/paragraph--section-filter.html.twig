@@ -50,37 +50,10 @@
         </aside>
 
         {# Mobile sticky bar — the panel below opens on tap. #}
-        <div class="slnt-filter-bar">
-          <div class="slnt-filter-bar__status">
-            {% if filter_active_label %}
-              Topic: <strong>{{ filter_active_label }}</strong>
-            {% else %}
-              All topics
-            {% endif %}
-            {% if format_active_label %}
-              · Format: <strong>{{ format_active_label }}</strong>
-            {% endif %}
-          </div>
-          <button type="button" class="slnt-filter-bar__button" data-filter-toggle aria-haspopup="dialog" aria-expanded="false">
-            {{ 'Topics'|t }}
-          </button>
-        </div>
+        {% include '@customsolent/components/filter-bar.html.twig' with { filter_active_label: filter_active_label, format_has_options: format_has_options|default(false), format_active_label: format_active_label|default(null) } only %}
 
         {# Mobile slide-up panel — overlay outside the sticky flow. #}
-        <div class="slnt-filter-overlay" data-filter-overlay aria-hidden="true"></div>
-        <div class="slnt-filter-panel" data-filter-panel role="dialog" aria-modal="true" aria-label="Topics">
-          <div class="slnt-filter-panel__handle">
-            <span class="slnt-filter-panel__handle-bar"></span>
-          </div>
-          <div class="slnt-filter-panel__header">
-            <span class="slnt-filter-panel__title">{{ 'Topics'|t }}</span>
-            <a href="{{ filter_all_url }}" class="slnt-filter-panel__clear">Clear</a>
-          </div>
-          <div class="slnt-filter-panel__body">
-            {% include '@customsolent/components/topic-nav.html.twig' with { filter_options: filter_options, filter_all_url: filter_all_url, filter_all_active: filter_all_active } only %}
-            {% include '@customsolent/components/format-nav.html.twig' with { format_options: format_options|default([]), format_all_url: format_all_url, format_all_active: format_all_active } only %}
-          </div>
-        </div>
+        {% include '@customsolent/components/filter-sheets.html.twig' with { filter_options: filter_options, filter_all_url: filter_all_url, filter_all_active: filter_all_active, format_has_options: format_has_options|default(false), format_options: format_options|default([]), format_all_url: format_all_url|default(null), format_all_active: (format_all_active is defined ? format_all_active : true) } only %}
 
       {% endblock %}
     </div>

@@ -1,0 +1,39 @@
+{#
+/**
+ * @file
+ * The mobile filter sheets: one slide-up panel per kind of filter, opened by
+ * the matching button in components/filter-bar.html.twig (js/filter-panel.js
+ * pairs data-filter-toggle with data-filter-panel). Topics and formats never
+ * share a sheet: each is a short list on its own.
+ *
+ * Variables: those of topic-nav.html.twig and format-nav.html.twig, plus
+ * format_has_options.
+ */
+#}
+<div class="slnt-filter-overlay" data-filter-overlay aria-hidden="true"></div>
+<div class="slnt-filter-panel" data-filter-panel="topics" role="dialog" aria-modal="true" aria-label="{{ 'Topic'|t }}">
+  <div class="slnt-filter-panel__handle">
+    <span class="slnt-filter-panel__handle-bar"></span>
+  </div>
+  <div class="slnt-filter-panel__header">
+    <span class="slnt-filter-panel__title">{{ 'Topic'|t }}</span>
+    <a href="{{ filter_all_url }}" class="slnt-filter-panel__clear">{{ 'Clear'|t }}</a>
+  </div>
+  <div class="slnt-filter-panel__body">
+    {% include '@customsolent/components/topic-nav.html.twig' with { filter_options: filter_options, filter_all_url: filter_all_url, filter_all_active: filter_all_active } only %}
+  </div>
+</div>
+{% if format_has_options %}
+  <div class="slnt-filter-panel" data-filter-panel="formats" role="dialog" aria-modal="true" aria-label="{{ 'Format'|t }}">
+    <div class="slnt-filter-panel__handle">
+      <span class="slnt-filter-panel__handle-bar"></span>
+    </div>
+    <div class="slnt-filter-panel__header">
+      <span class="slnt-filter-panel__title">{{ 'Format'|t }}</span>
+      <a href="{{ format_all_url }}" class="slnt-filter-panel__clear">{{ 'Clear'|t }}</a>
+    </div>
+    <div class="slnt-filter-panel__body">
+      {% include '@customsolent/components/format-nav.html.twig' with { format_options: format_options|default([]), format_all_url: format_all_url, format_all_active: format_all_active } only %}
+    </div>
+  </div>
+{% endif %}
