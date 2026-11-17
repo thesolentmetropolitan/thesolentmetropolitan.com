@@ -1,0 +1,168 @@
+uuid: 6cace550-e41c-4291-adf2-0ae5fb4d473e
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.location
+  module:
+    - taxonomy
+    - user
+id: location_picker
+label: 'Location picker'
+module: views
+description: 'Location terms with their parent in brackets, "Various (Southampton)", for the where field autocomplete; typing a parent name finds its children too.'
+tag: ''
+base_table: taxonomy_term_field_data
+base_field: tid
+display:
+  default:
+    id: default
+    display_title: Default
+    display_plugin: default
+    position: 0
+    display_options:
+      title: 'Location picker'
+      fields:
+        name:
+          id: name
+          table: taxonomy_term_field_data
+          field: name
+          relationship: none
+          entity_type: taxonomy_term
+          entity_field: name
+          plugin_id: term_name
+          label: ''
+          exclude: false
+          element_label_colon: false
+          hide_empty: true
+          empty_zero: false
+          type: string
+          settings:
+            link_to_entity: false
+          convert_spaces: false
+        name_1:
+          id: name_1
+          table: taxonomy_term_field_data
+          field: name
+          relationship: parent_target_id
+          entity_type: taxonomy_term
+          entity_field: name
+          plugin_id: term_name
+          label: ''
+          exclude: false
+          alter:
+            alter_text: true
+            text: '({{ name_1 }})'
+          element_label_colon: false
+          hide_empty: true
+          empty_zero: false
+          type: string
+          settings:
+            link_to_entity: false
+          convert_spaces: false
+      pager:
+        type: none
+        options:
+          offset: 0
+      access:
+        type: perm
+        options:
+          perm: 'access content'
+      cache:
+        type: tag
+        options: {  }
+      sorts:
+        name:
+          id: name
+          table: taxonomy_term_field_data
+          field: name
+          entity_type: taxonomy_term
+          entity_field: name
+          plugin_id: standard
+          order: ASC
+        name_1:
+          id: name_1
+          table: taxonomy_term_field_data
+          field: name
+          relationship: parent_target_id
+          entity_type: taxonomy_term
+          entity_field: name
+          plugin_id: standard
+          order: ASC
+      filters:
+        vid:
+          id: vid
+          table: taxonomy_term_field_data
+          field: vid
+          entity_type: taxonomy_term
+          entity_field: vid
+          plugin_id: bundle
+          operator: in
+          value:
+            location: location
+        status:
+          id: status
+          table: taxonomy_term_field_data
+          field: status
+          entity_type: taxonomy_term
+          entity_field: status
+          plugin_id: boolean
+          operator: '='
+          value: '1'
+      style:
+        type: default
+        options: {  }
+      row:
+        type: fields
+        options: {  }
+      query:
+        type: views_query
+        options: {  }
+      relationships:
+        parent_target_id:
+          id: parent_target_id
+          table: taxonomy_term__parent
+          field: parent_target_id
+          relationship: none
+          admin_label: Parent
+          plugin_id: standard
+          required: false
+      display_extenders: {  }
+    cache_metadata:
+      max-age: -1
+      contexts:
+        - 'languages:language_content'
+        - 'languages:language_interface'
+        - user.permissions
+      tags: {  }
+  entity_reference_1:
+    id: entity_reference_1
+    display_title: 'Entity Reference'
+    display_plugin: entity_reference
+    position: 1
+    display_options:
+      style:
+        type: entity_reference
+        options:
+          search_fields:
+            name: name
+      row:
+        type: entity_reference
+        options:
+          default_field_elements: true
+          inline:
+            name: name
+            name_1: name_1
+          separator: ' '
+          hide_empty: false
+      defaults:
+        style: false
+        row: false
+      display_extenders: {  }
+    cache_metadata:
+      max-age: -1
+      contexts:
+        - 'languages:language_content'
+        - 'languages:language_interface'
+        - user.permissions
+      tags: {  }
