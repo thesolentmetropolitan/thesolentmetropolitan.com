@@ -1,29 +1,29 @@
 {#
 /**
  * @file
- * Every topic of an event or organisation, on its page: the primary first,
- * then the related ones, each as its full chain so that "Culture /
- * Technology" and "Sectors / Technology" read as two topics, not one twice.
- * Each term is a link to its page. Sits after the content, before the
- * related lists, as the kicker sits at the end of a card.
+ * The related topics of a page, after its content: each as its full chain
+ * ("Sectors / Environment") so that "Culture / Technology" and "Sectors /
+ * Technology" read as two topics, in its section's colour, the chains
+ * separated by commas. The primary topic is the kicker at the top of the
+ * page, so it is not repeated here. Each term is a link to its page.
  *
- * Variables (from _customsolent_preprocess_all_topics()):
- *   - all_topics: list of {chain: [{label, url, color}], primary, color}
+ * Variables (from _customsolent_preprocess_related_topics()):
+ *   - related_topic_chains: list of {chain: [{label, url, color}], color}
  */
 #}
-{% if all_topics is not empty %}
+{% if related_topic_chains is not empty %}
   <div class="slnt-node-full__topics">
-    <span class="slnt-node-full__topics-label">{{ 'Topics'|t }}</span>
+    <span class="slnt-node-full__topics-label">{{ 'Related topics'|t }}</span>
     <ul class="slnt-node-full__topics-list">
-      {% for topic in all_topics %}
-        <li class="slnt-topic-chain{{ topic.primary ? ' slnt-topic-chain--primary' : '' }}"{% if topic.color %} style="--slnt-chain-color: {{ topic.color }}"{% endif %}>
+      {%- for topic in related_topic_chains -%}
+        <li class="slnt-topic-chain"{% if topic.color %} style="--slnt-chain-color: {{ topic.color }}"{% endif %}>
           {%- for term in topic.chain -%}
             <a href="{{ term.url }}" class="slnt-topic-chain__term">{{ term.label }}</a>
             {%- if not loop.last %}<span class="slnt-topic-chain__sep" aria-hidden="true"> / </span>{% endif -%}
           {%- endfor -%}
-          {% if topic.primary %}<span class="visually-hidden"> ({{ 'primary topic'|t }})</span>{% endif %}
+          {%- if not loop.last %}<span class="slnt-topic-chain__comma">, </span>{% endif -%}
         </li>
-      {% endfor %}
+      {%- endfor -%}
     </ul>
   </div>
 {% endif %}

@@ -67,7 +67,7 @@
       <div class="slnt-event-teaser__row slnt-event-teaser__when">
         {% include '@customsolent/components/when-icon.html.twig' with { icon: 'repeat', class: 'slnt-event-teaser__icon' } only %}
         <span class="slnt-event-teaser__label">{{ 'When'|t }}</span>
-        <span class="slnt-event-teaser__value">{{ event_recurrence_lines|join(' · ') }}
+        <span class="slnt-event-teaser__value">{% if is_past_event %}<span class="slnt-past-pill">{{ 'Past'|t }}</span> {% endif %}{{ event_recurrence_lines|join(' · ') }}
           {% if event_next_dates is empty %}
             {% for special in series_specials %}<span class="slnt-event-teaser__special">{{ special }}</span>{% endfor %}
             {% if event_arrival %}<span class="slnt-event-teaser__arrival">{{ event_arrival }}</span>{% endif %}
@@ -90,7 +90,7 @@
       <div class="slnt-event-teaser__row slnt-event-teaser__when">
         {% include '@customsolent/components/when-icon.html.twig' with { icon: 'calendar', class: 'slnt-event-teaser__icon' } only %}
         <span class="slnt-event-teaser__label">When</span>
-        <span class="slnt-event-teaser__value">{{ content.field_when[0] }}
+        <span class="slnt-event-teaser__value">{% if is_past_event %}<span class="slnt-past-pill">{{ 'Past'|t }}</span> {% endif %}{{ content.field_when[0] }}
           {% for special in series_specials %}<span class="slnt-event-teaser__special">{{ special }}</span>{% endfor %}
           {% if event_arrival %}<span class="slnt-event-teaser__arrival">{{ event_arrival }}</span>{% endif %}
         </span>

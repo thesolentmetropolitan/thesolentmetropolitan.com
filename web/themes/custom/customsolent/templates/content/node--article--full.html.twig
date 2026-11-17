@@ -73,6 +73,9 @@
     {{ content.field_body }}
   </div>
 
+  {# Related topics, each as its full chain (the primary is the kicker). #}
+  {% include '@customsolent/components/topics-list.html.twig' with { related_topic_chains: related_topic_chains|default([]) } only %}
+
   {# Collaborations this article is part of (reverse lookup). #}
   {% include '@customsolent/components/collaborations-block.html.twig' with {
     collaboration_items: collaboration_items,

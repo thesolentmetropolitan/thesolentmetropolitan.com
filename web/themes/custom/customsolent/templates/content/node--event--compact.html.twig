@@ -97,7 +97,7 @@
                several ("Every Monday and Wednesday, 2 - 3:30pm" / "Every
                Tuesday and Thursday, 10 - 11:30am"). #}
             {% for line in event_recurrence_lines %}
-              <span class="slnt-event-compact__recurrence">{{ line }}</span>
+              <span class="slnt-event-compact__recurrence">{% if loop.first and is_past_event %}<span class="slnt-past-pill">{{ 'Past'|t }}</span> {% endif %}{{ line }}</span>
             {% endfor %}
             {% if event_next_dates is empty %}
               {% for special in series_specials %}
@@ -127,7 +127,7 @@
         <div class="slnt-event-compact__row slnt-event-compact__date">
           {% include '@customsolent/components/when-icon.html.twig' with { icon: 'calendar', class: 'slnt-event-compact__icon' } only %}
           <span class="slnt-event-compact__value">
-            {{ content.field_when }}
+            {% if is_past_event %}<span class="slnt-past-pill">{{ 'Past'|t }}</span> {% endif %}{{ content.field_when }}
             {% for special in series_specials %}
               <span class="slnt-event-compact__special">{{ special }}</span>
             {% endfor %}

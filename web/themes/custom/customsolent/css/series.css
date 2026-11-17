@@ -376,37 +376,6 @@
   min-width: 0;
 }
 
-/* Related topics: "Also in  Identity  Community  Festivals". */
-.slnt-series-full__related {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 0.3rem 0.9rem;
-  margin: 0 0 2rem 0;
-  font-family: 'Atkinson Hyperlegible Next', sans-serif;
-}
-
-.slnt-series-full__related-label {
-  font-size: 0.9rem;
-  color: var(--text-mid, #444);
-}
-
-.layout-content a.slnt-series-full__related-link,
-.slnt-series-full__related-link {
-  font-size: 0.9rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  text-decoration: none;
-}
-
-.layout-content a.slnt-series-full__related-link:hover,
-.slnt-series-full__related-link:hover {
-  text-decoration: underline;
-  text-decoration-color: currentColor;
-  text-underline-offset: 3px;
-  text-decoration-thickness: 2px;
-}
-
 /* Phones: the warm-grey band runs to the viewport edges (negative margin
    = the page's side padding, see .slnt-node-full in node-full-views.css)
    and its inner padding is that same amount, so the cards' outer edges

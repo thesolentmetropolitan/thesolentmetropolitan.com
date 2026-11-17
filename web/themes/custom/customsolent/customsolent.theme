@@ -186,10 +186,11 @@ function customsolent_preprocess_node(array &$variables): void {
     _customsolent_preprocess_format_extras($node, $variables);
   }
 
-  // Every topic, each as its full chain, on the event and organisation
-  // pages: why the item appears where it does.
-  if (in_array($node->bundle(), ['event', 'organisation'], TRUE) && ($variables['view_mode'] ?? '') === 'full') {
-    _customsolent_preprocess_all_topics($node, $variables);
+  // The related topics, each as its full chain, at the foot of a page (the
+  // primary is the kicker at the top, so it is not repeated).
+  if (in_array($node->bundle(), ['event', 'organisation', 'article', 'series', 'collaboration'], TRUE)
+    && ($variables['view_mode'] ?? '') === 'full') {
+    _customsolent_preprocess_related_topics($node, $variables);
   }
 
   // Event teaser extras.
@@ -1097,25 +1098,6 @@ function _customsolent_series_member_pre_render_class(): string {
 }
 
 /**
- * Related topics as section-coloured links, for the "Also in" row.
- *
- * @return array<int, array{label: string, url: string, color: string}>
- */
-function _customsolent_related_topic_links($node): array {
-  $links = [];
-  if ($node->hasField('field_related_topics')) {
-    foreach ($node->get('field_related_topics')->referencedEntities() as $term) {
-      $trail = _customsolent_build_topic_trail($term, FALSE);
-      $leaf = end($trail['ancestors']);
-      if ($leaf) {
-        $links[] = $leaf;
-      }
-    }
-  }
-  return $links;
-}
-
-/**
  * Collaboration variables for the card (teaser) and the page (full).
  *
  * Sets:
@@ -1126,7 +1108,6 @@ function _customsolent_related_topic_links($node): array {
  *     rows, published only, editor order.
  *   - collab_groups        — (full) outcomes grouped by bundle as compact
  *     cards: {key, label, items[], grid_class}.
- *   - related_topic_links  — (full) {label, url, color}.
  *   - collab_cache         — cache metadata to print in every branch.
  */
 function _customsolent_preprocess_collaboration_extras($node, array &$variables): void {
@@ -1213,7 +1194,6 @@ function _customsolent_preprocess_collaboration_extras($node, array &$variables)
     }
   }
   $variables['collab_groups'] = array_values($groups);
-  $variables['related_topic_links'] = _customsolent_related_topic_links($node);
 }
 
 /**
@@ -1347,8 +1327,6 @@ function _customsolent_preprocess_article_byline($node, array &$variables): void
  *     rendered as compact cards: organisations that were not part of the
  *     series but are relevant to it, shown under their own heading after
  *     the members.
- *   - related_topic_links — (full only) {label, url, color} per related
- *     topic, section-coloured like the trail kicker.
  *   - section_key / section_color — from the primary topic's section.
  *   - series_cache — render array with the cache metadata of the above.
  */
@@ -1457,9 +1435,6 @@ function _customsolent_preprocess_series_extras($node, array &$variables): void 
       }
     }
   }
-
-  // Related topics as section-coloured links to their section pages.
-  $variables['related_topic_links'] = _customsolent_related_topic_links($node);
 }
 
 
@@ -3588,37 +3563,37 @@ function _customsolent_preprocess_format_extras($node, array &$variables): void 
 }
 
 /**
- * All of a node's topics for its page, primary first, each as its full
- * chain ("Culture / Technology", "Sectors / Technology": the parents tell
- * two same-named terms apart). Each term links to its page.
+ * The related topics of a node, each as its full chain, for the foot of
+ * its page (components/topics-list.html.twig). The primary topic is the
+ * kicker at the top of the page and is left out here; a related term that
+ * repeats the primary is left out too.
  *
- * Sets all_topics: list of {chain: [{label, url, color}], primary, color}.
+ * Sets:
+ *   - related_topic_chains — list of {chain: [{label, url, color}], color}
+ *     where color is the section colour of the chain's top-level term.
  */
-function _customsolent_preprocess_all_topics($node, array &$variables): void {
-  $variables['all_topics'] = [];
+function _customsolent_preprocess_related_topics($node, array &$variables): void {
+  $variables['related_topic_chains'] = [];
+  if (!$node->hasField('field_related_topics')) {
+    return;
+  }
   $seen = [];
-  $add = function ($term, bool $primary) use (&$variables, &$seen): void {
-    if (!$term || isset($seen[$term->id()])) {
-      return;
+  if ($node->hasField('field_primary_topic') && !$node->get('field_primary_topic')->isEmpty()) {
+    $seen[(int) $node->get('field_primary_topic')->target_id] = TRUE;
+  }
+  foreach ($node->get('field_related_topics')->referencedEntities() as $term) {
+    if (isset($seen[$term->id()])) {
+      continue;
     }
     $seen[$term->id()] = TRUE;
     $trail = _customsolent_build_topic_trail($term, FALSE);
     if (empty($trail['ancestors'])) {
-      return;
+      continue;
     }
-    $variables['all_topics'][] = [
+    $variables['related_topic_chains'][] = [
       'chain' => $trail['ancestors'],
-      'primary' => $primary,
       'color' => $trail['ancestors'][0]['color'] ?? NULL,
     ];
     $variables['#cache']['tags'][] = 'taxonomy_term:' . $term->id();
-  };
-  if ($node->hasField('field_primary_topic') && !$node->get('field_primary_topic')->isEmpty()) {
-    $add($node->get('field_primary_topic')->entity, TRUE);
-  }
-  if ($node->hasField('field_related_topics')) {
-    foreach ($node->get('field_related_topics')->referencedEntities() as $term) {
-      $add($term, FALSE);
-    }
   }
 }

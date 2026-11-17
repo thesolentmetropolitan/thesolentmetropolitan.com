@@ -11,7 +11,7 @@
  *
  * Variables from _customsolent_preprocess_collaboration_extras():
  *   collab_collaborators (render arrays, teaser), collab_groups
- *   ({key, label, items[], grid_class}), related_topic_links,
+ *   ({key, label, items[], grid_class}), related_topic_chains,
  *   collab_cache (print in every branch).
  */
 #}
@@ -94,14 +94,8 @@
     </div>
   {% endif %}
 
-  {% if related_topic_links is not empty %}
-    <nav class="slnt-series-full__related" aria-label="{{ 'Related topics'|t }}">
-      <span class="slnt-series-full__related-label">{{ 'Also in'|t }}</span>
-      {% for topic in related_topic_links %}
-        <a href="{{ topic.url }}" class="slnt-series-full__related-link" style="color: {{ topic.color }};">{{ topic.label }}</a>
-      {% endfor %}
-    </nav>
-  {% endif %}
+  {# Related topics, each as its full chain (the primary is the kicker). #}
+  {% include '@customsolent/components/topics-list.html.twig' with { related_topic_chains: related_topic_chains|default([]) } only %}
 
   {{ collab_cache }}
 

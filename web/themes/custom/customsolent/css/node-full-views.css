@@ -254,22 +254,30 @@
   margin-bottom: 0.3rem;
 }
 
-/* "Past event" — by the date, not above the kicker, and a step larger
-   than the small regular-event badge: the reader should see it with the
-   date. Warm grey ground, dark text (10:1). */
-.slnt-node-full__past-badge {
+/* "Past event" / "Past" — a pill in front of the date on the event page
+   and the event cards, as the series status pill is in front of a
+   series' range (same metrics as .slnt-series-card__status): the reader
+   sees it with the date, on one line. Warm grey ground, mid text. */
+.slnt-past-pill {
   display: inline-block;
   font-family: 'Atkinson Hyperlegible Next', sans-serif;
-  font-size: 0.85rem;
+  font-size: 0.68rem;
   font-weight: 700;
+  line-height: 1.4;
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  color: var(--text, #1a1a1a);
+  color: var(--text-mid, #444);
   background: var(--warm-grey, #f5f3f0);
-  border: 1px solid #d9d4cc;
   padding: 0.2em 0.6em;
   border-radius: 3px;
-  margin-bottom: 0.35rem;
+  margin: 0 0.35em 0 0;
+  vertical-align: 0.1em;
+}
+
+/* The one-off date(s) after the calendar icon: the first date follows the
+   pill on its line; further dates (a multi-day event) each take a line. */
+.slnt-node-full__when-text .field__items > .field__item:first-child {
+  display: inline;
 }
 
 /* "Part of a series: Halloween (24 October – 2 November · Now on)" — a
@@ -434,10 +442,11 @@
 }
 
 /* ══════════════════════════════════════
-   Topics — every topic of an event or organisation, after the content
-   (components/topics-list.html.twig). One chain per line on narrow
-   screens, flowing on wide; each chain in its section's colour, its last
-   term bold. The primary comes first.
+   Related topics — after the content of a page
+   (components/topics-list.html.twig): each as its full chain ("Sectors /
+   Environment") in its section's colour, last term bold, the chains
+   running on as one comma-separated line that wraps. The primary topic is
+   the kicker at the top, so it is not here.
    ══════════════════════════════════════ */
 .slnt-node-full__topics {
   max-width: 740px;
@@ -445,32 +454,35 @@
   padding-top: 1rem;
   border-top: 1px solid rgba(0, 0, 0, 0.08);
   font-family: 'Atkinson Hyperlegible Next', sans-serif;
+  font-size: 0.9rem;
+  line-height: 1.6;
 }
 .slnt-node-full__topics-label {
-  display: block;
+  display: inline;
   font-size: 0.72rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.06em;
   color: var(--text-mid, #444);
-  margin-bottom: 0.4rem;
+  margin-right: 0.5rem;
 }
 .slnt-node-full__topics-list {
+  display: inline;
   list-style: none;
   margin: 0;
   padding: 0;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.3rem 1.4rem;
 }
 .slnt-topic-chain {
-  font-size: 0.9rem;
+  display: inline;
   color: var(--slnt-chain-color, var(--text-mid, #444));
 }
+.layout-content a.slnt-topic-chain__term,
 .slnt-topic-chain__term {
   color: inherit;
   text-decoration: none;
 }
+.layout-content a.slnt-topic-chain__term:hover,
+.layout-content a.slnt-topic-chain__term:focus-visible,
 .slnt-topic-chain__term:hover,
 .slnt-topic-chain__term:focus-visible {
   text-decoration: underline;
@@ -481,6 +493,9 @@
 }
 .slnt-topic-chain__sep {
   color: var(--text-light, #767676);
+}
+.slnt-topic-chain__comma {
+  color: var(--text-mid, #444);
 }
 
 /* Dates that fall in an advisory Break, one line each under "Next:". */

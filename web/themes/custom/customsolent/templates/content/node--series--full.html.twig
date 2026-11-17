@@ -18,7 +18,7 @@
  *   series_status, series_status_label, series_range, organiser_label /
  *   organiser_url (the curating organisation, or ''), series_groups
  *   ({key, label, items[], grid_class}), related_organisations (compact
- *   cards), related_topic_links ({label, url, color}), series_cache
+ *   cards), related_topic_chains ({chain, color}), series_cache
  *   (print in every branch).
  */
 #}
@@ -132,14 +132,8 @@
     </section>
   {% endif %}
 
-  {% if related_topic_links is not empty %}
-    <nav class="slnt-series-full__related" aria-label="{{ 'Related topics'|t }}">
-      <span class="slnt-series-full__related-label">{{ 'Also in'|t }}</span>
-      {% for topic in related_topic_links %}
-        <a href="{{ topic.url }}" class="slnt-series-full__related-link" style="color: {{ topic.color }};">{{ topic.label }}</a>
-      {% endfor %}
-    </nav>
-  {% endif %}
+  {# Related topics, each as its full chain (the primary is the kicker). #}
+  {% include '@customsolent/components/topics-list.html.twig' with { related_topic_chains: related_topic_chains|default([]) } only %}
 
   {{ series_cache }}
 

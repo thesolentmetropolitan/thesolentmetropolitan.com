@@ -64,12 +64,10 @@
     {% include '@customsolent/components/format-line.html.twig' with { format_labels: format_labels, setting_label: setting_label, setting_key: setting_key, variant: 'full', show_indoor: true } only %}
 
     {# Date and time — recurring: one line per rule, then the next dates;
-       otherwise field_when (Smart Date). A past event says so here, beside
-       the date, so the two facts are read together. #}
+       otherwise field_when (Smart Date). A past event says so with a pill
+       in front of the date, as a series does, so the two facts read as one
+       line. #}
     <div class="slnt-node-full__dates">
-      {% if is_past_event %}
-        <span class="slnt-node-full__past-badge">{{ 'Past event'|t }}</span>
-      {% endif %}
       {% if event_arrival %}
         <span class="slnt-node-full__arrival">{{ event_arrival }}</span>
       {% endif %}
@@ -80,7 +78,7 @@
           {% for line in event_recurrence_lines %}
             <span class="slnt-node-full__recurrence">
               {%- include '@customsolent/components/when-icon.html.twig' with { icon: 'repeat', class: 'slnt-node-full__when-icon' } only -%}
-              <span>{{ line }}</span>
+              <span>{% if loop.first and is_past_event %}<span class="slnt-past-pill">{{ 'Past event'|t }}</span> {% endif %}{{ line }}</span>
             </span>
           {% endfor %}
           {% if event_next_dates is not empty %}
@@ -95,7 +93,10 @@
       {% elseif content.field_when|render|striptags|trim %}
         <div class="slnt-node-full__when slnt-node-full__when--dated">
           {%- include '@customsolent/components/when-icon.html.twig' with { icon: 'calendar', class: 'slnt-node-full__when-icon' } only -%}
-          {{ content.field_when }}
+          <span class="slnt-node-full__when-text">
+            {%- if is_past_event %}<span class="slnt-past-pill">{{ 'Past event'|t }}</span> {% endif -%}
+            {{ content.field_when }}
+          </span>
         </div>
       {% endif %}
 
@@ -189,7 +190,7 @@
 
   {# Every topic, primary first, each as its full chain: why the item
      appears where it does. #}
-  {% include '@customsolent/components/topics-list.html.twig' with { all_topics: all_topics|default([]) } only %}
+  {% include '@customsolent/components/topics-list.html.twig' with { related_topic_chains: related_topic_chains|default([]) } only %}
 
   {# Collaborations this event is part of (reverse lookup). #}
   {% include '@customsolent/components/collaborations-block.html.twig' with {
