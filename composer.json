@@ -27,6 +27,7 @@
         "drupal/focal_point": "^2.1",
         "drupal/gin": "^5.0",
         "drupal/honeypot": "^2.2",
+        "drupal/inline_entity_form": "^3.0",
         "drupal/klaro": "^3.1",
         "drupal/media_responsive_thumbnail": "^2.0",
         "drupal/menu_link_attributes": "^1.6",

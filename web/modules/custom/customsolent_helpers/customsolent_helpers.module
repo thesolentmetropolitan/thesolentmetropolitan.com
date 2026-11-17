@@ -1032,3 +1032,68 @@ function customsolent_helpers_recurrence_slug(\Drupal\node\NodeInterface $node):
   }
   return $parts ? 'regular-' . implode('-and-', $parts) : '';
 }
+
+/**
+ * Implements hook_inline_entity_form_entity_form_alter().
+ *
+ * A Location term created inline from an event or organisation form (the
+ * where field's Inline Entity Form widget) needs its parent: core's term
+ * form adds the parent chooser itself, outside the form display, so the
+ * inline form has none. Adds a required select of every Location term,
+ * indented by depth, and a submit callback that sets the parent.
+ */
+function customsolent_helpers_inline_entity_form_entity_form_alter(array &$entity_form, \Drupal\Core\Form\FormStateInterface $form_state): void {
+  if (($entity_form['#entity_type'] ?? '') !== 'taxonomy_term' || ($entity_form['#bundle'] ?? '') !== 'location') {
+    return;
+  }
+  /** @var \Drupal\taxonomy\TermInterface $term */
+  $term = $entity_form['#entity'];
+  $options = [];
+  foreach (\Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadTree('location') as $row) {
+    if ($term->id() && (int) $row->tid === (int) $term->id()) {
+      continue;
+    }
+    $options[$row->tid] = str_repeat('– ', $row->depth) . $row->name;
+  }
+  $current = NULL;
+  if (!$term->get('parent')->isEmpty()) {
+    $current = (int) $term->get('parent')->target_id ?: NULL;
+  }
+  $entity_form['parent'] = [
+    '#type' => 'select',
+    '#title' => t('Part of'),
+    '#description' => t('The place this one is in: a city or town for a venue, or a district such as Hilsea. Only a city or area goes at the top level.'),
+    '#options' => $options,
+    '#empty_option' => t('- Top level (a city or area) -'),
+    '#empty_value' => 0,
+    '#default_value' => $current,
+    '#weight' => -5,
+  ];
+  $entity_form['#ief_element_submit'][] = '_customsolent_helpers_inline_location_parent_submit';
+}
+
+/**
+ * #ief_element_submit: sets the parent chosen on an inline Location form.
+ */
+function _customsolent_helpers_inline_location_parent_submit(array &$entity_form, \Drupal\Core\Form\FormStateInterface $form_state): void {
+  if (!isset($entity_form['parent']['#parents'])) {
+    return;
+  }
+  $parent = (int) $form_state->getValue($entity_form['parent']['#parents']);
+  /** @var \Drupal\taxonomy\TermInterface $term */
+  $term = $entity_form['#entity'];
+  $term->set('parent', $parent ?: 0);
+}
+
+/**
+ * Implements hook_entity_reference_selection_alter().
+ *
+ * The "views" selection handler cannot accept an entity created inline (see
+ * ViewsSelectionWithNew); the where field uses a View for its autocomplete
+ * and Inline Entity Form to create a Location on the spot.
+ */
+function customsolent_helpers_entity_reference_selection_alter(array &$definitions): void {
+  if (isset($definitions['views'])) {
+    $definitions['views']['class'] = \Drupal\customsolent_helpers\Plugin\EntityReferenceSelection\ViewsSelectionWithNew::class;
+  }
+}

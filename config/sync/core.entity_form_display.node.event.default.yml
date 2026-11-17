@@ -18,6 +18,7 @@ dependencies:
     - field.field.node.event.field_where
     - node.type.event
   module:
+    - inline_entity_form
     - link
     - media_library
     - path
@@ -142,14 +143,22 @@ content:
       add_abbreviations: ''
     third_party_settings: {  }
   field_where:
-    type: entity_reference_autocomplete
+    type: inline_entity_form_complex
     weight: 129
     region: content
     settings:
+      form_mode: default
+      override_labels: true
+      label_singular: ''
+      label_plural: ''
+      allow_new: true
+      allow_existing: true
       match_operator: CONTAINS
-      match_limit: 10
-      size: 60
-      placeholder: ''
+      allow_duplicate: false
+      collapsible: false
+      collapsed: false
+      revision: false
+      removed_reference: optional
     third_party_settings: {  }
   path:
     type: path

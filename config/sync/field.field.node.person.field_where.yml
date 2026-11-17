@@ -5,6 +5,7 @@ dependencies:
   config:
     - field.storage.node.field_where
     - node.type.person
+    - taxonomy.vocabulary.location
 id: node.person.field_where
 field_name: field_where
 entity_type: node
@@ -22,4 +23,6 @@ settings:
       view_name: location_picker
       display_name: entity_reference_1
       arguments: {  }
+    target_bundles:
+      location: location
 field_type: entity_reference
