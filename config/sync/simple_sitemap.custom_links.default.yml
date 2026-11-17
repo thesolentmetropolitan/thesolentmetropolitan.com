@@ -1,0 +1,97 @@
+links:
+  -
+    path: /explore/events/performances
+    priority: '0.6'
+    changefreq: weekly
+  -
+    path: /explore/events/club-nights-parties
+    priority: '0.6'
+    changefreq: weekly
+  -
+    path: /explore/events/festivals
+    priority: '0.6'
+    changefreq: weekly
+  -
+    path: /explore/events/markets-fairs
+    priority: '0.6'
+    changefreq: weekly
+  -
+    path: /explore/events/exhibitions
+    priority: '0.6'
+    changefreq: weekly
+  -
+    path: /explore/events/screenings
+    priority: '0.6'
+    changefreq: weekly
+  -
+    path: /explore/events/talks
+    priority: '0.6'
+    changefreq: weekly
+  -
+    path: /explore/events/workshops
+    priority: '0.6'
+    changefreq: weekly
+  -
+    path: /explore/events/classes-courses
+    priority: '0.6'
+    changefreq: weekly
+  -
+    path: /explore/events/conferences
+    priority: '0.6'
+    changefreq: weekly
+  -
+    path: /explore/events/networking
+    priority: '0.6'
+    changefreq: weekly
+  -
+    path: /explore/events/socials-meet-ups
+    priority: '0.6'
+    changefreq: weekly
+  -
+    path: /explore/events/public-meetings
+    priority: '0.6'
+    changefreq: weekly
+  -
+    path: /explore/events/guided-tours
+    priority: '0.6'
+    changefreq: weekly
+  -
+    path: /explore/events/open-mics-jams
+    priority: '0.6'
+    changefreq: weekly
+  -
+    path: /explore/events/broadcasts
+    priority: '0.6'
+    changefreq: weekly
+  -
+    path: /explore/events/drop-ins
+    priority: '0.6'
+    changefreq: weekly
+  -
+    path: /explore/events/fundraisers
+    priority: '0.6'
+    changefreq: weekly
+  -
+    path: /explore/events/launches
+    priority: '0.6'
+    changefreq: weekly
+  -
+    path: /explore/events
+    priority: '0.7'
+    changefreq: daily
+  -
+    path: /explore/organisations
+    priority: '0.7'
+    changefreq: daily
+  -
+    path: /explore/series
+    priority: '0.7'
+    changefreq: daily
+  -
+    path: /explore/articles
+    priority: '0.7'
+    changefreq: daily
+  -
+    path: /explore/collaborations
+    priority: '0.7'
+    changefreq: daily

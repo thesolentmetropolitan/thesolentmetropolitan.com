@@ -58,6 +58,7 @@ module:
   search_help: 0
   search_node: 0
   shortcut: 0
+  simple_sitemap: 0
   single_content_sync: 0
   smart_date: 0
   smart_date_recur: 0
