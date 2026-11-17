@@ -584,6 +584,8 @@ function _customsolent_preprocess_event_shared_extras($node, array &$variables):
   // Recurrence.
   $variables['event_is_recurring'] = FALSE;
   $variables['event_next_dates'] = [];
+  $variables['event_break_notice'] = NULL;
+  $variables['event_break_notices'] = [];
   $variables['event_next_count'] = 0;
   $variables['event_when_cache'] = ['#cache' => []];
   // The date a card shows for this event: its own date, or for a regular
@@ -639,6 +641,33 @@ function _customsolent_preprocess_event_shared_extras($node, array &$variables):
   usort($instances, static fn($a, $b) => $a['start'] <=> $b['start']);
   $tz = new \DateTimeZone($instances[0]['tz']);
   $fmt = static fn(int $ts, string $f) => (new \DateTimeImmutable('@' . $ts))->setTimezone($tz)->format($f);
+  // Breaks and seasons: an instance in a closure Break, or outside the
+  // event's season, does not run (the listings' query agrees); one in an
+  // advisory Break runs with a note by its date. Cards and pages change
+  // when a Break is saved.
+  $variables['event_when_cache']['#cache']['tags'][] = 'node_list:break';
+  $season_from = $node->hasField('field_season_from') ? (int) $node->get('field_season_from')->value : 0;
+  $season_to = $node->hasField('field_season_to') ? (int) $node->get('field_season_to')->value : 0;
+  $nid = (int) $node->id();
+  $advisories = [];
+  $instances = array_values(array_filter($instances, static function (array $i) use ($nid, $fmt, $season_from, $season_to, &$advisories): bool {
+    if (!customsolent_helpers_in_season((int) $fmt($i['start'], 'n'), $season_from ?: NULL, $season_to ?: NULL)) {
+      return FALSE;
+    }
+    $break = customsolent_helpers_break_for($nid, $i['start']);
+    if ($break && $break['kind'] === 'closure') {
+      return FALSE;
+    }
+    if ($break) {
+      $advisories[$i['start']] = $break;
+    }
+    return TRUE;
+  }));
+  $variables['event_break_notice'] = NULL;
+  $variables['event_break_notices'] = [];
+  if (!$instances) {
+    return;
+  }
   // On a series page a regular event is there for the instance(s) that fell
   // within the series' dates (the Halloween edition), so "Next" is the next
   // instance inside that window and, once they have all passed, the card
@@ -712,6 +741,14 @@ function _customsolent_preprocess_event_shared_extras($node, array &$variables):
     if ($instance['end'] >= $now) {
       $variables['event_next_dates'][] = $fmt($instance['start'], 'D j M');
       $next_start ??= $instance['start'];
+      // "Falls in the Christmas break: check with the organiser" by the
+      // date: the card carries it for its one date, the page for each of
+      // the dates it shows.
+      if (isset($advisories[$instance['start']])) {
+        $notice = customsolent_helpers_break_notice($advisories[$instance['start']]);
+        $variables['event_break_notice'] ??= $notice;
+        $variables['event_break_notices'][] = $fmt($instance['start'], 'D j M') . ': ' . $notice;
+      }
       if (count($variables['event_next_dates']) === 3) {
         break;
       }
@@ -749,14 +786,7 @@ function _customsolent_preprocess_event_shared_extras($node, array &$variables):
  * says "Past event" while a listing still shows the event, or the reverse.
  */
 function _customsolent_event_item_end(int $start, int $end, ?string $timezone = NULL): int {
-  if ($start <= 0) {
-    return $end;
-  }
-  if ($end > $start) {
-    return $end;
-  }
-  $tz = new \DateTimeZone($timezone ?: (\Drupal::config('system.date')->get('timezone.default') ?: 'Europe/London'));
-  return (new \DateTimeImmutable('@' . $start))->setTimezone($tz)->modify('tomorrow')->getTimestamp();
+  return customsolent_helpers_item_end($start, $end, $timezone);
 }
 
 /**

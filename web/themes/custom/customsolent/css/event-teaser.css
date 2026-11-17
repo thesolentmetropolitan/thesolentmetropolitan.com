@@ -273,3 +273,10 @@
   outline: 3px solid var(--text, #1a1a1a);
   outline-offset: 2px;
 }
+
+/* A date that falls in an advisory Break: its own line under the date. */
+.slnt-event-teaser__break {
+  display: block;
+  font-weight: 700;
+  color: var(--solent-blue, #2c4f6e);
+}

@@ -112,6 +112,7 @@
             {% include '@customsolent/components/when-icon.html.twig' with { icon: 'calendar', class: 'slnt-event-compact__icon' } only %}
             <span class="slnt-event-compact__value">
               <span class="slnt-event-compact__next">{% if event_next_prefix %}{{ event_next_prefix }}: {% endif %}{{ event_next_dates[0] }}</span>
+              {% if event_break_notice %}<span class="slnt-event-compact__break">{{ event_break_notice }}</span>{% endif %}
               {# A seasonal series' short label, under the date it applies to
                  (from _customsolent_preprocess_series_membership). #}
               {% for special in series_specials %}

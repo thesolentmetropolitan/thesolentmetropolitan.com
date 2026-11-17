@@ -1,0 +1,30 @@
+uuid: b5dfcf50-ac80-4628-b652-6ac40d985262
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+    - options
+id: node.field_break_scope
+field_name: field_break_scope
+entity_type: node
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: all
+      label: 'Every regular event'
+    -
+      value: organisations
+      label: 'Regular events of the organisations below'
+    -
+      value: events
+      label: 'The regular events below'
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

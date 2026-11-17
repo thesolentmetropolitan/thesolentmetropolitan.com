@@ -1,0 +1,27 @@
+uuid: 9c4a1703-b7c1-426f-90bd-aae05ab572d1
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+    - options
+id: node.field_break_kind
+field_name: field_break_kind
+entity_type: node
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: advisory
+      label: 'Advisory: the sessions may not run, check with the organiser'
+    -
+      value: closure
+      label: 'Closure: the sessions do not run on these dates'
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

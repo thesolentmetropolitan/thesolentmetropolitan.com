@@ -79,6 +79,7 @@
           {% include '@customsolent/components/when-icon.html.twig' with { icon: 'calendar', class: 'slnt-event-teaser__icon' } only %}
           <span class="slnt-event-teaser__label">{{ event_next_prefix ?: 'Next'|t }}</span>
           <span class="slnt-event-teaser__value">{{ event_next_dates[0] }}
+            {% if event_break_notice %}<span class="slnt-event-teaser__break">{{ event_break_notice }}</span>{% endif %}
             {% for special in series_specials %}<span class="slnt-event-teaser__special">{{ special }}</span>{% endfor %}
             {% if event_arrival %}<span class="slnt-event-teaser__arrival">{{ event_arrival }}</span>{% endif %}
           </span>

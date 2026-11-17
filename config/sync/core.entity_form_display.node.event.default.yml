@@ -9,6 +9,8 @@ dependencies:
     - field.field.node.event.field_organisers
     - field.field.node.event.field_primary_topic
     - field.field.node.event.field_related_topics
+    - field.field.node.event.field_season_from
+    - field.field.node.event.field_season_to
     - field.field.node.event.field_setting
     - field.field.node.event.field_standfirst
     - field.field.node.event.field_urls
@@ -33,7 +35,7 @@ content:
     third_party_settings: {  }
   field_arrival:
     type: options_select
-    weight: 126
+    weight: 128
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -52,7 +54,7 @@ content:
     third_party_settings: {  }
   field_organisers:
     type: entity_reference_autocomplete
-    weight: 128
+    weight: 130
     region: content
     settings:
       match_operator: CONTAINS
@@ -80,6 +82,18 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
+  field_season_from:
+    type: options_select
+    weight: 125
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_season_to:
+    type: options_select
+    weight: 126
+    region: content
+    settings: {  }
+    third_party_settings: {  }
   field_setting:
     type: options_buttons
     weight: 124
@@ -88,7 +102,7 @@ content:
     third_party_settings: {  }
   field_standfirst:
     type: string_textfield
-    weight: 125
+    weight: 127
     region: content
     settings:
       size: 60
@@ -96,7 +110,7 @@ content:
     third_party_settings: {  }
   field_urls:
     type: link_default
-    weight: 129
+    weight: 131
     region: content
     settings:
       placeholder_url: ''
@@ -104,7 +118,7 @@ content:
     third_party_settings: {  }
   field_when:
     type: smartdate_timezone
-    weight: 125
+    weight: 127
     region: content
     settings:
       modal: false
@@ -129,7 +143,7 @@ content:
     third_party_settings: {  }
   field_where:
     type: entity_reference_autocomplete
-    weight: 127
+    weight: 129
     region: content
     settings:
       match_operator: CONTAINS

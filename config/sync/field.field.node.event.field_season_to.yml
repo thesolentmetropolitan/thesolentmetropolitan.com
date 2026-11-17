@@ -1,0 +1,21 @@
+uuid: 2ed51f14-64c4-427e-a25b-0bfc6246439a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_season_to
+    - node.type.event
+  module:
+    - options
+id: node.event.field_season_to
+field_name: field_season_to
+entity_type: node
+bundle: event
+label: to
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_integer

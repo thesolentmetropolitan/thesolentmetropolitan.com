@@ -334,6 +334,132 @@ function customsolent_helpers_sitewide_listing_url(string $type_word): ?string {
 }
 
 /**
+ * When a field_when item is over: its end, or, entered without one (end =
+ * start), the end of that day in the event's timezone. The theme's
+ * _customsolent_event_item_end() delegates here so the cards, the page and
+ * the listings' query (which applies the same rule in SQL) never disagree.
+ */
+function customsolent_helpers_item_end(int $start, int $end, ?string $timezone = NULL): int {
+  if ($start <= 0) {
+    return $end;
+  }
+  if ($end > $start) {
+    return $end;
+  }
+  $tz = new \DateTimeZone($timezone ?: (\Drupal::config('system.date')->get('timezone.default') ?: 'Europe/London'));
+  return (new \DateTimeImmutable('@' . $start))->setTimezone($tz)->modify('tomorrow')->getTimestamp();
+}
+
+/**
+ * The published Breaks (holidays and closures regular events observe),
+ * resolved to what they touch.
+ *
+ * Each: nid, title, kind (advisory|closure), note, ranges [[start, end]],
+ * scope (all|organisations|events), nids (event nids when scoped; the
+ * organisations' regular events are looked up here, once). Cached until a
+ * Break, an event or an organisation is saved.
+ *
+ * @return array[]
+ */
+function customsolent_helpers_breaks(): array {
+  $static = &drupal_static(__FUNCTION__);
+  if ($static !== NULL) {
+    return $static;
+  }
+  $cid = 'customsolent_helpers.breaks';
+  if ($cached = \Drupal::cache()->get($cid)) {
+    return $static = $cached->data;
+  }
+  $breaks = [];
+  $etm = \Drupal::entityTypeManager();
+  if ($etm->getStorage('node_type')->load('break')) {
+    $nids = $etm->getStorage('node')->getQuery()->accessCheck(FALSE)->condition('type', 'break')->condition('status', 1)->execute();
+    $db = \Drupal::database();
+    foreach ($etm->getStorage('node')->loadMultiple($nids) as $node) {
+      $ranges = [];
+      if ($node->hasField('field_when')) {
+        foreach ($node->get('field_when') as $item) {
+          $start = (int) $item->value;
+          if ($start > 0) {
+            $ranges[] = [$start, customsolent_helpers_item_end($start, (int) $item->end_value, $item->timezone ?: NULL)];
+          }
+        }
+      }
+      if (!$ranges) {
+        continue;
+      }
+      $scope = $node->hasField('field_break_scope') ? ((string) $node->get('field_break_scope')->value ?: 'all') : 'all';
+      $event_nids = [];
+      if ($scope === 'events' && $node->hasField('field_break_events')) {
+        $event_nids = array_map(fn($i) => (int) $i['target_id'], $node->get('field_break_events')->getValue());
+      }
+      elseif ($scope === 'organisations' && $node->hasField('field_organisers')) {
+        $org_nids = array_map(fn($i) => (int) $i['target_id'], $node->get('field_organisers')->getValue());
+        if ($org_nids) {
+          $event_nids = array_map('intval', $db->query('SELECT DISTINCT o.entity_id FROM {node__field_organisers} o WHERE o.bundle = :b AND o.field_organisers_target_id IN (:orgs[])', [':b' => 'event', ':orgs[]' => $org_nids])->fetchCol());
+        }
+      }
+      if ($scope !== 'all' && !$event_nids) {
+        // Scoped to nothing: touches nothing.
+        continue;
+      }
+      $breaks[] = [
+        'nid' => (int) $node->id(),
+        'title' => $node->label(),
+        'kind' => $node->hasField('field_break_kind') && $node->get('field_break_kind')->value === 'closure' ? 'closure' : 'advisory',
+        'note' => $node->hasField('field_break_note') ? trim((string) $node->get('field_break_note')->value) : '',
+        'ranges' => $ranges,
+        'scope' => $scope,
+        'nids' => array_values(array_unique($event_nids)),
+      ];
+    }
+  }
+  // Closures first, so the first match for an instance is the stronger one.
+  usort($breaks, static fn($a, $b) => ($a['kind'] === 'closure' ? 0 : 1) <=> ($b['kind'] === 'closure' ? 0 : 1));
+  \Drupal::cache()->set($cid, $breaks, \Drupal\Core\Cache\Cache::PERMANENT, ['node_list:break', 'node_list:event', 'node_list:organisation']);
+  return $static = $breaks;
+}
+
+/**
+ * The Break an instance of a regular event falls in, if any: a closure
+ * before an advisory.
+ */
+function customsolent_helpers_break_for(int $event_nid, int $instance_start): ?array {
+  foreach (customsolent_helpers_breaks() as $break) {
+    if ($break['scope'] !== 'all' && !in_array($event_nid, $break['nids'], TRUE)) {
+      continue;
+    }
+    foreach ($break['ranges'] as [$start, $end]) {
+      if ($instance_start >= $start && $instance_start < $end) {
+        return $break;
+      }
+    }
+  }
+  return NULL;
+}
+
+/**
+ * The line by a date that falls in an advisory Break.
+ */
+function customsolent_helpers_break_notice(array $break): string {
+  if ($break['note'] !== '') {
+    return $break['note'];
+  }
+  return (string) t('Falls in the @break: check with the organiser', ['@break' => $break['title']]);
+}
+
+/**
+ * TRUE when a month is inside a season (from..to, which may wrap the year:
+ * October to March). No season (either end empty) is all year.
+ */
+function customsolent_helpers_in_season(int $month, ?int $from, ?int $to): bool {
+  if (!$from || !$to) {
+    return TRUE;
+  }
+  return $from <= $to ? ($month >= $from && $month <= $to) : ($month >= $from || $month <= $to);
+}
+
+/**
  * Implements hook_views_query_alter().
  *
  * Makes ?topic=<tid> work as a filter WITHIN a list, for the listings whose
@@ -618,13 +744,42 @@ function _customsolent_helpers_one_row_per_recurring_event(\Drupal\views\Plugin\
     "(CASE WHEN $t.field_when_end_value > $t.field_when_value
            THEN $t.field_when_end_value >= $now
            ELSE $t.field_when_value >= $today END)";
+  // A regular event's instance that falls in a closure Break, or outside the
+  // event's season, is not a candidate for "the next one": the listing moves
+  // on to the first open date, and leaves the event out while none is open.
+  // (The theme applies the same rule to "Next:".) Literal timestamps, so the
+  // query text, and with it the results cache key, changes with the Breaks.
+  $closed = '';
+  $i = 0;
+  foreach (customsolent_helpers_breaks() as $break) {
+    if ($break['kind'] !== 'closure') {
+      continue;
+    }
+    foreach ($break['ranges'] as [$b_start, $b_end]) {
+      $cond = "slnt_w.field_when_value >= " . (int) $b_start . " AND slnt_w.field_when_value < " . (int) $b_end;
+      if ($break['scope'] !== 'all') {
+        $cond .= " AND slnt_w.entity_id IN (" . implode(',', array_map('intval', $break['nids'])) . ")";
+      }
+      $closed .= " AND NOT ($cond)";
+      $i++;
+    }
+  }
+  if (\Drupal::database()->databaseType() === 'mysql' && \Drupal::database()->schema()->tableExists('node__field_season_from')) {
+    $month = "MONTH(FROM_UNIXTIME(slnt_w.field_when_value))";
+    $closed .= " AND NOT EXISTS (
+      SELECT 1 FROM {node__field_season_from} slnt_sf JOIN {node__field_season_to} slnt_st ON slnt_st.entity_id = slnt_sf.entity_id
+      WHERE slnt_sf.entity_id = slnt_w.entity_id
+        AND NOT (CASE WHEN slnt_sf.field_season_from_value <= slnt_st.field_season_to_value
+                      THEN $month BETWEEN slnt_sf.field_season_from_value AND slnt_st.field_season_to_value
+                      ELSE ($month >= slnt_sf.field_season_from_value OR $month <= slnt_st.field_season_to_value) END))";
+  }
   $query->addWhereExpression($group,
     "($alias.field_when_rrule IS NULL AND " . $not_ended($alias) . ")
      OR $alias.field_when_end_value = (
       SELECT MIN(slnt_w.field_when_end_value) FROM {node__field_when} slnt_w
       WHERE slnt_w.entity_id = $alias.entity_id
         AND slnt_w.field_when_rrule = $alias.field_when_rrule
-        AND " . $not_ended('slnt_w') . "
+        AND " . $not_ended('slnt_w') . $closed . "
     )",
     $args
   );

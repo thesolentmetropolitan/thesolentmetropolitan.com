@@ -1,0 +1,23 @@
+uuid: a112b98b-5f47-484b-8dfd-2d666567d36e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_break_kind
+    - node.type.break
+  module:
+    - options
+id: node.break.field_break_kind
+field_name: field_break_kind
+entity_type: node
+bundle: break
+label: Kind
+description: 'Advisory leaves the dates listed with a note by them; closure removes them from "Next" and the listings. When unsure, advisory.'
+required: false
+translatable: true
+default_value:
+  -
+    value: advisory
+default_value_callback: ''
+settings: {  }
+field_type: list_string

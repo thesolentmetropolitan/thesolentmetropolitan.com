@@ -425,3 +425,12 @@
     margin-right: calc(var(--content-pad-mobile, 1.2rem) - 2rem);
   }
 }
+
+/* A date that falls in an advisory Break ("Falls in the Christmas break:
+   check with the organiser"): its own line under "Next:", the arrival
+   line's voice. */
+.slnt-event-compact__break {
+  display: block;
+  font-weight: 700;
+  color: var(--solent-blue, #2c4f6e);
+}

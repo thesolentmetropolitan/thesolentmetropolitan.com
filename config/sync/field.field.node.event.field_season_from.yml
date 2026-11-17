@@ -1,0 +1,21 @@
+uuid: 86b09d81-5983-478b-9c7d-b8be01e05f1e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_season_from
+    - node.type.event
+  module:
+    - options
+id: node.event.field_season_from
+field_name: field_season_from
+entity_type: node
+bundle: event
+label: 'Season runs from'
+description: 'For a regular event that only runs part of the year (a sailing club, March to September). Leave both empty for all year.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_integer

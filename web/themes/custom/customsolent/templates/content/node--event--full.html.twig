@@ -87,6 +87,7 @@
             <span class="slnt-node-full__next">
               {%- include '@customsolent/components/when-icon.html.twig' with { icon: 'calendar', class: 'slnt-node-full__when-icon' } only -%}
               <span>{% if event_next_prefix %}{{ event_next_prefix }}: {% endif %}{{ event_next_dates|join(' · ') }}</span>
+              {% for notice in event_break_notices %}<span class="slnt-node-full__break">{{ notice }}</span>{% endfor %}
             </span>
           {% endif %}
         </div>

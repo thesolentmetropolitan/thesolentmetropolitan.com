@@ -482,3 +482,13 @@
 .slnt-topic-chain__sep {
   color: var(--text-light, #767676);
 }
+
+/* Dates that fall in an advisory Break, one line each under "Next:". */
+.slnt-node-full__break {
+  display: block;
+  font-family: 'Atkinson Hyperlegible Next', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--solent-blue, #2c4f6e);
+  margin-top: 0.2rem;
+}

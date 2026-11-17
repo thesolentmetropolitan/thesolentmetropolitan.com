@@ -1,0 +1,21 @@
+uuid: d6237388-143d-4931-811f-7cfa91df9021
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_when
+    - node.type.break
+  module:
+    - smart_date
+id: node.break.field_when
+field_name: field_when
+entity_type: node
+bundle: break
+label: Dates
+description: 'The day or days of the break. Several ranges may go in one Break ("Bank holidays 2027"). A range with no times covers its whole days.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: smartdate

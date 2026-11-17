@@ -1,0 +1,19 @@
+uuid: cc2385df-a3ae-469f-aae6-817b6bff1f36
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_break_note
+    - node.type.break
+id: node.break.field_break_note
+field_name: field_break_note
+entity_type: node
+bundle: break
+label: Note
+description: 'Optional: replaces the standard line by the date ("Falls in the Christmas break: check with the organiser").'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

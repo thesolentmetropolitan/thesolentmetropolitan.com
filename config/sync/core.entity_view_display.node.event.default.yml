@@ -9,6 +9,8 @@ dependencies:
     - field.field.node.event.field_organisers
     - field.field.node.event.field_primary_topic
     - field.field.node.event.field_related_topics
+    - field.field.node.event.field_season_from
+    - field.field.node.event.field_season_to
     - field.field.node.event.field_setting
     - field.field.node.event.field_standfirst
     - field.field.node.event.field_urls
@@ -120,4 +122,6 @@ content:
 hidden:
   field_arrival: true
   field_format: true
+  field_season_from: true
+  field_season_to: true
   field_setting: true
