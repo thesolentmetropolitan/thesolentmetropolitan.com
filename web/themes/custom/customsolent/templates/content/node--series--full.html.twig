@@ -37,8 +37,9 @@
 <article{{ attributes.addClass(classes) }}{% if primary_topic_menu_path is defined and primary_topic_menu_path %} data-primary-topic-path="{{ primary_topic_menu_path }}"{% endif %}>
   <div class="slnt-node-full__header">
 
-    {# Kind-of-page kicker: "Series", linking back to /explore/series, with
-       the status badge beside it (same look as the event page's badge). #}
+    {# Kind-of-page kicker: "Series", linking back to /explore/series. (The
+       status badge sat beside it until 17 Nov 2026; it now prefixes the
+       dates below, which is what it is about.) #}
     <div class="slnt-node-full__type-kicker">
       <a href="{{ type_home_url }}" class="slnt-node-full__type-link">
         <span class="slnt-node-full__type-icon" aria-hidden="true">
@@ -47,9 +48,6 @@
         </span>
         <span>{{ 'Series'|t }}<span class="visually-hidden">: {{ 'all series'|t }}</span></span>
       </a>
-      {% if series_status_label %}
-        <span class="slnt-node-full__past-kicker slnt-series-full__status slnt-series-full__status--{{ series_status }}">{{ series_status_label }}</span>
-      {% endif %}
     </div>
 
     {# Topic trail kicker — clickable, section-coloured ancestor terms. #}
@@ -66,12 +64,15 @@
     {# Format and setting, above the date range as on the cards (issue 485). #}
     {% include '@customsolent/components/format-line.html.twig' with { format_labels: format_labels, setting_label: setting_label, setting_key: setting_key, variant: 'full', show_indoor: true } only %}
 
-    {% if series_range %}
+    {% if series_range or series_status_label %}
       <div class="slnt-node-full__when slnt-series-full__dates">
         <span class="slnt-series-full__icon" aria-hidden="true">
           <svg viewBox="0 0 256 256" fill="currentColor"><path d="M208,28H188V24a12,12,0,0,0-24,0v4H92V24a12,12,0,0,0-24,0v4H48A20,20,0,0,0,28,48V208a20,20,0,0,0,20,20H208a20,20,0,0,0,20-20V48A20,20,0,0,0,208,28ZM68,52a12,12,0,0,0,24,0h72a12,12,0,0,0,24,0h16V76H52V52ZM52,204V100H204V204Zm92-76a16,16,0,1,1-16-16A16,16,0,0,1,144,128Zm48,0a16,16,0,1,1-16-16A16,16,0,0,1,192,128ZM96,176a16,16,0,1,1-16-16A16,16,0,0,1,96,176Zm48,0a16,16,0,1,1-16-16A16,16,0,0,1,144,176Zm48,0a16,16,0,1,1-16-16A16,16,0,0,1,192,176Z"/></svg>
         </span>
-        <span>{{ series_range }}</span>
+        <span>
+          {%- if series_status_label %}<span class="slnt-series-full__status slnt-series-full__status--{{ series_status }}">{{ series_status_label }}</span> {% endif -%}
+          {{ series_range }}
+        </span>
       </div>
     {% endif %}
 

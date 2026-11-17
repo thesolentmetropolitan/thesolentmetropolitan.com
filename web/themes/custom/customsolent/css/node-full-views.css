@@ -432,3 +432,53 @@
 .slnt-node-full .slnt-event-full__related {
   margin-top: 2.4rem;
 }
+
+/* ══════════════════════════════════════
+   Topics — every topic of an event or organisation, after the content
+   (components/topics-list.html.twig). One chain per line on narrow
+   screens, flowing on wide; each chain in its section's colour, its last
+   term bold. The primary comes first.
+   ══════════════════════════════════════ */
+.slnt-node-full__topics {
+  max-width: 740px;
+  margin: 1.6rem 0 0;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  font-family: 'Atkinson Hyperlegible Next', sans-serif;
+}
+.slnt-node-full__topics-label {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-mid, #444);
+  margin-bottom: 0.4rem;
+}
+.slnt-node-full__topics-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem 1.4rem;
+}
+.slnt-topic-chain {
+  font-size: 0.9rem;
+  color: var(--slnt-chain-color, var(--text-mid, #444));
+}
+.slnt-topic-chain__term {
+  color: inherit;
+  text-decoration: none;
+}
+.slnt-topic-chain__term:hover,
+.slnt-topic-chain__term:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.slnt-topic-chain__term:last-of-type {
+  font-weight: 700;
+}
+.slnt-topic-chain__sep {
+  color: var(--text-light, #767676);
+}

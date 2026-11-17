@@ -61,7 +61,8 @@
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12);
 }
 
-/* Status pill. Colours are the site's existing palette: current =
+/* Status pill, prefixing the dates (since 17 Nov 2026: read with the date it
+   is about, not before the title). Colours are the site's existing palette: current =
    magenta (the accent), upcoming = solent blue, ongoing = Living green,
    past = the muted grey of the event page's past badge. All ≥ 4.5:1 with
    white text. */
@@ -76,7 +77,8 @@
   letter-spacing: 0.06em;
   padding: 0.2em 0.6em;
   border-radius: 3px;
-  margin-bottom: 0.45rem;
+  margin: 0 0.35em 0 0;
+  vertical-align: 0.1em;
   color: #fff;
   background: var(--text-mid, #444);
 }

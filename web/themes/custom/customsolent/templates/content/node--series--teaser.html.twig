@@ -40,22 +40,23 @@
 
 <article{{ attributes.addClass(classes) }}{% if section_key %} data-section="{{ section_key }}"{% endif %}>
 
-  {% if series_status_label %}
-    <span class="slnt-series-card__status slnt-series-card__status--{{ series_status }}">{{ series_status_label }}</span>
-  {% endif %}
-
+  {# (The status pill stood above the title until 17 Nov 2026; it now
+     prefixes the dates, which is what it is about.) #}
   <h3 class="slnt-series-card__title">
     <a href="{{ url }}" class="slnt-series-card__link">{{ label }}</a>
   </h3>
   {% include '@customsolent/components/format-line.html.twig' with { format_labels: format_labels, setting_label: setting_label, setting_key: setting_key, variant: 'series' } only %}
 
-  {% if series_range %}
+  {% if series_range or series_status_label %}
     <div class="slnt-series-card__row slnt-series-card__dates">
       <span class="slnt-series-card__icon" aria-hidden="true">
         {# Phosphor calendar-dots — matches the event cards. #}
         <svg viewBox="0 0 256 256" fill="currentColor"><path d="M208,28H188V24a12,12,0,0,0-24,0v4H92V24a12,12,0,0,0-24,0v4H48A20,20,0,0,0,28,48V208a20,20,0,0,0,20,20H208a20,20,0,0,0,20-20V48A20,20,0,0,0,208,28ZM68,52a12,12,0,0,0,24,0h72a12,12,0,0,0,24,0h16V76H52V52ZM52,204V100H204V204Zm92-76a16,16,0,1,1-16-16A16,16,0,0,1,144,128Zm48,0a16,16,0,1,1-16-16A16,16,0,0,1,192,128ZM96,176a16,16,0,1,1-16-16A16,16,0,0,1,96,176Zm48,0a16,16,0,1,1-16-16A16,16,0,0,1,144,176Zm48,0a16,16,0,1,1-16-16A16,16,0,0,1,192,176Z"/></svg>
       </span>
-      <span class="slnt-series-card__value">{{ series_range }}</span>
+      <span class="slnt-series-card__value">
+        {%- if series_status_label %}<span class="slnt-series-card__status slnt-series-card__status--{{ series_status }}">{{ series_status_label }}</span> {% endif -%}
+        {{ series_range }}
+      </span>
     </div>
   {% endif %}
 

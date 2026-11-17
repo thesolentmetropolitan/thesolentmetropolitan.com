@@ -186,6 +186,12 @@ function customsolent_preprocess_node(array &$variables): void {
     _customsolent_preprocess_format_extras($node, $variables);
   }
 
+  // Every topic, each as its full chain, on the event and organisation
+  // pages: why the item appears where it does.
+  if (in_array($node->bundle(), ['event', 'organisation'], TRUE) && ($variables['view_mode'] ?? '') === 'full') {
+    _customsolent_preprocess_all_topics($node, $variables);
+  }
+
   // Event teaser extras.
   if ($node->bundle() === 'event' && ($variables['view_mode'] ?? '') === 'teaser') {
     _customsolent_preprocess_event_teaser_extras($node, $variables);
@@ -3548,5 +3554,41 @@ function _customsolent_preprocess_format_extras($node, array &$variables): void 
     $allowed = $item->getFieldDefinition()->getFieldStorageDefinition()->getSetting('allowed_values') ?? [];
     $variables['setting_key'] = (string) $item->value;
     $variables['setting_label'] = $allowed[$item->value] ?? ucfirst((string) $item->value);
+  }
+}
+
+/**
+ * All of a node's topics for its page, primary first, each as its full
+ * chain ("Culture / Technology", "Sectors / Technology": the parents tell
+ * two same-named terms apart). Each term links to its page.
+ *
+ * Sets all_topics: list of {chain: [{label, url, color}], primary, color}.
+ */
+function _customsolent_preprocess_all_topics($node, array &$variables): void {
+  $variables['all_topics'] = [];
+  $seen = [];
+  $add = function ($term, bool $primary) use (&$variables, &$seen): void {
+    if (!$term || isset($seen[$term->id()])) {
+      return;
+    }
+    $seen[$term->id()] = TRUE;
+    $trail = _customsolent_build_topic_trail($term, FALSE);
+    if (empty($trail['ancestors'])) {
+      return;
+    }
+    $variables['all_topics'][] = [
+      'chain' => $trail['ancestors'],
+      'primary' => $primary,
+      'color' => $trail['ancestors'][0]['color'] ?? NULL,
+    ];
+    $variables['#cache']['tags'][] = 'taxonomy_term:' . $term->id();
+  };
+  if ($node->hasField('field_primary_topic') && !$node->get('field_primary_topic')->isEmpty()) {
+    $add($node->get('field_primary_topic')->entity, TRUE);
+  }
+  if ($node->hasField('field_related_topics')) {
+    foreach ($node->get('field_related_topics')->referencedEntities() as $term) {
+      $add($term, FALSE);
+    }
   }
 }

@@ -186,6 +186,10 @@
   {{ content|without('field_when', 'field_where', 'field_standfirst', 'field_urls', 'field_image',
      'field_primary_topic', 'field_related_topics', 'field_organisers', 'field_arrival', 'links') }}
 
+  {# Every topic, primary first, each as its full chain: why the item
+     appears where it does. #}
+  {% include '@customsolent/components/topics-list.html.twig' with { all_topics: all_topics|default([]) } only %}
+
   {# Collaborations this event is part of (reverse lookup). #}
   {% include '@customsolent/components/collaborations-block.html.twig' with {
     collaboration_items: collaboration_items,

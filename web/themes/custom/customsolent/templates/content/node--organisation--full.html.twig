@@ -130,6 +130,10 @@
   {% endif %}
   {{ organiser_events_cache }}
 
+  {# Every topic, primary first, each as its full chain: why the item
+     appears where it does. #}
+  {% include '@customsolent/components/topics-list.html.twig' with { all_topics: all_topics|default([]) } only %}
+
   {# Collaborations this organisation is part of (reverse lookup). #}
   {% include '@customsolent/components/collaborations-block.html.twig' with {
     collaboration_items: collaboration_items,
