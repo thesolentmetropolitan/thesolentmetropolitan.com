@@ -1,26 +1,28 @@
 {#
 /**
  * @file
- * The related topics of a page, after its content: each as its full chain
- * ("Sectors / Environment") so that "Culture / Technology" and "Sectors /
- * Technology" read as two topics, in its section's colour, the chains
- * separated by commas. The primary topic is the kicker at the top of the
- * page, so it is not repeated here. Each term is a link to its page.
+ * The topics of a page, after its content: the primary first, then the
+ * related ones, each as its full chain ("Sectors / Environment") so that
+ * "Culture / Technology" and "Sectors / Technology" read as two topics, in
+ * its section's colour and the kicker's capitals, the chains separated by
+ * commas. The primary repeats the kicker on purpose: on a long page the
+ * kicker is far above by now. Each term is a link to its page.
  *
  * Variables (from _customsolent_preprocess_related_topics()):
- *   - related_topic_chains: list of {chain: [{label, url, color}], color}
+ *   - related_topic_chains: list of {chain: [{label, url, color}], primary, color}
  */
 #}
 {% if related_topic_chains is not empty %}
   <div class="slnt-node-full__topics">
-    <span class="slnt-node-full__topics-label">{{ 'Related topics'|t }}</span>
+    <span class="slnt-node-full__topics-label">{{ 'Topics'|t }}</span>
     <ul class="slnt-node-full__topics-list">
       {%- for topic in related_topic_chains -%}
-        <li class="slnt-topic-chain"{% if topic.color %} style="--slnt-chain-color: {{ topic.color }}"{% endif %}>
+        <li class="slnt-topic-chain{{ topic.primary ? ' slnt-topic-chain--primary' : '' }}"{% if topic.color %} style="--slnt-chain-color: {{ topic.color }}"{% endif %}>
           {%- for term in topic.chain -%}
             <a href="{{ term.url }}" class="slnt-topic-chain__term">{{ term.label }}</a>
             {%- if not loop.last %}<span class="slnt-topic-chain__sep" aria-hidden="true"> / </span>{% endif -%}
           {%- endfor -%}
+          {%- if topic.primary %}<span class="visually-hidden"> ({{ 'primary topic'|t }})</span>{% endif -%}
           {%- if not loop.last %}<span class="slnt-topic-chain__comma">, </span>{% endif -%}
         </li>
       {%- endfor -%}

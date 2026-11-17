@@ -186,8 +186,8 @@ function customsolent_preprocess_node(array &$variables): void {
     _customsolent_preprocess_format_extras($node, $variables);
   }
 
-  // The related topics, each as its full chain, at the foot of a page (the
-  // primary is the kicker at the top, so it is not repeated).
+  // Every topic, the primary first, each as its full chain, at the foot of
+  // a page: on a long page the kicker is far above by then.
   if (in_array($node->bundle(), ['event', 'organisation', 'article', 'series', 'collaboration'], TRUE)
     && ($variables['view_mode'] ?? '') === 'full') {
     _customsolent_preprocess_related_topics($node, $variables);
@@ -3563,37 +3563,41 @@ function _customsolent_preprocess_format_extras($node, array &$variables): void 
 }
 
 /**
- * The related topics of a node, each as its full chain, for the foot of
- * its page (components/topics-list.html.twig). The primary topic is the
- * kicker at the top of the page and is left out here; a related term that
- * repeats the primary is left out too.
+ * The topics of a node, the primary first then the related ones, each as
+ * its full chain, for the foot of its page (components/topics-list.html.twig).
+ * The primary repeats the kicker on purpose: on a long page the kicker is
+ * far above by the time the reader gets here, and Rob may drop the kicker
+ * one day. A related term that repeats the primary is left out.
  *
  * Sets:
- *   - related_topic_chains — list of {chain: [{label, url, color}], color}
- *     where color is the section colour of the chain's top-level term.
+ *   - related_topic_chains — list of {chain: [{label, url, color}], primary,
+ *     color} where color is the section colour of the chain's top term.
  */
 function _customsolent_preprocess_related_topics($node, array &$variables): void {
   $variables['related_topic_chains'] = [];
-  if (!$node->hasField('field_related_topics')) {
-    return;
-  }
   $seen = [];
-  if ($node->hasField('field_primary_topic') && !$node->get('field_primary_topic')->isEmpty()) {
-    $seen[(int) $node->get('field_primary_topic')->target_id] = TRUE;
-  }
-  foreach ($node->get('field_related_topics')->referencedEntities() as $term) {
-    if (isset($seen[$term->id()])) {
-      continue;
+  $add = function ($term, bool $primary) use (&$variables, &$seen): void {
+    if (!$term || isset($seen[$term->id()])) {
+      return;
     }
     $seen[$term->id()] = TRUE;
     $trail = _customsolent_build_topic_trail($term, FALSE);
     if (empty($trail['ancestors'])) {
-      continue;
+      return;
     }
     $variables['related_topic_chains'][] = [
       'chain' => $trail['ancestors'],
+      'primary' => $primary,
       'color' => $trail['ancestors'][0]['color'] ?? NULL,
     ];
     $variables['#cache']['tags'][] = 'taxonomy_term:' . $term->id();
+  };
+  if ($node->hasField('field_primary_topic') && !$node->get('field_primary_topic')->isEmpty()) {
+    $add($node->get('field_primary_topic')->entity, TRUE);
+  }
+  if ($node->hasField('field_related_topics')) {
+    foreach ($node->get('field_related_topics')->referencedEntities() as $term) {
+      $add($term, FALSE);
+    }
   }
 }

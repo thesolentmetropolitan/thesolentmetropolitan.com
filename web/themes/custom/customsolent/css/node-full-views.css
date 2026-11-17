@@ -442,20 +442,18 @@
 }
 
 /* ══════════════════════════════════════
-   Related topics — after the content of a page
-   (components/topics-list.html.twig): each as its full chain ("Sectors /
-   Environment") in its section's colour, last term bold, the chains
-   running on as one comma-separated line that wraps. The primary topic is
-   the kicker at the top, so it is not here.
+   Topics — after the content of a page (components/topics-list.html.twig):
+   the primary first, then the related ones, each as its full chain
+   ("Sectors / Environment") in its section's colour and the kicker's
+   capitals and weight, the chains running on as one comma-separated line
+   that wraps. No rule above; a little air below.
    ══════════════════════════════════════ */
 .slnt-node-full__topics {
   max-width: 740px;
-  margin: 1.6rem 0 0;
-  padding-top: 1rem;
-  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  margin: 1.6rem 0 1.6rem;
   font-family: 'Atkinson Hyperlegible Next', sans-serif;
   font-size: 0.9rem;
-  line-height: 1.6;
+  line-height: 1.7;
 }
 .slnt-node-full__topics-label {
   display: inline;
@@ -474,6 +472,8 @@
 }
 .slnt-topic-chain {
   display: inline;
+  font-weight: 800;
+  text-transform: uppercase;
   color: var(--slnt-chain-color, var(--text-mid, #444));
 }
 .layout-content a.slnt-topic-chain__term,
@@ -486,15 +486,16 @@
 .slnt-topic-chain__term:hover,
 .slnt-topic-chain__term:focus-visible {
   text-decoration: underline;
+  text-decoration-color: currentColor;
   text-underline-offset: 3px;
-}
-.slnt-topic-chain__term:last-of-type {
-  font-weight: 700;
+  text-decoration-thickness: 2px;
 }
 .slnt-topic-chain__sep {
-  color: var(--text-light, #767676);
+  font-weight: 400;
+  color: var(--text-mid, #444);
 }
 .slnt-topic-chain__comma {
+  font-weight: 400;
   color: var(--text-mid, #444);
 }
 
