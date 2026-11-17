@@ -4,8 +4,8 @@
  * The topics of a page, after its content: the primary first, then the
  * related ones, each as its full chain ("Sectors / Environment") so that
  * "Culture / Technology" and "Sectors / Technology" read as two topics, in
- * its section's colour and the kicker's capitals, the chains separated by
- * commas. The primary repeats the kicker on purpose: on a long page the
+ * its section's colour and the kicker's capitals, the chains joined as a
+ * sentence ("A, B and C."). The primary repeats the kicker on purpose: on a long page the
  * kicker is far above by now. Each term is a link to its page.
  *
  * Variables (from _customsolent_preprocess_related_topics()):
@@ -23,7 +23,16 @@
             {%- if not loop.last %}<span class="slnt-topic-chain__sep" aria-hidden="true"> / </span>{% endif -%}
           {%- endfor -%}
           {%- if topic.primary %}<span class="visually-hidden"> ({{ 'primary topic'|t }})</span>{% endif -%}
-          {%- if not loop.last %}<span class="slnt-topic-chain__comma">, </span>{% endif -%}
+          {#- Joined as a sentence: "A, B and C." — one "and" before the
+              last, a full stop after it, so it reads (and is read out) as
+              prose. -#}
+          {%- if loop.last -%}
+            <span class="slnt-topic-chain__end">.</span>
+          {%- elseif loop.revindex == 2 -%}
+            {{- ' ' }}<span class="slnt-topic-chain__join slnt-topic-chain__join--and">{{ 'and'|t }}</span>{{ ' ' -}}
+          {%- else -%}
+            <span class="slnt-topic-chain__join">,</span>{{ ' ' -}}
+          {%- endif -%}
         </li>
       {%- endfor -%}
     </ul>

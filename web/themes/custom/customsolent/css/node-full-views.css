@@ -445,7 +445,7 @@
    Topics — after the content of a page (components/topics-list.html.twig):
    the primary first, then the related ones, each as its full chain
    ("Sectors / Environment") in its section's colour and the kicker's
-   capitals and weight, the chains running on as one comma-separated line
+   capitals and weight, the chains joined as one sentence ("A, B and C.")
    that wraps. No rule above; a little air below.
    ══════════════════════════════════════ */
 .slnt-node-full__topics {
@@ -494,9 +494,21 @@
   font-weight: 400;
   color: var(--text-mid, #444);
 }
-.slnt-topic-chain__comma {
+/* The joins between chains, "," and "and", and the full stop: regular
+   weight, lower case, body colour, with air either side so the chains do
+   not run into each other. */
+.slnt-topic-chain__join {
   font-weight: 400;
-  color: var(--text-mid, #444);
+  text-transform: none;
+  color: var(--text, #1a1a1a);
+  margin: 0 0.3em 0 0;
+}
+.slnt-topic-chain__join--and {
+  margin: 0 0.15em;
+}
+.slnt-topic-chain__end {
+  font-weight: 400;
+  color: var(--text, #1a1a1a);
 }
 
 /* Dates that fall in an advisory Break, one line each under "Next:". */
