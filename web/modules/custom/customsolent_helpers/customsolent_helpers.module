@@ -218,7 +218,9 @@ function customsolent_helpers_paragraph_view_alter(array &$build, \Drupal\Core\E
   if (in_array($entity->bundle(), ['view_display', 'section_filter', 'heading'], TRUE)) {
     $build['#cache']['contexts'][] = 'url.query_args:topic';
     $build['#cache']['contexts'][] = 'url.query_args:date_filter_id';
-    $build['#cache']['contexts'][] = 'url.query_args:format';
+    foreach (customsolent_helpers_facet_query_args() as $ctx) {
+      $build['#cache']['contexts'][] = $ctx;
+    }
   }
 }
 
@@ -305,6 +307,97 @@ function customsolent_helpers_active_format_tid(): ?int {
  */
 function customsolent_helpers_format_filtered_views(): array {
   return ['events_listing', 'organisations_listing', 'directory_listing', 'links_listing', 'series_listing'];
+}
+
+/**
+ * The further facets beside Topic and Format (issues 422 and 463): what an
+ * event costs and who it is for by age. Each is a vocabulary, a field on
+ * events, a query parameter and a sidebar group, built the same way as
+ * Format but without landing pages. Keyed by the query parameter.
+ *
+ * Each: vid, field (on node), label (group title), all_label ("Any cost"),
+ * kind (the data-filter-toggle / panel word), types (node types that carry
+ * it), views (listing views it narrows: only events).
+ */
+function customsolent_helpers_facets(): array {
+  return [
+    'cost' => [
+      'vid' => 'event_cost',
+      'field' => 'field_cost',
+      'label' => t('Cost'),
+      'all_label' => t('Any cost'),
+      'kind' => 'costs',
+      'types' => ['event'],
+      'views' => ['events_listing'],
+    ],
+    'age' => [
+      'vid' => 'age_group',
+      'field' => 'field_age_group',
+      'label' => t('Age group'),
+      'all_label' => t('All ages'),
+      'kind' => 'ages',
+      'types' => ['event'],
+      'views' => ['events_listing'],
+    ],
+  ];
+}
+
+/**
+ * The terms of a facet's vocabulary in order, keyed by tid: tid, name,
+ * slug, summary (description, plain), from, to (age bounds when present).
+ */
+function customsolent_helpers_facet_terms(string $facet): array {
+  $cache = &drupal_static(__FUNCTION__, []);
+  if (isset($cache[$facet])) {
+    return $cache[$facet];
+  }
+  $cache[$facet] = [];
+  $def = customsolent_helpers_facets()[$facet] ?? NULL;
+  if (!$def) {
+    return [];
+  }
+  $storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
+  foreach ($storage->loadTree($def['vid'], 0, 1, TRUE) as $term) {
+    if (!$term->isPublished()) {
+      continue;
+    }
+    $cache[$facet][(int) $term->id()] = [
+      'tid' => (int) $term->id(),
+      'name' => $term->label(),
+      'slug' => customsolent_helpers_format_slug($term->label()),
+      'summary' => trim(strip_tags((string) $term->getDescription())),
+      'from' => $term->hasField('field_age_from') && !$term->get('field_age_from')->isEmpty() ? (int) $term->get('field_age_from')->value : NULL,
+      'to' => $term->hasField('field_age_to') && !$term->get('field_age_to')->isEmpty() ? (int) $term->get('field_age_to')->value : NULL,
+      'term' => $term,
+    ];
+  }
+  return $cache[$facet];
+}
+
+/**
+ * The term of a facet narrowing the current request (?cost=free,
+ * ?age=ages-5-to-11), as a term id, or NULL. An unknown slug narrows nothing.
+ */
+function customsolent_helpers_active_facet_tid(string $facet): ?int {
+  $slug = \Drupal::request()->query->get($facet);
+  if (!is_string($slug) || $slug === '') {
+    return NULL;
+  }
+  foreach (customsolent_helpers_facet_terms($facet) as $tid => $t) {
+    if ($t['slug'] === $slug) {
+      return $tid;
+    }
+  }
+  return NULL;
+}
+
+/**
+ * The query parameters of every facet (format, cost, age), for cache contexts.
+ *
+ * @return string[]
+ */
+function customsolent_helpers_facet_query_args(): array {
+  return array_map(static fn($p) => 'url.query_args:' . $p, array_merge(['format'], array_keys(customsolent_helpers_facets())));
 }
 
 /**
@@ -488,6 +581,21 @@ function customsolent_helpers_views_query_alter(\Drupal\views\ViewExecutable $vi
       ->condition('slnt_f.field_format_target_id', $format_tid);
     $query->setWhereGroup('AND', 'slnt_format');
     $query->addWhere('slnt_format', 'node_field_data.nid', $with_format, 'IN');
+  }
+  // Cost and age group (issues 422, 463) narrow the same way, by their own
+  // field, on the listings of the types that carry them.
+  if ($view->current_display !== 'view_display_front_page' && $query instanceof \Drupal\views\Plugin\views\query\Sql) {
+    foreach (customsolent_helpers_facets() as $param => $def) {
+      $tid = customsolent_helpers_active_facet_tid($param);
+      if (!$tid || !in_array($view->id(), $def['views'], TRUE)) {
+        continue;
+      }
+      $table = 'node__' . $def['field'];
+      $with = \Drupal::database()->select($table, 'slnt_' . $param)->fields('slnt_' . $param, ['entity_id'])
+        ->condition('slnt_' . $param . '.' . $def['field'] . '_target_id', $tid);
+      $query->setWhereGroup('AND', 'slnt_' . $param);
+      $query->addWhere('slnt_' . $param, 'node_field_data.nid', $with, 'IN');
+    }
   }
   if (!in_array($view->id(), customsolent_helpers_topic_filtered_views(), TRUE)
     || $view->current_display === 'view_display_front_page'

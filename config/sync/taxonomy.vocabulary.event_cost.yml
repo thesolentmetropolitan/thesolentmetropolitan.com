@@ -1,0 +1,9 @@
+uuid: fbc432db-501e-43e8-9238-b598a920c6d3
+langcode: en
+status: true
+dependencies: {  }
+name: 'Event cost'
+vid: event_cost
+description: 'What it costs to go: free, pay what you can, paid, concessions. A third axis to Topic and Format, on events.'
+weight: 0
+new_revision: false

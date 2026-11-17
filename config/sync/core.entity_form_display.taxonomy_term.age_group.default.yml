@@ -1,0 +1,60 @@
+uuid: c6988a4f-9b6c-4081-9f82-39a16b11abea
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.taxonomy_term.age_group.field_age_from
+    - field.field.taxonomy_term.age_group.field_age_to
+    - taxonomy.vocabulary.age_group
+  module:
+    - path
+    - text
+id: taxonomy_term.age_group.default
+targetEntityType: taxonomy_term
+bundle: age_group
+mode: default
+content:
+  description:
+    type: text_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_age_from:
+    type: number
+    weight: 5
+    region: content
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+  field_age_to:
+    type: number
+    weight: 6
+    region: content
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+  name:
+    type: string_textfield
+    weight: -5
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  path:
+    type: path
+    weight: 30
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  status:
+    type: boolean_checkbox
+    weight: 100
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+hidden: {  }

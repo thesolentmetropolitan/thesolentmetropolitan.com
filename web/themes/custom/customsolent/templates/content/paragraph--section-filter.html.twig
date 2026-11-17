@@ -47,13 +47,16 @@
         <aside class="slnt-section-filter__sidebar" aria-label="Topics">
           {% include '@customsolent/components/topic-nav.html.twig' with { filter_options: filter_options, filter_all_url: filter_all_url, filter_all_active: filter_all_active } only %}
           {% include '@customsolent/components/format-nav.html.twig' with { format_options: format_options|default([]), format_all_url: format_all_url, format_all_active: format_all_active } only %}
+          {% for group in facet_groups|default([]) %}
+            {% include '@customsolent/components/facet-nav.html.twig' with { group: group } only %}
+          {% endfor %}
         </aside>
 
         {# Mobile sticky bar — the panel below opens on tap. #}
-        {% include '@customsolent/components/filter-bar.html.twig' with { filter_active_label: filter_active_label, format_has_options: format_has_options|default(false), format_active_label: format_active_label|default(null) } only %}
+        {% include '@customsolent/components/filter-bar.html.twig' with { filter_active_label: filter_active_label, format_has_options: format_has_options|default(false), format_active_label: format_active_label|default(null), facet_groups: facet_groups|default([]) } only %}
 
         {# Mobile slide-up panel — overlay outside the sticky flow. #}
-        {% include '@customsolent/components/filter-sheets.html.twig' with { filter_options: filter_options, filter_all_url: filter_all_url, filter_all_active: filter_all_active, format_has_options: format_has_options|default(false), format_options: format_options|default([]), format_all_url: format_all_url|default(null), format_all_active: (format_all_active is defined ? format_all_active : true) } only %}
+        {% include '@customsolent/components/filter-sheets.html.twig' with { filter_options: filter_options, filter_all_url: filter_all_url, filter_all_active: filter_all_active, format_has_options: format_has_options|default(false), format_options: format_options|default([]), format_all_url: format_all_url|default(null), format_all_active: (format_all_active is defined ? format_all_active : true), facet_groups: facet_groups|default([]) } only %}
 
       {% endblock %}
     </div>

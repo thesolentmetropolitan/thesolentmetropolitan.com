@@ -16,7 +16,8 @@
  */
 #}
 {% set _show_setting = setting_label and (show_indoor|default(false) or setting_key != 'indoor') %}
-{% if format_labels is not empty or _show_setting %}
+{% set _extra = extra_labels|default([]) %}
+{% if format_labels is not empty or _show_setting or _extra is not empty %}
   <div class="slnt-format-line slnt-format-line--{{ variant|default('compact') }}">
     <span class="visually-hidden">{{ 'Format'|t }}: </span>
     {%- for f in format_labels -%}
@@ -26,5 +27,9 @@
       {% if format_labels is not empty %}<span class="slnt-format-line__sep" aria-hidden="true"> · </span>{% endif %}
       <span class="slnt-format-line__setting slnt-format-line__setting--{{ setting_key }}">{{ setting_label }}</span>
     {%- endif -%}
+    {%- for x in _extra -%}
+      {% if format_labels is not empty or _show_setting or not loop.first %}<span class="slnt-format-line__sep" aria-hidden="true"> · </span>{% endif %}
+      <span class="slnt-format-line__extra">{{ x }}</span>
+    {%- endfor -%}
   </div>
 {% endif %}

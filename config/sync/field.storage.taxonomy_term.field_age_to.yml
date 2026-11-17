@@ -1,0 +1,20 @@
+uuid: 9cdf5c9d-9ff9-462c-8fda-15fff1a18edb
+langcode: en
+status: true
+dependencies:
+  module:
+    - taxonomy
+id: taxonomy_term.field_age_to
+field_name: field_age_to
+entity_type: taxonomy_term
+type: integer
+settings:
+  unsigned: true
+  size: small
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

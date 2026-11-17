@@ -1,0 +1,23 @@
+uuid: 19f3a5e1-bc21-4dfd-9115-98fbdde5c074
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_age_from
+    - taxonomy.vocabulary.age_group
+id: taxonomy_term.age_group.field_age_from
+field_name: field_age_from
+entity_type: taxonomy_term
+bundle: age_group
+label: 'age from'
+description: 'The youngest age the event is for, in years. Leave empty for no lower bound.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: 0
+  max: 120
+  prefix: ''
+  suffix: ' years'
+field_type: integer

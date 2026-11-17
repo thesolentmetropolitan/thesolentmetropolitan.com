@@ -1,0 +1,29 @@
+uuid: 72bc2248-2974-4daa-aaeb-5477fdca113c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_cost
+    - node.type.event
+    - taxonomy.vocabulary.event_cost
+id: node.event.field_cost
+field_name: field_cost
+entity_type: node
+bundle: event
+label: cost
+description: 'What it costs to go. Tick more than one when both hold ("Paid" and "Concessions available"). Leave empty when it is not known; the card then says nothing.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      event_cost: event_cost
+    sort:
+      field: weight
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

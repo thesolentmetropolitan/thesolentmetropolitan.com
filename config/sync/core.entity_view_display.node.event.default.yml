@@ -3,7 +3,9 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.node.event.field_age_group
     - field.field.node.event.field_arrival
+    - field.field.node.event.field_cost
     - field.field.node.event.field_format
     - field.field.node.event.field_image
     - field.field.node.event.field_organisers
@@ -120,7 +122,9 @@ content:
     weight: 100
     region: content
 hidden:
+  field_age_group: true
   field_arrival: true
+  field_cost: true
   field_format: true
   field_season_from: true
   field_season_to: true

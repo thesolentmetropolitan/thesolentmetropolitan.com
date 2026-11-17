@@ -37,3 +37,17 @@
     </div>
   </div>
 {% endif %}
+{% for group in facet_groups|default([]) %}
+  <div class="slnt-filter-panel" data-filter-panel="{{ group.kind }}" role="dialog" aria-modal="true" aria-label="{{ group.label }}">
+    <div class="slnt-filter-panel__handle">
+      <span class="slnt-filter-panel__handle-bar"></span>
+    </div>
+    <div class="slnt-filter-panel__header">
+      <span class="slnt-filter-panel__title">{{ group.label }}</span>
+      <a href="{{ group.all_url }}" class="slnt-filter-panel__clear">{{ 'Clear'|t }}</a>
+    </div>
+    <div class="slnt-filter-panel__body">
+      {% include '@customsolent/components/facet-nav.html.twig' with { group: group } only %}
+    </div>
+  </div>
+{% endfor %}

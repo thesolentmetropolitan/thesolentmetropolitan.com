@@ -1742,13 +1742,15 @@ function customsolent_form_views_exposed_form_alter(array &$form, \Drupal\Core\F
       '#value' => $topic,
     ];
   }
-  // Likewise the format (issue 485).
-  $format = \Drupal::request()->query->get('format');
-  if (is_string($format) && $format !== '' && !isset($form['format'])) {
-    $form['format'] = [
-      '#type'  => 'hidden',
-      '#value' => $format,
-    ];
+  // Likewise the format (issue 485) and the other facets (cost, age).
+  foreach (array_merge(['format'], array_keys(customsolent_helpers_facets())) as $param) {
+    $value = \Drupal::request()->query->get($param);
+    if (is_string($value) && $value !== '' && !isset($form[$param])) {
+      $form[$param] = [
+        '#type'  => 'hidden',
+        '#value' => $value,
+      ];
+    }
   }
 }
 
@@ -1885,6 +1887,10 @@ function customsolent_preprocess_paragraph__view_display(&$variables) {
     $applies = in_array($view_name, customsolent_helpers_format_filtered_views(), TRUE)
       && (($variables['view_mode'] ?? '') === 'listing_page' || _customsolent_host_lists_only_formattable($host));
     _customsolent_apply_format_options_to_variables($variables, $applies, $context, _customsolent_format_types_for_views([$view_name]));
+    _customsolent_apply_facet_options_to_variables($variables, [$view_name], $context, ($variables['view_mode'] ?? '') === 'listing_page' ? NULL : $host);
+  }
+  else {
+    $variables['facet_groups'] = [];
   }
 }
 
@@ -1970,6 +1976,104 @@ function _customsolent_formats_used_in_scope(array $scope_ids, array $types): ar
          SELECT entity_id FROM {node__field_primary_topic} WHERE field_primary_topic_target_id IN (:scope[])
          UNION SELECT entity_id FROM {node__field_related_topics} WHERE field_related_topics_target_id IN (:scope[])
        )', [':types[]' => $types, ':scope[]' => $scope_ids])->fetchCol());
+  }
+  return $cache[$key];
+}
+
+/**
+ * The sidebar groups for the further facets, cost and age group (issues 422
+ * and 463): one group per facet, after Format, on a page whose listings are
+ * all of the kinds that carry the facet (events). Always content-driven:
+ * only the values that published events in the page's scope actually carry
+ * are offered (plus the one chosen), so a new vocabulary with little tagged
+ * shows little, and nothing until something is tagged.
+ *
+ * Sets facet_groups: list of {param, kind, label, all_label, options
+ * [{label, url, active}], all_url, all_active, active_label}.
+ *
+ * @param string[] $view_ids
+ *   The listing views the group would narrow (this paragraph's view, or
+ *   every listing on the host page).
+ * @param array $context
+ *   The topic context (mode, scope_ids).
+ * @param object|null $host
+ *   The host node when its other listings must be checked too (a section
+ *   overview that also lists articles gets no group); NULL on a listing page.
+ */
+function _customsolent_apply_facet_options_to_variables(array &$variables, array $view_ids, array $context = [], $host = NULL): void {
+  $variables['facet_groups'] = [];
+  if (!$view_ids) {
+    return;
+  }
+  $host_views = $host ? _customsolent_host_listing_views($host) : $view_ids;
+  foreach (customsolent_helpers_facets() as $param => $def) {
+    if (array_diff($view_ids, $def['views']) || array_diff($host_views, $def['views'])) {
+      continue;
+    }
+    foreach (customsolent_helpers_facet_query_args() as $ctx) {
+      $variables['#cache']['contexts'][] = $ctx;
+    }
+    $variables['#cache']['tags'][] = 'taxonomy_term_list:' . $def['vid'];
+    $variables['#cache']['tags'][] = 'node_list';
+    $terms = customsolent_helpers_facet_terms($param);
+    if (!$terms) {
+      continue;
+    }
+    $active = customsolent_helpers_active_facet_tid($param);
+    $scope = (($context['mode'] ?? '') === 'term' && !empty($context['scope_ids'])) ? $context['scope_ids'] : [];
+    $used = _customsolent_facet_values_used($def['field'], $def['types'], $scope);
+    $terms = array_intersect_key($terms, array_flip($used) + ($active ? [$active => TRUE] : []));
+    if (!$terms) {
+      continue;
+    }
+    $group = [
+      'param' => $param,
+      'kind' => $def['kind'],
+      'label' => $def['label'],
+      'all_label' => $def['all_label'],
+      'options' => [],
+      'all_url' => _customsolent_build_filter_url([$param => NULL]),
+      'all_active' => ($active === NULL),
+      'active_label' => NULL,
+    ];
+    foreach ($terms as $tid => $t) {
+      $group['options'][] = [
+        'tid' => $tid,
+        'label' => $t['name'],
+        'url' => _customsolent_build_filter_url([$param => $t['slug']]),
+        'active' => $active === $tid,
+      ];
+      if ($active === $tid) {
+        $group['active_label'] = $t['name'];
+      }
+    }
+    $variables['facet_groups'][] = $group;
+  }
+}
+
+/**
+ * Term ids a facet field carries on published nodes of the given types,
+ * within a topic scope when one is given (primary or related topic in it).
+ *
+ * @return int[]
+ */
+function _customsolent_facet_values_used(string $field, array $types, array $scope_ids = []): array {
+  $scope_ids = array_values(array_filter(array_map('intval', $scope_ids)));
+  $cache = &drupal_static(__FUNCTION__, []);
+  $key = md5($field . '|' . implode(',', $types) . '|' . implode(',', $scope_ids));
+  if (!isset($cache[$key])) {
+    $sql = "SELECT DISTINCT f.{$field}_target_id FROM {node__{$field}} f
+       JOIN {node_field_data} n ON n.nid = f.entity_id
+       WHERE n.status = 1 AND n.type IN (:types[])";
+    $args = [':types[]' => $types];
+    if ($scope_ids) {
+      $sql .= " AND f.entity_id IN (
+         SELECT entity_id FROM {node__field_primary_topic} WHERE field_primary_topic_target_id IN (:scope[])
+         UNION SELECT entity_id FROM {node__field_related_topics} WHERE field_related_topics_target_id IN (:scope[])
+       )";
+      $args[':scope[]'] = $scope_ids;
+    }
+    $cache[$key] = array_map('intval', \Drupal::database()->query($sql, $args)->fetchCol());
   }
   return $cache[$key];
 }
@@ -2489,7 +2593,7 @@ function _customsolent_preprocess_listing_mode(array &$variables, $paragraph, $h
   $is_directory = ($type_word === 'organisations');
   $variables['listing_cache'] = [
     '#cache' => [
-      'contexts' => ['url.path', 'url.query_args:topic', 'url.query_args:date_filter_id', 'url.query_args:format'],
+      'contexts' => array_merge(['url.path', 'url.query_args:topic', 'url.query_args:date_filter_id'], customsolent_helpers_facet_query_args()),
       'tags' => $kind['tags'],
     ],
   ];
@@ -2757,6 +2861,7 @@ function customsolent_preprocess_paragraph__section_filter(&$variables) {
   $variables['has_children']  = $with_children;
   _customsolent_apply_filter_options_to_variables($variables, $context, $active_filter_tid);
   _customsolent_apply_format_options_to_variables($variables, _customsolent_host_lists_only_formattable($host), $context, _customsolent_format_types_for_views(_customsolent_host_listing_views($host)));
+  _customsolent_apply_facet_options_to_variables($variables, _customsolent_host_listing_views($host), $context, $host);
 }
 
 /**
@@ -3551,6 +3656,21 @@ function _customsolent_preprocess_format_extras($node, array &$variables): void 
         $label = (string) $term->get('field_plural_label')->value;
       }
       $variables['format_labels'][] = $label;
+      $variables['#cache']['tags'][] = 'taxonomy_term:' . $term->id();
+    }
+  }
+  // Cost and age group (issues 422, 463) follow on the same line, "Free",
+  // "Ages 5 to 11"; nothing when unset, so a general adult event says
+  // nothing about age.
+  $variables['facet_labels'] = [];
+  foreach (customsolent_helpers_facets() as $def) {
+    if (!$node->hasField($def['field']) || $node->get($def['field'])->isEmpty()) {
+      continue;
+    }
+    $terms = $node->get($def['field'])->referencedEntities();
+    usort($terms, static fn($a, $b) => [(int) $a->getWeight(), $a->label()] <=> [(int) $b->getWeight(), $b->label()]);
+    foreach ($terms as $term) {
+      $variables['facet_labels'][] = $term->label();
       $variables['#cache']['tags'][] = 'taxonomy_term:' . $term->id();
     }
   }

@@ -1,0 +1,9 @@
+uuid: c0dab904-a887-4e81-a748-ec77a25f4c2e
+langcode: en
+status: true
+dependencies: {  }
+name: 'Age group'
+vid: age_group
+description: 'Who an event is for by age, each term with a lower and upper age. Only set when an event is for a particular age group; an event with none is taken to be for adults.'
+weight: 0
+new_revision: false

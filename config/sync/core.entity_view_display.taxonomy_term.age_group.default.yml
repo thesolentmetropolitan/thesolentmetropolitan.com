@@ -1,0 +1,25 @@
+uuid: 33668803-3751-4ace-b496-2c013118f597
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.taxonomy_term.age_group.field_age_from
+    - field.field.taxonomy_term.age_group.field_age_to
+    - taxonomy.vocabulary.age_group
+  module:
+    - text
+id: taxonomy_term.age_group.default
+targetEntityType: taxonomy_term
+bundle: age_group
+mode: default
+content:
+  description:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  field_age_from: true
+  field_age_to: true

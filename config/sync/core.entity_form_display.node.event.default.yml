@@ -3,7 +3,9 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.node.event.field_age_group
     - field.field.node.event.field_arrival
+    - field.field.node.event.field_cost
     - field.field.node.event.field_format
     - field.field.node.event.field_image
     - field.field.node.event.field_organisers
@@ -34,9 +36,21 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
+  field_age_group:
+    type: options_buttons
+    weight: 126
+    region: content
+    settings: {  }
+    third_party_settings: {  }
   field_arrival:
     type: options_select
-    weight: 128
+    weight: 130
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_cost:
+    type: options_buttons
+    weight: 125
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -55,7 +69,7 @@ content:
     third_party_settings: {  }
   field_organisers:
     type: entity_reference_autocomplete
-    weight: 130
+    weight: 132
     region: content
     settings:
       match_operator: CONTAINS
@@ -85,13 +99,13 @@ content:
     third_party_settings: {  }
   field_season_from:
     type: options_select
-    weight: 125
+    weight: 127
     region: content
     settings: {  }
     third_party_settings: {  }
   field_season_to:
     type: options_select
-    weight: 126
+    weight: 128
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -103,7 +117,7 @@ content:
     third_party_settings: {  }
   field_standfirst:
     type: string_textfield
-    weight: 127
+    weight: 129
     region: content
     settings:
       size: 60
@@ -111,7 +125,7 @@ content:
     third_party_settings: {  }
   field_urls:
     type: link_default
-    weight: 131
+    weight: 133
     region: content
     settings:
       placeholder_url: ''
@@ -119,7 +133,7 @@ content:
     third_party_settings: {  }
   field_when:
     type: smartdate_timezone
-    weight: 127
+    weight: 129
     region: content
     settings:
       modal: false
@@ -144,7 +158,7 @@ content:
     third_party_settings: {  }
   field_where:
     type: inline_entity_form_complex
-    weight: 129
+    weight: 131
     region: content
     settings:
       form_mode: default

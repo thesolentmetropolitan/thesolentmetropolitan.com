@@ -24,4 +24,10 @@
       <span class="slnt-filter-bar__value{{ format_active_label ? ' is-set' : '' }}">{{ format_active_label ?: 'All'|t }}</span>
     </div>
   {% endif %}
+  {% for group in facet_groups|default([]) %}
+    <div class="slnt-filter-bar__group">
+      <button type="button" class="slnt-filter-bar__button" data-filter-toggle="{{ group.kind }}" aria-haspopup="dialog" aria-expanded="false">{{ group.label }}</button>
+      <span class="slnt-filter-bar__value{{ group.active_label ? ' is-set' : '' }}">{{ group.active_label ?: 'All'|t }}</span>
+    </div>
+  {% endfor %}
 </div>

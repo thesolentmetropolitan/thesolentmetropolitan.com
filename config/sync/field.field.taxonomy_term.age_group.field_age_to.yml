@@ -1,0 +1,23 @@
+uuid: 165e5b8d-872a-4246-ad73-9ee773278edf
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_age_to
+    - taxonomy.vocabulary.age_group
+id: taxonomy_term.age_group.field_age_to
+field_name: field_age_to
+entity_type: taxonomy_term
+bundle: age_group
+label: 'age to'
+description: 'The oldest age the event is for, in years. Leave empty for no upper bound ("18 and over").'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: 0
+  max: 120
+  prefix: ''
+  suffix: ' years'
+field_type: integer
