@@ -496,13 +496,60 @@ function _customsolent_join_names(array $names): string {
 }
 
 /**
+ * Where a Location term is: its area line and its town (issue 407).
+ *
+ * Returns ['area' => string|NULL, 'town' => string|NULL]. The area is the
+ * term's ancestors from the nearest up, "Southsea, Portsmouth", so a reader
+ * who does not know Stubbington learns it is Fareham. Two rules keep it
+ * short: an ancestor whose name the venue already carries is left out
+ * ("Portsmouth Guildhall" is not followed by ", Portsmouth"), and the
+ * region and county roots are never shown (every venue is in the Solent,
+ * and Hampshire is implied), while the Isle of Wight, the New Forest and
+ * the other named roots are. At most two levels. The town is the highest
+ * ancestor shown, for the "4 venues" line.
+ */
+function _customsolent_location_where($term): array {
+  // Roots that go without saying: not "Portsmouth, Solent".
+  static $silent_roots = ['Solent', 'Hampshire', 'England', 'UK', 'TBC'];
+  $term_storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
+  $parts = [];
+  $mentioned = [$term->getName()];
+  $current = $term;
+  while (count($parts) < 2) {
+    $parents = $term_storage->loadParents($current->id());
+    $parent = $parents ? reset($parents) : NULL;
+    if (!$parent || in_array($parent->getName(), $silent_roots, TRUE)) {
+      break;
+    }
+    $name = $parent->getName();
+    $already = FALSE;
+    foreach ($mentioned as $text) {
+      if (mb_stripos($text, $name) !== FALSE) {
+        $already = TRUE;
+        break;
+      }
+    }
+    if (!$already) {
+      $parts[] = $name;
+    }
+    $mentioned[] = $name;
+    $current = $parent;
+  }
+  return [
+    'area' => $parts ? implode(', ', $parts) : NULL,
+    'town' => $parts ? end($parts) : NULL,
+  ];
+}
+
+/**
  * Event variables shared by the compact card, the teaser and the full page.
  *
  * Sets:
  *   - where_list      — list of {name, area, url}: every venue with its
- *                       parent term (the town). One entry for a normal
- *                       event; several when the event runs at more than one
- *                       place at once (field_where is multi-value).
+ *                       area line ("Southsea, Portsmouth"; see
+ *                       _customsolent_location_where()). One entry for a
+ *                       normal event; several when the event runs at more
+ *                       than one place at once (field_where is multi-value).
  *   - where_areas     — the distinct towns, in venue order ("Southampton,
  *                       Fareham and Portsmouth"), for the compact card's
  *                       "4 venues" line.
@@ -532,18 +579,15 @@ function _customsolent_preprocess_event_shared_extras($node, array &$variables):
   $variables['where_list'] = [];
   $variables['where_areas'] = '';
   if ($node->hasField('field_where') && !$node->get('field_where')->isEmpty()) {
-    /** @var \Drupal\taxonomy\TermStorageInterface $term_storage */
-    $term_storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
     $areas = [];
     foreach ($node->get('field_where')->referencedEntities() as $where) {
-      $parents = $term_storage->loadParents($where->id());
-      $parent = $parents ? reset($parents) : NULL;
+      $place = _customsolent_location_where($where);
       $variables['where_list'][] = [
         'name' => $where->getName(),
-        'area' => $parent ? $parent->getName() : NULL,
+        'area' => $place['area'],
       ];
-      if ($parent && !in_array($parent->getName(), $areas, TRUE)) {
-        $areas[] = $parent->getName();
+      if ($place['town'] && !in_array($place['town'], $areas, TRUE)) {
+        $areas[] = $place['town'];
       }
     }
     $variables['where_areas'] = _customsolent_join_names($areas);

@@ -360,7 +360,7 @@
 /* Icons: rocket, lightbulb, chart-line-up */
 .hero-art-style--sectors-entrepreneur {
   background:
-    url('../images/hero-tiles/sectors_entrepreneur.svg') repeat,
+    url('../images/hero-tiles/sectors_business_community.svg') repeat,
     linear-gradient(135deg, #1D4ED8 0%, #2563EB 50%, #3B82F6 100%);
   background-size: 120px 103.92px, cover;
 }
@@ -646,6 +646,13 @@
 
 /* Living - Wellbeing (class name kept from the Health & Fitness days) */
 /* Icons: flower-lotus, sun, person-simple-run, heart */
+.hero-art-style--living-countryside-rural-life {
+  background:
+    url('../images/hero-tiles/living_countryside_rural_life.svg') repeat,
+    linear-gradient(135deg, #047857 0%, #059669 50%, #10B981 100%);
+  background-size: 120px 103.92px, cover;
+}
+
 .hero-art-style--living-health {
   background:
     url('../images/hero-tiles/living_wellbeing.svg') repeat,

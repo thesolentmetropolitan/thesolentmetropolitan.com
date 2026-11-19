@@ -95,7 +95,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -86
+    weight: -85
     langcode: en
     uuid: 1e665e14-aa16-489e-98b5-dfdc88595a6d
     options: {  }
@@ -251,7 +251,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -88
+    weight: -87
     langcode: en
     uuid: 58c994bf-0fc1-4f42-b496-142e8c0d0a40
     options: {  }
@@ -277,7 +277,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -83
+    weight: -82
     langcode: en
     uuid: 6eabc665-7abb-43a1-8190-b4e3b635df7b
     options: {  }
@@ -290,7 +290,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -87
+    weight: -86
     langcode: en
     uuid: 11debdd8-92fc-41aa-9986-0ded7eb85ee9
     options: {  }
@@ -576,7 +576,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -85
+    weight: -84
     langcode: en
     uuid: 0fec7440-af88-4538-bfd1-5422b795b14d
     options: {  }
@@ -602,7 +602,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -82
+    weight: -81
     langcode: en
     uuid: fe14f8c4-e80b-4f2d-8d36-9b3d0b78b638
     options: {  }
@@ -1011,7 +1011,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -80
+    weight: -79
     langcode: en
     uuid: fadd5e35-62ae-48f3-b923-a877287d593c
     options: {  }
@@ -1158,7 +1158,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -84
+    weight: -83
     langcode: en
     uuid: 3fc83e88-a2eb-450a-af96-32266fe4556b
     options: {  }
@@ -1255,10 +1255,10 @@ menus:
     options: {  }
   -
     menu_name: main
-    title: Entrepreneur
+    title: 'Business Community'
     parent: 'menu_link_content:ca4916ec-7269-42dc-abf5-5864739fbddd'
-    uri: 'internal:/sectors/entrepreneur'
-    link_title: ''
+    uri: 'internal:/sectors/business-community'
+    link_title: null
     description: null
     enabled: true
     expanded: false
@@ -1301,7 +1301,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -81
+    weight: -80
     langcode: en
     uuid: 2a13d79d-cbfe-4d39-abb5-32e07dc6812f
     options: {  }
@@ -1340,7 +1340,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -89
+    weight: -88
     langcode: en
     uuid: 6cdc982a-c956-4ebe-a758-e865f5f0978b
     options: {  }
@@ -1422,7 +1422,109 @@ menus:
     langcode: en
     uuid: 2efd8f27-c3c4-4db4-a621-9b669959376c
     options: {  }
+  -
+    menu_name: main
+    title: 'Countryside & Rural Life'
+    parent: 'menu_link_content:756c53bd-5480-481e-8ee9-dc1cc63d4c34'
+    uri: 'internal:/living/countryside-rural-life'
+    link_title: null
+    description: null
+    enabled: true
+    expanded: false
+    weight: -89
+    langcode: en
+    uuid: 5395bfd8-0f6b-44fa-a25c-51c4ee995004
+    options: {  }
 taxonomies:
+  age_group:
+    -
+      vid: age_group
+      tid: '418'
+      langcode: en
+      name: '18 and over'
+      description__value: 'Adults only: licensed venues, 18+ nights. Not for the general run of adult events, which carry no age group.'
+      description__format: basic_html
+      weight: '4'
+      parent: '0'
+      uuid: 203453ca-68ab-4df0-983e-090aafa381e2
+      field_age_from:
+        -
+          value: '18'
+      field_age_to: {  }
+    -
+      vid: age_group
+      tid: '419'
+      langcode: en
+      name: '50 and over'
+      description__value: 'For older adults: over-50s clubs, retirement groups.'
+      description__format: basic_html
+      weight: '5'
+      parent: '0'
+      uuid: c1655874-f5a6-4210-a68f-04b36826a29d
+      field_age_from:
+        -
+          value: '50'
+      field_age_to: {  }
+    -
+      vid: age_group
+      tid: '417'
+      langcode: en
+      name: 'Ages 12 to 17'
+      description__value: 'Secondary-school age; teenagers.'
+      description__format: basic_html
+      weight: '3'
+      parent: '0'
+      uuid: 0e2e4eef-35b7-47e0-b656-ea4a41f1f620
+      field_age_from:
+        -
+          value: '12'
+      field_age_to:
+        -
+          value: '17'
+    -
+      vid: age_group
+      tid: '416'
+      langcode: en
+      name: 'Ages 5 to 11'
+      description__value: 'Primary-school age.'
+      description__format: basic_html
+      weight: '2'
+      parent: '0'
+      uuid: 13bf8466-f5e8-4a97-8528-cc8bc60d7def
+      field_age_from:
+        -
+          value: '5'
+      field_age_to:
+        -
+          value: '11'
+    -
+      vid: age_group
+      tid: '414'
+      langcode: en
+      name: 'Family friendly'
+      description__value: 'For all ages together: children welcome, adults expected.'
+      description__format: basic_html
+      weight: '0'
+      parent: '0'
+      uuid: c047a293-b1fe-4b07-839e-5cb243afa8ef
+      field_age_from: {  }
+      field_age_to: {  }
+    -
+      vid: age_group
+      tid: '415'
+      langcode: en
+      name: 'Under 5s'
+      description__value: 'Babies, toddlers and pre-schoolers, with a grown-up.'
+      description__format: basic_html
+      weight: '1'
+      parent: '0'
+      uuid: 04a8f3f9-fcde-4762-b559-f7d88e172eaa
+      field_age_from:
+        -
+          value: '0'
+      field_age_to:
+        -
+          value: '4'
   collaborator_type:
     -
       vid: collaborator_type
@@ -1753,6 +1855,47 @@ taxonomies:
         -
           color: '#FFFFFF'
           opacity: '1'
+  event_cost:
+    -
+      vid: event_cost
+      tid: '413'
+      langcode: en
+      name: 'Concessions available'
+      description__value: "Reduced prices for some: students, under-18s, over-60s, those on benefits. Goes with Paid; the organiser's page has the detail."
+      description__format: basic_html
+      weight: '3'
+      parent: '0'
+      uuid: 643aa891-a84d-45b9-b75d-cc1899a27b55
+    -
+      vid: event_cost
+      tid: '410'
+      langcode: en
+      name: Free
+      description__value: 'No charge to go. Booking may still be needed.'
+      description__format: basic_html
+      weight: '0'
+      parent: '0'
+      uuid: cc90295c-ed07-4286-82c9-37e03cacba2e
+    -
+      vid: event_cost
+      tid: '412'
+      langcode: en
+      name: Paid
+      description__value: 'Tickets or an entry charge.'
+      description__format: basic_html
+      weight: '2'
+      parent: '0'
+      uuid: ae6445dc-ebbd-40a1-8c4d-2655fe39faa9
+    -
+      vid: event_cost
+      tid: '411'
+      langcode: en
+      name: 'Pay what you can'
+      description__value: 'Pay what you feel or can afford, with a suggested amount at most; nobody turned away.'
+      description__format: basic_html
+      weight: '1'
+      parent: '0'
+      uuid: f9a1a7ef-8f16-4d59-b9b6-29a5ce619737
   format:
     -
       vid: format
@@ -2183,7 +2326,7 @@ taxonomies:
       vid: location
       tid: '256'
       langcode: en
-      name: "Bobby's Lounge"
+      name: 'Bobby’s Lounge'
       description__value: null
       description__format: null
       weight: '0'
@@ -2343,7 +2486,7 @@ taxonomies:
       vid: location
       tid: '222'
       langcode: en
-      name: "Concourse, Avenue St Andrew's URC"
+      name: 'Concourse, Avenue St Andrew’s URC'
       description__value: null
       description__format: null
       weight: '14'
@@ -2573,7 +2716,7 @@ taxonomies:
       vid: location
       tid: '150'
       langcode: en
-      name: "God's House Tower"
+      name: 'God’s House Tower'
       description__value: null
       description__format: null
       weight: '18'
@@ -3323,7 +3466,7 @@ taxonomies:
       vid: location
       tid: '348'
       langcode: en
-      name: "St James' Church, Milton"
+      name: 'St James’ Church, Milton'
       description__value: null
       description__format: null
       weight: '0'
@@ -3333,7 +3476,7 @@ taxonomies:
       vid: location
       tid: '380'
       langcode: en
-      name: "St Luke's Church"
+      name: 'St Luke’s Church'
       description__value: null
       description__format: null
       weight: '0'
@@ -3343,7 +3486,7 @@ taxonomies:
       vid: location
       tid: '312'
       langcode: en
-      name: "St Mary's Stadium"
+      name: 'St Mary’s Stadium'
       description__value: null
       description__format: null
       weight: '44'
@@ -3363,7 +3506,7 @@ taxonomies:
       vid: location
       tid: '176'
       langcode: en
-      name: "St. Barnabas Hall / Tracie's Latin Club"
+      name: 'St. Barnabas Hall / Tracie’s Latin Club'
       description__value: null
       description__format: null
       weight: '41'
@@ -4960,12 +5103,25 @@ taxonomies:
           value: "Civic life across the Solent: residents' groups, community centres, volunteering, support networks and the ways to take part."
     -
       vid: topic
+      tid: '420'
+      langcode: en
+      name: 'Living / Countryside & Rural Life'
+      description__value: '<p>Living in and visiting the countryside: village life and parish events, country shows and fairs, farm shops and pick-your-own, footpaths, bridleways and the New Forest commons, rural services and transport. A way of life, not a sector: farming as an industry is Sectors / Farming; nature reserves and conservation are Culture / Science &amp; Nature / Conservation &amp; Climate; walking groups are Living / Wellbeing or Culture / Active &amp; Outdoor. Primary for the village or countryside angle; related when a rural venue hosts something else.</p>'
+      description__format: basic_html
+      weight: '2'
+      parent: '31'
+      uuid: 5ae8998d-4f60-4a71-9cfe-8f0adfcbecff
+      field_reader_summary:
+        -
+          value: 'Village and countryside life across the Solent and the New Forest: parish events, country shows, farm shops, footpaths and the rural communities between the cities.'
+    -
+      vid: topic
       tid: '161'
       langcode: en
       name: 'Living / Disability'
       description__value: null
       description__format: null
-      weight: '2'
+      weight: '3'
       parent: '31'
       uuid: a2017bbf-2028-4095-8801-9d5aff83d711
       field_reader_summary: {  }
@@ -4976,7 +5132,7 @@ taxonomies:
       name: 'Living / Education'
       description__value: null
       description__format: null
-      weight: '3'
+      weight: '4'
       parent: '31'
       uuid: 1927aac7-cb53-400b-a9ba-2189f8352e2a
       field_reader_summary:
@@ -4989,7 +5145,7 @@ taxonomies:
       name: 'Living / Family'
       description__value: null
       description__format: null
-      weight: '4'
+      weight: '5'
       parent: '31'
       uuid: fb4e887b-9447-4a70-b795-ee24bb92b1f2
       field_reader_summary:
@@ -5002,7 +5158,7 @@ taxonomies:
       name: 'Living / Home & Garden'
       description__value: null
       description__format: null
-      weight: '6'
+      weight: '7'
       parent: '31'
       uuid: a4885319-8e53-48d8-a699-bbfdac9dc4c4
       field_reader_summary:
@@ -5015,7 +5171,7 @@ taxonomies:
       name: 'Living / Housing'
       description__value: null
       description__format: null
-      weight: '7'
+      weight: '8'
       parent: '31'
       uuid: 44fb72af-49bd-45a3-89cb-94b78d034ded
       field_reader_summary:
@@ -5028,7 +5184,7 @@ taxonomies:
       name: 'Living / Mental Health'
       description__value: null
       description__format: null
-      weight: '8'
+      weight: '9'
       parent: '31'
       uuid: 787afe98-3ea3-4440-af91-271c5351ee6b
       field_reader_summary:
@@ -5041,7 +5197,7 @@ taxonomies:
       name: 'Living / Outreach'
       description__value: null
       description__format: null
-      weight: '9'
+      weight: '10'
       parent: '31'
       uuid: 1bfd927b-cad2-4f38-a7ad-21d882da31d2
       field_reader_summary:
@@ -5054,7 +5210,7 @@ taxonomies:
       name: 'Living / Transport'
       description__value: null
       description__format: null
-      weight: '10'
+      weight: '11'
       parent: '31'
       uuid: db533297-d7f6-4827-b442-5eadc419a2be
       field_reader_summary: {  }
@@ -5065,7 +5221,7 @@ taxonomies:
       name: 'Living / Wellbeing'
       description__value: null
       description__format: null
-      weight: '5'
+      weight: '6'
       parent: '31'
       uuid: 6e108409-2af3-42d0-83fc-7c40a37fb1f6
       field_reader_summary:
@@ -5078,7 +5234,7 @@ taxonomies:
       name: 'Living / Work & Career'
       description__value: null
       description__format: null
-      weight: '11'
+      weight: '12'
       parent: '31'
       uuid: 12b8bd78-6001-4272-a3f2-ac968ae2d685
       field_reader_summary:
@@ -5134,6 +5290,19 @@ taxonomies:
       field_reader_summary:
         -
           value: "The theatres, arts centres and performance venues of the Solent: the buildings and businesses that host the region's stage, music, dance and comedy."
+    -
+      vid: topic
+      tid: '67'
+      langcode: en
+      name: 'Sectors / Business Community'
+      description__value: '<p>The people side of business: entrepreneurs and founders, owner-managers growing a business, business clubs and networking groups, start-up and growth support, pitch nights and founder meet-ups. A business that belongs to a trade takes that sector first (Retail, Technology) with Business Community related when the story is about starting or growing it. A networking <em>event</em> is Sectors / Events &amp; Venues / Business Networking with this related; the <em>group</em> that runs it lives here.</p>'
+      description__format: basic_html
+      weight: '10'
+      parent: '30'
+      uuid: 2c527a70-b75c-4a32-b3a1-918583724c60
+      field_reader_summary:
+        -
+          value: 'Entrepreneurs, founders and business owners across the Solent: the networks, the growth support and the places they meet.'
     -
       vid: topic
       tid: '59'
@@ -5251,19 +5420,6 @@ taxonomies:
       field_reader_summary:
         -
           value: 'Engineering firms, specialists and technical services based across the Solent.'
-    -
-      vid: topic
-      tid: '67'
-      langcode: en
-      name: 'Sectors / Entrepreneur'
-      description__value: null
-      description__format: null
-      weight: '10'
-      parent: '30'
-      uuid: 2c527a70-b75c-4a32-b3a1-918583724c60
-      field_reader_summary:
-        -
-          value: 'Founders, startups and the entrepreneurs building new ventures in the Solent.'
     -
       vid: topic
       tid: '68'
@@ -5435,6 +5591,19 @@ taxonomies:
           value: 'Manufacturers, factories and industrial producers based in the Solent.'
     -
       vid: topic
+      tid: '421'
+      langcode: en
+      name: 'Sectors / Manufacturing / Micro-factories'
+      description__value: '<p>Miniature factories rather than the manufacture of tiny things: small premises making products in short runs, from a sewing hub producing to order to a workshop with a few machines and a product line. Primary for businesses and projects whose point is small-scale local production. Large plants stay on Sectors / Manufacturing; hobby and shared workshops are Culture / Technology / Makerspace; crafts sold as art are Culture / Art &amp; Design / Crafts.</p>'
+      description__format: basic_html
+      weight: '0'
+      parent: '78'
+      uuid: a12ecc7e-c173-4c26-9b15-7dbf658856e0
+      field_reader_summary:
+        -
+          value: 'Small-scale manufacturing in the Solent: micro-factories and workshops making in short runs, and the makers who have turned a craft into production.'
+    -
+      vid: topic
       tid: '79'
       langcode: en
       name: 'Sectors / Maritime & Marine'
@@ -5472,6 +5641,19 @@ taxonomies:
       field_reader_summary:
         -
           value: 'News outlets, publishers and media businesses covering the Solent region.'
+    -
+      vid: topic
+      tid: '422'
+      langcode: en
+      name: 'Sectors / Media & Publishing / News'
+      description__value: '<p>Outlets whose job is reporting the news: daily and weekly papers, television and radio news programmes, hyperlocal news sites, news agencies. Primary for a news outlet. Radio stations, magazines, publishers and media businesses stay on Sectors / Media &amp; Publishing; a radio station with a news bulletin is still a radio station.</p>'
+      description__format: basic_html
+      weight: '0'
+      parent: '81'
+      uuid: 650b9c9a-4497-4629-b1e2-3529f8f17cd1
+      field_reader_summary:
+        -
+          value: 'Local news across the Solent: the papers, the broadcast news, the hyperlocal sites and the agencies that feed them.'
     -
       vid: topic
       tid: '82'

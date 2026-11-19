@@ -1,0 +1,7 @@
+uuid: 67918d55-746b-4e39-8d03-f29823c80819
+langcode: en
+status: true
+dependencies: {  }
+id: hero_art_style_living_countryside_rural_life
+label: 'Living - Countryside & Rural Life'
+classes: hero-art-style--living-countryside-rural-life
