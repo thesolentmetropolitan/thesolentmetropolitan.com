@@ -59,7 +59,7 @@
     {% if content.field_standfirst|render|striptags|trim %}
       <div class="slnt-event-teaser__standfirst">{{ content.field_standfirst }}</div>
     {% endif %}
-    {{ event_when_cache }}
+    {{ event_when_cache }}{{ where_cache }}
 
     {# When — recurring: the rule(s) after a repeat icon and the next date
        on a "Next" row after a calendar icon; otherwise the Smart Date value. #}

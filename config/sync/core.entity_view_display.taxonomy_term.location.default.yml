@@ -1,0 +1,27 @@
+uuid: 9300fd63-af8a-4503-b4a4-947b40e18556
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.taxonomy_term.location.field_address
+    - field.field.taxonomy_term.location.field_point
+    - field.field.taxonomy_term.location.field_what3words
+    - taxonomy.vocabulary.location
+  module:
+    - address
+id: taxonomy_term.location.default
+targetEntityType: taxonomy_term
+bundle: location
+mode: default
+content:
+  field_address:
+    type: address_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 1
+    region: content
+hidden:
+  description: true
+  field_point: true
+  field_what3words: true

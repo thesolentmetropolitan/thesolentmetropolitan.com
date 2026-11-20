@@ -220,13 +220,20 @@ function customsolent_preprocess_node(array &$variables): void {
 
   // Organisation page: where it is based — every Location term as one
   // phrase ("Southampton and Portsmouth"; field_where is multi-value,
-  // issue 460) — and the events it organises that are still to come.
+  // issue 460), each place's address line when its term has one
+  // (organisation_places; Location epic, issue 474) — and the events it
+  // organises that are still to come.
   if ($node->bundle() === 'organisation' && ($variables['view_mode'] ?? '') === 'full') {
     $variables['organisation_where'] = '';
+    $variables['where_cache'] = ['#cache' => ['tags' => []]];
     if ($node->hasField('field_where') && !$node->get('field_where')->isEmpty()) {
       $names = [];
+      $variables['organisation_places'] = [];
       foreach ($node->get('field_where')->referencedEntities() as $where) {
         $names[] = $where->getName();
+        $variables['where_cache']['#cache']['tags'] = array_merge($variables['where_cache']['#cache']['tags'], _customsolent_location_cache_tags($where));
+        $place = _customsolent_location_where($where);
+        $variables['organisation_places'][] = ['name' => $where->getName(), 'area' => $place['area']] + _customsolent_location_address($where);
       }
       $variables['organisation_where'] = _customsolent_join_names($names);
     }
@@ -542,14 +549,77 @@ function _customsolent_location_where($term): array {
 }
 
 /**
+ * Cache tags for everything a page prints about a Location term: the term
+ * and its ancestors (the area line and an inherited address come from them).
+ */
+function _customsolent_location_cache_tags($term): array {
+  $tags = ['taxonomy_term:' . $term->id()];
+  foreach (\Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadAllParents($term->id()) as $ancestor) {
+    $tags[] = 'taxonomy_term:' . $ancestor->id();
+  }
+  return array_values(array_unique($tags));
+}
+
+/**
+ * The postal address, point and what3words of a Location term (Location epic).
+ *
+ * A room or hall inside a venue carries no address of its own, so the
+ * lookup climbs to the nearest ancestor that has one: "Sir James Matthews
+ * Building" prints the University of Southampton's address. The climb
+ * stops at an ancestor with no address either, so an area such as Southsea
+ * never lends a venue an address it does not have.
+ *
+ * Returns ['line' => "Town Quay, Southampton SO14 2NY" or NULL,
+ *          'what3words' => "///index.home.raft" or NULL,
+ *          'what3words_url' => link to what3words.com or NULL,
+ *          'lat' => float|NULL, 'lon' => float|NULL].
+ */
+function _customsolent_location_address($term): array {
+  $out = ['line' => NULL, 'what3words' => NULL, 'what3words_url' => NULL, 'lat' => NULL, 'lon' => NULL];
+  $term_storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
+  $current = $term;
+  for ($depth = 0; $current && $depth < 4; $depth++) {
+    // A country on its own (the widget's default) is not an address.
+    $has_address = FALSE;
+    if ($current->hasField('field_address') && !$current->get('field_address')->isEmpty()) {
+      $a = $current->get('field_address')->first();
+      $street = implode(', ', array_filter([$a->get('address_line1')->getValue(), $a->get('address_line2')->getValue()]));
+      $town = trim(implode(' ', array_filter([$a->get('locality')->getValue(), $a->get('postal_code')->getValue()])));
+      $out['line'] = implode(', ', array_filter([$street, $town])) ?: NULL;
+      $has_address = $out['line'] !== NULL;
+    }
+    if ($current->hasField('field_what3words') && !$current->get('field_what3words')->isEmpty() && $out['what3words'] === NULL) {
+      $words = ltrim(trim((string) $current->get('field_what3words')->value), '/');
+      $out['what3words'] = '///' . $words;
+      $out['what3words_url'] = 'https://what3words.com/' . $words;
+    }
+    if ($current->hasField('field_point') && !$current->get('field_point')->isEmpty() && $out['lat'] === NULL) {
+      $point = $current->get('field_point')->first();
+      $out['lat'] = $point->get('lat')->getValue() !== NULL ? (float) $point->get('lat')->getValue() : NULL;
+      $out['lon'] = $point->get('lon')->getValue() !== NULL ? (float) $point->get('lon')->getValue() : NULL;
+    }
+    if ($has_address) {
+      break;
+    }
+    $parents = $term_storage->loadParents($current->id());
+    $current = $parents ? reset($parents) : NULL;
+  }
+  return $out;
+}
+
+/**
  * Event variables shared by the compact card, the teaser and the full page.
  *
  * Sets:
- *   - where_list      — list of {name, area, url}: every venue with its
+ *   - where_list      — list of {name, area, line, what3words,
+ *                       what3words_url, lat, lon}: every venue with its
  *                       area line ("Southsea, Portsmouth"; see
- *                       _customsolent_location_where()). One entry for a
+ *                       _customsolent_location_where()) and its address
+ *                       (see _customsolent_location_address()). One entry for a
  *                       normal event; several when the event runs at more
  *                       than one place at once (field_where is multi-value).
+ *   - where_cache     — render array carrying the venues' cache tags; the
+ *                       templates print it so the page follows term edits.
  *   - where_areas     — the distinct towns, in venue order ("Southampton,
  *                       Fareham and Portsmouth"), for the compact card's
  *                       "4 venues" line.
@@ -578,14 +648,18 @@ function _customsolent_preprocess_event_shared_extras($node, array &$variables):
   // Venues.
   $variables['where_list'] = [];
   $variables['where_areas'] = '';
+  // where_cache: printed by the templates so the page is rebuilt when a
+  // venue or its parents change (a rename, a new address).
+  $variables['where_cache'] = ['#cache' => ['tags' => []]];
   if ($node->hasField('field_where') && !$node->get('field_where')->isEmpty()) {
     $areas = [];
     foreach ($node->get('field_where')->referencedEntities() as $where) {
+      $variables['where_cache']['#cache']['tags'] = array_merge($variables['where_cache']['#cache']['tags'], _customsolent_location_cache_tags($where));
       $place = _customsolent_location_where($where);
       $variables['where_list'][] = [
         'name' => $where->getName(),
         'area' => $place['area'],
-      ];
+      ] + _customsolent_location_address($where);
       if ($place['town'] && !in_array($place['town'], $areas, TRUE)) {
         $areas[] = $place['town'];
       }

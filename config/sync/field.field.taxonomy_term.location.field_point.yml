@@ -1,0 +1,21 @@
+uuid: ea0b7a06-ba45-43df-ba2e-1e5e8909bbf0
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_point
+    - taxonomy.vocabulary.location
+  module:
+    - geofield
+id: taxonomy_term.location.field_point
+field_name: field_point
+entity_type: taxonomy_term
+bundle: location
+label: Point
+description: 'Latitude and longitude. Filled in from the address when this is left empty; put a point on an area to say where its centre is.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: geofield

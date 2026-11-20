@@ -1,0 +1,16 @@
+uuid: df59a199-b315-4eda-bf7b-512bc58ce6dc
+langcode: en
+status: true
+dependencies: {  }
+id: nominatim
+label: 'OpenStreetMap Nominatim'
+plugin: nominatim
+configuration:
+  throttle:
+    period: 1
+    limit: 1
+  geocoder:
+    locale: en
+  rootUrl: 'https://nominatim.openstreetmap.org'
+  userAgent: 'The Solent Metropolitan (https://thesolentmetropolitan.com)'
+  referer: 'https://thesolentmetropolitan.com'

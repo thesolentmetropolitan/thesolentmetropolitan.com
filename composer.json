@@ -16,6 +16,7 @@
     ],
     "require": {
         "composer/installers": "^2.0",
+        "drupal/address": "^2.0",
         "drupal/block_classes": "^1.0",
         "drupal/classy_paragraphs": "^2.0",
         "drupal/color_field": "^3.0",
@@ -25,6 +26,8 @@
         "drupal/custom_field": "^4.0",
         "drupal/fitvids": "^2.1",
         "drupal/focal_point": "^2.1",
+        "drupal/geocoder": "^4.0",
+        "drupal/geofield": "^1.0",
         "drupal/gin": "^5.0",
         "drupal/honeypot": "^2.2",
         "drupal/inline_entity_form": "^3.0",
@@ -50,6 +53,7 @@
         "drupal/viewsreference": "^2.0@beta",
         "drupal/webform": "^6.3@beta",
         "drush/drush": "^13.6",
+        "geocoder-php/nominatim-provider": "^5.8",
         "wikimedia/composer-merge-plugin": "^2.1"
     },
     "conflict": {

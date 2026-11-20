@@ -1,0 +1,44 @@
+uuid: 5f0de367-90ed-4cc3-a6cf-bf26796f5a2e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_address
+    - taxonomy.vocabulary.location
+  module:
+    - address
+id: taxonomy_term.location.field_address
+field_name: field_address
+entity_type: taxonomy_term
+bundle: location
+label: Address
+description: 'The postal address of this place. Leave it empty on a room or hall inside a venue that already has one, and on an area such as Southsea.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  available_countries:
+    - GB
+  langcode_override: ''
+  field_overrides:
+    givenName:
+      override: hidden
+    additionalName:
+      override: hidden
+    familyName:
+      override: hidden
+    organization:
+      override: hidden
+    addressLine3:
+      override: hidden
+    administrativeArea:
+      override: hidden
+    addressLine1:
+      override: optional
+    locality:
+      override: optional
+    postalCode:
+      override: optional
+  fields: {  }
+field_type: address

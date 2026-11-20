@@ -1,0 +1,19 @@
+uuid: 294e5ad4-2e2b-4b82-abd0-e88c26d2e399
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_what3words
+    - taxonomy.vocabulary.location
+id: taxonomy_term.location.field_what3words
+field_name: field_what3words
+entity_type: taxonomy_term
+bundle: location
+label: what3words
+description: 'Three words for the entrance, e.g. ///index.home.raft, from what3words.com.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

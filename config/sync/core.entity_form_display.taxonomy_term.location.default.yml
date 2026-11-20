@@ -1,0 +1,62 @@
+uuid: 6dabc94f-ac38-485b-98b5-ef3d5666d9b6
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.taxonomy_term.location.field_address
+    - field.field.taxonomy_term.location.field_point
+    - field.field.taxonomy_term.location.field_what3words
+    - taxonomy.vocabulary.location
+  module:
+    - address
+    - geofield
+id: taxonomy_term.location.default
+targetEntityType: taxonomy_term
+bundle: location
+mode: default
+content:
+  field_address:
+    type: address_default
+    weight: 2
+    region: content
+    settings:
+      wrapper_type: fieldset
+    third_party_settings: {  }
+  field_point:
+    type: geofield_latlon
+    weight: 3
+    region: content
+    settings:
+      html5_geolocation: false
+    third_party_settings: {  }
+  field_what3words:
+    type: string_textfield
+    weight: 4
+    region: content
+    settings:
+      size: 40
+      placeholder: ///word.word.word
+    third_party_settings: {  }
+  name:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  simple_sitemap:
+    weight: 10
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  status:
+    type: boolean_checkbox
+    weight: 10
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+hidden:
+  description: true
+  path: true

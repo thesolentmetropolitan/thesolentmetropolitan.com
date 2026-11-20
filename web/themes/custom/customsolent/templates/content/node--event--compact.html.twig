@@ -83,7 +83,7 @@
         </h3>
       </div>
       {% include '@customsolent/components/format-line.html.twig' with { format_labels: format_labels, setting_label: setting_label, setting_key: setting_key, extra_labels: facet_labels|default([]), variant: 'compact' } only %}
-      {{ event_when_cache }}
+      {{ event_when_cache }}{{ where_cache }}
 
       {# Recurring event: "Every Monday, 7 - 8:30pm" after a repeat icon,
          then "Next: Mon 9 Nov" after a calendar icon — two rows, each

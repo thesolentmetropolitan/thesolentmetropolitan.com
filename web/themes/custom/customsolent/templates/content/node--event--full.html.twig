@@ -46,7 +46,7 @@
        Monday" line by the date says it, and a reader otherwise hears
        badge, kicker, title before the content.) "Past event" sits by the
        date below, where it is read with the date. #}
-    {{ event_when_cache }}
+    {{ event_when_cache }}{{ where_cache }}
 
     {# Topic trail kicker — clickable, section-coloured ancestor terms. #}
     {% if topic_trail_ancestors is not empty %}
@@ -143,11 +143,13 @@
         {% if where_list|length > 1 %}
           <ul class="slnt-node-full__where slnt-node-full__venues">
             {% for venue in where_list %}
-              <li>{{ venue.name }}{% if venue.area %}<span class="slnt-node-full__venue-area">, {{ venue.area }}</span>{% endif %}</li>
+              <li>{{ venue.name }}{% if venue.area %}<span class="slnt-node-full__venue-area">, {{ venue.area }}</span>{% endif %}
+                {% include '@customsolent/components/venue-address.html.twig' with { place: venue } only %}</li>
             {% endfor %}
           </ul>
         {% else %}
-          <div class="slnt-node-full__where">{{ where_list[0].name }}</div>
+          <div class="slnt-node-full__where">{{ where_list[0].name }}
+            {% include '@customsolent/components/venue-address.html.twig' with { place: where_list[0] } only %}</div>
         {% endif %}
       </div>
     {% endif %}

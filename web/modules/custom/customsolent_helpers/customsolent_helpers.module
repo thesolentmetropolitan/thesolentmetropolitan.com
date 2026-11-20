@@ -1205,3 +1205,199 @@ function customsolent_helpers_entity_reference_selection_alter(array &$definitio
     $definitions['views']['class'] = \Drupal\customsolent_helpers\Plugin\EntityReferenceSelection\ViewsSelectionWithNew::class;
   }
 }
+
+/**
+ * Finds the point for a Location term from OpenStreetMap (Location epic).
+ *
+ * Tries, in order, the most specific question that can be asked of
+ * Nominatim and stops at the first answer:
+ *   1. the place's name with its town ("God's House Tower, Southampton"),
+ *      kept inside the Solent box so a "The Loft" in London never wins;
+ *   2. the first address line with the town;
+ *   3. the postcode alone (a centroid, marked approximate).
+ * Nominatim's free-text search is strict, so the full formatted address is
+ * not one of the questions: "Town Quay Road, SOUTHAMPTON, SO14 2NY GB"
+ * finds nothing while "God's House Tower, Southampton" finds the building.
+ *
+ * Returns NULL, or ['lat', 'lon', 'approximate' => bool, 'source' =>
+ * "building (God's House Tower, Town Quay, …)", 'query' => the question
+ * that worked]. Nothing is saved; see customsolent_helpers_taxonomy_term_presave().
+ */
+function customsolent_helpers_geocode_location(\Drupal\taxonomy\TermInterface $term): ?array {
+  $provider = \Drupal\geocoder\Entity\GeocoderProvider::load('nominatim');
+  if (!$provider) {
+    return NULL;
+  }
+  $plugin = $provider->getPlugin();
+  // Roots that add nothing to a question ("Portsmouth, Solent").
+  $silent = ['Solent', 'Hampshire', 'England', 'UK', 'TBC', 'Various'];
+  $town = NULL;
+  $term_storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
+  $current = $term;
+  for ($i = 0; $i < 4; $i++) {
+    $parents = $term_storage->loadParents($current->id());
+    $parent = $parents ? reset($parents) : NULL;
+    if (!$parent) {
+      break;
+    }
+    if (!in_array($parent->getName(), $silent, TRUE)) {
+      $town = $parent->getName();
+    }
+    $current = $parent;
+  }
+  // The Solent and its neighbours: Bournemouth to Chichester, the Island to
+  // Winchester. Name questions must land inside it.
+  $box = ['viewbox' => '-1.95,50.55,-0.65,51.15', 'bounded' => 1];
+
+  $questions = [];
+  $name = trim($term->getName());
+  if ($name !== '' && !in_array($name, $silent, TRUE)) {
+    $questions[] = ['q' => $town ? "$name, $town" : $name, 'data' => $box, 'approx' => FALSE, 'expect' => $name];
+    // The map may spell the name differently: "and" for "&", no leading
+    // "The", or only the part before a comma, dash or "&" ("Southsea
+    // Cinema & Arts Centre" is "Southsea Cinema"). Try those too.
+    $variants = [];
+    $variants[] = str_replace('&', 'and', $name);
+    $variants[] = (string) preg_replace('/^The\s+/iu', '', $name);
+    $variants[] = (string) preg_replace('/\s*(&|,|\s-\s|\/).*$/u', '', $name);
+    $variants[] = (string) preg_replace('/^The\s+/iu', '', $variants[2]);
+    foreach (array_unique(array_map('trim', $variants)) as $variant) {
+      if ($variant !== '' && $variant !== $name && mb_strlen($variant) > 3) {
+        $questions[] = ['q' => $town ? "$variant, $town" : $variant, 'data' => $box, 'approx' => FALSE, 'expect' => $variant];
+      }
+    }
+  }
+  if ($term->hasField('field_address') && !$term->get('field_address')->isEmpty()) {
+    $a = $term->get('field_address')->first();
+    $line1 = trim((string) $a->get('address_line1')->getValue());
+    $locality = trim((string) $a->get('locality')->getValue());
+    $postcode = trim((string) $a->get('postal_code')->getValue());
+    if ($line1 !== '') {
+      $questions[] = ['q' => implode(', ', array_filter([$line1, $locality ?: $town])), 'data' => $box, 'approx' => FALSE, 'expect' => $line1];
+    }
+    if ($postcode !== '') {
+      $questions[] = ['q' => $postcode, 'data' => [], 'approx' => TRUE];
+    }
+  }
+
+  foreach ($questions as $question) {
+    $query = \Geocoder\Query\GeocodeQuery::create($question['q'])->withLimit(5)->withData('countrycodes', 'gb');
+    foreach ($question['data'] as $key => $value) {
+      $query = $query->withData($key, $value);
+    }
+    try {
+      $result = $plugin->geocodeQuery($query);
+    }
+    catch (\Throwable $e) {
+      \Drupal::logger('customsolent_helpers')->warning('Nominatim failed for "@q": @m', ['@q' => $question['q'], '@m' => $e->getMessage()]);
+      continue;
+    }
+    if ($result->isEmpty()) {
+      continue;
+    }
+    // Prefer a thing with a door (a building, a pub, a theatre) over a
+    // signboard about it or the street it stands on.
+    $hit = NULL;
+    foreach ($result as $candidate) {
+      $c = method_exists($candidate, 'getCategory') ? (string) $candidate->getCategory() : '';
+      if (in_array($c, ['building', 'amenity', 'tourism', 'leisure', 'shop', 'historic', 'office', 'craft', 'club'], TRUE)) {
+        $hit = $candidate;
+        break;
+      }
+    }
+    /** @var \Geocoder\Provider\Nominatim\Model\NominatimAddress $hit */
+    $hit = $hit ?? $result->first();
+    $coordinates = $hit->getCoordinates();
+    if (!$coordinates) {
+      continue;
+    }
+    $category = method_exists($hit, 'getCategory') ? (string) $hit->getCategory() : '';
+    $type = method_exists($hit, 'getType') ? (string) $hit->getType() : '';
+    $display = method_exists($hit, 'getDisplayName') ? (string) $hit->getDisplayName() : '';
+    // Nominatim answers fuzzily ("Test Place" finds a place called Test),
+    // so a name or street question is only believed when the answer names
+    // what was asked for: every significant word of it, in order.
+    if (!empty($question['expect'])) {
+      $fold = fn(string $t) => trim((string) preg_replace('/[^a-z0-9]+/', ' ', str_replace('&', ' and ', mb_strtolower(\Drupal::transliteration()->transliterate($t)))));
+      $wanted = array_values(array_filter(explode(' ', $fold($question['expect'])), fn($w) => !in_array($w, ['the', 'and', 'of', 'at', 'st', 'saint'], TRUE)));
+      $answer = ' ' . $fold($display) . ' ';
+      $position = 0;
+      $all_found = (bool) $wanted;
+      foreach ($wanted as $word) {
+        $at = strpos($answer, " $word", $position);
+        if ($at === FALSE) {
+          $all_found = FALSE;
+          break;
+        }
+        $position = $at + 1;
+      }
+      if (!$all_found) {
+        continue;
+      }
+    }
+    // An area answer (a suburb, a postcode, a town, a street) is a centroid,
+    // not a door.
+    $area_answer = in_array($category, ['place', 'boundary', 'highway'], TRUE) || in_array($type, ['postcode', 'suburb', 'city', 'town', 'village', 'administrative'], TRUE);
+    return [
+      'lat' => $coordinates->getLatitude(),
+      'lon' => $coordinates->getLongitude(),
+      'approximate' => $question['approx'] || $area_answer,
+      'source' => trim("$category/$type", '/') . ($display ? " ($display)" : ''),
+      'query' => $question['q'],
+    ];
+  }
+  return NULL;
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_presave() for taxonomy terms.
+ *
+ * Location terms: the three words are kept as "///word.word.word", and a
+ * term saved without a point gets one from OpenStreetMap when the lookup
+ * finds its name or address (customsolent_helpers_geocode_location()). An
+ * editor can always overwrite the point by hand; it is only filled when empty.
+ */
+function customsolent_helpers_taxonomy_term_presave(\Drupal\taxonomy\TermInterface $term): void {
+  if ($term->bundle() !== 'location') {
+    return;
+  }
+  if ($term->hasField('field_what3words') && !$term->get('field_what3words')->isEmpty()) {
+    $words = mb_strtolower(trim((string) $term->get('field_what3words')->value));
+    $words = ltrim(str_replace(['https://what3words.com/', 'http://what3words.com/', 'what3words.com/'], '', $words), '/');
+    $term->set('field_what3words', $words === '' ? NULL : '///' . $words);
+  }
+  if ($term->hasField('field_point') && $term->get('field_point')->isEmpty() && empty($term->customsolent_skip_geocode)) {
+    $found = customsolent_helpers_geocode_location($term);
+    if ($found) {
+      $term->set('field_point', ['value' => \Drupal::service('geofield.wkt_generator')->WktBuildPoint([$found['lon'], $found['lat']])]);
+    }
+  }
+}
+
+/**
+ * Implements hook_field_widget_single_element_form_alter().
+ *
+ * The what3words box accepts "index.home.raft" or "///index.home.raft" or
+ * the what3words.com link, and refuses anything that is not three words.
+ */
+function customsolent_helpers_field_widget_single_element_form_alter(array &$element, \Drupal\Core\Form\FormStateInterface $form_state, array $context): void {
+  if ($context['items']->getFieldDefinition()->getName() === 'field_what3words' && isset($element['value'])) {
+    $element['value']['#element_validate'][] = 'customsolent_helpers_what3words_validate';
+  }
+}
+
+/**
+ * Element validator: three words separated by dots, nothing else.
+ */
+function customsolent_helpers_what3words_validate(array &$element, \Drupal\Core\Form\FormStateInterface $form_state): void {
+  $value = mb_strtolower(trim((string) $element['#value']));
+  if ($value === '') {
+    return;
+  }
+  $value = ltrim(str_replace(['https://what3words.com/', 'http://what3words.com/', 'what3words.com/'], '', $value), '/');
+  if (!preg_match('/^\p{L}+\.\p{L}+\.\p{L}+$/u', $value)) {
+    $form_state->setError($element, t('what3words is three words with dots between them, e.g. ///index.home.raft.'));
+    return;
+  }
+  $form_state->setValueForElement($element, '///' . $value);
+}
