@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="120" height="103.92" viewBox="0 0 120 103.92">
+  <defs>
+    <symbol id="i-building-office" viewBox="0 0 256 256"><path d="M244,204H232V99.3A12,12,0,0,0,228,76H188V51.3A12,12,0,0,0,184,28H40a12,12,0,0,0-4,23.3V204H24a12,12,0,0,0,0,24H244a12,12,0,0,0,0-24ZM208,100V204H188V100ZM60,52H164V204H148V160a12,12,0,0,0-12-12H88a12,12,0,0,0-12,12v44H60Zm64,152H100V172h24ZM72,80A12,12,0,0,1,84,68h8a12,12,0,0,1,0,24H84A12,12,0,0,1,72,80Zm48,0a12,12,0,0,1,12-12h8a12,12,0,0,1,0,24h-8A12,12,0,0,1,120,80ZM72,120a12,12,0,0,1,12-12h8a12,12,0,0,1,0,24H84A12,12,0,0,1,72,120Zm48,0a12,12,0,0,1,12-12h8a12,12,0,0,1,0,24h-8A12,12,0,0,1,120,120Z"/></symbol>
+    <symbol id="i-desk" viewBox="0 0 256 256"><path d="M244,60H12a12,12,0,0,0,0,24h4V192a12,12,0,0,0,24,0V156H216v36a12,12,0,0,0,24,0V84h4a12,12,0,0,0,0-24ZM40,84h76v48H40Zm176,48H140V84h76ZM100,108a12,12,0,0,1-12,12H68a12,12,0,0,1,0-24H88A12,12,0,0,1,100,108Zm56,0a12,12,0,0,1,12-12h20a12,12,0,0,1,0,24H168A12,12,0,0,1,156,108Z"/></symbol>
+    <symbol id="i-door-open" viewBox="0 0 256 256"><path d="M232,212H212V40a20,20,0,0,0-20-20H64A20,20,0,0,0,44,40V212H24a12,12,0,0,0,0,24H232a12,12,0,0,0,0-24Zm-44,0H172V44h16ZM68,44h80V212H68Zm68,84a16,16,0,1,1-16-16A16,16,0,0,1,136,128Z"/></symbol>
+    <symbol id="i-buildings" viewBox="0 0 256 256"><path d="M240,204H228V96a20,20,0,0,0-20-20H172V32a20,20,0,0,0-28.45-18.12l-104,48.54A20.06,20.06,0,0,0,28,80.55V204H16a12,12,0,0,0,0,24H240a12,12,0,0,0,0-24ZM204,100V204H172V100ZM52,83.09,148,38.3V204H52ZM132,112v12a12,12,0,0,1-24,0V112a12,12,0,0,1,24,0Zm-40,0v12a12,12,0,0,1-24,0V112a12,12,0,0,1,24,0Zm0,52v12a12,12,0,0,1-24,0V164a12,12,0,0,1,24,0Zm40,0v12a12,12,0,0,1-24,0V164a12,12,0,0,1,24,0Z"/></symbol>
+  </defs>
+  <g fill="white" opacity="0.12">
+    <use href="#i-building-office" xlink:href="#i-building-office" x="-14" y="-14" width="28" height="28"/>
+    <use href="#i-building-office" xlink:href="#i-building-office" x="-14" y="89.92" width="28" height="28"/>
+    <use href="#i-building-office" xlink:href="#i-building-office" x="106" y="-14" width="28" height="28"/>
+    <use href="#i-building-office" xlink:href="#i-building-office" x="106" y="89.92" width="28" height="28"/>
+    <use href="#i-desk" xlink:href="#i-desk" x="46" y="-14" width="28" height="28"/>
+    <use href="#i-desk" xlink:href="#i-desk" x="46" y="89.92" width="28" height="28"/>
+    <use href="#i-door-open" xlink:href="#i-door-open" x="16" y="37.96" width="28" height="28"/>
+    <use href="#i-buildings" xlink:href="#i-buildings" x="76" y="37.96" width="28" height="28"/>
+  </g>
+</svg>

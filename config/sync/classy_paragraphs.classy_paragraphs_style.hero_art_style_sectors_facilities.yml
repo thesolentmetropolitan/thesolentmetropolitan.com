@@ -1,6 +1,7 @@
+uuid: 4edabdfc-9111-458b-b631-41dabbe2b698
 langcode: en
 status: true
 dependencies: {  }
 id: hero_art_style_sectors_facilities
-label: 'Sectors - Facilities'
+label: 'Sectors - Workspace & Venues'
 classes: hero-art-style--sectors-facilities

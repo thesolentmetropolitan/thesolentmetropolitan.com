@@ -244,10 +244,10 @@ menus:
     options: {  }
   -
     menu_name: main
-    title: Education
+    title: 'Learning & Skills'
     parent: 'menu_link_content:756c53bd-5480-481e-8ee9-dc1cc63d4c34'
-    uri: 'internal:/living/education'
-    link_title: ''
+    uri: 'internal:/living/learning-skills'
+    link_title: null
     description: null
     enabled: true
     expanded: false
@@ -527,19 +527,6 @@ menus:
     weight: -75
     langcode: en
     uuid: 4f728897-4179-4a7a-badc-4b8567fb095d
-    options: {  }
-  -
-    menu_name: main
-    title: 'Events & Venues'
-    parent: 'menu_link_content:ca4916ec-7269-42dc-abf5-5864739fbddd'
-    uri: 'internal:/sectors/events-venues'
-    link_title: null
-    description: null
-    enabled: true
-    expanded: false
-    weight: -88
-    langcode: en
-    uuid: 2194b58c-6143-4e7d-8e68-f59925b69aba
     options: {  }
   -
     menu_name: main
@@ -991,10 +978,10 @@ menus:
     options: {  }
   -
     menu_name: main
-    title: Facilities
+    title: 'Workspace & Venues'
     parent: 'menu_link_content:ca4916ec-7269-42dc-abf5-5864739fbddd'
-    uri: 'internal:/sectors/facilities'
-    link_title: ''
+    uri: 'internal:/sectors/workspace-venues'
+    link_title: null
     description: null
     enabled: true
     expanded: false
@@ -5127,19 +5114,6 @@ taxonomies:
       field_reader_summary: {  }
     -
       vid: topic
-      tid: '94'
-      langcode: en
-      name: 'Living / Education'
-      description__value: null
-      description__format: null
-      weight: '4'
-      parent: '31'
-      uuid: 1927aac7-cb53-400b-a9ba-2189f8352e2a
-      field_reader_summary:
-        -
-          value: 'Learning opportunities, schools, courses and educational life in the Solent.'
-    -
-      vid: topic
       tid: '95'
       langcode: en
       name: 'Living / Family'
@@ -5177,6 +5151,19 @@ taxonomies:
       field_reader_summary:
         -
           value: 'Housing options, tenancy advice and support for Solent residents.'
+    -
+      vid: topic
+      tid: '94'
+      langcode: en
+      name: 'Living / Learning & Skills'
+      description__value: "<p>The learner's side: adult and community education, lifelong learning, skills bootcamps and courses as something you join, public-speaking and self-improvement clubs, libraries, language learning, learning support for families. Schools, colleges, universities and training providers as institutions are Sectors / Education (take that as related when an institution runs a course the public can join). Jobs, careers and getting work are Living / Work &amp; Career. Classes &amp; Courses in the Format field marks the events.</p>"
+      description__format: basic_html
+      weight: '4'
+      parent: '31'
+      uuid: 1927aac7-cb53-400b-a9ba-2189f8352e2a
+      field_reader_summary:
+        -
+          value: 'Learning as part of life in the Solent: adult education and lifelong learning, skills bootcamps, libraries and languages, speaking clubs and the places people go to learn something new.'
     -
       vid: topic
       tid: '100'
@@ -5386,27 +5373,14 @@ taxonomies:
       tid: '65'
       langcode: en
       name: 'Sectors / Education'
-      description__value: null
-      description__format: null
+      description__value: "<p>Education as a sector: schools, colleges, universities and academy trusts, apprenticeship and vocational training providers, skills bootcamp providers, industry training associations, education partnerships. Primary for the institution or provider; Living / Learning &amp; Skills related when it runs courses the public can join. Learning from the learner's side is Living / Learning &amp; Skills.</p>"
+      description__format: basic_html
       weight: '8'
       parent: '30'
       uuid: 6e45ae32-d0e4-4553-b3ec-c71f5f9a9219
       field_reader_summary:
         -
-          value: 'Schools, colleges, universities and training providers in the Solent education sector.'
-    -
-      vid: topic
-      tid: '325'
-      langcode: en
-      name: 'Sectors / Education / Training & Skills'
-      description__value: "<p>Training as distinct from schools, colleges and universities: apprenticeship and vocational providers, skills bootcamps, industry training associations, professional courses. Primary for training providers; related for business workshops and courses run by others. Culture / Workshops is for the public's own hands-on learning.</p>"
-      description__format: basic_html
-      weight: '0'
-      parent: '65'
-      uuid: eccc373a-f47b-4817-9ad3-3c8e652290b3
-      field_reader_summary:
-        -
-          value: 'Vocational and professional training: apprenticeship providers, skills bootcamps, industry training bodies and business workshops.'
+          value: 'Schools, colleges, universities, training providers and the education sector across the Solent.'
     -
       vid: topic
       tid: '66'
@@ -5433,58 +5407,6 @@ taxonomies:
       field_reader_summary:
         -
           value: 'Environmental organisations, conservation groups and green businesses in the Solent.'
-    -
-      vid: topic
-      tid: '69'
-      langcode: en
-      name: 'Sectors / Events & Venues'
-      description__value: null
-      description__format: null
-      weight: '12'
-      parent: '30'
-      uuid: 656a2c96-a73e-440f-80ba-c4b89a1c0e46
-      field_reader_summary:
-        -
-          value: 'The events industry and its places: venues for hire, conference centres, destinations, organisers, and the conferences, shows and networking they stage.'
-    -
-      vid: topic
-      tid: '324'
-      langcode: en
-      name: 'Sectors / Events & Venues / Business Networking'
-      description__value: '<p>A format tag for meet-the-scene evenings, breakfast networks and the chambers and membership bodies that run them. Goes in related topics; the primary topic stays the subject.</p>'
-      description__format: basic_html
-      weight: '0'
-      parent: '69'
-      uuid: 752f04be-5f48-43ec-9b4f-e492691b3f70
-      field_reader_summary:
-        -
-          value: 'Networking events and the membership bodies that run them.'
-    -
-      vid: topic
-      tid: '323'
-      langcode: en
-      name: 'Sectors / Events & Venues / Conferences & Exhibitions'
-      description__value: '<p>A format tag for business-facing gatherings: conferences, conventions, expos, trade shows, symposia, jobs fairs. Goes in related topics; the primary topic stays the subject (a construction conference is Sectors / Construction first). Exhibitions people go to see as culture are not this: they take their Culture subject.</p>'
-      description__format: basic_html
-      weight: '0'
-      parent: '69'
-      uuid: b74682a6-05a4-4e67-8995-83ca9db46ec3
-      field_reader_summary:
-        -
-          value: 'Business conferences, conventions, expos, trade shows, symposia and fairs across the Solent.'
-    -
-      vid: topic
-      tid: '70'
-      langcode: en
-      name: 'Sectors / Facilities'
-      description__value: null
-      description__format: null
-      weight: '13'
-      parent: '30'
-      uuid: 75a1a8c5-4f6c-4cde-a066-b4ac54e88d9f
-      field_reader_summary:
-        -
-          value: 'Facilities management, maintenance and building services providers in the Solent.'
     -
       vid: topic
       tid: '71'
@@ -5819,3 +5741,16 @@ taxonomies:
       field_reader_summary:
         -
           value: 'Energy, water and utility providers serving Solent homes and businesses.'
+    -
+      vid: topic
+      tid: '70'
+      langcode: en
+      name: 'Sectors / Workspace & Venues'
+      description__value: '<p>The places, not the businesses in them: coworking spaces and serviced offices, business parks, enterprise zones and innovation centres, community halls and venues for hire, conference and meeting rooms, marinas and destinations as venues. Primary for a place whose business is letting space; related for an organisation that lets space as a sideline. Theatres and arts centres are Sectors / Arts &amp; Culture / Theatres &amp; Venues; commercial property agents and developers are Sectors / Property; event producers and suppliers sit on Creative or Marketing &amp; Advertising until there are enough for a term of their own.</p>'
+      description__format: basic_html
+      weight: '13'
+      parent: '30'
+      uuid: 75a1a8c5-4f6c-4cde-a066-b4ac54e88d9f
+      field_reader_summary:
+        -
+          value: 'Places businesses rent across the Solent: coworking and serviced offices, business parks and innovation centres, halls, rooms and venues for hire.'

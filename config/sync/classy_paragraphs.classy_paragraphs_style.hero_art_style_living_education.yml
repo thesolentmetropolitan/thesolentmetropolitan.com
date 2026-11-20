@@ -1,6 +1,7 @@
+uuid: 34f7bf1d-b1a8-4e79-a66e-69b15ad4d78f
 langcode: en
 status: true
 dependencies: {  }
 id: hero_art_style_living_education
-label: 'Living - Education'
+label: 'Living - Learning & Skills'
 classes: hero-art-style--living-education

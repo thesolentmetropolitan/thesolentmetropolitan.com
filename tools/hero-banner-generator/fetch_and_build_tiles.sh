@@ -196,6 +196,8 @@ ICONS=(
   "cube"
   "tractor"
   "bird"
+  "desk"
+  "door-open"
 )
 
 echo "Fetching ${#ICONS[@]} unique Phosphor Bold icons..."
