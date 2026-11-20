@@ -2914,6 +2914,16 @@ taxonomies:
       uuid: 413c6f88-73ff-46e5-860c-1263a390ad5e
     -
       vid: location
+      tid: '423'
+      langcode: en
+      name: 'Jubilee Sports Centre'
+      description__value: null
+      description__format: null
+      weight: '0'
+      parent: '187'
+      uuid: ed6ed626-81e5-4d5f-8867-8d7fe8963760
+    -
+      vid: location
       tid: '273'
       langcode: en
       name: Kola
