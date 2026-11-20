@@ -1426,42 +1426,42 @@ taxonomies:
   age_group:
     -
       vid: age_group
-      tid: '418'
+      tid: '417'
       langcode: en
       name: '18 and over'
       description__value: 'Adults only: licensed venues, 18+ nights. Not for the general run of adult events, which carry no age group.'
       description__format: basic_html
       weight: '4'
       parent: '0'
-      uuid: 203453ca-68ab-4df0-983e-090aafa381e2
+      uuid: 07f4df9c-2c83-4173-b35d-aee1a00a356f
       field_age_from:
         -
           value: '18'
       field_age_to: {  }
     -
       vid: age_group
-      tid: '419'
+      tid: '418'
       langcode: en
       name: '50 and over'
       description__value: 'For older adults: over-50s clubs, retirement groups.'
       description__format: basic_html
       weight: '5'
       parent: '0'
-      uuid: c1655874-f5a6-4210-a68f-04b36826a29d
+      uuid: 43ac6f8c-67ba-452d-8c67-18858367fb59
       field_age_from:
         -
           value: '50'
       field_age_to: {  }
     -
       vid: age_group
-      tid: '417'
+      tid: '416'
       langcode: en
       name: 'Ages 12 to 17'
       description__value: 'Secondary-school age; teenagers.'
       description__format: basic_html
       weight: '3'
       parent: '0'
-      uuid: 0e2e4eef-35b7-47e0-b656-ea4a41f1f620
+      uuid: fada42a7-5a3e-4fe2-85be-b4e726781937
       field_age_from:
         -
           value: '12'
@@ -1470,14 +1470,14 @@ taxonomies:
           value: '17'
     -
       vid: age_group
-      tid: '416'
+      tid: '415'
       langcode: en
       name: 'Ages 5 to 11'
       description__value: 'Primary-school age.'
       description__format: basic_html
       weight: '2'
       parent: '0'
-      uuid: 13bf8466-f5e8-4a97-8528-cc8bc60d7def
+      uuid: 1556ce24-8f8d-4e30-9df6-58cc64a997c4
       field_age_from:
         -
           value: '5'
@@ -1486,26 +1486,26 @@ taxonomies:
           value: '11'
     -
       vid: age_group
-      tid: '414'
+      tid: '413'
       langcode: en
       name: 'Family friendly'
       description__value: 'For all ages together: children welcome, adults expected.'
       description__format: basic_html
       weight: '0'
       parent: '0'
-      uuid: c047a293-b1fe-4b07-839e-5cb243afa8ef
+      uuid: f5bdf38d-0dba-48e6-930f-a5a232998add
       field_age_from: {  }
       field_age_to: {  }
     -
       vid: age_group
-      tid: '415'
+      tid: '414'
       langcode: en
       name: 'Under 5s'
       description__value: 'Babies, toddlers and pre-schoolers, with a grown-up.'
       description__format: basic_html
       weight: '1'
       parent: '0'
-      uuid: 04a8f3f9-fcde-4762-b559-f7d88e172eaa
+      uuid: 1a4a6a6a-38af-49f4-8638-e17baa7498e7
       field_age_from:
         -
           value: '0'
@@ -1845,44 +1845,44 @@ taxonomies:
   event_cost:
     -
       vid: event_cost
-      tid: '413'
+      tid: '412'
       langcode: en
       name: 'Concessions available'
       description__value: "Reduced prices for some: students, under-18s, over-60s, those on benefits. Goes with Paid; the organiser's page has the detail."
       description__format: basic_html
       weight: '3'
       parent: '0'
-      uuid: 643aa891-a84d-45b9-b75d-cc1899a27b55
+      uuid: 13088ab6-bb4f-4057-bfda-75ba19c21c03
     -
       vid: event_cost
-      tid: '410'
+      tid: '409'
       langcode: en
       name: Free
       description__value: 'No charge to go. Booking may still be needed.'
       description__format: basic_html
       weight: '0'
       parent: '0'
-      uuid: cc90295c-ed07-4286-82c9-37e03cacba2e
+      uuid: 3d103d49-1a2d-48c1-859a-1a9bb2a534b1
     -
       vid: event_cost
-      tid: '412'
+      tid: '411'
       langcode: en
       name: Paid
       description__value: 'Tickets or an entry charge.'
       description__format: basic_html
       weight: '2'
       parent: '0'
-      uuid: ae6445dc-ebbd-40a1-8c4d-2655fe39faa9
+      uuid: f844f4a2-322e-4302-9b9b-b8a2bd0a4f11
     -
       vid: event_cost
-      tid: '411'
+      tid: '410'
       langcode: en
       name: 'Pay what you can'
       description__value: 'Pay what you feel or can afford, with a suggested amount at most; nobody turned away.'
       description__format: basic_html
       weight: '1'
       parent: '0'
-      uuid: f9a1a7ef-8f16-4d59-b9b6-29a5ce619737
+      uuid: a002ad73-b1c3-4dd0-86e2-f58f868003dc
   format:
     -
       vid: format
@@ -1893,7 +1893,7 @@ taxonomies:
       description__format: basic_html
       weight: '15'
       parent: '0'
-      uuid: 00b2d855-899a-4d4f-9d15-0d83c97af85c
+      uuid: 3c970a69-a632-476f-b4d0-ce9ce9823d84
       field_plural_label:
         -
           value: Broadcasts
@@ -1909,7 +1909,7 @@ taxonomies:
       description__format: basic_html
       weight: '8'
       parent: '0'
-      uuid: cc88ebf1-3db2-4dff-9bbf-3c9b7c92f8f5
+      uuid: 97298708-8bb1-497d-8776-cfbdbc842a2c
       field_plural_label:
         -
           value: 'Classes & Courses'
@@ -1925,7 +1925,7 @@ taxonomies:
       description__format: basic_html
       weight: '1'
       parent: '0'
-      uuid: 4f9e2dc0-f3a6-47f0-97f7-7e85554e7e45
+      uuid: 03758fdc-1ca3-43e8-a52c-38c6d0bab809
       field_plural_label:
         -
           value: 'Club Nights & Parties'
@@ -1941,7 +1941,7 @@ taxonomies:
       description__format: basic_html
       weight: '9'
       parent: '0'
-      uuid: 617ce626-550b-4f61-b8c7-b8a0b31a5f6f
+      uuid: c6ea2c2b-4547-4902-a452-3be705f2f5e8
       field_plural_label:
         -
           value: Conferences
@@ -1950,14 +1950,14 @@ taxonomies:
           value: 'Conferences, summits and trade shows for a sector.'
     -
       vid: format
-      tid: '405'
+      tid: '406'
       langcode: en
       name: Drop-in
       description__value: "<p>A modifier: you can just turn up to a single session with no booking and no commitment to a run. Sits beside the format it modifies (a drop-in dance class is Class &amp; Course + Drop-in; a taster lesson likewise; a repair café's open afternoon is Workshop + Drop-in) and stands alone for an advice or support drop-in. Leave it off a course you sign up to for the run, and off anything ticketed in advance.</p>"
       description__format: basic_html
       weight: '16'
       parent: '0'
-      uuid: 5ff05dd6-2985-40c6-941a-cff96c1ea1f6
+      uuid: 261c3194-38d3-4053-ad73-504bd2135a8e
       field_plural_label:
         -
           value: Drop-ins
@@ -1973,7 +1973,7 @@ taxonomies:
       description__format: basic_html
       weight: '4'
       parent: '0'
-      uuid: b06c077c-53c5-421a-a84a-2c7f4eeb94b2
+      uuid: b62f856d-a271-4499-a571-1b0ddb749103
       field_plural_label:
         -
           value: Exhibitions
@@ -1989,7 +1989,7 @@ taxonomies:
       description__format: basic_html
       weight: '2'
       parent: '0'
-      uuid: 64d00b92-9fd8-4d53-b9a4-e121293508ce
+      uuid: 014911ff-fc67-4d55-ad68-38200674fdbf
       field_plural_label:
         -
           value: Festivals
@@ -1998,14 +1998,14 @@ taxonomies:
           value: 'Festivals: many events under one name, usually over a weekend or a season.'
     -
       vid: format
-      tid: '406'
+      tid: '407'
       langcode: en
       name: Fundraiser
       description__value: '<p>A modifier: the event raises money for a cause, whatever its shape. Sits beside the format of the thing itself (a charity rave is Club Night &amp; Party + Fundraiser; a sponsored run is Fundraiser with its sport in Topic; a charity quiz is Social &amp; Meet-up + Fundraiser). Not for a ticketed event that merely covers its costs.</p>'
       description__format: basic_html
       weight: '17'
       parent: '0'
-      uuid: 23105dbe-375e-4486-95fa-aa14afdf6be1
+      uuid: afe7b1a3-9239-4b4f-9176-59967ce36a04
       field_plural_label:
         -
           value: Fundraisers
@@ -2021,7 +2021,7 @@ taxonomies:
       description__format: basic_html
       weight: '13'
       parent: '0'
-      uuid: 0efc564f-4e7d-43a1-8aab-f275cab40e29
+      uuid: 75b29d3b-d1cc-48dd-8bb2-2c8632ec4bb3
       field_plural_label:
         -
           value: 'Guided Tours'
@@ -2037,7 +2037,7 @@ taxonomies:
       description__format: basic_html
       weight: '18'
       parent: '0'
-      uuid: a47ed219-5455-4578-8657-d7ab4dc24e23
+      uuid: 382be625-3ecb-4588-a866-0a7ed2a91cc8
       field_plural_label:
         -
           value: Launches
@@ -2053,7 +2053,7 @@ taxonomies:
       description__format: basic_html
       weight: '3'
       parent: '0'
-      uuid: d10d8754-79e2-45d2-b4b8-bbf93434e26d
+      uuid: 72eeb2ce-b78f-4e91-af2a-725c10ca211e
       field_plural_label:
         -
           value: 'Markets & Fairs'
@@ -2069,7 +2069,7 @@ taxonomies:
       description__format: basic_html
       weight: '10'
       parent: '0'
-      uuid: b9aae009-0b97-416a-b75e-71ba405a8d7d
+      uuid: 06c9b41c-5318-4e5b-a5c6-181eeca31b71
       field_plural_label:
         -
           value: Networking
@@ -2085,7 +2085,7 @@ taxonomies:
       description__format: basic_html
       weight: '14'
       parent: '0'
-      uuid: b321287c-8775-4871-86f3-5889fe6acecc
+      uuid: 31385f38-205c-4632-93b4-7b9279684543
       field_plural_label:
         -
           value: 'Open Mics & Jams'
@@ -2101,7 +2101,7 @@ taxonomies:
       description__format: basic_html
       weight: '0'
       parent: '0'
-      uuid: 0093b3e5-97b8-4e49-8c88-b384206ed220
+      uuid: 3c9f7188-02d8-40f4-b5a8-fc393173a620
       field_plural_label:
         -
           value: Performances
@@ -2110,14 +2110,14 @@ taxonomies:
           value: 'Gigs, shows and concerts: music, theatre, comedy and dance performed to an audience.'
     -
       vid: format
-      tid: '407'
+      tid: '405'
       langcode: en
       name: 'Public Meeting'
       description__value: "<p>Meetings open to the public about shared concerns: police and community meetings, residents' and tenants' meetings, community assemblies, council consultations, hustings, AGMs. People come to raise and settle things, not for the company (Social &amp; Meet-up) or to hear an expert (Talk).</p>"
       description__format: basic_html
       weight: '12'
       parent: '0'
-      uuid: 531f8dd4-6adc-48be-a5f1-601cefda485a
+      uuid: d8e6985d-0872-4218-b96b-0388dfcf31e0
       field_plural_label:
         -
           value: 'Public Meetings'
@@ -2133,7 +2133,7 @@ taxonomies:
       description__format: basic_html
       weight: '5'
       parent: '0'
-      uuid: e6588388-67d6-4ff0-9f12-93e371d665a2
+      uuid: 322f95f5-c71c-4ffb-8ae6-6323e70423ac
       field_plural_label:
         -
           value: Screenings
@@ -2149,7 +2149,7 @@ taxonomies:
       description__format: basic_html
       weight: '11'
       parent: '0'
-      uuid: 8abd97ef-e9fa-4d3e-b2d0-a9a6c6941212
+      uuid: a0dcb4f4-0fe8-4422-9f60-a42b864ec896
       field_plural_label:
         -
           value: 'Socials & Meet-ups'
@@ -2165,7 +2165,7 @@ taxonomies:
       description__format: basic_html
       weight: '6'
       parent: '0'
-      uuid: 7cb9890b-8301-4f9e-bd02-e232e165bf95
+      uuid: 701aa039-ac68-4cf7-9191-15b4913b415a
       field_plural_label:
         -
           value: Talks
@@ -2181,7 +2181,7 @@ taxonomies:
       description__format: basic_html
       weight: '7'
       parent: '0'
-      uuid: a0260488-91ca-494e-8f97-f63f9f4dc8b2
+      uuid: 1d744142-1757-4ec8-a7ea-3c378c22b35a
       field_plural_label:
         -
           value: Workshops
@@ -2901,6 +2901,16 @@ taxonomies:
       uuid: 413c6f88-73ff-46e5-860c-1263a390ad5e
     -
       vid: location
+      tid: '423'
+      langcode: en
+      name: 'Jubilee Sports Centre'
+      description__value: null
+      description__format: null
+      weight: '0'
+      parent: '187'
+      uuid: ed6ed626-81e5-4d5f-8867-8d7fe8963760
+    -
+      vid: location
       tid: '273'
       langcode: en
       name: Kola
@@ -3299,6 +3309,16 @@ taxonomies:
       weight: '0'
       parent: '141'
       uuid: 7b76b9e1-0c41-4c97-90df-423372d164b6
+    -
+      vid: location
+      tid: '419'
+      langcode: en
+      name: "Rita's Cocktail Bar"
+      description__value: null
+      description__format: null
+      weight: '0'
+      parent: '139'
+      uuid: 46999295-b0f1-4446-9f7a-3693456646f3
     -
       vid: location
       tid: '225'
@@ -5097,7 +5117,7 @@ taxonomies:
       description__format: basic_html
       weight: '2'
       parent: '31'
-      uuid: 5ae8998d-4f60-4a71-9cfe-8f0adfcbecff
+      uuid: fafe1d88-213a-4053-ba71-993c8a53418b
       field_reader_summary:
         -
           value: 'Village and countryside life across the Solent and the New Forest: parish events, country shows, farm shops, footpaths and the rural communities between the cities.'
@@ -5520,7 +5540,7 @@ taxonomies:
       description__format: basic_html
       weight: '0'
       parent: '78'
-      uuid: a12ecc7e-c173-4c26-9b15-7dbf658856e0
+      uuid: 049d79d3-1603-49d3-aea3-fd691e332854
       field_reader_summary:
         -
           value: 'Small-scale manufacturing in the Solent: micro-factories and workshops making in short runs, and the makers who have turned a craft into production.'
@@ -5572,7 +5592,7 @@ taxonomies:
       description__format: basic_html
       weight: '0'
       parent: '81'
-      uuid: 650b9c9a-4497-4629-b1e2-3529f8f17cd1
+      uuid: 99b5e085-77a4-4032-86f8-bf23eab0c327
       field_reader_summary:
         -
           value: 'Local news across the Solent: the papers, the broadcast news, the hyperlocal sites and the agencies that feed them.'
