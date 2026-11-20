@@ -365,8 +365,7 @@
   color: var(--text-mid, #666);
 }
 
-/* Address line under a venue: smaller, on its own line, the three words a
-   quiet link (Location epic). */
+/* Address line under a venue: smaller, on its own line (Location epic). */
 .slnt-venue-address {
   display: block;
   font-size: 0.875rem;
@@ -376,18 +375,6 @@
 
 .slnt-venue-address__name {
   color: var(--text, #1a1a1a);
-}
-
-.slnt-venue-address__w3w {
-  color: inherit;
-  text-decoration: underline;
-  text-decoration-color: color-mix(in srgb, currentColor 40%, transparent);
-  text-underline-offset: 0.15em;
-}
-
-.slnt-venue-address__w3w:hover,
-.slnt-venue-address__w3w:focus-visible {
-  text-decoration-color: currentColor;
 }
 
 .slnt-node-full__organiser {

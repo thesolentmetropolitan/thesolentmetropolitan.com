@@ -1207,14 +1207,19 @@ function customsolent_helpers_entity_reference_selection_alter(array &$definitio
 }
 
 /**
- * Finds the point for a Location term from OpenStreetMap (Location epic).
+ * Finds the point for a Location term (Location epic).
  *
- * Tries, in order, the most specific question that can be asked of
- * Nominatim and stops at the first answer:
- *   1. the place's name with its town ("God's House Tower, Southampton"),
- *      kept inside the Solent box so a "The Loft" in London never wins;
- *   2. the first address line with the town;
- *   3. the postcode alone (a centroid, marked approximate).
+ * Asks, in order, the most specific question that can be asked and stops
+ * at the first answer:
+ *   1. Ordnance Survey Names for the name itself, when the term has no
+ *      street address: an area ("Southsea", "Wickham", "Isle of Wight")
+ *      gets the gazetteer's centroid, marked approximate;
+ *   2. OpenStreetMap (Nominatim) for the place's name with its town
+ *      ("God's House Tower, Southampton"), kept inside the Solent box so
+ *      a "The Loft" in London never wins, and spelling variants of it;
+ *   3. OpenStreetMap for the first address line with the town;
+ *   4. Ordnance Survey Names for the postcode (a centroid, marked
+ *      approximate), then OpenStreetMap for it.
  * Nominatim's free-text search is strict, so the full formatted address is
  * not one of the questions: "Town Quay Road, SOUTHAMPTON, SO14 2NY GB"
  * finds nothing while "God's House Tower, Southampton" finds the building.
@@ -1232,6 +1237,9 @@ function customsolent_helpers_geocode_location(\Drupal\taxonomy\TermInterface $t
   // Roots that add nothing to a question ("Portsmouth, Solent").
   $silent = ['Solent', 'Hampshire', 'England', 'UK', 'TBC', 'Various'];
   $town = NULL;
+  // Every named ancestor (Hampshire included): a name answer must mention
+  // one of them, or "Planet Sounds, Southampton" is a shop in Haslemere.
+  $ancestors = [];
   $term_storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
   $current = $term;
   for ($i = 0; $i < 4; $i++) {
@@ -1243,14 +1251,52 @@ function customsolent_helpers_geocode_location(\Drupal\taxonomy\TermInterface $t
     if (!in_array($parent->getName(), $silent, TRUE)) {
       $town = $parent->getName();
     }
+    if (!in_array($parent->getName(), ['Solent', 'England', 'UK', 'TBC', 'Various'], TRUE)) {
+      $ancestors[] = $parent->getName();
+    }
     $current = $parent;
   }
-  // The Solent and its neighbours: Bournemouth to Chichester, the Island to
-  // Winchester. Name questions must land inside it.
-  $box = ['viewbox' => '-1.95,50.55,-0.65,51.15', 'bounded' => 1];
+  // The Solent and its county: Bournemouth to Chichester, the Island to
+  // Hampshire's northern edge (Hook, Fleet). Name questions must land inside it.
+  // (The provider sends them only as an array and a real boolean.)
+  $box = ['viewbox' => [-1.95, 50.55, -0.65, 51.40], 'bounded' => TRUE];
+  $in_box = fn(float $lat, float $lon) => $lon >= -1.95 && $lon <= -0.65 && $lat >= 50.55 && $lat <= 51.40;
+
+  $name = trim($term->getName());
+  $line1 = $locality = $postcode = '';
+  if ($term->hasField('field_address') && !$term->get('field_address')->isEmpty()) {
+    $a = $term->get('field_address')->first();
+    $line1 = trim((string) $a->get('address_line1')->getValue());
+    $locality = trim((string) $a->get('locality')->getValue());
+    $postcode = trim((string) $a->get('postal_code')->getValue());
+  }
+  // A term named after its address ("124 Millbank St, SO14 5QN") carries
+  // its own postcode.
+  $postcode_in_name = FALSE;
+  if ($postcode === '' && preg_match('/\b([A-Z]{1,2}\d[A-Z\d]?\s*\d[A-Z]{2})\b/i', $name, $m)) {
+    $postcode = strtoupper(preg_replace('/\s+/', ' ', $m[1]));
+    $postcode_in_name = TRUE;
+  }
+
+  // 1. An area by name, from the gazetteer.
+  if ($name !== '' && $line1 === '' && !in_array($name, $silent, TRUE)) {
+    $area = customsolent_helpers_os_names($name, ['City', 'Town', 'Suburban Area', 'Village', 'Hamlet', 'Other Settlement', 'Island']);
+    if ($area) {
+      return [
+        'lat' => $area['lat'],
+        'lon' => $area['lon'],
+        'approximate' => TRUE,
+        'source' => 'os_names/' . $area['type'] . ' (' . implode(', ', array_filter([$area['name'], $area['place']])) . ')',
+        'query' => $name,
+      ];
+    }
+  }
 
   $questions = [];
-  $name = trim($term->getName());
+  if ($postcode_in_name) {
+    // "London Road, PO2 9DU" wants the postcode, not the whole of London Road.
+    $questions[] = ['q' => $postcode, 'os_postcode' => TRUE, 'data' => [], 'approx' => TRUE];
+  }
   if ($name !== '' && !in_array($name, $silent, TRUE)) {
     $questions[] = ['q' => $town ? "$name, $town" : $name, 'data' => $box, 'approx' => FALSE, 'expect' => $name];
     // The map may spell the name differently: "and" for "&", no leading
@@ -1261,26 +1307,48 @@ function customsolent_helpers_geocode_location(\Drupal\taxonomy\TermInterface $t
     $variants[] = (string) preg_replace('/^The\s+/iu', '', $name);
     $variants[] = (string) preg_replace('/\s*(&|,|\s-\s|\/).*$/u', '', $name);
     $variants[] = (string) preg_replace('/^The\s+/iu', '', $variants[2]);
+    // A name that carries its own place ("Victoria Hall, Hartley Wintney")
+    // keeps it as the town for the shortened variants, or "Victoria Hall"
+    // alone finds any Victoria Hall in the county.
+    $where = preg_match('/,\s*([^,]+)/u', $name, $lm) ? trim($lm[1]) : $town;
     foreach (array_unique(array_map('trim', $variants)) as $variant) {
       if ($variant !== '' && $variant !== $name && mb_strlen($variant) > 3) {
-        $questions[] = ['q' => $town ? "$variant, $town" : $variant, 'data' => $box, 'approx' => FALSE, 'expect' => $variant];
+        $questions[] = ['q' => $where ? "$variant, $where" : $variant, 'data' => $box, 'approx' => FALSE, 'expect' => $variant];
+        if ($town && $where !== $town) {
+          // "Cenotaph, Watts Park" is "Cenotaph, Southampton" to the map.
+          $questions[] = ['q' => "$variant, $town", 'data' => $box, 'approx' => FALSE, 'expect' => $variant];
+        }
       }
     }
+    // The full name on its own, inside the box: "Beaulieu Inn, Brockenhurst"
+    // already says where it is, and a town the tree got wrong hides it.
+    if ($town) {
+      $questions[] = ['q' => $name, 'data' => $box, 'approx' => FALSE, 'expect' => $name];
+    }
   }
-  if ($term->hasField('field_address') && !$term->get('field_address')->isEmpty()) {
-    $a = $term->get('field_address')->first();
-    $line1 = trim((string) $a->get('address_line1')->getValue());
-    $locality = trim((string) $a->get('locality')->getValue());
-    $postcode = trim((string) $a->get('postal_code')->getValue());
-    if ($line1 !== '') {
-      $questions[] = ['q' => implode(', ', array_filter([$line1, $locality ?: $town])), 'data' => $box, 'approx' => FALSE, 'expect' => $line1];
-    }
-    if ($postcode !== '') {
-      $questions[] = ['q' => $postcode, 'data' => [], 'approx' => TRUE];
-    }
+  if ($line1 !== '') {
+    $questions[] = ['q' => implode(', ', array_filter([$line1, $locality ?: $town])), 'data' => $box, 'approx' => FALSE, 'expect' => $line1];
+  }
+  if ($postcode !== '') {
+    // The gazetteer's postcode centroid, then OpenStreetMap's.
+    $questions[] = ['q' => $postcode, 'os_postcode' => TRUE, 'data' => [], 'approx' => TRUE];
+    $questions[] = ['q' => $postcode, 'data' => [], 'approx' => TRUE];
   }
 
   foreach ($questions as $question) {
+    if (!empty($question['os_postcode'])) {
+      $hit = customsolent_helpers_os_names($question['q'], ['Postcode']);
+      if ($hit) {
+        return [
+          'lat' => $hit['lat'],
+          'lon' => $hit['lon'],
+          'approximate' => TRUE,
+          'source' => 'os_names/Postcode (' . implode(', ', array_filter([$hit['name'], $hit['place']])) . ')',
+          'query' => $question['q'],
+        ];
+      }
+      continue;
+    }
     $query = \Geocoder\Query\GeocodeQuery::create($question['q'])->withLimit(5)->withData('countrycodes', 'gb');
     foreach ($question['data'] as $key => $value) {
       $query = $query->withData($key, $value);
@@ -1308,7 +1376,7 @@ function customsolent_helpers_geocode_location(\Drupal\taxonomy\TermInterface $t
     /** @var \Geocoder\Provider\Nominatim\Model\NominatimAddress $hit */
     $hit = $hit ?? $result->first();
     $coordinates = $hit->getCoordinates();
-    if (!$coordinates) {
+    if (!$coordinates || !$in_box($coordinates->getLatitude(), $coordinates->getLongitude())) {
       continue;
     }
     $category = method_exists($hit, 'getCategory') ? (string) $hit->getCategory() : '';
@@ -1316,28 +1384,45 @@ function customsolent_helpers_geocode_location(\Drupal\taxonomy\TermInterface $t
     $display = method_exists($hit, 'getDisplayName') ? (string) $hit->getDisplayName() : '';
     // Nominatim answers fuzzily ("Test Place" finds a place called Test),
     // so a name or street question is only believed when the answer names
-    // what was asked for: every significant word of it, in order.
+    // what was asked for: every significant word of it, in order. A generic
+    // word the map spells differently may be missing ("Jubilee Sports
+    // Complex" for "Jubilee Sports Centre") as long as two real words match.
     if (!empty($question['expect'])) {
       $fold = fn(string $t) => trim((string) preg_replace('/[^a-z0-9]+/', ' ', str_replace('&', ' and ', mb_strtolower(\Drupal::transliteration()->transliterate($t)))));
       $wanted = array_values(array_filter(explode(' ', $fold($question['expect'])), fn($w) => !in_array($w, ['the', 'and', 'of', 'at', 'st', 'saint'], TRUE)));
+      $generic = ['centre', 'center', 'complex', 'hall', 'halls', 'building', 'house', 'theatre', 'theater', 'studio', 'studios', 'rooms', 'room', 'club', 'cafe', 'bar', 'pub', 'inn', 'hotel', 'church', 'park', 'arts', 'venue', 'ltd', 'limited'];
       $answer = ' ' . $fold($display) . ' ';
       $position = 0;
-      $all_found = (bool) $wanted;
+      $found = 0;
+      $missed_real = FALSE;
       foreach ($wanted as $word) {
         $at = strpos($answer, " $word", $position);
         if ($at === FALSE) {
-          $all_found = FALSE;
-          break;
+          if (!in_array($word, $generic, TRUE)) {
+            $missed_real = TRUE;
+          }
+          continue;
         }
+        $found++;
         $position = $at + 1;
       }
-      if (!$all_found) {
+      if (!$wanted || $missed_real || $found < min(2, count($wanted))) {
+        continue;
+      }
+      $in_tree = !$ancestors;
+      foreach ($ancestors as $ancestor) {
+        if (str_contains($answer, ' ' . $fold($ancestor) . ' ')) {
+          $in_tree = TRUE;
+          break;
+        }
+      }
+      if (!$in_tree) {
         continue;
       }
     }
     // An area answer (a suburb, a postcode, a town, a street) is a centroid,
     // not a door.
-    $area_answer = in_array($category, ['place', 'boundary', 'highway'], TRUE) || in_array($type, ['postcode', 'suburb', 'city', 'town', 'village', 'administrative'], TRUE);
+    $area_answer = in_array($category, ['place', 'boundary', 'highway', 'railway'], TRUE) || in_array($type, ['postcode', 'suburb', 'city', 'town', 'village', 'administrative'], TRUE);
     return [
       'lat' => $coordinates->getLatitude(),
       'lon' => $coordinates->getLongitude(),
@@ -1352,19 +1437,14 @@ function customsolent_helpers_geocode_location(\Drupal\taxonomy\TermInterface $t
 /**
  * Implements hook_ENTITY_TYPE_presave() for taxonomy terms.
  *
- * Location terms: the three words are kept as "///word.word.word", and a
- * term saved without a point gets one from OpenStreetMap when the lookup
- * finds its name or address (customsolent_helpers_geocode_location()). An
- * editor can always overwrite the point by hand; it is only filled when empty.
+ * Location terms: a term saved without a point gets one from Ordnance
+ * Survey or OpenStreetMap when the lookup finds its name or address
+ * (customsolent_helpers_geocode_location()). An editor can always overwrite
+ * the point by hand; it is only filled when empty.
  */
 function customsolent_helpers_taxonomy_term_presave(\Drupal\taxonomy\TermInterface $term): void {
   if ($term->bundle() !== 'location') {
     return;
-  }
-  if ($term->hasField('field_what3words') && !$term->get('field_what3words')->isEmpty()) {
-    $words = mb_strtolower(trim((string) $term->get('field_what3words')->value));
-    $words = ltrim(str_replace(['https://what3words.com/', 'http://what3words.com/', 'what3words.com/'], '', $words), '/');
-    $term->set('field_what3words', $words === '' ? NULL : '///' . $words);
   }
   if ($term->hasField('field_point') && $term->get('field_point')->isEmpty() && empty($term->customsolent_skip_geocode)) {
     $found = customsolent_helpers_geocode_location($term);
@@ -1375,29 +1455,143 @@ function customsolent_helpers_taxonomy_term_presave(\Drupal\taxonomy\TermInterfa
 }
 
 /**
- * Implements hook_field_widget_single_element_form_alter().
+ * Asks Ordnance Survey Names for a named place or postcode (Location epic).
  *
- * The what3words box accepts "index.home.raft" or "///index.home.raft" or
- * the what3words.com link, and refuses anything that is not three words.
+ * OS Names is the gazetteer behind OS maps: every settlement, suburb,
+ * island and postcode with a centroid, Crown copyright under the Open
+ * Government Licence. It answers in British National Grid, so the hit is
+ * converted to latitude and longitude here. Needs the project key from the
+ * OS Data Hub in $settings['os_data_hub_key'] (settings.local.php, never the
+ * repository); without one it answers NULL and the caller falls back to
+ * OpenStreetMap.
+ *
+ * Only an answer whose name is the question (case and punctuation aside)
+ * and that lies inside the Solent box is believed; "Southsea" must not
+ * come back as the Southsea near Wrexham.
+ *
+ * Returns NULL or ['lat', 'lon', 'type' => 'Suburban Area', 'name',
+ * 'place' => "City of Portsmouth", 'bbox' => [w, s, e, n] or NULL].
  */
-function customsolent_helpers_field_widget_single_element_form_alter(array &$element, \Drupal\Core\Form\FormStateInterface $form_state, array $context): void {
-  if ($context['items']->getFieldDefinition()->getName() === 'field_what3words' && isset($element['value'])) {
-    $element['value']['#element_validate'][] = 'customsolent_helpers_what3words_validate';
+function customsolent_helpers_os_names(string $query, array $local_types): ?array {
+  $key = \Drupal\Core\Site\Settings::get('os_data_hub_key');
+  $query = trim($query);
+  if (!$key || $query === '') {
+    return NULL;
   }
+  try {
+    $response = \Drupal::httpClient()->get('https://api.os.uk/search/names/v1/find', [
+      'query' => [
+        'query' => $query,
+        'maxresults' => 10,
+        'fq' => implode(' ', array_map(fn($t) => 'LOCAL_TYPE:' . str_replace(' ', '_', $t), $local_types)),
+        'key' => $key,
+      ],
+      'timeout' => 10,
+    ]);
+    $data = json_decode((string) $response->getBody(), TRUE);
+  }
+  catch (\Throwable $e) {
+    \Drupal::logger('customsolent_helpers')->warning('OS Names failed for "@q": @m', ['@q' => $query, '@m' => $e->getMessage()]);
+    return NULL;
+  }
+  $fold = fn(string $t) => trim((string) preg_replace('/[^a-z0-9]+/', ' ', mb_strtolower(\Drupal::transliteration()->transliterate($t))));
+  $wanted = $fold($query);
+  foreach ($data['results'] ?? [] as $result) {
+    $entry = $result['GAZETTEER_ENTRY'] ?? [];
+    if (!in_array($entry['LOCAL_TYPE'] ?? '', $local_types, TRUE)) {
+      continue;
+    }
+    $names = array_filter([$entry['NAME1'] ?? '', $entry['NAME2'] ?? '']);
+    if (!in_array($wanted, array_map($fold, $names), TRUE)) {
+      continue;
+    }
+    if (!isset($entry['GEOMETRY_X'], $entry['GEOMETRY_Y'])) {
+      continue;
+    }
+    [$lat, $lon] = _customsolent_helpers_bng_to_wgs84((float) $entry['GEOMETRY_X'], (float) $entry['GEOMETRY_Y']);
+    // The Solent and its county, as for the OpenStreetMap questions.
+    if ($lon < -1.95 || $lon > -0.65 || $lat < 50.55 || $lat > 51.40) {
+      continue;
+    }
+    $bbox = NULL;
+    if (isset($entry['MBR_XMIN'], $entry['MBR_YMIN'], $entry['MBR_XMAX'], $entry['MBR_YMAX'])) {
+      [$s, $w] = _customsolent_helpers_bng_to_wgs84((float) $entry['MBR_XMIN'], (float) $entry['MBR_YMIN']);
+      [$n, $e] = _customsolent_helpers_bng_to_wgs84((float) $entry['MBR_XMAX'], (float) $entry['MBR_YMAX']);
+      $bbox = [$w, $s, $e, $n];
+    }
+    return [
+      'lat' => round($lat, 6),
+      'lon' => round($lon, 6),
+      'type' => $entry['LOCAL_TYPE'],
+      'name' => $entry['NAME1'],
+      'place' => implode(', ', array_filter([$entry['POPULATED_PLACE'] ?? NULL, $entry['DISTRICT_BOROUGH'] ?? NULL, $entry['COUNTY_UNITARY'] ?? NULL])),
+      'bbox' => $bbox,
+    ];
+  }
+  return NULL;
 }
 
 /**
- * Element validator: three words separated by dots, nothing else.
+ * British National Grid easting/northing to WGS84 [latitude, longitude].
+ *
+ * The inverse Transverse Mercator projection on the Airy 1830 ellipsoid,
+ * then the standard seven-parameter Helmert shift from OSGB36 to WGS84, as
+ * in Ordnance Survey's "A guide to coordinate systems in Great Britain".
+ * Good to about five metres, which is what a centroid deserves.
  */
-function customsolent_helpers_what3words_validate(array &$element, \Drupal\Core\Form\FormStateInterface $form_state): void {
-  $value = mb_strtolower(trim((string) $element['#value']));
-  if ($value === '') {
-    return;
+function _customsolent_helpers_bng_to_wgs84(float $E, float $N): array {
+  // Airy 1830 and the National Grid's true origin, scale and false origin.
+  $a = 6377563.396; $b = 6356256.909;
+  $F0 = 0.9996012717; $lat0 = deg2rad(49); $lon0 = deg2rad(-2);
+  $N0 = -100000; $E0 = 400000;
+  $e2 = 1 - ($b * $b) / ($a * $a);
+  $n = ($a - $b) / ($a + $b);
+
+  $lat = $lat0; $M = 0;
+  do {
+    $lat = ($N - $N0 - $M) / ($a * $F0) + $lat;
+    $Ma = (1 + $n + (5 / 4) * $n ** 2 + (5 / 4) * $n ** 3) * ($lat - $lat0);
+    $Mb = (3 * $n + 3 * $n ** 2 + (21 / 8) * $n ** 3) * sin($lat - $lat0) * cos($lat + $lat0);
+    $Mc = ((15 / 8) * $n ** 2 + (15 / 8) * $n ** 3) * sin(2 * ($lat - $lat0)) * cos(2 * ($lat + $lat0));
+    $Md = (35 / 24) * $n ** 3 * sin(3 * ($lat - $lat0)) * cos(3 * ($lat + $lat0));
+    $M = $b * $F0 * ($Ma - $Mb + $Mc - $Md);
+  } while ($N - $N0 - $M >= 0.00001);
+
+  $sin = sin($lat); $cos = cos($lat); $tan = tan($lat); $sec = 1 / $cos;
+  $nu = $a * $F0 / sqrt(1 - $e2 * $sin * $sin);
+  $rho = $a * $F0 * (1 - $e2) / (1 - $e2 * $sin * $sin) ** 1.5;
+  $eta2 = $nu / $rho - 1;
+  $VII = $tan / (2 * $rho * $nu);
+  $VIII = $tan / (24 * $rho * $nu ** 3) * (5 + 3 * $tan ** 2 + $eta2 - 9 * $tan ** 2 * $eta2);
+  $IX = $tan / (720 * $rho * $nu ** 5) * (61 + 90 * $tan ** 2 + 45 * $tan ** 4);
+  $X = $sec / $nu;
+  $XI = $sec / (6 * $nu ** 3) * ($nu / $rho + 2 * $tan ** 2);
+  $XII = $sec / (120 * $nu ** 5) * (5 + 28 * $tan ** 2 + 24 * $tan ** 4);
+  $XIIA = $sec / (5040 * $nu ** 7) * (61 + 662 * $tan ** 2 + 1320 * $tan ** 4 + 720 * $tan ** 6);
+  $dE = $E - $E0;
+  $lat = $lat - $VII * $dE ** 2 + $VIII * $dE ** 4 - $IX * $dE ** 6;
+  $lon = $lon0 + $X * $dE - $XI * $dE ** 3 + $XII * $dE ** 5 - $XIIA * $dE ** 7;
+
+  // OSGB36 latitude/longitude to Cartesian, Helmert shift, back to WGS84.
+  $sin = sin($lat); $cos = cos($lat);
+  $nu = $a / sqrt(1 - $e2 * $sin * $sin);
+  $x = $nu * $cos * cos($lon);
+  $y = $nu * $cos * sin($lon);
+  $z = (1 - $e2) * $nu * $sin;
+  $tx = 446.448; $ty = -125.157; $tz = 542.060; $s = -20.4894e-6;
+  $rx = deg2rad(0.1502 / 3600); $ry = deg2rad(0.2470 / 3600); $rz = deg2rad(0.8421 / 3600);
+  $x2 = $tx + (1 + $s) * $x - $rz * $y + $ry * $z;
+  $y2 = $ty + $rz * $x + (1 + $s) * $y - $rx * $z;
+  $z2 = $tz - $ry * $x + $rx * $y + (1 + $s) * $z;
+
+  $a = 6378137.0; $b = 6356752.3142;
+  $e2 = 1 - ($b * $b) / ($a * $a);
+  $p = sqrt($x2 * $x2 + $y2 * $y2);
+  $lat = atan2($z2, $p * (1 - $e2));
+  for ($i = 0; $i < 10; $i++) {
+    $sin = sin($lat);
+    $nu = $a / sqrt(1 - $e2 * $sin * $sin);
+    $lat = atan2($z2 + $e2 * $nu * $sin, $p);
   }
-  $value = ltrim(str_replace(['https://what3words.com/', 'http://what3words.com/', 'what3words.com/'], '', $value), '/');
-  if (!preg_match('/^\p{L}+\.\p{L}+\.\p{L}+$/u', $value)) {
-    $form_state->setError($element, t('what3words is three words with dots between them, e.g. ///index.home.raft.'));
-    return;
-  }
-  $form_state->setValueForElement($element, '///' . $value);
+  return [rad2deg($lat), rad2deg(atan2($y2, $x2))];
 }

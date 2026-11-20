@@ -4,17 +4,15 @@
  * The address line of a place, under its name (Location epic, issue 474).
  *
  * Variables:
- * - place: {name, line, what3words, what3words_url} from
- *   _customsolent_location_address(); prints nothing when both the line
- *   and the three words are empty.
+ * - place: {name, line} from _customsolent_location_address(); prints
+ *   nothing when the line is empty.
  * - with_name: TRUE to lead with the place's name (an organisation with
  *   several places).
  */
 #}
-{% if place.line or place.what3words %}
+{% if place.line %}
   <span class="slnt-venue-address">
     {%- if with_name %}<span class="slnt-venue-address__name">{{ place.name }}: </span>{% endif -%}
-    {%- if place.line %}<span class="slnt-venue-address__line">{{ place.line }}</span>{% endif -%}
-    {%- if place.what3words %}{% if place.line %} {% endif %}<a class="slnt-venue-address__w3w" href="{{ place.what3words_url }}" rel="noopener">{{ place.what3words }}</a>{% endif -%}
+    <span class="slnt-venue-address__line">{{ place.line }}</span>
   </span>
 {% endif %}

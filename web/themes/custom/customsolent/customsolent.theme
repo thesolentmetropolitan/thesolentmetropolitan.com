@@ -561,7 +561,7 @@ function _customsolent_location_cache_tags($term): array {
 }
 
 /**
- * The postal address, point and what3words of a Location term (Location epic).
+ * The postal address and point of a Location term (Location epic).
  *
  * A room or hall inside a venue carries no address of its own, so the
  * lookup climbs to the nearest ancestor that has one: "Sir James Matthews
@@ -570,12 +570,10 @@ function _customsolent_location_cache_tags($term): array {
  * never lends a venue an address it does not have.
  *
  * Returns ['line' => "Town Quay, Southampton SO14 2NY" or NULL,
- *          'what3words' => "///index.home.raft" or NULL,
- *          'what3words_url' => link to what3words.com or NULL,
  *          'lat' => float|NULL, 'lon' => float|NULL].
  */
 function _customsolent_location_address($term): array {
-  $out = ['line' => NULL, 'what3words' => NULL, 'what3words_url' => NULL, 'lat' => NULL, 'lon' => NULL];
+  $out = ['line' => NULL, 'lat' => NULL, 'lon' => NULL];
   $term_storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
   $current = $term;
   for ($depth = 0; $current && $depth < 4; $depth++) {
@@ -587,11 +585,6 @@ function _customsolent_location_address($term): array {
       $town = trim(implode(' ', array_filter([$a->get('locality')->getValue(), $a->get('postal_code')->getValue()])));
       $out['line'] = implode(', ', array_filter([$street, $town])) ?: NULL;
       $has_address = $out['line'] !== NULL;
-    }
-    if ($current->hasField('field_what3words') && !$current->get('field_what3words')->isEmpty() && $out['what3words'] === NULL) {
-      $words = ltrim(trim((string) $current->get('field_what3words')->value), '/');
-      $out['what3words'] = '///' . $words;
-      $out['what3words_url'] = 'https://what3words.com/' . $words;
     }
     if ($current->hasField('field_point') && !$current->get('field_point')->isEmpty() && $out['lat'] === NULL) {
       $point = $current->get('field_point')->first();
@@ -611,8 +604,8 @@ function _customsolent_location_address($term): array {
  * Event variables shared by the compact card, the teaser and the full page.
  *
  * Sets:
- *   - where_list      — list of {name, area, line, what3words,
- *                       what3words_url, lat, lon}: every venue with its
+ *   - where_list      — list of {name, area, line, lat, lon}: every venue
+ *                       with its
  *                       area line ("Southsea, Portsmouth"; see
  *                       _customsolent_location_where()) and its address
  *                       (see _customsolent_location_address()). One entry for a

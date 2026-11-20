@@ -54,7 +54,7 @@
     {% if organisation_where %}
       <div class="slnt-node-full__where">{{ organisation_where }}
         {% for place in organisation_places %}
-          {% if place.line or place.what3words %}
+          {% if place.line %}
             {% include '@customsolent/components/venue-address.html.twig' with { place: place, with_name: organisation_places|length > 1 } only %}
           {% endif %}
         {% endfor %}

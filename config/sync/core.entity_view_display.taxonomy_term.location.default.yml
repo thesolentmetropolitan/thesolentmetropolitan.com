@@ -5,7 +5,6 @@ dependencies:
   config:
     - field.field.taxonomy_term.location.field_address
     - field.field.taxonomy_term.location.field_point
-    - field.field.taxonomy_term.location.field_what3words
     - taxonomy.vocabulary.location
   module:
     - address
@@ -24,4 +23,3 @@ content:
 hidden:
   description: true
   field_point: true
-  field_what3words: true
