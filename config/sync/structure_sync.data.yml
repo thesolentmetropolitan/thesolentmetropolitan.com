@@ -3182,7 +3182,7 @@ taxonomies:
       description__value: null
       description__format: null
       weight: '0'
-      parent: '139'
+      parent: '141'
       uuid: b7057d63-89af-4ded-9795-adc990478a85
       field_address: {  }
       field_area:
@@ -3639,7 +3639,7 @@ taxonomies:
           latlon: '50.907927,-1.40416'
     -
       vid: location
-      tid: '424'
+      tid: '423'
       langcode: en
       name: 'Jubilee Sports Centre'
       description__value: null
@@ -4711,6 +4711,30 @@ taxonomies:
           bottom: 50.778844
           geohash: gcp0zhn00nwg
           latlon: '50.778844,-1.090384'
+    -
+      vid: location
+      tid: '424'
+      langcode: en
+      name: 'Southsea Castle'
+      description__value: null
+      description__format: null
+      weight: '0'
+      parent: '257'
+      uuid: 4ae72041-9b29-46b2-94d0-65e01627a8b1
+      field_address: {  }
+      field_area: {  }
+      field_point:
+        -
+          value: 'POINT (-1.089206 50.7781636)'
+          geo_type: Point
+          lat: 50.7781636
+          lon: -1.089206
+          left: -1.089206
+          top: 50.7781636
+          right: -1.089206
+          bottom: 50.7781636
+          geohash: gcp0z5yu5xv0k
+          latlon: '50.7781636,-1.089206'
     -
       vid: location
       tid: '198'
