@@ -15,8 +15,10 @@ dependencies:
     - field.field.node.series.field_setting
     - field.field.node.series.field_short_label
     - field.field.node.series.field_standfirst
+    - field.field.node.series.field_where
     - node.type.series
   module:
+    - inline_entity_form
     - datetime
     - path
     - text
@@ -129,6 +131,24 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
+  field_where:
+    type: inline_entity_form_complex
+    weight: 5
+    region: content
+    settings:
+      form_mode: default
+      override_labels: true
+      label_singular: ''
+      label_plural: ''
+      allow_new: true
+      allow_existing: true
+      match_operator: CONTAINS
+      allow_duplicate: false
+      collapsible: false
+      collapsed: false
+      revision: false
+      removed_reference: optional
+    third_party_settings: {  }
   path:
     type: path
     weight: 32
@@ -141,6 +161,11 @@ content:
     region: content
     settings:
       display_label: true
+    third_party_settings: {  }
+  simple_sitemap:
+    weight: 10
+    region: content
+    settings: {  }
     third_party_settings: {  }
   status:
     type: boolean_checkbox

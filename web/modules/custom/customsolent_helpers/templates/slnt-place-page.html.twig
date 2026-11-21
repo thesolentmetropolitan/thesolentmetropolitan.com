@@ -1,10 +1,11 @@
 {#
 /**
  * @file
- * A place's page (/places/<slug>), Location epic, issue 440.
+ * A place's page (/explore/places-maps/locations/<slug>), Location epic, issue 440.
  *
  * Variables:
  *   - banner: the hero; its big title is the page's h1
+ *   - strip: Overview · Organisations · Locations, the Places & Maps strip
  *   - address: the place's own address line, or empty
  *   - map_url: a map link to its point, or empty
  *   - within: the places it is in, nearest first: list of {label, url}
@@ -17,6 +18,7 @@
  */
 #}
 {{ banner }}
+{{ strip }}
 <div class="slnt-topic-listing slnt-place-page"{% if section_key %} data-section="{{ section_key }}"{% endif %}>
   {% if address or map_url or within or contains %}
     <div class="slnt-place-page__about">

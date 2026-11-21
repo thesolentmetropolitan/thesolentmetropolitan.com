@@ -42,12 +42,14 @@ function customsolent_helpers_theme($existing, $type, $theme, $path) {
         'section_key' => 'explore',
       ],
     ],
-    // A place's page: /places/{slug} (Location epic, issue 440) and the
-    // /places index of the tree.
+    // A place's page: /explore/places-maps/locations/{slug} (Location epic,
+    // issue 440) and the …/locations index of the tree. The theme adds
+    // the strip (Overview · Organisations · Locations).
     'slnt_place_page' => [
       'variables' => [
         'place' => NULL,
         'banner' => NULL,
+        'strip' => NULL,
         'address' => NULL,
         'map_url' => NULL,
         'within' => [],
@@ -61,6 +63,7 @@ function customsolent_helpers_theme($existing, $type, $theme, $path) {
     'slnt_place_index' => [
       'variables' => [
         'banner' => NULL,
+        'strip' => NULL,
         'tree' => [],
         'section_key' => 'explore',
       ],
@@ -446,6 +449,8 @@ function customsolent_helpers_sitewide_listing_url(string $type_word): ?string {
     'organisations' => '/explore/organisations',
     'series' => '/explore/series',
     'collaborations' => '/explore/collaborations',
+    // Explore / Places & Maps: the home of the place pages (Location epic).
+    'places' => '/explore/places-maps',
   ][$type_word] ?? NULL;
 }
 
@@ -1639,11 +1644,12 @@ function customsolent_helpers_place_placeholders(): array {
 
 /**
  * Every Location term with a page (Location epic, issue 440), keyed by tid:
- * tid, name, slug, url (/places/<slug>), parent (tid or NULL), depth, term.
+ * tid, name, slug, url (/explore/places-maps/locations/<slug>), parent
+ * (tid or NULL), depth, term.
  *
  * The slug is the name; a second term with the same name takes its
- * parent's slug as a suffix (/places/new-forest-hampshire), a third its
- * id. Placeholders (TBC, Various …) and unpublished terms have no page.
+ * parent's slug as a suffix (…/locations/new-forest-hampshire), a third
+ * its id. Placeholders (TBC, Various …) and unpublished terms have no page.
  */
 function customsolent_helpers_place_terms(): array {
   $cache = &drupal_static(__FUNCTION__);
@@ -1660,9 +1666,10 @@ function customsolent_helpers_place_terms(): array {
     $terms[(int) $term->id()] = $term;
   }
   $used = [];
+  $base = customsolent_helpers_sitewide_listing_url('places') . '/locations/';
   foreach ($terms as $tid => $term) {
     $parent = !empty($term->parents) && (int) $term->parents[0] ? (int) $term->parents[0] : NULL;
-    // "God's House Tower" is /places/gods-house-tower, not god-s-house-tower.
+    // "God's House Tower" is …/locations/gods-house-tower, not god-s-house-tower.
     $slug = customsolent_helpers_format_slug(str_replace(["'", "\u{2019}"], '', $term->getName()));
     if (isset($used[$slug]) && $parent && isset($terms[$parent])) {
       $slug .= '-' . customsolent_helpers_format_slug($terms[$parent]->getName());
@@ -1675,7 +1682,7 @@ function customsolent_helpers_place_terms(): array {
       'tid' => $tid,
       'name' => $term->getName(),
       'slug' => $slug,
-      'url' => '/places/' . $slug,
+      'url' => $base . $slug,
       'parent' => $parent,
       'depth' => (int) $term->depth,
       'term' => $term,
@@ -1697,7 +1704,7 @@ function customsolent_helpers_place_by_slug(string $slug): ?array {
 }
 
 /**
- * The page of a Location term (/places/<slug>), or NULL for a placeholder.
+ * The page of a Location term (…/locations/<slug>), or NULL for a placeholder.
  */
 function customsolent_helpers_place_url(\Drupal\taxonomy\TermInterface $term): ?string {
   return customsolent_helpers_place_terms()[(int) $term->id()]['url'] ?? NULL;
@@ -1707,8 +1714,8 @@ function customsolent_helpers_place_url(\Drupal\taxonomy\TermInterface $term): ?
  * The place narrowing the current request, as the ids of its term and
  * every term beneath it (an area is its venues, a venue its rooms), or [].
  *
- * Set by the place page (/places/southsea puts it on the request) or by
- * ?place=<slug> on any listing. An unknown slug narrows nothing.
+ * Set by the place page (…/locations/southsea puts it on the request) or
+ * by ?place=<slug> on any listing. An unknown slug narrows nothing.
  */
 function customsolent_helpers_active_place_tids(): array {
   $request = \Drupal::request();
@@ -1738,8 +1745,9 @@ function customsolent_helpers_active_place_tids(): array {
 
 /**
  * Listing views whose results can be narrowed by a place: the types that
- * carry a where field. Links and series carry none and drop out.
+ * carry a where field (events, organisations, series). Links carry none
+ * and drop out of a directory.
  */
 function customsolent_helpers_place_filtered_views(): array {
-  return ['events_listing', 'organisations_listing', 'directory_listing'];
+  return ['events_listing', 'organisations_listing', 'directory_listing', 'series_listing'];
 }

@@ -12,8 +12,9 @@ use Drupal\views\Views;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
- * A place's page: /places/gods-house-tower, /places/southsea … (Location
- * epic, issue 440), and the /places index.
+ * A place's page under Explore / Places & Maps:
+ * /explore/places-maps/locations/gods-house-tower, …/southsea (Location
+ * epic, issue 440), and the …/locations index of the tree.
  *
  * A Location term is a venue, a room in it or the area around it, and its
  * page is the same for all three: the address and a map link, the places
@@ -37,14 +38,16 @@ class PlaceController extends ControllerBase {
     /** @var \Drupal\taxonomy\TermInterface $term */
     $term = $info['term'];
     $events_page = $this->sitewidePage('events');
-    if (!$events_page) {
+    $places_page = $this->sitewidePage('places');
+    if (!$events_page || !$places_page) {
       throw new NotFoundHttpException();
     }
     $request = \Drupal::request();
     $request->attributes->set('slnt_place_tid', $info['tid']);
+    // The hero reads Explore / Places & Maps (small), the place (big).
     $request->attributes->set('slnt_hero_title_tag', 'h1');
-    if ($events_page->hasField('field_primary_topic') && $events_page->get('field_primary_topic')->entity) {
-      $request->attributes->set('slnt_hero_trail_term', $events_page->get('field_primary_topic')->entity);
+    if ($places_page->hasField('field_primary_topic') && $places_page->get('field_primary_topic')->entity) {
+      $request->attributes->set('slnt_hero_trail_term', $places_page->get('field_primary_topic')->entity);
     }
     $request->attributes->set('slnt_hero_trail_current', ['label' => $info['name'], 'url' => $info['url']]);
 
@@ -53,7 +56,7 @@ class PlaceController extends ControllerBase {
     $hero = $storage->create([
       'type' => 'hero_with_art_style',
       'field_title' => $info['name'],
-      'field_classy' => ['target_id' => 'hero_art_style_explore_events'],
+      'field_classy' => ['target_id' => 'hero_art_style_explore_maps'],
     ]);
     $events = $storage->create([
       'type' => 'view_display',
@@ -83,7 +86,7 @@ class PlaceController extends ControllerBase {
     $term_storage = $this->entityTypeManager()->getStorage('taxonomy_term');
     $places = customsolent_helpers_place_terms();
     $within = [];
-    $tags = Cache::mergeTags($term->getCacheTags(), $events_page->getCacheTags(), ['node_list', 'taxonomy_term_list:location']);
+    $tags = Cache::mergeTags($term->getCacheTags(), $events_page->getCacheTags(), $places_page->getCacheTags(), ['node_list', 'taxonomy_term_list:location']);
     foreach ($term_storage->loadAllParents($term->id()) as $ancestor) {
       if ((int) $ancestor->id() === $info['tid']) {
         continue;
@@ -126,21 +129,22 @@ class PlaceController extends ControllerBase {
   }
 
   /**
-   * The /places index: the tree of areas and venues, each a link.
+   * The …/locations index: the tree of areas and venues, each a link.
    */
   public function index(): array {
     $request = \Drupal::request();
     $request->attributes->set('slnt_hero_title_tag', 'h1');
-    $events_page = $this->sitewidePage('events');
-    if ($events_page && $events_page->hasField('field_primary_topic') && $events_page->get('field_primary_topic')->entity) {
-      $request->attributes->set('slnt_hero_trail_term', $events_page->get('field_primary_topic')->entity);
-      $request->attributes->set('slnt_hero_trail_current', ['label' => (string) $this->t('Places'), 'url' => '/places']);
+    $places_page = $this->sitewidePage('places');
+    $url = customsolent_helpers_sitewide_listing_url('places') . '/locations';
+    if ($places_page && $places_page->hasField('field_primary_topic') && $places_page->get('field_primary_topic')->entity) {
+      $request->attributes->set('slnt_hero_trail_term', $places_page->get('field_primary_topic')->entity);
+      $request->attributes->set('slnt_hero_trail_current', ['label' => (string) $this->t('Locations'), 'url' => $url]);
     }
     $storage = $this->entityTypeManager()->getStorage('paragraph');
     $hero = $storage->create([
       'type' => 'hero_with_art_style',
-      'field_title' => (string) $this->t('Places'),
-      'field_classy' => ['target_id' => 'hero_art_style_explore_events'],
+      'field_title' => (string) $this->t('Locations'),
+      'field_classy' => ['target_id' => 'hero_art_style_explore_maps'],
     ]);
     $places = customsolent_helpers_place_terms();
     $children = [];
@@ -159,7 +163,7 @@ class PlaceController extends ControllerBase {
       '#banner' => $this->entityTypeManager()->getViewBuilder('paragraph')->view($hero),
       '#tree' => $build(0),
       '#section_key' => 'explore',
-      '#cache' => ['tags' => ['taxonomy_term_list:location'], 'contexts' => ['url.path']],
+      '#cache' => ['tags' => array_merge(['taxonomy_term_list:location'], $places_page ? $places_page->getCacheTags() : []), 'contexts' => ['url.path']],
     ];
   }
 

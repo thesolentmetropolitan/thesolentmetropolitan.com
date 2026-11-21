@@ -1,10 +1,11 @@
 {#
 /**
  * @file
- * The /places index: the tree of areas and venues, each a link.
+ * The /explore/places-maps/locations index: the tree of areas and venues, each a link.
  *
  * Variables:
  *   - banner: the hero; its big title is the page's h1
+ *   - strip: Overview · Organisations · Locations, the Places & Maps strip
  *   - tree: nested list of {label, url, children}
  *   - section_key: explore
  */
@@ -17,6 +18,7 @@
   </ul>
 {% endmacro %}
 {{ banner }}
+{{ strip }}
 <div class="slnt-topic-listing slnt-place-index"{% if section_key %} data-section="{{ section_key }}"{% endif %}>
   {{ _self.branch(tree) }}
 </div>

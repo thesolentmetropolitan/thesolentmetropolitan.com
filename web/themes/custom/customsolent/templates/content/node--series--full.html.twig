@@ -76,6 +76,28 @@
       </div>
     {% endif %}
 
+    {# Where — the series' home venue(s), when it has one (issue 435): the
+       event page's line, each place a link to its page. #}
+    {{ where_cache }}
+    {% if where_list is not empty %}
+      <div class="slnt-node-full__where-row">
+        <span class="slnt-node-full__where-icon" aria-hidden="true">
+          <svg viewBox="0 0 256 256" fill="currentColor"><path d="M128,60a44,44,0,1,0,44,44A44.05,44.05,0,0,0,128,60Zm0,64a20,20,0,1,1,20-20A20,20,0,0,1,128,124Zm0-112a92.1,92.1,0,0,0-92,92c0,77.36,81.64,135.4,85.12,137.83a12,12,0,0,0,13.76,0,259,259,0,0,0,42.18-39C205.15,170.57,220,136.37,220,104A92.1,92.1,0,0,0,128,12Zm31.3,174.71A249.35,249.35,0,0,1,128,216.89a249.35,249.35,0,0,1-31.3-30.18C80,167.37,60,137.31,60,104a68,68,0,0,1,136,0C196,137.31,176,167.37,159.3,186.71Z"/></svg>
+        </span>
+        {% if where_list|length > 1 %}
+          <ul class="slnt-node-full__where slnt-node-full__venues">
+            {% for venue in where_list %}
+              <li>{% if venue.url %}<a class="slnt-node-full__venue-link" href="{{ venue.url }}">{{ venue.name }}</a>{% else %}{{ venue.name }}{% endif %}{% if venue.area %}<span class="slnt-node-full__venue-area">, {{ venue.area }}</span>{% endif %}
+                {% include '@customsolent/components/venue-address.html.twig' with { place: venue } only %}</li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <div class="slnt-node-full__where">{% if where_list[0].url %}<a class="slnt-node-full__venue-link" href="{{ where_list[0].url }}">{{ where_list[0].name }}</a>{% else %}{{ where_list[0].name }}{% endif %}{% if where_list[0].area %}<span class="slnt-node-full__venue-area">, {{ where_list[0].area }}</span>{% endif %}
+            {% include '@customsolent/components/venue-address.html.twig' with { place: where_list[0] } only %}</div>
+        {% endif %}
+      </div>
+    {% endif %}
+
     {# Organiser — the organisation curating the series; nothing when none
        is named (issue 436). Same line as the event page. #}
     {% if organisers is not empty %}

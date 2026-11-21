@@ -1,0 +1,28 @@
+uuid: 58c22e7e-f57c-43fa-bc79-38073a267585
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_where
+    - node.type.series
+    - taxonomy.vocabulary.location
+id: node.series.field_where
+field_name: field_where
+entity_type: node
+bundle: series
+label: where
+description: 'Where the series happens, when it has a home. Leave empty for a series that moves around; each event carries its own venue.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: views
+  handler_settings:
+    view:
+      view_name: location_picker
+      display_name: entity_reference_1
+      arguments: {  }
+    target_bundles:
+      location: location
+field_type: entity_reference
