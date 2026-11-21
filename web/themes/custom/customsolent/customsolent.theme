@@ -233,7 +233,7 @@ function customsolent_preprocess_node(array &$variables): void {
         $names[] = $where->getName();
         $variables['where_cache']['#cache']['tags'] = array_merge($variables['where_cache']['#cache']['tags'], _customsolent_location_cache_tags($where));
         $place = _customsolent_location_where($where);
-        $variables['organisation_places'][] = ['name' => $where->getName(), 'area' => $place['area']] + _customsolent_location_address($where);
+        $variables['organisation_places'][] = ['name' => $where->getName(), 'area' => $place['area'], 'url' => customsolent_helpers_place_url($where)] + _customsolent_location_address($where);
       }
       $variables['organisation_where'] = _customsolent_join_names($names);
     }
@@ -652,6 +652,8 @@ function _customsolent_preprocess_event_shared_extras($node, array &$variables):
       $variables['where_list'][] = [
         'name' => $where->getName(),
         'area' => $place['area'],
+        // Its page, /places/<slug> (issue 440); NULL for a placeholder.
+        'url' => customsolent_helpers_place_url($where),
       ] + _customsolent_location_address($where);
       if ($place['town'] && !in_array($place['town'], $areas, TRUE)) {
         $areas[] = $place['town'];

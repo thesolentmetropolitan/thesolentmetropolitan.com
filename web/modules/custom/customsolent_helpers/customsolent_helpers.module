@@ -42,6 +42,29 @@ function customsolent_helpers_theme($existing, $type, $theme, $path) {
         'section_key' => 'explore',
       ],
     ],
+    // A place's page: /places/{slug} (Location epic, issue 440) and the
+    // /places index of the tree.
+    'slnt_place_page' => [
+      'variables' => [
+        'place' => NULL,
+        'banner' => NULL,
+        'address' => NULL,
+        'map_url' => NULL,
+        'within' => [],
+        'contains' => [],
+        'events' => NULL,
+        'organisations' => NULL,
+        'organisations_count' => 0,
+        'section_key' => 'explore',
+      ],
+    ],
+    'slnt_place_index' => [
+      'variables' => [
+        'banner' => NULL,
+        'tree' => [],
+        'section_key' => 'explore',
+      ],
+    ],
     // Overview · Events · Organisations & links — built by the theme's
     // _customsolent_build_section_strip().
     'slnt_section_strip' => [
@@ -397,7 +420,7 @@ function customsolent_helpers_active_facet_tid(string $facet): ?int {
  * @return string[]
  */
 function customsolent_helpers_facet_query_args(): array {
-  return array_map(static fn($p) => 'url.query_args:' . $p, array_merge(['format'], array_keys(customsolent_helpers_facets())));
+  return array_map(static fn($p) => 'url.query_args:' . $p, array_merge(['format', 'place'], array_keys(customsolent_helpers_facets())));
 }
 
 /**
@@ -581,6 +604,17 @@ function customsolent_helpers_views_query_alter(\Drupal\views\ViewExecutable $vi
       ->condition('slnt_f.field_format_target_id', $format_tid);
     $query->setWhereGroup('AND', 'slnt_format');
     $query->addWhere('slnt_format', 'node_field_data.nid', $with_format, 'IN');
+  }
+  // A place (Location epic, issue 440) narrows a listing to what is at it
+  // or anywhere beneath it: the place page, or ?place=<slug>.
+  $place_tids = customsolent_helpers_active_place_tids();
+  if ($place_tids && in_array($view->id(), customsolent_helpers_place_filtered_views(), TRUE)
+    && $view->current_display !== 'view_display_front_page'
+    && $query instanceof \Drupal\views\Plugin\views\query\Sql) {
+    $at_place = \Drupal::database()->select('node__field_where', 'slnt_w')->fields('slnt_w', ['entity_id'])
+      ->condition('slnt_w.field_where_target_id', $place_tids, 'IN');
+    $query->setWhereGroup('AND', 'slnt_place');
+    $query->addWhere('slnt_place', 'node_field_data.nid', $at_place, 'IN');
   }
   // Cost and age group (issues 422, 463) narrow the same way, by their own
   // field, on the listings of the types that carry them.
@@ -1594,4 +1628,118 @@ function _customsolent_helpers_bng_to_wgs84(float $E, float $N): array {
     $lat = atan2($z2 + $e2 * $nu * $sin, $p);
   }
   return [rad2deg($lat), rad2deg(atan2($y2, $x2))];
+}
+
+/**
+ * Location terms that are not places: the tree's placeholders.
+ */
+function customsolent_helpers_place_placeholders(): array {
+  return ['TBC', 'Various', 'UK', 'England'];
+}
+
+/**
+ * Every Location term with a page (Location epic, issue 440), keyed by tid:
+ * tid, name, slug, url (/places/<slug>), parent (tid or NULL), depth, term.
+ *
+ * The slug is the name; a second term with the same name takes its
+ * parent's slug as a suffix (/places/new-forest-hampshire), a third its
+ * id. Placeholders (TBC, Various …) and unpublished terms have no page.
+ */
+function customsolent_helpers_place_terms(): array {
+  $cache = &drupal_static(__FUNCTION__);
+  if ($cache !== NULL) {
+    return $cache;
+  }
+  $cache = [];
+  $storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
+  $terms = [];
+  foreach ($storage->loadTree('location', 0, NULL, TRUE) as $term) {
+    if (!$term->isPublished() || in_array($term->getName(), customsolent_helpers_place_placeholders(), TRUE)) {
+      continue;
+    }
+    $terms[(int) $term->id()] = $term;
+  }
+  $used = [];
+  foreach ($terms as $tid => $term) {
+    $parent = !empty($term->parents) && (int) $term->parents[0] ? (int) $term->parents[0] : NULL;
+    // "God's House Tower" is /places/gods-house-tower, not god-s-house-tower.
+    $slug = customsolent_helpers_format_slug(str_replace(["'", "\u{2019}"], '', $term->getName()));
+    if (isset($used[$slug]) && $parent && isset($terms[$parent])) {
+      $slug .= '-' . customsolent_helpers_format_slug($terms[$parent]->getName());
+    }
+    if (isset($used[$slug])) {
+      $slug .= '-' . $tid;
+    }
+    $used[$slug] = TRUE;
+    $cache[$tid] = [
+      'tid' => $tid,
+      'name' => $term->getName(),
+      'slug' => $slug,
+      'url' => '/places/' . $slug,
+      'parent' => $parent,
+      'depth' => (int) $term->depth,
+      'term' => $term,
+    ];
+  }
+  return $cache;
+}
+
+/**
+ * The place for a URL slug, or NULL.
+ */
+function customsolent_helpers_place_by_slug(string $slug): ?array {
+  foreach (customsolent_helpers_place_terms() as $place) {
+    if ($place['slug'] === $slug) {
+      return $place;
+    }
+  }
+  return NULL;
+}
+
+/**
+ * The page of a Location term (/places/<slug>), or NULL for a placeholder.
+ */
+function customsolent_helpers_place_url(\Drupal\taxonomy\TermInterface $term): ?string {
+  return customsolent_helpers_place_terms()[(int) $term->id()]['url'] ?? NULL;
+}
+
+/**
+ * The place narrowing the current request, as the ids of its term and
+ * every term beneath it (an area is its venues, a venue its rooms), or [].
+ *
+ * Set by the place page (/places/southsea puts it on the request) or by
+ * ?place=<slug> on any listing. An unknown slug narrows nothing.
+ */
+function customsolent_helpers_active_place_tids(): array {
+  $request = \Drupal::request();
+  $tid = NULL;
+  if ($request->attributes->has('slnt_place_tid')) {
+    $tid = (int) $request->attributes->get('slnt_place_tid') ?: NULL;
+  }
+  else {
+    $slug = $request->query->get('place');
+    if (is_string($slug) && $slug !== '') {
+      $place = customsolent_helpers_place_by_slug($slug);
+      $tid = $place ? $place['tid'] : NULL;
+    }
+  }
+  if (!$tid) {
+    return [];
+  }
+  $cache = &drupal_static(__FUNCTION__, []);
+  if (!isset($cache[$tid])) {
+    $cache[$tid] = [$tid];
+    foreach (\Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadTree('location', $tid) as $child) {
+      $cache[$tid][] = (int) $child->tid;
+    }
+  }
+  return $cache[$tid];
+}
+
+/**
+ * Listing views whose results can be narrowed by a place: the types that
+ * carry a where field. Links and series carry none and drop out.
+ */
+function customsolent_helpers_place_filtered_views(): array {
+  return ['events_listing', 'organisations_listing', 'directory_listing'];
 }

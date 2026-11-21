@@ -1,0 +1,22 @@
+{#
+/**
+ * @file
+ * The /places index: the tree of areas and venues, each a link.
+ *
+ * Variables:
+ *   - banner: the hero; its big title is the page's h1
+ *   - tree: nested list of {label, url, children}
+ *   - section_key: explore
+ */
+#}
+{% macro branch(items) %}
+  <ul class="slnt-place-index__list">
+    {% for item in items %}
+      <li><a href="{{ item.url }}">{{ item.label }}</a>{% if item.children %}{{ _self.branch(item.children) }}{% endif %}</li>
+    {% endfor %}
+  </ul>
+{% endmacro %}
+{{ banner }}
+<div class="slnt-topic-listing slnt-place-index"{% if section_key %} data-section="{{ section_key }}"{% endif %}>
+  {{ _self.branch(tree) }}
+</div>

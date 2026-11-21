@@ -143,12 +143,12 @@
         {% if where_list|length > 1 %}
           <ul class="slnt-node-full__where slnt-node-full__venues">
             {% for venue in where_list %}
-              <li>{{ venue.name }}{% if venue.area %}<span class="slnt-node-full__venue-area">, {{ venue.area }}</span>{% endif %}
+              <li>{% if venue.url %}<a class="slnt-node-full__venue-link" href="{{ venue.url }}">{{ venue.name }}</a>{% else %}{{ venue.name }}{% endif %}{% if venue.area %}<span class="slnt-node-full__venue-area">, {{ venue.area }}</span>{% endif %}
                 {% include '@customsolent/components/venue-address.html.twig' with { place: venue } only %}</li>
             {% endfor %}
           </ul>
         {% else %}
-          <div class="slnt-node-full__where">{{ where_list[0].name }}
+          <div class="slnt-node-full__where">{% if where_list[0].url %}<a class="slnt-node-full__venue-link" href="{{ where_list[0].url }}">{{ where_list[0].name }}</a>{% else %}{{ where_list[0].name }}{% endif %}
             {% include '@customsolent/components/venue-address.html.twig' with { place: where_list[0] } only %}</div>
         {% endif %}
       </div>

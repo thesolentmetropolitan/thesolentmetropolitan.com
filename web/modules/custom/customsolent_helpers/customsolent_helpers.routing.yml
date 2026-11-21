@@ -84,3 +84,23 @@ customsolent_helpers.format_listing:
   requirements:
     _access: 'TRUE'
     format: '[a-z0-9-]+'
+
+# Places (Location epic, issue 440): /places/<slug> is a Location term's
+# page, the events there (and anywhere beneath it) and the organisations
+# based there; /places is the tree. The term's own /taxonomy/term/N stays
+# a 404 (rabbit hole); nothing links to it.
+customsolent_helpers.place_index:
+  path: '/places'
+  defaults:
+    _controller: '\Drupal\customsolent_helpers\Controller\PlaceController::index'
+    _title: 'Places'
+  requirements:
+    _access: 'TRUE'
+customsolent_helpers.place:
+  path: '/places/{place}'
+  defaults:
+    _controller: '\Drupal\customsolent_helpers\Controller\PlaceController::view'
+    _title_callback: '\Drupal\customsolent_helpers\Controller\PlaceController::title'
+  requirements:
+    _access: 'TRUE'
+    place: '[a-z0-9-]+'
