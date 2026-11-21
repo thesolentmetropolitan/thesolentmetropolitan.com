@@ -2520,12 +2520,6 @@ function _customsolent_build_section_strip($node, string $current): ?array {
     return NULL;
   }
   $context = _customsolent_node_topic_context($node);
-  // Explore / Places & Maps is a page, not a topic: its strip is its own
-  // (Overview · Organisations · Locations), Location epic.
-  $places_url = _customsolent_sitewide_listing_url('places');
-  if ($context && $context['section_key'] === 'explore' && $places_url && rtrim($node->toUrl()->toString(), '/') === $places_url) {
-    return _customsolent_build_places_strip($node, $current);
-  }
   if (!$context || !in_array($context['section_key'], ['culture', 'sectors', 'living'], TRUE)) {
     return NULL;
   }
@@ -2574,82 +2568,6 @@ function _customsolent_build_section_strip($node, string $current): ?array {
       'max-age' => max(60, $midnight - \Drupal::time()->getRequestTime()),
     ],
   ];
-}
-
-/**
- * The Places & Maps strip: Overview · Organisations 120 · Locations 170.
- *
- * Organisations is the site-wide directory (Explore → Organisations) with
- * its count; Locations is the tree of place pages
- * (/explore/places-maps/locations) with the number of places. A Map item
- * joins when the map is built (issue 451).
- *
- * @param \Drupal\node\NodeInterface $node
- *   The Places & Maps page.
- * @param string $current
- *   'overview', 'organisations' or 'locations'.
- */
-function _customsolent_build_places_strip($node, string $current): ?array {
-  $base = rtrim($node->toUrl()->toString(), '/');
-  $items = [['key' => 'overview', 'label' => t('Overview'), 'url' => $base, 'count' => NULL]];
-  // Organisations alone, not the directory's links: the published count.
-  $organisations = (int) \Drupal::entityQuery('node')->accessCheck(TRUE)->condition('type', 'organisation')->condition('status', 1)->count()->execute();
-  if ($organisations > 0 && ($url = _customsolent_sitewide_listing_url('organisations'))) {
-    $items[] = ['key' => 'organisations', 'label' => t('Organisations'), 'url' => $url, 'count' => $organisations];
-  }
-  $places = count(customsolent_helpers_place_terms());
-  if ($places > 0) {
-    $items[] = ['key' => 'locations', 'label' => t('Locations'), 'url' => $base . '/locations', 'count' => $places];
-  }
-  if (count($items) < 2) {
-    return NULL;
-  }
-  foreach ($items as &$item) {
-    $item['current'] = ($item['key'] === $current);
-  }
-  unset($item);
-  return [
-    '#theme' => 'slnt_section_strip',
-    '#items' => $items,
-    '#label' => t('@topic section', ['@topic' => $node->label()]),
-    '#section_key' => 'explore',
-    '#cache' => [
-      'tags' => array_merge($node->getCacheTags(), ['node_list:organisation', 'taxonomy_term_list:location']),
-    ],
-  ];
-}
-
-/**
- * Implements hook_preprocess_HOOK() for slnt-place-page.html.twig.
- *
- * A place page sits under Explore / Places & Maps and carries its strip,
- * with Locations marked current.
- */
-function customsolent_preprocess_slnt_place_page(array &$variables): void {
-  $variables['strip'] = _customsolent_places_strip_for_locations();
-}
-
-/**
- * Implements hook_preprocess_HOOK() for slnt-place-index.html.twig.
- */
-function customsolent_preprocess_slnt_place_index(array &$variables): void {
-  $variables['strip'] = _customsolent_places_strip_for_locations();
-}
-
-/**
- * The Places & Maps strip with Locations current, from the page's alias.
- */
-function _customsolent_places_strip_for_locations(): ?array {
-  $alias = _customsolent_sitewide_listing_url('places');
-  if (!$alias) {
-    return NULL;
-  }
-  $internal = \Drupal::service('path_alias.manager')->getPathByAlias($alias);
-  if (!preg_match('#^/node/(\d+)$#', $internal, $m)) {
-    return NULL;
-  }
-  $node = \Drupal::entityTypeManager()->getStorage('node')->load($m[1]);
-  return $node ? _customsolent_build_section_strip($node, 'locations') : NULL;
 }
 
 /**
@@ -3931,4 +3849,65 @@ function _customsolent_preprocess_related_topics($node, array &$variables): void
       $add($term, FALSE);
     }
   }
+}
+
+/**
+ * Implements hook_preprocess_HOOK() for paragraph--location-map.html.twig.
+ *
+ * Explore / Locations (Location epic): the tree of places down one side,
+ * the map in the middle (every venue with a point pegged; areas are not
+ * pegged, choosing one shows everything within it), and what is at the
+ * chosen place beside it. The chosen place comes from the address
+ * (/explore/locations/medbar puts it on the request); with none chosen
+ * the panel invites a choice. The places go to the script as JSON.
+ */
+function customsolent_preprocess_paragraph__location_map(array &$variables): void {
+  $places = customsolent_helpers_place_terms();
+  $selected_tid = (int) (\Drupal::request()->attributes->get('slnt_place_tid') ?: 0);
+  $selected = $places[$selected_tid] ?? NULL;
+  $children = [];
+  foreach ($places as $tid => $place) {
+    $children[$place['parent'] ?? 0][] = $tid;
+  }
+  // The chosen place and its ancestors stay open in the tree.
+  $open = [];
+  for ($tid = $selected_tid; $tid && isset($places[$tid]); $tid = $places[$tid]['parent'] ?? 0) {
+    $open[$tid] = TRUE;
+  }
+  $build = function (int $parent) use (&$build, $places, $children, $selected_tid, $open): array {
+    $items = [];
+    foreach ($children[$parent] ?? [] as $tid) {
+      $items[] = [
+        'label' => $places[$tid]['name'],
+        'url' => $places[$tid]['url'],
+        'slug' => $places[$tid]['slug'],
+        'area' => $places[$tid]['area'],
+        'selected' => $tid === $selected_tid,
+        'open' => isset($open[$tid]),
+        'children' => $build($tid),
+      ];
+    }
+    return $items;
+  };
+  $variables['tree'] = $build(0);
+  $data = [];
+  foreach ($places as $place) {
+    $data[] = [
+      'tid' => $place['tid'],
+      'name' => $place['name'],
+      'slug' => $place['slug'],
+      'url' => $place['url'],
+      'parent' => $place['parent'],
+      'area' => $place['area'],
+      'lat' => $place['lat'],
+      'lon' => $place['lon'],
+    ];
+  }
+  $variables['places_json'] = json_encode($data, JSON_HEX_TAG | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+  $variables['base_url'] = customsolent_helpers_sitewide_listing_url('places');
+  $variables['selected'] = $selected ? ['name' => $selected['name'], 'slug' => $selected['slug'], 'url' => $selected['url'], 'area' => $selected['area'], 'lat' => $selected['lat'], 'lon' => $selected['lon']] : NULL;
+  $variables['panel'] = $selected ? customsolent_helpers_place_panel($selected) : NULL;
+  $variables['#attached']['library'][] = 'customsolent/location-map';
+  $variables['#cache']['contexts'][] = 'url.path';
+  $variables['#cache']['tags'][] = 'taxonomy_term_list:location';
 }

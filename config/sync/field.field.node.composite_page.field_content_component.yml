@@ -52,6 +52,7 @@ settings:
       section_filter: section_filter
       hero_with_art_style: hero_with_art_style
       link: link
+      location_map: location_map
       section_1_column: section_1_column
       section_2_column: section_2_column
       text: text
@@ -92,6 +93,9 @@ settings:
         enabled: true
       link:
         weight: 21
+        enabled: true
+      location_map:
+        weight: 22
         enabled: true
       menu:
         weight: 30

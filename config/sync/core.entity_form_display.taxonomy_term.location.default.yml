@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.taxonomy_term.location.field_address
+    - field.field.taxonomy_term.location.field_area
     - field.field.taxonomy_term.location.field_point
     - taxonomy.vocabulary.location
   module:
@@ -20,6 +21,13 @@ content:
     region: content
     settings:
       wrapper_type: fieldset
+    third_party_settings: {  }
+  field_area:
+    type: boolean_checkbox
+    weight: 4
+    region: content
+    settings:
+      display_label: true
     third_party_settings: {  }
   field_point:
     type: geofield_latlon

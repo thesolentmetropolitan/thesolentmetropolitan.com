@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.taxonomy_term.location.field_address
+    - field.field.taxonomy_term.location.field_area
     - field.field.taxonomy_term.location.field_point
     - taxonomy.vocabulary.location
   module:
@@ -22,4 +23,5 @@ content:
     region: content
 hidden:
   description: true
+  field_area: true
   field_point: true

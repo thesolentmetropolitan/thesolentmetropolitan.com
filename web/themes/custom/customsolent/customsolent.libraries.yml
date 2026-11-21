@@ -49,3 +49,19 @@ global:
   dependencies:
     - core/drupal
     - core/jquery
+
+# Explore / Locations: Leaflet 1.9.4 (BSD-2-Clause, in leaflet/) over
+# OpenStreetMap tiles, and the places map behaviour. Attached by the
+# Location map paragraph only.
+location-map:
+  version: 1.9.4
+  css:
+    component:
+      leaflet/leaflet.css: {}
+      css/location-map.css: {}
+  js:
+    leaflet/leaflet.js: { minified: true }
+    js/location-map.js: {}
+  dependencies:
+    - core/drupal
+    - core/once

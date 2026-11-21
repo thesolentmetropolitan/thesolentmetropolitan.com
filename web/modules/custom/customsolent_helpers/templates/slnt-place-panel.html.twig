@@ -1,0 +1,50 @@
+{#
+/**
+ * @file
+ * What is at a place: the panel beside the map on Explore / Locations.
+ *
+ * Variables:
+ *   - place: {name, url, slug, area}
+ *   - address: the place's own address line, or empty
+ *   - map_url: an OpenStreetMap link to its point, or empty
+ *   - within: the places it is in, nearest first: list of {label, url, slug}
+ *   - contains: the places inside it: list of {label, url, slug}
+ *   - sections: list of {key, label, count, count_label, items: [{title,
+ *     url}], url}: the events to come, organisations, series and
+ *     articles there, each with a link to the full listing at the place
+ *   - empty: TRUE when nothing is there yet
+ */
+#}
+<div class="slnt-place-panel" data-place="{{ place.slug }}">
+  <h2 class="slnt-place-panel__name"><a href="{{ place.url }}">{{ place.name }}</a></h2>
+  {% if address or map_url %}
+    <p class="slnt-place-panel__address">
+      {%- if address %}{{ address }}{% endif -%}
+      {%- if map_url %}{% if address %} {% endif %}<a class="slnt-place-panel__map" href="{{ map_url }}" rel="noopener">{{ 'Open in OpenStreetMap'|t }}</a>{% endif -%}
+    </p>
+  {% endif %}
+  {% if within %}
+    <p class="slnt-place-panel__within">{{ 'In'|t }}
+      {% for p in within %}{% if not loop.first %}, {% endif %}{% if p.url %}<a href="{{ p.url }}" data-place="{{ p.slug }}">{{ p.label }}</a>{% else %}{{ p.label }}{% endif %}{% endfor %}</p>
+  {% endif %}
+  {% if contains %}
+    <p class="slnt-place-panel__contains">{{ 'Includes'|t }}
+      {% for p in contains %}{% if not loop.first %}, {% endif %}<a href="{{ p.url }}" data-place="{{ p.slug }}">{{ p.label }}</a>{% endfor %}</p>
+  {% endif %}
+  {% if empty %}
+    <p class="slnt-place-panel__empty">{{ 'Nothing listed here yet.'|t }}</p>
+  {% endif %}
+  {% for section in sections %}
+    <section class="slnt-place-panel__section slnt-place-panel__section--{{ section.key }}">
+      <h3 class="slnt-place-panel__heading">{{ section.label }} <span class="slnt-place-panel__count">{{ section.count }}</span></h3>
+      <ul class="slnt-place-panel__items">
+        {% for item in section.items %}
+          <li><a href="{{ item.url }}">{{ item.title }}</a></li>
+        {% endfor %}
+      </ul>
+      {% if section.url %}
+        <a class="slnt-place-panel__all" href="{{ section.url }}">{{ 'All'|t }} {{ section.count_label }} <span aria-hidden="true">→</span></a>
+      {% endif %}
+    </section>
+  {% endfor %}
+</div>

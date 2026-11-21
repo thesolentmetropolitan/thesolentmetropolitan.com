@@ -85,24 +85,25 @@ customsolent_helpers.format_listing:
     _access: 'TRUE'
     format: '[a-z0-9-]+'
 
-# Places (Location epic, issue 440), under Explore / Places & Maps:
-# /explore/places-maps/locations/<slug> is a Location term's page, the
-# events there (and anywhere beneath it) and the organisations based there;
-# /explore/places-maps/locations is the tree. "locations" is not a listing
-# word, so TopicListingPathProcessor leaves these alone. The term's own
+# Places (Location epic, issue 440): /explore/locations is the map page
+# (a composite page whose Location map paragraph lists every place, pegs
+# the venues and shows what is at the chosen place); /explore/locations/<slug>
+# is that page with the place chosen, and …/<slug>/panel the panel alone
+# for the map's script. "locations" is not a listing word, so
+# TopicListingPathProcessor leaves these alone. The term's own
 # /taxonomy/term/N stays a 404 (rabbit hole); nothing links to it.
-customsolent_helpers.place_index:
-  path: '/explore/places-maps/locations'
-  defaults:
-    _controller: '\Drupal\customsolent_helpers\Controller\PlaceController::index'
-    _title: 'Locations'
-  requirements:
-    _access: 'TRUE'
 customsolent_helpers.place:
-  path: '/explore/places-maps/locations/{place}'
+  path: '/explore/locations/{place}'
   defaults:
     _controller: '\Drupal\customsolent_helpers\Controller\PlaceController::view'
     _title_callback: '\Drupal\customsolent_helpers\Controller\PlaceController::title'
+  requirements:
+    _access: 'TRUE'
+    place: '[a-z0-9-]+'
+customsolent_helpers.place_panel:
+  path: '/explore/locations/{place}/panel'
+  defaults:
+    _controller: '\Drupal\customsolent_helpers\Controller\PlaceController::panel'
   requirements:
     _access: 'TRUE'
     place: '[a-z0-9-]+'

@@ -42,30 +42,17 @@ function customsolent_helpers_theme($existing, $type, $theme, $path) {
         'section_key' => 'explore',
       ],
     ],
-    // A place's page: /explore/places-maps/locations/{slug} (Location epic,
-    // issue 440) and the …/locations index of the tree. The theme adds
-    // the strip (Overview · Organisations · Locations).
-    'slnt_place_page' => [
+    // What is at a place (Location epic): the panel beside the map on
+    // Explore / Locations, also served on its own for the map's script.
+    'slnt_place_panel' => [
       'variables' => [
         'place' => NULL,
-        'banner' => NULL,
-        'strip' => NULL,
         'address' => NULL,
         'map_url' => NULL,
         'within' => [],
         'contains' => [],
-        'events' => NULL,
-        'organisations' => NULL,
-        'organisations_count' => 0,
-        'section_key' => 'explore',
-      ],
-    ],
-    'slnt_place_index' => [
-      'variables' => [
-        'banner' => NULL,
-        'strip' => NULL,
-        'tree' => [],
-        'section_key' => 'explore',
+        'sections' => [],
+        'empty' => FALSE,
       ],
     ],
     // Overview · Events · Organisations & links — built by the theme's
@@ -449,8 +436,8 @@ function customsolent_helpers_sitewide_listing_url(string $type_word): ?string {
     'organisations' => '/explore/organisations',
     'series' => '/explore/series',
     'collaborations' => '/explore/collaborations',
-    // Explore / Places & Maps: the home of the place pages (Location epic).
-    'places' => '/explore/places-maps',
+    // Explore / Locations: the map page, home of every place (Location epic).
+    'places' => '/explore/locations',
   ][$type_word] ?? NULL;
 }
 
@@ -1644,8 +1631,9 @@ function customsolent_helpers_place_placeholders(): array {
 
 /**
  * Every Location term with a page (Location epic, issue 440), keyed by tid:
- * tid, name, slug, url (/explore/places-maps/locations/<slug>), parent
- * (tid or NULL), depth, term.
+ * tid, name, slug, url (/explore/locations/<slug>), parent (tid or NULL),
+ * depth, area (TRUE for a town or district: not pegged on the map), lat,
+ * lon (NULL without a point), term.
  *
  * The slug is the name; a second term with the same name takes its
  * parent's slug as a suffix (…/locations/new-forest-hampshire), a third
@@ -1666,10 +1654,10 @@ function customsolent_helpers_place_terms(): array {
     $terms[(int) $term->id()] = $term;
   }
   $used = [];
-  $base = customsolent_helpers_sitewide_listing_url('places') . '/locations/';
+  $base = customsolent_helpers_sitewide_listing_url('places') . '/';
   foreach ($terms as $tid => $term) {
     $parent = !empty($term->parents) && (int) $term->parents[0] ? (int) $term->parents[0] : NULL;
-    // "God's House Tower" is …/locations/gods-house-tower, not god-s-house-tower.
+    // "God's House Tower" is /explore/locations/gods-house-tower, not god-s-house-tower.
     $slug = customsolent_helpers_format_slug(str_replace(["'", "\u{2019}"], '', $term->getName()));
     if (isset($used[$slug]) && $parent && isset($terms[$parent])) {
       $slug .= '-' . customsolent_helpers_format_slug($terms[$parent]->getName());
@@ -1678,6 +1666,12 @@ function customsolent_helpers_place_terms(): array {
       $slug .= '-' . $tid;
     }
     $used[$slug] = TRUE;
+    $lat = $lon = NULL;
+    if ($term->hasField('field_point') && !$term->get('field_point')->isEmpty()) {
+      $point = $term->get('field_point')->first();
+      $lat = $point->get('lat')->getValue() !== NULL ? round((float) $point->get('lat')->getValue(), 6) : NULL;
+      $lon = $point->get('lon')->getValue() !== NULL ? round((float) $point->get('lon')->getValue(), 6) : NULL;
+    }
     $cache[$tid] = [
       'tid' => $tid,
       'name' => $term->getName(),
@@ -1685,6 +1679,9 @@ function customsolent_helpers_place_terms(): array {
       'url' => $base . $slug,
       'parent' => $parent,
       'depth' => (int) $term->depth,
+      'area' => $term->hasField('field_area') && (bool) $term->get('field_area')->value,
+      'lat' => $lat,
+      'lon' => $lon,
       'term' => $term,
     ];
   }
@@ -1704,7 +1701,7 @@ function customsolent_helpers_place_by_slug(string $slug): ?array {
 }
 
 /**
- * The page of a Location term (…/locations/<slug>), or NULL for a placeholder.
+ * The page of a Location term (/explore/locations/<slug>), or NULL for a placeholder.
  */
 function customsolent_helpers_place_url(\Drupal\taxonomy\TermInterface $term): ?string {
   return customsolent_helpers_place_terms()[(int) $term->id()]['url'] ?? NULL;
@@ -1714,8 +1711,8 @@ function customsolent_helpers_place_url(\Drupal\taxonomy\TermInterface $term): ?
  * The place narrowing the current request, as the ids of its term and
  * every term beneath it (an area is its venues, a venue its rooms), or [].
  *
- * Set by the place page (…/locations/southsea puts it on the request) or
- * by ?place=<slug> on any listing. An unknown slug narrows nothing.
+ * Set by the place page (/explore/locations/southsea puts it on the request)
+ * or by ?place=<slug> on any listing. An unknown slug narrows nothing.
  */
 function customsolent_helpers_active_place_tids(): array {
   $request = \Drupal::request();
@@ -1745,9 +1742,107 @@ function customsolent_helpers_active_place_tids(): array {
 
 /**
  * Listing views whose results can be narrowed by a place: the types that
- * carry a where field (events, organisations, series). Links carry none
- * and drop out of a directory.
+ * carry a where field (events, organisations, series, articles). Links
+ * carry none and drop out of a directory.
  */
 function customsolent_helpers_place_filtered_views(): array {
-  return ['events_listing', 'organisations_listing', 'directory_listing', 'series_listing'];
+  return ['events_listing', 'organisations_listing', 'directory_listing', 'series_listing', 'articles_listing'];
+}
+
+/**
+ * What is at a place: the panel beside the map (Location epic).
+ *
+ * For the place and everything beneath it (an area is its venues, a venue
+ * its rooms): the events still to come, the organisations based there,
+ * the series with a home there and the articles about it, each with its
+ * count, up to three items and a link to the full listing narrowed to the
+ * place (?place=<slug>). Nothing is printed for a kind with nothing.
+ *
+ * @param array $place
+ *   One entry of customsolent_helpers_place_terms().
+ */
+function customsolent_helpers_place_panel(array $place): array {
+  $term_storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
+  $places = customsolent_helpers_place_terms();
+  /** @var \Drupal\taxonomy\TermInterface $term */
+  $term = $place['term'];
+  $tids = [$place['tid']];
+  foreach ($term_storage->loadTree('location', $place['tid']) as $child) {
+    $tids[] = (int) $child->tid;
+  }
+  $tags = ['taxonomy_term:' . $place['tid'], 'taxonomy_term_list:location'];
+
+  $address = NULL;
+  if ($term->hasField('field_address') && !$term->get('field_address')->isEmpty()) {
+    $a = $term->get('field_address')->first();
+    $street = implode(', ', array_filter([$a->get('address_line1')->getValue(), $a->get('address_line2')->getValue()]));
+    $town = trim(implode(' ', array_filter([$a->get('locality')->getValue(), $a->get('postal_code')->getValue()])));
+    $address = implode(', ', array_filter([$street, $town])) ?: NULL;
+  }
+  $map_url = ($place['lat'] !== NULL && $place['lon'] !== NULL)
+    ? sprintf('https://www.openstreetmap.org/?mlat=%.6f&mlon=%.6f#map=17/%.6f/%.6f', $place['lat'], $place['lon'], $place['lat'], $place['lon'])
+    : NULL;
+  $within = [];
+  foreach ($term_storage->loadAllParents($place['tid']) as $ancestor) {
+    if ((int) $ancestor->id() === $place['tid']) {
+      continue;
+    }
+    $tags[] = 'taxonomy_term:' . $ancestor->id();
+    $within[] = ['label' => $ancestor->getName(), 'url' => $places[(int) $ancestor->id()]['url'] ?? NULL, 'slug' => $places[(int) $ancestor->id()]['slug'] ?? NULL];
+  }
+  $contains = [];
+  foreach ($term_storage->loadChildren($place['tid']) as $child) {
+    if (isset($places[(int) $child->id()])) {
+      $contains[] = ['label' => $child->getName(), 'url' => $places[(int) $child->id()]['url'], 'slug' => $places[(int) $child->id()]['slug']];
+    }
+  }
+
+  $node_storage = \Drupal::entityTypeManager()->getStorage('node');
+  $kinds = [
+    'events' => ['type' => 'event', 'label' => t('Events'), 'one' => t('1 event'), 'many' => t('@count events'), 'sort' => ['field_when.value', 'ASC'], 'upcoming' => TRUE],
+    'organisations' => ['type' => 'organisation', 'label' => t('Organisations'), 'one' => t('1 organisation'), 'many' => t('@count organisations'), 'sort' => ['title', 'ASC']],
+    'series' => ['type' => 'series', 'label' => t('Series'), 'one' => t('1 series'), 'many' => t('@count series'), 'sort' => ['title', 'ASC']],
+    'articles' => ['type' => 'article', 'label' => t('Articles'), 'one' => t('1 article'), 'many' => t('@count articles'), 'sort' => ['created', 'DESC']],
+  ];
+  $sections = [];
+  foreach ($kinds as $key => $kind) {
+    $tags[] = 'node_list:' . $kind['type'];
+    $base = $node_storage->getQuery()->accessCheck(TRUE)
+      ->condition('type', $kind['type'])
+      ->condition('status', 1)
+      ->condition('field_where', $tids, 'IN');
+    if (!empty($kind['upcoming'])) {
+      $base->condition('field_when.end_value', \Drupal::time()->getRequestTime(), '>');
+    }
+    $count = (int) (clone $base)->count()->execute();
+    if (!$count) {
+      continue;
+    }
+    $nids = $base->sort($kind['sort'][0], $kind['sort'][1])->range(0, 3)->execute();
+    $items = [];
+    foreach ($node_storage->loadMultiple($nids) as $node) {
+      $items[] = ['title' => $node->label(), 'url' => $node->toUrl()->toString()];
+      $tags = array_merge($tags, $node->getCacheTags());
+    }
+    $listing = customsolent_helpers_sitewide_listing_url($key);
+    $sections[] = [
+      'key' => $key,
+      'label' => $kind['label'],
+      'count' => $count,
+      'count_label' => $count === 1 ? $kind['one'] : t($kind['many']->getUntranslatedString(), ['@count' => $count]),
+      'items' => $items,
+      'url' => $listing ? $listing . '?place=' . $place['slug'] : NULL,
+    ];
+  }
+  return [
+    '#theme' => 'slnt_place_panel',
+    '#place' => $place,
+    '#address' => $address,
+    '#map_url' => $map_url,
+    '#within' => $within,
+    '#contains' => $contains,
+    '#sections' => $sections,
+    '#empty' => !$sections,
+    '#cache' => ['tags' => array_values(array_unique($tags)), 'max-age' => 3600],
+  ];
 }

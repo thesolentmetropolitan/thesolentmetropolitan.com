@@ -1,0 +1,51 @@
+{#
+/**
+ * @file
+ * The Location map paragraph: Explore / Locations (Location epic).
+ *
+ * Three columns on a wide screen, stacked on a phone: the tree of places
+ * (every name a real link to /explore/locations/<slug>), the map, and the
+ * panel for the chosen place. The script (js/location-map.js) turns the
+ * links and pegs into in-page selection and fetches the panel; without it
+ * every link still works.
+ *
+ * Variables (customsolent_preprocess_paragraph__location_map):
+ *   - tree: nested {label, url, slug, area, selected, open, children}
+ *   - selected: {name, slug, url, area, lat, lon} or null
+ *   - panel: the chosen place's panel, or null
+ *   - places_json: every place for the script
+ *   - base_url: /explore/locations
+ */
+#}
+{% macro branch(items, depth) %}
+  <ul class="slnt-location-map__list{% if depth > 0 %} slnt-location-map__list--nested{% endif %}">
+    {% for item in items %}
+      <li class="slnt-location-map__item{% if item.area %} slnt-location-map__item--area{% endif %}{% if item.open %} is-open{% endif %}">
+        <a href="{{ item.url }}" data-place="{{ item.slug }}"{% if item.selected %} aria-current="page"{% endif %}>{{ item.label }}</a>
+        {% if item.children %}{{ _self.branch(item.children, depth + 1) }}{% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+{% endmacro %}
+<div{{ attributes.addClass('slnt-location-map') }} data-base="{{ base_url }}"{% if selected %} data-selected="{{ selected.slug }}"{% endif %}>
+  <nav class="slnt-location-map__places" aria-label="{{ 'Places'|t }}">
+    <h2 class="slnt-location-map__heading">{{ 'Places'|t }}</h2>
+    {{ _self.branch(tree, 0) }}
+  </nav>
+  <div class="slnt-location-map__map">
+    <div class="slnt-location-map__canvas" role="region" aria-label="{{ 'Map of places'|t }}">
+      <noscript><p class="slnt-location-map__noscript">{{ 'The map needs JavaScript. Every place is in the list, with what is there.'|t }}</p></noscript>
+    </div>
+  </div>
+  <aside class="slnt-location-map__panel" aria-live="polite">
+    {% if panel %}
+      {{ panel }}
+    {% else %}
+      <div class="slnt-place-panel slnt-place-panel--none">
+        <h2 class="slnt-place-panel__name">{{ 'Choose a place'|t }}</h2>
+        <p class="slnt-place-panel__empty">{{ 'Pick a venue on the map or an area in the list to see what is on there, who is based there and what we have written about it.'|t }}</p>
+      </div>
+    {% endif %}
+  </aside>
+  <script type="application/json" class="slnt-location-map__data">{{ places_json|raw }}</script>
+</div>

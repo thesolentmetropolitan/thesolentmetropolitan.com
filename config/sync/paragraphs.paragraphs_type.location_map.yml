@@ -1,0 +1,10 @@
+uuid: 873a4057-e12d-4bc1-8e8c-1e1b266edffd
+langcode: en
+status: true
+dependencies: {  }
+id: location_map
+label: 'Location map'
+icon_uuid: null
+icon_default: null
+description: 'Every place on a map, with the list of places beside it and what is at the chosen place. Explore / Locations.'
+behavior_plugins: {  }

@@ -1,0 +1,23 @@
+uuid: 84f20084-1715-4062-baac-a9c94d7bf2c6
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_area
+    - taxonomy.vocabulary.location
+id: taxonomy_term.location.field_area
+field_name: field_area
+entity_type: taxonomy_term
+bundle: location
+label: 'This is an area'
+description: 'A town, suburb, district or region rather than a venue. An area is not pegged on the map; choosing it shows everything within it.'
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: Area
+  off_label: Venue
+field_type: boolean

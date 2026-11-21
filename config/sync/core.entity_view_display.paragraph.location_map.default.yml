@@ -1,0 +1,12 @@
+uuid: 22aa8079-f5f0-4981-9b68-28ef31b89d69
+langcode: en
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.location_map
+id: paragraph.location_map.default
+targetEntityType: paragraph
+bundle: location_map
+mode: default
+content: {  }
+hidden: {  }
