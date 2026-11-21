@@ -223,6 +223,7 @@
         if (current && bySlug[current]) {
           mark(current);
           highlight(current);
+          var start = bySlug[current];
           var pegs = markers[current] ? [markers[current]] : pegsWithin(current);
           if (markers[current]) {
             map.setView(markers[current].getLatLng(), 16);
@@ -231,8 +232,16 @@
           else if (pegs.length) {
             map.fitBounds(L.featureGroup(pegs).getBounds().pad(0.15));
           }
-          else {
+          else if (start.lat !== null && start.lon !== null) {
+            // An area with no pegged venue yet (Hilsea): its own centroid,
+            // as a later click does, not the whole region.
+            map.setView([start.lat, start.lon], 13);
+          }
+          else if (group.getLayers().length) {
             map.fitBounds(group.getBounds().pad(0.05));
+          }
+          else {
+            map.setView([50.85, -1.25], 10);
           }
         }
         else if (group.getLayers().length) {
