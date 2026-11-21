@@ -50,7 +50,6 @@ function customsolent_helpers_theme($existing, $type, $theme, $path) {
         'address' => NULL,
         'map_url' => NULL,
         'within' => [],
-        'contains' => [],
         'sections' => [],
         'empty' => FALSE,
       ],
@@ -1756,7 +1755,10 @@ function customsolent_helpers_place_filtered_views(): array {
  * its rooms): the events still to come, the organisations based there,
  * the series with a home there and the articles about it, each with its
  * count, up to three items and a link to the full listing narrowed to the
- * place (?place=<slug>). Nothing is printed for a kind with nothing.
+ * place (?place=<slug>): "All 12 events" when there are more than shown,
+ * "Events listing" when the three are all of them. Nothing is printed for
+ * a kind with nothing. The places within are not listed: the tree beside
+ * the map already does that.
  *
  * @param array $place
  *   One entry of customsolent_helpers_place_terms().
@@ -1790,19 +1792,12 @@ function customsolent_helpers_place_panel(array $place): array {
     $tags[] = 'taxonomy_term:' . $ancestor->id();
     $within[] = ['label' => $ancestor->getName(), 'url' => $places[(int) $ancestor->id()]['url'] ?? NULL, 'slug' => $places[(int) $ancestor->id()]['slug'] ?? NULL];
   }
-  $contains = [];
-  foreach ($term_storage->loadChildren($place['tid']) as $child) {
-    if (isset($places[(int) $child->id()])) {
-      $contains[] = ['label' => $child->getName(), 'url' => $places[(int) $child->id()]['url'], 'slug' => $places[(int) $child->id()]['slug']];
-    }
-  }
-
   $node_storage = \Drupal::entityTypeManager()->getStorage('node');
   $kinds = [
-    'events' => ['type' => 'event', 'label' => t('Events'), 'one' => t('1 event'), 'many' => t('@count events'), 'sort' => ['field_when.value', 'ASC'], 'upcoming' => TRUE],
-    'organisations' => ['type' => 'organisation', 'label' => t('Organisations'), 'one' => t('1 organisation'), 'many' => t('@count organisations'), 'sort' => ['title', 'ASC']],
-    'series' => ['type' => 'series', 'label' => t('Series'), 'one' => t('1 series'), 'many' => t('@count series'), 'sort' => ['title', 'ASC']],
-    'articles' => ['type' => 'article', 'label' => t('Articles'), 'one' => t('1 article'), 'many' => t('@count articles'), 'sort' => ['created', 'DESC']],
+    'events' => ['type' => 'event', 'label' => t('Events'), 'all' => 'All @count events', 'listing' => t('Events listing'), 'sort' => ['field_when.value', 'ASC'], 'upcoming' => TRUE],
+    'organisations' => ['type' => 'organisation', 'label' => t('Organisations'), 'all' => 'All @count organisations', 'listing' => t('Organisations listing'), 'sort' => ['title', 'ASC']],
+    'series' => ['type' => 'series', 'label' => t('Series'), 'all' => 'All @count series', 'listing' => t('Series listing'), 'sort' => ['title', 'ASC']],
+    'articles' => ['type' => 'article', 'label' => t('Articles'), 'all' => 'All @count articles', 'listing' => t('Articles listing'), 'sort' => ['created', 'DESC']],
   ];
   $sections = [];
   foreach ($kinds as $key => $kind) {
@@ -1829,7 +1824,8 @@ function customsolent_helpers_place_panel(array $place): array {
       'key' => $key,
       'label' => $kind['label'],
       'count' => $count,
-      'count_label' => $count === 1 ? $kind['one'] : t($kind['many']->getUntranslatedString(), ['@count' => $count]),
+      // phpcs:ignore Drupal.Semantics.FunctionT.NotLiteralString
+      'link_label' => $count > count($items) ? t($kind['all'], ['@count' => $count]) : $kind['listing'],
       'items' => $items,
       'url' => $listing ? $listing . '?place=' . $place['slug'] : NULL,
     ];
@@ -1840,7 +1836,6 @@ function customsolent_helpers_place_panel(array $place): array {
     '#address' => $address,
     '#map_url' => $map_url,
     '#within' => $within,
-    '#contains' => $contains,
     '#sections' => $sections,
     '#empty' => !$sections,
     '#cache' => ['tags' => array_values(array_unique($tags)), 'max-age' => 3600],

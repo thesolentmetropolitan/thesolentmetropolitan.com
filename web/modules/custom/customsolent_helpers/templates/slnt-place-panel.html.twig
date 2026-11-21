@@ -8,8 +8,7 @@
  *   - address: the place's own address line, or empty
  *   - map_url: an OpenStreetMap link to its point, or empty
  *   - within: the places it is in, nearest first: list of {label, url, slug}
- *   - contains: the places inside it: list of {label, url, slug}
- *   - sections: list of {key, label, count, count_label, items: [{title,
+ *   - sections: list of {key, label, count, link_label, items: [{title,
  *     url}], url}: the events to come, organisations, series and
  *     articles there, each with a link to the full listing at the place
  *   - empty: TRUE when nothing is there yet
@@ -27,10 +26,6 @@
     <p class="slnt-place-panel__within">{{ 'In'|t }}
       {% for p in within %}{% if not loop.first %}, {% endif %}{% if p.url %}<a href="{{ p.url }}" data-place="{{ p.slug }}">{{ p.label }}</a>{% else %}{{ p.label }}{% endif %}{% endfor %}</p>
   {% endif %}
-  {% if contains %}
-    <p class="slnt-place-panel__contains">{{ 'Includes'|t }}
-      {% for p in contains %}{% if not loop.first %}, {% endif %}<a href="{{ p.url }}" data-place="{{ p.slug }}">{{ p.label }}</a>{% endfor %}</p>
-  {% endif %}
   {% if empty %}
     <p class="slnt-place-panel__empty">{{ 'Nothing listed here yet.'|t }}</p>
   {% endif %}
@@ -43,7 +38,7 @@
         {% endfor %}
       </ul>
       {% if section.url %}
-        <a class="slnt-place-panel__all" href="{{ section.url }}">{{ 'All'|t }} {{ section.count_label }} <span aria-hidden="true">→</span></a>
+        <a class="slnt-place-panel__all" href="{{ section.url }}">{{ section.link_label }} <span aria-hidden="true">→</span></a>
       {% endif %}
     </section>
   {% endfor %}
