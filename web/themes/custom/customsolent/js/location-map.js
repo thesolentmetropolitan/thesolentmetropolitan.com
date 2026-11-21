@@ -42,17 +42,70 @@
           attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
 
+        // The chosen place's peg is in the Explore colour; the rest are
+        // Leaflet's blue. Same image, a class the stylesheet recolours.
+        var pegIcon = function (chosen) {
+          return L.icon({
+            iconUrl: '/themes/custom/customsolent/leaflet/images/marker-icon.png',
+            iconRetinaUrl: '/themes/custom/customsolent/leaflet/images/marker-icon-2x.png',
+            shadowUrl: '/themes/custom/customsolent/leaflet/images/marker-shadow.png',
+            iconSize: [25, 41], iconAnchor: [12, 41], tooltipAnchor: [16, -28], shadowSize: [41, 41],
+            className: chosen ? 'slnt-peg slnt-peg--chosen' : 'slnt-peg'
+          });
+        };
+        var chosenPeg = null;
+        function highlight(slug) {
+          if (chosenPeg && chosenPeg !== markers[slug]) {
+            chosenPeg.setIcon(pegIcon(false));
+            chosenPeg.setZIndexOffset(0);
+          }
+          chosenPeg = markers[slug] || null;
+          if (chosenPeg) {
+            chosenPeg.setIcon(pegIcon(true));
+            chosenPeg.setZIndexOffset(1000);
+          }
+        }
+
         var markers = {};
         var group = L.featureGroup().addTo(map);
         data.forEach(function (p) {
           if (p.area || p.lat === null || p.lon === null) {
             return;
           }
-          var m = L.marker([p.lat, p.lon], { title: p.name, alt: p.name });
+          var m = L.marker([p.lat, p.lon], { title: p.name, alt: p.name, icon: pegIcon(false) });
           m.bindTooltip(p.name);
           m.on('click', function () { select(p.slug, true); });
-          m.addTo(group);
           markers[p.slug] = m;
+        });
+
+        // Which pegs: the places with something on (the default) or all.
+        // The chosen place always shows.
+        var show = root.getAttribute('data-show') || 'busy';
+        function applyShow() {
+          Object.keys(markers).forEach(function (slug) {
+            var p = bySlug[slug];
+            var visible = show === 'all' || p.busy || slug === current;
+            if (visible && !group.hasLayer(markers[slug])) {
+              group.addLayer(markers[slug]);
+            }
+            else if (!visible && group.hasLayer(markers[slug])) {
+              group.removeLayer(markers[slug]);
+            }
+          });
+          root.setAttribute('data-show', show);
+          root.querySelectorAll('.slnt-location-map__show-button').forEach(function (b) {
+            b.setAttribute('aria-pressed', b.getAttribute('data-show') === show ? 'true' : 'false');
+          });
+        }
+        root.querySelectorAll('.slnt-location-map__show-button').forEach(function (b) {
+          b.addEventListener('click', function () {
+            show = b.getAttribute('data-show') === 'all' ? 'all' : 'busy';
+            applyShow();
+            var link = current && root.querySelector('.slnt-location-map__places a[data-place="' + current + '"]');
+            if (link) {
+              link.closest('.slnt-location-map__item').classList.remove('slnt-location-map__item--quiet');
+            }
+          });
         });
 
         // The venues within a place, at any depth, that have a peg.
@@ -116,13 +169,18 @@
         }
 
         var current = root.getAttribute('data-selected') || '';
+        applyShow();
         function select(slug, push) {
           var p = bySlug[slug];
           if (!p) {
             return;
           }
           current = slug;
+          if (markers[slug] && !group.hasLayer(markers[slug])) {
+            group.addLayer(markers[slug]);
+          }
           mark(slug);
+          highlight(slug);
           moveTo(slug);
           panel.setAttribute('aria-busy', 'true');
           fetch(base + '/' + slug + '/panel', { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
@@ -164,6 +222,7 @@
         // Start: on the chosen place, or over every peg.
         if (current && bySlug[current]) {
           mark(current);
+          highlight(current);
           var pegs = markers[current] ? [markers[current]] : pegsWithin(current);
           if (markers[current]) {
             map.setView(markers[current].getLatLng(), 16);

@@ -144,6 +144,16 @@
         <h2 class="slnt-listing__heading">{{ content.field_heading }}</h2>
       {% endif %}
 
+      {# Narrowed to a place (?place=…, from the Locations map): say so, with
+         the way back to all of this kind and to the place on the map. #}
+      {% if place_filter %}
+        <p class="slnt-place-filter">
+          <span class="slnt-place-filter__at">{{ 'At'|t }} <strong>{{ place_filter.name }}</strong></span>
+          <a class="slnt-place-filter__link" href="{{ place_filter.all_url }}">{{ place_filter.all_label }}</a>
+          <a class="slnt-place-filter__link" href="{{ place_filter.map_url }}">{{ 'On the map'|t }}</a>
+        </p>
+      {% endif %}
+
       {# Mobile sticky filter bar — shown only when filter options exist. #}
       {% if filter_has_options %}
         {% include '@customsolent/components/filter-bar.html.twig' with { filter_active_label: filter_active_label, format_has_options: format_has_options|default(false), format_active_label: format_active_label|default(null), facet_groups: facet_groups|default([]) } only %}

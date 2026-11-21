@@ -1081,3 +1081,32 @@ a.slnt-section-strip__item {
 .slnt-node-full__venue-link:focus-visible {
   text-decoration-color: currentColor;
 }
+
+/* A listing narrowed to a place: "At Medbar · All events · On the map"
+   above the filters (Location epic). */
+.slnt-place-filter {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.35rem 1.25rem;
+  margin: 0 0 1rem;
+  padding: 0.6rem 0.9rem;
+  background: var(--warm-grey, #e9e5df);
+  border-radius: 0.5rem;
+  font-size: 0.95rem;
+}
+
+.slnt-place-filter__at strong {
+  font-weight: 700;
+}
+
+.slnt-place-filter__link {
+  color: var(--explore, #e07a00);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.slnt-place-filter__link:hover,
+.slnt-place-filter__link:focus-visible {
+  text-decoration: underline;
+}

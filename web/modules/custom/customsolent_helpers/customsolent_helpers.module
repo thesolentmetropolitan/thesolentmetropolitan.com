@@ -1846,3 +1846,35 @@ function customsolent_helpers_place_panel(array $place): array {
     '#cache' => ['tags' => array_values(array_unique($tags)), 'max-age' => 3600],
   ];
 }
+
+/**
+ * The places with something on (Location epic): the ids of every Location
+ * term that an event still to come, an organisation, a series or an
+ * article is at, plus every ancestor of those (an area with a busy venue
+ * is busy). Everything else is a place we know but have nothing at yet.
+ *
+ * @return array<int, true>
+ */
+function customsolent_helpers_places_with_content(): array {
+  $cache = &drupal_static(__FUNCTION__);
+  if ($cache !== NULL) {
+    return $cache;
+  }
+  $db = \Drupal::database();
+  $now = \Drupal::time()->getRequestTime();
+  $tids = $db->query("SELECT DISTINCT w.field_where_target_id FROM {node__field_where} w
+    JOIN {node_field_data} n ON n.nid = w.entity_id
+    WHERE n.status = 1 AND (
+      n.type IN (:types[])
+      OR (n.type = :event AND w.entity_id IN (SELECT entity_id FROM {node__field_when} WHERE field_when_end_value > :now))
+    )", [':types[]' => ['organisation', 'series', 'article'], ':event' => 'event', ':now' => $now])->fetchCol();
+  $cache = [];
+  $storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
+  foreach ($tids as $tid) {
+    $cache[(int) $tid] = TRUE;
+    foreach ($storage->loadAllParents($tid) as $ancestor) {
+      $cache[(int) $ancestor->id()] = TRUE;
+    }
+  }
+  return $cache;
+}

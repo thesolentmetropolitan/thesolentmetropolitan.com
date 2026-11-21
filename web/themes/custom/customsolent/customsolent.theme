@@ -156,6 +156,13 @@ function customsolent_preprocess_page(array &$variables): void {
  * section-coloured CTA from field_url.
  */
 function customsolent_preprocess_node(array &$variables): void {
+  // Explore / Locations with a place chosen (/explore/locations/medbar) is
+  // the Locations page rendered by a route of its own, so Drupal does not
+  // call it "the page" and the title field would print above the hero.
+  // It is the page.
+  if (($variables['view_mode'] ?? '') === 'full' && \Drupal::routeMatch()->getRouteName() === 'customsolent_helpers.place') {
+    $variables['page'] = TRUE;
+  }
   $node = $variables['node'] ?? NULL;
   if (!$node) {
     return;
@@ -2021,6 +2028,32 @@ function customsolent_preprocess_paragraph__view_display(&$variables) {
   else {
     $variables['facet_groups'] = [];
   }
+
+  // A listing narrowed to a place (?place=medbar, from the Locations map)
+  // says so above its filters, with the way back to all of its kind and
+  // to the place on the map (Location epic; the picker is issue 417).
+  $variables['place_filter'] = NULL;
+  if (in_array($view_name, customsolent_helpers_place_filtered_views(), TRUE)) {
+    $variables['#cache']['contexts'][] = 'url.query_args:place';
+    $slug = \Drupal::request()->query->get('place');
+    $place = (is_string($slug) && $slug !== '') ? customsolent_helpers_place_by_slug($slug) : NULL;
+    if ($place) {
+      $word = _customsolent_topic_listing_types()[$view_name] ?? 'items';
+      $all_labels = [
+        'events' => t('All events'),
+        'organisations' => t('All organisations and links'),
+        'series' => t('All series'),
+        'articles' => t('All articles'),
+      ];
+      $variables['place_filter'] = [
+        'name' => $place['name'],
+        'all_url' => _customsolent_build_filter_url(['place' => NULL]),
+        'all_label' => $all_labels[$word] ?? t('All'),
+        'map_url' => $place['url'],
+      ];
+      $variables['#cache']['tags'][] = 'taxonomy_term:' . $place['tid'];
+    }
+  }
 }
 
 /**
@@ -3863,6 +3896,7 @@ function _customsolent_preprocess_related_topics($node, array &$variables): void
  */
 function customsolent_preprocess_paragraph__location_map(array &$variables): void {
   $places = customsolent_helpers_place_terms();
+  $busy = customsolent_helpers_places_with_content();
   $selected_tid = (int) (\Drupal::request()->attributes->get('slnt_place_tid') ?: 0);
   $selected = $places[$selected_tid] ?? NULL;
   $children = [];
@@ -3874,7 +3908,7 @@ function customsolent_preprocess_paragraph__location_map(array &$variables): voi
   for ($tid = $selected_tid; $tid && isset($places[$tid]); $tid = $places[$tid]['parent'] ?? 0) {
     $open[$tid] = TRUE;
   }
-  $build = function (int $parent) use (&$build, $places, $children, $selected_tid, $open): array {
+  $build = function (int $parent) use (&$build, $places, $children, $selected_tid, $open, $busy): array {
     $items = [];
     foreach ($children[$parent] ?? [] as $tid) {
       $items[] = [
@@ -3882,6 +3916,7 @@ function customsolent_preprocess_paragraph__location_map(array &$variables): voi
         'url' => $places[$tid]['url'],
         'slug' => $places[$tid]['slug'],
         'area' => $places[$tid]['area'],
+        'busy' => isset($busy[$tid]) || $tid === $selected_tid,
         'selected' => $tid === $selected_tid,
         'open' => isset($open[$tid]),
         'children' => $build($tid),
@@ -3899,10 +3934,13 @@ function customsolent_preprocess_paragraph__location_map(array &$variables): voi
       'url' => $place['url'],
       'parent' => $place['parent'],
       'area' => $place['area'],
+      'busy' => isset($busy[$place['tid']]),
       'lat' => $place['lat'],
       'lon' => $place['lon'],
     ];
   }
+  $variables['count_all'] = count($places);
+  $variables['count_busy'] = count(array_intersect_key($places, $busy));
   $variables['places_json'] = json_encode($data, JSON_HEX_TAG | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
   $variables['base_url'] = customsolent_helpers_sitewide_listing_url('places');
   $variables['selected'] = $selected ? ['name' => $selected['name'], 'slug' => $selected['slug'], 'url' => $selected['url'], 'area' => $selected['area'], 'lat' => $selected['lat'], 'lon' => $selected['lon']] : NULL;
@@ -3910,4 +3948,9 @@ function customsolent_preprocess_paragraph__location_map(array &$variables): voi
   $variables['#attached']['library'][] = 'customsolent/location-map';
   $variables['#cache']['contexts'][] = 'url.path';
   $variables['#cache']['tags'][] = 'taxonomy_term_list:location';
+  foreach (['event', 'organisation', 'series', 'article'] as $type) {
+    $variables['#cache']['tags'][] = 'node_list:' . $type;
+  }
+  // The set of busy places changes as event dates pass.
+  $variables['#cache']['max-age'] = 3600;
 }

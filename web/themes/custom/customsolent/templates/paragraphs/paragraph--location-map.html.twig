@@ -10,7 +10,9 @@
  * every link still works.
  *
  * Variables (customsolent_preprocess_paragraph__location_map):
- *   - tree: nested {label, url, slug, area, selected, open, children}
+ *   - tree: nested {label, url, slug, area, busy, selected, open, children}
+ *     (busy: something is on there, or within it)
+ *   - count_all, count_busy: how many places, how many with something on
  *   - selected: {name, slug, url, area, lat, lon} or null
  *   - panel: the chosen place's panel, or null
  *   - places_json: every place for the script
@@ -20,16 +22,23 @@
 {% macro branch(items, depth) %}
   <ul class="slnt-location-map__list{% if depth > 0 %} slnt-location-map__list--nested{% endif %}">
     {% for item in items %}
-      <li class="slnt-location-map__item{% if item.area %} slnt-location-map__item--area{% endif %}{% if item.open %} is-open{% endif %}">
+      <li class="slnt-location-map__item{% if item.area %} slnt-location-map__item--area{% endif %}{% if not item.busy %} slnt-location-map__item--quiet{% endif %}{% if item.open %} is-open{% endif %}">
         <a href="{{ item.url }}" data-place="{{ item.slug }}"{% if item.selected %} aria-current="page"{% endif %}>{{ item.label }}</a>
         {% if item.children %}{{ _self.branch(item.children, depth + 1) }}{% endif %}
       </li>
     {% endfor %}
   </ul>
 {% endmacro %}
-<div{{ attributes.addClass('slnt-location-map') }} data-base="{{ base_url }}"{% if selected %} data-selected="{{ selected.slug }}"{% endif %}>
+<div{{ attributes.addClass('slnt-location-map') }} data-base="{{ base_url }}" data-show="busy"{% if selected %} data-selected="{{ selected.slug }}"{% endif %}>
   <nav class="slnt-location-map__places" aria-label="{{ 'Places'|t }}">
     <h2 class="slnt-location-map__heading">{{ 'Places'|t }}</h2>
+    {# Which places: those with something on (the default), or every place
+       we know. The script flips data-show; without it every place shows. #}
+    <div class="slnt-location-map__show" role="group" aria-label="{{ 'Which places'|t }}">
+      <button type="button" class="slnt-location-map__show-button" data-show="busy" aria-pressed="true">{{ 'With something on'|t }} <span class="slnt-location-map__show-count">{{ count_busy }}</span></button>
+      <button type="button" class="slnt-location-map__show-button" data-show="all" aria-pressed="false">{{ 'All places'|t }} <span class="slnt-location-map__show-count">{{ count_all }}</span></button>
+    </div>
+    <noscript><style>.slnt-location-map[data-show="busy"] .slnt-location-map__item--quiet { display: list-item; } .slnt-location-map__show { display: none; }</style></noscript>
     {{ _self.branch(tree, 0) }}
   </nav>
   <div class="slnt-location-map__map">

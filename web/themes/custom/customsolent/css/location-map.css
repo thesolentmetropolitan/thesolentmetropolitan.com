@@ -208,3 +208,45 @@
 .slnt-location-map .leaflet-container {
   font-family: 'Atkinson Hyperlegible Next', sans-serif;
 }
+
+/* The chosen place's peg: Leaflet's blue marker turned to the Explore
+   orange, in front of the others. */
+.slnt-peg--chosen {
+  filter: hue-rotate(165deg) saturate(1.4) brightness(1.05);
+}
+
+/* Which places: with something on (the default) or all. Quiet places are
+   hidden in the list unless "All places" is chosen; the script does the
+   same for the pegs. */
+.slnt-location-map[data-show="busy"] .slnt-location-map__item--quiet {
+  display: none;
+}
+
+.slnt-location-map__show {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin: 0 0 0.75rem;
+}
+
+.slnt-location-map__show-button {
+  font: inherit;
+  font-size: 0.8rem;
+  line-height: 1.2;
+  padding: 0.3em 0.7em;
+  border: 1px solid var(--explore, #e07a00);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--explore, #e07a00);
+  cursor: pointer;
+}
+
+.slnt-location-map__show-button[aria-pressed="true"] {
+  background: var(--explore, #e07a00);
+  color: #fff;
+}
+
+.slnt-location-map__show-count {
+  opacity: 0.8;
+  margin-left: 0.2em;
+}
