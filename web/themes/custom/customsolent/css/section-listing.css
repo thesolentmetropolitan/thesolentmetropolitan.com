@@ -1056,6 +1056,11 @@ a.slnt-section-strip__item {
   border-top: 1px solid rgba(0, 0, 0, 0.08);
 }
 
+/* The Place group's areas sit under their parents (issue 417). */
+.slnt-filter-item--d1 { padding-left: 1.4rem; }
+.slnt-filter-item--d2 { padding-left: 2.2rem; }
+.slnt-filter-item--d3 { padding-left: 3rem; }
+
 /* In a sheet the title row already says "Format": no group title, no rule. */
 @media (max-width: 799px) {
   .slnt-filter-panel .slnt-filter-section--formats {

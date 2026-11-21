@@ -2024,6 +2024,7 @@ function customsolent_preprocess_paragraph__view_display(&$variables) {
       && (($variables['view_mode'] ?? '') === 'listing_page' || _customsolent_host_lists_only_formattable($host));
     _customsolent_apply_format_options_to_variables($variables, $applies, $context, _customsolent_format_types_for_views([$view_name]));
     _customsolent_apply_facet_options_to_variables($variables, [$view_name], $context, ($variables['view_mode'] ?? '') === 'listing_page' ? NULL : $host);
+    _customsolent_apply_place_options_to_variables($variables, $view_name, $context);
   }
   else {
     $variables['facet_groups'] = [];
@@ -2211,6 +2212,106 @@ function _customsolent_apply_facet_options_to_variables(array &$variables, array
     }
     $variables['facet_groups'][] = $group;
   }
+}
+
+/**
+ * The sidebar's Place group (issue 417, Location epic): the areas (towns,
+ * suburbs, districts, as ticked on the Location term) that hold something
+ * this listing shows, in tree order and indented, each a ?place= filter.
+ * An area that would hold everything the listing has (Solent, usually) is
+ * left out: that is "Anywhere". Venues are not offered, there are too
+ * many; a venue chosen from the Locations map shows under its area,
+ * marked, so the sidebar says what the page is narrowed to. Joins
+ * facet_groups, so the phone bar and its sheet follow.
+ */
+function _customsolent_apply_place_options_to_variables(array &$variables, string $view_name, array $context = []): void {
+  if (!in_array($view_name, customsolent_helpers_place_filtered_views(), TRUE)) {
+    return;
+  }
+  $types = ['events_listing' => ['event'], 'organisations_listing' => ['organisation'], 'directory_listing' => ['organisation'], 'series_listing' => ['series'], 'articles_listing' => ['article']][$view_name] ?? [];
+  if (!$types) {
+    return;
+  }
+  $variables['#cache']['contexts'][] = 'url.query_args:place';
+  $variables['#cache']['tags'][] = 'taxonomy_term_list:location';
+  $variables['#cache']['tags'][] = 'node_list';
+  $scope = (($context['mode'] ?? '') === 'term' && !empty($context['scope_ids'])) ? $context['scope_ids'] : [];
+  $used = _customsolent_facet_values_used('field_where', $types, $scope);
+  $slug = \Drupal::request()->query->get('place');
+  $active = (is_string($slug) && $slug !== '') ? customsolent_helpers_place_by_slug($slug) : NULL;
+  if (!$used && !$active) {
+    return;
+  }
+  $places = customsolent_helpers_place_terms();
+  $term_storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
+  // Which used places each area holds (itself included).
+  $within = [];
+  foreach ($used as $tid) {
+    $chain = [$tid => TRUE];
+    foreach ($term_storage->loadAllParents($tid) as $ancestor) {
+      $chain[(int) $ancestor->id()] = TRUE;
+    }
+    foreach (array_keys($chain) as $a) {
+      if (!empty($places[$a]['area'])) {
+        $within[$a][$tid] = TRUE;
+      }
+    }
+  }
+  $options = [];
+  foreach ($places as $tid => $place) {
+    if (!$place['area'] || empty($within[$tid]) || count($within[$tid]) >= count($used)) {
+      continue;
+    }
+    $options[$tid] = [
+      'tid' => $tid,
+      'label' => $place['name'],
+      'url' => _customsolent_build_filter_url(['place' => $place['slug']]),
+      'active' => $active && $active['tid'] === $tid,
+      'depth' => $place['depth'],
+    ];
+  }
+  // The chosen place, when it is not among the areas offered: under its
+  // nearest offered ancestor, or first.
+  if ($active && !isset($options[$active['tid']])) {
+    $entry = ['tid' => $active['tid'], 'label' => $active['name'], 'url' => _customsolent_build_filter_url(['place' => $active['slug']]), 'active' => TRUE, 'depth' => $active['depth']];
+    $after = NULL;
+    for ($p = $active['parent']; $p; $p = $places[$p]['parent'] ?? NULL) {
+      if (isset($options[$p])) {
+        $after = $p;
+        break;
+      }
+    }
+    $rebuilt = [];
+    if ($after === NULL) {
+      $rebuilt[$active['tid']] = $entry;
+    }
+    foreach ($options as $tid => $option) {
+      $rebuilt[$tid] = $option;
+      if ($tid === $after) {
+        $rebuilt[$active['tid']] = $entry;
+      }
+    }
+    $options = $rebuilt;
+  }
+  if (!$options) {
+    return;
+  }
+  // Indent from the shallowest offered.
+  $min = min(array_column($options, 'depth'));
+  foreach ($options as &$option) {
+    $option['depth'] = max(0, $option['depth'] - $min);
+  }
+  unset($option);
+  $variables['facet_groups'][] = [
+    'param' => 'place',
+    'kind' => 'places',
+    'label' => t('Place'),
+    'all_label' => t('Anywhere'),
+    'options' => array_values($options),
+    'all_url' => _customsolent_build_filter_url(['place' => NULL]),
+    'all_active' => !$active,
+    'active_label' => $active ? $active['name'] : NULL,
+  ];
 }
 
 /**
@@ -3024,6 +3125,15 @@ function customsolent_preprocess_paragraph__section_filter(&$variables) {
   _customsolent_apply_filter_options_to_variables($variables, $context, $active_filter_tid);
   _customsolent_apply_format_options_to_variables($variables, _customsolent_host_lists_only_formattable($host), $context, _customsolent_format_types_for_views(_customsolent_host_listing_views($host)));
   _customsolent_apply_facet_options_to_variables($variables, _customsolent_host_listing_views($host), $context, $host);
+  // The Place group, for the first listing on the page that takes one
+  // (an Explore page lists one kind; a section overview's places are its
+  // events', which is what the filter narrows).
+  foreach (_customsolent_host_listing_views($host) as $view_id) {
+    if (in_array($view_id, customsolent_helpers_place_filtered_views(), TRUE)) {
+      _customsolent_apply_place_options_to_variables($variables, $view_id, $context);
+      break;
+    }
+  }
 }
 
 /**

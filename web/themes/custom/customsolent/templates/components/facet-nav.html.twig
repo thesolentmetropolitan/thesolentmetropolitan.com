@@ -7,7 +7,8 @@
  * the sheet's body, where the title row already names it.
  *
  * Variables: group = {param, kind, label, all_label, options
- *   [{label, url, active}], all_url, all_active, active_label}
+ *   [{label, url, active, depth?}], all_url, all_active, active_label}
+ *   (depth: the Place group's areas are indented under their parents)
  */
 #}
 {% if group.options is not empty %}
@@ -15,7 +16,7 @@
     <div class="slnt-filter-section__title">{{ group.label }}</div>
     <a href="{{ group.all_url }}" class="slnt-filter-item{{ group.all_active ? ' is-active' : '' }}"{% if group.all_active %} aria-current="page"{% endif %}>{{ group.all_label }}</a>
     {% for option in group.options %}
-      <a href="{{ option.url }}" class="slnt-filter-item{{ option.active ? ' is-active' : '' }}"{% if option.active %} aria-current="page"{% endif %}>{{ option.label }}</a>
+      <a href="{{ option.url }}" class="slnt-filter-item{{ option.active ? ' is-active' : '' }}{% if option.depth is defined and option.depth > 0 %} slnt-filter-item--d{{ option.depth > 3 ? 3 : option.depth }}{% endif %}"{% if option.active %} aria-current="page"{% endif %}>{{ option.label }}</a>
     {% endfor %}
   </div>
 {% endif %}
