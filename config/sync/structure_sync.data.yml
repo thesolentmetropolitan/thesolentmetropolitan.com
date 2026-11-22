@@ -2400,7 +2400,7 @@ taxonomies:
       description__value: null
       description__format: null
       weight: '0'
-      parent: '173'
+      parent: '314'
       uuid: 0bf0366d-2ece-4789-858f-738935446a3f
       field_address:
         -
@@ -2764,7 +2764,7 @@ taxonomies:
       description__value: null
       description__format: null
       weight: '11'
-      parent: '139'
+      parent: '246'
       uuid: ade7bc00-c9e8-417d-a622-33b13e70f7a9
       field_address: {  }
       field_area: {  }
@@ -3062,7 +3062,7 @@ taxonomies:
       description__value: null
       description__format: null
       weight: '10'
-      parent: '141'
+      parent: '257'
       uuid: c4a3c284-174e-48e1-87a7-957b0e7803a0
       field_address: {  }
       field_area: {  }
@@ -3170,9 +3170,7 @@ taxonomies:
           given_name: null
           additional_name: null
           family_name: null
-      field_area:
-        -
-          value: '0'
+      field_area: {  }
       field_extent: {  }
       field_point:
         -
@@ -3312,7 +3310,9 @@ taxonomies:
       parent: '141'
       uuid: 2e9c0bcf-1263-4f47-97ee-145f25e80bd8
       field_address: {  }
-      field_area: {  }
+      field_area:
+        -
+          value: '1'
       field_extent: {  }
       field_point:
         -
@@ -3492,7 +3492,7 @@ taxonomies:
       description__value: null
       description__format: null
       weight: '0'
-      parent: '140'
+      parent: '340'
       uuid: 79b2e3f9-17c2-476a-b19a-ebf74c148369
       field_address: {  }
       field_area:
@@ -3737,7 +3737,7 @@ taxonomies:
       description__value: null
       description__format: null
       weight: '3'
-      parent: '140'
+      parent: '141'
       uuid: 3463cfce-948a-47fc-ba7f-df0c97e1fa07
       field_address: {  }
       field_area:
@@ -3853,7 +3853,7 @@ taxonomies:
       description__value: null
       description__format: null
       weight: '0'
-      parent: '141'
+      parent: '332'
       uuid: 2f7272cc-b8ac-4a91-ad91-597d5e7d8dde
       field_address: {  }
       field_area: {  }
@@ -4049,7 +4049,9 @@ taxonomies:
       parent: '220'
       uuid: 42051e3d-1a44-4e5d-9c7e-7f926c647221
       field_address: {  }
-      field_area: {  }
+      field_area:
+        -
+          value: '1'
       field_extent: {  }
       field_point:
         -
@@ -4318,9 +4320,7 @@ taxonomies:
       parent: '139'
       uuid: b6bb0755-e44f-4bda-9731-8d4e119c912d
       field_address: {  }
-      field_area:
-        -
-          value: '0'
+      field_area: {  }
       field_extent: {  }
       field_point:
         -
@@ -4545,7 +4545,7 @@ taxonomies:
       description__value: null
       description__format: null
       weight: '13'
-      parent: '141'
+      parent: '257'
       uuid: 01345118-59ec-49c8-8d87-755bce286e91
       field_address:
         -
@@ -4952,44 +4952,6 @@ taxonomies:
           latlon: '50.9035,-1.4063'
     -
       vid: location
-      tid: '173'
-      langcode: en
-      name: 'New Forest'
-      description__value: null
-      description__format: null
-      weight: '68'
-      parent: '0'
-      uuid: a9ef1c39-57a4-41f3-8c40-304040441f91
-      field_address: {  }
-      field_area:
-        -
-          value: '1'
-      field_extent:
-        -
-          value: 'POLYGON((-1.86000 50.72000, -1.42000 50.72000, -1.42000 50.98000, -1.86000 50.98000, -1.86000 50.72000))'
-          geo_type: Polygon
-          lat: 50.850000000001
-          lon: -1.6400000000001
-          left: -1.86
-          top: 50.98
-          right: -1.42
-          bottom: 50.72
-          geohash: gcn
-          latlon: '50.850000000001,-1.6400000000001'
-      field_point:
-        -
-          value: 'POINT (-1.5761 50.8732)'
-          geo_type: Point
-          lat: 50.8732
-          lon: -1.5761
-          left: -1.5761
-          top: 50.8732
-          right: -1.5761
-          bottom: 50.8732
-          geohash: gcnckjhmf
-          latlon: '50.8732,-1.5761'
-    -
-      vid: location
       tid: '314'
       langcode: en
       name: 'New Forest'
@@ -5230,9 +5192,7 @@ taxonomies:
       parent: '141'
       uuid: 7535d76e-9223-4985-8809-e44f038cfeed
       field_address: {  }
-      field_area:
-        -
-          value: '0'
+      field_area: {  }
       field_extent: {  }
       field_point:
         -
@@ -5745,7 +5705,7 @@ taxonomies:
       description__value: null
       description__format: null
       weight: '24'
-      parent: '141'
+      parent: '332'
       uuid: 29368cee-c7e0-4c25-aeb0-b6c13fc0dbca
       field_address:
         -
@@ -5763,9 +5723,7 @@ taxonomies:
           given_name: null
           additional_name: null
           family_name: null
-      field_area:
-        -
-          value: '0'
+      field_area: {  }
       field_extent: {  }
       field_point:
         -
@@ -5827,7 +5785,7 @@ taxonomies:
       description__value: null
       description__format: null
       weight: '0'
-      parent: '141'
+      parent: '257'
       uuid: 7b76b9e1-0c41-4c97-90df-423372d164b6
       field_address:
         -
@@ -6237,7 +6195,7 @@ taxonomies:
       description__value: null
       description__format: null
       weight: '27'
-      parent: '141'
+      parent: '257'
       uuid: 7888d029-ef04-4f8a-8f6c-6053f0065bd8
       field_address: {  }
       field_area: {  }
@@ -6287,7 +6245,7 @@ taxonomies:
       description__value: null
       description__format: null
       weight: '28'
-      parent: '141'
+      parent: '257'
       uuid: 4b1cf304-6b29-4d98-a20f-d1ceea5da648
       field_address:
         -
@@ -6327,7 +6285,7 @@ taxonomies:
       description__value: null
       description__format: null
       weight: '36'
-      parent: '141'
+      parent: '257'
       uuid: 45b933ac-0c75-4c31-94fd-d948ddba5af5
       field_address: {  }
       field_area: {  }
@@ -6352,7 +6310,7 @@ taxonomies:
       description__value: null
       description__format: null
       weight: '37'
-      parent: '141'
+      parent: '257'
       uuid: 57537129-b129-4a9e-83dd-65c18158edcb
       field_address:
         -
@@ -6550,9 +6508,7 @@ taxonomies:
           given_name: null
           additional_name: null
           family_name: null
-      field_area:
-        -
-          value: '0'
+      field_area: {  }
       field_extent: {  }
       field_point:
         -
@@ -6599,7 +6555,7 @@ taxonomies:
       description__value: null
       description__format: null
       weight: '150'
-      parent: '0'
+      parent: '143'
       uuid: ab1b097d-50de-4180-87db-e961c6d13cb9
       field_address: {  }
       field_area: {  }
@@ -6753,7 +6709,7 @@ taxonomies:
       description__value: null
       description__format: null
       weight: '30'
-      parent: '141'
+      parent: '257'
       uuid: d449ede9-7ea4-466d-978f-3517e4aaf843
       field_address:
         -
@@ -6818,7 +6774,7 @@ taxonomies:
       description__value: null
       description__format: null
       weight: '31'
-      parent: '141'
+      parent: '257'
       uuid: be75be29-79dd-49b0-a30b-5c9017e94656
       field_address: {  }
       field_area: {  }
@@ -6936,9 +6892,7 @@ taxonomies:
       parent: '139'
       uuid: ee64be68-d5e4-4fcf-8aee-cb333f99c735
       field_address: {  }
-      field_area:
-        -
-          value: '0'
+      field_area: {  }
       field_extent: {  }
       field_point:
         -
@@ -7003,9 +6957,7 @@ taxonomies:
           given_name: null
           additional_name: null
           family_name: null
-      field_area:
-        -
-          value: '0'
+      field_area: {  }
       field_extent: {  }
       field_point:
         -
@@ -7045,9 +6997,7 @@ taxonomies:
           given_name: null
           additional_name: null
           family_name: null
-      field_area:
-        -
-          value: '0'
+      field_area: {  }
       field_extent: {  }
       field_point:
         -
@@ -7505,20 +7455,6 @@ taxonomies:
       field_point: {  }
     -
       vid: location
-      tid: '255'
-      langcode: en
-      name: Various
-      description__value: null
-      description__format: null
-      weight: '51'
-      parent: '0'
-      uuid: f0c690b4-1e21-412b-868d-be7c2d9fc6d0
-      field_address: {  }
-      field_area: {  }
-      field_extent: {  }
-      field_point: {  }
-    -
-      vid: location
       tid: '315'
       langcode: en
       name: Various
@@ -7710,9 +7646,7 @@ taxonomies:
           given_name: null
           additional_name: null
           family_name: null
-      field_area:
-        -
-          value: '0'
+      field_area: {  }
       field_extent: {  }
       field_point:
         -
@@ -7795,7 +7729,7 @@ taxonomies:
       vid: location
       tid: '384'
       langcode: en
-      name: wickham
+      name: Wickham
       description__value: null
       description__format: null
       weight: '0'
