@@ -1629,6 +1629,79 @@ function customsolent_helpers_place_placeholders(): array {
 }
 
 /**
+ * The regions a place is never said to be "in": too broad to orient a
+ * reader (the Isle of Wight is not among them: it does orient).
+ */
+function customsolent_helpers_place_silent_regions(): array {
+  return ['Solent', 'Hampshire', 'England', 'UK', 'TBC'];
+}
+
+/**
+ * A place's name with the places it is in after it, for a reader who may
+ * not know the area: "Bobby's Lounge, Southsea, Portsmouth" (Location
+ * epic, 22 Nov 2026). One rule, no per-term settings:
+ *   - ancestors follow the name, nearest first, separated by commas;
+ *   - the broad regions and placeholders are never printed
+ *     (customsolent_helpers_place_silent_regions());
+ *   - an ancestor whose name is already in what has been printed is
+ *     skipped: Fratton Community Centre loses Fratton, The Old Pay Office
+ *     keeps Portsmouth Historic Quarter and drops Portsmouth;
+ *   - the walk stops after the first town-level ancestor, one whose own
+ *     parent is a silent region or nothing (Portsmouth, Winchester, the
+ *     Isle of Wight);
+ *   - at most two ancestors, so a card stays one line.
+ *
+ * Returns ['name' => "Bobby's Lounge", 'within' => ['Southsea', 'Portsmouth'],
+ * 'label' => "Bobby's Lounge, Southsea, Portsmouth"]. The parts are
+ * returned as well as the label so a template can mark them up.
+ */
+function customsolent_helpers_place_label(\Drupal\taxonomy\TermInterface $term): array {
+  $cache = &drupal_static(__FUNCTION__, []);
+  if (isset($cache[$term->id()])) {
+    return $cache[$term->id()];
+  }
+  $storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
+  $fold = static fn(string $t) => preg_replace('/[^a-z0-9]+/', '', str_replace('&', 'and', mb_strtolower(\Drupal::transliteration()->transliterate($t))));
+  $silent = customsolent_helpers_place_silent_regions();
+  $name = trim($term->getName());
+  $printed = $fold($name);
+  $within = [];
+  $current = $term;
+  for ($i = 0; $i < 8; $i++) {
+    $parents = $storage->loadParents($current->id());
+    $parent = $parents ? reset($parents) : NULL;
+    if (!$parent) {
+      break;
+    }
+    $parent_name = trim($parent->getName());
+    if (in_array($parent_name, $silent, TRUE)) {
+      // A placeholder straight under a region says the region: "Various,
+      // Hampshire" rather than a bare "Various".
+      if (!$within && in_array($name, customsolent_helpers_place_placeholders(), TRUE) && !in_array($parent_name, ['TBC', 'UK', 'England'], TRUE)) {
+        $within[] = $parent_name;
+      }
+      break;
+    }
+    $grandparents = $storage->loadParents($parent->id());
+    $grandparent = $grandparents ? reset($grandparents) : NULL;
+    $town_level = !$grandparent || in_array(trim($grandparent->getName()), $silent, TRUE);
+    if (!str_contains($printed, $fold($parent_name))) {
+      $within[] = $parent_name;
+      $printed .= $fold($parent_name);
+    }
+    if ($town_level || count($within) >= 2) {
+      break;
+    }
+    $current = $parent;
+  }
+  return $cache[$term->id()] = [
+    'name' => $name,
+    'within' => $within,
+    'label' => implode(', ', array_merge([$name], $within)),
+  ];
+}
+
+/**
  * Every Location term with a page (Location epic, issue 440), keyed by tid:
  * tid, name, slug, url (/explore/locations/<slug>), parent (tid or NULL),
  * depth, area (TRUE for a town or district: not pegged on the map), lat,
