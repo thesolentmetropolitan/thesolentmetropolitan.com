@@ -99,11 +99,14 @@
   }
 }
 
-/* "Read more about" — a link at the end of the intro paragraph instead
-   of a button. Bold Explore orange (About lives under Explore; 4.6:1 on
-   the warm-grey band) with a drawn caret. Scoped by the section style
-   because the text format does not allow classes on links. */
-.layout-content .slnt-front-intro-2col .slnt-column-right .paragraph--type--intro a {
+/* "Read more about" — the link at the END of the intro paragraph is the
+   call to action: bold Explore orange (About lives under Explore; 4.6:1
+   on the warm-grey band) with a drawn caret. Any other link in the intro
+   (Southampton, Portsmouth, the Isle of Wight) is an ordinary body link.
+   Scoped by the section style and by position because the text format
+   does not allow classes on links: the last link in the paragraph is the
+   call to action, so keep "Read more about" last. */
+.layout-content .slnt-front-intro-2col .slnt-column-right .paragraph--type--intro a:last-child {
   font-weight: 700;
   color: #bc4a08;
   white-space: nowrap;
@@ -111,15 +114,15 @@
   text-decoration-color: transparent;
 }
 
-.layout-content .slnt-front-intro-2col .slnt-column-right .paragraph--type--intro a:hover,
-.layout-content .slnt-front-intro-2col .slnt-column-right .paragraph--type--intro a:focus-visible {
+.layout-content .slnt-front-intro-2col .slnt-column-right .paragraph--type--intro a:last-child:hover,
+.layout-content .slnt-front-intro-2col .slnt-column-right .paragraph--type--intro a:last-child:focus-visible {
   text-decoration: underline;
   text-decoration-color: currentColor;
   text-underline-offset: 3px;
   text-decoration-thickness: 2px;
 }
 
-.slnt-front-intro-2col .slnt-column-right .paragraph--type--intro a::after {
+.slnt-front-intro-2col .slnt-column-right .paragraph--type--intro a:last-child::after {
   content: '';
   display: inline-block;
   width: 0.42em;
