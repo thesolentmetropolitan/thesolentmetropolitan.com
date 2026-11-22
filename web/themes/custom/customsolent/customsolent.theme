@@ -512,46 +512,23 @@ function _customsolent_join_names(array $names): string {
 /**
  * Where a Location term is: its area line and its town (issue 407).
  *
- * Returns ['area' => string|NULL, 'town' => string|NULL]. The area is the
- * term's ancestors from the nearest up, "Southsea, Portsmouth", so a reader
- * who does not know Stubbington learns it is Fareham. Two rules keep it
- * short: an ancestor whose name the venue already carries is left out
- * ("Portsmouth Guildhall" is not followed by ", Portsmouth"), and the
- * region and county roots are never shown (every venue is in the Solent,
- * and Hampshire is implied), while the Isle of Wight, the New Forest and
- * the other named roots are. At most two levels. The town is the highest
- * ancestor shown, for the "4 venues" line.
+ * Returns ['area' => string|NULL, 'town' => string|NULL, 'label' => string].
+ * The area is the term's ancestors from the nearest up, "Southsea,
+ * Portsmouth", so a reader who does not know Stubbington learns it is
+ * Fareham; the label is the name with the area after it. The rule is
+ * customsolent_helpers_place_label() (22 Nov 2026): an ancestor whose name
+ * is already printed is left out, the region and county roots are never
+ * shown, the walk stops at town level, at most two ancestors. The town is
+ * the highest ancestor shown, for the "4 venues" line.
  */
 function _customsolent_location_where($term): array {
-  // Roots that go without saying: not "Portsmouth, Solent".
-  static $silent_roots = ['Solent', 'Hampshire', 'England', 'UK', 'TBC'];
-  $term_storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
-  $parts = [];
-  $mentioned = [$term->getName()];
-  $current = $term;
-  while (count($parts) < 2) {
-    $parents = $term_storage->loadParents($current->id());
-    $parent = $parents ? reset($parents) : NULL;
-    if (!$parent || in_array($parent->getName(), $silent_roots, TRUE)) {
-      break;
-    }
-    $name = $parent->getName();
-    $already = FALSE;
-    foreach ($mentioned as $text) {
-      if (mb_stripos($text, $name) !== FALSE) {
-        $already = TRUE;
-        break;
-      }
-    }
-    if (!$already) {
-      $parts[] = $name;
-    }
-    $mentioned[] = $name;
-    $current = $parent;
-  }
+  // One rule for the whole site, in the module so the Locations page and
+  // the listings share it: customsolent_helpers_place_label().
+  $label = customsolent_helpers_place_label($term);
   return [
-    'area' => $parts ? implode(', ', $parts) : NULL,
-    'town' => $parts ? end($parts) : NULL,
+    'area' => $label['within'] ? implode(', ', $label['within']) : NULL,
+    'town' => $label['within'] ? end($label['within']) : NULL,
+    'label' => $label['label'],
   ];
 }
 
@@ -2047,7 +2024,7 @@ function customsolent_preprocess_paragraph__view_display(&$variables) {
         'articles' => t('All articles'),
       ];
       $variables['place_filter'] = [
-        'name' => $place['name'],
+        'name' => customsolent_helpers_place_label($place['term'])['label'],
         'all_url' => _customsolent_build_filter_url(['place' => NULL]),
         'all_label' => $all_labels[$word] ?? t('All'),
         'map_url' => $place['url'],

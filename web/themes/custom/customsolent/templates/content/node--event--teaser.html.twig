@@ -97,7 +97,7 @@
       </div>
     {% endif %}
 
-    {# Where — map-pin icon + label + plain Location term name. #}
+    {# Where — map-pin icon + label + the venue with the places it is in. #}
     {% if where_name %}
       <div class="slnt-event-teaser__row slnt-event-teaser__where">
         <span class="slnt-event-teaser__icon" aria-hidden="true">
@@ -112,7 +112,7 @@
               {% endfor %}
             </ul>
           {%- else -%}
-            {{ where_name }}
+            {{ where_name }}{% if where_list[0].area %}<span class="slnt-event-teaser__venue-area">, {{ where_list[0].area }}</span>{% endif %}
           {%- endif -%}
         </span>
       </div>
