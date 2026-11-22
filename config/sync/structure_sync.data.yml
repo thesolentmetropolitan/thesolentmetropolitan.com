@@ -3170,20 +3170,22 @@ taxonomies:
           given_name: null
           additional_name: null
           family_name: null
-      field_area: {  }
+      field_area:
+        -
+          value: '0'
       field_extent: {  }
       field_point:
         -
-          value: 'POINT (-1.0665 50.8444)'
+          value: 'POINT (-1.0681977932852 50.844219826987)'
           geo_type: Point
-          lat: 50.8444
-          lon: -1.0665
-          left: -1.0665
-          top: 50.8444
-          right: -1.0665
-          bottom: 50.8444
-          geohash: gcp1pxzqh
-          latlon: '50.8444,-1.0665'
+          lat: 50.844219826987
+          lon: -1.0681977932852
+          left: -1.0681977932852
+          top: 50.844219826987
+          right: -1.0681977932852
+          bottom: 50.844219826987
+          geohash: gcp1pxyjj1tcpye1
+          latlon: '50.844219826987,-1.0681977932852'
     -
       vid: location
       tid: '293'
@@ -4316,9 +4318,22 @@ taxonomies:
       parent: '139'
       uuid: b6bb0755-e44f-4bda-9731-8d4e119c912d
       field_address: {  }
-      field_area: {  }
+      field_area:
+        -
+          value: '0'
       field_extent: {  }
-      field_point: {  }
+      field_point:
+        -
+          value: 'POINT (-1.399311 50.903898)'
+          geo_type: Point
+          lat: 50.903898
+          lon: -1.399311
+          left: -1.399311
+          top: 50.903898
+          right: -1.399311
+          bottom: 50.903898
+          geohash: gcp184v09wq5
+          latlon: '50.903898,-1.399311'
     -
       vid: location
       tid: '378'
@@ -5215,9 +5230,22 @@ taxonomies:
       parent: '141'
       uuid: 7535d76e-9223-4985-8809-e44f038cfeed
       field_address: {  }
-      field_area: {  }
+      field_area:
+        -
+          value: '0'
       field_extent: {  }
-      field_point: {  }
+      field_point:
+        -
+          value: 'POINT (-1.0893617959975 50.804219076669)'
+          geo_type: Point
+          lat: 50.804219076669
+          lon: -1.0893617959975
+          left: -1.0893617959975
+          top: 50.804219076669
+          right: -1.0893617959975
+          bottom: 50.804219076669
+          geohash: gcp1p0wu00bgrjfm
+          latlon: '50.804219076669,-1.0893617959975'
     -
       vid: location
       tid: '337'
@@ -5735,20 +5763,22 @@ taxonomies:
           given_name: null
           additional_name: null
           family_name: null
-      field_area: {  }
+      field_area:
+        -
+          value: '0'
       field_extent: {  }
       field_point:
         -
-          value: 'POINT (-1.0746 50.79625)'
+          value: 'POINT (-1.0744614584495 50.796606908604)'
           geo_type: Point
-          lat: 50.79625
-          lon: -1.0746
-          left: -1.0746
-          top: 50.79625
-          right: -1.0746
-          bottom: 50.79625
-          geohash: gcp0zx1t85
-          latlon: '50.79625,-1.0746'
+          lat: 50.796606908604
+          lon: -1.0744614584495
+          left: -1.0744614584495
+          top: 50.796606908604
+          right: -1.0744614584495
+          bottom: 50.796606908604
+          geohash: gcp0zx1xejz7nfxj
+          latlon: '50.796606908604,-1.0744614584495'
     -
       vid: location
       tid: '329'
@@ -6513,27 +6543,29 @@ taxonomies:
           dependent_locality: null
           postal_code: 'SO14 6QR'
           sorting_code: null
-          address_line1: '150 Lodge Road'
+          address_line1: 'St Barnabas Church Hall, Lodge Rd'
           address_line2: Portswood
           address_line3: null
           organization: null
           given_name: null
           additional_name: null
           family_name: null
-      field_area: {  }
+      field_area:
+        -
+          value: '0'
       field_extent: {  }
       field_point:
         -
-          value: 'POINT (-1.3965 50.9221)'
+          value: 'POINT (-1.401777 50.919227)'
           geo_type: Point
-          lat: 50.9221
-          lon: -1.3965
-          left: -1.3965
-          top: 50.9221
-          right: -1.3965
-          bottom: 50.9221
-          geohash: gcp18np4e
-          latlon: '50.9221,-1.3965'
+          lat: 50.919227
+          lon: -1.401777
+          left: -1.401777
+          top: 50.919227
+          right: -1.401777
+          bottom: 50.919227
+          geohash: gcp18je3bpzk
+          latlon: '50.919227,-1.401777'
     -
       vid: location
       tid: '253'
@@ -6904,20 +6936,22 @@ taxonomies:
       parent: '139'
       uuid: ee64be68-d5e4-4fcf-8aee-cb333f99c735
       field_address: {  }
-      field_area: {  }
+      field_area:
+        -
+          value: '0'
       field_extent: {  }
       field_point:
         -
-          value: 'POINT (-1.405479 50.905822)'
+          value: 'POINT (-1.405758 50.912461)'
           geo_type: Point
-          lat: 50.905822
-          lon: -1.405479
-          left: -1.405479
-          top: 50.905822
-          right: -1.405479
-          bottom: 50.905822
-          geohash: gcp1850ecvnb
-          latlon: '50.905822,-1.405479'
+          lat: 50.912461
+          lon: -1.405758
+          left: -1.405758
+          top: 50.912461
+          right: -1.405758
+          bottom: 50.912461
+          geohash: gcp18h26e6wg
+          latlon: '50.912461,-1.405758'
     -
       vid: location
       tid: '379'
@@ -6969,20 +7003,22 @@ taxonomies:
           given_name: null
           additional_name: null
           family_name: null
-      field_area: {  }
+      field_area:
+        -
+          value: '0'
       field_extent: {  }
       field_point:
         -
-          value: 'POINT (-1.1072 50.7978)'
+          value: 'POINT (-1.106098 50.799762)'
           geo_type: Point
-          lat: 50.7978
-          lon: -1.1072
-          left: -1.1072
-          top: 50.7978
-          right: -1.1072
-          bottom: 50.7978
-          geohash: gcp0yz3y8
-          latlon: '50.7978,-1.1072'
+          lat: 50.799762
+          lon: -1.106098
+          left: -1.106098
+          top: 50.799762
+          right: -1.106098
+          bottom: 50.799762
+          geohash: gcp0yzfd41cx
+          latlon: '50.799762,-1.106098'
     -
       vid: location
       tid: '292'
@@ -7009,20 +7045,22 @@ taxonomies:
           given_name: null
           additional_name: null
           family_name: null
-      field_area: {  }
+      field_area:
+        -
+          value: '0'
       field_extent: {  }
       field_point:
         -
-          value: 'POINT (-1.2721 50.8752)'
+          value: 'POINT (-1.273745 50.869179)'
           geo_type: Point
-          lat: 50.8752
-          lon: -1.2721
-          left: -1.2721
-          top: 50.8752
-          right: -1.2721
-          bottom: 50.8752
-          geohash: gcp17j99t
-          latlon: '50.8752,-1.2721'
+          lat: 50.869179
+          lon: -1.273745
+          left: -1.273745
+          top: 50.869179
+          right: -1.273745
+          bottom: 50.869179
+          geohash: gcp17h2qrw6b
+          latlon: '50.869179,-1.273745'
     -
       vid: location
       tid: '240'
@@ -7672,20 +7710,22 @@ taxonomies:
           given_name: null
           additional_name: null
           family_name: null
-      field_area: {  }
+      field_area:
+        -
+          value: '0'
       field_extent: {  }
       field_point:
         -
-          value: 'POINT (-1.3941 50.9123)'
+          value: 'POINT (-1.3960152230132 50.911208654929)'
           geo_type: Point
-          lat: 50.9123
-          lon: -1.3941
-          left: -1.3941
-          top: 50.9123
-          right: -1.3941
-          bottom: 50.9123
-          geohash: gcp18k2ce
-          latlon: '50.9123,-1.3941'
+          lat: 50.911208654929
+          lon: -1.3960152230132
+          left: -1.3960152230132
+          top: 50.911208654929
+          right: -1.3960152230132
+          bottom: 50.911208654929
+          geohash: gcp18hp7q3pt5k17
+          latlon: '50.911208654929,-1.3960152230132'
     -
       vid: location
       tid: '386'
