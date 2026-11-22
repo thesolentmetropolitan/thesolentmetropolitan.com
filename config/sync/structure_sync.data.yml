@@ -2396,7 +2396,7 @@ taxonomies:
       vid: location
       tid: '172'
       langcode: en
-      name: 'Beaulieu Inn'
+      name: 'Beaulieu Hotel & Drift Inn'
       description__value: null
       description__format: null
       weight: '0'
@@ -2422,16 +2422,16 @@ taxonomies:
       field_extent: {  }
       field_point:
         -
-          value: 'POINT (-1.5235 50.8384)'
+          value: 'POINT (-1.503527 50.854747)'
           geo_type: Point
-          lat: 50.8384
-          lon: -1.5235
-          left: -1.5235
-          top: 50.8384
-          right: -1.5235
-          bottom: 50.8384
-          geohash: gcncjqfe5
-          latlon: '50.8384,-1.5235'
+          lat: 50.854747
+          lon: -1.503527
+          left: -1.503527
+          top: 50.854747
+          right: -1.503527
+          bottom: 50.854747
+          geohash: gcncmcc4m7cn
+          latlon: '50.854747,-1.503527'
     -
       vid: location
       tid: '149'
@@ -3910,9 +3910,9 @@ taxonomies:
           administrative_area: null
           locality: Southampton
           dependent_locality: null
-          postal_code: 'SO14 1PG'
+          postal_code: 'SO14 3FH'
           sorting_code: null
-          address_line1: '114–116 St Mary Street'
+          address_line1: '5 Canute Road'
           address_line2: ''
           address_line3: null
           organization: null
@@ -3923,16 +3923,16 @@ taxonomies:
       field_extent: {  }
       field_point:
         -
-          value: 'POINT (-1.3967 50.9022)'
+          value: 'POINT (-1.39437 50.89716)'
           geo_type: Point
-          lat: 50.9022
-          lon: -1.3967
-          left: -1.3967
-          top: 50.9022
-          right: -1.3967
-          bottom: 50.9022
-          geohash: gcp184qyy
-          latlon: '50.9022,-1.3967'
+          lat: 50.89716
+          lon: -1.39437
+          left: -1.39437
+          top: 50.89716
+          right: -1.39437
+          bottom: 50.89716
+          geohash: gcp18389ky
+          latlon: '50.89716,-1.39437'
     -
       vid: location
       tid: '212'
@@ -5739,16 +5739,16 @@ taxonomies:
       field_extent: {  }
       field_point:
         -
-          value: 'POINT (-1.0736 50.7963)'
+          value: 'POINT (-1.0746 50.79625)'
           geo_type: Point
-          lat: 50.7963
-          lon: -1.0736
-          left: -1.0736
-          top: 50.7963
-          right: -1.0736
-          bottom: 50.7963
-          geohash: gcp0zx4jz
-          latlon: '50.7963,-1.0736'
+          lat: 50.79625
+          lon: -1.0746
+          left: -1.0746
+          top: 50.79625
+          right: -1.0746
+          bottom: 50.79625
+          geohash: gcp0zx1t85
+          latlon: '50.79625,-1.0746'
     -
       vid: location
       tid: '329'
@@ -6279,16 +6279,16 @@ taxonomies:
       field_extent: {  }
       field_point:
         -
-          value: 'POINT (-1.0878 50.7834)'
+          value: 'POINT (-1.087945 50.786613)'
           geo_type: Point
-          lat: 50.7834
-          lon: -1.0878
-          left: -1.0878
-          top: 50.7834
-          right: -1.0878
-          bottom: 50.7834
-          geohash: gcp0zhzfs
-          latlon: '50.7834,-1.0878'
+          lat: 50.786613
+          lon: -1.087945
+          left: -1.087945
+          top: 50.786613
+          right: -1.087945
+          bottom: 50.786613
+          geohash: gcp0zjrv3nc7
+          latlon: '50.786613,-1.087945'
     -
       vid: location
       tid: '155'
@@ -7078,16 +7078,16 @@ taxonomies:
       field_extent: {  }
       field_point:
         -
-          value: 'POINT (-1.4641 50.9218)'
+          value: 'POINT (-1.4632 50.9292)'
           geo_type: Point
-          lat: 50.9218
-          lon: -1.4641
-          left: -1.4641
-          top: 50.9218
-          right: -1.4641
-          bottom: 50.9218
-          geohash: gcncwwjbg
-          latlon: '50.9218,-1.4641'
+          lat: 50.9292
+          lon: -1.4632
+          left: -1.4632
+          top: 50.9292
+          right: -1.4632
+          bottom: 50.9292
+          geohash: gcncwxqs0
+          latlon: '50.9292,-1.4632'
     -
       vid: location
       tid: '300'
