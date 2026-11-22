@@ -2214,6 +2214,7 @@ taxonomies:
       uuid: 56244139-c3cc-4420-8bbb-19fdeb09333b
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point:
         -
           value: 'POINT (-1.393577 50.921166)'
@@ -2238,6 +2239,7 @@ taxonomies:
       uuid: 989a54b7-b5e1-47d2-9be0-87dbfac85284
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point:
         -
           value: 'POINT (-1.402023 50.911543)'
@@ -2262,6 +2264,7 @@ taxonomies:
       uuid: 616ed0ff-f812-447f-883e-4bf99d8a0ed5
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point:
         -
           value: 'POINT (-1.38404 50.910802)'
@@ -2278,15 +2281,42 @@ taxonomies:
       vid: location
       tid: '265'
       langcode: en
-      name: 'Ambition Portsmouth, Kingston Road'
+      name: 'Ambition Portsmouth'
       description__value: null
       description__format: null
       weight: '0'
       parent: '141'
       uuid: 2a87c919-c7fc-4d53-b435-a41210d03c44
-      field_address: {  }
+      field_address:
+        -
+          langcode: null
+          country_code: GB
+          administrative_area: null
+          locality: Portsmouth
+          dependent_locality: null
+          postal_code: 'PO2 7PD'
+          sorting_code: null
+          address_line1: '112 Kingston Road'
+          address_line2: ''
+          address_line3: null
+          organization: null
+          given_name: null
+          additional_name: null
+          family_name: null
       field_area: {  }
-      field_point: {  }
+      field_extent: {  }
+      field_point:
+        -
+          value: 'POINT (-1.0805 50.8124)'
+          geo_type: Point
+          lat: 50.8124
+          lon: -1.0805
+          left: -1.0805
+          top: 50.8124
+          right: -1.0805
+          bottom: 50.8124
+          geohash: gcp1p6j5w
+          latlon: '50.8124,-1.0805'
     -
       vid: location
       tid: '313'
@@ -2299,6 +2329,7 @@ taxonomies:
       uuid: 40c24575-016e-421a-b044-040c8883380e
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point:
         -
           value: 'POINT (-1.063888 50.798046)'
@@ -2323,6 +2354,7 @@ taxonomies:
       uuid: afec5975-221b-4334-97d5-217b9dde9f24
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point:
         -
           value: 'POINT (-1.106191 50.793697)'
@@ -2347,6 +2379,7 @@ taxonomies:
       uuid: 4051905e-0906-4f31-b2a7-0cb758259f44
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point:
         -
           value: 'POINT (-1.402537 50.928766)'
@@ -2363,15 +2396,42 @@ taxonomies:
       vid: location
       tid: '172'
       langcode: en
-      name: 'Beaulieu Inn, Brockenhurst'
+      name: 'Beaulieu Inn'
       description__value: null
       description__format: null
       weight: '0'
       parent: '173'
       uuid: 0bf0366d-2ece-4789-858f-738935446a3f
-      field_address: {  }
+      field_address:
+        -
+          langcode: null
+          country_code: GB
+          administrative_area: null
+          locality: Brockenhurst
+          dependent_locality: null
+          postal_code: 'SO42 7YQ'
+          sorting_code: null
+          address_line1: 'Beaulieu Road'
+          address_line2: ''
+          address_line3: null
+          organization: null
+          given_name: null
+          additional_name: null
+          family_name: null
       field_area: {  }
-      field_point: {  }
+      field_extent: {  }
+      field_point:
+        -
+          value: 'POINT (-1.5235 50.8384)'
+          geo_type: Point
+          lat: 50.8384
+          lon: -1.5235
+          left: -1.5235
+          top: 50.8384
+          right: -1.5235
+          bottom: 50.8384
+          geohash: gcncjqfe5
+          latlon: '50.8384,-1.5235'
     -
       vid: location
       tid: '149'
@@ -2386,6 +2446,18 @@ taxonomies:
       field_area:
         -
           value: '1'
+      field_extent:
+        -
+          value: 'POLYGON((-1.40923 50.91045, -1.40177 50.91045, -1.40177 50.91490, -1.40923 50.91490, -1.40923 50.91045))'
+          geo_type: Polygon
+          lat: 50.912675003422
+          lon: -1.405500000093
+          left: -1.40923
+          top: 50.9149
+          right: -1.40177
+          bottom: 50.91045
+          geohash: gc
+          latlon: '50.912675003422,-1.405500000093'
       field_point:
         -
           value: 'POINT (-1.403319 50.912529)'
@@ -2402,15 +2474,42 @@ taxonomies:
       vid: location
       tid: '274'
       langcode: en
-      name: 'BIPC meeting space'
+      name: 'BIPC Meeting Space'
       description__value: null
       description__format: null
       weight: '0'
       parent: '275'
       uuid: c39d2ef8-13c2-4dff-8cc0-bd308f98371a
-      field_address: {  }
+      field_address:
+        -
+          langcode: null
+          country_code: GB
+          administrative_area: null
+          locality: Southampton
+          dependent_locality: null
+          postal_code: 'SO14 7LW'
+          sorting_code: null
+          address_line1: 'Civic Centre'
+          address_line2: ''
+          address_line3: null
+          organization: null
+          given_name: null
+          additional_name: null
+          family_name: null
       field_area: {  }
-      field_point: {  }
+      field_extent: {  }
+      field_point:
+        -
+          value: 'POINT (-1.4071 50.9079)'
+          geo_type: Point
+          lat: 50.9079
+          lon: -1.4071
+          left: -1.4071
+          top: 50.9079
+          right: -1.4071
+          bottom: 50.9079
+          geohash: gcncxgx2h
+          latlon: '50.9079,-1.4071'
     -
       vid: location
       tid: '261'
@@ -2421,9 +2520,36 @@ taxonomies:
       weight: '8'
       parent: '139'
       uuid: 96ce2c2a-671d-4229-9a88-3eaaa0e2a905
-      field_address: {  }
+      field_address:
+        -
+          langcode: null
+          country_code: GB
+          administrative_area: null
+          locality: Southampton
+          dependent_locality: null
+          postal_code: 'SO18 1AD'
+          sorting_code: null
+          address_line1: 'Bitterne Railway Station'
+          address_line2: 'Quayside Road'
+          address_line3: null
+          organization: null
+          given_name: null
+          additional_name: null
+          family_name: null
       field_area: {  }
-      field_point: {  }
+      field_extent: {  }
+      field_point:
+        -
+          value: 'POINT (-1.3789 50.9168)'
+          geo_type: Point
+          lat: 50.9168
+          lon: -1.3789
+          left: -1.3789
+          top: 50.9168
+          right: -1.3789
+          bottom: 50.9168
+          geohash: gcp18t5gv
+          latlon: '50.9168,-1.3789'
     -
       vid: location
       tid: '259'
@@ -2434,9 +2560,36 @@ taxonomies:
       weight: '9'
       parent: '139'
       uuid: 032af97f-2533-4b84-bb7c-721c1fe99a15
-      field_address: {  }
+      field_address:
+        -
+          langcode: null
+          country_code: GB
+          administrative_area: null
+          locality: Southampton
+          dependent_locality: null
+          postal_code: 'SO14 3QS'
+          sorting_code: null
+          address_line1: 'Units 3–4'
+          address_line2: 'Alexandra Wharf, Ocean Village'
+          address_line3: null
+          organization: null
+          given_name: null
+          additional_name: null
+          family_name: null
       field_area: {  }
-      field_point: {  }
+      field_extent: {  }
+      field_point:
+        -
+          value: 'POINT (-1.3924 50.8962)'
+          geo_type: Point
+          lat: 50.8962
+          lon: -1.3924
+          left: -1.3924
+          top: 50.8962
+          right: -1.3924
+          bottom: 50.8962
+          geohash: gcp18365f
+          latlon: '50.8962,-1.3924'
     -
       vid: location
       tid: '256'
@@ -2447,9 +2600,36 @@ taxonomies:
       weight: '0'
       parent: '257'
       uuid: 5ab99629-988d-4c3f-ad8e-9bd6a324f99b
-      field_address: {  }
+      field_address:
+        -
+          langcode: null
+          country_code: GB
+          administrative_area: null
+          locality: Portsmouth
+          dependent_locality: null
+          postal_code: 'PO5 2SQ'
+          sorting_code: null
+          address_line1: '123–125 Albert Road'
+          address_line2: Southsea
+          address_line3: null
+          organization: null
+          given_name: null
+          additional_name: null
+          family_name: null
       field_area: {  }
-      field_point: {  }
+      field_extent: {  }
+      field_point:
+        -
+          value: 'POINT (-1.0772 50.7852)'
+          geo_type: Point
+          lat: 50.7852
+          lon: -1.0772
+          left: -1.0772
+          top: 50.7852
+          right: -1.0772
+          bottom: 50.7852
+          geohash: gcp0zmpt5
+          latlon: '50.7852,-1.0772'
     -
       vid: location
       tid: '326'
@@ -2462,6 +2642,7 @@ taxonomies:
       uuid: 4779b4d3-34f4-45f7-8bdd-f75791c6e2be
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point:
         -
           value: 'POINT (-1.405009 50.937034)'
@@ -2488,6 +2669,18 @@ taxonomies:
       field_area:
         -
           value: '1'
+      field_extent:
+        -
+          value: 'POLYGON((-1.29282 50.90368, -1.25491 50.90368, -1.25491 50.92401, -1.29282 50.92401, -1.29282 50.90368))'
+          geo_type: Polygon
+          lat: 50.913845000559
+          lon: -1.2738650000142
+          left: -1.29282
+          top: 50.92401
+          right: -1.25491
+          bottom: 50.90368
+          geohash: gcp1
+          latlon: '50.913845000559,-1.2738650000142'
       field_point:
         -
           value: 'POINT (-1.27139 50.914335)'
@@ -2512,6 +2705,7 @@ taxonomies:
       uuid: f6c9e7f6-0603-4329-9e48-e649a27632c8
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point:
         -
           value: 'POINT (-1.393759 50.916525)'
@@ -2538,6 +2732,18 @@ taxonomies:
       field_area:
         -
           value: '1'
+      field_extent:
+        -
+          value: 'POLYGON((-1.93777 50.70981, -1.74001 50.70981, -1.74001 50.78025, -1.93777 50.78025, -1.93777 50.70981))'
+          geo_type: Polygon
+          lat: 50.745029999993
+          lon: -1.8388899999998
+          left: -1.93777
+          top: 50.78025
+          right: -1.74001
+          bottom: 50.70981
+          geohash: gcn
+          latlon: '50.745029999993,-1.8388899999998'
       field_point:
         -
           value: 'POINT (-1.87669 50.720972)'
@@ -2562,6 +2768,7 @@ taxonomies:
       uuid: ade7bc00-c9e8-417d-a622-33b13e70f7a9
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point:
         -
           value: 'POINT (-1.429303 50.918785)'
@@ -2586,6 +2793,7 @@ taxonomies:
       uuid: 58f8a9da-b790-4de1-91c6-348f515ed26f
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point:
         -
           value: 'POINT (-1.399701 50.931179)'
@@ -2608,9 +2816,36 @@ taxonomies:
       weight: '1'
       parent: '187'
       uuid: f15aca4a-e087-49af-bf1f-5510bdc841a8
-      field_address: {  }
+      field_address:
+        -
+          langcode: null
+          country_code: GB
+          administrative_area: null
+          locality: Southampton
+          dependent_locality: null
+          postal_code: 'SO17 1BJ'
+          sorting_code: null
+          address_line1: 'University Road'
+          address_line2: 'Highfield Campus'
+          address_line3: null
+          organization: null
+          given_name: null
+          additional_name: null
+          family_name: null
       field_area: {  }
-      field_point: {  }
+      field_extent: {  }
+      field_point:
+        -
+          value: 'POINT (-1.3976 50.9355)'
+          geo_type: Point
+          lat: 50.9355
+          lon: -1.3976
+          left: -1.3976
+          top: 50.9355
+          right: -1.3976
+          bottom: 50.9355
+          geohash: gcp1b0w2c
+          latlon: '50.9355,-1.3976'
     -
       vid: location
       tid: '186'
@@ -2623,6 +2858,7 @@ taxonomies:
       uuid: 9d1f1dbf-d8fb-4c2f-bc4b-15b6bb55548c
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point:
         -
           value: 'POINT (-1.405663 50.912746)'
@@ -2645,9 +2881,36 @@ taxonomies:
       weight: '0'
       parent: '245'
       uuid: eb0f77aa-db6e-4678-b6af-32f29ef90e45
-      field_address: {  }
+      field_address:
+        -
+          langcode: null
+          country_code: GB
+          administrative_area: null
+          locality: Portsmouth
+          dependent_locality: null
+          postal_code: 'PO3 5JH'
+          sorting_code: null
+          address_line1: 'Hilsea Lines'
+          address_line2: 'Scott Road, Hilsea'
+          address_line3: null
+          organization: null
+          given_name: null
+          additional_name: null
+          family_name: null
       field_area: {  }
-      field_point: {  }
+      field_extent: {  }
+      field_point:
+        -
+          value: 'POINT (-1.0695 50.8315)'
+          geo_type: Point
+          lat: 50.8315
+          lon: -1.0695
+          left: -1.0695
+          top: 50.8315
+          right: -1.0695
+          bottom: 50.8315
+          geohash: gcp1ptt4y
+          latlon: '50.8315,-1.0695'
     -
       vid: location
       tid: '177'
@@ -2658,9 +2921,36 @@ taxonomies:
       weight: '8'
       parent: '141'
       uuid: 7d397990-49fa-4880-a5b4-cafb5b7b6441
-      field_address: {  }
+      field_address:
+        -
+          langcode: null
+          country_code: GB
+          administrative_area: null
+          locality: Portsmouth
+          dependent_locality: null
+          postal_code: 'PO1 2DJ'
+          sorting_code: null
+          address_line1: 'Eldon Building'
+          address_line2: 'Winston Churchill Avenue'
+          address_line3: null
+          organization: null
+          given_name: null
+          additional_name: null
+          family_name: null
       field_area: {  }
-      field_point: {  }
+      field_extent: {  }
+      field_point:
+        -
+          value: 'POINT (-1.0906 50.7953)'
+          geo_type: Point
+          lat: 50.7953
+          lon: -1.0906
+          left: -1.0906
+          top: 50.7953
+          right: -1.0906
+          bottom: 50.7953
+          geohash: gcp0zpjb5
+          latlon: '50.7953,-1.0906'
     -
       vid: location
       tid: '338'
@@ -2673,6 +2963,7 @@ taxonomies:
       uuid: 89ab4c88-bb7f-404c-a41b-99ee5f8b3659
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point:
         -
           value: 'POINT (-1.405142 50.909662)'
@@ -2699,6 +2990,18 @@ taxonomies:
       field_area:
         -
           value: '1'
+      field_extent:
+        -
+          value: 'POLYGON((-0.80327 50.81826, -0.74261 50.81826, -0.74261 50.86125, -0.80327 50.86125, -0.80327 50.81826))'
+          geo_type: Polygon
+          lat: 50.839754999989
+          lon: -0.77293999999987
+          left: -0.80327
+          top: 50.86125
+          right: -0.74261
+          bottom: 50.81826
+          geohash: gcp3
+          latlon: '50.839754999989,-0.77293999999987'
       field_point:
         -
           value: 'POINT (-0.77902 50.836502)'
@@ -2721,9 +3024,36 @@ taxonomies:
       weight: '9'
       parent: '141'
       uuid: bf8cea68-6e4f-422e-a67b-9b47ff74b26a
-      field_address: {  }
+      field_address:
+        -
+          langcode: null
+          country_code: GB
+          administrative_area: null
+          locality: Portsmouth
+          dependent_locality: null
+          postal_code: 'PO1 2DD'
+          sorting_code: null
+          address_line1: '16–20 Guildhall Walk'
+          address_line2: ''
+          address_line3: null
+          organization: null
+          given_name: null
+          additional_name: null
+          family_name: null
       field_area: {  }
-      field_point: {  }
+      field_extent: {  }
+      field_point:
+        -
+          value: 'POINT (-1.0928 50.7959)'
+          geo_type: Point
+          lat: 50.7959
+          lon: -1.0928
+          left: -1.0928
+          top: 50.7959
+          right: -1.0928
+          bottom: 50.7959
+          geohash: gcp0zph5x
+          latlon: '50.7959,-1.0928'
     -
       vid: location
       tid: '267'
@@ -2736,6 +3066,7 @@ taxonomies:
       uuid: c4a3c284-174e-48e1-87a7-957b0e7803a0
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point:
         -
           value: 'POINT (-1.101386 50.7857)'
@@ -2760,6 +3091,7 @@ taxonomies:
       uuid: 9aff4704-13a6-453b-b563-ddfdefe4b590
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point:
         -
           value: 'POINT (-1.059056 50.782283)'
@@ -2782,9 +3114,36 @@ taxonomies:
       weight: '14'
       parent: '139'
       uuid: 0fa43e36-1f99-4203-8cc7-d9dc030c2591
-      field_address: {  }
+      field_address:
+        -
+          langcode: null
+          country_code: GB
+          administrative_area: null
+          locality: Southampton
+          dependent_locality: null
+          postal_code: 'SO17 1XQ'
+          sorting_code: null
+          address_line1: 'The Avenue'
+          address_line2: ''
+          address_line3: null
+          organization: null
+          given_name: null
+          additional_name: null
+          family_name: null
       field_area: {  }
-      field_point: {  }
+      field_extent: {  }
+      field_point:
+        -
+          value: 'POINT (-1.4024 50.9225)'
+          geo_type: Point
+          lat: 50.9225
+          lon: -1.4024
+          left: -1.4024
+          top: 50.9225
+          right: -1.4024
+          bottom: 50.9225
+          geohash: gcp18n4v1
+          latlon: '50.9225,-1.4024'
     -
       vid: location
       tid: '294'
@@ -2795,9 +3154,36 @@ taxonomies:
       weight: '6'
       parent: '141'
       uuid: 2dec6364-2275-439d-83b4-369ff79b97ea
-      field_address: {  }
+      field_address:
+        -
+          langcode: null
+          country_code: GB
+          administrative_area: null
+          locality: Portsmouth
+          dependent_locality: null
+          postal_code: 'PO6 3AP'
+          sorting_code: null
+          address_line1: 'Wootton Street'
+          address_line2: Cosham
+          address_line3: null
+          organization: null
+          given_name: null
+          additional_name: null
+          family_name: null
       field_area: {  }
-      field_point: {  }
+      field_extent: {  }
+      field_point:
+        -
+          value: 'POINT (-1.0665 50.8444)'
+          geo_type: Point
+          lat: 50.8444
+          lon: -1.0665
+          left: -1.0665
+          top: 50.8444
+          right: -1.0665
+          bottom: 50.8444
+          geohash: gcp1pxzqh
+          latlon: '50.8444,-1.0665'
     -
       vid: location
       tid: '293'
@@ -2810,6 +3196,7 @@ taxonomies:
       uuid: f917f3e3-db2e-44a8-9476-228ff77bbd3c
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point:
         -
           value: 'POINT (-1.098298 50.797685)'
@@ -2834,6 +3221,7 @@ taxonomies:
       uuid: c25e45fb-035e-4aa5-966f-b5a86e589eca
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point:
         -
           value: 'POINT (-1.162505 50.729912)'
@@ -2858,6 +3246,7 @@ taxonomies:
       uuid: 600e37fa-cbe1-4510-af5f-a4e29ef97c60
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point:
         -
           value: 'POINT (-1.413501 50.920044)'
@@ -2880,9 +3269,36 @@ taxonomies:
       weight: '0'
       parent: '212'
       uuid: 399bdd98-17b6-4a66-9bba-fc9314f7b082
-      field_address: {  }
+      field_address:
+        -
+          langcode: null
+          country_code: GB
+          administrative_area: null
+          locality: Gosport
+          dependent_locality: null
+          postal_code: 'PO12 1PA'
+          sorting_code: null
+          address_line1: '74 Stoke Road'
+          address_line2: ''
+          address_line3: null
+          organization: null
+          given_name: null
+          additional_name: null
+          family_name: null
       field_area: {  }
-      field_point: {  }
+      field_extent: {  }
+      field_point:
+        -
+          value: 'POINT (-1.1322 50.7931)'
+          geo_type: Point
+          lat: 50.7931
+          lon: -1.1322
+          left: -1.1322
+          top: 50.7931
+          right: -1.1322
+          bottom: 50.7931
+          geohash: gcp0ynxe3
+          latlon: '50.7931,-1.1322'
     -
       vid: location
       tid: '383'
@@ -2895,6 +3311,7 @@ taxonomies:
       uuid: 2e9c0bcf-1263-4f47-97ee-145f25e80bd8
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point:
         -
           value: 'POINT (-1.045774 50.846392)'
@@ -2921,6 +3338,18 @@ taxonomies:
       field_area:
         -
           value: '1'
+      field_extent:
+        -
+          value: 'POLYGON((-1.38623 50.95383, -1.27852 50.95383, -1.27852 50.99937, -1.38623 50.99937, -1.38623 50.95383))'
+          geo_type: Polygon
+          lat: 50.976599999997
+          lon: -1.332375
+          left: -1.38623
+          top: 50.99937
+          right: -1.27852
+          bottom: 50.95383
+          geohash: gcp
+          latlon: '50.976599999997,-1.332375'
       field_point:
         -
           value: 'POINT (-1.35333 50.969383)'
@@ -2943,9 +3372,36 @@ taxonomies:
       weight: '16'
       parent: '139'
       uuid: ee6d946c-a6ee-40d5-bfcb-bcfaa87e515f
-      field_address: {  }
+      field_address:
+        -
+          langcode: null
+          country_code: GB
+          administrative_area: null
+          locality: Southampton
+          dependent_locality: null
+          postal_code: 'SO15 2AY'
+          sorting_code: null
+          address_line1: 'Bellevue Road'
+          address_line2: ''
+          address_line3: null
+          organization: null
+          given_name: null
+          additional_name: null
+          family_name: null
       field_area: {  }
-      field_point: {  }
+      field_extent: {  }
+      field_point:
+        -
+          value: 'POINT (-1.4017 50.9126)'
+          geo_type: Point
+          lat: 50.9126
+          lon: -1.4017
+          left: -1.4017
+          top: 50.9126
+          right: -1.4017
+          bottom: 50.9126
+          geohash: gcp18h776
+          latlon: '50.9126,-1.4017'
     -
       vid: location
       tid: '196'
@@ -2956,9 +3412,36 @@ taxonomies:
       weight: '17'
       parent: '139'
       uuid: 45444981-7403-4679-b36f-2df19d63ee2f
-      field_address: {  }
+      field_address:
+        -
+          langcode: null
+          country_code: GB
+          administrative_area: null
+          locality: Southampton
+          dependent_locality: null
+          postal_code: 'SO15 2AY'
+          sorting_code: null
+          address_line1: 'Bellevue Road'
+          address_line2: ''
+          address_line3: null
+          organization: null
+          given_name: null
+          additional_name: null
+          family_name: null
       field_area: {  }
-      field_point: {  }
+      field_extent: {  }
+      field_point:
+        -
+          value: 'POINT (-1.4017 50.9126)'
+          geo_type: Point
+          lat: 50.9126
+          lon: -1.4017
+          left: -1.4017
+          top: 50.9126
+          right: -1.4017
+          bottom: 50.9126
+          geohash: gcp18h776
+          latlon: '50.9126,-1.4017'
     -
       vid: location
       tid: '297'
@@ -2969,9 +3452,36 @@ taxonomies:
       weight: '0'
       parent: '147'
       uuid: d00e7e8e-2a7d-45cd-9696-d04f1e892d48
-      field_address: {  }
+      field_address:
+        -
+          langcode: null
+          country_code: GB
+          administrative_area: null
+          locality: Winchester
+          dependent_locality: null
+          postal_code: 'SO23 9BN'
+          sorting_code: null
+          address_line1: 'Bar End Road'
+          address_line2: ''
+          address_line3: null
+          organization: null
+          given_name: null
+          additional_name: null
+          family_name: null
       field_area: {  }
-      field_point: {  }
+      field_extent: {  }
+      field_point:
+        -
+          value: 'POINT (-1.3036 51.0537)'
+          geo_type: Point
+          lat: 51.0537
+          lon: -1.3036
+          left: -1.3036
+          top: 51.0537
+          right: -1.3036
+          bottom: 51.0537
+          geohash: gcp46q49r
+          latlon: '51.0537,-1.3036'
     -
       vid: location
       tid: '194'
@@ -2986,6 +3496,18 @@ taxonomies:
       field_area:
         -
           value: '1'
+      field_extent:
+        -
+          value: 'POLYGON((-0.96076 50.84010, -0.91860 50.84010, -0.91860 50.86694, -0.96076 50.86694, -0.96076 50.84010))'
+          geo_type: Polygon
+          lat: 50.853520000023
+          lon: -0.93968000000034
+          left: -0.96076
+          top: 50.86694
+          right: -0.9186
+          bottom: 50.8401
+          geohash: gcp3
+          latlon: '50.853520000023,-0.93968000000034'
       field_point:
         -
           value: 'POINT (-0.937104 50.848075)'
@@ -3008,9 +3530,36 @@ taxonomies:
       weight: '0'
       parent: '194'
       uuid: 0996dad2-52a2-48f0-813f-da098e8512cc
-      field_address: {  }
+      field_address:
+        -
+          langcode: null
+          country_code: GB
+          administrative_area: null
+          locality: Emsworth
+          dependent_locality: null
+          postal_code: 'PO10 7DD'
+          sorting_code: null
+          address_line1: 'North Street'
+          address_line2: ''
+          address_line3: null
+          organization: null
+          given_name: null
+          additional_name: null
+          family_name: null
       field_area: {  }
-      field_point: {  }
+      field_extent: {  }
+      field_point:
+        -
+          value: 'POINT (-0.9371 50.8482)'
+          geo_type: Point
+          lat: 50.8482
+          lon: -0.9371
+          left: -0.9371
+          top: 50.8482
+          right: -0.9371
+          bottom: 50.8482
+          geohash: gcp368ts5
+          latlon: '50.8482,-0.9371'
     -
       vid: location
       tid: '280'
@@ -3023,6 +3572,7 @@ taxonomies:
       uuid: 73c1bdf1-75ed-4cee-9786-d28a1a4984c3
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point:
         -
           value: 'POINT (-1.41154 50.901121)'
@@ -3047,6 +3597,7 @@ taxonomies:
       uuid: 2b7252fe-423d-4913-a8c4-baa1eae9fd17
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point: {  }
     -
       vid: location
@@ -3060,6 +3611,7 @@ taxonomies:
       uuid: 1e54a15f-ea33-4efe-bb4e-965e284b9ee3
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point:
         -
           value: 'POINT (-1.260861 50.90726)'
@@ -3086,6 +3638,18 @@ taxonomies:
       field_area:
         -
           value: '1'
+      field_extent:
+        -
+          value: 'POLYGON((-1.22728 50.82895, -1.14352 50.82895, -1.14352 50.86791, -1.22728 50.86791, -1.22728 50.82895))'
+          geo_type: Polygon
+          lat: 50.848430000043
+          lon: -1.185400000001
+          left: -1.22728
+          top: 50.86791
+          right: -1.14352
+          bottom: 50.82895
+          geohash: gcp1
+          latlon: '50.848430000043,-1.185400000001'
       field_point:
         -
           value: 'POINT (-1.175911 50.852353)'
@@ -3108,9 +3672,36 @@ taxonomies:
       weight: '0'
       parent: '142'
       uuid: 8014ecb2-7fa3-401e-a466-b739e66cb911
-      field_address: {  }
+      field_address:
+        -
+          langcode: null
+          country_code: GB
+          administrative_area: null
+          locality: Fareham
+          dependent_locality: null
+          postal_code: 'PO13 9FU'
+          sorting_code: null
+          address_line1: 'Meteor Way'
+          address_line2: 'Daedalus, Lee-on-the-Solent'
+          address_line3: null
+          organization: null
+          given_name: null
+          additional_name: null
+          family_name: null
       field_area: {  }
-      field_point: {  }
+      field_extent: {  }
+      field_point:
+        -
+          value: 'POINT (-1.2016 50.8124)'
+          geo_type: Point
+          lat: 50.8124
+          lon: -1.2016
+          left: -1.2016
+          top: 50.8124
+          right: -1.2016
+          bottom: 50.8124
+          geohash: gcp1hdj58
+          latlon: '50.8124,-1.2016'
     -
       vid: location
       tid: '244'
@@ -3123,6 +3714,7 @@ taxonomies:
       uuid: 54f3acc7-46e4-4276-8062-4578d0610933
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point:
         -
           value: 'POINT (-1.176997 50.854557)'
@@ -3149,6 +3741,18 @@ taxonomies:
       field_area:
         -
           value: '1'
+      field_extent:
+        -
+          value: 'POLYGON((-1.04172 50.83915, -1.01424 50.83915, -1.01424 50.85210, -1.04172 50.85210, -1.04172 50.83915))'
+          geo_type: Polygon
+          lat: 50.84562500003
+          lon: -1.0279800000004
+          left: -1.04172
+          top: 50.8521
+          right: -1.01424
+          bottom: 50.83915
+          geohash: gcp3
+          latlon: '50.84562500003,-1.0279800000004'
       field_point:
         -
           value: 'POINT (-1.023642 50.852033)'
@@ -3171,9 +3775,36 @@ taxonomies:
       weight: '0'
       parent: '241'
       uuid: df077526-2df8-4463-b16e-11595b25f167
-      field_address: {  }
+      field_address:
+        -
+          langcode: null
+          country_code: GB
+          administrative_area: null
+          locality: Portsmouth
+          dependent_locality: null
+          postal_code: 'PO6 1UN'
+          sorting_code: null
+          address_line1: 'Eastern Road'
+          address_line2: Farlington
+          address_line3: null
+          organization: null
+          given_name: null
+          additional_name: null
+          family_name: null
       field_area: {  }
-      field_point: {  }
+      field_extent: {  }
+      field_point:
+        -
+          value: 'POINT (-1.0308 50.8355)'
+          geo_type: Point
+          lat: 50.8355
+          lon: -1.0308
+          left: -1.0308
+          top: 50.8355
+          right: -1.0308
+          bottom: 50.8355
+          geohash: gcp30w36k
+          latlon: '50.8355,-1.0308'
     -
       vid: location
       tid: '332'
@@ -3188,6 +3819,18 @@ taxonomies:
       field_area:
         -
           value: '1'
+      field_extent:
+        -
+          value: 'POLYGON((-1.09147 50.79455, -1.05993 50.79455, -1.05993 50.80526, -1.09147 50.80526, -1.09147 50.79455))'
+          geo_type: Polygon
+          lat: 50.799905000005
+          lon: -1.0756999999999
+          left: -1.09147
+          top: 50.80526
+          right: -1.05993
+          bottom: 50.79455
+          geohash: gcp
+          latlon: '50.799905000005,-1.0756999999999'
       field_point:
         -
           value: 'POINT (-1.078139 50.799994)'
@@ -3212,6 +3855,7 @@ taxonomies:
       uuid: 2f7272cc-b8ac-4a91-ad91-597d5e7d8dde
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point:
         -
           value: 'POINT (-1.076572 50.8018)'
@@ -3236,6 +3880,7 @@ taxonomies:
       uuid: 5b1101e1-a131-415f-b3f3-5b5735a0e33f
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point:
         -
           value: 'POINT (-1.40258 50.896349)'
@@ -3258,9 +3903,36 @@ taxonomies:
       weight: '4'
       parent: '139'
       uuid: f40c5a35-6952-449a-a0e5-2f06e0815879
-      field_address: {  }
+      field_address:
+        -
+          langcode: null
+          country_code: GB
+          administrative_area: null
+          locality: Southampton
+          dependent_locality: null
+          postal_code: 'SO14 1PG'
+          sorting_code: null
+          address_line1: '114–116 St Mary Street'
+          address_line2: ''
+          address_line3: null
+          organization: null
+          given_name: null
+          additional_name: null
+          family_name: null
       field_area: {  }
-      field_point: {  }
+      field_extent: {  }
+      field_point:
+        -
+          value: 'POINT (-1.3967 50.9022)'
+          geo_type: Point
+          lat: 50.9022
+          lon: -1.3967
+          left: -1.3967
+          top: 50.9022
+          right: -1.3967
+          bottom: 50.9022
+          geohash: gcp184qyy
+          latlon: '50.9022,-1.3967'
     -
       vid: location
       tid: '212'
@@ -3275,6 +3947,18 @@ taxonomies:
       field_area:
         -
           value: '1'
+      field_extent:
+        -
+          value: 'POLYGON((-1.18871 50.77307, -1.11094 50.77307, -1.11094 50.83918, -1.18871 50.83918, -1.18871 50.77307))'
+          geo_type: Polygon
+          lat: 50.80612499999
+          lon: -1.1498249999999
+          left: -1.18871
+          top: 50.83918
+          right: -1.11094
+          bottom: 50.77307
+          geohash: gcp
+          latlon: '50.80612499999,-1.1498249999999'
       field_point:
         -
           value: 'POINT (-1.122715 50.794457)'
@@ -3297,9 +3981,36 @@ taxonomies:
       weight: '1'
       parent: '212'
       uuid: c55f0611-54d7-429f-9d24-0d4a884525d4
-      field_address: {  }
+      field_address:
+        -
+          langcode: null
+          country_code: GB
+          administrative_area: null
+          locality: Gosport
+          dependent_locality: null
+          postal_code: 'PO12 1NS'
+          sorting_code: null
+          address_line1: 'Walpole Road'
+          address_line2: ''
+          address_line3: null
+          organization: null
+          given_name: null
+          additional_name: null
+          family_name: null
       field_area: {  }
-      field_point: {  }
+      field_extent: {  }
+      field_point:
+        -
+          value: 'POINT (-1.1235 50.7939)'
+          geo_type: Point
+          lat: 50.7939
+          lon: -1.1235
+          left: -1.1235
+          top: 50.7939
+          right: -1.1235
+          bottom: 50.7939
+          geohash: gcp0yqtzu
+          latlon: '50.7939,-1.1235'
     -
       vid: location
       tid: '156'
@@ -3312,6 +4023,7 @@ taxonomies:
       uuid: 50fbcd74-fc5d-44cb-87f1-908e2cb61310
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point:
         -
           value: 'POINT (-1.405312 50.90801)'
@@ -3336,6 +4048,7 @@ taxonomies:
       uuid: 42051e3d-1a44-4e5d-9c7e-7f926c647221
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point:
         -
           value: 'POINT (-1.328994 50.871242)'
@@ -3362,7 +4075,30 @@ taxonomies:
       field_area:
         -
           value: '1'
-      field_point: {  }
+      field_extent:
+        -
+          value: 'POLYGON((-1.96000 50.70000, -0.73000 50.70000, -0.73000 51.39000, -1.96000 51.39000, -1.96000 50.70000))'
+          geo_type: Polygon
+          lat: 51.045
+          lon: -1.345
+          left: -1.96
+          top: 51.39
+          right: -0.73
+          bottom: 50.7
+          geohash: gc
+          latlon: '51.045,-1.345'
+      field_point:
+        -
+          value: 'POINT (-1.3193 51.0626)'
+          geo_type: Point
+          lat: 51.0626
+          lon: -1.3193
+          left: -1.3193
+          top: 51.0626
+          right: -1.3193
+          bottom: 51.0626
+          geohash: gcp43zxm4
+          latlon: '51.0626,-1.3193'
     -
       vid: location
       tid: '238'
@@ -3375,6 +4111,7 @@ taxonomies:
       uuid: d2fe48b4-9cd0-4166-b9a0-07cfa6a1fced
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point:
         -
           value: 'POINT (-1.393168 50.894631)'
@@ -3401,6 +4138,18 @@ taxonomies:
       field_area:
         -
           value: '1'
+      field_extent:
+        -
+          value: 'POLYGON((-1.02036 50.83788, -0.95651 50.83788, -0.95651 50.87990, -1.02036 50.87990, -1.02036 50.83788))'
+          geo_type: Polygon
+          lat: 50.85888999996
+          lon: -0.98843499999922
+          left: -1.02036
+          top: 50.8799
+          right: -0.95651
+          bottom: 50.83788
+          geohash: gcp3
+          latlon: '50.85888999996,-0.98843499999922'
       field_point:
         -
           value: 'POINT (-0.986151 50.856713)'
@@ -3417,15 +4166,42 @@ taxonomies:
       vid: location
       tid: '236'
       langcode: en
-      name: 'Heartbreakers Bar and Live Music venue'
+      name: 'Heartbreakers Bar and Live Music Venue'
       description__value: null
       description__format: null
       weight: '21'
       parent: '139'
       uuid: 1101f9a2-7b9f-49fa-9e39-e3cba13e6004
-      field_address: {  }
+      field_address:
+        -
+          langcode: null
+          country_code: GB
+          administrative_area: null
+          locality: Southampton
+          dependent_locality: null
+          postal_code: 'SO14 1JX'
+          sorting_code: null
+          address_line1: '7–9 Hanover Buildings'
+          address_line2: ''
+          address_line3: null
+          organization: null
+          given_name: null
+          additional_name: null
+          family_name: null
       field_area: {  }
-      field_point: {  }
+      field_extent: {  }
+      field_point:
+        -
+          value: 'POINT (-1.4026 50.9048)'
+          geo_type: Point
+          lat: 50.9048
+          lon: -1.4026
+          left: -1.4026
+          top: 50.9048
+          right: -1.4026
+          bottom: 50.9048
+          geohash: gcp184ftv
+          latlon: '50.9048,-1.4026'
     -
       vid: location
       tid: '296'
@@ -3436,9 +4212,36 @@ taxonomies:
       weight: '1'
       parent: '220'
       uuid: ea4fe686-4773-4669-ba8e-2031c97e5de5
-      field_address: {  }
+      field_address:
+        -
+          langcode: null
+          country_code: GB
+          administrative_area: null
+          locality: Eastleigh
+          dependent_locality: null
+          postal_code: 'SO53 3GY'
+          sorting_code: null
+          address_line1: 'Suffolk Drive'
+          address_line2: "Chandler's Ford"
+          address_line3: null
+          organization: null
+          given_name: null
+          additional_name: null
+          family_name: null
       field_area: {  }
-      field_point: {  }
+      field_extent: {  }
+      field_point:
+        -
+          value: 'POINT (-1.3878 50.9854)'
+          geo_type: Point
+          lat: 50.9854
+          lon: -1.3878
+          left: -1.3878
+          top: 50.9854
+          right: -1.3878
+          bottom: 50.9854
+          geohash: gcp403t7m
+          latlon: '50.9854,-1.3878'
     -
       vid: location
       tid: '245'
@@ -3453,6 +4256,18 @@ taxonomies:
       field_area:
         -
           value: '1'
+      field_extent:
+        -
+          value: 'POLYGON((-1.08380 50.82596, -1.05488 50.82596, -1.05488 50.83646, -1.08380 50.83646, -1.08380 50.82596))'
+          geo_type: Polygon
+          lat: 50.831209999978
+          lon: -1.0693399999998
+          left: -1.0838
+          top: 50.83646
+          right: -1.05488
+          bottom: 50.82596
+          geohash: gcp1p
+          latlon: '50.831209999978,-1.0693399999998'
       field_point:
         -
           value: 'POINT (-1.066368 50.83026)'
@@ -3477,6 +4292,7 @@ taxonomies:
       uuid: 11f2468a-da52-4d5b-a9c6-90529e74bbe6
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point:
         -
           value: 'POINT (-1.399311 50.903898)'
@@ -3501,6 +4317,7 @@ taxonomies:
       uuid: b6bb0755-e44f-4bda-9731-8d4e119c912d
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point: {  }
     -
       vid: location
@@ -3514,6 +4331,7 @@ taxonomies:
       uuid: 6b18f45e-5699-4f84-b936-8c89bc72d1b6
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point:
         -
           value: 'POINT (-1.369365 50.971197)'
@@ -3538,6 +4356,7 @@ taxonomies:
       uuid: b27bf779-fb06-4d21-b92a-f6a561b990b0
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point:
         -
           value: 'POINT (-1.074778 50.791159)'
@@ -3562,6 +4381,7 @@ taxonomies:
       uuid: 7dc54902-7d71-4c38-9f10-9f2587fe4a61
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point:
         -
           value: 'POINT (-1.071216 50.786512)'
@@ -3578,15 +4398,42 @@ taxonomies:
       vid: location
       tid: '207'
       langcode: en
-      name: 'IO next to Planet Sounds Terminus Terrace'
+      name: IO
       description__value: null
       description__format: null
       weight: '27'
       parent: '139'
       uuid: 0a7e074e-0b7e-4aeb-b169-586e6eea89a2
-      field_address: {  }
+      field_address:
+        -
+          langcode: null
+          country_code: GB
+          administrative_area: null
+          locality: Southampton
+          dependent_locality: null
+          postal_code: 'SO14 3FE'
+          sorting_code: null
+          address_line1: '62–64 Terminus Terrace'
+          address_line2: ''
+          address_line3: null
+          organization: null
+          given_name: null
+          additional_name: null
+          family_name: null
       field_area: {  }
-      field_point: {  }
+      field_extent: {  }
+      field_point:
+        -
+          value: 'POINT (-1.3963 50.8981)'
+          geo_type: Point
+          lat: 50.8981
+          lon: -1.3963
+          left: -1.3963
+          top: 50.8981
+          right: -1.3963
+          bottom: 50.8981
+          geohash: gcp181xnz
+          latlon: '50.8981,-1.3963'
     -
       vid: location
       tid: '180'
@@ -3601,6 +4448,18 @@ taxonomies:
       field_area:
         -
           value: '1'
+      field_extent:
+        -
+          value: 'POLYGON((-1.58719 50.57632, -1.06811 50.57632, -1.06811 50.76566, -1.58719 50.76566, -1.58719 50.57632))'
+          geo_type: Polygon
+          lat: 50.670989999999
+          lon: -1.32765
+          left: -1.58719
+          top: 50.76566
+          right: -1.06811
+          bottom: 50.57632
+          geohash: g
+          latlon: '50.670989999999,-1.32765'
       field_point:
         -
           value: 'POINT (-1.33363 50.671311)'
@@ -3625,6 +4484,7 @@ taxonomies:
       uuid: 413c6f88-73ff-46e5-860c-1263a390ad5e
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point:
         -
           value: 'POINT (-1.40416 50.907927)'
@@ -3649,6 +4509,7 @@ taxonomies:
       uuid: ed6ed626-81e5-4d5f-8867-8d7fe8963760
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point:
         -
           value: 'POINT (-1.396565 50.933695)'
@@ -3671,9 +4532,36 @@ taxonomies:
       weight: '13'
       parent: '141'
       uuid: 01345118-59ec-49c8-8d87-755bce286e91
-      field_address: {  }
+      field_address:
+        -
+          langcode: null
+          country_code: GB
+          administrative_area: null
+          locality: Portsmouth
+          dependent_locality: null
+          postal_code: 'PO5 3PT'
+          sorting_code: null
+          address_line1: '74–76 Palmerston Road'
+          address_line2: Southsea
+          address_line3: null
+          organization: null
+          given_name: null
+          additional_name: null
+          family_name: null
       field_area: {  }
-      field_point: {  }
+      field_extent: {  }
+      field_point:
+        -
+          value: 'POINT (-1.0886 50.7824)'
+          geo_type: Point
+          lat: 50.7824
+          lon: -1.0886
+          left: -1.0886
+          top: 50.7824
+          right: -1.0886
+          bottom: 50.7824
+          geohash: gcp0zhxkc
+          latlon: '50.7824,-1.0886'
     -
       vid: location
       tid: '232'
@@ -3688,6 +4576,18 @@ taxonomies:
       field_area:
         -
           value: '1'
+      field_extent:
+        -
+          value: 'POLYGON((-1.21540 50.79171, -1.18056 50.79171, -1.18056 50.81429, -1.21540 50.81429, -1.21540 50.79171))'
+          geo_type: Polygon
+          lat: 50.802999999892
+          lon: -1.1979799999975
+          left: -1.2154
+          top: 50.81429
+          right: -1.18056
+          bottom: 50.79171
+          geohash: gcp
+          latlon: '50.802999999892,-1.1979799999975'
       field_point:
         -
           value: 'POINT (-1.20027 50.800212)'
@@ -3712,6 +4612,7 @@ taxonomies:
       uuid: b4aa7405-8d1e-4682-bc01-f751b9772b06
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point:
         -
           value: 'POINT (-1.354092 50.970084)'
@@ -3734,9 +4635,36 @@ taxonomies:
       weight: '29'
       parent: '139'
       uuid: 41e1ff18-f160-4e72-9886-c95ea150fb86
-      field_address: {  }
+      field_address:
+        -
+          langcode: null
+          country_code: GB
+          administrative_area: null
+          locality: Southampton
+          dependent_locality: null
+          postal_code: 'SO15 1AG'
+          sorting_code: null
+          address_line1: 'West Quay Road'
+          address_line2: ''
+          address_line3: null
+          organization: null
+          given_name: null
+          additional_name: null
+          family_name: null
       field_area: {  }
-      field_point: {  }
+      field_extent: {  }
+      field_point:
+        -
+          value: 'POINT (-1.4086 50.8996)'
+          geo_type: Point
+          lat: 50.8996
+          lon: -1.4086
+          left: -1.4086
+          top: 50.8996
+          right: -1.4086
+          bottom: 50.8996
+          geohash: gcncxcyr9
+          latlon: '50.8996,-1.4086'
     -
       vid: location
       tid: '336'
@@ -3747,9 +4675,36 @@ taxonomies:
       weight: '0'
       parent: '139'
       uuid: 9d96f312-6539-4123-bcd6-f59446f38175
-      field_address: {  }
+      field_address:
+        -
+          langcode: null
+          country_code: GB
+          administrative_area: null
+          locality: Southampton
+          dependent_locality: null
+          postal_code: 'SO15 1QF'
+          sorting_code: null
+          address_line1: 'Harbour Parade'
+          address_line2: ''
+          address_line3: null
+          organization: null
+          given_name: null
+          additional_name: null
+          family_name: null
       field_area: {  }
-      field_point: {  }
+      field_extent: {  }
+      field_point:
+        -
+          value: 'POINT (-1.4068 50.9041)'
+          geo_type: Point
+          lat: 50.9041
+          lon: -1.4068
+          left: -1.4068
+          top: 50.9041
+          right: -1.4068
+          bottom: 50.9041
+          geohash: gcncxfz9g
+          latlon: '50.9041,-1.4068'
     -
       vid: location
       tid: '317'
@@ -3762,6 +4717,7 @@ taxonomies:
       uuid: dc4ed24e-58b6-463f-9b18-d81a354025de
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point:
         -
           value: 'POINT (-1.070691 50.831392)'
@@ -3784,9 +4740,36 @@ taxonomies:
       weight: '30'
       parent: '139'
       uuid: b4153f3a-6502-4db1-abe1-20c2554cb838
-      field_address: {  }
+      field_address:
+        -
+          langcode: null
+          country_code: GB
+          administrative_area: null
+          locality: Southampton
+          dependent_locality: null
+          postal_code: 'SO16 9LY'
+          sorting_code: null
+          address_line1: 'Kendal Avenue'
+          address_line2: Millbrook
+          address_line3: null
+          organization: null
+          given_name: null
+          additional_name: null
+          family_name: null
       field_area: {  }
-      field_point: {  }
+      field_extent: {  }
+      field_point:
+        -
+          value: 'POINT (-1.4646 50.9209)'
+          geo_type: Point
+          lat: 50.9209
+          lon: -1.4646
+          left: -1.4646
+          top: 50.9209
+          right: -1.4646
+          bottom: 50.9209
+          geohash: gcncwtve8
+          latlon: '50.9209,-1.4646'
     -
       vid: location
       tid: '331'
@@ -3799,6 +4782,7 @@ taxonomies:
       uuid: 3edb89a5-9807-4536-9b94-96e397f288e9
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point:
         -
           value: 'POINT (-1.392651 50.896143)'
@@ -3823,6 +4807,7 @@ taxonomies:
       uuid: 5de5d21d-b621-4d50-9069-be43b26ff057
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point:
         -
           value: 'POINT (-1.404159 50.908098)'
@@ -3847,6 +4832,7 @@ taxonomies:
       uuid: 60f3e1e8-805e-4159-851a-785e1d29ec5a
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point:
         -
           value: 'POINT (-1.409333 50.897838)'
@@ -3871,6 +4857,7 @@ taxonomies:
       uuid: 9e003fba-093e-4001-bae9-ed6ab6d60869
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point:
         -
           value: 'POINT (-1.410227 50.908589)'
@@ -3895,6 +4882,7 @@ taxonomies:
       uuid: bca6844c-f3ba-4d0f-8c40-c7e495360fef
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point:
         -
           value: 'POINT (-1.398619 50.898013)'
@@ -3917,9 +4905,36 @@ taxonomies:
       weight: '25'
       parent: '139'
       uuid: 56359c9b-d9e1-409d-a568-ba7f9d60da27
-      field_address: {  }
+      field_address:
+        -
+          langcode: null
+          country_code: GB
+          administrative_area: null
+          locality: Southampton
+          dependent_locality: null
+          postal_code: 'SO14 7SJ'
+          sorting_code: null
+          address_line1: '1 Portland Terrace'
+          address_line2: ''
+          address_line3: null
+          organization: null
+          given_name: null
+          additional_name: null
+          family_name: null
       field_area: {  }
-      field_point: {  }
+      field_extent: {  }
+      field_point:
+        -
+          value: 'POINT (-1.4063 50.9035)'
+          geo_type: Point
+          lat: 50.9035
+          lon: -1.4063
+          left: -1.4063
+          top: 50.9035
+          right: -1.4063
+          bottom: 50.9035
+          geohash: gcncxfxyq
+          latlon: '50.9035,-1.4063'
     -
       vid: location
       tid: '173'
@@ -3934,18 +4949,30 @@ taxonomies:
       field_area:
         -
           value: '1'
+      field_extent:
+        -
+          value: 'POLYGON((-1.86000 50.72000, -1.42000 50.72000, -1.42000 50.98000, -1.86000 50.98000, -1.86000 50.72000))'
+          geo_type: Polygon
+          lat: 50.850000000001
+          lon: -1.6400000000001
+          left: -1.86
+          top: 50.98
+          right: -1.42
+          bottom: 50.72
+          geohash: gcn
+          latlon: '50.850000000001,-1.6400000000001'
       field_point:
         -
-          value: 'POINT (-1.595684 50.855727)'
+          value: 'POINT (-1.5761 50.8732)'
           geo_type: Point
-          lat: 50.855727
-          lon: -1.595684
-          left: -1.595684
-          top: 50.855727
-          right: -1.595684
-          bottom: 50.855727
-          geohash: gcnc7dn01feu
-          latlon: '50.855727,-1.595684'
+          lat: 50.8732
+          lon: -1.5761
+          left: -1.5761
+          top: 50.8732
+          right: -1.5761
+          bottom: 50.8732
+          geohash: gcnckjhmf
+          latlon: '50.8732,-1.5761'
     -
       vid: location
       tid: '314'
@@ -3960,18 +4987,30 @@ taxonomies:
       field_area:
         -
           value: '1'
+      field_extent:
+        -
+          value: 'POLYGON((-1.86000 50.72000, -1.42000 50.72000, -1.42000 50.98000, -1.86000 50.98000, -1.86000 50.72000))'
+          geo_type: Polygon
+          lat: 50.850000000001
+          lon: -1.6400000000001
+          left: -1.86
+          top: 50.98
+          right: -1.42
+          bottom: 50.72
+          geohash: gcn
+          latlon: '50.850000000001,-1.6400000000001'
       field_point:
         -
-          value: 'POINT (-1.595684 50.855727)'
+          value: 'POINT (-1.5761 50.8732)'
           geo_type: Point
-          lat: 50.855727
-          lon: -1.595684
-          left: -1.595684
-          top: 50.855727
-          right: -1.595684
-          bottom: 50.855727
-          geohash: gcnc7dn01feu
-          latlon: '50.855727,-1.595684'
+          lat: 50.8732
+          lon: -1.5761
+          left: -1.5761
+          top: 50.8732
+          right: -1.5761
+          bottom: 50.8732
+          geohash: gcnckjhmf
+          latlon: '50.8732,-1.5761'
     -
       vid: location
       tid: '309'
@@ -3982,9 +5021,36 @@ taxonomies:
       weight: '26'
       parent: '139'
       uuid: 429fe9ce-3a07-4347-96b2-6f107b833eca
-      field_address: {  }
+      field_address:
+        -
+          langcode: null
+          country_code: GB
+          administrative_area: null
+          locality: Southampton
+          dependent_locality: null
+          postal_code: 'SO14 5SP'
+          sorting_code: null
+          address_line1: 'Kent Street'
+          address_line2: Northam
+          address_line3: null
+          organization: null
+          given_name: null
+          additional_name: null
+          family_name: null
       field_area: {  }
-      field_point: {  }
+      field_extent: {  }
+      field_point:
+        -
+          value: 'POINT (-1.3887 50.9061)'
+          geo_type: Point
+          lat: 50.9061
+          lon: -1.3887
+          left: -1.3887
+          top: 50.9061
+          right: -1.3887
+          bottom: 50.9061
+          geohash: gcp187hv8
+          latlon: '50.9061,-1.3887'
     -
       vid: location
       tid: '170'
@@ -3997,6 +5063,7 @@ taxonomies:
       uuid: b6ae85ef-53cd-4921-8837-b426db3ca56f
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point:
         -
           value: 'POINT (-1.406006 50.90799)'
@@ -4021,6 +5088,7 @@ taxonomies:
       uuid: 0b20a739-94cf-4eff-8bd6-4f67d77e24ca
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point:
         -
           value: 'POINT (-1.393642 50.925315)'
@@ -4045,6 +5113,7 @@ taxonomies:
       uuid: de17c3bb-e79d-4f42-a241-c436b166feef
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point:
         -
           value: 'POINT (-1.401827 50.905725)'
@@ -4067,9 +5136,36 @@ taxonomies:
       weight: '37'
       parent: '139'
       uuid: e8872410-ad6d-4112-b7bf-60b00a7b3fb3
-      field_address: {  }
+      field_address:
+        -
+          langcode: null
+          country_code: GB
+          administrative_area: null
+          locality: Southampton
+          dependent_locality: null
+          postal_code: 'SO15 1GG'
+          sorting_code: null
+          address_line1: '61 Commercial Road'
+          address_line2: ''
+          address_line3: null
+          organization: null
+          given_name: null
+          additional_name: null
+          family_name: null
       field_area: {  }
-      field_point: {  }
+      field_extent: {  }
+      field_point:
+        -
+          value: 'POINT (-1.4103 50.9094)'
+          geo_type: Point
+          lat: 50.9094
+          lon: -1.4103
+          left: -1.4103
+          top: 50.9094
+          right: -1.4103
+          bottom: 50.9094
+          geohash: gcncxgv0c
+          latlon: '50.9094,-1.4103'
     -
       vid: location
       tid: '252'
@@ -4084,6 +5180,18 @@ taxonomies:
       field_area:
         -
           value: '1'
+      field_extent:
+        -
+          value: 'POLYGON((-1.11701 50.84293, -1.08161 50.84293, -1.08161 50.85743, -1.11701 50.85743, -1.11701 50.84293))'
+          geo_type: Polygon
+          lat: 50.850179999952
+          lon: -1.0993099999989
+          left: -1.11701
+          top: 50.85743
+          right: -1.08161
+          bottom: 50.84293
+          geohash: gcp1
+          latlon: '50.850179999952,-1.0993099999989'
       field_point:
         -
           value: 'POINT (-1.098898 50.849481)'
@@ -4108,6 +5216,7 @@ taxonomies:
       uuid: 7535d76e-9223-4985-8809-e44f038cfeed
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point: {  }
     -
       vid: location
@@ -4121,6 +5230,7 @@ taxonomies:
       uuid: d05a26e6-a307-4315-89db-716cde6ba10b
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point:
         -
           value: 'POINT (-1.369412 50.96948)'
@@ -4143,9 +5253,36 @@ taxonomies:
       weight: '38'
       parent: '139'
       uuid: 30ef301d-9ff4-4aa4-864a-2f33e503ec67
-      field_address: {  }
+      field_address:
+        -
+          langcode: null
+          country_code: GB
+          administrative_area: null
+          locality: Southampton
+          dependent_locality: null
+          postal_code: 'SO14 3FE'
+          sorting_code: null
+          address_line1: '62–64 Terminus Terrace'
+          address_line2: ''
+          address_line3: null
+          organization: null
+          given_name: null
+          additional_name: null
+          family_name: null
       field_area: {  }
-      field_point: {  }
+      field_extent: {  }
+      field_point:
+        -
+          value: 'POINT (-1.3963 50.8981)'
+          geo_type: Point
+          lat: 50.8981
+          lon: -1.3963
+          left: -1.3963
+          top: 50.8981
+          right: -1.3963
+          bottom: 50.8981
+          geohash: gcp181xnz
+          latlon: '50.8981,-1.3963'
     -
       vid: location
       tid: '262'
@@ -4156,22 +5293,76 @@ taxonomies:
       weight: '16'
       parent: '141'
       uuid: c9263e03-093b-46a3-97e5-9d12b69f402d
-      field_address: {  }
+      field_address:
+        -
+          langcode: null
+          country_code: GB
+          administrative_area: null
+          locality: Portsmouth
+          dependent_locality: null
+          postal_code: 'PO1 1BU'
+          sorting_code: null
+          address_line1: '109–111 Commercial Road'
+          address_line2: ''
+          address_line3: null
+          organization: null
+          given_name: null
+          additional_name: null
+          family_name: null
       field_area: {  }
-      field_point: {  }
+      field_extent: {  }
+      field_point:
+        -
+          value: 'POINT (-1.0908 50.8005)'
+          geo_type: Point
+          lat: 50.8005
+          lon: -1.0908
+          left: -1.0908
+          top: 50.8005
+          right: -1.0908
+          bottom: 50.8005
+          geohash: gcp0zpvwq
+          latlon: '50.8005,-1.0908'
     -
       vid: location
       tid: '268'
       langcode: en
-      name: 'Polygon Orchard, Wilton Avenue'
+      name: 'Polygon Orchard'
       description__value: null
       description__format: null
       weight: '39'
       parent: '139'
       uuid: 8ebe701c-8776-4dbf-a47e-4c7b10248ab4
-      field_address: {  }
+      field_address:
+        -
+          langcode: null
+          country_code: GB
+          administrative_area: null
+          locality: Southampton
+          dependent_locality: null
+          postal_code: 'SO15 2HA'
+          sorting_code: null
+          address_line1: 'Wilton Avenue'
+          address_line2: 'The Polygon'
+          address_line3: null
+          organization: null
+          given_name: null
+          additional_name: null
+          family_name: null
       field_area: {  }
-      field_point: {  }
+      field_extent: {  }
+      field_point:
+        -
+          value: 'POINT (-1.4112 50.9114)'
+          geo_type: Point
+          lat: 50.9114
+          lon: -1.4112
+          left: -1.4112
+          top: 50.9114
+          right: -1.4112
+          bottom: 50.9114
+          geohash: gcncxuhkk
+          latlon: '50.9114,-1.4112'
     -
       vid: location
       tid: '381'
@@ -4186,6 +5377,18 @@ taxonomies:
       field_area:
         -
           value: '1'
+      field_extent:
+        -
+          value: 'POLYGON((-1.14762 50.83558, -1.11239 50.83558, -1.11239 50.85871, -1.14762 50.85871, -1.14762 50.83558))'
+          geo_type: Polygon
+          lat: 50.847145000052
+          lon: -1.1300050000013
+          left: -1.14762
+          top: 50.85871
+          right: -1.11239
+          bottom: 50.83558
+          geohash: gcp1
+          latlon: '50.847145000052,-1.1300050000013'
       field_point:
         -
           value: 'POINT (-1.123893 50.848296)'
@@ -4212,6 +5415,18 @@ taxonomies:
       field_area:
         -
           value: '1'
+      field_extent:
+        -
+          value: 'POLYGON((-1.14866 50.77811, -1.01411 50.77811, -1.01411 50.85792, -1.14866 50.85792, -1.14866 50.77811))'
+          geo_type: Polygon
+          lat: 50.818015000009
+          lon: -1.0813850000001
+          left: -1.14866
+          top: 50.85792
+          right: -1.01411
+          bottom: 50.77811
+          geohash: gcp
+          latlon: '50.818015000009,-1.0813850000001'
       field_point:
         -
           value: 'POINT (-1.09117 50.79685)'
@@ -4236,6 +5451,7 @@ taxonomies:
       uuid: 1f277914-01fc-4c6b-8fc9-839f5aef188d
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point:
         -
           value: 'POINT (-1.090891 50.798491)'
@@ -4258,9 +5474,36 @@ taxonomies:
       weight: '17'
       parent: '141'
       uuid: 12d63c21-bd2b-4654-8734-8b6e8dc449dd
-      field_address: {  }
+      field_address:
+        -
+          langcode: null
+          country_code: GB
+          administrative_area: null
+          locality: Portsmouth
+          dependent_locality: null
+          postal_code: 'PO1 2HA'
+          sorting_code: null
+          address_line1: 'High Street'
+          address_line2: 'Old Portsmouth'
+          address_line3: null
+          organization: null
+          given_name: null
+          additional_name: null
+          family_name: null
       field_area: {  }
-      field_point: {  }
+      field_extent: {  }
+      field_point:
+        -
+          value: 'POINT (-1.1045 50.7905)'
+          geo_type: Point
+          lat: 50.7905
+          lon: -1.1045
+          left: -1.1045
+          top: 50.7905
+          right: -1.1045
+          bottom: 50.7905
+          geohash: gcp0yy5sp
+          latlon: '50.7905,-1.1045'
     -
       vid: location
       tid: '278'
@@ -4273,6 +5516,7 @@ taxonomies:
       uuid: b84b54ad-35ca-48c4-bde7-7f9f024b9542
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point:
         -
           value: 'POINT (-1.091703 50.796515)'
@@ -4295,9 +5539,36 @@ taxonomies:
       weight: '19'
       parent: '141'
       uuid: 5bfe5566-2817-49fd-b22f-649aa5b64d0d
-      field_address: {  }
+      field_address:
+        -
+          langcode: null
+          country_code: GB
+          administrative_area: null
+          locality: Portsmouth
+          dependent_locality: null
+          postal_code: 'PO4 9LD'
+          sorting_code: null
+          address_line1: 'Fort Cumberland'
+          address_line2: 'Fort Cumberland Road, Eastney'
+          address_line3: null
+          organization: null
+          given_name: null
+          additional_name: null
+          family_name: null
       field_area: {  }
-      field_point: {  }
+      field_extent: {  }
+      field_point:
+        -
+          value: 'POINT (-1.0315 50.7891)'
+          geo_type: Point
+          lat: 50.7891
+          lon: -1.0315
+          left: -1.0315
+          top: 50.7891
+          right: -1.0315
+          bottom: 50.7891
+          geohash: gcp2btbgu
+          latlon: '50.7891,-1.0315'
     -
       vid: location
       tid: '199'
@@ -4310,6 +5581,7 @@ taxonomies:
       uuid: b349655f-488d-4977-9b8d-090a4b39e881
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point:
         -
           value: 'POINT (-1.09299 50.797594)'
@@ -4334,6 +5606,7 @@ taxonomies:
       uuid: c23214ff-0a13-4436-b3e0-32fd89242d06
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point:
         -
           value: 'POINT (-1.092496 50.798085)'
@@ -4358,6 +5631,7 @@ taxonomies:
       uuid: 19e2f114-60d4-416f-9f52-edbedced7f04
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point:
         -
           value: 'POINT (-1.109484 50.800466)'
@@ -4380,9 +5654,36 @@ taxonomies:
       weight: '0'
       parent: '141'
       uuid: f7ae9583-c7c4-4eb8-bdf5-91e8e3e6f886
-      field_address: {  }
+      field_address:
+        -
+          langcode: null
+          country_code: GB
+          administrative_area: null
+          locality: Portsmouth
+          dependent_locality: null
+          postal_code: 'PO1 3LJ'
+          sorting_code: null
+          address_line1: 'Portsmouth Historic Dockyard'
+          address_line2: 'Victory Gate'
+          address_line3: null
+          organization: null
+          given_name: null
+          additional_name: null
+          family_name: null
       field_area: {  }
-      field_point: {  }
+      field_extent: {  }
+      field_point:
+        -
+          value: 'POINT (-1.1095 50.8001)'
+          geo_type: Point
+          lat: 50.8001
+          lon: -1.1095
+          left: -1.1095
+          top: 50.8001
+          right: -1.1095
+          bottom: 50.8001
+          geohash: gcp0yzbh4
+          latlon: '50.8001,-1.1095'
     -
       vid: location
       tid: '203'
@@ -4395,6 +5696,7 @@ taxonomies:
       uuid: 940b3622-83a4-471e-8ed5-b49bb54af9ba
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point:
         -
           value: 'POINT (-1.091082 50.813105)'
@@ -4417,9 +5719,36 @@ taxonomies:
       weight: '24'
       parent: '141'
       uuid: 29368cee-c7e0-4c25-aeb0-b6c13fc0dbca
-      field_address: {  }
+      field_address:
+        -
+          langcode: null
+          country_code: GB
+          administrative_area: null
+          locality: Portsmouth
+          dependent_locality: null
+          postal_code: 'PO1 5BL'
+          sorting_code: null
+          address_line1: '1a Selbourne Terrace'
+          address_line2: Fratton
+          address_line3: null
+          organization: null
+          given_name: null
+          additional_name: null
+          family_name: null
       field_area: {  }
-      field_point: {  }
+      field_extent: {  }
+      field_point:
+        -
+          value: 'POINT (-1.0736 50.7963)'
+          geo_type: Point
+          lat: 50.7963
+          lon: -1.0736
+          left: -1.0736
+          top: 50.7963
+          right: -1.0736
+          bottom: 50.7963
+          geohash: gcp0zx4jz
+          latlon: '50.7963,-1.0736'
     -
       vid: location
       tid: '329'
@@ -4430,9 +5759,36 @@ taxonomies:
       weight: '0'
       parent: '141'
       uuid: 0f509b9a-f7ba-4659-84cc-16bd80ab5cfd
-      field_address: {  }
+      field_address:
+        -
+          langcode: null
+          country_code: GB
+          administrative_area: null
+          locality: Portsmouth
+          dependent_locality: null
+          postal_code: 'PO1 2AL'
+          sorting_code: null
+          address_line1: 'Civic Offices'
+          address_line2: 'Guildhall Square'
+          address_line3: null
+          organization: null
+          given_name: null
+          additional_name: null
+          family_name: null
       field_area: {  }
-      field_point: {  }
+      field_extent: {  }
+      field_point:
+        -
+          value: 'POINT (-1.0924 50.7975)'
+          geo_type: Point
+          lat: 50.7975
+          lon: -1.0924
+          left: -1.0924
+          top: 50.7975
+          right: -1.0924
+          bottom: 50.7975
+          geohash: gcp0zpksc
+          latlon: '50.7975,-1.0924'
     -
       vid: location
       tid: '343'
@@ -4443,9 +5799,36 @@ taxonomies:
       weight: '0'
       parent: '141'
       uuid: 7b76b9e1-0c41-4c97-90df-423372d164b6
-      field_address: {  }
+      field_address:
+        -
+          langcode: null
+          country_code: GB
+          administrative_area: null
+          locality: Portsmouth
+          dependent_locality: null
+          postal_code: 'PO5 2SQ'
+          sorting_code: null
+          address_line1: '129 Albert Road'
+          address_line2: Southsea
+          address_line3: null
+          organization: null
+          given_name: null
+          additional_name: null
+          family_name: null
       field_area: {  }
-      field_point: {  }
+      field_extent: {  }
+      field_point:
+        -
+          value: 'POINT (-1.077 50.7852)'
+          geo_type: Point
+          lat: 50.7852
+          lon: -1.077
+          left: -1.077
+          top: 50.7852
+          right: -1.077
+          bottom: 50.7852
+          geohash: gcp0zmpv0
+          latlon: '50.7852,-1.077'
     -
       vid: location
       tid: '419'
@@ -4456,9 +5839,36 @@ taxonomies:
       weight: '0'
       parent: '139'
       uuid: 46999295-b0f1-4446-9f7a-3693456646f3
-      field_address: {  }
+      field_address:
+        -
+          langcode: null
+          country_code: GB
+          administrative_area: null
+          locality: Southampton
+          dependent_locality: null
+          postal_code: 'SO14 3DL'
+          sorting_code: null
+          address_line1: '57–59 Oxford Street'
+          address_line2: ''
+          address_line3: null
+          organization: null
+          given_name: null
+          additional_name: null
+          family_name: null
       field_area: {  }
-      field_point: {  }
+      field_extent: {  }
+      field_point:
+        -
+          value: 'POINT (-1.3982 50.8988)'
+          geo_type: Point
+          lat: 50.8988
+          lon: -1.3982
+          left: -1.3982
+          top: 50.8988
+          right: -1.3982
+          bottom: 50.8988
+          geohash: gcp181vg5
+          latlon: '50.8988,-1.3982'
     -
       vid: location
       tid: '225'
@@ -4473,6 +5883,18 @@ taxonomies:
       field_area:
         -
           value: '1'
+      field_extent:
+        -
+          value: 'POLYGON((-1.50876 50.98054, -1.45987 50.98054, -1.45987 51.00979, -1.50876 51.00979, -1.50876 50.98054))'
+          geo_type: Polygon
+          lat: 50.995165000046
+          lon: -1.4843150000013
+          left: -1.50876
+          top: 51.00979
+          right: -1.45987
+          bottom: 50.98054
+          geohash: gcnf
+          latlon: '50.995165000046,-1.4843150000013'
       field_point:
         -
           value: 'POINT (-1.499763 50.989112)'
@@ -4495,9 +5917,36 @@ taxonomies:
       weight: '0'
       parent: '232'
       uuid: 32b36c84-013d-4f51-bb11-88d95b6b9bce
-      field_address: {  }
+      field_address:
+        -
+          langcode: null
+          country_code: GB
+          administrative_area: null
+          locality: Lee-on-the-Solent
+          dependent_locality: null
+          postal_code: 'PO13 9LW'
+          sorting_code: null
+          address_line1: 'Marine Parade West'
+          address_line2: ''
+          address_line3: null
+          organization: null
+          given_name: null
+          additional_name: null
+          family_name: null
       field_area: {  }
-      field_point: {  }
+      field_extent: {  }
+      field_point:
+        -
+          value: 'POINT (-1.2054 50.8021)'
+          geo_type: Point
+          lat: 50.8021
+          lon: -1.2054
+          left: -1.2054
+          top: 50.8021
+          right: -1.2054
+          bottom: 50.8021
+          geohash: gcp1h84r8
+          latlon: '50.8021,-1.2054'
     -
       vid: location
       tid: '246'
@@ -4512,6 +5961,18 @@ taxonomies:
       field_area:
         -
           value: '1'
+      field_extent:
+        -
+          value: 'POLYGON((-1.44315 50.91434, -1.41482 50.91434, -1.41482 50.93016, -1.44315 50.93016, -1.44315 50.91434))'
+          geo_type: Polygon
+          lat: 50.922250000425
+          lon: -1.4289850000122
+          left: -1.44315
+          top: 50.93016
+          right: -1.41482
+          bottom: 50.91434
+          geohash: gcncx
+          latlon: '50.922250000425,-1.4289850000122'
       field_point:
         -
           value: 'POINT (-1.426374 50.924344)'
@@ -4536,6 +5997,7 @@ taxonomies:
       uuid: 5ace134e-64ed-48b5-8031-4dbd1dd63921
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point:
         -
           value: 'POINT (-1.338103 50.893264)'
@@ -4560,6 +6022,7 @@ taxonomies:
       uuid: 57415819-dcf5-45b2-b45c-7e1d9799b063
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point:
         -
           value: 'POINT (-1.371915 50.952451)'
@@ -4584,6 +6047,7 @@ taxonomies:
       uuid: 14d86e00-84da-4060-a8f7-ce06e7fa7c1b
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point:
         -
           value: 'POINT (-1.405101 50.908417)'
@@ -4610,7 +6074,30 @@ taxonomies:
       field_area:
         -
           value: '1'
-      field_point: {  }
+      field_extent:
+        -
+          value: 'POLYGON((-1.60000 50.57000, -0.85000 50.57000, -0.85000 51.00000, -1.60000 51.00000, -1.60000 50.57000))'
+          geo_type: Polygon
+          lat: 50.784999999999
+          lon: -1.225
+          left: -1.6
+          top: 51.0
+          right: -0.85
+          bottom: 50.57
+          geohash: g
+          latlon: '50.784999999999,-1.225'
+      field_point:
+        -
+          value: 'POINT (-1.25 50.815)'
+          geo_type: Point
+          lat: 50.815
+          lon: -1.25
+          left: -1.25
+          top: 50.815
+          right: -1.25
+          bottom: 50.815
+          geohash: gcp15d9f
+          latlon: '50.815,-1.25'
     -
       vid: location
       tid: '139'
@@ -4625,6 +6112,18 @@ taxonomies:
       field_area:
         -
           value: '1'
+      field_extent:
+        -
+          value: 'POLYGON((-1.47929 50.88043, -1.31926 50.88043, -1.31926 50.95574, -1.47929 50.95574, -1.47929 50.88043))'
+          geo_type: Polygon
+          lat: 50.918084999998
+          lon: -1.399275
+          left: -1.47929
+          top: 50.95574
+          right: -1.31926
+          bottom: 50.88043
+          geohash: gc
+          latlon: '50.918084999998,-1.399275'
       field_point:
         -
           value: 'POINT (-1.404313 50.904891)'
@@ -4649,6 +6148,7 @@ taxonomies:
       uuid: 1ef9b038-a5a2-4cfa-9635-9e66f849098b
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point:
         -
           value: 'POINT (-1.40626 50.90851)'
@@ -4675,6 +6175,18 @@ taxonomies:
       field_area:
         -
           value: '1'
+      field_extent:
+        -
+          value: 'POLYGON((-1.10131 50.77776, -1.06028 50.77776, -1.06028 50.79750, -1.10131 50.79750, -1.10131 50.77776))'
+          geo_type: Polygon
+          lat: 50.787630000169
+          lon: -1.0807950000034
+          left: -1.10131
+          top: 50.7975
+          right: -1.06028
+          bottom: 50.77776
+          geohash: gcp0
+          latlon: '50.787630000169,-1.0807950000034'
       field_point:
         -
           value: 'POINT (-1.081366 50.787403)'
@@ -4699,6 +6211,7 @@ taxonomies:
       uuid: 7888d029-ef04-4f8a-8f6c-6053f0065bd8
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point:
         -
           value: 'POINT (-1.090384 50.778844)'
@@ -4723,6 +6236,7 @@ taxonomies:
       uuid: 4ae72041-9b29-46b2-94d0-65e01627a8b1
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point:
         -
           value: 'POINT (-1.089206 50.7781636)'
@@ -4745,9 +6259,36 @@ taxonomies:
       weight: '28'
       parent: '141'
       uuid: 4b1cf304-6b29-4d98-a20f-d1ceea5da648
-      field_address: {  }
+      field_address:
+        -
+          langcode: null
+          country_code: GB
+          administrative_area: null
+          locality: Portsmouth
+          dependent_locality: null
+          postal_code: 'PO5 3QQ'
+          sorting_code: null
+          address_line1: '1–3 Palmerston Road'
+          address_line2: Southsea
+          address_line3: null
+          organization: null
+          given_name: null
+          additional_name: null
+          family_name: null
       field_area: {  }
-      field_point: {  }
+      field_extent: {  }
+      field_point:
+        -
+          value: 'POINT (-1.0878 50.7834)'
+          geo_type: Point
+          lat: 50.7834
+          lon: -1.0878
+          left: -1.0878
+          top: 50.7834
+          right: -1.0878
+          bottom: 50.7834
+          geohash: gcp0zhzfs
+          latlon: '50.7834,-1.0878'
     -
       vid: location
       tid: '155'
@@ -4760,6 +6301,7 @@ taxonomies:
       uuid: 45b933ac-0c75-4c31-94fd-d948ddba5af5
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point:
         -
           value: 'POINT (-1.096227 50.78477)'
@@ -4782,22 +6324,76 @@ taxonomies:
       weight: '37'
       parent: '141'
       uuid: 57537129-b129-4a9e-83dd-65c18158edcb
-      field_address: {  }
+      field_address:
+        -
+          langcode: null
+          country_code: GB
+          administrative_area: null
+          locality: Portsmouth
+          dependent_locality: null
+          postal_code: 'PO5 3QE'
+          sorting_code: null
+          address_line1: 'Palmerston Road Precinct'
+          address_line2: Southsea
+          address_line3: null
+          organization: null
+          given_name: null
+          additional_name: null
+          family_name: null
       field_area: {  }
-      field_point: {  }
+      field_extent: {  }
+      field_point:
+        -
+          value: 'POINT (-1.0888 50.783)'
+          geo_type: Point
+          lat: 50.783
+          lon: -1.0888
+          left: -1.0888
+          top: 50.783
+          right: -1.0888
+          bottom: 50.783
+          geohash: gcp0zhz0m
+          latlon: '50.783,-1.0888'
     -
       vid: location
       tid: '306'
       langcode: en
-      name: 'St Denys Social club'
+      name: 'St Denys Social Club'
       description__value: null
       description__format: null
       weight: '42'
       parent: '139'
       uuid: a1b8a315-1721-4788-b387-7a705e89fb37
-      field_address: {  }
+      field_address:
+        -
+          langcode: null
+          country_code: GB
+          administrative_area: null
+          locality: Southampton
+          dependent_locality: null
+          postal_code: 'SO17 2JZ'
+          sorting_code: null
+          address_line1: '173 Priory Road'
+          address_line2: 'St Denys'
+          address_line3: null
+          organization: null
+          given_name: null
+          additional_name: null
+          family_name: null
       field_area: {  }
-      field_point: {  }
+      field_extent: {  }
+      field_point:
+        -
+          value: 'POINT (-1.3835 50.9234)'
+          geo_type: Point
+          lat: 50.9234
+          lon: -1.3835
+          left: -1.3835
+          top: 50.9234
+          right: -1.3835
+          bottom: 50.9234
+          geohash: gcp18w2d6
+          latlon: '50.9234,-1.3835'
     -
       vid: location
       tid: '348'
@@ -4810,6 +6406,7 @@ taxonomies:
       uuid: 5728606c-1146-4ec8-997d-4f5d21c61228
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point:
         -
           value: 'POINT (-1.057741 50.794323)'
@@ -4834,6 +6431,7 @@ taxonomies:
       uuid: 2b52f708-2efa-4912-8271-006dfd3e7af1
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point:
         -
           value: 'POINT (-1.088634 50.796922)'
@@ -4858,6 +6456,7 @@ taxonomies:
       uuid: e4270052-fd22-48c9-bd05-b93b28fb1f29
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point:
         -
           value: 'POINT (-1.390877 50.905862)'
@@ -4882,6 +6481,7 @@ taxonomies:
       uuid: 8f3730b1-5ae0-419d-9bfc-8242ce39e05b
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point:
         -
           value: 'POINT (-1.405611 50.899613)'
@@ -4904,9 +6504,36 @@ taxonomies:
       weight: '41'
       parent: '139'
       uuid: e5ab950d-f594-4fdc-9436-5ba2ce45f837
-      field_address: {  }
+      field_address:
+        -
+          langcode: null
+          country_code: GB
+          administrative_area: null
+          locality: Southampton
+          dependent_locality: null
+          postal_code: 'SO14 6QR'
+          sorting_code: null
+          address_line1: '150 Lodge Road'
+          address_line2: Portswood
+          address_line3: null
+          organization: null
+          given_name: null
+          additional_name: null
+          family_name: null
       field_area: {  }
-      field_point: {  }
+      field_extent: {  }
+      field_point:
+        -
+          value: 'POINT (-1.3965 50.9221)'
+          geo_type: Point
+          lat: 50.9221
+          lon: -1.3965
+          left: -1.3965
+          top: 50.9221
+          right: -1.3965
+          bottom: 50.9221
+          geohash: gcp18np4e
+          latlon: '50.9221,-1.3965'
     -
       vid: location
       tid: '253'
@@ -4919,6 +6546,7 @@ taxonomies:
       uuid: c63b8ac3-0e2d-47d9-b615-27535275de7c
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point:
         -
           value: 'POINT (-1.092448 50.850737)'
@@ -4943,6 +6571,7 @@ taxonomies:
       uuid: ab1b097d-50de-4180-87db-e961c6d13cb9
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point:
         -
           value: 'POINT (-0.921732 50.898031)'
@@ -4967,6 +6596,7 @@ taxonomies:
       uuid: 6e1a5bcf-ba8d-4107-a929-d8449de77655
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point:
         -
           value: 'POINT (-1.39925 50.913504)'
@@ -4991,20 +6621,48 @@ taxonomies:
       uuid: 9192cf52-4ab8-4c61-8375-4c57626b1403
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point: {  }
     -
       vid: location
       tid: '272'
       langcode: en
-      name: 'Ten Pin Southampton'
+      name: 'Tenpin Southampton'
       description__value: null
       description__format: null
       weight: '48'
       parent: '139'
       uuid: a13bb7fc-b1f9-4783-ba52-c806b0d2c275
-      field_address: {  }
+      field_address:
+        -
+          langcode: null
+          country_code: GB
+          administrative_area: null
+          locality: Southampton
+          dependent_locality: null
+          postal_code: 'SO15 0SD'
+          sorting_code: null
+          address_line1: 'Auckland Road'
+          address_line2: Millbrook
+          address_line3: null
+          organization: null
+          given_name: null
+          additional_name: null
+          family_name: null
       field_area: {  }
-      field_point: {  }
+      field_extent: {  }
+      field_point:
+        -
+          value: 'POINT (-1.4398 50.9118)'
+          geo_type: Point
+          lat: 50.9118
+          lon: -1.4398
+          left: -1.4398
+          top: 50.9118
+          right: -1.4398
+          bottom: 50.9118
+          geohash: gcncxhpwd
+          latlon: '50.9118,-1.4398'
     -
       vid: location
       tid: '209'
@@ -5017,6 +6675,7 @@ taxonomies:
       uuid: b34505f4-d52c-4057-b394-9d8a40b43a75
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point:
         -
           value: 'POINT (-1.400488 50.898569)'
@@ -5041,6 +6700,7 @@ taxonomies:
       uuid: e6e655b7-3156-4781-81f4-4e39b5d48a12
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point:
         -
           value: 'POINT (-1.1612 50.785616)'
@@ -5063,9 +6723,36 @@ taxonomies:
       weight: '30'
       parent: '141'
       uuid: d449ede9-7ea4-466d-978f-3517e4aaf843
-      field_address: {  }
+      field_address:
+        -
+          langcode: null
+          country_code: GB
+          administrative_area: null
+          locality: Portsmouth
+          dependent_locality: null
+          postal_code: 'PO4 8SL'
+          sorting_code: null
+          address_line1: 'Fratton Way'
+          address_line2: Southsea
+          address_line3: null
+          organization: null
+          given_name: null
+          additional_name: null
+          family_name: null
       field_area: {  }
-      field_point: {  }
+      field_extent: {  }
+      field_point:
+        -
+          value: 'POINT (-1.0694 50.7932)'
+          geo_type: Point
+          lat: 50.7932
+          lon: -1.0694
+          left: -1.0694
+          top: 50.7932
+          right: -1.0694
+          bottom: 50.7932
+          geohash: gcp0zwt7c
+          latlon: '50.7932,-1.0694'
     -
       vid: location
       tid: '228'
@@ -5078,6 +6765,7 @@ taxonomies:
       uuid: 65582647-bdca-486b-8de5-e14bba90d348
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point:
         -
           value: 'POINT (-1.383409 50.932847)'
@@ -5102,6 +6790,7 @@ taxonomies:
       uuid: be75be29-79dd-49b0-a30b-5c9017e94656
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point:
         -
           value: 'POINT (-1.076001 50.778628)'
@@ -5126,6 +6815,7 @@ taxonomies:
       uuid: e2d17ba3-cfc1-419f-a49b-0cf4f24f46db
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point:
         -
           value: 'POINT (-1.319748 51.062621)'
@@ -5148,9 +6838,36 @@ taxonomies:
       weight: '32'
       parent: '141'
       uuid: 330d3ad9-64ce-470c-8b64-8260319d6d12
-      field_address: {  }
+      field_address:
+        -
+          langcode: null
+          country_code: GB
+          administrative_area: null
+          locality: Portsmouth
+          dependent_locality: null
+          postal_code: 'PO1 2AB'
+          sorting_code: null
+          address_line1: 'Portsmouth Guildhall'
+          address_line2: 'Guildhall Square'
+          address_line3: null
+          organization: null
+          given_name: null
+          additional_name: null
+          family_name: null
       field_area: {  }
-      field_point: {  }
+      field_extent: {  }
+      field_point:
+        -
+          value: 'POINT (-1.0913 50.7968)'
+          geo_type: Point
+          lat: 50.7968
+          lon: -1.0913
+          left: -1.0913
+          top: 50.7968
+          right: -1.0913
+          bottom: 50.7968
+          geohash: gcp0zpm2f
+          latlon: '50.7968,-1.0913'
     -
       vid: location
       tid: '263'
@@ -5163,6 +6880,7 @@ taxonomies:
       uuid: 6e0243f6-4ebe-4f1c-906a-481b9dbc3cfc
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point:
         -
           value: 'POINT (-1.105223 50.795378)'
@@ -5187,6 +6905,7 @@ taxonomies:
       uuid: ee64be68-d5e4-4fcf-8aee-cb333f99c735
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point:
         -
           value: 'POINT (-1.405479 50.905822)'
@@ -5211,6 +6930,7 @@ taxonomies:
       uuid: 4741818b-fea7-46ae-831b-05da72244be4
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point:
         -
           value: 'POINT (-1.239008 50.982075)'
@@ -5233,9 +6953,36 @@ taxonomies:
       weight: '0'
       parent: '387'
       uuid: d6c17a3f-cfa9-4c6e-a53e-a9636de5486a
-      field_address: {  }
+      field_address:
+        -
+          langcode: null
+          country_code: GB
+          administrative_area: null
+          locality: Portsmouth
+          dependent_locality: null
+          postal_code: 'PO1 3HY'
+          sorting_code: null
+          address_line1: '112–113 Queen Street'
+          address_line2: Portsea
+          address_line3: null
+          organization: null
+          given_name: null
+          additional_name: null
+          family_name: null
       field_area: {  }
-      field_point: {  }
+      field_extent: {  }
+      field_point:
+        -
+          value: 'POINT (-1.1072 50.7978)'
+          geo_type: Point
+          lat: 50.7978
+          lon: -1.1072
+          left: -1.1072
+          top: 50.7978
+          right: -1.1072
+          bottom: 50.7978
+          geohash: gcp0yz3y8
+          latlon: '50.7978,-1.1072'
     -
       vid: location
       tid: '292'
@@ -5246,9 +6993,36 @@ taxonomies:
       weight: '1'
       parent: '142'
       uuid: 85a56ce9-b96d-4db1-8183-3455fdfec687
-      field_address: {  }
+      field_address:
+        -
+          langcode: null
+          country_code: GB
+          administrative_area: null
+          locality: Southampton
+          dependent_locality: null
+          postal_code: 'SO31 1BQ'
+          sorting_code: null
+          address_line1: '298 Botley Road'
+          address_line2: 'Park Gate'
+          address_line3: null
+          organization: null
+          given_name: null
+          additional_name: null
+          family_name: null
       field_area: {  }
-      field_point: {  }
+      field_extent: {  }
+      field_point:
+        -
+          value: 'POINT (-1.2721 50.8752)'
+          geo_type: Point
+          lat: 50.8752
+          lon: -1.2721
+          left: -1.2721
+          top: 50.8752
+          right: -1.2721
+          bottom: 50.8752
+          geohash: gcp17j99t
+          latlon: '50.8752,-1.2721'
     -
       vid: location
       tid: '240'
@@ -5261,6 +7035,7 @@ taxonomies:
       uuid: da75a5f4-db92-4694-8880-0524cec3b2f5
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point:
         -
           value: 'POINT (-1.070381 50.793018)'
@@ -5283,9 +7058,36 @@ taxonomies:
       weight: '6'
       parent: '139'
       uuid: 4a83aeb3-961c-4c85-aa73-af2ce053ae4b
-      field_address: {  }
+      field_address:
+        -
+          langcode: null
+          country_code: GB
+          administrative_area: null
+          locality: Southampton
+          dependent_locality: null
+          postal_code: 'SO16 9LP'
+          sorting_code: null
+          address_line1: 'Kendal Avenue'
+          address_line2: Millbrook
+          address_line3: null
+          organization: null
+          given_name: null
+          additional_name: null
+          family_name: null
       field_area: {  }
-      field_point: {  }
+      field_extent: {  }
+      field_point:
+        -
+          value: 'POINT (-1.4641 50.9218)'
+          geo_type: Point
+          lat: 50.9218
+          lon: -1.4641
+          left: -1.4641
+          top: 50.9218
+          right: -1.4641
+          bottom: 50.9218
+          geohash: gcncwwjbg
+          latlon: '50.9218,-1.4641'
     -
       vid: location
       tid: '300'
@@ -5298,6 +7100,7 @@ taxonomies:
       uuid: 49727d5a-ec51-4e6a-add1-ed5f304e452f
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point:
         -
           value: 'POINT (-1.405298 50.907238)'
@@ -5322,6 +7125,7 @@ taxonomies:
       uuid: 722f3cf4-8110-4294-9dba-74291014531a
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point:
         -
           value: 'POINT (-1.326199 51.05976)'
@@ -5346,6 +7150,7 @@ taxonomies:
       uuid: df157373-8cb6-45c1-b3e1-63d01a9f464a
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point:
         -
           value: 'POINT (-1.075918 50.78681)'
@@ -5370,6 +7175,7 @@ taxonomies:
       uuid: 0149f80f-c7d1-47f7-b3f3-62fe37ea94c7
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point:
         -
           value: 'POINT (-1.093286 50.796479)'
@@ -5392,9 +7198,36 @@ taxonomies:
       weight: '0'
       parent: '141'
       uuid: 3cbea889-0280-4354-a1a5-7c626991fe59
-      field_address: {  }
+      field_address:
+        -
+          langcode: null
+          country_code: GB
+          administrative_area: null
+          locality: Portsmouth
+          dependent_locality: null
+          postal_code: 'PO1 3DA'
+          sorting_code: null
+          address_line1: '1 Bishop Street'
+          address_line2: Portsea
+          address_line3: null
+          organization: null
+          given_name: null
+          additional_name: null
+          family_name: null
       field_area: {  }
-      field_point: {  }
+      field_extent: {  }
+      field_point:
+        -
+          value: 'POINT (-1.1049 50.7972)'
+          geo_type: Point
+          lat: 50.7972
+          lon: -1.1049
+          left: -1.1049
+          top: 50.7972
+          right: -1.1049
+          bottom: 50.7972
+          geohash: gcp0yz77j
+          latlon: '50.7972,-1.1049'
     -
       vid: location
       tid: '197'
@@ -5407,6 +7240,7 @@ taxonomies:
       uuid: 3f9498ce-006b-4e82-9d41-8922a2ef3641
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point:
         -
           value: 'POINT (-1.398813 50.93591)'
@@ -5431,6 +7265,7 @@ taxonomies:
       uuid: 9672c5e7-bd23-45b7-b9e7-a576b2010344
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point: {  }
     -
       vid: location
@@ -5444,6 +7279,7 @@ taxonomies:
       uuid: 5d949779-d777-4888-9465-dc989f8f38c8
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point:
         -
           value: 'POINT (-1.093553 50.795245)'
@@ -5468,6 +7304,7 @@ taxonomies:
       uuid: f36eedeb-5152-45bc-9707-a38f2f84fd5d
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point:
         -
           value: 'POINT (-1.397484 50.93418)'
@@ -5492,6 +7329,7 @@ taxonomies:
       uuid: ceabeace-7c89-44e4-9d1f-7bb67351e751
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point:
         -
           value: 'POINT (-1.332889 51.06269)'
@@ -5516,6 +7354,7 @@ taxonomies:
       uuid: 40d762c3-23c6-47c6-baf4-c2b6547bbb94
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point:
         -
           value: 'POINT (-1.320613 50.924702)'
@@ -5540,6 +7379,7 @@ taxonomies:
       uuid: 7dc50ba8-62e9-4ea2-bbad-62e0a2bb6b4e
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point: {  }
     -
       vid: location
@@ -5553,6 +7393,7 @@ taxonomies:
       uuid: 7fd46a82-00a8-4910-8e73-9101ae9d36b5
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point: {  }
     -
       vid: location
@@ -5566,6 +7407,7 @@ taxonomies:
       uuid: c7b2dc35-2478-404a-82b8-1c936abe8d9d
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point: {  }
     -
       vid: location
@@ -5579,6 +7421,7 @@ taxonomies:
       uuid: 47a16e6d-a3bd-44d1-a02d-0cd7ca6a5003
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point: {  }
     -
       vid: location
@@ -5592,6 +7435,7 @@ taxonomies:
       uuid: 9577bbc9-a45b-4673-9e0b-194dc62a8967
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point: {  }
     -
       vid: location
@@ -5605,6 +7449,7 @@ taxonomies:
       uuid: d47b7ede-4904-489e-883e-5cfffc6acc03
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point: {  }
     -
       vid: location
@@ -5618,6 +7463,7 @@ taxonomies:
       uuid: ab9f0e3d-40a3-43c0-82ef-12b0f7c96d13
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point: {  }
     -
       vid: location
@@ -5631,6 +7477,7 @@ taxonomies:
       uuid: f0c690b4-1e21-412b-868d-be7c2d9fc6d0
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point: {  }
     -
       vid: location
@@ -5644,6 +7491,7 @@ taxonomies:
       uuid: 72eb3e0d-fbf9-4c36-9625-dce412cb3abe
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point: {  }
     -
       vid: location
@@ -5659,6 +7507,18 @@ taxonomies:
       field_area:
         -
           value: '1'
+      field_extent:
+        -
+          value: 'POLYGON((-1.26467 50.57878, -1.18075 50.57878, -1.18075 50.60582, -1.26467 50.60582, -1.26467 50.57878))'
+          geo_type: Polygon
+          lat: 50.592299999998
+          lon: -1.22271
+          left: -1.26467
+          top: 50.60582
+          right: -1.18075
+          bottom: 50.57878
+          geohash: gbzp
+          latlon: '50.592299999998,-1.22271'
       field_point:
         -
           value: 'POINT (-1.205899 50.594997)'
@@ -5675,15 +7535,42 @@ taxonomies:
       vid: location
       tid: '276'
       langcode: en
-      name: 'Ventnor Exchange Arena, Sandham Gardens, Sandown'
+      name: 'Ventnor Exchange Arena'
       description__value: null
       description__format: null
       weight: '1'
       parent: '180'
       uuid: ff18fc2b-63a8-4e60-bdb0-0adb5e7f7e9e
-      field_address: {  }
+      field_address:
+        -
+          langcode: null
+          country_code: GB
+          administrative_area: null
+          locality: 'Isle of Wight'
+          dependent_locality: null
+          postal_code: 'PO36 8AT'
+          sorting_code: null
+          address_line1: 'Sandham Gardens'
+          address_line2: 'Culver Parade, Sandown'
+          address_line3: null
+          organization: null
+          given_name: null
+          additional_name: null
+          family_name: null
       field_area: {  }
-      field_point: {  }
+      field_extent: {  }
+      field_point:
+        -
+          value: 'POINT (-1.1476 50.6582)'
+          geo_type: Point
+          lat: 50.6582
+          lon: -1.1476
+          left: -1.1476
+          top: 50.6582
+          right: -1.1476
+          bottom: 50.6582
+          geohash: gcp0jyh36
+          latlon: '50.6582,-1.1476'
     -
       vid: location
       tid: '269'
@@ -5696,6 +7583,7 @@ taxonomies:
       uuid: b14803e7-3cba-46ef-b408-a01b3a5ef6f8
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point:
         -
           value: 'POINT (-0.906839 51.304355)'
@@ -5720,6 +7608,7 @@ taxonomies:
       uuid: 2039b611-589d-40af-95fa-73a5c6a043ed
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point:
         -
           value: 'POINT (-1.094228 50.799039)'
@@ -5744,6 +7633,7 @@ taxonomies:
       uuid: 8bac5c80-ca42-48a0-86fe-5f3d080eda23
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point:
         -
           value: 'POINT (-1.12489 50.792539)'
@@ -5766,9 +7656,36 @@ taxonomies:
       weight: '7'
       parent: '139'
       uuid: 29df46a9-1bbf-46ff-92e3-f39aef7b94cf
-      field_address: {  }
+      field_address:
+        -
+          langcode: null
+          country_code: GB
+          administrative_area: null
+          locality: Southampton
+          dependent_locality: null
+          postal_code: 'SO14 0AU'
+          sorting_code: null
+          address_line1: '33 Clovelly Road'
+          address_line2: ''
+          address_line3: null
+          organization: null
+          given_name: null
+          additional_name: null
+          family_name: null
       field_area: {  }
-      field_point: {  }
+      field_extent: {  }
+      field_point:
+        -
+          value: 'POINT (-1.3941 50.9123)'
+          geo_type: Point
+          lat: 50.9123
+          lon: -1.3941
+          left: -1.3941
+          top: 50.9123
+          right: -1.3941
+          bottom: 50.9123
+          geohash: gcp18k2ce
+          latlon: '50.9123,-1.3941'
     -
       vid: location
       tid: '386'
@@ -5779,9 +7696,36 @@ taxonomies:
       weight: '0'
       parent: '385'
       uuid: 697ae1b9-4113-413d-8c1f-50b22b9ca183
-      field_address: {  }
+      field_address:
+        -
+          langcode: null
+          country_code: GB
+          administrative_area: null
+          locality: Winchester
+          dependent_locality: null
+          postal_code: 'SO22 5FT'
+          sorting_code: null
+          address_line1: 'Romsey Road'
+          address_line2: ''
+          address_line3: null
+          organization: null
+          given_name: null
+          additional_name: null
+          family_name: null
       field_area: {  }
-      field_point: {  }
+      field_extent: {  }
+      field_point:
+        -
+          value: 'POINT (-1.3289 51.0604)'
+          geo_type: Point
+          lat: 51.0604
+          lon: -1.3289
+          left: -1.3289
+          top: 51.0604
+          right: -1.3289
+          bottom: 51.0604
+          geohash: gcp43z226
+          latlon: '51.0604,-1.3289'
     -
       vid: location
       tid: '335'
@@ -5794,6 +7738,7 @@ taxonomies:
       uuid: ed87e37c-7f7b-4cfc-8a33-60b2bc54dcf6
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point:
         -
           value: 'POINT (-1.406673 50.903689)'
@@ -5820,6 +7765,18 @@ taxonomies:
       field_area:
         -
           value: '1'
+      field_extent:
+        -
+          value: 'POLYGON((-1.21304 50.88713, -1.16543 50.88713, -1.16543 50.90765, -1.21304 50.90765, -1.21304 50.88713))'
+          geo_type: Polygon
+          lat: 50.897389999954
+          lon: -1.189234999999
+          left: -1.21304
+          top: 50.90765
+          right: -1.16543
+          bottom: 50.88713
+          geohash: gcp1
+          latlon: '50.897389999954,-1.189234999999'
       field_point:
         -
           value: 'POINT (-1.187028 50.900091)'
@@ -5846,6 +7803,18 @@ taxonomies:
       field_area:
         -
           value: '1'
+      field_extent:
+        -
+          value: 'POLYGON((-1.35811 51.03904, -1.28159 51.03904, -1.28159 51.08847, -1.35811 51.08847, -1.35811 51.03904))'
+          geo_type: Polygon
+          lat: 51.063755000014
+          lon: -1.3198500000003
+          left: -1.35811
+          top: 51.08847
+          right: -1.28159
+          bottom: 51.03904
+          geohash: gcp4
+          latlon: '51.063755000014,-1.3198500000003'
       field_point:
         -
           value: 'POINT (-1.311004 51.061763)'
@@ -5870,6 +7839,7 @@ taxonomies:
       uuid: 77daf3d9-ed5d-49ea-b790-cfaea4e6c891
       field_address: {  }
       field_area: {  }
+      field_extent: {  }
       field_point:
         -
           value: 'POINT (-1.371946 50.902145)'

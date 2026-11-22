@@ -1632,7 +1632,8 @@ function customsolent_helpers_place_placeholders(): array {
  * Every Location term with a page (Location epic, issue 440), keyed by tid:
  * tid, name, slug, url (/explore/locations/<slug>), parent (tid or NULL),
  * depth, area (TRUE for a town or district: not pegged on the map), lat,
- * lon (NULL without a point), term.
+ * lon (NULL without a point), bounds ([[south, west], [north, east]] of the
+ * area's extent, or NULL: the map fits an area to it), term.
  *
  * The slug is the name; a second term with the same name takes its
  * parent's slug as a suffix (…/locations/new-forest-hampshire), a third
@@ -1671,6 +1672,15 @@ function customsolent_helpers_place_terms(): array {
       $lat = $point->get('lat')->getValue() !== NULL ? round((float) $point->get('lat')->getValue(), 6) : NULL;
       $lon = $point->get('lon')->getValue() !== NULL ? round((float) $point->get('lon')->getValue(), 6) : NULL;
     }
+    // The extent's bounding box, which geofield works out for any shape.
+    $bounds = NULL;
+    if ($term->hasField('field_extent') && !$term->get('field_extent')->isEmpty()) {
+      $extent = $term->get('field_extent')->first();
+      $box = [$extent->get('bottom')->getValue(), $extent->get('left')->getValue(), $extent->get('top')->getValue(), $extent->get('right')->getValue()];
+      if (!in_array(NULL, $box, TRUE) && ($box[2] > $box[0] || $box[3] > $box[1])) {
+        $bounds = [[round((float) $box[0], 5), round((float) $box[1], 5)], [round((float) $box[2], 5), round((float) $box[3], 5)]];
+      }
+    }
     $cache[$tid] = [
       'tid' => $tid,
       'name' => $term->getName(),
@@ -1681,6 +1691,7 @@ function customsolent_helpers_place_terms(): array {
       'area' => $term->hasField('field_area') && (bool) $term->get('field_area')->value,
       'lat' => $lat,
       'lon' => $lon,
+      'bounds' => $bounds,
       'term' => $term,
     ];
   }

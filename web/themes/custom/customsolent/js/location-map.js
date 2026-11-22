@@ -3,8 +3,10 @@
  * Explore / Locations: the map of places (Location epic).
  *
  * Leaflet over OpenStreetMap tiles. Every venue with a point is a peg;
- * areas are not pegged (choosing one fits the map to the venues within
- * it). Choosing a place, by peg or by its link in the list, fetches its
+ * areas are not pegged: choosing one fits the map to the area's extent
+ * (its Extent field, the gazetteer's bounding box for a town or suburb),
+ * or, without one, to the venues within it, or to its own centre.
+ * Choosing a place, by peg or by its link in the list, fetches its
  * panel (/explore/locations/<slug>/panel), marks it in the list, moves the
  * map and pushes the address, so the back button and a bookmark both
  * work. Without this script every link is a full page.
@@ -134,6 +136,10 @@
             markers[slug].openTooltip();
             return;
           }
+          if (p.bounds) {
+            map.fitBounds(p.bounds, { padding: [12, 12], animate: true });
+            return;
+          }
           var pegs = pegsWithin(slug);
           if (pegs.length) {
             map.fitBounds(L.featureGroup(pegs).getBounds().pad(0.15), { animate: true });
@@ -228,6 +234,10 @@
           if (markers[current]) {
             map.setView(markers[current].getLatLng(), 16);
             markers[current].openTooltip();
+          }
+          else if (start.bounds) {
+            // An area: the shape of it, not a street in one of its towns.
+            map.fitBounds(start.bounds, { padding: [12, 12] });
           }
           else if (pegs.length) {
             map.fitBounds(L.featureGroup(pegs).getBounds().pad(0.15));

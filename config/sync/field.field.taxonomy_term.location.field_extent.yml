@@ -1,0 +1,21 @@
+uuid: 45519c36-38b3-44d5-a4fd-311ff6c94f6b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_extent
+    - taxonomy.vocabulary.location
+  module:
+    - geofield
+id: taxonomy_term.location.field_extent
+field_name: field_extent
+entity_type: taxonomy_term
+bundle: location
+label: Extent
+description: 'For an area: its outline as a polygon, or its bounding box, in WKT. The map fits the area to it. Filled in from the Ordnance Survey gazetteer for the towns, suburbs and districts it knows; leave empty for a venue.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: geofield

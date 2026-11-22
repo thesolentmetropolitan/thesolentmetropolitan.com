@@ -4047,6 +4047,7 @@ function customsolent_preprocess_paragraph__location_map(array &$variables): voi
       'busy' => isset($busy[$place['tid']]),
       'lat' => $place['lat'],
       'lon' => $place['lon'],
+      'bounds' => $place['bounds'],
     ];
   }
   $variables['count_all'] = count($places);
