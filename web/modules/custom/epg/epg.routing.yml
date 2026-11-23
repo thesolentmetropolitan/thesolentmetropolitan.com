@@ -1,7 +1,7 @@
 epg.guide:
-  path: '/explore/programme-guide'
+  path: '/explore/local-media-schedule'
   defaults:
     _controller: '\Drupal\epg\Controller\EpgController::guide'
-    _title: 'Programme guide'
+    _title: 'Local media schedule'
   requirements:
     _access: 'TRUE'
