@@ -87,15 +87,12 @@ content:
         start:
           weight: 4
           type: time_widget
-          settings: {  }
         end:
           weight: 5
           type: time_widget
-          settings: {  }
         note:
           weight: 6
           type: text
-          settings: {  }
     third_party_settings: {  }
   field_format:
     type: options_buttons

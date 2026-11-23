@@ -2172,11 +2172,11 @@ function customsolent_helpers_active_place_tids(): array {
 
 /**
  * Listing views whose results can be narrowed by a place: the types that
- * carry a where field (events, organisations, series, articles). Links
- * carry none and drop out of a directory.
+ * carry a where field (events, organisations, links since issue 209,
+ * series, articles).
  */
 function customsolent_helpers_place_filtered_views(): array {
-  return ['events_listing', 'organisations_listing', 'directory_listing', 'series_listing', 'articles_listing'];
+  return ['events_listing', 'organisations_listing', 'links_listing', 'directory_listing', 'series_listing', 'articles_listing'];
 }
 
 /**
@@ -2222,8 +2222,11 @@ function customsolent_helpers_place_panel(array $place): array {
   $kinds = [
     'events' => ['type' => 'event', 'label' => t('Events'), 'all' => 'All @count events', 'listing' => t('Events listing')],
     'organisations' => ['type' => 'organisation', 'label' => t('Organisations'), 'all' => 'All @count organisations', 'listing' => t('Organisations listing'), 'preview' => FALSE],
-    'series' => ['type' => 'series', 'label' => t('Series'), 'all' => 'All @count series', 'listing' => t('Series listing'), 'sort' => ['field_series_start.value', 'DESC']],
+        'series' => ['type' => 'series', 'label' => t('Series'), 'all' => 'All @count series', 'listing' => t('Series listing'), 'sort' => ['field_series_start.value', 'DESC']],
     'articles' => ['type' => 'article', 'label' => t('Articles'), 'all' => 'All @count articles', 'listing' => t('Articles listing'), 'sort' => ['created', 'DESC']],
+    // Links share the organisations listing (the directory), so their "all"
+    // link goes there, narrowed to the place.
+    'links' => ['type' => 'link', 'label' => t('Links'), 'all' => 'All @count links', 'listing' => t('Links listing'), 'sort' => ['created', 'DESC'], 'listing_key' => 'organisations'],
   ];
   $sections = [];
   foreach ($kinds as $key => $kind) {
@@ -2269,7 +2272,7 @@ function customsolent_helpers_place_panel(array $place): array {
       $items[] = $item;
       $tags = array_merge($tags, $node->getCacheTags());
     }
-    $listing = customsolent_helpers_sitewide_listing_url($key);
+    $listing = customsolent_helpers_sitewide_listing_url($kind['listing_key'] ?? $key);
     $sections[] = [
       'key' => $key,
       'label' => $kind['label'],
@@ -2291,9 +2294,9 @@ function customsolent_helpers_place_panel(array $place): array {
 }
 
 /**
- * The places with something on (Location epic): the ids of every Location
- * term that an event still to come, an organisation, a series or an
- * article is at, plus every ancestor of those (an area with a busy venue
+  * The places with something on (Location epic): the ids of every Location
+ * term that an event still to come, an organisation, a series, an article
+ * or a link is at, plus every ancestor of those (an area with a busy venue
  * is busy). Everything else is a place we know but have nothing at yet.
  *
  * @return array<int, true>
@@ -2310,7 +2313,7 @@ function customsolent_helpers_places_with_content(): array {
     WHERE n.status = 1 AND (
       n.type IN (:types[])
       OR (n.type = :event AND w.entity_id IN (SELECT entity_id FROM {node__field_when} WHERE field_when_end_value > :now))
-    )", [':types[]' => ['organisation', 'series', 'article'], ':event' => 'event', ':now' => $now])->fetchCol();
+        )", [':types[]' => ['organisation', 'series', 'article', 'link'], ':event' => 'event', ':now' => $now])->fetchCol();
   $cache = [];
   $storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
   foreach ($tids as $tid) {

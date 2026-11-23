@@ -1,0 +1,28 @@
+uuid: 185b4b10-e926-484b-b8ee-84bd6c4f9c6b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_where
+    - node.type.link
+    - taxonomy.vocabulary.location
+id: node.link.field_where
+field_name: field_where
+entity_type: node
+bundle: link
+label: where
+description: 'The place the link is about or based at, when it has one: a venue, a town, an area. Leave empty for a link with no place.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: views
+  handler_settings:
+    view:
+      view_name: location_picker
+      display_name: entity_reference_1
+      arguments: {  }
+    target_bundles:
+      location: location
+field_type: entity_reference

@@ -225,17 +225,17 @@ function customsolent_preprocess_node(array &$variables): void {
     _customsolent_preprocess_collaborator_extras($node, $variables);
   }
 
-  // Organisation page: where it is based — every Location term as one
-  // phrase ("Southampton and Portsmouth"; field_where is multi-value,
-  // issue 460), each place's address line when its term has one
-  // (organisation_places; Location epic, issue 474) — and the events it
-  // organises that are still to come.
-  if ($node->bundle() === 'organisation' && ($variables['view_mode'] ?? '') === 'full') {
+    // Organisation and Link pages: where it is based or about — every
+  // Location term as one phrase ("Southampton and Portsmouth"; field_where
+  // is multi-value, issue 460), each place's address line when its term
+  // has one (organisation_places; Location epic, issue 474; on Links from
+  // issue 209).
+  if (in_array($node->bundle(), ['organisation', 'link'], TRUE) && ($variables['view_mode'] ?? '') === 'full') {
     $variables['organisation_where'] = '';
+    $variables['organisation_places'] = [];
     $variables['where_cache'] = ['#cache' => ['tags' => []]];
     if ($node->hasField('field_where') && !$node->get('field_where')->isEmpty()) {
       $names = [];
-      $variables['organisation_places'] = [];
       foreach ($node->get('field_where')->referencedEntities() as $where) {
         $names[] = $where->getName();
         $variables['where_cache']['#cache']['tags'] = array_merge($variables['where_cache']['#cache']['tags'], _customsolent_location_cache_tags($where));
@@ -244,6 +244,10 @@ function customsolent_preprocess_node(array &$variables): void {
       }
       $variables['organisation_where'] = _customsolent_join_names($names);
     }
+  }
+  // Organisation page: the events it organises that are still to come,
+  // its outward links, and the organisations above and beneath it.
+  if ($node->bundle() === 'organisation' && ($variables['view_mode'] ?? '') === 'full') {
     /** @var \Drupal\customsolent_helpers\ContentRelations $relations */
     $relations = \Drupal::service('customsolent_helpers.content_relations');
     $view_builder = \Drupal::entityTypeManager()->getViewBuilder('node');
@@ -4119,7 +4123,7 @@ function customsolent_preprocess_paragraph__location_map(array &$variables): voi
   $variables['#attached']['library'][] = 'customsolent/location-map';
   $variables['#cache']['contexts'][] = 'url.path';
   $variables['#cache']['tags'][] = 'taxonomy_term_list:location';
-  foreach (['event', 'organisation', 'series', 'article'] as $type) {
+    foreach (['event', 'organisation', 'series', 'article', 'link'] as $type) {
     $variables['#cache']['tags'][] = 'node_list:' . $type;
   }
   // The set of busy places changes as event dates pass.

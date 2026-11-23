@@ -6,7 +6,8 @@
  * Minimal, shareable and indexable destination page. Visually identical to the
  * Organisation full view; shares the .slnt-node-full structure.
  *
- * Stacking order: topic trail, title, standfirst, link CTA.
+  * Stacking order: topic trail, title, where (the place the link is about,
+ * issue 209, as on the organisation page), standfirst, link CTA.
  *
  * Field display (full view mode): hide the built-in node title (rendered here
  * via {{ label }}). field_standfirst uses its configured formatter; field_url
@@ -37,8 +38,32 @@
       } only %}
     {% endif %}
 
-    {# Title #}
+        {# Title #}
     <h1 class="slnt-node-full__title">{{ label }}</h1>
+
+    {# Where — the Location term(s) the link is about, each a link to its
+       place page, after the map pin (issue 209; the organisation page's
+       line, same variables from customsolent_preprocess_node). #}
+    {{ where_cache }}
+    {% if organisation_where %}
+      <div class="slnt-node-full__where-row">
+        <span class="slnt-node-full__where-icon" aria-hidden="true">
+          {# Phosphor map-pin — the same pin as the event page and the cards. #}
+          <svg viewBox="0 0 256 256" fill="currentColor"><path d="M128,60a44,44,0,1,0,44,44A44.05,44.05,0,0,0,128,60Zm0,64a20,20,0,1,1,20-20A20,20,0,0,1,128,124Zm0-112a92.1,92.1,0,0,0-92,92c0,77.36,81.64,135.4,85.12,137.83a12,12,0,0,0,13.76,0,259,259,0,0,0,42.18-39C205.15,170.57,220,136.37,220,104A92.1,92.1,0,0,0,128,12Zm31.3,174.71A249.35,249.35,0,0,1,128,216.89a249.35,249.35,0,0,1-31.3-30.18C80,167.37,60,137.31,60,104a68,68,0,0,1,136,0C196,137.31,176,167.37,159.3,186.71Z"/></svg>
+        </span>
+        <div class="slnt-node-full__where">
+          {%- for place in organisation_places -%}
+            {%- if not loop.first %}{{ loop.last ? ' ' ~ 'and'|t ~ ' ' : ', ' }}{% endif -%}
+            {%- if place.url %}<a class="slnt-node-full__venue-link" href="{{ place.url }}">{{ place.name }}</a>{% else %}{{ place.name }}{% endif -%}
+          {%- endfor -%}
+          {% for place in organisation_places %}
+            {% if place.line %}
+              {% include '@customsolent/components/venue-address.html.twig' with { place: place, with_name: organisation_places|length > 1 } only %}
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    {% endif %}
 
   </div>
 

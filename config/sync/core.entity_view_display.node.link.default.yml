@@ -7,6 +7,7 @@ dependencies:
     - field.field.node.link.field_related_topics
     - field.field.node.link.field_standfirst
     - field.field.node.link.field_url
+    - field.field.node.link.field_where
     - node.type.link
   module:
     - link
@@ -57,4 +58,5 @@ content:
     third_party_settings: {  }
     weight: 100
     region: content
-hidden: {  }
+hidden:
+  field_where: true
