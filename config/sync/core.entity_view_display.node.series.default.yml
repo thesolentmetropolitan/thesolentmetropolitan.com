@@ -15,6 +15,7 @@ dependencies:
     - field.field.node.series.field_setting
     - field.field.node.series.field_short_label
     - field.field.node.series.field_standfirst
+    - field.field.node.series.field_unpublish_at_end
     - field.field.node.series.field_where
     - node.type.series
   module:
@@ -98,5 +99,6 @@ hidden:
   field_related_organisations: true
   field_setting: true
   field_short_label: true
+  field_unpublish_at_end: true
   field_where: true
   links: true

@@ -48,8 +48,6 @@ function customsolent_helpers_theme($existing, $type, $theme, $path) {
       'variables' => [
         'place' => NULL,
         'address' => NULL,
-        'map_url' => NULL,
-        'within' => [],
         'sections' => [],
         'empty' => FALSE,
       ],
@@ -445,16 +443,56 @@ function customsolent_helpers_sitewide_listing_url(string $type_word): ?string {
  * start), the end of that day in the event's timezone. The theme's
  * _customsolent_event_item_end() delegates here so the cards, the page and
  * the listings' query (which applies the same rule in SQL) never disagree.
+ *
+ * With $on_time (the event's Arrival is "Be there for the start") the item
+ * is over the moment it starts: nobody can still go, so the listings drop
+ * it, a regular event's "Next:" moves on, and the page says "Past event"
+ * from then (Rob, 22 Nov 2026). The entered end still prints as the times.
  */
-function customsolent_helpers_item_end(int $start, int $end, ?string $timezone = NULL): int {
+function customsolent_helpers_item_end(int $start, int $end, ?string $timezone = NULL, bool $on_time = FALSE): int {
   if ($start <= 0) {
     return $end;
+  }
+  if ($on_time) {
+    return $start;
   }
   if ($end > $start) {
     return $end;
   }
   $tz = new \DateTimeZone($timezone ?: (\Drupal::config('system.date')->get('timezone.default') ?: 'Europe/London'));
   return (new \DateTimeImmutable('@' . $start))->setTimezone($tz)->modify('tomorrow')->getTimestamp();
+}
+
+/**
+ * Whether an event asks people to be there for the start (field_arrival).
+ *
+ * Such an event is over for a reader once it has started; see
+ * customsolent_helpers_item_end().
+ */
+function customsolent_helpers_event_on_time(\Drupal\Core\Entity\FieldableEntityInterface $node): bool {
+  return $node->hasField('field_arrival') && (string) $node->get('field_arrival')->value === 'on_time';
+}
+
+/**
+ * Whether every date of an event is over, by the listings' clock.
+ *
+ * A regular event holds one field_when item per instance, so this is TRUE
+ * once its last instance has ended. The page's "Past event" badge, the
+ * cards' missing button and the series page's "Past events" group all
+ * read this; the listings' query applies the same rule in SQL
+ * (_customsolent_helpers_one_row_per_recurring_event).
+ */
+function customsolent_helpers_event_has_ended(\Drupal\node\NodeInterface $node, ?int $now = NULL): bool {
+  if (!$node->hasField('field_when') || $node->get('field_when')->isEmpty()) {
+    return FALSE;
+  }
+  $now ??= \Drupal::time()->getRequestTime();
+  $on_time = customsolent_helpers_event_on_time($node);
+  $last_end = 0;
+  foreach ($node->get('field_when') as $item) {
+    $last_end = max($last_end, customsolent_helpers_item_end((int) $item->value, (int) $item->end_value, $item->timezone ?: NULL, $on_time));
+  }
+  return $last_end > 0 && $last_end < $now;
 }
 
 /**
@@ -729,6 +767,7 @@ function customsolent_helpers_cloned_node_alter(\Drupal\node\NodeInterface &$nod
  * Smart Date Recur itself only skips such rules.
  */
 function customsolent_helpers_cron(): void {
+  customsolent_helpers_unpublish_ended_series();
   $state = \Drupal::state();
   $made = $state->get('customsolent_helpers.recurrence_rule_copies', []);
   if (!$made || !\Drupal::moduleHandler()->moduleExists('smart_date_recur')) {
@@ -754,6 +793,56 @@ function customsolent_helpers_cron(): void {
     unset($made[$rid]);
   }
   $state->set('customsolent_helpers.recurrence_rule_copies', $made);
+}
+
+/**
+ * Unpublishes every published series that has ended and is marked
+ * "Unpublish when it ends" (field_unpublish_at_end).
+ *
+ * A throwaway series (Halloween, Bonfire Night) is a label for a week or
+ * two; once it is over, an event's page saying it was "part of a past
+ * series: Halloween" and the series listing still offering it are noise.
+ * A series worth keeping (Black History Month) is left unticked and stays
+ * as a past series. "Ended" is the series' own rule (ContentRelations::
+ * seriesStatus): the day after its end date, in the site's timezone. Run
+ * by cron (hook_cron, above), so a series goes the morning after; with
+ * $dry_run nothing is saved. Returns the titles handled, keyed by nid.
+ *
+ * @return array<int, string>
+ */
+function customsolent_helpers_unpublish_ended_series(bool $dry_run = FALSE): array {
+  $storage = \Drupal::entityTypeManager()->getStorage('node');
+  if (!isset(\Drupal::service('entity_field.manager')->getFieldDefinitions('node', 'series')['field_unpublish_at_end'])) {
+    return [];
+  }
+  $nids = $storage->getQuery()->accessCheck(FALSE)
+    ->condition('type', 'series')
+    ->condition('status', 1)
+    ->condition('field_unpublish_at_end', 1)
+    ->execute();
+  if (!$nids) {
+    return [];
+  }
+  /** @var \Drupal\customsolent_helpers\ContentRelations $relations */
+  $relations = \Drupal::service('customsolent_helpers.content_relations');
+  $done = [];
+  foreach ($storage->loadMultiple($nids) as $series) {
+    if ($relations->seriesStatus($series) !== $relations::STATUS_PAST) {
+      continue;
+    }
+    $done[(int) $series->id()] = $series->label();
+    if ($dry_run) {
+      continue;
+    }
+    [, $end] = $relations->seriesDates($series);
+    $series->setUnpublished();
+    $series->setNewRevision();
+    $series->setRevisionCreationTime(\Drupal::time()->getRequestTime());
+    $series->setRevisionLogMessage(sprintf('Unpublished automatically: the series ended on %s and is marked "Unpublish when it ends".', $end));
+    $series->save();
+    \Drupal::logger('customsolent_helpers')->notice('Unpublished series @title (@nid): it ended on @end and is marked to be unpublished when it ends.', ['@title' => $series->label(), '@nid' => $series->id(), '@end' => $end]);
+  }
+  return $done;
 }
 
 /**
@@ -850,6 +939,10 @@ function _customsolent_helpers_one_row_per_recurring_event(\Drupal\views\Plugin\
   if (!$alias) {
     return;
   }
+  // The event's Arrival ("Be there for the start"): one row per event, so
+  // the outer join serves the correlated subquery below as well.
+  $arrival = $query->ensureTable('node__field_arrival');
+  $on_time = $arrival ? "$arrival.field_arrival_value = 'on_time'" : '0';
   // Its own AND group. Group 0 holds the topic contextual filters, which
   // views_contextual_filters_or turns into an OR group — a condition added
   // there would be OR-ed with the topic match and let every one-off event
@@ -869,12 +962,15 @@ function _customsolent_helpers_one_row_per_recurring_event(\Drupal\views\Plugin\
   // filter: the query text changes once a day, so the cached results do
   // too, and the cache plugin expires them at midnight regardless.
   $today = (new \DateTimeImmutable('today', new \DateTimeZone(date_default_timezone_get())))->getTimestamp();
-  // "Not yet ended" for a row of field_when: an item with an end time has
-  // not reached it; one without (end = start) is still on its day. One-off
-  // events follow the same clock as instances: a 7-10pm event leaves the
-  // listings at 10pm, not at midnight.
+  // "Not yet ended" for a row of field_when: an event people must be there
+  // at the start of has not started; otherwise an item with an end time
+  // has not reached it; one without (end = start) is still on its day.
+  // One-off events follow the same clock as instances: a 7-10pm event
+  // leaves the listings at 10pm, not at midnight (the same rule as
+  // customsolent_helpers_item_end()).
   $not_ended = static fn(string $t): string =>
-    "(CASE WHEN $t.field_when_end_value > $t.field_when_value
+    "(CASE WHEN $on_time THEN $t.field_when_value >= $now
+           WHEN $t.field_when_end_value > $t.field_when_value
            THEN $t.field_when_end_value >= $now
            ELSE $t.field_when_value >= $today END)";
   // A regular event's instance that falls in a closure Break, or outside the
@@ -920,6 +1016,9 @@ function _customsolent_helpers_one_row_per_recurring_event(\Drupal\views\Plugin\
   $query->addField($alias, 'field_when_end_value', 'slnt_when_end');
   $query->addField($alias, 'field_when_value', 'slnt_when_start');
   $query->addField($alias, 'field_when_rrule', 'slnt_when_rrule');
+  if ($arrival) {
+    $query->addField($arrival, 'field_arrival_value', 'slnt_when_arrival');
+  }
 }
 
 /**
@@ -1849,7 +1948,6 @@ function customsolent_helpers_place_filtered_views(): array {
  */
 function customsolent_helpers_place_panel(array $place): array {
   $term_storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
-  $places = customsolent_helpers_place_terms();
   /** @var \Drupal\taxonomy\TermInterface $term */
   $term = $place['term'];
   $tids = [$place['tid']];
@@ -1865,17 +1963,9 @@ function customsolent_helpers_place_panel(array $place): array {
     $town = trim(implode(' ', array_filter([$a->get('locality')->getValue(), $a->get('postal_code')->getValue()])));
     $address = implode(', ', array_filter([$street, $town])) ?: NULL;
   }
-  $map_url = ($place['lat'] !== NULL && $place['lon'] !== NULL)
-    ? sprintf('https://www.openstreetmap.org/?mlat=%.6f&mlon=%.6f#map=17/%.6f/%.6f', $place['lat'], $place['lon'], $place['lat'], $place['lon'])
-    : NULL;
-  $within = [];
-  foreach ($term_storage->loadAllParents($place['tid']) as $ancestor) {
-    if ((int) $ancestor->id() === $place['tid']) {
-      continue;
-    }
-    $tags[] = 'taxonomy_term:' . $ancestor->id();
-    $within[] = ['label' => $ancestor->getName(), 'url' => $places[(int) $ancestor->id()]['url'] ?? NULL, 'slug' => $places[(int) $ancestor->id()]['slug'] ?? NULL];
-  }
+  // (Until 22 Nov 2026 the panel also offered an OpenStreetMap link to the
+  // point and an "In Southsea, Portsmouth" line: neither earned its place
+  // beside the map and the tree, so both went.)
   $node_storage = \Drupal::entityTypeManager()->getStorage('node');
   $kinds = [
     'events' => ['type' => 'event', 'label' => t('Events'), 'all' => 'All @count events', 'listing' => t('Events listing'), 'sort' => ['field_when.value', 'ASC'], 'upcoming' => TRUE],
@@ -1918,8 +2008,6 @@ function customsolent_helpers_place_panel(array $place): array {
     '#theme' => 'slnt_place_panel',
     '#place' => $place,
     '#address' => $address,
-    '#map_url' => $map_url,
-    '#within' => $within,
     '#sections' => $sections,
     '#empty' => !$sections,
     '#cache' => ['tags' => array_values(array_unique($tags)), 'max-age' => 3600],

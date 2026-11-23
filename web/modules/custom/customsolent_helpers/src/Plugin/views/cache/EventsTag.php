@@ -46,8 +46,14 @@ class EventsTag extends Tag {
       // row without them (another use of this plugin) just expires at
       // midnight. Any listed event, regular or one-off, drops out when its
       // end passes, except one entered without an end time (end = start),
-      // which stays until midnight.
-      if (!empty($row->slnt_when_end) && (int) $row->slnt_when_end > $now
+      // which stays until midnight. One people must be there for the start
+      // of drops out when it starts (customsolent_helpers_item_end()).
+      if (($row->slnt_when_arrival ?? NULL) === 'on_time') {
+        if (!empty($row->slnt_when_start) && (int) $row->slnt_when_start > $now) {
+          $expire = min($expire, (int) $row->slnt_when_start + 1);
+        }
+      }
+      elseif (!empty($row->slnt_when_end) && (int) $row->slnt_when_end > $now
         && (empty($row->slnt_when_start) || (int) $row->slnt_when_end > (int) $row->slnt_when_start)) {
         $expire = min($expire, (int) $row->slnt_when_end + 1);
       }

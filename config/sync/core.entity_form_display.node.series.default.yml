@@ -15,11 +15,12 @@ dependencies:
     - field.field.node.series.field_setting
     - field.field.node.series.field_short_label
     - field.field.node.series.field_standfirst
+    - field.field.node.series.field_unpublish_at_end
     - field.field.node.series.field_where
     - node.type.series
   module:
-    - inline_entity_form
     - datetime
+    - inline_entity_form
     - path
     - text
 id: node.series.default
@@ -130,6 +131,13 @@ content:
     settings:
       size: 60
       placeholder: ''
+    third_party_settings: {  }
+  field_unpublish_at_end:
+    type: boolean_checkbox
+    weight: 3
+    region: content
+    settings:
+      display_label: true
     third_party_settings: {  }
   field_where:
     type: inline_entity_form_complex

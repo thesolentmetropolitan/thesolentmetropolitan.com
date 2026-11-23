@@ -6,10 +6,13 @@
  * Same container and header grammar as node--event--full.html.twig
  * (.slnt-node-full): status badge, topic-trail kicker, h1, date range,
  * standfirst. Then the description in the article reading column, the
- * members grouped as Events / Articles / Links / Organisations (each
+  * members grouped as Events / Articles / Links / Organisations (each
  * rendered as its own compact card), the related organisations (not
- * members, but relevant: a way on to other things around the site), and
- * the related topics as section-coloured links.
+ * members, but relevant: a way on to other things around the site), the
+ * events that have ended under "Past events" (last, so what is still to
+ * come is not read alongside what is over), and the related topics as
+ * section-coloured links.
+
  *
  * Collaborations this series is an outcome of will be listed after the
  * members once the Collaboration type exists (see the 2026-10-18 brief).
@@ -154,10 +157,28 @@
     </section>
   {% endif %}
 
+    {# The events that are over, last: the same cards, under their own
+     heading, so a series still running reads as what is coming up first.
+     A finished series (Black History Month) has every event here. #}
+  {% if series_past_events %}
+    <section class="slnt-series-items slnt-series-items--past-events" aria-labelledby="series-items-past-events">
+      <h2 id="series-items-past-events" class="slnt-series-items__heading">
+        {{ series_past_events.label }}
+        <span class="slnt-series-items__count">{{ series_past_events.items|length }}</span>
+      </h2>
+      <div class="slnt-series-items__grid {{ series_past_events.grid_class }}">
+        {% for item in series_past_events.items %}
+          <div class="slnt-series-items__cell">{{ item }}</div>
+        {% endfor %}
+      </div>
+    </section>
+  {% endif %}
+
   {# Related topics, each as its full chain (the primary is the kicker). #}
   {% include '@customsolent/components/topics-list.html.twig' with { related_topic_chains: related_topic_chains|default([]) } only %}
 
   {{ series_cache }}
+
 
   {# Collaborations this series is part of (reverse lookup). #}
   {% include '@customsolent/components/collaborations-block.html.twig' with {

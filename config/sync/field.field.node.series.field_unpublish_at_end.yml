@@ -1,0 +1,21 @@
+uuid: df24a6ec-d2af-4581-8088-ce59f567ac95
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_unpublish_at_end
+    - node.type.series
+id: node.series.field_unpublish_at_end
+field_name: field_unpublish_at_end
+entity_type: node
+bundle: series
+label: 'Unpublish when it ends'
+description: "For a one-off series such as Halloween: the day after its end date, the site unpublishes it, so it stops being named on its events' pages and in the series listing. Leave unticked for a series worth keeping (Black History Month)."
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  on_label: 'Unpublish the day after it ends'
+  off_label: Keep
+field_type: boolean

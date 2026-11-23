@@ -10,7 +10,8 @@
  *
  * Stacking order: regular-event badge, topic trail, title, date/time
  * (field_when) with "Past event" beside it and the series the date belongs
- * to directly under it, location(s) (field_where) with a map pin,
+ * to directly under it (series that have ended are listed at the foot
+ * instead, under "Past series"), location(s) (field_where) with a map pin,
  * organiser, standfirst, external-link CTA (not for a past event: organisers
  * take their pages down).
  *
@@ -112,16 +113,11 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 12 12 17 22 12"/><polyline points="2 17 12 22 22 17"/></svg>
           </span>
           <span class="slnt-node-full__series-text">
-            {# Once every series has ended the label says so and the meta
-               keeps just the dates; while any is current or coming, each
-               series carries its own status word. #}
-            {% if series_all_past %}
-              <span class="slnt-node-full__series-label">{{ series_links|length > 1 ? 'Part of past series'|t : 'Part of a past series'|t }}:</span>
-            {% else %}
-              <span class="slnt-node-full__series-label">{{ series_links|length > 1 ? 'Part of these series'|t : 'Part of a series'|t }}:</span>
-            {% endif %}
+            {# Each series carries its own status word (coming up, now on,
+               ongoing); ended series are not here but at the foot. #}
+            <span class="slnt-node-full__series-label">{{ series_links|length > 1 ? 'Part of these series'|t : 'Part of a series'|t }}:</span>
             {% for series in series_links %}
-              {% set _status = series_all_past ? '' : series.status_label %}
+              {% set _status = series.status_label %}
               <a href="{{ series.url }}" class="slnt-node-full__series-link">{{ series.label }}</a>{% if series.range or _status %} <span class="slnt-node-full__series-meta">({{ series.range }}{% if series.range and _status %} · {% endif %}{{ _status }})</span>{% endif %}{% if not loop.last %}, {% endif %}
             {% endfor %}
           </span>
@@ -189,6 +185,21 @@
 
   {{ content|without('field_when', 'field_where', 'field_standfirst', 'field_urls', 'field_image',
      'field_primary_topic', 'field_related_topics', 'field_organisers', 'field_arrival', 'links') }}
+
+  {# Series that have ended which this event was part of (the Halloween
+     week of a weekly night, last year's Black History Month): at the foot,
+     away from the date, so what is over is not read as what is on. Series
+     the editor has marked "Unpublish when it ends" never reach here. #}
+  {% if past_series_links is not empty %}
+    <section class="slnt-series-items slnt-event-full__past-series" aria-labelledby="event-past-series-heading">
+      <h2 id="event-past-series-heading" class="slnt-series-items__heading">{{ 'Past series'|t }}</h2>
+      <ul class="slnt-event-full__past-series-list">
+        {% for series in past_series_links %}
+          <li><a href="{{ series.url }}">{{ series.label }}</a>{% if series.range %} <span class="slnt-node-full__series-meta">({{ series.range }})</span>{% endif %}</li>
+        {% endfor %}
+      </ul>
+    </section>
+  {% endif %}
 
   {# Every topic, primary first, each as its full chain: why the item
      appears where it does. #}

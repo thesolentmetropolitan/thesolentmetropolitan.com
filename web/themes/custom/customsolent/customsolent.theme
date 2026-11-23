@@ -698,13 +698,11 @@ function _customsolent_preprocess_event_shared_extras($node, array &$variables):
   // Over once its LAST date has ended (a regular event holds one item per
   // instance). Read by the page (badge by the date, no outward link) and
   // by the cards (no button). An item with no end time runs to the end of
-  // its day, the same rule the listings' query applies
+  // its day, and an event people must be there for the start of is over
+  // once it starts: the same rules the listings' query applies
   // (_customsolent_helpers_one_row_per_recurring_event).
-  $last_end = 0;
-  foreach ($node->get('field_when') as $item) {
-    $last_end = max($last_end, _customsolent_event_item_end((int) $item->value, (int) $item->end_value, $item->timezone ?: NULL));
-  }
-  $variables['is_past_event'] = $last_end > 0 && $last_end < $now;
+  $variables['is_past_event'] = customsolent_helpers_event_has_ended($node, $now);
+  $on_time = customsolent_helpers_event_on_time($node);
   $rule_id = NULL;
   $instances = [];
   foreach ($node->get('field_when') as $item) {
@@ -716,7 +714,7 @@ function _customsolent_preprocess_event_shared_extras($node, array &$variables):
       $instances[] = [
         'rule' => (int) $item->rrule,
         'start' => (int) $item->value,
-        'end' => _customsolent_event_item_end((int) $item->value, (int) $item->end_value, $item->timezone ?: NULL),
+        'end' => _customsolent_event_item_end((int) $item->value, (int) $item->end_value, $item->timezone ?: NULL, $on_time),
         'end_entered' => (int) $item->end_value,
         'duration' => (int) $item->duration,
         'tz' => $item->timezone ?: 'Europe/London',
@@ -729,7 +727,7 @@ function _customsolent_preprocess_event_shared_extras($node, array &$variables):
     // too, or the cached listing keeps showing it. No end time (end =
     // start) means no known finish: the listing keeps it until midnight.
     $first = $node->get('field_when')->first();
-    $end = _customsolent_event_item_end((int) $first->value, (int) $first->end_value, $first->timezone ?: NULL);
+    $end = _customsolent_event_item_end((int) $first->value, (int) $first->end_value, $first->timezone ?: NULL, $on_time);
     if ($end >= $now) {
       $variables['event_when_cache']['#cache']['max-age'] = max(60, $end - $now + 1);
     }
@@ -883,8 +881,8 @@ function _customsolent_preprocess_event_shared_extras($node, array &$variables):
  * (_customsolent_helpers_one_row_per_recurring_event), so a page never
  * says "Past event" while a listing still shows the event, or the reverse.
  */
-function _customsolent_event_item_end(int $start, int $end, ?string $timezone = NULL): int {
-  return customsolent_helpers_item_end($start, $end, $timezone);
+function _customsolent_event_item_end(int $start, int $end, ?string $timezone = NULL, bool $on_time = FALSE): int {
+  return customsolent_helpers_item_end($start, $end, $timezone, $on_time);
 }
 
 /**
@@ -1035,6 +1033,13 @@ function _customsolent_extract_field_url_meta($node, array &$variables): void {
  * Sets:
  *   - series_links  — list of {label, url, range, status, status_label};
  *                     empty when the node is in no published series.
+ *                     Series that have ended are not in it: cards do not
+ *                     mention them, and the full page lists them in
+ *                     past_series_links instead, for its "Past series"
+ *                     section at the foot (Rob, 22 Nov 2026: a reader
+ *                     should not have to double-take at a Halloween line
+ *                     beside a date in December).
+ *   - past_series_links — (full only) the same shape, for ended series.
  *   - series_cache  — a render array carrying the cache tags (and max-age)
  *                     of the lookup. The template MUST print it in every
  *                     branch, including "no series", so that creating a
@@ -1055,6 +1060,7 @@ function _customsolent_preprocess_series_membership($node, array &$variables): v
   // not say it), so only the name line is dropped, below.
   $on_series_page = _customsolent_rendering_members_of_series();
   $variables['series_links'] = [];
+  $variables['past_series_links'] = [];
   $variables['series_specials'] = [];
   $is_card = ($variables['view_mode'] ?? '') !== 'full';
   $date_bound = FALSE;
@@ -1074,13 +1080,23 @@ function _customsolent_preprocess_series_membership($node, array &$variables): v
     // Cards: a series that has ended is not mentioned at all. An exhibition
     // that ran on past Black History Month is no longer "part of" it on its
     // card (Rob, 14 Nov 2026); the series' own page still lists every
-    // member, and the full page says "Part of a past series". Before that,
-    // a series is shown for an event only while the date the card shows
-    // falls on or before the series' end: a weekly event whose next
-    // instance is 4 Nov is not "part of" a Halloween series that ended on
-    // the 2nd, even though its 30 Oct instance was. (On the series' own page
-    // the card shows the instance inside the window, so it still counts.)
-    if ($is_card && $status === $relations::STATUS_PAST) {
+    // member, and the full page lists it under "Past series" at the foot.
+    // Before that, a series is shown for an event only while the date the
+    // card shows falls on or before the series' end: a weekly event whose
+    // next instance is 4 Nov is not "part of" a Halloween series that ended
+    // on the 2nd, even though its 30 Oct instance was. (On the series' own
+    // page the card shows the instance inside the window, so it still
+    // counts.)
+    if ($status === $relations::STATUS_PAST) {
+      if (!$is_card && !($on_series_page && (int) $s->id() === $on_series_page)) {
+        $variables['past_series_links'][] = [
+          'label' => $s->label(),
+          'url' => $s->toUrl()->toString(),
+          'range' => $relations->seriesDateRange($s),
+          'status' => $status,
+          'status_label' => $relations->statusLabel($status),
+        ];
+      }
       continue;
     }
     if ($is_card && $s_end !== NULL && $card_date !== NULL && $card_date > $s_end) {
@@ -1125,10 +1141,6 @@ function _customsolent_preprocess_series_membership($node, array &$variables): v
       'status_label' => $relations->statusLabel($status),
     ];
   }
-  // The full page's label: "Part of a past series" once every series the
-  // event is in has ended (the meta then needs no status word).
-  $variables['series_all_past'] = $variables['series_links'] !== []
-    && array_filter($variables['series_links'], static fn(array $s) => $s['status'] !== $relations::STATUS_PAST) === [];
   $variables['series_cache'] = [
     '#cache' => [
       'tags' => $relations->seriesCacheTags($series),
@@ -1347,7 +1359,10 @@ function _customsolent_preprocess_collaboration_membership($node, array &$variab
  *
  * Sets:
  *   - person_initials — up to two letters for the no-photo avatar.
- *   - person_where    — the Location term's name, plain.
+ *   - person_where    — the Location term's label ("Southsea, Portsmouth":
+ *                       customsolent_helpers_place_label()), plain text.
+ *   - person_where_url — its place page, for the full page's pin line.
+ *   - where_cache     — print it wherever person_where is printed.
  *   - person_articles / person_articles_cache — (full only) the articles
  *     this person wrote, as compact cards, and the cache metadata to print.
  */
@@ -1357,10 +1372,13 @@ function _customsolent_preprocess_person_extras($node, array &$variables): void 
   $initials = mb_strtoupper(mb_substr($first, 0, 1) . mb_substr($last, 0, 1));
   $variables['person_initials'] = $initials !== '' ? $initials : mb_strtoupper(mb_substr($node->label(), 0, 1));
 
+  $variables['where_cache'] = ['#cache' => ['tags' => []]];
   if ($node->hasField('field_where') && !$node->get('field_where')->isEmpty()) {
     $where = $node->get('field_where')->entity;
     if ($where) {
-      $variables['person_where'] = $where->getName();
+      $variables['where_cache']['#cache']['tags'] = _customsolent_location_cache_tags($where);
+      $variables['person_where'] = customsolent_helpers_place_label($where)['label'];
+      $variables['person_where_url'] = customsolent_helpers_place_url($where);
     }
   }
 
@@ -1420,6 +1438,10 @@ function _customsolent_preprocess_article_byline($node, array &$variables): void
  *     series_count_parts — the non-zero counts as phrases ("7 events").
  *   - series_groups — (full only) members rendered in the compact view
  *     mode, grouped by bundle: list of {key, label, items[], grid_class}.
+ *     Events that have ended are not among them: they form
+ *     series_past_events (the same shape, one group, or NULL), which the
+ *     template prints last, before the topics, so what is still to come
+ *     is not read alongside what is over (Rob, 22 Nov 2026).
  *   - related_organisations — (full only) field_related_organisations
  *     rendered as compact cards: organisations that were not part of the
  *     series but are relevant to it, shown under their own heading after
@@ -1521,12 +1543,12 @@ function _customsolent_preprocess_series_extras($node, array &$variables): void 
     'organisation' => ['label' => t('Organisations'), 'grid_class' => 'slnt-series-items__grid--links'],
   ];
   $groups = [];
+  $past_events = [];
   foreach ($relations->seriesMembers($node) as $member) {
     $bundle = $member->bundle();
     if (!isset($group_defs[$bundle])) {
       continue;
     }
-    $groups[$bundle] ??= ['key' => $bundle, 'items' => []] + $group_defs[$bundle];
     $build = $view_builder->view($member, 'compact');
     // A member card on its own series' page leaves that series' name out
     // (see _customsolent_preprocess_series_membership). That variant must
@@ -1534,9 +1556,21 @@ function _customsolent_preprocess_series_extras($node, array &$variables): void 
     $build['#cache']['keys'][] = 'in_series_' . $node->id();
     $build['#pre_render'][] = [_customsolent_series_member_pre_render_class(), 'enter'];
     $build['#post_render'][] = [_customsolent_series_member_pre_render_class(), 'leave'];
+    // An event that is over (by the listings' clock, including the arrival
+    // rule) goes to the "Past events" group at the foot. The page already
+    // expires at midnight (series_cache); an event ending during the day
+    // moves down at the next rebuild of its card, which expires with it.
+    if ($bundle === 'event' && customsolent_helpers_event_has_ended($member)) {
+      $past_events[] = $build;
+      continue;
+    }
+    $groups[$bundle] ??= ['key' => $bundle, 'items' => []] + $group_defs[$bundle];
     $groups[$bundle]['items'][] = $build;
   }
   $variables['series_groups'] = array_values($groups);
+  $variables['series_past_events'] = $past_events
+    ? ['key' => 'past-events', 'label' => t('Past events'), 'items' => $past_events, 'grid_class' => 'slnt-series-items__grid--events']
+    : NULL;
 
   // Related organisations: not members, so plain compact cards (no
   // "part of this series" variant), in the editor's order.

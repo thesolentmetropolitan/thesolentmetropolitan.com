@@ -6,8 +6,6 @@
  * Variables:
  *   - place: {name, url, slug, area}
  *   - address: the place's own address line, or empty
- *   - map_url: an OpenStreetMap link to its point, or empty
- *   - within: the places it is in, nearest first: list of {label, url, slug}
  *   - sections: list of {key, label, count, link_label, items: [{title,
  *     url}], url}: the events to come, organisations, series and
  *     articles there, each with a link to the full listing at the place
@@ -16,15 +14,8 @@
 #}
 <div class="slnt-place-panel" data-place="{{ place.slug }}">
   <h2 class="slnt-place-panel__name"><a href="{{ place.url }}">{{ place.name }}</a></h2>
-  {% if address or map_url %}
-    <p class="slnt-place-panel__address">
-      {%- if address %}{{ address }}{% endif -%}
-      {%- if map_url %}{% if address %} {% endif %}<a class="slnt-place-panel__map" href="{{ map_url }}" rel="noopener">{{ 'Open in OpenStreetMap'|t }}</a>{% endif -%}
-    </p>
-  {% endif %}
-  {% if within %}
-    <p class="slnt-place-panel__within">{{ 'In'|t }}
-      {% for p in within %}{% if not loop.first %}, {% endif %}{% if p.url %}<a href="{{ p.url }}" data-place="{{ p.slug }}">{{ p.label }}</a>{% else %}{{ p.label }}{% endif %}{% endfor %}</p>
+  {% if address %}
+    <p class="slnt-place-panel__address">{{ address }}</p>
   {% endif %}
   {% if empty %}
     <p class="slnt-place-panel__empty">{{ 'Nothing listed here yet.'|t }}</p>

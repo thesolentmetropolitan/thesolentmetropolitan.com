@@ -133,15 +133,15 @@
 }
 
 .slnt-place-panel__address,
-.slnt-place-panel__within,
 .slnt-place-panel__empty {
+
   font-size: 0.875rem;
   color: var(--text-mid, #666);
   margin: 0 0 0.35rem;
 }
 
-.slnt-place-panel__address a,
-.slnt-place-panel__within a {
+.slnt-place-panel__address a {
+
   color: inherit;
   text-decoration: underline;
   text-decoration-color: color-mix(in srgb, currentColor 40%, transparent);

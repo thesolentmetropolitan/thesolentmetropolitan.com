@@ -44,9 +44,11 @@
       <a href="{{ url }}" class="slnt-person-card__link">{{ label }}</a>
     </h3>
 
+        {{ where_cache }}
     {% if person_where %}
       <p class="slnt-person-card__where">{{ person_where }}</p>
     {% endif %}
+
 
     {% if content.field_bio|render|striptags|trim %}
       <div class="slnt-person-card__bio">{{ content.field_bio }}</div>
