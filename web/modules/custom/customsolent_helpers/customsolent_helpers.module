@@ -492,7 +492,64 @@ function customsolent_helpers_event_has_ended(\Drupal\node\NodeInterface $node, 
   foreach ($node->get('field_when') as $item) {
     $last_end = max($last_end, customsolent_helpers_item_end((int) $item->value, (int) $item->end_value, $item->timezone ?: NULL, $on_time));
   }
-  return $last_end > 0 && $last_end < $now;
+    return $last_end > 0 && $last_end < $now;
+}
+
+/**
+ * The next date of an event that is still to come: start, end (by the
+ * listings' clock), duration (minutes) and timezone, or NULL when every
+ * date is over. A regular event's instance in a closure Break or outside
+ * its season is skipped, as the listings and the cards' "Next:" skip it.
+ *
+ * @return array{start: int, end: int, duration: int, tz: string}|null
+ */
+function customsolent_helpers_event_next_instance(\Drupal\node\NodeInterface $node, ?int $now = NULL): ?array {
+  if (!$node->hasField('field_when') || $node->get('field_when')->isEmpty()) {
+    return NULL;
+  }
+  $now ??= \Drupal::time()->getRequestTime();
+  $on_time = customsolent_helpers_event_on_time($node);
+  $season_from = $node->hasField('field_season_from') ? (int) $node->get('field_season_from')->value : 0;
+  $season_to = $node->hasField('field_season_to') ? (int) $node->get('field_season_to')->value : 0;
+  $nid = (int) $node->id();
+  $default_tz = \Drupal::config('system.date')->get('timezone.default') ?: 'Europe/London';
+  $best = NULL;
+  foreach ($node->get('field_when') as $item) {
+    $start = (int) $item->value;
+    if ($start <= 0 || ($best !== NULL && $start >= $best['start'])) {
+      continue;
+    }
+    $end = customsolent_helpers_item_end($start, (int) $item->end_value, $item->timezone ?: NULL, $on_time);
+    if ($end < $now) {
+      continue;
+    }
+    $tz = $item->timezone ?: $default_tz;
+    if (!empty($item->rrule)) {
+      $month = (int) (new \DateTimeImmutable('@' . $start))->setTimezone(new \DateTimeZone($tz))->format('n');
+      if (!customsolent_helpers_in_season($month, $season_from ?: NULL, $season_to ?: NULL)) {
+        continue;
+      }
+      $break = customsolent_helpers_break_for($nid, $start);
+      if ($break && $break['kind'] === 'closure') {
+        continue;
+      }
+    }
+    $best = ['start' => $start, 'end' => $end, 'duration' => (int) $item->duration, 'tz' => $tz];
+  }
+  return $best;
+}
+
+/**
+ * A date as the Locations panel prints it: "23 Nov, 9pm" ("23 Nov" for an
+ * all-day date; "9:30pm" when not on the hour).
+ */
+function customsolent_helpers_short_when(array $instance): string {
+  $d = (new \DateTimeImmutable('@' . $instance['start']))->setTimezone(new \DateTimeZone($instance['tz']));
+  $text = $d->format('j M');
+  if ($instance['duration'] < 1439) {
+    $text .= ', ' . ($d->format('i') === '00' ? $d->format('ga') : $d->format('g:ia'));
+  }
+  return $text;
 }
 
 /**
@@ -1937,11 +1994,14 @@ function customsolent_helpers_place_filtered_views(): array {
  * For the place and everything beneath it (an area is its venues, a venue
  * its rooms): the events still to come, the organisations based there,
  * the series with a home there and the articles about it, each with its
- * count, up to three items and a link to the full listing narrowed to the
+  * count, up to three items and a link to the full listing narrowed to the
  * place (?place=<slug>): "All 12 events" when there are more than shown,
- * "Events listing" when the three are all of them. Nothing is printed for
- * a kind with nothing. The places within are not listed: the tree beside
- * the map already does that.
+ * "Events listing" when the three are all of them. Events are the three
+ * soonest, each with its next date ("23 Nov, 9pm"); series the three
+ * latest to start; organisations are a count only, the heading itself the
+ * link (a preview of three names says nothing about what is there; Rob,
+ * 23 Nov 2026). Nothing is printed for a kind with nothing. The places
+ * within are not listed: the tree beside the map already does that.
  *
  * @param array $place
  *   One entry of customsolent_helpers_place_terms().
@@ -1966,31 +2026,56 @@ function customsolent_helpers_place_panel(array $place): array {
   // (Until 22 Nov 2026 the panel also offered an OpenStreetMap link to the
   // point and an "In Southsea, Portsmouth" line: neither earned its place
   // beside the map and the tree, so both went.)
-  $node_storage = \Drupal::entityTypeManager()->getStorage('node');
+    $node_storage = \Drupal::entityTypeManager()->getStorage('node');
+  $now = \Drupal::time()->getRequestTime();
   $kinds = [
-    'events' => ['type' => 'event', 'label' => t('Events'), 'all' => 'All @count events', 'listing' => t('Events listing'), 'sort' => ['field_when.value', 'ASC'], 'upcoming' => TRUE],
-    'organisations' => ['type' => 'organisation', 'label' => t('Organisations'), 'all' => 'All @count organisations', 'listing' => t('Organisations listing'), 'sort' => ['title', 'ASC']],
-    'series' => ['type' => 'series', 'label' => t('Series'), 'all' => 'All @count series', 'listing' => t('Series listing'), 'sort' => ['title', 'ASC']],
+    'events' => ['type' => 'event', 'label' => t('Events'), 'all' => 'All @count events', 'listing' => t('Events listing')],
+    'organisations' => ['type' => 'organisation', 'label' => t('Organisations'), 'all' => 'All @count organisations', 'listing' => t('Organisations listing'), 'preview' => FALSE],
+    'series' => ['type' => 'series', 'label' => t('Series'), 'all' => 'All @count series', 'listing' => t('Series listing'), 'sort' => ['field_series_start.value', 'DESC']],
     'articles' => ['type' => 'article', 'label' => t('Articles'), 'all' => 'All @count articles', 'listing' => t('Articles listing'), 'sort' => ['created', 'DESC']],
   ];
   $sections = [];
   foreach ($kinds as $key => $kind) {
     $tags[] = 'node_list:' . $kind['type'];
-    $base = $node_storage->getQuery()->accessCheck(TRUE)
-      ->condition('type', $kind['type'])
-      ->condition('status', 1)
-      ->condition('field_where', $tids, 'IN');
-    if (!empty($kind['upcoming'])) {
-      $base->condition('field_when.end_value', \Drupal::time()->getRequestTime(), '>');
+    $items = [];
+    if ($key === 'events') {
+      // One row per event still to come, by its earliest date not yet
+      // over (an entity query joined to field_when would give a regular
+      // event one row per instance). The exact next date, by every rule
+      // (end of day, arrival, Breaks, seasons), is worked out for the
+      // three shown.
+      $rows = \Drupal::database()->query("SELECT w.entity_id, MIN(w.field_when_value) AS next_start
+        FROM {node__field_when} w
+        JOIN {node_field_data} n ON n.nid = w.entity_id AND n.default_langcode = 1
+        WHERE n.status = 1 AND n.type = 'event'
+          AND w.entity_id IN (SELECT entity_id FROM {node__field_where} WHERE field_where_target_id IN (:tids[]))
+          AND w.field_when_end_value > :now
+        GROUP BY w.entity_id ORDER BY next_start ASC", [':tids[]' => $tids, ':now' => $now])->fetchAllKeyed();
+      $count = count($rows);
+      $nids = array_slice(array_keys($rows), 0, 3);
     }
-    $count = (int) (clone $base)->count()->execute();
+    else {
+      $base = $node_storage->getQuery()->accessCheck(TRUE)
+        ->condition('type', $kind['type'])
+        ->condition('status', 1)
+        ->condition('field_where', $tids, 'IN');
+      $count = (int) (clone $base)->count()->execute();
+      $nids = ($count && ($kind['preview'] ?? TRUE))
+        ? $base->sort($kind['sort'][0], $kind['sort'][1])->range(0, 3)->execute()
+        : [];
+    }
     if (!$count) {
       continue;
     }
-    $nids = $base->sort($kind['sort'][0], $kind['sort'][1])->range(0, 3)->execute();
-    $items = [];
     foreach ($node_storage->loadMultiple($nids) as $node) {
-      $items[] = ['title' => $node->label(), 'url' => $node->toUrl()->toString()];
+      $item = ['title' => $node->label(), 'url' => $node->toUrl()->toString()];
+      if ($key === 'events') {
+        $next = customsolent_helpers_event_next_instance($node, $now)
+          ?? ['start' => (int) $rows[$node->id()], 'end' => 0, 'duration' => 0, 'tz' => \Drupal::config('system.date')->get('timezone.default') ?: 'Europe/London'];
+        $item['date'] = customsolent_helpers_short_when($next);
+        $item['datetime'] = (new \DateTimeImmutable('@' . $next['start']))->setTimezone(new \DateTimeZone($next['tz']))->format('Y-m-d\\TH:i');
+      }
+      $items[] = $item;
       $tags = array_merge($tags, $node->getCacheTags());
     }
     $listing = customsolent_helpers_sitewide_listing_url($key);

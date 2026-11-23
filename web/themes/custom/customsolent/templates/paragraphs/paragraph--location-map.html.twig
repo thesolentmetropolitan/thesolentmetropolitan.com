@@ -30,16 +30,22 @@
   </ul>
 {% endmacro %}
 <div{{ attributes.addClass('slnt-location-map') }} data-base="{{ base_url }}" data-show="busy"{% if selected %} data-selected="{{ selected.slug }}"{% endif %}>
-  <nav class="slnt-location-map__places" aria-label="{{ 'Places'|t }}">
-    <h2 class="slnt-location-map__heading">{{ 'Places'|t }}</h2>
-    {# Which places: those with something on (the default), or every place
-       we know. The script flips data-show; without it every place shows. #}
-    <div class="slnt-location-map__show" role="group" aria-label="{{ 'Which places'|t }}">
-      <button type="button" class="slnt-location-map__show-button" data-show="busy" aria-pressed="true">{{ 'With something on'|t }} <span class="slnt-location-map__show-count">{{ count_busy }}</span></button>
-      <button type="button" class="slnt-location-map__show-button" data-show="all" aria-pressed="false">{{ 'All places'|t }} <span class="slnt-location-map__show-count">{{ count_all }}</span></button>
+    <nav class="slnt-location-map__places" aria-label="{{ 'Places'|t }}">
+    {# The heading and the choice of places stay put; only the tree
+       beneath them scrolls (slnt-location-map__tree). #}
+    <div class="slnt-location-map__places-header">
+      <h2 class="slnt-location-map__heading">{{ 'Places'|t }}</h2>
+      {# Which places: those with something on (the default), or every place
+         we know. The script flips data-show; without it every place shows. #}
+      <div class="slnt-location-map__show" role="group" aria-label="{{ 'Which places'|t }}">
+        <button type="button" class="slnt-location-map__show-button" data-show="busy" aria-pressed="true">{{ 'With something on'|t }} <span class="slnt-location-map__show-count">{{ count_busy }}</span></button>
+        <button type="button" class="slnt-location-map__show-button" data-show="all" aria-pressed="false">{{ 'All places'|t }} <span class="slnt-location-map__show-count">{{ count_all }}</span></button>
+      </div>
+      <noscript><style>.slnt-location-map[data-show="busy"] .slnt-location-map__item--quiet { display: list-item; } .slnt-location-map__show { display: none; }</style></noscript>
     </div>
-    <noscript><style>.slnt-location-map[data-show="busy"] .slnt-location-map__item--quiet { display: list-item; } .slnt-location-map__show { display: none; }</style></noscript>
-    {{ _self.branch(tree, 0) }}
+    <div class="slnt-location-map__tree">
+      {{ _self.branch(tree, 0) }}
+    </div>
   </nav>
   <div class="slnt-location-map__map">
     <div class="slnt-location-map__canvas" role="region" aria-label="{{ 'Map of places'|t }}">

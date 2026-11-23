@@ -1434,8 +1434,13 @@ function _customsolent_preprocess_article_byline($node, array &$variables): void
  *     series_cache carries a max-age to the next local midnight.
  *   - series_range, series_start_iso, series_end_iso — "1–31 October 2026"
  *     and the ISO dates for <time>.
- *   - series_counts — {event, article, link} published members; and
- *     series_count_parts — the non-zero counts as phrases ("7 events").
+  *   - series_counts — {event, article, link} published members; and
+ *     series_count_parts — the non-zero counts as phrases, events split
+ *     into what is still to come and what is over ("2 upcoming events ·
+ *     1 past event · 3 articles"), so a card says which it holds (Rob,
+ *     23 Nov 2026: Remembrance's card said "2 events" after both had
+ *     been). The split follows the listings' clock and the card expires
+ *     at midnight with the status word.
  *   - series_groups — (full only) members rendered in the compact view
  *     mode, grouped by bundle: list of {key, label, items[], grid_class}.
  *     Events that have ended are not among them: they form
@@ -1494,11 +1499,21 @@ function _customsolent_preprocess_series_extras($node, array &$variables): void 
     $variables['organiser_url'] = $variables['organisers'][0]['url'];
   }
 
-  $counts = $relations->seriesCounts($node);
+    $counts = $relations->seriesCounts($node);
   $variables['series_counts'] = $counts;
   $parts = [];
-  if ($counts['event']) {
-    $parts[] = \Drupal::translation()->formatPlural($counts['event'], '1 event', '@count events');
+  $upcoming = 0;
+  $past = 0;
+  foreach ($relations->seriesMembers($node) as $member) {
+    if ($member->bundle() === 'event') {
+      customsolent_helpers_event_has_ended($member) ? $past++ : $upcoming++;
+    }
+  }
+  if ($upcoming) {
+    $parts[] = \Drupal::translation()->formatPlural($upcoming, '1 upcoming event', '@count upcoming events');
+  }
+  if ($past) {
+    $parts[] = \Drupal::translation()->formatPlural($past, '1 past event', '@count past events');
   }
   if ($counts['article']) {
     $parts[] = \Drupal::translation()->formatPlural($counts['article'], '1 article', '@count articles');

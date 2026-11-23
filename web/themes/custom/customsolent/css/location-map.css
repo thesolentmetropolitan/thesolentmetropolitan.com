@@ -1,7 +1,8 @@
 /* Explore / Locations: the map of places (Location epic).
    Three columns on a wide screen (places 1 : map 2 : panel 1). On a phone
-   the map comes first, then what is at the chosen place, then the list of
-   places, which is long and scrolls inside its own box. */
+      the map comes first, then what is at the chosen place, then the list of
+   places, which is long: its heading and the choice of places stay put and
+   the tree beneath them scrolls inside its own box. */
 
 .slnt-location-map {
   display: grid;
@@ -16,11 +17,14 @@
 
 @media (max-width: 999px) {
   .slnt-location-map__places {
-    max-height: 50vh;
-    overflow: auto;
     padding: 0.75rem;
     border: 1px solid var(--warm-grey, #e9e5df);
     border-radius: 0.5rem;
+  }
+
+  .slnt-location-map__tree {
+    max-height: 50vh;
+    overflow: auto;
   }
 }
 
@@ -59,7 +63,7 @@
 }
 
 @media (min-width: 1000px) {
-  .slnt-location-map__places {
+  .slnt-location-map__tree {
     max-height: 70vh;
     overflow: auto;
     padding-right: 0.5rem;
@@ -167,6 +171,32 @@
 .slnt-place-panel__count {
   font-weight: 400;
   margin-left: 0.25em;
+}
+
+/* A kind shown as a count only: the heading is the link. */
+.slnt-place-panel__heading-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.slnt-place-panel__heading-link:hover,
+.slnt-place-panel__heading-link:focus-visible {
+  text-decoration: underline;
+}
+
+/* An event's next date above its name: calendar, "23 Nov, 9pm". */
+.slnt-place-panel__date {
+  display: flex;
+  align-items: center;
+  gap: 0.3em;
+  font-size: 0.8rem;
+  color: var(--text-mid, #666);
+}
+
+.slnt-place-panel__date svg {
+  width: 0.95em;
+  height: 0.95em;
+  flex-shrink: 0;
 }
 
 .slnt-place-panel__items {

@@ -6,9 +6,11 @@
  * Variables:
  *   - place: {name, url, slug, area}
  *   - address: the place's own address line, or empty
- *   - sections: list of {key, label, count, link_label, items: [{title,
- *     url}], url}: the events to come, organisations, series and
- *     articles there, each with a link to the full listing at the place
+  *   - sections: list of {key, label, count, link_label, items: [{title,
+ *     url, date?, datetime?}], url}: the events to come (each with its
+ *     next date), series and articles there, each with a link to the
+ *     full listing at the place; organisations as a count whose heading
+ *     is the link (no items)
  *   - empty: TRUE when nothing is there yet
  */
 #}
@@ -21,15 +23,29 @@
     <p class="slnt-place-panel__empty">{{ 'Nothing listed here yet.'|t }}</p>
   {% endif %}
   {% for section in sections %}
-    <section class="slnt-place-panel__section slnt-place-panel__section--{{ section.key }}">
-      <h3 class="slnt-place-panel__heading">{{ section.label }} <span class="slnt-place-panel__count">{{ section.count }}</span></h3>
-      <ul class="slnt-place-panel__items">
-        {% for item in section.items %}
-          <li><a href="{{ item.url }}">{{ item.title }}</a></li>
-        {% endfor %}
-      </ul>
-      {% if section.url %}
-        <a class="slnt-place-panel__all" href="{{ section.url }}">{{ section.link_label }} <span aria-hidden="true">→</span></a>
+        <section class="slnt-place-panel__section slnt-place-panel__section--{{ section.key }}">
+      {% if section.items is empty and section.url %}
+        {# A count only: the heading is the way to the listing. #}
+        <h3 class="slnt-place-panel__heading"><a class="slnt-place-panel__heading-link" href="{{ section.url }}">{{ section.label }} <span class="slnt-place-panel__count">{{ section.count }}</span> <span aria-hidden="true">→</span></a></h3>
+      {% else %}
+        <h3 class="slnt-place-panel__heading">{{ section.label }} <span class="slnt-place-panel__count">{{ section.count }}</span></h3>
+        <ul class="slnt-place-panel__items">
+          {% for item in section.items %}
+            <li>
+              {% if item.date %}
+                <span class="slnt-place-panel__date">
+                  {# Phosphor calendar — the date icon on the series page. #}
+                  <svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false"><path d="M208,28H188V24a12,12,0,0,0-24,0v4H92V24a12,12,0,0,0-24,0v4H48A20,20,0,0,0,28,48V208a20,20,0,0,0,20,20H208a20,20,0,0,0,20-20V48A20,20,0,0,0,208,28ZM68,52a12,12,0,0,0,24,0h72a12,12,0,0,0,24,0h16V76H52V52ZM52,204V100H204V204Zm92-76a16,16,0,1,1-16-16A16,16,0,0,1,144,128Zm48,0a16,16,0,1,1-16-16A16,16,0,0,1,192,128ZM96,176a16,16,0,1,1-16-16A16,16,0,0,1,96,176Zm48,0a16,16,0,1,1-16-16A16,16,0,0,1,144,176Zm48,0a16,16,0,1,1-16-16A16,16,0,0,1,192,176Z"/></svg>
+                  <time datetime="{{ item.datetime }}">{{ item.date }}</time>
+                </span>
+              {% endif %}
+              <a href="{{ item.url }}">{{ item.title }}</a>
+            </li>
+          {% endfor %}
+        </ul>
+        {% if section.url %}
+          <a class="slnt-place-panel__all" href="{{ section.url }}">{{ section.link_label }} <span aria-hidden="true">→</span></a>
+        {% endif %}
       {% endif %}
     </section>
   {% endfor %}

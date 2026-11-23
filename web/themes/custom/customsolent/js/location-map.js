@@ -163,7 +163,7 @@
             }
             // Keep the chosen name in view inside the scrolling list, without
             // moving the page itself.
-            var list = root.querySelector('.slnt-location-map__places');
+                        var list = root.querySelector('.slnt-location-map__tree');
             if (list && list.scrollHeight > list.clientHeight) {
               var top = link.offsetTop - list.offsetTop;
               if (top < list.scrollTop || top > list.scrollTop + list.clientHeight - 40) {
