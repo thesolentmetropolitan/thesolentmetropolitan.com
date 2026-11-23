@@ -1,0 +1,46 @@
+uuid: 38944a4c-8fab-4326-85ce-6ccdae11e6f2
+langcode: en
+status: true
+dependencies:
+  module:
+    - custom_field
+    - node
+    - taxonomy
+id: node.field_exceptions
+field_name: field_exceptions
+entity_type: node
+type: custom
+settings:
+  columns:
+    date:
+      name: date
+      type: datetime
+      datetime_type: date
+    venue:
+      name: venue
+      type: entity_reference
+      target_type: taxonomy_term
+    not_on:
+      name: not_on
+      type: boolean
+    new_venue:
+      name: new_venue
+      type: entity_reference
+      target_type: taxonomy_term
+    start:
+      name: start
+      type: time
+    end:
+      name: end
+      type: time
+    note:
+      name: note
+      type: string
+      length: 255
+module: custom_field
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

@@ -6,6 +6,7 @@ dependencies:
     - field.field.node.event.field_age_group
     - field.field.node.event.field_arrival
     - field.field.node.event.field_cost
+    - field.field.node.event.field_exceptions
     - field.field.node.event.field_format
     - field.field.node.event.field_image
     - field.field.node.event.field_organisers
@@ -20,6 +21,7 @@ dependencies:
     - field.field.node.event.field_where
     - node.type.event
   module:
+    - custom_field
     - inline_entity_form
     - link
     - media_library
@@ -53,6 +55,47 @@ content:
     weight: 125
     region: content
     settings: {  }
+    third_party_settings: {  }
+  field_exceptions:
+    type: custom_stacked
+    weight: 129
+    region: content
+    settings:
+      wrapper: details
+      label_value: date
+      label_limit: 60
+      label_prefix: Date
+      auto_collapse: false
+      open: true
+      fields:
+        date:
+          weight: 0
+          type: datetime_default
+          settings: {  }
+        venue:
+          weight: 1
+          type: entity_reference_autocomplete
+          settings: {  }
+        not_on:
+          weight: 2
+          type: checkbox
+          settings: {  }
+        new_venue:
+          weight: 3
+          type: entity_reference_autocomplete
+          settings: {  }
+        start:
+          weight: 4
+          type: time_widget
+          settings: {  }
+        end:
+          weight: 5
+          type: time_widget
+          settings: {  }
+        note:
+          weight: 6
+          type: text
+          settings: {  }
     third_party_settings: {  }
   field_format:
     type: options_buttons

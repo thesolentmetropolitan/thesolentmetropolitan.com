@@ -17,6 +17,7 @@ module:
   contact: 0
   contextual: 0
   crop: 0
+  custom_field: 0
   customsolent_helpers: 0
   customsolent_tokens: 0
   datetime: 0

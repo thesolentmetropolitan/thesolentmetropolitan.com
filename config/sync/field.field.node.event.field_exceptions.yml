@@ -1,0 +1,76 @@
+uuid: f59e1931-24aa-47a9-b9f9-0c2f118d1513
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_exceptions
+    - node.type.event
+    - taxonomy.vocabulary.location
+  module:
+    - custom_field
+id: node.event.field_exceptions
+field_name: field_exceptions
+entity_type: node
+bundle: event
+label: 'Changes to particular dates'
+description: "A date when a regular event is not on, is somewhere else, or runs at different times. One row per date: the date, then only what changes. Readers see the change by the date on the event's page and cards."
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  add_more_label: 'Add a date'
+  field_settings:
+    date:
+      label: Date
+      check_empty: true
+      required: true
+      description: 'The date this change applies to.'
+      weight: 0
+    venue:
+      label: At
+      check_empty: false
+      description: 'For an event at more than one venue: the venue this change is about. Leave blank when it is the whole date.'
+      handler: 'default:taxonomy_term'
+      handler_settings:
+        sort:
+          field: name
+          direction: asc
+        auto_create: false
+        target_bundles:
+          location: location
+      weight: 1
+    not_on:
+      label: 'Not on'
+      check_empty: false
+      description: 'Tick when it does not happen that date. It leaves the listings for that date and the next date takes its place.'
+      weight: 2
+    new_venue:
+      label: 'Moved to'
+      check_empty: false
+      description: 'The venue it is at that date instead of the usual one.'
+      handler: 'default:taxonomy_term'
+      handler_settings:
+        sort:
+          field: name
+          direction: asc
+        auto_create: false
+        target_bundles:
+          location: location
+      weight: 3
+    start:
+      label: 'New start'
+      check_empty: false
+      description: 'Leave blank to keep the usual times.'
+      weight: 4
+    end:
+      label: 'New end'
+      check_empty: false
+      description: ''
+      weight: 5
+    note:
+      label: Note
+      check_empty: false
+      description: 'A few words for readers: "The Saints Pub is closed for refurbishment".'
+      weight: 6
+field_type: custom

@@ -534,7 +534,10 @@ function customsolent_helpers_event_next_instance(\Drupal\node\NodeInterface $no
         continue;
       }
     }
-    $best = ['start' => $start, 'end' => $end, 'duration' => (int) $item->duration, 'tz' => $tz];
+        $best = ['start' => $start, 'end' => $end, 'end_entered' => (int) $item->end_value, 'duration' => (int) $item->duration, 'tz' => $tz];
+  }
+  if ($best !== NULL) {
+    $best = customsolent_helpers_apply_exception($best, customsolent_helpers_exception_for($node, $best['start'], $best['tz']), $on_time);
   }
   return $best;
 }
@@ -545,11 +548,169 @@ function customsolent_helpers_event_next_instance(\Drupal\node\NodeInterface $no
  */
 function customsolent_helpers_short_when(array $instance): string {
   $d = (new \DateTimeImmutable('@' . $instance['start']))->setTimezone(new \DateTimeZone($instance['tz']));
-  $text = $d->format('j M');
+    $text = $d->format('j M');
   if ($instance['duration'] < 1439) {
     $text .= ', ' . ($d->format('i') === '00' ? $d->format('ga') : $d->format('g:ia'));
   }
   return $text;
+}
+
+/**
+ * A time as the cards print it: "7pm", "7:30pm".
+ */
+function customsolent_helpers_time_text(int $ts, string $tz): string {
+  $d = (new \DateTimeImmutable('@' . $ts))->setTimezone(new \DateTimeZone($tz));
+  return $d->format('i') === '00' ? $d->format('ga') : $d->format('g:ia');
+}
+
+/**
+ * The times of a date as the cards print them: "7 - 9pm", "7:30pm" when no
+ * end was entered (end = start), "" for an all-day date (1439 minutes).
+ */
+function customsolent_helpers_times_text(int $start, int $end_entered, string $tz): string {
+  if ($end_entered - $start >= 1439 * 60) {
+    return '';
+  }
+  if ($end_entered <= $start) {
+    return customsolent_helpers_time_text($start, $tz);
+  }
+  return customsolent_helpers_time_text($start, $tz) . ' - ' . customsolent_helpers_time_text($end_entered, $tz);
+}
+
+/**
+ * An event's changes to particular dates (field_exceptions, issue 502):
+ * a date it is not on, is at another venue, or runs at other times, with
+ * a note for readers. One row per date; an event at several venues may
+ * have a row per venue ("At"). Keyed by date (Y-m-d), each a list of
+ * rows {venue, not_on, new_venue, start, end, note}: venue and new_venue
+ * are Location term ids or NULL, start and end seconds from midnight or
+ * NULL (blank = unchanged).
+ *
+ * @return array<string, array[]>
+ */
+function customsolent_helpers_event_exceptions(\Drupal\node\NodeInterface $node): array {
+  if (!$node->hasField('field_exceptions') || $node->get('field_exceptions')->isEmpty()) {
+    return [];
+  }
+  $rows = [];
+  foreach ($node->get('field_exceptions') as $item) {
+    $v = $item->getValue();
+    $date = substr((string) ($v['date'] ?? ''), 0, 10);
+    if ($date === '') {
+      continue;
+    }
+    $seconds = static fn($s): ?int => ($s === NULL || $s === '') ? NULL : (int) $s;
+    $rows[$date][] = [
+      'venue' => !empty($v['venue']) ? (int) $v['venue'] : NULL,
+      'not_on' => !empty($v['not_on']),
+      'new_venue' => !empty($v['new_venue']) ? (int) $v['new_venue'] : NULL,
+      'start' => $seconds($v['start'] ?? NULL),
+      'end' => $seconds($v['end'] ?? NULL),
+      'note' => trim((string) ($v['note'] ?? '')),
+    ];
+  }
+  ksort($rows);
+  return $rows;
+}
+
+/**
+ * What an event changes on the day an instance falls, or NULL when
+ * nothing. {date, not_on (the whole date is off), venues_off (names of
+ * the venues it is not at that day, for an event at several), new_venue
+ * (the Location term, or NULL), start, end (seconds from midnight, or
+ * NULL), note}. A "not on" row naming a venue only changes the wording:
+ * the date still runs at the others.
+ */
+function customsolent_helpers_exception_for(\Drupal\node\NodeInterface $node, int $instance_start, ?string $tz = NULL): ?array {
+  $all = customsolent_helpers_event_exceptions($node);
+  if (!$all) {
+    return NULL;
+  }
+  $tz ??= \Drupal::config('system.date')->get('timezone.default') ?: 'Europe/London';
+  $day = (new \DateTimeImmutable('@' . $instance_start))->setTimezone(new \DateTimeZone($tz))->format('Y-m-d');
+  if (empty($all[$day])) {
+    return NULL;
+  }
+  $terms = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
+  $x = ['date' => $day, 'not_on' => FALSE, 'venues_off' => [], 'new_venue' => NULL, 'start' => NULL, 'end' => NULL, 'note' => ''];
+  foreach ($all[$day] as $row) {
+    if ($row['not_on']) {
+      if ($row['venue'] === NULL) {
+        $x['not_on'] = TRUE;
+      }
+      elseif ($t = $terms->load($row['venue'])) {
+        $x['venues_off'][] = $t->getName();
+      }
+    }
+    if ($x['new_venue'] === NULL && $row['new_venue'] !== NULL) {
+      $x['new_venue'] = $terms->load($row['new_venue']);
+    }
+    $x['start'] ??= $row['start'];
+    $x['end'] ??= $row['end'];
+    if ($x['note'] === '') {
+      $x['note'] = $row['note'];
+    }
+  }
+  return $x;
+}
+
+/**
+ * An instance with its day's new times applied: start, end_entered, end
+ * and duration recomputed when the exception sets a start or an end (a
+ * new start alone keeps the usual end; a new end alone keeps the usual
+ * start). usual_start and usual_end_entered are added for the lines that
+ * describe the pattern ("Every Monday, 7 - 9pm"). $instance needs start,
+ * tz and end_entered (or end).
+ */
+function customsolent_helpers_apply_exception(array $instance, ?array $x, bool $on_time = FALSE): array {
+  $instance += [
+    'usual_start' => $instance['start'],
+    'usual_end_entered' => $instance['end_entered'] ?? $instance['end'] ?? $instance['start'],
+  ];
+  if (!$x || ($x['start'] === NULL && $x['end'] === NULL)) {
+    return $instance;
+  }
+  $midnight = (new \DateTimeImmutable('@' . $instance['usual_start']))->setTimezone(new \DateTimeZone($instance['tz']))->setTime(0, 0)->getTimestamp();
+  $start = $x['start'] !== NULL ? $midnight + $x['start'] : $instance['usual_start'];
+  $end_entered = $x['end'] !== NULL ? $midnight + $x['end'] : $instance['usual_end_entered'];
+  if ($end_entered < $start) {
+    $end_entered = $start;
+  }
+  $instance['start'] = $start;
+  $instance['end_entered'] = $end_entered;
+  $instance['end'] = customsolent_helpers_item_end($start, $end_entered, $instance['tz'], $on_time);
+  $instance['duration'] = (int) round(($end_entered - $start) / 60);
+  return $instance;
+}
+
+/**
+ * The line by a date for its exception: "At The Saints Pub, 7:30 - 10pm
+ * (One week only)", "Not at WEA", "" when nothing worth saying (a "not
+ * on" date has no instance to put a line by). $instance has had
+ * customsolent_helpers_apply_exception() applied.
+ */
+function customsolent_helpers_exception_notice(array $x, array $instance): string {
+  $parts = [];
+  if ($x['venues_off']) {
+    $parts[] = t('Not at @venues', ['@venues' => implode(', ', $x['venues_off'])]);
+  }
+  if ($x['new_venue']) {
+    $parts[] = t('At @venue', ['@venue' => $x['new_venue']->getName()]);
+  }
+  if ($x['start'] !== NULL || $x['end'] !== NULL) {
+    $times = customsolent_helpers_times_text($instance['start'], $instance['end_entered'], $instance['tz']);
+    if ($times !== '') {
+      $parts[] = $times;
+    }
+  }
+  if (!$parts && $x['note'] === '') {
+    return '';
+  }
+  $text = implode(', ', $parts);
+  if ($x['note'] !== '') {
+    $text = $text === '' ? $x['note'] : $text . ' (' . $x['note'] . ')';
+  }
+  return mb_strtoupper(mb_substr($text, 0, 1)) . mb_substr($text, 1);
 }
 
 /**
@@ -613,6 +774,36 @@ function customsolent_helpers_breaks(): array {
         'ranges' => $ranges,
         'scope' => $scope,
         'nids' => array_values(array_unique($event_nids)),
+      ];
+    }
+  }
+    // A regular event's own "not on" dates (field_exceptions, issue 502) are
+  // closures scoped to that event: the listings' query, the cards' "Next:"
+  // and the panel all skip them the way they skip a closure Break. A row
+  // naming a venue ("At") is not a closure: the date still runs at the
+  // event's other venues, and only the wording changes.
+  $db = \Drupal::database();
+  if ($db->schema()->tableExists('node__field_exceptions')) {
+    $tz = new \DateTimeZone(\Drupal::config('system.date')->get('timezone.default') ?: 'Europe/London');
+    $rows = $db->query("SELECT e.entity_id, e.field_exceptions_date AS d, e.field_exceptions_note AS note
+      FROM {node__field_exceptions} e
+      JOIN {node_field_data} n ON n.nid = e.entity_id AND n.default_langcode = 1
+      WHERE n.status = 1 AND e.deleted = 0 AND e.field_exceptions_not_on = 1 AND e.field_exceptions_venue IS NULL")->fetchAll();
+    foreach ($rows as $row) {
+      try {
+        $day = new \DateTimeImmutable(substr((string) $row->d, 0, 10), $tz);
+      }
+      catch (\Exception) {
+        continue;
+      }
+      $breaks[] = [
+        'nid' => 0,
+        'title' => (string) t('Not on'),
+        'kind' => 'closure',
+        'note' => trim((string) $row->note),
+        'ranges' => [[$day->getTimestamp(), $day->modify('+1 day')->getTimestamp()]],
+        'scope' => 'events',
+        'nids' => [(int) $row->entity_id],
       ];
     }
   }

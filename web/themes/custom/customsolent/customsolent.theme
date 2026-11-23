@@ -733,7 +733,15 @@ function _customsolent_preprocess_event_shared_extras($node, array &$variables):
     }
     return;
   }
-  $variables['event_is_recurring'] = TRUE;
+    $variables['event_is_recurring'] = TRUE;
+  // Changes to particular dates (field_exceptions, issue 502): a date's
+  // new times move its instance (so "Next:" and the card's expiry follow
+  // them); a "not on" date is a closure Break scoped to this event, skipped
+  // below with the other closures; a venue change is a notice by the date.
+  $exceptions = customsolent_helpers_event_exceptions($node);
+  foreach ($instances as $k => $instance) {
+    $instances[$k] = customsolent_helpers_apply_exception($instance, $exceptions ? customsolent_helpers_exception_for($node, $instance['start'], $instance['tz']) : NULL, $on_time);
+  }
   usort($instances, static fn($a, $b) => $a['start'] <=> $b['start']);
   $tz = new \DateTimeZone($instances[0]['tz']);
   $fmt = static fn(int $ts, string $f) => (new \DateTimeImmutable('@' . $ts))->setTimezone($tz)->format($f);
@@ -784,10 +792,6 @@ function _customsolent_preprocess_event_shared_extras($node, array &$variables):
       $variables['event_when_cache']['#cache']['tags'][] = 'node:' . $series_id;
     }
   }
-  $time_fmt = static function (int $ts) use ($fmt): string {
-    // "7pm" when on the hour, "7:30pm" otherwise — as the cards do.
-    return $fmt($ts, 'i') === '00' ? $fmt($ts, 'ga') : $fmt($ts, 'g:ia');
-  };
   // One line per rule: "Every Monday and Wednesday, 2 - 3:30pm". An event
   // whose sessions differ by day carries several rules in field_when (a
   // drop-in on Mon/Wed afternoons and Tue/Thu mornings); every rule is
@@ -797,15 +801,8 @@ function _customsolent_preprocess_event_shared_extras($node, array &$variables):
   // No end time is entered as end = start (the same convention as one-off
   // events, whose formatter then prints one time): show "7:30pm", never
   // "7:30pm - 7:30pm".
-  $times_of = static function (array $first) use ($time_fmt): string {
-    if ($first['duration'] >= 1439) {
-      return '';
-    }
-    if ($first['end_entered'] <= $first['start']) {
-      return $time_fmt($first['start']);
-    }
-    return $time_fmt($first['start']) . ' - ' . $time_fmt($first['end_entered']);
-  };
+    $times_of = static fn(array $first): string =>
+    customsolent_helpers_times_text($first['usual_start'], $first['usual_end_entered'], $first['tz']);
   $first_by_rule = [];
   foreach ($instances as $instance) {
     $first_by_rule[$instance['rule']] ??= $instance;
@@ -831,25 +828,62 @@ function _customsolent_preprocess_event_shared_extras($node, array &$variables):
       $variables['event_recurrence_lines'][] = $line;
     }
   }
-  $first = $instances[0];
+    $first = $instances[0];
   $next_start = NULL;
+  // Lines by a date, keyed by the date so they print in date order.
+  $notices = [];
   foreach ($pool as $instance) {
     if ($instance['end'] >= $now) {
-      $variables['event_next_dates'][] = $fmt($instance['start'], 'D j M');
+            $variables['event_next_dates'][] = $fmt($instance['start'], 'D j M');
       $next_start ??= $instance['start'];
-      // "Falls in the Christmas break: check with the organiser" by the
-      // date: the card carries it for its one date, the page for each of
-      // the dates it shows.
+      // "At The Saints Pub, 7:30 - 10pm (One week only)" by a date that
+      // is changed, then "Falls in the Christmas break: check with the
+      // organiser" by one in an advisory Break: the card carries the line
+      // for its one date, the page for each of the dates it shows.
+            $x = $exceptions ? customsolent_helpers_exception_for($node, $instance['start'], $instance['tz']) : NULL;
+      if ($x && ($text = customsolent_helpers_exception_notice($x, $instance)) !== '') {
+        if ($instance['start'] === $next_start) {
+          $variables['event_break_notice'] ??= $text;
+        }
+        $notices[$instance['start']][] = $fmt($instance['start'], 'D j M') . ': ' . $text;
+      }
       if (isset($advisories[$instance['start']])) {
         $notice = customsolent_helpers_break_notice($advisories[$instance['start']]);
-        $variables['event_break_notice'] ??= $notice;
-        $variables['event_break_notices'][] = $fmt($instance['start'], 'D j M') . ': ' . $notice;
+        if ($instance['start'] === $next_start) {
+          $variables['event_break_notice'] ??= $notice;
+        }
+        $notices[$instance['start']][] = $fmt($instance['start'], 'D j M') . ': ' . $notice;
       }
       if (count($variables['event_next_dates']) === 3) {
         break;
       }
     }
   }
+    // The page lists the coming dates that are not on (the card just moves
+  // "Next:" past them, as it does for a closure Break): "Not on Mon 30 Nov
+  // (The venue is closed for refurbishment)", up to three.
+  if ($exceptions) {
+    $today = $fmt($now, 'Y-m-d');
+    $listed = 0;
+    foreach ($exceptions as $day => $rows) {
+      if ($day < $today) {
+        continue;
+      }
+      foreach ($rows as $row) {
+                if ($row['not_on'] && $row['venue'] === NULL) {
+          $date = new \DateTimeImmutable($day, $tz);
+          $notices[$date->getTimestamp()][] = t('Not on @date', ['@date' => $date->format('D j M')]) . ($row['note'] !== '' ? ' (' . $row['note'] . ')' : '');
+          $listed++;
+          break;
+        }
+      }
+      if ($listed === 3) {
+        break;
+      }
+    }
+  }
+  ksort($notices);
+  $variables['event_break_notices'] = array_merge([], ...array_values($notices));
   $variables['event_next_count'] = count(array_filter($pool, static fn($i) => $i['end'] >= $now));
   if ($next_start === NULL && $pool && $pool !== $instances) {
     // Every instance in the series' window has passed: show the last one.
