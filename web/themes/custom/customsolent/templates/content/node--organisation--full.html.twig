@@ -43,7 +43,12 @@
     {% endif %}
 
     {# Title — organisation name. #}
-    <h1 class="slnt-node-full__title">{{ label }}</h1>
+        <h1 class="slnt-node-full__title">{{ label }}</h1>
+
+    {# A station: what it is and how to tune in (EPG). #}
+    {% if station %}
+      <div class="slnt-node-full__station">{{ station.kind_label }}{% if station.frequency %} <span class="slnt-node-full__station-frequency">· {{ station.frequency }}</span>{% endif %}</div>
+    {% endif %}
     {# What it puts on, when that is the point of it (issue 485). #}
     {% include '@customsolent/components/format-line.html.twig' with { format_labels: format_labels, setting_label: setting_label, setting_key: setting_key, variant: 'full' } only %}
 
@@ -80,11 +85,28 @@
     <div class="slnt-node-full__standfirst">{{ content.field_standfirst }}</div>
   {% endif %}
 
-  {# Links — website and social pages, one button each, with the icon for
+    {# Links — website and social pages, one button each, with the icon for
      the kind of address (globe, platform logo). External links open in a
-     new tab. #}
-  {% if node_links is not empty %}
+     new tab. A station's Listen live / Watch live and Catch up come first
+     (EPG). #}
+  {% if node_links is not empty or (station and (station.live_url or station.catchup_url)) %}
     <div class="slnt-node-full__cta slnt-node-full__cta--row">
+      {% if station and station.live_url %}
+        <a href="{{ station.live_url }}" class="slnt-node-full__cta-link slnt-node-full__cta-link--live" target="_blank" rel="noopener noreferrer">
+          {# Phosphor play-circle. #}
+          <svg class="slnt-node-full__cta-icon slnt-node-full__cta-icon--kind" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false"><path d="M128,20A108,108,0,1,0,236,128,108.12,108.12,0,0,0,128,20Zm0,192a84,84,0,1,1,84-84A84.09,84.09,0,0,1,128,212Zm42.66-94L114.66,82a12,12,0,0,0-18.66,10v72a12,12,0,0,0,18.66,10l56-36a12,12,0,0,0,0-20ZM120,141.84V114.16L141.57,128Z"/></svg>
+          <span>{{ station.live_label }}</span>
+          <span class="visually-hidden">({{ 'opens in a new tab'|t }})</span>
+        </a>
+      {% endif %}
+      {% if station and station.catchup_url %}
+        <a href="{{ station.catchup_url }}" class="slnt-node-full__cta-link slnt-node-full__cta-link--catchup" target="_blank" rel="noopener noreferrer">
+          {# Phosphor clock-counter-clockwise. #}
+          <svg class="slnt-node-full__cta-icon slnt-node-full__cta-icon--kind" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false"><path d="M140,80v41.21l34.17,20.5a12,12,0,1,1-12.34,20.58l-40-24A12,12,0,0,1,116,128V80a12,12,0,0,1,24,0ZM128,28A99.38,99.38,0,0,0,57.24,57.34c-4.69,4.74-9,9.37-13.24,14V64a12,12,0,0,0-24,0v40a12,12,0,0,0,12,12H72a12,12,0,0,0,0-24H57.77C63,86,68.37,80.22,74.26,74.26a76,76,0,1,1,1.58,109,12,12,0,0,0-16.48,17.46A100,100,0,1,0,128,28Z"/></svg>
+          <span>{{ 'Catch up'|t }}</span>
+          <span class="visually-hidden">({{ 'opens in a new tab'|t }})</span>
+        </a>
+      {% endif %}
       {% for link in node_links %}
         <a href="{{ link.href }}" class="slnt-node-full__cta-link slnt-node-full__cta-link--{{ link.kind }}"{% if link.external %} target="_blank" rel="noopener noreferrer"{% endif %}>
           {% include '@customsolent/components/link-icon.html.twig' with { icon: link.icon, class: 'slnt-node-full__cta-icon slnt-node-full__cta-icon--kind' } only %}

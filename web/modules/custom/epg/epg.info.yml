@@ -1,0 +1,10 @@
+name: 'EPG: programme guide'
+type: module
+description: 'A programme guide for the local radio and TV stations: stations are organisations marked as broadcasters, programmes are repeating events with the Broadcast format that name the station as organiser, and the schedule is read from them. Keeps programmes out of the ordinary events listings.'
+core_version_requirement: ^11
+package: Custom
+dependencies:
+  - drupal:node
+  - drupal:taxonomy
+  - drupal:views
+  - customsolent_helpers:customsolent_helpers

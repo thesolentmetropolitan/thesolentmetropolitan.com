@@ -258,8 +258,21 @@ function customsolent_preprocess_node(array &$variables): void {
     // Refresh when events change, and at midnight when "today" moves on.
     $variables['organiser_events_cache'] = ['#cache' => ['tags' => $relations->eventsCacheTags(), 'max-age' => $relations->maxAgeUntilMidnight()]];
 
-    // Outward links: website, social pages — one button each.
+        // Outward links: website, social pages — one button each.
     $variables['node_links'] = _customsolent_node_link_buttons($node);
+    // A station (EPG): "Radio station · 101.1 FM, DAB" under the title, and
+    // Listen live / Watch live and Catch up buttons before the links.
+    $variables['station'] = NULL;
+    if (\Drupal::moduleHandler()->moduleExists('epg') && epg_is_station($node)) {
+      $info = epg_station_info($node);
+      $variables['station'] = [
+        'kind_label' => $info['kind'] === 'tv' ? t('TV channel') : t('Radio station'),
+        'frequency' => $info['frequency'],
+        'live_url' => $info['stream'],
+        'live_label' => $info['kind'] === 'tv' ? t('Watch live') : t('Listen live'),
+        'catchup_url' => $info['catchup'],
+      ];
+    }
 
     // Part of a larger organisation (reverse lookup: the parent lists its
     // subsidiaries), and the organisations that are part of this one. Both

@@ -340,6 +340,17 @@
   margin: 0 0 0.3rem 0;
 }
 
+/* A station's kind and frequency under its name (EPG). */
+.slnt-node-full__station {
+  font-size: 0.95rem;
+  color: var(--text-mid, #555);
+  margin: 0 0 0.5rem;
+}
+
+.slnt-node-full__station-frequency {
+  white-space: nowrap;
+}
+
 /* Venue(s) after a map pin, one per line. */
 .slnt-node-full__where-row {
 

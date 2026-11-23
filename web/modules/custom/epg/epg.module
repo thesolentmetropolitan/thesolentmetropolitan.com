@@ -1,0 +1,126 @@
+<?php
+
+/**
+ * @file
+ * EPG: the programme guide for the Solent's radio and TV stations.
+ *
+ * The model (agreed with Rob, 23 Nov 2026) reuses what the site has:
+ * - A station is an Organisation with a Broadcaster kind (radio or TV),
+ *   a frequency, a live stream, a catch-up page and the schedule page the
+ *   importer reads.
+ * - A programme is an Event with the Broadcast format that names the
+ *   station as organiser: repeating as the show does, with the site's
+ *   Breaks and changes to particular dates applying to it.
+ * - The schedule is derived: a station's programmes for a day, worked
+ *   out from the events' dates. Nothing is stored for it.
+ * Programmes are left out of the ordinary events listings and the front
+ * page, which are for things to go to; they are reached through the
+ * guide, the station's page, the Broadcasts format page, topics and
+ * series.
+ */
+
+use Drupal\node\NodeInterface;
+use Drupal\views\Plugin\views\query\QueryPluginBase;
+use Drupal\views\ViewExecutable;
+
+/**
+ * The uuid of the Broadcast format term, the format every programme has.
+ */
+const EPG_FORMAT_UUID = '3c970a69-a632-476f-b4d0-ce9ce9823d84';
+
+/**
+ * The id of the Broadcast format term, or NULL when it does not exist.
+ */
+function epg_programme_format_tid(): ?int {
+  $tid = &drupal_static(__FUNCTION__);
+  if ($tid === NULL) {
+    $terms = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadByProperties(['uuid' => EPG_FORMAT_UUID]);
+    $tid = $terms ? (int) reset($terms)->id() : 0;
+  }
+  return $tid ?: NULL;
+}
+
+/**
+ * Whether an organisation is a station (radio or TV).
+ */
+function epg_is_station(NodeInterface $node): bool {
+  return $node->bundle() === 'organisation' && $node->hasField('field_broadcast_kind')
+    && in_array((string) $node->get('field_broadcast_kind')->value, ['radio', 'tv'], TRUE);
+}
+
+/**
+ * The published stations, keyed by nid: node, kind (radio|tv), label,
+ * frequency, stream (URL or ''), catchup (URL or ''), schedule (URL or '').
+ *
+ * @return array<int, array>
+ */
+function epg_stations(): array {
+  $cache = &drupal_static(__FUNCTION__);
+  if ($cache !== NULL) {
+    return $cache;
+  }
+  $cache = [];
+  $storage = \Drupal::entityTypeManager()->getStorage('node');
+  $nids = $storage->getQuery()->accessCheck(TRUE)
+    ->condition('type', 'organisation')
+    ->condition('status', 1)
+    ->condition('field_broadcast_kind', ['radio', 'tv'], 'IN')
+    ->sort('title')
+    ->execute();
+  foreach ($storage->loadMultiple($nids) as $node) {
+    $cache[(int) $node->id()] = epg_station_info($node);
+  }
+  return $cache;
+}
+
+/**
+ * A station's details for the guide and its page (see epg_stations()).
+ */
+function epg_station_info(NodeInterface $node): array {
+  $url = static function (string $field) use ($node): string {
+    if (!$node->hasField($field) || $node->get($field)->isEmpty()) {
+      return '';
+    }
+    try {
+      return $node->get($field)->first()->getUrl()->toString();
+    }
+    catch (\Throwable) {
+      return '';
+    }
+  };
+  return [
+    'node' => $node,
+    'nid' => (int) $node->id(),
+    'label' => $node->label(),
+    'url' => $node->toUrl()->toString(),
+    'kind' => (string) $node->get('field_broadcast_kind')->value,
+    'frequency' => $node->hasField('field_frequency') ? trim((string) $node->get('field_frequency')->value) : '',
+    'stream' => $url('field_stream_url'),
+    'catchup' => $url('field_catchup_url'),
+    'schedule' => $url('field_schedule_url'),
+  ];
+}
+
+/**
+ * Implements hook_views_query_alter().
+ *
+ * Programmes (events with the Broadcast format) stay out of the events
+ * listings and the front page unless the listing is narrowed to that
+ * format: fifteen stations' daily shows would bury every gig. The
+ * station's own page lists its programmes through the content relations
+ * service, which this does not touch.
+ */
+function epg_views_query_alter(ViewExecutable $view, QueryPluginBase $query): void {
+  if ($view->id() !== 'events_listing' || !$query instanceof \Drupal\views\Plugin\views\query\Sql) {
+    return;
+  }
+  $format = epg_programme_format_tid();
+  if (!$format || customsolent_helpers_active_format_tid() === $format) {
+    return;
+  }
+  $programmes = \Drupal::database()->select('node__field_format', 'epg_f')->fields('epg_f', ['entity_id'])
+    ->condition('epg_f.field_format_target_id', $format);
+  // Its own AND group, never group 0 (the OR of the topic arguments).
+  $query->setWhereGroup('AND', 'epg_programmes');
+  $query->addWhere('epg_programmes', 'node_field_data.nid', $programmes, 'NOT IN');
+}

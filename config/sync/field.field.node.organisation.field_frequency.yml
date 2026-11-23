@@ -1,0 +1,19 @@
+uuid: f4f96ba0-7120-4eca-b61a-4a051a81193c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_frequency
+    - node.type.organisation
+id: node.organisation.field_frequency
+field_name: field_frequency
+entity_type: node
+bundle: organisation
+label: Frequency
+description: 'How to tune in: "101.1 FM, DAB, online".'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

@@ -3,11 +3,16 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.node.organisation.field_broadcast_kind
+    - field.field.node.organisation.field_catchup_url
     - field.field.node.organisation.field_content_component
     - field.field.node.organisation.field_format
+    - field.field.node.organisation.field_frequency
     - field.field.node.organisation.field_primary_topic
     - field.field.node.organisation.field_related_topics
+    - field.field.node.organisation.field_schedule_url
     - field.field.node.organisation.field_standfirst
+    - field.field.node.organisation.field_stream_url
     - field.field.node.organisation.field_subsidiary_organisations
     - field.field.node.organisation.field_urls
     - field.field.node.organisation.field_where
@@ -27,6 +32,20 @@ content:
     weight: 10
     region: content
     settings: {  }
+    third_party_settings: {  }
+  field_broadcast_kind:
+    type: options_select
+    weight: 130
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_catchup_url:
+    type: link_default
+    weight: 133
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
     third_party_settings: {  }
   field_content_component:
     type: paragraphs
@@ -52,6 +71,14 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
+  field_frequency:
+    type: string_textfield
+    weight: 131
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
   field_primary_topic:
     type: entity_reference_autocomplete
     weight: 121
@@ -72,6 +99,14 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
+  field_schedule_url:
+    type: link_default
+    weight: 134
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
   field_standfirst:
     type: string_textfield
     weight: 125
@@ -79,6 +114,14 @@ content:
     settings:
       size: 60
       placeholder: ''
+    third_party_settings: {  }
+  field_stream_url:
+    type: link_default
+    weight: 132
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
     third_party_settings: {  }
   field_subsidiary_organisations:
     type: entity_reference_autocomplete

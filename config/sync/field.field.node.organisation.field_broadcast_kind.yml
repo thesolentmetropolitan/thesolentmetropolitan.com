@@ -1,0 +1,21 @@
+uuid: 1902d27b-adc2-47e1-9252-dbf541ebd865
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_broadcast_kind
+    - node.type.organisation
+  module:
+    - options
+id: node.organisation.field_broadcast_kind
+field_name: field_broadcast_kind
+entity_type: node
+bundle: organisation
+label: Broadcaster
+description: 'Set when this organisation is a radio station or a TV channel: its programmes (events with the Broadcast format that name it as organiser) then make up its schedule in the programme guide.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

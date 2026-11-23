@@ -4,11 +4,16 @@ status: true
 dependencies:
   config:
     - core.entity_view_mode.node.teaser
+    - field.field.node.organisation.field_broadcast_kind
+    - field.field.node.organisation.field_catchup_url
     - field.field.node.organisation.field_content_component
     - field.field.node.organisation.field_format
+    - field.field.node.organisation.field_frequency
     - field.field.node.organisation.field_primary_topic
     - field.field.node.organisation.field_related_topics
+    - field.field.node.organisation.field_schedule_url
     - field.field.node.organisation.field_standfirst
+    - field.field.node.organisation.field_stream_url
     - field.field.node.organisation.field_subsidiary_organisations
     - field.field.node.organisation.field_urls
     - field.field.node.organisation.field_where
@@ -42,10 +47,15 @@ content:
     weight: 1
     region: content
 hidden:
+  field_broadcast_kind: true
+  field_catchup_url: true
   field_content_component: true
   field_format: true
+  field_frequency: true
   field_primary_topic: true
   field_related_topics: true
+  field_schedule_url: true
+  field_stream_url: true
   field_subsidiary_organisations: true
   field_where: true
   links: true
