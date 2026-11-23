@@ -2088,10 +2088,29 @@ function customsolent_preprocess_paragraph__view_display(&$variables) {
       && (($variables['view_mode'] ?? '') === 'listing_page' || _customsolent_host_lists_only_formattable($host));
     _customsolent_apply_format_options_to_variables($variables, $applies, $context, _customsolent_format_types_for_views([$view_name]));
     _customsolent_apply_facet_options_to_variables($variables, [$view_name], $context, ($variables['view_mode'] ?? '') === 'listing_page' ? NULL : $host);
-    _customsolent_apply_place_options_to_variables($variables, $view_name, $context);
+        _customsolent_apply_place_options_to_variables($variables, $view_name, $context);
   }
   else {
     $variables['facet_groups'] = [];
+  }
+
+  // Grid or map (issue 451): a full listing of a kind that carries a
+  // place offers the same results as a map. ?view=map replaces the grid
+  // with the venues of the items the grid would show (every filter on
+  // the page applies), each peg opening the items at that venue.
+  $variables['view_switch'] = NULL;
+  $variables['listing_map'] = NULL;
+    if (($variables['listing_mode'] ?? '') === 'full'
+    && in_array($view_name, customsolent_helpers_place_filtered_views(), TRUE)) {
+    $as_map = \Drupal::request()->query->get('view') === 'map';
+    $variables['view_switch'] = [
+      'map' => $as_map,
+      'grid_url' => _customsolent_build_filter_url(['view' => NULL]),
+      'map_url' => _customsolent_build_filter_url(['view' => 'map']),
+    ];
+    if ($as_map) {
+      $variables['listing_map'] = _customsolent_listing_map($view_name, $display_id, (string) $variables['primary_topic_tid']);
+    }
   }
 
   // A listing narrowed to a place (?place=medbar, from the Locations map)
@@ -2920,7 +2939,7 @@ function _customsolent_preprocess_listing_mode(array &$variables, $paragraph, $h
   $is_directory = ($type_word === 'organisations');
   $variables['listing_cache'] = [
     '#cache' => [
-      'contexts' => array_merge(['url.path', 'url.query_args:topic', 'url.query_args:date_filter_id'], customsolent_helpers_facet_query_args()),
+            'contexts' => array_merge(['url.path', 'url.query_args:topic', 'url.query_args:date_filter_id', 'url.query_args:view'], customsolent_helpers_facet_query_args()),
       'tags' => $kind['tags'],
     ],
   ];
@@ -3531,6 +3550,142 @@ function _customsolent_apply_filter_options_to_variables(array &$variables, arra
  * @return string
  *   The current request path plus the merged query string. If the
  *   merged query is empty, just the path is returned.
+ */
+/**
+ * Implements hook_theme().
+ *
+ * slnt_listing_map: a listing shown as a map (issue 451): the venues of
+ * the items the listing would show, pegged, with the places beneath and
+ * a panel that lists the items at the chosen place. Built by
+ * _customsolent_listing_map() from the view's own result, so every
+ * filter on the page (topic, format, cost, age group, place) applies.
+ */
+function customsolent_theme($existing, $type, $theme, $path): array {
+  return [
+    'slnt_listing_map' => [
+      'variables' => [
+        'tree' => [],
+        'places_json' => '',
+                'count_items' => '',
+        'count_places' => '',
+        'base_url' => '',
+        'empty' => FALSE,
+      ],
+      'path' => $path . '/templates/components',
+      'template' => 'listing-map',
+    ],
+  ];
+}
+
+function _customsolent_listing_map(string $view_name, string $display_id, string $args): array {
+  $view = \Drupal\views\Views::getView($view_name);
+  if (!$view || !$view->setDisplay($display_id ?: NULL)) {
+    return [];
+  }
+  // The same arguments the grid gets (the topic scope, twice for the
+  // primary-and-related display), every result rather than one page.
+  $view->setArguments([$args, $args]);
+  $view->setItemsPerPage(0);
+  $view->setOffset(0);
+  $view->execute();
+  $places = customsolent_helpers_place_terms();
+  $now = \Drupal::time()->getRequestTime();
+  $items_at = [];
+  $types = [];
+  $count_items = 0;
+  $tags = ['taxonomy_term_list:location'];
+  foreach ($view->result as $row) {
+    $node = $row->_entity ?? NULL;
+    if (!$node instanceof \Drupal\node\NodeInterface || !$node->hasField('field_where')) {
+      continue;
+    }
+    $types[$node->bundle()] = TRUE;
+    $item = ['title' => $node->label(), 'url' => $node->toUrl()->toString()];
+    if ($node->bundle() === 'event' && ($next = customsolent_helpers_event_next_instance($node, $now))) {
+      $item['date'] = customsolent_helpers_short_when($next);
+    }
+    $placed = FALSE;
+    foreach ($node->get('field_where')->referencedEntities() as $where) {
+      $tid = (int) $where->id();
+      if (isset($places[$tid])) {
+        $items_at[$tid][] = $item;
+        $placed = TRUE;
+      }
+    }
+    if ($placed) {
+      $count_items++;
+    }
+  }
+  foreach (array_keys($types) as $type) {
+    $tags[] = 'node_list:' . $type;
+  }
+  // The places with an item, and every place above them, make the tree.
+  $busy = [];
+  foreach (array_keys($items_at) as $tid) {
+    for ($t = $tid; $t && isset($places[$t]); $t = $places[$t]['parent'] ?? 0) {
+      $busy[$t] = TRUE;
+    }
+  }
+  $children = [];
+  foreach ($places as $tid => $place) {
+    if (isset($busy[$tid])) {
+      $children[$place['parent'] ?? 0][] = $tid;
+    }
+  }
+  $list_url = static fn(string $slug): string => _customsolent_build_filter_url(['place' => $slug, 'view' => NULL]);
+  $build = function (int $parent) use (&$build, $places, $children, $list_url): array {
+    $items = [];
+    foreach ($children[$parent] ?? [] as $tid) {
+      $items[] = [
+        'label' => $places[$tid]['name'],
+        // Without the script the name goes to the grid narrowed to the place.
+        'url' => $list_url($places[$tid]['slug']),
+        'slug' => $places[$tid]['slug'],
+        'area' => $places[$tid]['area'],
+        'children' => $build($tid),
+      ];
+    }
+    return $items;
+  };
+  $data = [];
+  foreach ($places as $tid => $place) {
+    if (!isset($busy[$tid])) {
+      continue;
+    }
+    $data[] = [
+      'tid' => $tid,
+      'name' => $place['name'],
+      'slug' => $place['slug'],
+      'url' => $place['url'],
+      'parent' => $place['parent'],
+      'area' => $place['area'],
+      'busy' => TRUE,
+      'lat' => $place['lat'],
+      'lon' => $place['lon'],
+      'bounds' => $place['bounds'],
+      'items' => $items_at[$tid] ?? [],
+    ];
+  }
+  return [
+    '#theme' => 'slnt_listing_map',
+    '#tree' => $build(0),
+    '#places_json' => json_encode($data, JSON_HEX_TAG | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES),
+        '#count_items' => \Drupal::translation()->formatPlural($count_items, '1 item', '@count items'),
+    '#count_places' => \Drupal::translation()->formatPlural(count($items_at), '1 place', '@count places'),
+    '#base_url' => customsolent_helpers_sitewide_listing_url('places'),
+    '#empty' => !$items_at,
+    '#attached' => ['library' => ['customsolent/location-map']],
+    '#cache' => [
+      'contexts' => array_merge(['url.path', 'url.query_args:topic', 'url.query_args:view'], customsolent_helpers_facet_query_args()),
+      'tags' => $tags,
+      // Event dates move on; the set of items changes as events end.
+      'max-age' => 3600,
+    ],
+  ];
+}
+
+/**
+ * The current URL with some query parameters set or removed.
  */
 function _customsolent_build_filter_url(array $params_to_set) {
   $request = \Drupal::request();

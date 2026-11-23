@@ -170,13 +170,22 @@
           </aside>
         {% endif %}
 
-        <div class="slnt-section-listing__content">
+                <div class="slnt-section-listing__content">
+          {# Grid or map (issue 451): the same results either way. #}
+          {% if view_switch %}
+            <div class="slnt-view-switch" role="group" aria-label="{{ 'Show as'|t }}">
+              <a class="slnt-view-switch__option" href="{{ view_switch.grid_url }}"{% if not view_switch.map %} aria-current="true"{% endif %}>{{ 'Grid'|t }}</a>
+              <a class="slnt-view-switch__option" href="{{ view_switch.map_url }}"{% if view_switch.map %} aria-current="true"{% endif %}>{{ 'Map'|t }}</a>
+            </div>
+          {% endif %}
           {# view_name / display_id come from preprocess; fall back to
              reading the field directly so the editor's selection still
              renders if preprocess did not run. #}
           {% set vname = view_name|default(paragraph.field_view.0.target_id) %}
           {% set did = display_id|default(paragraph.field_view.0.display_id) %}
-          {% if vname and did and primary_topic_tid is defined and primary_topic_tid %}
+          {% if listing_map %}
+            {{ listing_map }}
+          {% elseif vname and did and primary_topic_tid is defined and primary_topic_tid %}
             {# Pass primary_topic_tid twice so the view_display_primary_and_related
                display (two contextual filters: field_primary_topic OR'd with
                field_related_topics) gets the same +-joined TID scope on both

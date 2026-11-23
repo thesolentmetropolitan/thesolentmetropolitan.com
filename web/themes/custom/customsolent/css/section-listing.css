@@ -1089,6 +1089,35 @@ a.slnt-section-strip__item {
 
 /* A listing narrowed to a place: "At Medbar · All events · On the map"
    above the filters (Location epic). */
+/* Grid or map (issue 451): two pills above the results, the current one
+   filled, in the Explore colour like the map's own buttons. */
+.slnt-view-switch {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.35rem;
+  margin: 0 0 0.75rem;
+}
+
+.slnt-view-switch__option {
+  font-size: 0.8rem;
+  line-height: 1.2;
+  padding: 0.3em 0.8em;
+  border: 1px solid var(--explore, #e07a00);
+  border-radius: 999px;
+  color: var(--explore, #e07a00);
+  text-decoration: none;
+}
+
+.slnt-view-switch__option[aria-current="true"] {
+  background: var(--explore, #e07a00);
+  color: #fff;
+}
+
+.slnt-view-switch__option:hover,
+.slnt-view-switch__option:focus-visible {
+  text-decoration: underline;
+}
+
 .slnt-place-filter {
   display: flex;
   flex-wrap: wrap;

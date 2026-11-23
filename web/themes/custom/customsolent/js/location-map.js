@@ -9,7 +9,13 @@
  * Choosing a place, by peg or by its link in the list, fetches its
  * panel (/explore/locations/<slug>/panel), marks it in the list, moves the
  * map and pushes the address, so the back button and a bookmark both
- * work. Without this script every link is a full page.
+  * work. Without this script every link is a full page.
+ *
+ * Listing mode (data-mode="listing", issue 451): a listing page shown as
+ * a map. The places carry their items in the data, so the panel is built
+ * here, nothing is fetched and the address bar is left alone; a place in
+ * the list is selected in page (its link, for no script, is the grid
+ * narrowed to the place).
  */
 (function (Drupal, once) {
   'use strict';
@@ -27,7 +33,8 @@
         catch (e) {
           return;
         }
-        var base = root.getAttribute('data-base') || '/explore/locations';
+                var base = root.getAttribute('data-base') || '/explore/locations';
+        var listing = root.getAttribute('data-mode') === 'listing';
         var panel = root.querySelector('.slnt-location-map__panel');
         var canvas = root.querySelector('.slnt-location-map__canvas');
         var bySlug = {};
@@ -174,8 +181,40 @@
           root.setAttribute('data-selected', slug);
         }
 
-        var current = root.getAttribute('data-selected') || '';
+                var current = root.getAttribute('data-selected') || '';
         applyShow();
+        // Listing mode: the panel from the data. The items at the place
+        // and at every place within it, each once.
+        function esc(s) {
+          return String(s).replace(/[&<>"]/g, function (c) {
+            return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
+          });
+        }
+        function itemsWithin(p) {
+          var seen = {};
+          var out = [];
+          var walk = function (q) {
+            (q.items || []).forEach(function (it) {
+              if (!seen[it.url]) {
+                seen[it.url] = true;
+                out.push(it);
+              }
+            });
+            (children[q.tid] || []).forEach(walk);
+          };
+          walk(p);
+          return out;
+        }
+        function localPanel(p) {
+          var items = itemsWithin(p);
+          var html = '<div class="slnt-place-panel"><h2 class="slnt-place-panel__name"><a href="' + esc(p.url) + '">' + esc(p.name) + '</a></h2>';
+          html += '<ul class="slnt-place-panel__items">';
+          items.forEach(function (it) {
+            html += '<li>' + (it.date ? '<span class="slnt-place-panel__date">' + esc(it.date) + '</span>' : '') + '<a href="' + esc(it.url) + '">' + esc(it.title) + '</a></li>';
+          });
+          html += '</ul></div>';
+          panel.innerHTML = html;
+        }
         function select(slug, push) {
           var p = bySlug[slug];
           if (!p) {
@@ -188,6 +227,10 @@
           mark(slug);
           highlight(slug);
           moveTo(slug);
+          if (listing) {
+            localPanel(p);
+            return;
+          }
           panel.setAttribute('aria-busy', 'true');
           fetch(base + '/' + slug + '/panel', { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
             .then(function (r) { return r.ok ? r.text() : Promise.reject(r.status); })
@@ -218,12 +261,14 @@
           e.preventDefault();
           select(a.getAttribute('data-place'), true);
         });
-        window.addEventListener('popstate', function () {
-          var m = window.location.pathname.match(new RegExp('^' + base.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '/([a-z0-9-]+)/?$'));
-          if (m && bySlug[m[1]]) {
-            select(m[1], false);
-          }
-        });
+                if (!listing) {
+          window.addEventListener('popstate', function () {
+            var m = window.location.pathname.match(new RegExp('^' + base.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '/([a-z0-9-]+)/?$'));
+            if (m && bySlug[m[1]]) {
+              select(m[1], false);
+            }
+          });
+        }
 
         // Start: on the chosen place, or over every peg.
         if (current && bySlug[current]) {

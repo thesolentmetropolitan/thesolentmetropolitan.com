@@ -1,0 +1,56 @@
+{#
+/**
+ * @file
+ * A listing as a map (issue 451): the venues of the items the grid would
+ * show, pegged; the places beneath; a panel listing the items at the
+ * chosen place. The same piece as Explore / Locations (js/location-map.js,
+ * css/location-map.css) in its listing mode: the panel is built from the
+ * data here, nothing is fetched, and the address bar is left alone.
+ * Without the script each place in the list goes to the grid narrowed to
+ * that place.
+ *
+ * Variables (_customsolent_listing_map):
+ *   - tree: nested {label, url, slug, area, children}: only places with
+ *     an item, and the places above them
+ *   - places_json: those places for the script, each with its items
+  *   - count_items, count_places: "20 items", "11 places"
+ *   - base_url: /explore/locations (a place's own page)
+ *   - empty: TRUE when nothing in the listing has a place
+ */
+#}
+{% macro branch(items, depth) %}
+  <ul class="slnt-location-map__list{% if depth > 0 %} slnt-location-map__list--nested{% endif %}">
+    {% for item in items %}
+      <li class="slnt-location-map__item{% if item.area %} slnt-location-map__item--area{% endif %} is-open">
+        <a href="{{ item.url }}" data-place="{{ item.slug }}">{{ item.label }}</a>
+        {% if item.children %}{{ _self.branch(item.children, depth + 1) }}{% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+{% endmacro %}
+{% if empty %}
+  <p class="slnt-listing-map__empty">{{ 'Nothing here has a place on the map yet.'|t }}</p>
+{% else %}
+<div{{ attributes.addClass('slnt-location-map', 'slnt-location-map--listing') }} data-base="{{ base_url }}" data-show="busy" data-mode="listing">
+  <div class="slnt-location-map__map">
+    <div class="slnt-location-map__canvas" role="region" aria-label="{{ 'Map of places'|t }}">
+      <noscript><p class="slnt-location-map__noscript">{{ 'The map needs JavaScript. Every place is in the list below.'|t }}</p></noscript>
+    </div>
+  </div>
+  <aside class="slnt-location-map__panel" aria-live="polite">
+    <div class="slnt-place-panel slnt-place-panel--none">
+      <h2 class="slnt-place-panel__name">{{ 'Choose a place'|t }}</h2>
+            <p class="slnt-place-panel__empty">{{ '@items at @places. Pick a venue on the map or a place in the list to see what is there.'|t({'@items': count_items, '@places': count_places}) }}</p>
+    </div>
+  </aside>
+  <nav class="slnt-location-map__places" aria-label="{{ 'Places'|t }}">
+    <div class="slnt-location-map__places-header">
+            <h2 class="slnt-location-map__heading">{{ count_places|capitalize }}</h2>
+    </div>
+    <div class="slnt-location-map__tree">
+      {{ _self.branch(tree, 0) }}
+    </div>
+  </nav>
+  <script type="application/json" class="slnt-location-map__data">{{ places_json|raw }}</script>
+</div>
+{% endif %}

@@ -319,3 +319,33 @@
 
 .slnt-location-map .leaflet-tooltip-right:before { border-right-color: #fff; }
 .slnt-location-map .leaflet-tooltip-right:after { left: 0; top: 50%; margin-top: -8px; margin-left: -16px; border-right-color: var(--text, #1a1a1a); }
+
+/* A listing as a map (issue 451), inside the listing's content column:
+   map and panel side by side, the places beneath them. */
+.slnt-location-map--listing .slnt-location-map__map { order: 1; }
+.slnt-location-map--listing .slnt-location-map__panel { order: 2; }
+.slnt-location-map--listing .slnt-location-map__places { order: 3; }
+
+.slnt-location-map--listing .slnt-location-map__canvas {
+  height: 50vh;
+  min-height: 320px;
+}
+
+@media (min-width: 1000px) {
+  .slnt-location-map--listing {
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+  }
+
+  .slnt-location-map--listing .slnt-location-map__places {
+    grid-column: 1 / -1;
+  }
+
+  .slnt-location-map--listing .slnt-location-map__tree {
+    max-height: 40vh;
+  }
+}
+
+.slnt-listing-map__empty {
+  color: var(--text-mid, #666);
+  margin: 1rem 0;
+}
