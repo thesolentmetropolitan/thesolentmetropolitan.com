@@ -1,0 +1,78 @@
+{#
+/**
+ * @file
+ * The programme guide (EPG): one DOM, three views chosen by data-view.
+ *
+ * - timeline: stations down the side, the day across (6am to 6am), each
+ *   programme a block as wide as it is long; scrolls sideways.
+ * - vertical: stations across the top, the day down; each programme a
+ *   block as tall as it is long.
+ * - list: each station's programmes as a plain timed list. This is what a
+ *   reader without the script or with a screen reader gets.
+ * The blocks are placed with CSS grid from --s (minutes from 6am) and
+ * --d (minutes long), so the same markup serves all three.
+ *
+ * Variables (EpgController, epg_schedule()):
+ *   day, day_label, is_today, days [{label, url, current}],
+ *   views [{key, label, url, current}], view, window_start, window_end,
+ *   hours [labels], stations [{nid, label, url, kind, frequency, stream,
+ *   catchup, programmes: [{nid, title, url, start, end, start_min,
+ *   duration_min, time, times, is_now, note, link}]}], empty.
+ */
+#}
+<div class="epg" data-view="{{ view }}" data-window-start="{{ window_start }}" data-window-end="{{ window_end }}" data-today="{{ is_today ? '1' : '0' }}">
+  <div class="epg__controls">
+    <nav class="epg__days" aria-label="{{ 'Day'|t }}">
+      {% for d in days %}
+        <a class="epg__day" href="{{ d.url }}"{% if d.current %} aria-current="page"{% endif %}>{{ d.label }}</a>
+      {% endfor %}
+    </nav>
+    <div class="epg__views" role="group" aria-label="{{ 'Show as'|t }}">
+      {% for v in views %}
+        <a class="epg__view" href="{{ v.url }}" data-view="{{ v.key }}"{% if v.current %} aria-current="true"{% endif %}>{{ v.label }}</a>
+      {% endfor %}
+    </div>
+  </div>
+  <h2 class="epg__day-heading">{{ day_label }}</h2>
+  {% if empty %}
+    <p class="epg__empty">{{ 'No stations are in the guide yet.'|t }}</p>
+  {% else %}
+    <div class="epg__scroller">
+      <div class="epg__grid" style="--stations: {{ stations|length }};">
+        {# The hour marks: a row in the timeline, a column in the vertical view. #}
+        <div class="epg__hours" aria-hidden="true">
+          <div class="epg__corner"></div>
+          {% for h in hours %}
+            <div class="epg__hour" style="--s: {{ loop.index0 * 60 }}; --d: 60;">{{ h }}</div>
+          {% endfor %}
+        </div>
+        {% for station in stations %}
+          <section class="epg__station" aria-labelledby="epg-station-{{ station.nid }}">
+            <h3 class="epg__station-name" id="epg-station-{{ station.nid }}">
+              <a href="{{ station.url }}">{{ station.label }}</a>
+              {% if station.frequency %}<span class="epg__frequency">{{ station.frequency }}</span>{% endif %}
+              {% if station.stream %}<a class="epg__live" href="{{ station.stream }}" target="_blank" rel="noopener noreferrer">{{ station.kind == 'tv' ? 'Watch live'|t : 'Listen live'|t }}<span class="visually-hidden"> ({{ 'opens in a new tab'|t }})</span></a>{% endif %}
+            </h3>
+            {% if station.programmes %}
+              <ol class="epg__programmes">
+                {% for p in station.programmes %}
+                  <li class="epg__programme{% if p.is_now %} is-now{% endif %}" style="--s: {{ p.start_min }}; --d: {{ p.duration_min }};" data-start="{{ p.start }}" data-end="{{ p.end }}">
+                    <a class="epg__programme-link" href="{{ p.url }}">
+                      <span class="epg__time">{{ p.times ?: p.time }}</span>
+                      <span class="epg__title">{{ p.title }}</span>
+                      {% if p.note %}<span class="epg__note">{{ p.note }}</span>{% endif %}
+                      <span class="epg__on-now" aria-hidden="true">{{ 'On now'|t }}</span>
+                    </a>
+                  </li>
+                {% endfor %}
+              </ol>
+            {% else %}
+              <p class="epg__none">{{ 'No programmes listed for this day.'|t }}</p>
+            {% endif %}
+          </section>
+        {% endfor %}
+        <div class="epg__now" aria-hidden="true" hidden></div>
+      </div>
+    </div>
+  {% endif %}
+</div>

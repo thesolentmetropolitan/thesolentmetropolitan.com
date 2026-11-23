@@ -124,3 +124,154 @@ function epg_views_query_alter(ViewExecutable $view, QueryPluginBase $query): vo
   $query->setWhereGroup('AND', 'epg_programmes');
   $query->addWhere('epg_programmes', 'node_field_data.nid', $programmes, 'NOT IN');
 }
+
+/**
+ * Implements hook_theme().
+ */
+function epg_theme(): array {
+  return [
+    'epg_guide' => [
+      'variables' => [
+        'day' => '',
+        'day_label' => '',
+        'is_today' => FALSE,
+        'days' => [],
+        'views' => [],
+        'view' => 'timeline',
+        'window_start' => 0,
+        'window_end' => 0,
+        'hours' => [],
+        'stations' => [],
+        'empty' => FALSE,
+      ],
+    ],
+  ];
+}
+
+/**
+ * Minutes in the guide's day: 6am to 6am.
+ */
+const EPG_WINDOW_MINUTES = 1440;
+
+/**
+ * The hour the guide's day starts at.
+ */
+const EPG_WINDOW_START_HOUR = 6;
+
+/**
+ * The schedule for a day: every station with its programmes in the guide's
+ * window (6am that day to 6am the next), in station order.
+ *
+ * Programmes are the published events with the Broadcast format that name
+ * a station as organiser and have a date starting in the window. A date
+ * in a closure Break or outside the event's season is not on (the same
+ * rules as the listings), and a changed date carries its new times.
+ *
+ * Returns window_start/window_end (timestamps), hours (label per hour of
+ * the window), stations (list of station info + 'programmes': list of
+ * {nid, title, url, start, end, start_min, duration_min, time, times,
+ * is_now, note, link}), tags, max_age (seconds to the next change).
+ */
+function epg_schedule(\DateTimeImmutable $day): array {
+  $tz = $day->getTimezone();
+  $window_start = $day->setTime(EPG_WINDOW_START_HOUR, 0);
+  $window_end = $window_start->modify('+1 day');
+  $from = $window_start->getTimestamp();
+  $to = $window_end->getTimestamp();
+  $now = \Drupal::time()->getRequestTime();
+  $stations = epg_stations();
+  $format = epg_programme_format_tid();
+  $tags = ['node_list:event', 'node_list:organisation', 'node_list:break'];
+  $hours = [];
+  for ($h = 0; $h < 24; $h++) {
+    $hours[] = $window_start->modify("+$h hour")->format('G:i');
+  }
+  $result = ['window_start' => $from, 'window_end' => $to, 'hours' => $hours, 'stations' => [], 'tags' => $tags, 'max_age' => 3600];
+  if (!$stations || !$format) {
+    return $result;
+  }
+  $rows = \Drupal::database()->query("SELECT w.entity_id AS nid, w.field_when_value AS start, w.field_when_end_value AS end_value, w.field_when_timezone AS tz, w.field_when_duration AS duration, o.field_organisers_target_id AS station
+    FROM {node__field_when} w
+    JOIN {node_field_data} n ON n.nid = w.entity_id AND n.default_langcode = 1 AND n.status = 1 AND n.type = 'event'
+    JOIN {node__field_format} f ON f.entity_id = w.entity_id AND f.field_format_target_id = :format
+    JOIN {node__field_organisers} o ON o.entity_id = w.entity_id AND o.field_organisers_target_id IN (:stations[])
+    WHERE w.field_when_value >= :from AND w.field_when_value < :to
+    ORDER BY w.field_when_value ASC", [':format' => $format, ':stations[]' => array_keys($stations), ':from' => $from, ':to' => $to])->fetchAll();
+  $nids = array_unique(array_map(static fn($r) => (int) $r->nid, $rows));
+  $nodes = $nids ? \Drupal::entityTypeManager()->getStorage('node')->loadMultiple($nids) : [];
+  $by_station = [];
+  $boundaries = [];
+  foreach ($rows as $row) {
+    $node = $nodes[(int) $row->nid] ?? NULL;
+    if (!$node) {
+      continue;
+    }
+    $start = (int) $row->start;
+    $item_tz = $row->tz ?: $tz->getName();
+    $month = (int) (new \DateTimeImmutable('@' . $start))->setTimezone(new \DateTimeZone($item_tz))->format('n');
+    $season_from = $node->hasField('field_season_from') ? (int) $node->get('field_season_from')->value : 0;
+    $season_to = $node->hasField('field_season_to') ? (int) $node->get('field_season_to')->value : 0;
+    if (!customsolent_helpers_in_season($month, $season_from ?: NULL, $season_to ?: NULL)) {
+      continue;
+    }
+    $break = customsolent_helpers_break_for((int) $node->id(), $start);
+    if ($break && $break['kind'] === 'closure') {
+      continue;
+    }
+    $instance = ['start' => $start, 'end_entered' => (int) $row->end_value, 'duration' => (int) $row->duration, 'tz' => $item_tz];
+    $exception = customsolent_helpers_exception_for($node, $start, $item_tz);
+    $instance = customsolent_helpers_apply_exception($instance, $exception);
+    $end = $instance['end_entered'] > $instance['start'] ? $instance['end_entered'] : $instance['start'] + 1800;
+    $tags = array_merge($tags, $node->getCacheTags());
+    $start_min = (int) floor(($instance['start'] - $from) / 60);
+    $duration_min = max(5, (int) round((min($end, $to) - $instance['start']) / 60));
+    $note = '';
+    if ($exception) {
+      $note = customsolent_helpers_exception_notice($exception, $instance);
+    }
+    elseif ($break) {
+      $note = customsolent_helpers_break_notice($break);
+    }
+    $link = '';
+    if ($node->hasField('field_urls') && !$node->get('field_urls')->isEmpty()) {
+      try {
+        $link = $node->get('field_urls')->first()->getUrl()->toString();
+      }
+      catch (\Throwable) {
+        $link = '';
+      }
+    }
+    $by_station[(int) $row->station][] = [
+      'nid' => (int) $node->id(),
+      'title' => $node->label(),
+      'url' => $node->toUrl()->toString(),
+      'start' => $instance['start'],
+      'end' => $end,
+      'start_min' => $start_min,
+      'duration_min' => $duration_min,
+      'time' => customsolent_helpers_time_text($instance['start'], $item_tz),
+      'times' => customsolent_helpers_times_text($instance['start'], $end, $item_tz),
+      'is_now' => $instance['start'] <= $now && $now < $end,
+      'note' => $note,
+      'link' => $link,
+    ];
+    $boundaries[] = $instance['start'];
+    $boundaries[] = $end;
+  }
+  foreach ($stations as $nid => $station) {
+    $programmes = $by_station[$nid] ?? [];
+    usort($programmes, static fn($a, $b) => $a['start'] <=> $b['start']);
+    $result['stations'][] = $station + ['programmes' => $programmes];
+    $tags = array_merge($tags, $station['node']->getCacheTags());
+  }
+  // The page changes when a programme starts or ends, or at the next 6am.
+  $next = $to > $now ? $to : $now + 3600;
+  foreach ($boundaries as $b) {
+    if ($b > $now && $b < $next) {
+      $next = $b;
+    }
+  }
+  $result['tags'] = array_values(array_unique($tags));
+  $result['max_age'] = max(60, $next - $now);
+  return $result;
+}

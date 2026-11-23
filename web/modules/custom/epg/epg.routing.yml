@@ -1,0 +1,7 @@
+epg.guide:
+  path: '/explore/programme-guide'
+  defaults:
+    _controller: '\Drupal\epg\Controller\EpgController::guide'
+    _title: 'Programme guide'
+  requirements:
+    _access: 'TRUE'

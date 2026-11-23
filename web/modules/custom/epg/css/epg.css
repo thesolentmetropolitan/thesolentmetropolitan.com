@@ -1,0 +1,403 @@
+/* The programme guide (EPG). One DOM, three views by data-view on .epg.
+   Blocks are placed from --s (minutes from 6am) and --d (minutes long);
+   the grid has one track per 5 minutes, 288 across the day. */
+
+.epg {
+  --epg-step: 5;
+  --epg-tracks: 288;
+  --epg-track-x: 2.6rem;   /* width of 5 minutes in the timeline */
+  --epg-track-y: 0.45rem;  /* height of 5 minutes in the vertical view */
+  --epg-side: 11rem;       /* the station column in the timeline */
+  --epg-line: var(--explore, #e07a00);
+  max-width: var(--container-max, 1200px);
+  margin: 0 auto 2rem;
+  padding: 0 var(--align-floor, 1em);
+  box-sizing: border-box;
+}
+
+.epg__controls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.75rem 1.5rem;
+  margin: 1rem 0 0.75rem;
+}
+
+.epg__days,
+.epg__views {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.epg__day,
+.epg__view {
+  font-size: 0.85rem;
+  line-height: 1.2;
+  padding: 0.35em 0.85em;
+  border: 1px solid var(--explore, #e07a00);
+  border-radius: 999px;
+  color: var(--explore, #e07a00);
+  text-decoration: none;
+}
+
+.epg__day[aria-current],
+.epg__view[aria-current] {
+  background: var(--explore, #e07a00);
+  color: #fff;
+}
+
+.epg__day:hover,
+.epg__view:hover,
+.epg__day:focus-visible,
+.epg__view:focus-visible {
+  text-decoration: underline;
+}
+
+.epg__day-heading {
+  font-family: 'Atkinson Hyperlegible Next', sans-serif;
+  font-size: 1.4rem;
+  margin: 0 0 0.75rem;
+}
+
+.epg__station-name {
+  font-family: 'Atkinson Hyperlegible Next', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.epg__station-name a {
+  color: var(--solent-blue, #2c4f6e);
+  text-decoration: none;
+}
+
+.epg__station-name a:hover,
+.epg__station-name a:focus-visible {
+  text-decoration: underline;
+}
+
+.epg__frequency {
+  font-weight: 400;
+  font-size: 0.8rem;
+  color: var(--text-mid, #555);
+}
+
+.epg__live {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--explore, #e07a00) !important;
+}
+
+.epg__programmes {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.epg__programme-link {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+
+.epg__programme-link:hover .epg__title,
+.epg__programme-link:focus-visible .epg__title {
+  text-decoration: underline;
+}
+
+.epg__time {
+  font-size: 0.8rem;
+  color: var(--text-mid, #555);
+}
+
+.epg__title {
+  display: block;
+  font-weight: 600;
+}
+
+.epg__note {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--text-mid, #555);
+}
+
+.epg__on-now {
+  display: none;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--explore, #e07a00);
+}
+
+.epg__programme.is-now .epg__on-now {
+  display: inline-block;
+}
+
+.epg__none,
+.epg__empty {
+  color: var(--text-mid, #555);
+  font-size: 0.9rem;
+  margin: 0.25rem 0 0;
+}
+
+/* The list view: stations one after another, each a timed list. Also the
+   layout with no script. */
+.epg[data-view="list"] .epg__hours,
+.epg[data-view="list"] .epg__now {
+  display: none;
+}
+
+.epg[data-view="list"] .epg__station {
+  margin: 0 0 1.5rem;
+  padding: 0 0 1rem;
+  border-bottom: 1px solid var(--warm-grey, #e9e5df);
+}
+
+.epg[data-view="list"] .epg__station-name {
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.25rem 0.75rem;
+  margin: 0 0 0.5rem;
+}
+
+.epg[data-view="list"] .epg__programme {
+  display: grid;
+  grid-template-columns: 7rem 1fr;
+  gap: 0 0.75rem;
+  padding: 0.35rem 0;
+  border-top: 1px dotted var(--warm-grey, #e9e5df);
+}
+
+.epg[data-view="list"] .epg__programme-link {
+  display: contents;
+}
+
+.epg[data-view="list"] .epg__programme.is-now {
+  background: var(--solent-blue-pale, #e8eef3);
+}
+
+/* The timeline: a scrolling day across, stations down. */
+.epg[data-view="timeline"] .epg__scroller {
+  overflow-x: auto;
+  border: 1px solid var(--warm-grey, #e9e5df);
+  border-radius: 0.5rem;
+}
+
+.epg[data-view="timeline"] .epg__grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: var(--epg-side) repeat(var(--epg-tracks), var(--epg-track-x));
+  width: max-content;
+}
+
+.epg[data-view="timeline"] .epg__hours,
+.epg[data-view="timeline"] .epg__station {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: subgrid;
+}
+
+.epg[data-view="timeline"] .epg__hours {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: #fff;
+  border-bottom: 1px solid var(--warm-grey, #e9e5df);
+}
+
+.epg[data-view="timeline"] .epg__hour {
+  grid-column: calc(var(--s) / var(--epg-step) + 2) / span calc(var(--d) / var(--epg-step));
+  font-size: 0.75rem;
+  color: var(--text-mid, #555);
+  padding: 0.35rem 0.4rem;
+  border-left: 1px solid var(--warm-grey, #e9e5df);
+}
+
+.epg[data-view="timeline"] .epg__corner,
+.epg[data-view="timeline"] .epg__station-name {
+  grid-column: 1;
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  background: #fff;
+  border-right: 1px solid var(--warm-grey, #e9e5df);
+}
+
+.epg[data-view="timeline"] .epg__station-name {
+  padding: 0.5rem 0.6rem;
+}
+
+.epg[data-view="timeline"] .epg__station {
+  border-bottom: 1px solid var(--warm-grey, #e9e5df);
+  min-height: 4.2rem;
+}
+
+.epg[data-view="timeline"] .epg__programmes {
+  display: grid;
+  grid-column: 2 / -1;
+  grid-template-columns: subgrid;
+  grid-auto-rows: 1fr;
+}
+
+.epg[data-view="timeline"] .epg__programme {
+  grid-column: calc(var(--s) / var(--epg-step) + 1) / span calc(var(--d) / var(--epg-step));
+  grid-row: 1;
+  min-width: 0;
+  margin: 0.3rem 0.15rem;
+  background: var(--warm-grey, #f5f3f0);
+  border-radius: 0.35rem;
+  display: flex;
+}
+
+/* A long programme's words stay in view as the day scrolls past: the
+   link sticks to the left edge of the scroller, inside its block. */
+.epg[data-view="timeline"] .epg__programme-link {
+  position: sticky;
+  left: var(--epg-side);
+  max-width: 100%;
+  min-width: 0;
+  padding: 0.35rem 0.5rem;
+  box-sizing: border-box;
+}
+
+.epg[data-view="timeline"] .epg__programme.is-now {
+  background: var(--solent-blue-pale, #e8eef3);
+  box-shadow: inset 0 0 0 2px var(--explore, #e07a00);
+}
+
+.epg[data-view="timeline"] .epg__none {
+  grid-column: 2 / span 24;
+  padding: 0.6rem;
+  margin: 0;
+}
+
+.epg[data-view="timeline"] .epg__title,
+.epg[data-view="timeline"] .epg__note {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* The vertical view: stations across, the day down. */
+.epg[data-view="vertical"] .epg__scroller {
+  overflow-x: auto;
+  border: 1px solid var(--warm-grey, #e9e5df);
+  border-radius: 0.5rem;
+}
+
+.epg[data-view="vertical"] .epg__grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: 4rem repeat(var(--stations), minmax(12rem, 1fr));
+  grid-template-rows: auto repeat(var(--epg-tracks), var(--epg-track-y));
+  width: max-content;
+  min-width: 100%;
+}
+
+.epg[data-view="vertical"] .epg__hours {
+  display: grid;
+  grid-column: 1;
+  grid-row: 1 / -1;
+  grid-template-rows: subgrid;
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  background: #fff;
+  border-right: 1px solid var(--warm-grey, #e9e5df);
+}
+
+.epg[data-view="vertical"] .epg__corner {
+  grid-row: 1;
+}
+
+.epg[data-view="vertical"] .epg__hour {
+  grid-row: calc(var(--s) / var(--epg-step) + 2) / span calc(var(--d) / var(--epg-step));
+  font-size: 0.75rem;
+  color: var(--text-mid, #555);
+  padding: 0.2rem 0.4rem;
+  border-top: 1px solid var(--warm-grey, #e9e5df);
+}
+
+.epg[data-view="vertical"] .epg__station {
+  display: grid;
+  grid-row: 1 / -1;
+  grid-template-rows: subgrid;
+  border-left: 1px solid var(--warm-grey, #e9e5df);
+}
+
+.epg[data-view="vertical"] .epg__station-name {
+  grid-row: 1;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: #fff;
+  padding: 0.5rem 0.6rem;
+  border-bottom: 1px solid var(--warm-grey, #e9e5df);
+}
+
+.epg[data-view="vertical"] .epg__programmes {
+  display: grid;
+  grid-row: 2 / -1;
+  grid-template-rows: subgrid;
+}
+
+.epg[data-view="vertical"] .epg__programme {
+  grid-row: calc(var(--s) / var(--epg-step) + 1) / span calc(var(--d) / var(--epg-step));
+  margin: 0.1rem 0.3rem;
+  padding: 0.35rem 0.5rem;
+  background: var(--warm-grey, #f5f3f0);
+  border-radius: 0.35rem;
+  overflow: hidden;
+}
+
+/* As in the timeline: a long programme's words stay in view as the page
+   scrolls, sticking under the menu bar inside their block. */
+.epg[data-view="vertical"] .epg__programme-link {
+  position: sticky;
+  top: 3.5rem;
+}
+
+.epg[data-view="vertical"] .epg__programme.is-now {
+  background: var(--solent-blue-pale, #e8eef3);
+  box-shadow: inset 0 0 0 2px var(--explore, #e07a00);
+}
+
+.epg[data-view="vertical"] .epg__none {
+  grid-row: 2 / span 12;
+  padding: 0.6rem;
+}
+
+/* The line for now, placed by the script (--now: minutes from 6am). */
+.epg__now {
+  position: absolute;
+  pointer-events: none;
+  background: var(--epg-line);
+  z-index: 3;
+}
+
+.epg[data-view="timeline"] .epg__now {
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  left: calc(var(--epg-side) + var(--now, 0) / var(--epg-step) * var(--epg-track-x));
+}
+
+.epg[data-view="vertical"] .epg__now {
+  left: 0;
+  right: 0;
+  height: 2px;
+  top: calc(var(--head, 3rem) + var(--now, 0) / var(--epg-step) * var(--epg-track-y));
+}
+
+@media (max-width: 799px) {
+  .epg {
+    --epg-track-x: 1.8rem;
+    --epg-side: 7.5rem;
+  }
+}
