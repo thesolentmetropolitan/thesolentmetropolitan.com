@@ -6,8 +6,7 @@
  *
  * The model (agreed with Rob, 23 Nov 2026) reuses what the site has:
  * - A station is an Organisation with a Broadcaster kind (radio or TV),
- *   a frequency, a live stream, a catch-up page and the schedule page the
- *   importer reads.
+ *   a frequency, a live stream, a catch-up page and its own schedule page.
  * - A programme is an Event with the Broadcast format that names the
  *   station as organiser: repeating as the show does, with the site's
  *   Breaks and changes to particular dates applying to it.

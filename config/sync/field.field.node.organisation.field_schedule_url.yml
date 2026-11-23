@@ -12,7 +12,7 @@ field_name: field_schedule_url
 entity_type: node
 bundle: organisation
 label: 'Schedule page'
-description: "The station's own schedule page, which the programme importer reads. Not shown to readers."
+description: "The station's own schedule page, for readers who want the full picture; the guide links to it."
 required: false
 translatable: true
 default_value: {  }

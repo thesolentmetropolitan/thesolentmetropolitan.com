@@ -12,7 +12,7 @@ field_name: field_catchup_url
 entity_type: node
 bundle: organisation
 label: 'Catch up'
-description: 'Where past programmes can be heard or watched (the station''s listen-again or podcast page). Printed as the "Catch up" button; a programme without its own link goes here.'
+description: 'Where past programmes can be heard or watched (the station''s listen-again or podcast page). Printed as the "Catch up" button; a programme without a page of its own goes here.'
 required: false
 translatable: true
 default_value: {  }
