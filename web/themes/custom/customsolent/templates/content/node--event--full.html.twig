@@ -49,8 +49,20 @@
        date below, where it is read with the date. #}
     {{ event_when_cache }}{{ where_cache }}
 
-    {# Topic trail kicker — clickable, section-coloured ancestor terms. #}
-    {% if topic_trail_ancestors is not empty %}
+        {# A programme (EPG) says what it is and links to the guide, as the
+       series page does; any other event gets the topic trail kicker,
+       clickable, section-coloured ancestor terms. #}
+    {% if is_programme %}
+      <div class="slnt-node-full__type-kicker">
+        <a href="{{ guide_url }}" class="slnt-node-full__type-link">
+          <span class="slnt-node-full__type-icon" aria-hidden="true">
+            {# Phosphor radio. #}
+            <svg viewBox="0 0 256 256" fill="currentColor"><path d="M216,76H77.17L201.46,38.26a12,12,0,1,0-6.92-23l-152,46A12,12,0,0,0,40,76H40A20,20,0,0,0,20,96V200a20,20,0,0,0,20,20H216a20,20,0,0,0,20-20V96A20,20,0,0,0,216,76Zm-4,120H44V100H212ZM88,120a32,32,0,1,0,32,32A32,32,0,0,0,88,120Zm0,40a8,8,0,1,1,8-8A8,8,0,0,1,88,160Zm56-24a12,12,0,0,1,12-12h24a12,12,0,0,1,0,24H156A12,12,0,0,1,144,136Zm0,40a12,12,0,0,1,12-12h24a12,12,0,0,1,0,24H156A12,12,0,0,1,144,176Z"/></svg>
+          </span>
+          <span>{{ 'Programme'|t }}<span class="visually-hidden">: {{ 'the local media schedule'|t }}</span></span>
+        </a>
+      </div>
+    {% elseif topic_trail_ancestors is not empty %}
       {% include '@customsolent/components/topic-trail.html.twig' with {
         ancestors: topic_trail_ancestors,
         current_label: null,

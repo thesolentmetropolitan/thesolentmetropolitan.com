@@ -260,7 +260,19 @@ function epg_schedule(\DateTimeImmutable $day): array {
   foreach ($stations as $nid => $station) {
     $programmes = $by_station[$nid] ?? [];
     usort($programmes, static fn($a, $b) => $a['start'] <=> $b['start']);
-    $result['stations'][] = $station + ['programmes' => $programmes];
+    // Programmes that overlap (a station's page with a slip in it, two
+    // things at once) take separate lanes, so neither hides the other.
+    $lane_ends = [];
+    foreach ($programmes as &$p) {
+      $lane = 1;
+      while (isset($lane_ends[$lane]) && $lane_ends[$lane] > $p['start']) {
+        $lane++;
+      }
+      $lane_ends[$lane] = $p['end'];
+      $p['lane'] = $lane;
+    }
+    unset($p);
+    $result['stations'][] = $station + ['programmes' => $programmes, 'lanes' => max(1, count($lane_ends))];
     $tags = array_merge($tags, $station['node']->getCacheTags());
   }
   // The page changes when a programme starts or ends, or at the next 6am.
@@ -273,4 +285,31 @@ function epg_schedule(\DateTimeImmutable $day): array {
   $result['tags'] = array_values(array_unique($tags));
   $result['max_age'] = max(60, $next - $now);
   return $result;
+}
+
+/**
+ * Whether a node is a programme: an event with the Broadcast format.
+ */
+function epg_is_programme(NodeInterface $node): bool {
+  if ($node->bundle() !== 'event' || !$node->hasField('field_format') || !($format = epg_programme_format_tid())) {
+    return FALSE;
+  }
+  foreach ($node->get('field_format')->getValue() as $item) {
+    if ((int) ($item['target_id'] ?? 0) === $format) {
+      return TRUE;
+    }
+  }
+  return FALSE;
+}
+
+/**
+ * The programmes of one station on a day: epg_schedule() narrowed.
+ */
+function epg_station_day(NodeInterface $station, \DateTimeImmutable $day): array {
+  foreach (epg_schedule($day)['stations'] as $entry) {
+    if ($entry['nid'] === (int) $station->id()) {
+      return $entry['programmes'];
+    }
+  }
+  return [];
 }

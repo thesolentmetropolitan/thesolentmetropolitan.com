@@ -265,13 +265,23 @@ function customsolent_preprocess_node(array &$variables): void {
     $variables['station'] = NULL;
     if (\Drupal::moduleHandler()->moduleExists('epg') && epg_is_station($node)) {
       $info = epg_station_info($node);
+            $tz = new \DateTimeZone(\Drupal::config('system.date')->get('timezone.default') ?: 'Europe/London');
+      $today = new \DateTimeImmutable('today', $tz);
       $variables['station'] = [
         'kind_label' => $info['kind'] === 'tv' ? t('TV channel') : t('Radio station'),
         'frequency' => $info['frequency'],
         'live_url' => $info['stream'],
         'live_label' => $info['kind'] === 'tv' ? t('Watch live') : t('Listen live'),
         'catchup_url' => $info['catchup'],
+        'schedule_url' => $info['schedule'],
+        // Today's programmes, from the guide, in place of the "Coming up"
+        // cards (a station's day as cards is a wall of text).
+        'today' => epg_station_day($node, $today),
+        'guide_url' => \Drupal\Core\Url::fromRoute('epg.guide')->toString(),
+        'day_label' => $today->format('l'),
       ];
+      $variables['organiser_events'] = [];
+      $variables['organiser_events_cache']['#cache']['max-age'] = 300;
     }
 
     // Part of a larger organisation (reverse lookup: the parent lists its
@@ -710,7 +720,11 @@ function _customsolent_preprocess_event_shared_extras($node, array &$variables):
   if (!$node->hasField('field_when') || $node->get('field_when')->isEmpty()) {
     return;
   }
-  $variables['event_card_date'] = (int) $node->get('field_when')->first()->value;
+    $variables['event_card_date'] = (int) $node->get('field_when')->first()->value;
+  // A programme (EPG): an event with the Broadcast format. Its page swaps
+  // the topic kicker for the way to the guide.
+  $variables['is_programme'] = \Drupal::moduleHandler()->moduleExists('epg') && epg_is_programme($node);
+  $variables['guide_url'] = $variables['is_programme'] ? \Drupal\Core\Url::fromRoute('epg.guide')->toString() : '';
   $now = \Drupal::time()->getRequestTime();
   // Over once its LAST date has ended (a regular event holds one item per
   // instance). Read by the page (badge by the date, no outward link) and
@@ -1045,7 +1059,9 @@ function _customsolent_node_link_buttons($node): array {
     $label = match ($link['kind']) {
       'tickets' => (string) t('Tickets'),
       'social' => $link['platform'],
-      default => $node->bundle() === 'event' ? (string) t('Event details') : ($link['title'] !== '' ? $link['title'] : (string) t('Website')),
+      default => $node->bundle() === 'event' && !(\Drupal::moduleHandler()->moduleExists('epg') && epg_is_programme($node))
+        ? (string) t('Event details')
+        : ($link['title'] !== '' ? $link['title'] : (string) t('Website')),
     };
     $buttons[] = ['href' => $link['href'], 'external' => $link['external'], 'icon' => $link['icon'], 'kind' => $link['kind'], 'label' => $label, 'platform' => $link['platform']];
   }

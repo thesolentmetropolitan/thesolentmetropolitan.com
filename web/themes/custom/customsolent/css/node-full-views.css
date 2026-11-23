@@ -340,6 +340,44 @@
   margin: 0 0 0.3rem 0;
 }
 
+/* Today on a station: a timed list (EPG). */
+.slnt-station-today__list {
+  list-style: none;
+  margin: 0 0 0.75rem;
+  padding: 0;
+}
+
+.slnt-station-today__item {
+  display: grid;
+  grid-template-columns: 7rem 1fr auto;
+  gap: 0 0.75rem;
+  padding: 0.35rem 0;
+  border-top: 1px dotted var(--warm-grey, #e9e5df);
+}
+
+.slnt-station-today__item.is-now {
+  background: var(--solent-blue-pale, #e8eef3);
+}
+
+.slnt-station-today__time {
+  font-size: 0.9rem;
+  color: var(--text-mid, #555);
+}
+
+.slnt-station-today__now {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--explore, #e07a00);
+}
+
+.slnt-station-today__none,
+.slnt-station-today__more {
+  font-size: 0.9rem;
+  color: var(--text-mid, #555);
+}
+
 /* A station's kind and frequency under its name (EPG). */
 .slnt-node-full__station {
   font-size: 0.95rem;

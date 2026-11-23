@@ -32,26 +32,81 @@
 
 .epg__day,
 .epg__view {
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   line-height: 1.2;
-  padding: 0.35em 0.85em;
-  border: 1px solid var(--explore, #e07a00);
-  border-radius: 999px;
-  color: var(--explore, #e07a00);
+  padding: 0.4em 0.7em;
+  border-radius: 0.35rem;
+  color: var(--text, #1a1a1a);
   text-decoration: none;
+  border-bottom: 3px solid transparent;
 }
 
 .epg__day[aria-current],
 .epg__view[aria-current] {
-  background: var(--explore, #e07a00);
-  color: #fff;
+  font-weight: 700;
+  border-bottom-color: var(--explore, #e07a00);
 }
 
 .epg__day:hover,
 .epg__view:hover,
 .epg__day:focus-visible,
 .epg__view:focus-visible {
-  text-decoration: underline;
+  background: var(--warm-grey, #f5f3f0);
+}
+
+/* No body-link underlines anywhere in the guide: the blocks and the
+   station names are the links. */
+.layout-content .epg a,
+.layout-content .epg a:hover,
+.layout-content .epg a:focus-visible {
+  text-decoration: none;
+  text-decoration-color: transparent;
+}
+
+.epg__programme-link:hover .epg__title,
+.epg__programme-link:focus-visible .epg__title,
+.epg__station-name a:hover,
+.epg__station-name a:focus-visible {
+  color: var(--explore, #e07a00);
+}
+
+/* The chevrons that page the timeline sideways (the script shows them,
+   and only in the timeline). */
+.epg__scroll-buttons {
+  display: none;
+  justify-content: space-between;
+  margin: 0 0 0.35rem;
+}
+
+.epg[data-view="timeline"].has-script .epg__scroll-buttons {
+  display: flex;
+}
+
+.epg__scroll {
+  font: inherit;
+  font-size: 1.4rem;
+  line-height: 1;
+  width: 2.4rem;
+  height: 2rem;
+  border: 1px solid var(--warm-grey, #e9e5df);
+  border-radius: 0.35rem;
+  background: #fff;
+  color: var(--solent-blue, #2c4f6e);
+  cursor: pointer;
+}
+
+.epg__scroll:hover,
+.epg__scroll:focus-visible {
+  background: var(--warm-grey, #f5f3f0);
+}
+
+.epg[data-view="timeline"] .epg__scroller.is-draggable {
+  cursor: grab;
+}
+
+.epg[data-view="timeline"] .epg__scroller.is-dragging {
+  cursor: grabbing;
+  user-select: none;
 }
 
 .epg__day-heading {
@@ -104,10 +159,6 @@
   text-decoration: none;
 }
 
-.epg__programme-link:hover .epg__title,
-.epg__programme-link:focus-visible .epg__title {
-  text-decoration: underline;
-}
 
 .epg__time {
   font-size: 0.8rem;
@@ -242,12 +293,12 @@
   display: grid;
   grid-column: 2 / -1;
   grid-template-columns: subgrid;
-  grid-auto-rows: 1fr;
+  grid-template-rows: repeat(var(--lanes, 1), minmax(3.6rem, auto));
 }
 
 .epg[data-view="timeline"] .epg__programme {
   grid-column: calc(var(--s) / var(--epg-step) + 1) / span calc(var(--d) / var(--epg-step));
-  grid-row: 1;
+  grid-row: var(--lane, 1);
   min-width: 0;
   margin: 0.3rem 0.15rem;
   background: var(--warm-grey, #f5f3f0);
@@ -345,10 +396,12 @@
   display: grid;
   grid-row: 2 / -1;
   grid-template-rows: subgrid;
+  grid-template-columns: repeat(var(--lanes, 1), minmax(0, 1fr));
 }
 
 .epg[data-view="vertical"] .epg__programme {
   grid-row: calc(var(--s) / var(--epg-step) + 1) / span calc(var(--d) / var(--epg-step));
+  grid-column: var(--lane, 1);
   margin: 0.1rem 0.3rem;
   padding: 0.35rem 0.5rem;
   background: var(--warm-grey, #f5f3f0);

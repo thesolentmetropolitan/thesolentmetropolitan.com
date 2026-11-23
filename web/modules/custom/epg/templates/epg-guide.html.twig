@@ -37,6 +37,10 @@
   {% if empty %}
     <p class="epg__empty">{{ 'No stations are in the guide yet.'|t }}</p>
   {% else %}
+        <div class="epg__scroll-buttons" aria-hidden="true">
+      <button type="button" class="epg__scroll epg__scroll--back" data-scroll="-1" tabindex="-1">&#8249;</button>
+      <button type="button" class="epg__scroll epg__scroll--forward" data-scroll="1" tabindex="-1">&#8250;</button>
+    </div>
     <div class="epg__scroller">
       <div class="epg__grid" style="--stations: {{ stations|length }};">
         {# The hour marks: a row in the timeline, a column in the vertical view. #}
@@ -54,9 +58,9 @@
               {% if station.stream %}<a class="epg__live" href="{{ station.stream }}" target="_blank" rel="noopener noreferrer">{{ station.kind == 'tv' ? 'Watch live'|t : 'Listen live'|t }}<span class="visually-hidden"> ({{ 'opens in a new tab'|t }})</span></a>{% endif %}
             </h3>
             {% if station.programmes %}
-              <ol class="epg__programmes">
+              <ol class="epg__programmes" style="--lanes: {{ station.lanes }};">
                 {% for p in station.programmes %}
-                  <li class="epg__programme{% if p.is_now %} is-now{% endif %}" style="--s: {{ p.start_min }}; --d: {{ p.duration_min }};" data-start="{{ p.start }}" data-end="{{ p.end }}">
+                  <li class="epg__programme{% if p.is_now %} is-now{% endif %}" style="--s: {{ p.start_min }}; --d: {{ p.duration_min }}; --lane: {{ p.lane }};" data-start="{{ p.start }}" data-end="{{ p.end }}">
                     <a class="epg__programme-link" href="{{ p.url }}">
                       <span class="epg__time">{{ p.times ?: p.time }}</span>
                       <span class="epg__title">{{ p.title }}</span>

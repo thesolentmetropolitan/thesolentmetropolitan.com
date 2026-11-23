@@ -77,6 +77,57 @@
         }
         update(true);
         setInterval(function () { update(false); }, 60000);
+
+        // The timeline pages sideways by chevron (a mouse on a narrow
+        // window) and drags with the pointer; a finger swipes it anyway.
+        root.classList.add('has-script');
+        root.querySelectorAll('.epg__scroll').forEach(function (b) {
+          b.addEventListener('click', function () {
+            if (!scroller) {
+              return;
+            }
+            var dir = parseInt(b.getAttribute('data-scroll'), 10) || 1;
+            scroller.scrollBy({ left: dir * scroller.clientWidth * 0.8, behavior: 'smooth' });
+          });
+        });
+        if (scroller && window.PointerEvent) {
+          scroller.classList.add('is-draggable');
+          var drag = null;
+          scroller.addEventListener('pointerdown', function (e) {
+            if (e.pointerType !== 'mouse' || e.button !== 0 || root.getAttribute('data-view') !== 'timeline') {
+              return;
+            }
+            drag = { x: e.clientX, left: scroller.scrollLeft, moved: false };
+            scroller.classList.add('is-dragging');
+          });
+          scroller.addEventListener('pointermove', function (e) {
+            if (!drag) {
+              return;
+            }
+            var dx = e.clientX - drag.x;
+            if (Math.abs(dx) > 4) {
+              drag.moved = true;
+            }
+            scroller.scrollLeft = drag.left - dx;
+          });
+          var end = function () {
+            if (!drag) {
+              return;
+            }
+            var moved = drag.moved;
+            drag = null;
+            scroller.classList.remove('is-dragging');
+            if (moved) {
+              // A drag is not a click on the block it ended over.
+              var swallow = function (ev) { ev.preventDefault(); ev.stopPropagation(); scroller.removeEventListener('click', swallow, true); };
+              scroller.addEventListener('click', swallow, true);
+              setTimeout(function () { scroller.removeEventListener('click', swallow, true); }, 0);
+            }
+          };
+          scroller.addEventListener('pointerup', end);
+          scroller.addEventListener('pointerleave', end);
+          scroller.addEventListener('pointercancel', end);
+        }
       });
     }
   };

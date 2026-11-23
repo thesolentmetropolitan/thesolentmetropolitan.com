@@ -1,0 +1,29 @@
+uuid: e4469b28-e5bd-4c3c-b499-d1a232eab77d
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.event
+  module:
+    - epg
+    - node
+id: programme_page_url
+label: 'Programme page URL'
+type: 'canonical_entities:node'
+pattern: '/programmes/[node:title]-[node:event_date_formatted]'
+selection_criteria:
+  24b2f214-9c60-4fa8-b68e-2f6e1aebb594:
+    id: 'entity_bundle:node'
+    negate: false
+    context_mapping:
+      node: node
+    bundles:
+      event: event
+  7de08275-3d79-4605-989e-711b17608eb8:
+    id: epg_is_programme
+    negate: false
+    context_mapping:
+      node: node
+selection_logic: and
+weight: -10
+relationships: {  }

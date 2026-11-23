@@ -5,3 +5,19 @@ epg.guide:
     _title: 'Local media schedule'
   requirements:
     _access: 'TRUE'
+# A programme's page is /programmes/<title>-<date> (the URL pattern in
+# config); the bare words go to the guide.
+epg.programmes_home:
+  path: '/programmes'
+  defaults:
+    _controller: '\Drupal\customsolent_helpers\Controller\ListingHomeRedirectController::redirectToListing'
+    listing: '/explore/local-media-schedule'
+  requirements:
+    _access: 'TRUE'
+epg.programme_home:
+  path: '/programme'
+  defaults:
+    _controller: '\Drupal\customsolent_helpers\Controller\ListingHomeRedirectController::redirectToListing'
+    listing: '/explore/local-media-schedule'
+  requirements:
+    _access: 'TRUE'

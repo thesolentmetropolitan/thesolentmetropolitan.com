@@ -1,0 +1,2 @@
+condition.plugin.epg_is_programme:
+  type: condition.plugin
