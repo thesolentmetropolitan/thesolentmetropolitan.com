@@ -74,7 +74,10 @@
     <h1 class="slnt-node-full__title">{{ label }}</h1>
 
     {# Format and setting, "Workshop · Online", above the date as on the cards (issue 485). #}
-    {% include '@customsolent/components/format-line.html.twig' with { format_labels: format_labels, setting_label: setting_label, setting_key: setting_key, extra_labels: facet_labels|default([]), variant: 'full', show_indoor: true } only %}
+    {# A programme's kicker already says what it is: no format line. #}
+    {% if not is_programme %}
+      {% include '@customsolent/components/format-line.html.twig' with { format_labels: format_labels, setting_label: setting_label, setting_key: setting_key, extra_labels: facet_labels|default([]), variant: 'full', show_indoor: true } only %}
+    {% endif %}
 
     {# Date and time — recurring: one line per rule, then the next dates;
        otherwise field_when (Smart Date). A past event says so with a pill
@@ -162,9 +165,10 @@
       </div>
     {% endif %}
 
-    {# Organiser(s) — the organisation(s) running it. #}
+    {# Organiser(s) — the organisation(s) running it; a programme is "On"
+       its station. #}
     {% if organisers is not empty %}
-      <div class="slnt-node-full__organiser">{{ 'Organised by'|t }}
+      <div class="slnt-node-full__organiser">{{ is_programme ? 'On'|t : 'Organised by'|t }}
         {% for org in organisers %}<a href="{{ org.url }}">{{ org.label }}</a>{% if not loop.last %}{{ loop.index == organisers|length - 1 ? ' ' ~ 'and'|t ~ ' ' : ', ' }}{% endif %}{% endfor %}
       </div>
     {% endif %}

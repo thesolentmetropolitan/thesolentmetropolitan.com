@@ -1299,6 +1299,15 @@ function customsolent_helpers_recurrence_phrase($rule, int $first_start, \DateTi
       return $interval > 1 ? (string) t('Every @n days', ['@n' => $interval]) : (string) t('Every day');
 
     case 'WEEKLY':
+      $byday = array_map('strtoupper', $params['byday'] ?? []);
+      sort($byday);
+      // Five working days or all seven read as one word (EPG, 24 Nov 2026).
+      if ($interval <= 1 && $byday === ['FR', 'MO', 'TH', 'TU', 'WE']) {
+        return (string) t('Every weekday');
+      }
+      if ($interval <= 1 && count($byday) === 7) {
+        return (string) t('Every day');
+      }
       $days = customsolent_helpers_recurrence_day_names($params['byday'] ?? []) ?: [$weekday];
       $last = array_pop($days);
       $day_list = $days ? implode(', ', $days) . ' ' . t('and') . ' ' . $last : $last;

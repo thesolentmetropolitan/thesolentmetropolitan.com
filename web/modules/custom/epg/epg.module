@@ -114,11 +114,15 @@ function epg_views_query_alter(ViewExecutable $view, QueryPluginBase $query): vo
     return;
   }
   $format = epg_programme_format_tid();
-  if (!$format || customsolent_helpers_active_format_tid() === $format) {
+  $stations = array_keys(epg_stations());
+  if (!$format || !$stations || customsolent_helpers_active_format_tid() === $format) {
     return;
   }
+  // Programmes: the Broadcast format and a station as organiser.
   $programmes = \Drupal::database()->select('node__field_format', 'epg_f')->fields('epg_f', ['entity_id'])
     ->condition('epg_f.field_format_target_id', $format);
+  $programmes->join('node__field_organisers', 'epg_o', 'epg_o.entity_id = epg_f.entity_id');
+  $programmes->condition('epg_o.field_organisers_target_id', $stations, 'IN');
   // Its own AND group, never group 0 (the OR of the topic arguments).
   $query->setWhereGroup('AND', 'epg_programmes');
   $query->addWhere('epg_programmes', 'node_field_data.nid', $programmes, 'NOT IN');
@@ -257,7 +261,19 @@ function epg_schedule(\DateTimeImmutable $day): array {
     $boundaries[] = $instance['start'];
     $boundaries[] = $end;
   }
+  // A station with nothing in the week either side of the day (one not
+  // yet filled, one whose site is down) is left out of the guide rather
+  // than shown as an empty row.
+  $active = \Drupal::database()->query("SELECT DISTINCT o.field_organisers_target_id FROM {node__field_when} w
+    JOIN {node_field_data} n ON n.nid = w.entity_id AND n.default_langcode = 1 AND n.status = 1 AND n.type = 'event'
+    JOIN {node__field_format} f ON f.entity_id = w.entity_id AND f.field_format_target_id = :format
+    JOIN {node__field_organisers} o ON o.entity_id = w.entity_id AND o.field_organisers_target_id IN (:stations[])
+    WHERE w.field_when_value >= :from AND w.field_when_value < :to", [':format' => $format, ':stations[]' => array_keys($stations), ':from' => $from - 7 * 86400, ':to' => $to + 7 * 86400])->fetchCol();
+  $active = array_map('intval', $active);
   foreach ($stations as $nid => $station) {
+    if (!in_array($nid, $active, TRUE)) {
+      continue;
+    }
     $programmes = $by_station[$nid] ?? [];
     usort($programmes, static fn($a, $b) => $a['start'] <=> $b['start']);
     // Programmes that overlap (a station's page with a slip in it, two
@@ -288,18 +304,42 @@ function epg_schedule(\DateTimeImmutable $day): array {
 }
 
 /**
- * Whether a node is a programme: an event with the Broadcast format.
+ * Whether a node is a programme: an event with the Broadcast format whose
+ * organiser is a station. Both, and no flag: a station's roadshow has
+ * another format and is an event; a one-off live stream from an
+ * organisation that is not a station is an event; the topics are free for
+ * discovery (a music show under Music) and never decide this.
  */
 function epg_is_programme(NodeInterface $node): bool {
-  if ($node->bundle() !== 'event' || !$node->hasField('field_format') || !($format = epg_programme_format_tid())) {
+  if ($node->bundle() !== 'event' || !$node->hasField('field_format') || !$node->hasField('field_organisers') || !($format = epg_programme_format_tid())) {
     return FALSE;
   }
+  $broadcast = FALSE;
   foreach ($node->get('field_format')->getValue() as $item) {
     if ((int) ($item['target_id'] ?? 0) === $format) {
+      $broadcast = TRUE;
+      break;
+    }
+  }
+  if (!$broadcast) {
+    return FALSE;
+  }
+  foreach ($node->get('field_organisers')->referencedEntities() as $organiser) {
+    if ($organiser instanceof NodeInterface && epg_is_station($organiser)) {
       return TRUE;
     }
   }
   return FALSE;
+}
+
+/**
+ * The guide's "today": the broadcast day, which runs 6am to 6am, so at
+ * two in the morning it is still yesterday's.
+ */
+function epg_today(\DateTimeZone $tz): \DateTimeImmutable {
+  $now = (new \DateTimeImmutable('@' . \Drupal::time()->getRequestTime()))->setTimezone($tz);
+  $today = $now->setTime(0, 0);
+  return (int) $now->format('G') < EPG_WINDOW_START_HOUR ? $today->modify('-1 day') : $today;
 }
 
 /**

@@ -21,7 +21,7 @@ class EpgController extends ControllerBase {
    */
   public function guide(Request $request): array {
     $tz = new \DateTimeZone(\Drupal::config('system.date')->get('timezone.default') ?: 'Europe/London');
-    $today = new \DateTimeImmutable('today', $tz);
+    $today = epg_today($tz);
     $day = $today;
     $param = (string) $request->query->get('day', '');
     if (preg_match('/^\d{4}-\d{2}-\d{2}$/', $param)) {
@@ -94,7 +94,7 @@ class EpgController extends ControllerBase {
   protected function url(string $day, string $view): string {
     $query = [];
     $tz = new \DateTimeZone(\Drupal::config('system.date')->get('timezone.default') ?: 'Europe/London');
-    if ($day !== (new \DateTimeImmutable('today', $tz))->format('Y-m-d')) {
+    if ($day !== epg_today($tz)->format('Y-m-d')) {
       $query['day'] = $day;
     }
     if ($view !== 'timeline') {

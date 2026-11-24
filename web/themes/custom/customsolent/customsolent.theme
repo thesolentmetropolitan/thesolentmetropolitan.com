@@ -266,7 +266,7 @@ function customsolent_preprocess_node(array &$variables): void {
     if (\Drupal::moduleHandler()->moduleExists('epg') && epg_is_station($node)) {
       $info = epg_station_info($node);
             $tz = new \DateTimeZone(\Drupal::config('system.date')->get('timezone.default') ?: 'Europe/London');
-      $today = new \DateTimeImmutable('today', $tz);
+      $today = epg_today($tz);
       $variables['station'] = [
         'kind_label' => $info['kind'] === 'tv' ? t('TV channel') : t('Radio station'),
         'frequency' => $info['frequency'],
@@ -312,7 +312,9 @@ function customsolent_preprocess_node(array &$variables): void {
     $view_builder = \Drupal::entityTypeManager()->getViewBuilder('node');
     $variables['organiser_other_events'] = [];
     $seen = [(int) $node->id() => TRUE];
-    $organisers = $node->hasField('field_organisers') ? $node->get('field_organisers')->referencedEntities() : [];
+    // A programme's station has its day on its own page; nothing here.
+    $is_programme = \Drupal::moduleHandler()->moduleExists('epg') && epg_is_programme($node);
+    $organisers = $node->hasField('field_organisers') && !$is_programme ? $node->get('field_organisers')->referencedEntities() : [];
     foreach ($organisers as $organiser) {
       foreach ($relations->upcomingEventsOrganisedBy($organiser) as $event) {
         if (empty($seen[(int) $event->id()])) {
@@ -4216,6 +4218,16 @@ function _customsolent_preprocess_format_extras($node, array &$variables): void 
 function _customsolent_preprocess_related_topics($node, array &$variables): void {
   $variables['related_topic_chains'] = [];
   $seen = [];
+  // A programme (EPG) does not repeat its station's own topic (Media &
+  // Publishing): the kicker says what it is. Topics the editor gives the
+  // show itself (Music, Business …) still print, for discovery.
+  if ($node instanceof \Drupal\node\NodeInterface && \Drupal::moduleHandler()->moduleExists('epg') && epg_is_programme($node)) {
+    foreach ($node->get('field_organisers')->referencedEntities() as $organiser) {
+      if ($organiser->hasField('field_primary_topic') && !$organiser->get('field_primary_topic')->isEmpty()) {
+        $seen[(int) $organiser->get('field_primary_topic')->target_id] = TRUE;
+      }
+    }
+  }
   $add = function ($term, bool $primary) use (&$variables, &$seen): void {
     if (!$term || isset($seen[$term->id()])) {
       return;
