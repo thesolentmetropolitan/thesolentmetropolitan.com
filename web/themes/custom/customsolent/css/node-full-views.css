@@ -369,7 +369,7 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.04em;
-  color: var(--explore, #e07a00);
+  color: var(--magenta, #c5007a);
 }
 
 .slnt-station-today__none,
