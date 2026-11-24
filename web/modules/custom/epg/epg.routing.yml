@@ -1,8 +1,8 @@
 epg.guide:
-  path: '/explore/local-radio-tv-schedules'
+  path: '/explore/local-radio-guide'
   defaults:
     _controller: '\Drupal\epg\Controller\EpgController::guide'
-    _title: 'Local radio and TV schedules'
+    _title: 'Local radio guide'
   requirements:
     _access: 'TRUE'
 # A programme's page is /programmes/<title>-<date> (the URL pattern in
@@ -11,13 +11,13 @@ epg.programmes_home:
   path: '/programmes'
   defaults:
     _controller: '\Drupal\customsolent_helpers\Controller\ListingHomeRedirectController::redirectToListing'
-    listing: '/explore/local-radio-tv-schedules'
+    listing: '/explore/local-radio-guide'
   requirements:
     _access: 'TRUE'
 epg.programme_home:
   path: '/programme'
   defaults:
     _controller: '\Drupal\customsolent_helpers\Controller\ListingHomeRedirectController::redirectToListing'
-    listing: '/explore/local-radio-tv-schedules'
+    listing: '/explore/local-radio-guide'
   requirements:
     _access: 'TRUE'
