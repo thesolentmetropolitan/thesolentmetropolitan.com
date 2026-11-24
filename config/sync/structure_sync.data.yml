@@ -862,7 +862,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -85
+    weight: -84
     langcode: en
     uuid: 57a663cd-b989-4cfe-b53f-89ceebbc35b3
     options: {  }
@@ -1158,7 +1158,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -84
+    weight: -83
     langcode: en
     uuid: a4bbbd49-4bd9-4523-98a8-c802ce216dba
     options: {  }
@@ -1171,7 +1171,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -87
+    weight: -86
     langcode: en
     uuid: 3ea19482-0fe4-483f-b401-ab61271efaab
     options: {  }
@@ -1184,7 +1184,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -88
+    weight: -87
     langcode: en
     uuid: 12a3a96a-45c4-4eb9-8fce-3a9cfc9c21fc
     options: {  }
@@ -1340,7 +1340,7 @@ menus:
     description: null
     enabled: true
     expanded: false
-    weight: -86
+    weight: -85
     langcode: en
     uuid: 7394a8a8-3be4-4c8a-b4e2-88ba730920b7
     options: {  }
@@ -1434,6 +1434,19 @@ menus:
     weight: -97
     langcode: en
     uuid: 38cc0024-e20e-433e-a722-ddce7264070c
+    options: {  }
+  -
+    menu_name: main
+    title: 'Local Radio & TV Schedules'
+    parent: 'menu_link_content:00eabb8c-58ed-4f9b-88c1-0c5b1aecf9e1'
+    uri: 'internal:/explore/local-radio-tv-schedules'
+    link_title: ''
+    description: null
+    enabled: true
+    expanded: false
+    weight: -88
+    langcode: en
+    uuid: b52566cb-da8f-46a0-881e-811ab35ffdff
     options: {  }
 taxonomies:
   age_group:
@@ -3170,7 +3183,9 @@ taxonomies:
           given_name: null
           additional_name: null
           family_name: null
-      field_area: {  }
+      field_area:
+        -
+          value: '0'
       field_extent: {  }
       field_point:
         -
@@ -4320,7 +4335,9 @@ taxonomies:
       parent: '139'
       uuid: b6bb0755-e44f-4bda-9731-8d4e119c912d
       field_address: {  }
-      field_area: {  }
+      field_area:
+        -
+          value: '0'
       field_extent: {  }
       field_point:
         -
@@ -5192,7 +5209,9 @@ taxonomies:
       parent: '141'
       uuid: 7535d76e-9223-4985-8809-e44f038cfeed
       field_address: {  }
-      field_area: {  }
+      field_area:
+        -
+          value: '0'
       field_extent: {  }
       field_point:
         -
@@ -5723,7 +5742,9 @@ taxonomies:
           given_name: null
           additional_name: null
           family_name: null
-      field_area: {  }
+      field_area:
+        -
+          value: '0'
       field_extent: {  }
       field_point:
         -
@@ -6508,7 +6529,9 @@ taxonomies:
           given_name: null
           additional_name: null
           family_name: null
-      field_area: {  }
+      field_area:
+        -
+          value: '0'
       field_extent: {  }
       field_point:
         -
@@ -6892,7 +6915,9 @@ taxonomies:
       parent: '139'
       uuid: ee64be68-d5e4-4fcf-8aee-cb333f99c735
       field_address: {  }
-      field_area: {  }
+      field_area:
+        -
+          value: '0'
       field_extent: {  }
       field_point:
         -
@@ -6957,7 +6982,9 @@ taxonomies:
           given_name: null
           additional_name: null
           family_name: null
-      field_area: {  }
+      field_area:
+        -
+          value: '0'
       field_extent: {  }
       field_point:
         -
@@ -6997,7 +7024,9 @@ taxonomies:
           given_name: null
           additional_name: null
           family_name: null
-      field_area: {  }
+      field_area:
+        -
+          value: '0'
       field_extent: {  }
       field_point:
         -
@@ -7531,20 +7560,22 @@ taxonomies:
           given_name: null
           additional_name: null
           family_name: null
-      field_area: {  }
+      field_area:
+        -
+          value: '0'
       field_extent: {  }
       field_point:
         -
-          value: 'POINT (-1.1476 50.6582)'
+          value: 'POINT (-1.2061804 50.5946795)'
           geo_type: Point
-          lat: 50.6582
-          lon: -1.1476
-          left: -1.1476
-          top: 50.6582
-          right: -1.1476
-          bottom: 50.6582
-          geohash: gcp0jyh36
-          latlon: '50.6582,-1.1476'
+          lat: 50.5946795
+          lon: -1.2061804
+          left: -1.2061804
+          top: 50.5946795
+          right: -1.2061804
+          bottom: 50.5946795
+          geohash: gbzpud3xmgyen
+          latlon: '50.5946795,-1.2061804'
     -
       vid: location
       tid: '269'
@@ -7646,7 +7677,9 @@ taxonomies:
           given_name: null
           additional_name: null
           family_name: null
-      field_area: {  }
+      field_area:
+        -
+          value: '0'
       field_extent: {  }
       field_point:
         -
