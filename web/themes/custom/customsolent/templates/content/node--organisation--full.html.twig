@@ -175,7 +175,7 @@
       {% else %}
         <p class="slnt-station-today__none">{{ 'No programmes listed for today.'|t }}</p>
       {% endif %}
-      <p class="slnt-station-today__more"><a href="{{ station.guide_url }}">{{ 'Local radio and TV schedules'|t }}</a>{% if station.schedule_url %} · <a href="{{ station.schedule_url }}" target="_blank" rel="noopener noreferrer">{{ 'The full schedule on the station\'s site'|t }}</a>{% endif %}</p>
+      <p class="slnt-station-today__more"><a href="{{ station.guide_url }}">{{ 'Local radio guide'|t }}</a>{% if station.schedule_url %} · <a href="{{ station.schedule_url }}" target="_blank" rel="noopener noreferrer">{{ 'The full schedule on the station\'s site'|t }}</a>{% endif %}</p>
     </section>
   {% endif %}
 
