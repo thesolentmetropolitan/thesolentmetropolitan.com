@@ -1437,9 +1437,9 @@ menus:
     options: {  }
   -
     menu_name: main
-    title: 'Local Radio & TV Schedules'
+    title: 'Local Radio Guide'
     parent: 'menu_link_content:00eabb8c-58ed-4f9b-88c1-0c5b1aecf9e1'
-    uri: 'internal:/explore/local-radio-tv-schedules'
+    uri: 'internal:/explore/local-radio-guide'
     link_title: ''
     description: null
     enabled: true
