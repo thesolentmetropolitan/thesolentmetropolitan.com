@@ -387,7 +387,9 @@ function epg_programme_topics(NodeInterface $node): array {
     }
     foreach ($node->get($field)->referencedEntities() as $term) {
       if (!isset($skip[(int) $term->id()]) && !isset($names[(int) $term->id()])) {
-        $names[(int) $term->id()] = $term->label();
+        // Topic names carry their path ("Culture / Music"): the leaf will do.
+        $parts = preg_split('# / #', $term->label());
+        $names[(int) $term->id()] = end($parts);
       }
     }
   }
