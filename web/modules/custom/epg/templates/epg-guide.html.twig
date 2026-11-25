@@ -15,7 +15,7 @@
  * Variables (EpgController, epg_schedule()):
  *   day, day_label, is_today, days [{label, url, current}],
  *   views [{key, label, url, current}], view, window_start, window_end,
- *   hours [labels], stations [{nid, label, url, kind, frequency, stream,
+ *   hours [{minute, label, half, day}], day_note, stations [{nid, label, url, kind, frequency, stream,
  *   catchup, programmes: [{nid, title, url, start, end, start_min,
  *   duration_min, time, times, is_now, note, link}]}], empty.
  */
@@ -33,7 +33,7 @@
       {% endfor %}
     </div>
   </div>
-  <h2 class="epg__day-heading">{{ day_label }}</h2>
+  <h2 class="epg__day-heading">{{ day_label }}{% if day_note %} <span class="epg__day-note">{{ day_note }}</span>{% endif %}</h2>
   {% if empty %}
     <p class="epg__empty">{{ 'No stations are in the guide yet.'|t }}</p>
   {% else %}
@@ -47,7 +47,7 @@
         <div class="epg__hours" aria-hidden="true">
           <div class="epg__corner"></div>
           {% for h in hours %}
-            <div class="epg__hour" style="--s: {{ loop.index0 * 60 }}; --d: 60;">{{ h }}</div>
+            <div class="epg__hour{% if h.half %} epg__hour--half{% endif %}{% if h.day %} epg__hour--day{% endif %}" style="--s: {{ h.minute }}; --d: 30;">{{ h.label }}{% if h.day %} <span class="epg__hour-day">{{ h.day }}</span>{% endif %}</div>
           {% endfor %}
         </div>
         {% for station in stations %}

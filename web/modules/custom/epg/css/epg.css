@@ -117,6 +117,31 @@
   margin: 0 0 0.75rem;
 }
 
+.epg__day-note {
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: var(--text-mid, #555);
+}
+
+/* The half-hour marks: a lighter label, hidden on a phone. Midnight
+   names the new day. */
+.epg__hour--half {
+  color: var(--text-mid, #888);
+  font-weight: 400;
+}
+
+.epg__hour-day {
+  font-weight: 700;
+  color: var(--text, #1a1a1a);
+  margin-left: 0.3em;
+}
+
+@media (max-width: 799px) {
+  .epg__hour--half {
+    font-size: 0;
+  }
+}
+
 .epg__station-name {
   font-family: 'Atkinson Hyperlegible Next', sans-serif;
   font-size: 1rem;
