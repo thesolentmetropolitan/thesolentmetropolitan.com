@@ -169,7 +169,9 @@ function customsolent_helpers_form_node_form_alter(array &$form, \Drupal\Core\Fo
  * URL words that have an automated listing page today.
  */
 function customsolent_helpers_listing_route_words(): array {
-  return ['events', 'articles', 'series', 'collaborations', 'organisations'];
+  // 'radio': the topic's programmes on the local stations (EPG), served
+  // by the events listing narrowed to programmes.
+  return ['events', 'articles', 'series', 'collaborations', 'organisations', 'radio'];
 }
 
 /**

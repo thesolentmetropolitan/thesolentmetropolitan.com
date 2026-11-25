@@ -1,0 +1,10 @@
+uuid: 24876af8-461d-4173-9e49-3449e654c81f
+langcode: en
+status: true
+dependencies: {  }
+id: on_air
+label: 'On air now'
+icon_uuid: null
+icon_default: null
+description: "What is on the local radio stations at this moment, with the way to the guide. No fields: it draws itself from the stations' schedules."
+behavior_plugins: {  }

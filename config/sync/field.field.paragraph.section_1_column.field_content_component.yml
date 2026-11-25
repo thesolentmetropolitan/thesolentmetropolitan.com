@@ -12,6 +12,7 @@ dependencies:
     - paragraphs.paragraphs_type.image
     - paragraphs.paragraphs_type.image_with_link
     - paragraphs.paragraphs_type.link
+    - paragraphs.paragraphs_type.on_air
     - paragraphs.paragraphs_type.section_1_column
     - paragraphs.paragraphs_type.section_filter
     - paragraphs.paragraphs_type.text
@@ -49,6 +50,7 @@ settings:
       video: video
       view_display: view_display
       webform: webform
+      on_air: on_air
     negate: 0
     target_bundles_drag_drop:
       call_to_action:
@@ -84,6 +86,9 @@ settings:
       menu:
         weight: 32
         enabled: false
+      on_air:
+        weight: 99
+        enabled: true
       section_1_column:
         weight: 9
         enabled: false

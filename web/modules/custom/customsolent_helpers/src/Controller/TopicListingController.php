@@ -32,6 +32,8 @@ class TopicListingController extends ControllerBase {
     'series' => ['series_listing'],
     'collaborations' => ['collaborations_listing'],
     'organisations' => ['organisations_listing', 'links_listing'],
+    // Local radio (EPG): the events listing, narrowed to programmes.
+    'radio' => ['events_listing'],
   ];
 
   protected const DISPLAYS = [
@@ -46,6 +48,10 @@ class TopicListingController extends ControllerBase {
   public function view(NodeInterface $node, string $listing_type): array|LocalRedirectResponse {
     if ($node->bundle() !== 'composite_page' || !$node->hasField('field_primary_topic') || $node->get('field_primary_topic')->isEmpty()) {
       throw new NotFoundHttpException();
+    }
+    if ($listing_type === 'radio') {
+      // The events listing shows programmes only, instead of leaving them out.
+      \Drupal::request()->attributes->set('epg_programmes_only', TRUE);
     }
     $paragraph = $this->findListingParagraph($node, $listing_type);
     // When the page's ONLY block of this kind is "Preview, all topics"
@@ -118,6 +124,7 @@ class TopicListingController extends ControllerBase {
       'articles' => (string) $this->t('Articles'),
       'series' => (string) $this->t('Series'),
       'collaborations' => (string) $this->t('Collaborations'),
+      'radio' => (string) $this->t('Local radio'),
       default => (string) $this->t('Organisations & links'),
     };
   }

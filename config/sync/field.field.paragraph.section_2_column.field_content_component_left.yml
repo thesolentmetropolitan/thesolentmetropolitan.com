@@ -14,6 +14,7 @@ dependencies:
     - paragraphs.paragraphs_type.intro
     - paragraphs.paragraphs_type.link
     - paragraphs.paragraphs_type.menu
+    - paragraphs.paragraphs_type.on_air
     - paragraphs.paragraphs_type.section_2_column
     - paragraphs.paragraphs_type.text
     - paragraphs.paragraphs_type.vertical_space
@@ -51,6 +52,7 @@ settings:
       video: video
       view_display: view_display
       webform: webform
+      on_air: on_air
     negate: 0
     target_bundles_drag_drop:
       call_to_action:
@@ -85,6 +87,9 @@ settings:
         enabled: true
       menu:
         weight: 27
+        enabled: true
+      on_air:
+        weight: 99
         enabled: true
       section_1_column:
         weight: 17

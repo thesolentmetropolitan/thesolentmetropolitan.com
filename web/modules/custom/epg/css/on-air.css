@@ -1,0 +1,88 @@
+/* On air now (EPG): a row of small cards, one per station with a
+   programme on at this moment, and the way to the guide. */
+.slnt-on-air {
+  max-width: var(--container-max, 1200px);
+  margin: 0 auto 2rem;
+  padding: 0 var(--align-floor, 1em);
+  box-sizing: border-box;
+}
+
+.slnt-on-air__heading {
+  font-family: 'Atkinson Hyperlegible Next', sans-serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--solent-blue, #2c4f6e);
+  margin: 0 0 0.8rem;
+}
+
+.slnt-on-air__heading-dot {
+  display: inline-block;
+  width: 0.55em;
+  height: 0.55em;
+  border-radius: 50%;
+  background: var(--magenta, #c5007a);
+  margin-right: 0.35em;
+  vertical-align: 0.1em;
+}
+
+.slnt-on-air__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  gap: 0.75rem;
+}
+
+.slnt-on-air__item {
+  background: var(--warm-grey, #f5f3f0);
+  border-radius: 0.5rem;
+  padding: 0.75rem 0.9rem;
+}
+
+.slnt-on-air__station {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-mid, #555);
+}
+
+.slnt-on-air__programme {
+  display: block;
+  font-weight: 700;
+  margin: 0.15rem 0;
+}
+
+.slnt-on-air__times,
+.slnt-on-air__topics {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--text-mid, #555);
+}
+
+.slnt-on-air__live {
+  display: inline-block;
+  margin-top: 0.35rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--explore, #e07a00);
+}
+
+.layout-content .slnt-on-air a,
+.layout-content .slnt-on-air a:hover {
+  text-decoration: none;
+}
+
+.slnt-on-air__programme a:hover,
+.slnt-on-air__programme a:focus-visible {
+  color: var(--explore, #e07a00);
+}
+
+.slnt-on-air__more,
+.slnt-on-air__none {
+  margin: 0.75rem 0 0;
+  font-size: 0.9rem;
+  color: var(--text-mid, #555);
+}

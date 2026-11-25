@@ -115,7 +115,10 @@ function epg_views_query_alter(ViewExecutable $view, QueryPluginBase $query): vo
   }
   $format = epg_programme_format_tid();
   $stations = array_keys(epg_stations());
-  if (!$format || !$stations || customsolent_helpers_active_format_tid() === $format) {
+  // A topic's Local radio page (the strip's tab) is the same listing the
+  // other way round: programmes only.
+  $only = (bool) \Drupal::request()->attributes->get('epg_programmes_only');
+  if (!$format || !$stations || (!$only && customsolent_helpers_active_format_tid() === $format)) {
     return;
   }
   // Programmes: the Broadcast format and a station as organiser.
@@ -125,7 +128,7 @@ function epg_views_query_alter(ViewExecutable $view, QueryPluginBase $query): vo
   $programmes->condition('epg_o.field_organisers_target_id', $stations, 'IN');
   // Its own AND group, never group 0 (the OR of the topic arguments).
   $query->setWhereGroup('AND', 'epg_programmes');
-  $query->addWhere('epg_programmes', 'node_field_data.nid', $programmes, 'NOT IN');
+  $query->addWhere('epg_programmes', 'node_field_data.nid', $programmes, $only ? 'IN' : 'NOT IN');
 }
 
 /**
@@ -266,6 +269,7 @@ function epg_schedule(\DateTimeImmutable $day): array {
       'is_now' => $instance['start'] <= $now && $now < $end,
       'note' => $note,
       'link' => $link,
+      'topics' => epg_programme_topics($node),
     ];
     $boundaries[] = $instance['start'];
     $boundaries[] = $end;
@@ -339,6 +343,83 @@ function epg_is_programme(NodeInterface $node): bool {
     }
   }
   return FALSE;
+}
+
+/**
+ * Which of the given event nids are programmes (Broadcast format, station
+ * organiser), as nid => TRUE. For the section strip's counts.
+ */
+function epg_programme_nids(array $nids): array {
+  $format = epg_programme_format_tid();
+  $stations = array_keys(epg_stations());
+  if (!$nids || !$format || !$stations) {
+    return [];
+  }
+  $q = \Drupal::database()->select('node__field_format', 'f')->fields('f', ['entity_id'])
+    ->condition('f.entity_id', $nids, 'IN')
+    ->condition('f.field_format_target_id', $format);
+  $q->join('node__field_organisers', 'o', 'o.entity_id = f.entity_id');
+  $q->condition('o.field_organisers_target_id', $stations, 'IN');
+  return array_fill_keys(array_map('intval', $q->distinct()->execute()->fetchCol()), TRUE);
+}
+
+/**
+ * A programme's own topics for the guide: the names of its primary and
+ * related topics, leaving out its station's own topic (Media & Publishing
+ * says nothing about the show). An editor's Music or Business shows in the
+ * schedule cell.
+ *
+ * @return string[]
+ */
+function epg_programme_topics(NodeInterface $node): array {
+  $skip = [];
+  if ($node->hasField('field_organisers')) {
+    foreach ($node->get('field_organisers')->referencedEntities() as $organiser) {
+      if ($organiser->hasField('field_primary_topic') && !$organiser->get('field_primary_topic')->isEmpty()) {
+        $skip[(int) $organiser->get('field_primary_topic')->target_id] = TRUE;
+      }
+    }
+  }
+  $names = [];
+  foreach (['field_primary_topic', 'field_related_topics'] as $field) {
+    if (!$node->hasField($field)) {
+      continue;
+    }
+    foreach ($node->get($field)->referencedEntities() as $term) {
+      if (!isset($skip[(int) $term->id()]) && !isset($names[(int) $term->id()])) {
+        $names[(int) $term->id()] = $term->label();
+      }
+    }
+  }
+  return array_values($names);
+}
+
+/**
+ * What is on air now across the stations, for the front page: a list of
+ * {station (label, url, stream, kind), programme (title, url, times,
+ * end)} for every station with a programme on at this moment, in station
+ * order; plus the moment the picture next changes.
+ *
+ * @return array{items: array[], next: int}
+ */
+function epg_on_air(): array {
+  $tz = new \DateTimeZone(\Drupal::config('system.date')->get('timezone.default') ?: 'Europe/London');
+  $now = \Drupal::time()->getRequestTime();
+  $schedule = epg_schedule(epg_today($tz));
+  $items = [];
+  $next = $schedule['window_end'];
+  foreach ($schedule['stations'] as $station) {
+    foreach ($station['programmes'] as $p) {
+      if ($p['start'] <= $now && $now < $p['end']) {
+        $items[] = ['station' => $station, 'programme' => $p];
+        $next = min($next, $p['end']);
+      }
+      elseif ($p['start'] > $now) {
+        $next = min($next, $p['start']);
+      }
+    }
+  }
+  return ['items' => $items, 'next' => $next, 'tags' => $schedule['tags']];
 }
 
 /**

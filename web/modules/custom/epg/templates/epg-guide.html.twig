@@ -64,6 +64,7 @@
                     <a class="epg__programme-link" href="{{ p.url }}">
                       <span class="epg__time">{{ p.times ?: p.time }}</span>
                       <span class="epg__title">{{ p.title }}</span>
+                      {% if p.topics %}<span class="epg__topics">{{ p.topics|join(' · ') }}</span>{% endif %}
                       {% if p.note %}<span class="epg__note">{{ p.note }}</span>{% endif %}
                       <span class="epg__on-now" aria-hidden="true">{{ 'On now'|t }}</span>
                     </a>

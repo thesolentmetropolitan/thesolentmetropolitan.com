@@ -1671,6 +1671,27 @@ function _customsolent_preprocess_series_extras($node, array &$variables): void 
 
 
 /**
+ * Implements hook_preprocess_HOOK() for paragraph--on-air.html.twig.
+ *
+ * What is on the local stations now (EPG), for the front page. Expires
+ * when the next programme starts or ends.
+ */
+function customsolent_preprocess_paragraph__on_air(array &$variables): void {
+  $variables['on_air'] = [];
+  $variables['guide_url'] = '';
+  if (!\Drupal::moduleHandler()->moduleExists('epg')) {
+    return;
+  }
+  $now = \Drupal::time()->getRequestTime();
+  $on_air = epg_on_air();
+  $variables['on_air'] = $on_air['items'];
+  $variables['guide_url'] = \Drupal\Core\Url::fromRoute('epg.guide')->toString();
+  $variables['#attached']['library'][] = 'epg/on-air';
+  $variables['#cache']['tags'] = array_merge($variables['#cache']['tags'] ?? [], $on_air['tags']);
+  $variables['#cache']['max-age'] = max(60, $on_air['next'] - $now);
+}
+
+/**
  * Implements hook_preprocess_HOOK() for paragraph--link.html.twig.
  *
  * Sets link_context to the text of the nearest heading paragraph that
@@ -2550,6 +2571,17 @@ function _customsolent_topic_listing_types(): array {
  * - stat:      the key in _customsolent_topic_scope_stats().
  */
 function _customsolent_listing_kinds(): array {
+  $kinds = _customsolent_listing_kinds_all();
+  if (!\Drupal::moduleHandler()->moduleExists('epg')) {
+    unset($kinds['radio']);
+  }
+  return $kinds;
+}
+
+/**
+ * Every listing kind, the Local radio one included.
+ */
+function _customsolent_listing_kinds_all(): array {
   return [
     'events' => [
       'label' => t('Events'),
@@ -2558,6 +2590,17 @@ function _customsolent_listing_kinds(): array {
       'full' => ['events_listing', 'view_display_listing_cards'],
       'full_grid' => 'slnt-events-compact-grid slnt-events-compact-grid--listing',
       'stat' => 'events',
+    ],
+    // Local radio (EPG): the topic's programmes on the local stations, the
+    // events listing narrowed to them (TopicListingController 'radio').
+    // Only while the epg module is on.
+    'radio' => [
+      'label' => t('Local radio'),
+      'tags' => ['node_list:event', 'node_list:organisation'],
+      'grid' => 'slnt-events-compact-grid',
+      'full' => ['events_listing', 'view_display_listing_cards'],
+      'full_grid' => 'slnt-events-compact-grid slnt-events-compact-grid--listing',
+      'stat' => 'radio',
     ],
     'articles' => [
       'label' => t('Articles'),
@@ -2673,7 +2716,7 @@ function _customsolent_topic_scope_stats(array $tids): array {
   if (isset($cache[$key])) {
     return $cache[$key];
   }
-  $stats = ['events' => 0, 'articles' => 0, 'series' => 0, 'collaborations' => 0, 'organisation' => 0, 'link' => 0, 'directory' => 0, 'directory_tids' => []];
+  $stats = ['events' => 0, 'radio' => 0, 'articles' => 0, 'series' => 0, 'collaborations' => 0, 'organisation' => 0, 'link' => 0, 'directory' => 0, 'directory_tids' => []];
   if (!$tids) {
     return $cache[$key] = $stats;
   }
@@ -2705,20 +2748,28 @@ function _customsolent_topic_scope_stats(array $tids): array {
 
   // Events that have not ended — the same rule as the listing views.
   $event_nids = array_unique(array_map(fn($r) => (int) $r->nid, $tagged(['event'])));
-  if ($event_nids) {
+  // Programmes (EPG) are counted as Local radio, not as events, as the
+  // listings divide them.
+  $programme = \Drupal::moduleHandler()->moduleExists('epg') ? epg_programme_nids($event_nids) : [];
+  $count_coming = function (array $nids) use ($db): int {
+    if (!$nids) {
+      return 0;
+    }
     $today = (new \DateTimeImmutable('today', new \DateTimeZone(date_default_timezone_get())))->getTimestamp();
     // The same clock as the listings (events query alter): an event has not
     // ended, or has no end time (end = start) and is today's or later.
     $events_q = $db->select('node__field_when', 'w')
-      ->condition('w.entity_id', $event_nids, 'IN');
+      ->condition('w.entity_id', $nids, 'IN');
     $not_ended = $events_q->orConditionGroup()
       ->condition('w.field_when_end_value', \Drupal::time()->getRequestTime(), '>=')
       ->condition($events_q->andConditionGroup()
         ->where('w.field_when_end_value <= w.field_when_value')
         ->condition('w.field_when_end_value', $today, '>='));
-    $stats['events'] = (int) $events_q->condition($not_ended)
+    return (int) $events_q->condition($not_ended)
       ->distinct()->fields('w', ['entity_id'])->countQuery()->execute()->fetchField();
-  }
+  };
+  $stats['events'] = $count_coming(array_values(array_filter($event_nids, fn($nid) => !isset($programme[$nid]))));
+  $stats['radio'] = $count_coming(array_keys($programme));
 
   // Published articles tagged with the topic, primary or related.
   $stats['articles'] = count(array_unique(array_map(fn($r) => (int) $r->nid, $tagged(['article']))));

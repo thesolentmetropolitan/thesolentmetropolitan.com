@@ -9,7 +9,7 @@ customsolent_helpers.topic_listing:
   requirements:
     _entity_access: 'node.view'
     node: \d+
-    listing_type: 'events|articles|series|collaborations|organisations'
+    listing_type: 'events|articles|series|collaborations|organisations|radio'
   options:
     parameters:
       node:

@@ -203,6 +203,16 @@
   color: var(--text-mid, #555);
 }
 
+/* The programme's own topics (Music · Indie), as the editor gave them. */
+.epg__topics {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--solent-blue, #2c4f6e);
+}
+
 .epg__on-now {
   display: none;
   font-size: 0.7rem;
