@@ -37,11 +37,19 @@ class EpgController extends ControllerBase {
       $view = 'timeline';
     }
     $schedule = epg_schedule($day);
+    // The heading names the calendar day the reader is in: after midnight
+    // the broadcast day is still yesterday's (the strip runs on to 6am),
+    // but the page says Wednesday.
+    $is_today = $day->format('Y-m-d') === $today->format('Y-m-d');
+    $now = (new \DateTimeImmutable('@' . \Drupal::time()->getRequestTime()))->setTimezone($tz);
+    $heading_day = ($is_today && (int) $now->format('G') < EPG_WINDOW_START_HOUR) ? $now : $day;
+    $next_midnight = $now->setTime(0, 0)->modify('+1 day')->getTimestamp();
     $build = [
       '#theme' => 'epg_guide',
       '#day' => $day->format('Y-m-d'),
-      '#day_label' => $day->format('l j F'),
-      '#is_today' => $day->format('Y-m-d') === $today->format('Y-m-d'),
+      '#day_label' => $heading_day->format('l j F'),
+      '#day_note' => $heading_day != $day ? $this->t('Early hours, from @day\'s schedule', ['@day' => $day->format('l')]) : '',
+      '#is_today' => $is_today,
       '#days' => $this->dayLinks($today, $day, $view),
       '#views' => $this->viewLinks($day, $view),
       '#view' => $view,
@@ -54,7 +62,7 @@ class EpgController extends ControllerBase {
       '#cache' => [
         'contexts' => ['url.query_args:day', 'url.query_args:view'],
         'tags' => $schedule['tags'],
-        'max-age' => $schedule['max_age'],
+        'max-age' => max(60, min($schedule['max_age'], $next_midnight - $now->getTimestamp())),
       ],
     ];
     return $build;

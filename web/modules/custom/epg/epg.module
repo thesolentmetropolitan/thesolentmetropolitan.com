@@ -144,6 +144,7 @@ function epg_theme(): array {
         'window_start' => 0,
         'window_end' => 0,
         'hours' => [],
+        'day_note' => '',
         'stations' => [],
         'empty' => FALSE,
       ],
@@ -185,9 +186,17 @@ function epg_schedule(\DateTimeImmutable $day): array {
   $stations = epg_stations();
   $format = epg_programme_format_tid();
   $tags = ['node_list:event', 'node_list:organisation', 'node_list:break'];
+  // The ruler: a mark every half hour; the hour marks carry the time, the
+  // half hours a lighter one, and midnight names the new day.
   $hours = [];
-  for ($h = 0; $h < 24; $h++) {
-    $hours[] = $window_start->modify("+$h hour")->format('G:i');
+  for ($m = 0; $m < EPG_WINDOW_MINUTES; $m += 30) {
+    $at = $window_start->modify("+$m minutes");
+    $hours[] = [
+      'minute' => $m,
+      'label' => $at->format('G:i'),
+      'half' => $m % 60 !== 0,
+      'day' => ($at->format('H:i') === '00:00') ? $at->format('D j M') : '',
+    ];
   }
   $result = ['window_start' => $from, 'window_end' => $to, 'hours' => $hours, 'stations' => [], 'tags' => $tags, 'max_age' => 3600];
   if (!$stations || !$format) {
