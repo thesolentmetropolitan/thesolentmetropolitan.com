@@ -1,0 +1,29 @@
+uuid: 29c942c8-fe83-4a3a-9520-f80fdaf0c633
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_organisation
+    - node.type.b
+    - node.type.organisation
+id: node.b.field_organisation
+field_name: field_organisation
+entity_type: node
+bundle: b
+label: Organisation
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      organisation: organisation
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference
