@@ -1,10 +1,10 @@
-uuid: 4b125299-57d5-4ba4-9733-01c2fc857476
+uuid: 0e67918e-6f26-46b3-8cce-4e273f239eca
 langcode: en
 status: true
 dependencies:
   config:
     - field.storage.node.field_content_component
-    - node.type.b
+    - node.type.broadcaster
     - paragraphs.paragraphs_type.call_to_action
     - paragraphs.paragraphs_type.copyright
     - paragraphs.paragraphs_type.enclosure
@@ -27,10 +27,10 @@ dependencies:
     - paragraphs.paragraphs_type.webform
   module:
     - entity_reference_revisions
-id: node.b.field_content_component
+id: node.broadcaster.field_content_component
 field_name: field_content_component
 entity_type: node
-bundle: b
+bundle: broadcaster
 label: 'Content components'
 description: 'Extra content: galleries, video, audio, text, links.'
 required: false

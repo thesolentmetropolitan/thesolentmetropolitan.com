@@ -1,16 +1,16 @@
-uuid: f23ca044-8df2-4cee-aaec-4ce4918657ab
+uuid: 9f42daed-d2db-4ad8-8770-dcbc59349a80
 langcode: en
 status: true
 dependencies:
   config:
     - field.storage.node.field_catchup_url
-    - node.type.b
+    - node.type.broadcaster
   module:
     - link
-id: node.b.field_catchup_url
+id: node.broadcaster.field_catchup_url
 field_name: field_catchup_url
 entity_type: node
-bundle: b
+bundle: broadcaster
 label: 'Catch up'
 description: 'Where past programmes can be heard or watched (the station''s listen-again or podcast page). Printed as the "Catch up" button; a programme without a page of its own goes here.'
 required: false

@@ -1,14 +1,14 @@
-uuid: c36dba66-c1ba-4539-97af-42a6db46ec8e
+uuid: 35d4f00f-8a03-4601-bf25-8a17e88a1eb2
 langcode: en
 status: true
 dependencies:
   config:
     - field.storage.node.field_frequency
-    - node.type.b
-id: node.b.field_frequency
+    - node.type.broadcaster
+id: node.broadcaster.field_frequency
 field_name: field_frequency
 entity_type: node
-bundle: b
+bundle: broadcaster
 label: Frequency
 description: 'How to tune in: "101.1 FM, DAB, online".'
 required: false

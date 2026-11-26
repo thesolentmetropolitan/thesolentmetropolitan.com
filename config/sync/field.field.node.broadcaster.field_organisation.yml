@@ -1,15 +1,15 @@
-uuid: 29c942c8-fe83-4a3a-9520-f80fdaf0c633
+uuid: efc78d7a-e500-4c3e-8069-3f58c1f59dee
 langcode: en
 status: true
 dependencies:
   config:
     - field.storage.node.field_organisation
-    - node.type.b
+    - node.type.broadcaster
     - node.type.organisation
-id: node.b.field_organisation
+id: node.broadcaster.field_organisation
 field_name: field_organisation
 entity_type: node
-bundle: b
+bundle: broadcaster
 label: Organisation
 description: ''
 required: false

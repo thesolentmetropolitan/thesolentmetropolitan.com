@@ -1,16 +1,16 @@
-uuid: fa3aadd7-49a4-499e-bf98-ce588455095a
+uuid: 5ba2eaa8-652f-4460-b3b7-8baf292435be
 langcode: en
 status: true
 dependencies:
   config:
     - field.storage.node.field_stream_url
-    - node.type.b
+    - node.type.broadcaster
   module:
     - link
-id: node.b.field_stream_url
+id: node.broadcaster.field_stream_url
 field_name: field_stream_url
 entity_type: node
-bundle: b
+bundle: broadcaster
 label: 'Live stream'
 description: 'The page or stream to listen or watch live. Printed as the "Listen live" / "Watch live" button, and in the guide while a programme is on.'
 required: false

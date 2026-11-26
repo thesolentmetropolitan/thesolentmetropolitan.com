@@ -1,16 +1,16 @@
-uuid: 798d1049-0e8e-41a4-8816-e7d1ee1ef213
+uuid: 516bb626-afe5-44a0-be3b-1b719e5868e0
 langcode: en
 status: true
 dependencies:
   config:
     - field.storage.node.field_schedule_url
-    - node.type.b
+    - node.type.broadcaster
   module:
     - link
-id: node.b.field_schedule_url
+id: node.broadcaster.field_schedule_url
 field_name: field_schedule_url
 entity_type: node
-bundle: b
+bundle: broadcaster
 label: 'Schedule page'
 description: "The station's own schedule page, for readers who want the full picture; the guide links to it."
 required: false

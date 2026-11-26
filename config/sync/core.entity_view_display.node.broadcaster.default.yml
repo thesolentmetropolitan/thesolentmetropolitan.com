@@ -1,22 +1,22 @@
-uuid: 8733f42f-a973-4604-96a3-c4b5aac95a98
+uuid: 0420a682-e961-4a9e-80b7-73de0cfa98d7
 langcode: en
 status: true
 dependencies:
   config:
-    - field.field.node.b.field_catchup_url
-    - field.field.node.b.field_content_component
-    - field.field.node.b.field_frequency
-    - field.field.node.b.field_organisation
-    - field.field.node.b.field_schedule_url
-    - field.field.node.b.field_stream_url
-    - node.type.b
+    - field.field.node.broadcaster.field_catchup_url
+    - field.field.node.broadcaster.field_content_component
+    - field.field.node.broadcaster.field_frequency
+    - field.field.node.broadcaster.field_organisation
+    - field.field.node.broadcaster.field_schedule_url
+    - field.field.node.broadcaster.field_stream_url
+    - node.type.broadcaster
   module:
     - entity_reference_revisions
     - link
     - user
-id: node.b.default
+id: node.broadcaster.default
 targetEntityType: node
-bundle: b
+bundle: broadcaster
 mode: default
 content:
   field_catchup_url:

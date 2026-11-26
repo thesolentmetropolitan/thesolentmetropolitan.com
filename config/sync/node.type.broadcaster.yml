@@ -1,4 +1,4 @@
-uuid: ecc33bba-a4cb-4876-b539-94783119c9c2
+uuid: 67111b20-a649-4203-aed1-313021748c05
 langcode: en
 status: true
 dependencies:
@@ -10,7 +10,7 @@ third_party_settings:
       - main
     parent: 'main:'
 name: Broadcaster
-type: b
+type: broadcaster
 description: null
 help: null
 new_revision: true
