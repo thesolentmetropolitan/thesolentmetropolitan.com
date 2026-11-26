@@ -716,13 +716,11 @@ function customsolent_helpers_exception_notice(array $x, array $instance): strin
 }
 
 /**
- * The published Breaks (holidays and closures regular events observe),
+ * The closures regular events observe: each event's own "not on" dates,
  * resolved to what they touch.
  *
- * Each: nid, title, kind (advisory|closure), note, ranges [[start, end]],
- * scope (all|organisations|events), nids (event nids when scoped; the
- * organisations' regular events are looked up here, once). Cached until a
- * Break, an event or an organisation is saved.
+ * Each: nid (0), title, kind (closure), note, ranges [[start, end]],
+ * scope (events), nids (the event). Cached until an event is saved.
  *
  * @return array[]
  */
@@ -736,54 +734,13 @@ function customsolent_helpers_breaks(): array {
     return $static = $cached->data;
   }
   $breaks = [];
-  $etm = \Drupal::entityTypeManager();
-  if ($etm->getStorage('node_type')->load('break')) {
-    $nids = $etm->getStorage('node')->getQuery()->accessCheck(FALSE)->condition('type', 'break')->condition('status', 1)->execute();
-    $db = \Drupal::database();
-    foreach ($etm->getStorage('node')->loadMultiple($nids) as $node) {
-      $ranges = [];
-      if ($node->hasField('field_when')) {
-        foreach ($node->get('field_when') as $item) {
-          $start = (int) $item->value;
-          if ($start > 0) {
-            $ranges[] = [$start, customsolent_helpers_item_end($start, (int) $item->end_value, $item->timezone ?: NULL)];
-          }
-        }
-      }
-      if (!$ranges) {
-        continue;
-      }
-      $scope = $node->hasField('field_break_scope') ? ((string) $node->get('field_break_scope')->value ?: 'all') : 'all';
-      $event_nids = [];
-      if ($scope === 'events' && $node->hasField('field_break_events')) {
-        $event_nids = array_map(fn($i) => (int) $i['target_id'], $node->get('field_break_events')->getValue());
-      }
-      elseif ($scope === 'organisations' && $node->hasField('field_organisers')) {
-        $org_nids = array_map(fn($i) => (int) $i['target_id'], $node->get('field_organisers')->getValue());
-        if ($org_nids) {
-          $event_nids = array_map('intval', $db->query('SELECT DISTINCT o.entity_id FROM {node__field_organisers} o WHERE o.bundle = :b AND o.field_organisers_target_id IN (:orgs[])', [':b' => 'event', ':orgs[]' => $org_nids])->fetchCol());
-        }
-      }
-      if ($scope !== 'all' && !$event_nids) {
-        // Scoped to nothing: touches nothing.
-        continue;
-      }
-      $breaks[] = [
-        'nid' => (int) $node->id(),
-        'title' => $node->label(),
-        'kind' => $node->hasField('field_break_kind') && $node->get('field_break_kind')->value === 'closure' ? 'closure' : 'advisory',
-        'note' => $node->hasField('field_break_note') ? trim((string) $node->get('field_break_note')->value) : '',
-        'ranges' => $ranges,
-        'scope' => $scope,
-        'nids' => array_values(array_unique($event_nids)),
-      ];
-    }
-  }
-    // A regular event's own "not on" dates (field_exceptions, issue 502) are
+  // A regular event's own "not on" dates (field_exceptions, issue 502) are
   // closures scoped to that event: the listings' query, the cards' "Next:"
-  // and the panel all skip them the way they skip a closure Break. A row
-  // naming a venue ("At") is not a closure: the date still runs at the
-  // event's other venues, and only the wording changes.
+  // and the panel all skip them. A row naming a venue ("At") is not a
+  // closure: the date still runs at the event's other venues, and only the
+  // wording changes. (The Break content type that once fed this list went
+  // on 27 Nov 2026, never having held a node; closures are to be the
+  // organisation's own knowledge instead.)
   $db = \Drupal::database();
   if ($db->schema()->tableExists('node__field_exceptions')) {
     $tz = new \DateTimeZone(\Drupal::config('system.date')->get('timezone.default') ?: 'Europe/London');
@@ -811,7 +768,7 @@ function customsolent_helpers_breaks(): array {
   }
   // Closures first, so the first match for an instance is the stronger one.
   usort($breaks, static fn($a, $b) => ($a['kind'] === 'closure' ? 0 : 1) <=> ($b['kind'] === 'closure' ? 0 : 1));
-  \Drupal::cache()->set($cid, $breaks, \Drupal\Core\Cache\Cache::PERMANENT, ['node_list:break', 'node_list:event', 'node_list:organisation']);
+  \Drupal::cache()->set($cid, $breaks, \Drupal\Core\Cache\Cache::PERMANENT, ['node_list:event']);
   return $static = $breaks;
 }
 

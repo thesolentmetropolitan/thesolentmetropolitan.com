@@ -4,7 +4,6 @@ status: true
 dependencies:
   config:
     - core.entity_view_mode.node.teaser
-    - field.field.node.collaboration.field_collaborators
     - field.field.node.collaboration.field_content_component
     - field.field.node.collaboration.field_description
     - field.field.node.collaboration.field_outcomes
@@ -30,7 +29,6 @@ content:
     weight: 0
     region: content
 hidden:
-  field_collaborators: true
   field_content_component: true
   field_description: true
   field_outcomes: true

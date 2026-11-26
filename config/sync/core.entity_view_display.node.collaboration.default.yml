@@ -3,7 +3,6 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.node.collaboration.field_collaborators
     - field.field.node.collaboration.field_content_component
     - field.field.node.collaboration.field_description
     - field.field.node.collaboration.field_outcomes
@@ -21,15 +20,6 @@ targetEntityType: node
 bundle: collaboration
 mode: default
 content:
-  field_collaborators:
-    type: entity_reference_entity_view
-    label: hidden
-    settings:
-      view_mode: teaser
-      link: false
-    third_party_settings: {  }
-    weight: 1
-    region: content
   field_content_component:
     type: entity_reference_revisions_entity_view
     label: hidden

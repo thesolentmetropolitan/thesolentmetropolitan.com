@@ -776,11 +776,8 @@ function _customsolent_preprocess_event_shared_extras($node, array &$variables):
   usort($instances, static fn($a, $b) => $a['start'] <=> $b['start']);
   $tz = new \DateTimeZone($instances[0]['tz']);
   $fmt = static fn(int $ts, string $f) => (new \DateTimeImmutable('@' . $ts))->setTimezone($tz)->format($f);
-  // Breaks and seasons: an instance in a closure Break, or outside the
-  // event's season, does not run (the listings' query agrees); one in an
-  // advisory Break runs with a note by its date. Cards and pages change
-  // when a Break is saved.
-  $variables['event_when_cache']['#cache']['tags'][] = 'node_list:break';
+  // Closures and seasons: an instance on a "not on" date, or outside the
+  // event's season, does not run (the listings' query agrees).
   $season_from = $node->hasField('field_season_from') ? (int) $node->get('field_season_from')->value : 0;
   $season_to = $node->hasField('field_season_to') ? (int) $node->get('field_season_to')->value : 0;
   $nid = (int) $node->id();

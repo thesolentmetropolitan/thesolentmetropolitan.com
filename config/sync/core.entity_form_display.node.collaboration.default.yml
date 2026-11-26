@@ -3,7 +3,6 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.node.collaboration.field_collaborators
     - field.field.node.collaboration.field_content_component
     - field.field.node.collaboration.field_description
     - field.field.node.collaboration.field_outcomes
@@ -172,5 +171,4 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
-hidden:
-  field_collaborators: true
+hidden: {  }

@@ -11,8 +11,8 @@
  *   nothing broadcast-specific, and readers never see the broadcaster:
  *   its page redirects to the organisation (Rabbit Hole, site config).
  * - A programme is an Event with the Broadcast format that names the
- *   station as organiser: repeating as the show does, with the site's
- *   Breaks and changes to particular dates applying to it.
+ *   station as organiser: repeating as the show does, with its changes
+ *   to particular dates applying to it.
  * - The schedule is derived: a station's programmes for a day, worked
  *   out from the events' dates. Nothing is stored for it.
  * Programmes are left out of the ordinary events listings and the front
@@ -220,7 +220,7 @@ function epg_schedule(\DateTimeImmutable $day): array {
   $now = \Drupal::time()->getRequestTime();
   $stations = epg_stations();
   $format = epg_programme_format_tid();
-  $tags = ['node_list:event', 'node_list:organisation', 'node_list:broadcaster', 'node_list:break'];
+  $tags = ['node_list:event', 'node_list:organisation', 'node_list:broadcaster'];
   // The ruler: a mark every half hour; the hour marks carry the time, the
   // half hours a lighter one, and midnight names the new day.
   $hours = [];
