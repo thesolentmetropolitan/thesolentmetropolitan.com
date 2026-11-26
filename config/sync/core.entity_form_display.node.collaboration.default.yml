@@ -10,8 +10,10 @@ dependencies:
     - field.field.node.collaboration.field_primary_topic
     - field.field.node.collaboration.field_related_topics
     - field.field.node.collaboration.field_standfirst
+    - field.field.node.collaboration.field_who
     - node.type.collaboration
   module:
+    - custom_field
     - paragraphs
     - path
     - text
@@ -25,16 +27,6 @@ content:
     weight: 10
     region: content
     settings: {  }
-    third_party_settings: {  }
-  field_collaborators:
-    type: entity_reference_autocomplete
-    weight: 2
-    region: content
-    settings:
-      match_operator: CONTAINS
-      match_limit: 10
-      size: 60
-      placeholder: ''
     third_party_settings: {  }
   field_content_component:
     type: paragraphs
@@ -100,6 +92,31 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
+  field_who:
+    type: custom_stacked
+    weight: 2
+    region: content
+    settings:
+      wrapper: details
+      label_value: who
+      label_limit: 60
+      label_prefix: ''
+      auto_collapse: false
+      open: true
+      fields:
+        who:
+          weight: 0
+          type: entity_reference_autocomplete
+          settings: {  }
+        role:
+          weight: 1
+          type: entity_reference_autocomplete
+          settings: {  }
+        description:
+          weight: 2
+          type: textarea
+          settings: {  }
+    third_party_settings: {  }
   path:
     type: path
     weight: 30
@@ -112,6 +129,11 @@ content:
     region: content
     settings:
       display_label: true
+    third_party_settings: {  }
+  simple_sitemap:
+    weight: 10
+    region: content
+    settings: {  }
     third_party_settings: {  }
   status:
     type: boolean_checkbox
@@ -150,4 +172,5 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
-hidden: {  }
+hidden:
+  field_collaborators: true

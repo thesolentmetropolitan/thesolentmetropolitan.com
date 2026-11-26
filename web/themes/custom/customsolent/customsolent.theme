@@ -215,14 +215,10 @@ function customsolent_preprocess_node(array &$variables): void {
     _customsolent_preprocess_article_compact_extras($node, $variables);
   }
 
-  // Collaboration card and page; collaborator row.
+  // Collaboration card and page (its Who rows are drawn here too).
   if ($node->bundle() === 'collaboration'
     && in_array(($variables['view_mode'] ?? ''), ['teaser', 'compact', 'full'], TRUE)) {
     _customsolent_preprocess_collaboration_extras($node, $variables);
-  }
-  if ($node->bundle() === 'collaborator'
-    && in_array(($variables['view_mode'] ?? ''), ['teaser', 'compact', 'full'], TRUE)) {
-    _customsolent_preprocess_collaborator_extras($node, $variables);
   }
 
     // Organisation and Link pages: where it is based or about — every
@@ -282,6 +278,8 @@ function customsolent_preprocess_node(array &$variables): void {
       ];
       $variables['organiser_events'] = [];
       $variables['organiser_events_cache']['#cache']['max-age'] = 300;
+      // The tune-in details live on the Broadcaster node, not this one.
+      $variables['organiser_events_cache']['#cache']['tags'] = \Drupal\Core\Cache\Cache::mergeTags($variables['organiser_events_cache']['#cache']['tags'], $info['broadcaster']->getCacheTags());
     }
 
     // Part of a larger organisation (reverse lookup: the parent lists its
@@ -336,7 +334,7 @@ function customsolent_preprocess_node(array &$variables): void {
 
   // "Part of a collaboration" on full pages: outcomes (event, article,
   // series — directly or via a series) and participants (person,
-  // organisation — via collaborator nodes).
+  // organisation — named in a collaboration's Who rows).
   if (($variables['view_mode'] ?? '') === 'full'
     && in_array($node->bundle(), ['event', 'article', 'series', 'link', 'person', 'organisation'], TRUE)) {
     _customsolent_preprocess_collaboration_membership($node, $variables);
@@ -1282,8 +1280,9 @@ function _customsolent_series_member_pre_render_class(): string {
  *   - collab_who          — "A, B and C" / "A, B and 3 more" (card).
  *   - collab_count_parts  — non-zero outcome counts as phrases (card).
  *   - section_key / section_color.
- *   - collab_collaborators — (full) collaborator nodes rendered as teaser
- *     rows, published only, editor order.
+ *   - collab_collaborators — (full) the Who rows (field_who: who, how they
+ *     take part, what they did) as slnt_collaborator_row, editor order,
+ *     only those whose organisation / person is viewable.
  *   - collab_groups        — (full) outcomes grouped by bundle as compact
  *     cards: {key, label, items[], grid_class}.
  *   - collab_cache         — cache metadata to print in every branch.
@@ -1300,20 +1299,10 @@ function _customsolent_preprocess_collaboration_extras($node, array &$variables)
     }
   }
 
-  // Collaborators: published collaborator nodes whose organisation/person
-  // is itself viewable. Name = the organisation's / person's label.
-  $collaborators = [];
-  foreach ($node->get('field_collaborators')->referencedEntities() as $c) {
-    if (!$c->isPublished() || !$c->access('view')) {
-      continue;
-    }
-    $collaborators[] = $c;
-  }
-  $names = [];
-  foreach ($collaborators as $c) {
-    $who = $c->get('field_collaborator')->entity;
-    $names[] = $who ? $who->label() : $c->label();
-  }
+  // The Who rows whose organisation / person / link is viewable. Name =
+  // that node's label.
+  $collaborators = _customsolent_collaboration_who_rows($node);
+  $names = array_map(static fn(array $row) => $row['who']->label(), $collaborators);
   $shown = array_slice($names, 0, 3);
   $more = count($names) - count($shown);
   if ($more > 0) {
@@ -1350,7 +1339,7 @@ function _customsolent_preprocess_collaboration_extras($node, array &$variables)
 
   $variables['collab_cache'] = [
     '#cache' => [
-      'tags' => ['node_list:collaborator', 'node_list:event', 'node_list:article', 'node_list:series', 'node_list:link'],
+      'tags' => ['node_list:event', 'node_list:article', 'node_list:series', 'node_list:link'],
     ],
   ];
 
@@ -1359,8 +1348,18 @@ function _customsolent_preprocess_collaboration_extras($node, array &$variables)
   }
 
   $variables['collab_collaborators'] = [];
-  foreach ($collaborators as $c) {
-    $variables['collab_collaborators'][] = $view_builder->view($c, 'teaser');
+  foreach ($collaborators as $row) {
+    $who = $row['who'];
+    $variables['collab_collaborators'][] = [
+      '#theme' => 'slnt_collaborator_row',
+      '#who_label' => $who->label(),
+      '#who_url' => $who->toUrl()->toString(),
+      '#who_kind' => $who->bundle(),
+      '#who_chip' => $who->bundle() === 'person' ? $view_builder->view($who, 'compact') : NULL,
+      '#who_types' => $row['role'] ? [$row['role']->getName()] : [],
+      '#description' => $row['description'],
+      '#cache' => ['tags' => $who->getCacheTags()],
+    ];
   }
   $groups = [];
   foreach ($group_defs as $bundle => $def) {
@@ -1375,31 +1374,31 @@ function _customsolent_preprocess_collaboration_extras($node, array &$variables)
 }
 
 /**
- * Collaborator row variables: who, where they link to, their role terms.
+ * A collaboration's Who rows, in editor order: who (the organisation,
+ * person or link node, viewable), role (the How they take part term or
+ * NULL) and description (plain text). Rows whose who is missing or not
+ * viewable are left out.
  *
- * A collaborator is an organisation or person (field_collaborator) plus
- * how they take part (field_collaborator_type) and a description. Sets
- * who_label, who_url, who_kind, who_types and, for a person, who_chip
- * (the Person chip render array).
+ * @return array<int, array{who: \Drupal\node\NodeInterface, role: ?\Drupal\taxonomy\TermInterface, description: string}>
  */
-function _customsolent_preprocess_collaborator_extras($node, array &$variables): void {
-  $variables['who_label'] = NULL;
-  $variables['who_url'] = NULL;
-  $variables['who_kind'] = NULL;
-  $variables['who_chip'] = NULL;
-  $variables['who_types'] = [];
-  $who = $node->get('field_collaborator')->entity;
-  if ($who && $who->access('view')) {
-    $variables['who_label'] = $who->label();
-    $variables['who_url'] = $who->toUrl()->toString();
-    $variables['who_kind'] = $who->bundle();
-    if ($who->bundle() === 'person') {
-      $variables['who_chip'] = \Drupal::entityTypeManager()->getViewBuilder('node')->view($who, 'compact');
+function _customsolent_collaboration_who_rows($node): array {
+  if (!$node->hasField('field_who')) {
+    return [];
+  }
+  $etm = \Drupal::entityTypeManager();
+  $rows = [];
+  foreach ($node->get('field_who') as $item) {
+    $who = $item->who ? $etm->getStorage('node')->load((int) $item->who) : NULL;
+    if (!$who || !$who->isPublished() || !$who->access('view')) {
+      continue;
     }
+    $rows[] = [
+      'who' => $who,
+      'role' => $item->role ? $etm->getStorage('taxonomy_term')->load((int) $item->role) : NULL,
+      'description' => trim((string) $item->description),
+    ];
   }
-  foreach ($node->get('field_collaborator_type')->referencedEntities() as $term) {
-    $variables['who_types'][] = $term->getName();
-  }
+  return $rows;
 }
 
 /**
@@ -3644,6 +3643,20 @@ function _customsolent_apply_filter_options_to_variables(array &$variables, arra
  */
 function customsolent_theme($existing, $type, $theme, $path): array {
   return [
+    // One row in a Collaboration's "Who" list: the organisation / person /
+    // link, how they take part, what they did.
+    'slnt_collaborator_row' => [
+      'variables' => [
+        'who_label' => '',
+        'who_url' => '',
+        'who_kind' => '',
+        'who_chip' => NULL,
+        'who_types' => [],
+        'description' => '',
+      ],
+      'path' => $path . '/templates/components',
+      'template' => 'collaborator-row',
+    ],
     'slnt_listing_map' => [
       'variables' => [
         'tree' => [],

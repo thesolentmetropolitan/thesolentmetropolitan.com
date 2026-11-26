@@ -10,6 +10,7 @@ dependencies:
     - field.field.node.collaboration.field_primary_topic
     - field.field.node.collaboration.field_related_topics
     - field.field.node.collaboration.field_standfirst
+    - field.field.node.collaboration.field_who
     - node.type.collaboration
   module:
     - entity_reference_revisions
@@ -80,4 +81,5 @@ content:
     weight: 0
     region: content
 hidden:
+  field_who: true
   links: true

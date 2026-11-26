@@ -264,9 +264,8 @@ class ContentRelations {
   /**
    * Published collaborations an organisation or person takes part in.
    *
-   * Collaborator nodes reference the organisation/person in
-   * field_collaborator; collaborations reference collaborators in
-   * field_collaborators.
+   * A collaboration's "Who" rows (field_who, custom_field) name the
+   * organisation, person or link in their who column.
    *
    * @return \Drupal\node\NodeInterface[]
    */
@@ -275,22 +274,12 @@ class ContentRelations {
     if ($nid === 0) {
       return [];
     }
-    $storage = $this->entityTypeManager->getStorage('node');
-    $collaborator_ids = $storage->getQuery()
-      ->accessCheck(TRUE)
-      ->condition('type', 'collaborator')
-      ->condition('status', NodeInterface::PUBLISHED)
-      ->condition('field_collaborator.target_id', $nid)
-      ->execute();
-    if (!$collaborator_ids) {
-      return [];
-    }
     return $this->loadCollaborations(
-      $storage->getQuery()
+      $this->entityTypeManager->getStorage('node')->getQuery()
         ->accessCheck(TRUE)
         ->condition('type', 'collaboration')
         ->condition('status', NodeInterface::PUBLISHED)
-        ->condition('field_collaborators.target_id', array_values($collaborator_ids), 'IN')
+        ->condition('field_who.who', $nid)
     );
   }
 
@@ -303,9 +292,9 @@ class ContentRelations {
    * @return string[]
    */
   public function collaborationsCacheTags(array $collaborations): array {
-    // Series membership feeds collaborationsFor(); collaborator nodes feed
-    // collaborationsInvolving(); both must refresh the result.
-    $tags = ['node_list:collaboration', 'node_list:collaborator', 'node_list:series'];
+    // Series membership feeds collaborationsFor(); the Who rows live on the
+    // collaboration itself.
+    $tags = ['node_list:collaboration', 'node_list:series'];
     foreach ($collaborations as $c) {
       $tags = Cache::mergeTags($tags, $c->getCacheTags());
     }

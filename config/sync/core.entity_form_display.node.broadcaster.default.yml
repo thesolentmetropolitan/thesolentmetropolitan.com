@@ -4,7 +4,6 @@ status: true
 dependencies:
   config:
     - field.field.node.broadcaster.field_catchup_url
-    - field.field.node.broadcaster.field_content_component
     - field.field.node.broadcaster.field_frequency
     - field.field.node.broadcaster.field_organisation
     - field.field.node.broadcaster.field_schedule_url
@@ -12,7 +11,6 @@ dependencies:
     - node.type.broadcaster
   module:
     - link
-    - paragraphs
     - path
 id: node.broadcaster.default
 targetEntityType: node
@@ -32,24 +30,6 @@ content:
     settings:
       placeholder_url: ''
       placeholder_title: ''
-    third_party_settings: {  }
-  field_content_component:
-    type: paragraphs
-    weight: 5
-    region: content
-    settings:
-      title: Paragraph
-      title_plural: Paragraphs
-      edit_mode: open
-      closed_mode: summary
-      autocollapse: none
-      closed_mode_threshold: 0
-      add_mode: dropdown
-      form_display_mode: default
-      default_paragraph_type: ''
-      features:
-        collapse_edit_all: collapse_edit_all
-        duplicate: duplicate
     third_party_settings: {  }
   field_frequency:
     type: string_textfield

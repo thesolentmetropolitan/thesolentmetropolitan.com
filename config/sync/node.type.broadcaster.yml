@@ -11,7 +11,7 @@ third_party_settings:
     parent: 'main:'
 name: Broadcaster
 type: broadcaster
-description: null
+description: 'A radio station: how to tune in and where its schedule and catch-up live. One per station, pointing at the station’s organisation; readers never see a broadcaster page, they see the organisation.'
 help: null
 new_revision: true
 preview_mode: 1

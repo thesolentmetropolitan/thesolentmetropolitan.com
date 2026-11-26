@@ -1,0 +1,62 @@
+uuid: 0c26a13b-744c-482c-a5ed-0c09ff547c03
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_who
+    - node.type.collaboration
+    - node.type.link
+    - node.type.organisation
+    - node.type.person
+    - taxonomy.vocabulary.collaborator_type
+  module:
+    - custom_field
+id: node.collaboration.field_who
+field_name: field_who
+entity_type: node
+bundle: collaboration
+label: Who
+description: 'The organisations and people taking part, one row each: who, how they take part, and a few words on what they did.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  add_more_label: 'Add a collaborator'
+  field_settings:
+    who:
+      label: Who
+      check_empty: true
+      required: true
+      description: 'An organisation, a person or a link on the site.'
+      handler: 'default:node'
+      handler_settings:
+        sort:
+          field: title
+          direction: ASC
+        auto_create: false
+        target_bundles:
+          organisation: organisation
+          person: person
+          link: link
+      weight: 0
+    role:
+      label: 'How they take part'
+      check_empty: false
+      description: ''
+      handler: 'default:taxonomy_term'
+      handler_settings:
+        sort:
+          field: name
+          direction: asc
+        auto_create: true
+        target_bundles:
+          collaborator_type: collaborator_type
+        auto_create_bundle: collaborator_type
+      weight: 1
+    description:
+      label: 'What they did'
+      check_empty: false
+      description: 'Plain words, no formatting.'
+      weight: 2
+field_type: custom

@@ -1,0 +1,16 @@
+uuid: b0f22cd6-8af4-4eb0-9257-d0ef5a14645a
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.broadcaster
+id: node.broadcaster
+targetEntityType: node
+bundle: broadcaster
+action: page_redirect
+no_bypass: false
+bypass_message: false
+configuration:
+  redirect: '[node:field_organisation:entity:url]'
+  redirect_code: 301
+  redirect_fallback_action: access_denied

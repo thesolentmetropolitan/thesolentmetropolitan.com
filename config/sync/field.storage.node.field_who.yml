@@ -1,0 +1,32 @@
+uuid: 07a99994-e9ad-4cca-acb9-7f31782febb3
+langcode: en
+status: true
+dependencies:
+  module:
+    - custom_field
+    - node
+    - taxonomy
+id: node.field_who
+field_name: field_who
+entity_type: node
+type: custom
+settings:
+  columns:
+    who:
+      name: who
+      type: entity_reference
+      target_type: node
+    role:
+      name: role
+      type: entity_reference
+      target_type: taxonomy_term
+    description:
+      name: description
+      type: string_long
+module: custom_field
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

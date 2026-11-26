@@ -11,6 +11,7 @@ dependencies:
     - field.field.node.collaboration.field_primary_topic
     - field.field.node.collaboration.field_related_topics
     - field.field.node.collaboration.field_standfirst
+    - field.field.node.collaboration.field_who
     - node.type.collaboration
   module:
     - user
@@ -35,4 +36,5 @@ hidden:
   field_outcomes: true
   field_primary_topic: true
   field_related_topics: true
+  field_who: true
   links: true

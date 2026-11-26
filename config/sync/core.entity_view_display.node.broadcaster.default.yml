@@ -4,14 +4,12 @@ status: true
 dependencies:
   config:
     - field.field.node.broadcaster.field_catchup_url
-    - field.field.node.broadcaster.field_content_component
     - field.field.node.broadcaster.field_frequency
     - field.field.node.broadcaster.field_organisation
     - field.field.node.broadcaster.field_schedule_url
     - field.field.node.broadcaster.field_stream_url
     - node.type.broadcaster
   module:
-    - entity_reference_revisions
     - link
     - user
 id: node.broadcaster.default
@@ -30,15 +28,6 @@ content:
       target: ''
     third_party_settings: {  }
     weight: 101
-    region: content
-  field_content_component:
-    type: entity_reference_revisions_entity_view
-    label: hidden
-    settings:
-      view_mode: default
-      link: ''
-    third_party_settings: {  }
-    weight: 4
     region: content
   field_frequency:
     type: string

@@ -11,8 +11,8 @@ field_name: field_organisation
 entity_type: node
 bundle: broadcaster
 label: Organisation
-description: ''
-required: false
+description: 'The organisation this broadcaster is. Its page is the station’s page; this record only holds how to tune in.'
+required: true
 translatable: false
 default_value: {  }
 default_value_callback: ''

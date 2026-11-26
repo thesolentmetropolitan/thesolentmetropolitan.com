@@ -1,0 +1,36 @@
+{#
+/**
+ * @file
+ * One row in a Collaboration's "Who" list (slnt_collaborator_row).
+ *
+ * A row of the collaboration's Who field: an organisation, person or link
+ * on the site plus how they take part and what they did. The row links to
+ * THEIR page, shows the role as a small tag, and the description.
+ *
+ * Variables:
+ *   who_label, who_url, who_kind ('organisation' | 'person' | 'link'),
+ *   who_types (list of strings), who_chip (render array: the Person chip
+ *   when the collaborator is a person), description (plain text).
+ */
+#}
+<div class="slnt-collaborator{% if who_kind %} slnt-collaborator--{{ who_kind }}{% endif %}">
+  <div class="slnt-collaborator__head">
+    {% if who_chip %}
+      {{ who_chip }}
+    {% else %}
+      <a href="{{ who_url }}" class="slnt-collaborator__who">{{ who_label }}</a>
+    {% endif %}
+
+    {% if who_types is not empty %}
+      <ul class="slnt-collaborator__types" aria-label="{{ 'Role'|t }}">
+        {% for type in who_types %}
+          <li class="slnt-collaborator__type">{{ type }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  </div>
+
+  {% if description %}
+    <div class="slnt-collaborator__description"><p>{{ description|nl2br }}</p></div>
+  {% endif %}
+</div>
