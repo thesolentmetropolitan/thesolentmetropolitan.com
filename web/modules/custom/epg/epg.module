@@ -198,6 +198,48 @@ const EPG_WINDOW_MINUTES = 1440;
 const EPG_WINDOW_START_HOUR = 6;
 
 /**
+ * A station's programmes for the window, in order and never overlapping.
+ *
+ * One station cannot broadcast two things at once, so an overlap is a slip
+ * on the station's page: most often an end of "12pm" where midnight was
+ * meant (a show running fourteen hours), or a day's first row listed twice.
+ * Each programme ends no later than the next one starts: when the end is
+ * past it, an end twelve hours earlier is tried first (the am/pm slip),
+ * else the next start; what is left with no time at all is dropped. The
+ * same rule runs in the schedule import, so stored data is tidy too; this
+ * keeps the guide right for anything imported before it was. (Until
+ * 27 Nov 2026 overlaps took a second lane, which left a row-high gap in
+ * the guide wherever the slip fell outside the hours on screen.)
+ *
+ * @param array $programmes
+ *   Rows as built by epg_schedule(): start, end, duration_min, times,
+ *   is_now, tz.
+ */
+function epg_without_overlaps(array $programmes, int $to, int $now): array {
+  // Same start: the shorter first, so the rule drops it (a day's first row
+  // listed twice) and keeps the real programme.
+  usort($programmes, static fn($a, $b) => ($a['start'] <=> $b['start']) ?: ($a['end'] <=> $b['end']));
+  $kept = [];
+  $n = count($programmes);
+  foreach ($programmes as $i => $p) {
+    $next_start = $i + 1 < $n ? (int) $programmes[$i + 1]['start'] : PHP_INT_MAX;
+    if ($p['end'] > $next_start) {
+      $slip = $p['end'] - 12 * 3600;
+      $p['end'] = ($slip > $p['start'] && $slip <= $next_start) ? $slip : $next_start;
+    }
+    if ($p['end'] <= $p['start']) {
+      continue;
+    }
+    $p['duration_min'] = max(5, (int) round((min($p['end'], $to) - $p['start']) / 60));
+    $p['is_now'] = $p['start'] <= $now && $now < $p['end'];
+    $p['times'] = customsolent_helpers_times_text($p['start'], $p['end'], $p['tz']);
+    $p['lane'] = 1;
+    $kept[] = $p;
+  }
+  return $kept;
+}
+
+/**
  * The schedule for a day: every station with its programmes in the guide's
  * window (6am that day to 6am the next), in station order.
  *
@@ -302,6 +344,7 @@ function epg_schedule(\DateTimeImmutable $day): array {
       'note' => $note,
       'link' => $link,
       'topics' => epg_programme_topics($node),
+      'tz' => $item_tz,
     ];
     $boundaries[] = $instance['start'];
     $boundaries[] = $end;
@@ -319,21 +362,8 @@ function epg_schedule(\DateTimeImmutable $day): array {
     if (!in_array($nid, $active, TRUE)) {
       continue;
     }
-    $programmes = $by_station[$nid] ?? [];
-    usort($programmes, static fn($a, $b) => $a['start'] <=> $b['start']);
-    // Programmes that overlap (a station's page with a slip in it, two
-    // things at once) take separate lanes, so neither hides the other.
-    $lane_ends = [];
-    foreach ($programmes as &$p) {
-      $lane = 1;
-      while (isset($lane_ends[$lane]) && $lane_ends[$lane] > $p['start']) {
-        $lane++;
-      }
-      $lane_ends[$lane] = $p['end'];
-      $p['lane'] = $lane;
-    }
-    unset($p);
-    $result['stations'][] = $station + ['programmes' => $programmes, 'lanes' => max(1, count($lane_ends))];
+    $programmes = epg_without_overlaps($by_station[$nid] ?? [], $to, $now);
+    $result['stations'][] = $station + ['programmes' => $programmes, 'lanes' => 1];
     $tags = array_merge($tags, $station['node']->getCacheTags());
   }
   // The page changes when a programme starts or ends, or at the next 6am.
