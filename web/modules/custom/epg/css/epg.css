@@ -8,8 +8,9 @@
   --epg-step: 5;
   --epg-tracks: 288;
   --epg-track-x: 2.6rem;   /* width of 5 minutes in the timeline */
-  --epg-track-y: 0.45rem;  /* height of 5 minutes in the vertical view */
+  --epg-track-y: 0.55rem;  /* height of 5 minutes in the vertical view */
   --epg-side: 11rem;       /* the station column in the timeline */
+  --epg-col: 14rem;        /* a station's column in the vertical view */
   --epg-line: var(--explore, #e07a00);
   max-width: var(--container-max, 1200px);
   margin: 0 auto 2rem;
@@ -277,6 +278,87 @@
   background: var(--solent-blue-pale, #e8eef3);
 }
 
+/* The scroll bar above the grid in the columns view (the timeline has
+   its chevrons): a strip as wide as the grid, scrolled in step with it by
+   the script, always drawn (an overlay scroll bar that only shows while
+   scrolling tells a reader nothing). The grid's own bar at its foot is
+   hidden there. */
+.epg__scrollbar {
+  display: none;
+  overflow-x: auto;
+  overflow-y: hidden;
+  margin: 0 0 0.35rem;
+  scrollbar-width: thin;
+  scrollbar-color: var(--solent-blue, #2c4f6e) var(--warm-grey, #e9e5df);
+}
+
+.epg[data-view="vertical"].has-script .epg__scrollbar {
+  display: block;
+}
+
+.epg__scrollbar::-webkit-scrollbar {
+  height: 10px;
+}
+
+.epg__scrollbar::-webkit-scrollbar-track {
+  background: var(--warm-grey, #e9e5df);
+  border-radius: 5px;
+}
+
+.epg__scrollbar::-webkit-scrollbar-thumb {
+  background: var(--solent-blue, #2c4f6e);
+  border-radius: 5px;
+}
+
+.epg__scrollbar-inner {
+  height: 1px;
+}
+
+.epg[data-view="vertical"].has-script .epg__scroller {
+  scrollbar-width: none;
+}
+
+.epg[data-view="vertical"].has-script .epg__scroller::-webkit-scrollbar {
+  display: none;
+}
+
+/* The shaded edges of the columns view: a grey fade on the side there is
+   more beyond, as the mobile menu does above and below. Overlays on the
+   frame, so they stay put while the grid scrolls under them. */
+.epg__frame {
+  position: relative;
+}
+
+.epg__frame::before,
+.epg__frame::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 3rem;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 150ms;
+  z-index: 5;
+}
+
+.epg__frame::before {
+  /* Past the ruler column, which stays put while the stations scroll. */
+  left: 4rem;
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.22) 0%, rgba(0, 0, 0, 0) 100%);
+}
+
+.epg__frame::after {
+  right: 0;
+  border-radius: 0 0.5rem 0.5rem 0;
+  background: linear-gradient(to left, rgba(0, 0, 0, 0.22) 0%, rgba(0, 0, 0, 0) 100%);
+}
+
+.epg[data-view="vertical"] .epg__frame.can-scroll-left::before,
+.epg[data-view="vertical"] .epg__frame.can-scroll-right::after {
+  opacity: 1;
+}
+
 /* The timeline: a scrolling day across, stations down. */
 .epg[data-view="timeline"] .epg__scroller {
   overflow-x: auto;
@@ -386,10 +468,12 @@
   border-radius: 0.5rem;
 }
 
+/* Each station a fixed column (a flexible one under width: max-content
+   grew to its longest title). Titles wrap. */
 .epg[data-view="vertical"] .epg__grid {
   position: relative;
   display: grid;
-  grid-template-columns: 4rem repeat(var(--stations), minmax(12rem, 1fr));
+  grid-template-columns: 4rem repeat(var(--stations), var(--epg-col));
   grid-template-rows: auto repeat(var(--epg-tracks), var(--epg-track-y));
   width: max-content;
   min-width: 100%;
@@ -460,6 +544,91 @@
   top: 3.5rem;
 }
 
+/* A short programme (under half an hour) has room for one line: its
+   title, small, with a chevron that says there is more. Hovering or
+   focusing it pops the whole block out over its neighbours. */
+.epg[data-view="vertical"] .epg__programme--short {
+  padding: 0.1rem 0.5rem;
+}
+
+.epg[data-view="vertical"] .epg__programme--short .epg__programme-link {
+  position: static;
+  display: flex;
+  align-items: baseline;
+  gap: 0.35em;
+  font-size: 0.75rem;
+  line-height: 1.3;
+}
+
+.epg[data-view="vertical"] .epg__programme--short .epg__title {
+  display: inline;
+  flex: 1 1 auto;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.epg[data-view="vertical"] .epg__programme--short .epg__time,
+.epg[data-view="vertical"] .epg__programme--short .epg__topics,
+.epg[data-view="vertical"] .epg__programme--short .epg__note,
+.epg[data-view="vertical"] .epg__programme--short .epg__on-now {
+  display: none;
+}
+
+.epg[data-view="vertical"] .epg__programme--short .epg__programme-link::after {
+  content: "";
+  flex: 0 0 auto;
+  width: 0.45em;
+  height: 0.45em;
+  border-right: 2px solid var(--text-mid, #555);
+  border-bottom: 2px solid var(--text-mid, #555);
+  transform: translateY(-0.15em) rotate(45deg);
+}
+
+.epg[data-view="vertical"] .epg__programme--short:hover,
+.epg[data-view="vertical"] .epg__programme--short:focus-within {
+  overflow: visible;
+  z-index: 4;
+}
+
+.epg[data-view="vertical"] .epg__programme--short:hover .epg__programme-link,
+.epg[data-view="vertical"] .epg__programme--short:focus-within .epg__programme-link {
+  display: block;
+  position: relative;
+  font-size: inherit;
+  margin: -0.1rem -0.5rem;
+  padding: 0.35rem 0.5rem;
+  background: var(--solent-blue-pale, #e8eef3);
+  border-radius: 0.35rem;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+}
+
+.epg[data-view="vertical"] .epg__programme--short:hover .epg__title,
+.epg[data-view="vertical"] .epg__programme--short:focus-within .epg__title {
+  display: block;
+  white-space: normal;
+}
+
+.epg[data-view="vertical"] .epg__programme--short:hover .epg__time,
+.epg[data-view="vertical"] .epg__programme--short:hover .epg__topics,
+.epg[data-view="vertical"] .epg__programme--short:hover .epg__note,
+.epg[data-view="vertical"] .epg__programme--short:focus-within .epg__time,
+.epg[data-view="vertical"] .epg__programme--short:focus-within .epg__topics,
+.epg[data-view="vertical"] .epg__programme--short:focus-within .epg__note {
+  display: block;
+}
+
+.epg[data-view="vertical"] .epg__programme--short.is-now:hover .epg__on-now,
+.epg[data-view="vertical"] .epg__programme--short.is-now:focus-within .epg__on-now {
+  display: inline-block;
+}
+
+.epg[data-view="vertical"] .epg__programme--short:hover .epg__programme-link::after,
+.epg[data-view="vertical"] .epg__programme--short:focus-within .epg__programme-link::after {
+  display: none;
+}
+
 .epg[data-view="vertical"] .epg__programme.is-now {
   background: var(--solent-blue-pale, #e8eef3);
   box-shadow: inset 0 0 0 2px var(--magenta, #c5007a);
@@ -522,5 +691,6 @@
   .epg {
     --epg-track-x: 1.8rem;
     --epg-side: 7.5rem;
+    --epg-col: 11rem;
   }
 }

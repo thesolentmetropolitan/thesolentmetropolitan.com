@@ -74,7 +74,12 @@ h1.slnt-topic-trail__current {
   text-decoration: none;
 }
 
-.slnt-topic-trail .slnt-topic-trail__current-link:hover {
+.slnt-topic-trail .slnt-topic-trail__current-link:hover,
+.slnt-topic-trail .slnt-topic-trail__current-link:focus-visible {
+  /* The colour stays: magenta is the site's word for "chosen", not for
+     "hovered" (Rob, 28 Nov 2026); the underline alone says it is a link.
+     Beats `.layout-content a:hover` (0,2,1). */
+  color: inherit;
   text-decoration: underline;
   text-decoration-color: currentColor;
   text-underline-offset: 4px;

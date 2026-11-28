@@ -1,8 +1,9 @@
 /**
  * @file
- * The programme guide: the view switch in page, the line for now, and
- * the "on now" marks, kept up to the minute. Without this script the
- * links still switch the view and the day by a full page.
+ * The programme guide: the view switch in page, the line for now, the
+ * "on now" marks kept up to the minute, the scroll bar above the grid
+ * and the shaded edges. Without this script the links still switch the
+ * view and the day by a full page, and the grid scrolls with its own bar.
  */
 (function (Drupal, once) {
   'use strict';
@@ -14,6 +15,42 @@
         var nowLine = root.querySelector('.epg__now');
         var grid = root.querySelector('.epg__grid');
         var scroller = root.querySelector('.epg__scroller');
+        var frame = root.querySelector('.epg__frame');
+        var bar = root.querySelector('.epg__scrollbar');
+        var barInner = root.querySelector('.epg__scrollbar-inner');
+
+        // The scroll bar above the grid mirrors the grid's own, and the
+        // frame's edges are shaded on the side there is more.
+        var syncing = false;
+        function measure() {
+          if (!scroller || !frame) {
+            return;
+          }
+          var more = scroller.scrollWidth - scroller.clientWidth;
+          frame.classList.toggle('can-scroll-left', scroller.scrollLeft > 2);
+          frame.classList.toggle('can-scroll-right', scroller.scrollLeft < more - 2);
+          if (barInner) {
+            barInner.style.width = scroller.scrollWidth + 'px';
+          }
+        }
+        if (scroller && bar) {
+          scroller.addEventListener('scroll', function () {
+            if (!syncing) {
+              syncing = true;
+              bar.scrollLeft = scroller.scrollLeft;
+              syncing = false;
+            }
+            measure();
+          }, { passive: true });
+          bar.addEventListener('scroll', function () {
+            if (!syncing) {
+              syncing = true;
+              scroller.scrollLeft = bar.scrollLeft;
+              syncing = false;
+            }
+          }, { passive: true });
+          window.addEventListener('resize', measure, { passive: true });
+        }
 
         // Switch the view in page; the address keeps the choice.
         root.querySelectorAll('.epg__view').forEach(function (a) {
@@ -36,6 +73,7 @@
               window.history.replaceState(null, '', a.getAttribute('href'));
             }
             update(true);
+            measure();
           });
         });
 
@@ -81,6 +119,7 @@
         // The timeline pages sideways by chevron (a mouse on a narrow
         // window) and drags with the pointer; a finger swipes it anyway.
         root.classList.add('has-script');
+        measure();
         root.querySelectorAll('.epg__scroll').forEach(function (b) {
           b.addEventListener('click', function () {
             if (!scroller) {

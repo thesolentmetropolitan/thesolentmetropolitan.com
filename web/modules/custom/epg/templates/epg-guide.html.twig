@@ -10,7 +10,10 @@
  * - list: each station's programmes as a plain timed list. This is what a
  *   reader without the script or with a screen reader gets.
  * The blocks are placed with CSS grid from --s (minutes from 6am) and
- * --d (minutes long), so the same markup serves all three.
+ * --d (minutes long), so the same markup serves all three. The timeline
+ * and the columns scroll sideways inside .epg__scroller; the script
+ * mirrors that scroll in .epg__scrollbar above the grid and marks the
+ * frame can-scroll-left / can-scroll-right for the shaded edges.
  *
  * Variables (EpgController, epg_schedule()):
  *   banner (a site's render array above the guide, or empty), day, day_label, is_today, days [{label, url, current}],
@@ -42,6 +45,11 @@
       <button type="button" class="epg__scroll epg__scroll--back" data-scroll="-1" tabindex="-1">&#8249;</button>
       <button type="button" class="epg__scroll epg__scroll--forward" data-scroll="1" tabindex="-1">&#8250;</button>
     </div>
+    {# The grid scrolls sideways. Its scroll bar sits ABOVE it (a proxy
+       the script keeps in step), where a reader sees it before a column
+       of stations, and the frame shades the edge there is more beyond. #}
+    <div class="epg__scrollbar" aria-hidden="true"><div class="epg__scrollbar-inner"></div></div>
+    <div class="epg__frame">
     <div class="epg__scroller">
       <div class="epg__grid" style="--stations: {{ stations|length }};">
         {# The hour marks: a row in the timeline, a column in the vertical view. #}
@@ -61,7 +69,7 @@
             {% if station.programmes %}
               <ol class="epg__programmes" style="--lanes: {{ station.lanes }};">
                 {% for p in station.programmes %}
-                  <li class="epg__programme{% if p.is_now %} is-now{% endif %}" style="--s: {{ p.start_min }}; --d: {{ p.duration_min }}; --lane: {{ p.lane }};" data-start="{{ p.start }}" data-end="{{ p.end }}">
+                  <li class="epg__programme{% if p.is_now %} is-now{% endif %}{% if p.duration_min < 30 %} epg__programme--short{% endif %}" style="--s: {{ p.start_min }}; --d: {{ p.duration_min }}; --lane: {{ p.lane }};" data-start="{{ p.start }}" data-end="{{ p.end }}">
                     <a class="epg__programme-link" href="{{ p.url }}">
                       <span class="epg__time">{{ p.times ?: p.time }}</span>
                       <span class="epg__title">{{ p.title }}</span>
@@ -79,6 +87,7 @@
         {% endfor %}
         <div class="epg__now" aria-hidden="true" hidden></div>
       </div>
+    </div>
     </div>
   {% endif %}
 </div>

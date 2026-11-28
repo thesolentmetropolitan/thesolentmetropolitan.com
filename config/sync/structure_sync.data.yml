@@ -2200,6 +2200,22 @@ taxonomies:
           value: 'Talks, lectures, panels and seminars: someone speaks, you listen and ask.'
     -
       vid: format
+      tid: '435'
+      langcode: en
+      name: 'Unsigned & Emerging'
+      description__value: '<p>A modifier: the event showcases people at the start, unsigned bands and new artists, open showcases for emerging acts, first exhibitions, degree shows, new-writing nights. Sits beside the shape of the night (Performance + Unsigned &amp; Emerging; Exhibition + Unsigned &amp; Emerging) and the subject in Topic (the genre, Art &amp; Design). Not for an open mic, which is Open Mic &amp; Jam, nor for a touring act that simply is not famous.</p>'
+      description__format: basic_html
+      weight: '19'
+      parent: '0'
+      uuid: a7d5765b-4a29-4a7b-a8fc-d7b37166c375
+      field_plural_label:
+        -
+          value: 'Unsigned & Emerging'
+      field_reader_summary:
+        -
+          value: 'Unsigned acts, new names and first shows: the next wave, before anyone has heard of them.'
+    -
+      vid: format
       tid: '397'
       langcode: en
       name: Workshop
@@ -8562,6 +8578,19 @@ taxonomies:
       field_reader_summary:
         -
           value: 'Reggae, roots, dub and lovers rock dances, bands and sound systems across the Solent.'
+    -
+      vid: topic
+      tid: '436'
+      langcode: en
+      name: 'Culture / Music / Retro & Decades'
+      description__value: '<p>Nights and parties built on an era rather than a genre: 80s nights, 90s and 00s parties, Swinging Sixties and Seventies sets, retro and nostalgia discos, a themed decade ball. Add the genre as related when the night has one (Disco, Pop, Indie). One term for every decade (Rob, 28 Nov 2026): a term per decade would crowd the list for little gain.</p>'
+      description__format: basic_html
+      weight: '0'
+      parent: '44'
+      uuid: b53053a6-6209-4e2b-8924-737817b5d411
+      field_reader_summary:
+        -
+          value: 'Decade nights and retro parties around the Solent: the 60s, 70s, 80s, 90s and 00s, played again.'
     -
       vid: topic
       tid: '371'
