@@ -486,7 +486,9 @@
   grid-template-rows: subgrid;
   position: sticky;
   left: 0;
-  z-index: 1;
+  /* Above the station names (2) as well as the blocks: a station scrolled
+     to the left edge passes under the ruler, as its programmes do. */
+  z-index: 3;
   background: #fff;
   border-right: 1px solid var(--warm-grey, #e9e5df);
 }

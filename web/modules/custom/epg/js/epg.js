@@ -72,6 +72,18 @@
             if (window.history && window.history.replaceState) {
               window.history.replaceState(null, '', a.getAttribute('href'));
             }
+            // The day links keep the view now chosen (the timeline, the
+            // default, is left out of the address as the server leaves it).
+            root.querySelectorAll('.epg__day').forEach(function (d) {
+              var url = new URL(d.getAttribute('href'), window.location.href);
+              if (view === 'timeline') {
+                url.searchParams.delete('view');
+              }
+              else {
+                url.searchParams.set('view', view);
+              }
+              d.setAttribute('href', url.pathname + url.search);
+            });
             update(true);
             measure();
           });
