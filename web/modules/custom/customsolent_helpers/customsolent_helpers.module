@@ -2292,3 +2292,41 @@ function customsolent_helpers_places_with_content(): array {
   }
   return $cache;
 }
+
+/**
+ * Implements hook_preprocess_HOOK() for the programme guide (epg_guide).
+ *
+ * The guide page gets the banner every section page has: the Radio &
+ * Podcast art with the trail "Explore / Local radio guide", its big title
+ * the page's h1 (the page title block is off in this theme). The banner
+ * is an unsaved Hero paragraph built as the format landing pages build
+ * theirs (FormatListingController); the hero preprocess reads the request
+ * attributes for the trail. The epg module itself knows nothing of this:
+ * it prints whatever a site puts in its banner slot.
+ */
+function customsolent_helpers_preprocess_epg_guide(array &$variables): void {
+  $etm = \Drupal::entityTypeManager();
+  if (!$etm->getStorage('classy_paragraphs_style')->load('hero_art_style_culture_radio_podcast')) {
+    return;
+  }
+  $explore = $etm->getStorage('taxonomy_term')->loadByProperties(['vid' => 'topic', 'name' => 'Explore']);
+  $explore = $explore ? reset($explore) : NULL;
+  $request = \Drupal::request();
+  $request->attributes->set('slnt_hero_title_tag', 'h1');
+  if ($explore) {
+    $request->attributes->set('slnt_hero_trail_term', $explore);
+    $request->attributes->set('slnt_hero_trail_current', [
+      'label' => (string) t('Local radio guide'),
+      'url' => \Drupal\Core\Url::fromRoute('epg.guide')->toString(),
+    ]);
+  }
+  $hero = $etm->getStorage('paragraph')->create([
+    'type' => 'hero_with_art_style',
+    'field_title' => (string) t('Local radio guide'),
+    'field_classy' => ['target_id' => 'hero_art_style_culture_radio_podcast'],
+  ]);
+  $variables['banner'] = $etm->getViewBuilder('paragraph')->view($hero);
+  if ($explore) {
+    $variables['banner']['#cache']['tags'] = \Drupal\Core\Cache\Cache::mergeTags($variables['banner']['#cache']['tags'] ?? [], $explore->getCacheTags());
+  }
+}

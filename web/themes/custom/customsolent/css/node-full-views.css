@@ -507,6 +507,51 @@
   height: 1.15em;
 }
 
+/* A programme's page (EPG): the lines under the title sit a little
+   further apart than an event's (the repeat line, "Next", the station),
+   and the standfirst stands off from them. */
+.slnt-event-full--programme .slnt-node-full__when--recurring {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.slnt-event-full--programme .slnt-node-full__dates {
+  margin-bottom: 0.6rem;
+}
+
+.slnt-event-full--programme .slnt-node-full__organiser {
+  margin-top: 0.5rem;
+}
+
+.slnt-event-full--programme .slnt-node-full__standfirst {
+  margin-top: 1.6rem;
+}
+
+/* "On now" in front of a programme's date while it is on air: the past
+   pill's shape in the on-air magenta. */
+.slnt-on-now-pill {
+  color: #fff;
+  background: var(--magenta, #c5007a);
+}
+
+/* Listen live, first among the buttons of a programme on air now: the
+   Explore orange the guide uses for it. */
+.layout-content .slnt-node-full__cta a.slnt-node-full__cta-link--live,
+.slnt-node-full__cta a.slnt-node-full__cta-link--live {
+  background: var(--explore, #BC4A08);
+  border-color: var(--explore, #BC4A08);
+}
+
+.layout-content .slnt-node-full__cta a.slnt-node-full__cta-link--live:hover,
+.layout-content .slnt-node-full__cta a.slnt-node-full__cta-link--live:focus-visible,
+.slnt-node-full__cta a.slnt-node-full__cta-link--live:hover,
+.slnt-node-full__cta a.slnt-node-full__cta-link--live:focus-visible {
+  background: #9a3c06;
+  border-color: #9a3c06;
+  color: #fff;
+}
+
 /* Event page: "Related events" is the last section; keep clear of what
    sits above it (the collaborations block or the button). Doubled
    selector for the same reason as .slnt-org-full__events. */

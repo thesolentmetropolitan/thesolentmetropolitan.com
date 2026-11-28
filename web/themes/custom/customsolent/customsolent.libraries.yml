@@ -65,3 +65,18 @@ location-map:
   dependencies:
     - core/drupal
     - core/once
+
+# The venue map on an event page: Leaflet (as above) with one peg per
+# venue. Attached by the event full preprocess when a venue has a point.
+venue-map:
+  version: 1.9.4
+  css:
+    component:
+      leaflet/leaflet.css: {}
+      css/venue-map.css: {}
+  js:
+    leaflet/leaflet.js: { minified: true }
+    js/venue-map.js: {}
+  dependencies:
+    - core/drupal
+    - core/once

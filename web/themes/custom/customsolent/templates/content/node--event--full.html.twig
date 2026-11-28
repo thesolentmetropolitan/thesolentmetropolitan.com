@@ -25,7 +25,10 @@
  * is_past_event (last date ended), event_recurrence_lines and the next dates
  * come from _customsolent_preprocess_event_shared_extras(); series_links /
  * series_cache list the series the event is in (series whose end has passed
- * the shown date are already left out).
+ * the shown date are already left out). venue_pegs / venue_pegs_json put
+ * the venue(s) with a point on a map beside the header; a programme
+ * (is_programme) that is on air gets an "On now" pill and a Listen live
+ * button (programme_on_air, programme_live_url, programme_live_label).
  */
 #}
 {%
@@ -37,10 +40,16 @@
     view_mode ? 'node--view-mode-' ~ view_mode|clean_class,
     'slnt-node-full',
     'slnt-event-full',
+    is_programme ? 'slnt-event-full--programme',
+    venue_pegs is not empty ? 'slnt-event-full--mapped',
   ]
 %}
 
 <article{{ attributes.addClass(classes) }}{% if primary_topic_menu_path is defined and primary_topic_menu_path %} data-primary-topic-path="{{ primary_topic_menu_path }}"{% endif %}>
+  {# The header and, when a venue has a point, its map: side by side on a
+     desktop, the map beneath the details on a phone (the CSS orders
+     them; the map comes after the details in the DOM either way). #}
+  <div class="slnt-event-full__top">
   <div class="slnt-node-full__header">
 
     {# (A "Regular event" badge stood here until 14 Nov 2026: the "Every
@@ -94,7 +103,7 @@
           {% for line in event_recurrence_lines %}
             <span class="slnt-node-full__recurrence">
               {%- include '@customsolent/components/when-icon.html.twig' with { icon: 'repeat', class: 'slnt-node-full__when-icon' } only -%}
-              <span>{% if loop.first and is_past_event %}<span class="slnt-past-pill">{{ 'Past event'|t }}</span> {% endif %}{{ line }}</span>
+              <span>{% if loop.first and is_past_event %}<span class="slnt-past-pill">{{ 'Past event'|t }}</span> {% endif %}{% if loop.first and programme_on_air %}<span class="slnt-past-pill slnt-on-now-pill">{{ 'On now'|t }}</span> {% endif %}{{ line }}</span>
             </span>
           {% endfor %}
           {% if event_next_dates is not empty %}
@@ -111,6 +120,7 @@
           {%- include '@customsolent/components/when-icon.html.twig' with { icon: 'calendar', class: 'slnt-node-full__when-icon' } only -%}
           <span class="slnt-node-full__when-text">
             {%- if is_past_event %}<span class="slnt-past-pill">{{ 'Past event'|t }}</span> {% endif -%}
+            {%- if programme_on_air %}<span class="slnt-past-pill slnt-on-now-pill">{{ 'On now'|t }}</span> {% endif -%}
             {{ content.field_when }}
           </span>
         </div>
@@ -175,6 +185,18 @@
 
   </div>
 
+  {# The venue(s) on a map (venue_pegs: name, lat, lon, url), pegged by
+     the script from the data here. #}
+  {% if venue_pegs is not empty %}
+    <div class="slnt-event-full__map">
+      <div class="slnt-venue-map" role="region" aria-label="{{ venue_pegs|length > 1 ? 'Map of the venues'|t : 'Map of the venue'|t }}">
+        <div class="slnt-venue-map__canvas"></div>
+        <script type="application/json" class="slnt-venue-map__data">{{ venue_pegs_json|raw }}</script>
+      </div>
+    </div>
+  {% endif %}
+  </div>
+
   {# Standfirst — only if populated. #}
   {% if content.field_standfirst|render|striptags|trim %}
     <div class="slnt-node-full__standfirst">{{ content.field_standfirst }}</div>
@@ -183,10 +205,21 @@
   {# Outward links — tickets, the organiser's event page, or its social
      pages: one button each (node_links), with the icon for the kind of
      address and standard wording (see _customsolent_node_link_buttons).
-     Not once the event has passed: organisers take their pages down. #}
-  {% if node_links is not empty and not is_past_event %}
+     Not once the event has passed: organisers take their pages down.
+     A programme on air now leads with Listen live, to its station's
+     stream (programme_live_url). #}
+  {% if (node_links is not empty and not is_past_event) or (programme_on_air and programme_live_url) %}
     <div class="slnt-node-full__cta slnt-node-full__cta--row">
-      {% for link in node_links %}
+      {% if programme_on_air and programme_live_url %}
+        <a href="{{ programme_live_url }}" class="slnt-node-full__cta-link slnt-node-full__cta-link--live" target="_blank" rel="noopener noreferrer">
+          {# Phosphor broadcast. #}
+          <svg class="slnt-node-full__cta-icon slnt-node-full__cta-icon--kind" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false"><path d="M128,84a44,44,0,1,0,44,44A44.05,44.05,0,0,0,128,84Zm0,64a20,20,0,1,1,20-20A20,20,0,0,1,128,148ZM73.14,62.2A12,12,0,0,1,74,79.15,76,76,0,0,0,74,176.85a12,12,0,0,1-17.75,16.15,100,100,0,0,1,0-130A12,12,0,0,1,73.14,62.2Zm126.57,0a100,100,0,0,1,0,130A12,12,0,1,1,182,176.85a76,76,0,0,0,0-97.7A12,12,0,0,1,199.71,62.2ZM44,128a83.4,83.4,0,0,0,21.82,56.11A12,12,0,1,1,48.1,200.24a108,108,0,0,1,0-144.48A12,12,0,1,1,65.82,71.89,83.4,83.4,0,0,0,44,128Zm191.9,72.24A12,12,0,1,1,218.2,184.11a84,84,0,0,0,0-112.22A12,12,0,1,1,235.9,55.76a108,108,0,0,1,0,144.48Z"/></svg>
+          <span>{{ programme_live_label }}</span>
+          <svg class="slnt-node-full__cta-icon slnt-node-full__cta-icon--external" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false"><path d="M228,104a12,12,0,0,1-24,0V69l-59.51,59.51a12,12,0,0,1-17-17L187,52H152a12,12,0,0,1,0-24h64a12,12,0,0,1,12,12Zm-44,24a12,12,0,0,0-12,12v64H52V84h64a12,12,0,0,0,0-24H48A20,20,0,0,0,28,80V208a20,20,0,0,0,20,20H176a20,20,0,0,0,20-20V140A12,12,0,0,0,184,128Z"/></svg>
+          <span class="visually-hidden">({{ 'opens in a new tab'|t }})</span>
+        </a>
+      {% endif %}
+      {% for link in (is_past_event ? [] : node_links) %}
         <a href="{{ link.href }}" class="slnt-node-full__cta-link slnt-node-full__cta-link--{{ link.kind }}"{% if link.external %} target="_blank" rel="noopener noreferrer"{% endif %}>
           {% include '@customsolent/components/link-icon.html.twig' with { icon: link.icon, class: 'slnt-node-full__cta-icon slnt-node-full__cta-icon--kind' } only %}
           <span>{{ link.label }}</span>

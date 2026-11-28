@@ -1,0 +1,53 @@
+/* The venue map on an event page (js/venue-map.js): beside the details
+   on a desktop, beneath them on a phone. The box only shows once the
+   script has drawn the map (is-ready), so a reader without it sees no
+   empty grey block. */
+
+.slnt-event-full__top {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1rem 2rem;
+  align-items: start;
+  margin-bottom: 1.5rem;
+}
+
+.slnt-event-full__top .slnt-node-full__header {
+  margin-bottom: 0;
+}
+
+.slnt-venue-map {
+  display: none;
+}
+
+.slnt-venue-map.is-ready {
+  display: block;
+}
+
+.slnt-venue-map__canvas {
+  width: 100%;
+  height: 240px;
+  background: var(--warm-grey, #e9e5df);
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.slnt-venue-map .leaflet-container {
+  font-family: 'Atkinson Hyperlegible Next', sans-serif;
+}
+
+/* Leaflet's blue marker turned to the Explore orange, as the chosen
+   place on Explore / Locations (location-map.css has the same rule; this
+   page does not load that sheet). */
+.slnt-venue-map .slnt-peg--chosen {
+  filter: hue-rotate(165deg) saturate(1.4) brightness(1.05);
+}
+
+@media (min-width: 1000px) {
+  .slnt-event-full--mapped .slnt-event-full__top {
+    grid-template-columns: minmax(0, 1fr) minmax(280px, 34%);
+  }
+
+  .slnt-event-full--mapped .slnt-venue-map__canvas {
+    height: 260px;
+  }
+}

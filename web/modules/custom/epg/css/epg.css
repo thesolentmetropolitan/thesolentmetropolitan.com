@@ -37,7 +37,8 @@
   font-size: 0.9rem;
   line-height: 1.2;
   padding: 0.4em 0.7em;
-  border-radius: 0.35rem;
+  /* Rounded at the top only: the underline beneath stays flat. */
+  border-radius: 0.35rem 0.35rem 0 0;
   color: var(--text, #1a1a1a);
   text-decoration: none;
   border-bottom: 3px solid transparent;
@@ -140,6 +141,12 @@
   .epg__hour--half {
     font-size: 0;
   }
+}
+
+/* The ruler column of the vertical view is narrow: the day's name at
+   midnight would wrap over the next mark, and the heading names the day. */
+.epg[data-view="vertical"] .epg__hour-day {
+  display: none;
 }
 
 .epg__station-name {
@@ -463,12 +470,22 @@
   padding: 0.6rem;
 }
 
-/* The line for now, placed by the script (--now: minutes from 6am). */
+/* The line for now, placed by the script (--now: minutes from 6am), with
+   a small peg at its head on the ruler: a triangle pointing down the
+   timeline, along the columns. */
 .epg__now {
   position: absolute;
   pointer-events: none;
   background: var(--epg-line);
   z-index: 3;
+}
+
+.epg__now::before {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 0;
+  border: 0.45rem solid transparent;
 }
 
 .epg[data-view="timeline"] .epg__now {
@@ -478,11 +495,27 @@
   left: calc(var(--epg-side) + var(--now, 0) / var(--epg-step) * var(--epg-track-x));
 }
 
+.epg[data-view="timeline"] .epg__now::before {
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  border-top-color: var(--epg-line);
+  border-bottom-width: 0;
+}
+
 .epg[data-view="vertical"] .epg__now {
   left: 0;
   right: 0;
   height: 2px;
   top: calc(var(--head, 3rem) + var(--now, 0) / var(--epg-step) * var(--epg-track-y));
+}
+
+.epg[data-view="vertical"] .epg__now::before {
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  border-left-color: var(--epg-line);
+  border-right-width: 0;
 }
 
 @media (max-width: 799px) {

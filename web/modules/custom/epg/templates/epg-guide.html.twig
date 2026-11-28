@@ -13,13 +13,14 @@
  * --d (minutes long), so the same markup serves all three.
  *
  * Variables (EpgController, epg_schedule()):
- *   day, day_label, is_today, days [{label, url, current}],
+ *   banner (a site's render array above the guide, or empty), day, day_label, is_today, days [{label, url, current}],
  *   views [{key, label, url, current}], view, window_start, window_end,
  *   hours [{minute, label, half, day}], day_note, stations [{nid, label, url, kind, frequency, stream,
  *   catchup, programmes: [{nid, title, url, start, end, start_min,
  *   duration_min, time, times, is_now, note, link}]}], empty.
  */
 #}
+{{ banner }}
 <div class="epg" data-view="{{ view }}" data-window-start="{{ window_start }}" data-window-end="{{ window_end }}" data-today="{{ is_today ? '1' : '0' }}">
   <div class="epg__controls">
     <nav class="epg__days" aria-label="{{ 'Day'|t }}">

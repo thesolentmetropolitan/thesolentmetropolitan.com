@@ -8174,6 +8174,19 @@ taxonomies:
           value: 'Afrobeats, amapiano and Afro-fusion nights, DJs and artists across the Solent.'
     -
       vid: topic
+      tid: '433'
+      langcode: en
+      name: 'Culture / Music / Alternative'
+      description__value: '<p>Alternative as a modifier and a catch-all: alternative nights and festivals that span guitar music, electronic and more; an act or night that says "alternative" and no more. Sits beside the style when there is one (Indie, Punk, Metal, Ambient &amp; Experimental); on its own when the scene is the point rather than a genre.</p>'
+      description__format: basic_html
+      weight: '0'
+      parent: '44'
+      uuid: 61887487-5a80-4fbf-a340-9131ac5c5d3c
+      field_reader_summary:
+        -
+          value: 'Alternative music of every kind around the Solent: the bands, nights and scenes off the mainstream.'
+    -
+      vid: topic
       tid: '349'
       langcode: en
       name: 'Culture / Music / Ambient & Experimental'
@@ -8203,7 +8216,7 @@ taxonomies:
       tid: '351'
       langcode: en
       name: 'Culture / Music / Blues'
-      description__value: '<p>Blues and blues rock: gigs, jam nights, blues clubs. Rhythm and blues in the modern sense is R&amp;B; soul is Funk &amp; Soul.</p>'
+      description__value: '<p>Blues and blues rock: gigs, jam nights, blues clubs. Rhythm and blues in the modern sense is R&amp;B; soul is Soul.</p>'
       description__format: basic_html
       weight: '0'
       parent: '44'
@@ -8226,10 +8239,23 @@ taxonomies:
           value: 'Orchestras, choirs, chamber music, opera and classical concerts across the Solent.'
     -
       vid: topic
+      tid: '428'
+      langcode: en
+      name: 'Culture / Music / Club'
+      description__value: "<p>Music as a club night plays it, whatever the genre: a club's weekly nights, student nights, multi-room parties, a venue's club programme. Add the genre as related when the night has one (House, R&amp;B, Dancehall); the Format Club Night &amp; Party says the shape of the event, this term says the music belongs to the clubs.</p>"
+      description__format: basic_html
+      weight: '0'
+      parent: '44'
+      uuid: 66cac4b6-5918-4e87-9151-50d73fe18d3f
+      field_reader_summary:
+        -
+          value: 'Club nights of every kind across the Solent: whatever is played after dark.'
+    -
+      vid: topic
       tid: '353'
       langcode: en
-      name: 'Culture / Music / Country & Americana'
-      description__value: '<p>Country, Americana, bluegrass, alt-country and roots rock. Traditional British and Irish folk is Folk.</p>'
+      name: 'Culture / Music / Country'
+      description__value: '<p>Country in the wide sense: country, Americana, bluegrass, alt-country, roots rock and line-dance nights. Traditional British and Irish folk is Folk; Latin American music is Latin.</p>'
       description__format: basic_html
       weight: '0'
       parent: '44'
@@ -8239,10 +8265,36 @@ taxonomies:
           value: 'Country, Americana, bluegrass and roots-rock nights around the Solent.'
     -
       vid: topic
+      tid: '427'
+      langcode: en
+      name: 'Culture / Music / Dance'
+      description__value: '<p>Dance music as a party calls it: dance anthems, commercial dance, a "dance night" that names no style. For the electronic scene and its named styles use Electronic and the style terms (House, Techno, Trance, Drum &amp; Bass ...). Culture / Dance is dancing: a salsa class or a ballet is there, not here.</p>'
+      description__format: basic_html
+      weight: '0'
+      parent: '44'
+      uuid: f105444e-d949-4221-9832-dbc444182bd4
+      field_reader_summary:
+        -
+          value: 'Dance music in the broad sense: dance nights, DJs and parties across the Solent that name no one style.'
+    -
+      vid: topic
+      tid: '432'
+      langcode: en
+      name: 'Culture / Music / Dancehall'
+      description__value: '<p>Dancehall, ragga and bashment: the nights, sound systems, DJs and parties that call themselves that. Roots, dub and lovers rock are Reggae; parties led by afrobeats are Afrobeats; a night that spans reggae and dancehall takes both.</p>'
+      description__format: basic_html
+      weight: '0'
+      parent: '44'
+      uuid: 36bc6884-660e-4c51-8357-4f014ec45bad
+      field_reader_summary:
+        -
+          value: 'Dancehall, ragga and bashment nights, sound systems and DJs across the Solent.'
+    -
+      vid: topic
       tid: '354'
       langcode: en
       name: 'Culture / Music / Disco'
-      description__value: '<p>Disco, boogie, Italo and nu-disco nights, all-dayers and DJs. Soul and funk nights that are not about the dance floor are Funk &amp; Soul; house is House.</p>'
+      description__value: '<p>Disco, boogie, Italo and nu-disco nights, all-dayers and DJs. Soul and funk nights that are not about the dance floor are Soul or Funk; house is House.</p>'
       description__format: basic_html
       weight: '0'
       parent: '44'
@@ -8281,7 +8333,7 @@ taxonomies:
       tid: '357'
       langcode: en
       name: 'Culture / Music / Electronic'
-      description__value: '<p>The broad term for electronic and dance music. Primary for things that span styles or name none (an electronic jam, a scene guide, a multi-room rave, a producer meet-up). Related alongside the specific style when a night clearly belongs to one scene but readers browsing Electronic would want it too. Not needed on a single-style night: its own term is enough.</p>'
+      description__value: '<p>The broad term for electronic and dance music as a scene. Primary for things that span styles or name none (an electronic jam, a scene guide, a multi-room rave, a producer meet-up). Related alongside the specific style when a night clearly belongs to one scene but readers browsing Electronic would want it too. Not needed on a single-style night: its own term is enough. A party that just says "dance" with no electronic scene behind it is Dance.</p>'
       description__format: basic_html
       weight: '0'
       parent: '44'
@@ -8294,7 +8346,7 @@ taxonomies:
       tid: '358'
       langcode: en
       name: 'Culture / Music / Folk'
-      description__value: '<p>Traditional and contemporary folk: folk clubs, sessions, singer-songwriters in the folk tradition, sea shanties, ceilidh bands. Country and Americana have their own term; music from other traditions is World.</p>'
+      description__value: '<p>Traditional and contemporary folk: folk clubs, sessions, singer-songwriters in the folk tradition, sea shanties, ceilidh bands. Country has its own term; music from other traditions is World, Latin American music Latin.</p>'
       description__format: basic_html
       weight: '0'
       parent: '44'
@@ -8304,17 +8356,30 @@ taxonomies:
           value: 'Folk clubs, sessions, shanty crews and singer-songwriters across the Solent.'
     -
       vid: topic
-      tid: '359'
+      tid: '425'
       langcode: en
-      name: 'Culture / Music / Funk & Soul'
-      description__value: '<p>Soul, funk, Motown, northern soul, rare groove and the choirs and bands that sing them. Contemporary R&amp;B is R&amp;B; disco nights are Disco.</p>'
+      name: 'Culture / Music / Funk'
+      description__value: '<p>Funk: funk bands and brass-led groove outfits, funk and rare-groove nights, funk jams. Soul singers and soul nights are Soul; disco is Disco; a night that is both funk and soul takes both.</p>'
       description__format: basic_html
       weight: '0'
       parent: '44'
-      uuid: 72639b3f-c620-4feb-8518-204058ed476d
+      uuid: aea6a350-f97f-45c9-864d-564940a715a1
       field_reader_summary:
         -
-          value: 'Soul, funk, Motown and northern soul nights, bands and choirs around the Solent.'
+          value: 'Funk bands, funk and rare-groove nights and jams around the Solent.'
+    -
+      vid: topic
+      tid: '431'
+      langcode: en
+      name: 'Culture / Music / Gospel'
+      description__value: "<p>Gospel: gospel choirs and their concerts, praise and worship music events, gospel brunches and workshops. Soul choirs singing secular soul are Soul; a church's own services are Culture / Faith, with Gospel related when the music is the point.</p>"
+      description__format: basic_html
+      weight: '0'
+      parent: '44'
+      uuid: 03afe17b-a490-49ce-a276-1773aecd1c2f
+      field_reader_summary:
+        -
+          value: 'Gospel choirs, services with music and gospel concerts across the Solent.'
     -
       vid: topic
       tid: '360'
@@ -8333,7 +8398,7 @@ taxonomies:
       tid: '361'
       langcode: en
       name: 'Culture / Music / Hip Hop'
-      description__value: '<p>Hip hop and rap: gigs, cyphers, open mics, beat-making and rap workshops, crews, record labels. Grime and drill have their own term; soul and funk are Funk &amp; Soul.</p>'
+      description__value: "<p>Hip hop as a culture and a scene: gigs, open mics, beat-making workshops, crews, DJs, record labels. A rapper's own gig, a cypher or a battle is Rap (add Hip Hop when the night is the wider culture); grime and drill are Grime; soul and funk are Soul and Funk.</p>"
       description__format: basic_html
       weight: '0'
       parent: '44'
@@ -8359,7 +8424,7 @@ taxonomies:
       tid: '363'
       langcode: en
       name: 'Culture / Music / Indie'
-      description__value: '<p>Indie and alternative guitar music, Britpop and new wave included: bands, gigs, independent labels, zines and blogs about them. Heavier bands are Metal; punk and post-punk are Punk; classic and heritage rock is Rock.</p>'
+      description__value: '<p>Indie and alternative guitar music, Britpop and new wave included: bands, gigs, independent labels, zines and blogs about them. Heavier bands are Metal; punk and post-punk are Punk; classic and heritage rock is Rock. Alternative is the wider modifier for nights and festivals that span styles.</p>'
       description__format: basic_html
       weight: '0'
       parent: '44'
@@ -8372,7 +8437,7 @@ taxonomies:
       tid: '364'
       langcode: en
       name: 'Culture / Music / Jazz'
-      description__value: '<p>Jazz in all its forms: clubs, concert series, jam sessions, big bands, swing, fusion and jazz-adjacent improvised music. Blues is Blues; soul is Funk &amp; Soul.</p>'
+      description__value: '<p>Jazz in all its forms: clubs, concert series, jam sessions, big bands, swing, fusion and jazz-adjacent improvised music. Blues is Blues; soul is Soul; Latin jazz takes Jazz and Latin.</p>'
       description__format: basic_html
       weight: '0'
       parent: '44'
@@ -8395,6 +8460,19 @@ taxonomies:
           value: 'Jungle nights, crews and sound systems around the Solent.'
     -
       vid: topic
+      tid: '434'
+      langcode: en
+      name: 'Culture / Music / Latin'
+      description__value: '<p>Music from Latin America and the Latin diaspora: salsa, bachata, cumbia, reggaeton, Latin pop, Latin jazz, Brazilian music, Afro-Cuban. A salsa or bachata class is Culture / Dance (with Latin related when the music is named); the social or party after it takes Latin. Spanish and Portuguese folk and flamenco are World.</p>'
+      description__format: basic_html
+      weight: '0'
+      parent: '44'
+      uuid: 23a62ccd-6fe2-4f6b-b440-5050c0ce949e
+      field_reader_summary:
+        -
+          value: 'Latin music across the Solent: salsa, bachata, cumbia, reggaeton, Latin jazz and the bands and nights that play them.'
+    -
+      vid: topic
       tid: '366'
       langcode: en
       name: 'Culture / Music / Metal'
@@ -8408,10 +8486,23 @@ taxonomies:
           value: 'Metal and heavy music gigs, bands, all-dayers and promoters across the Solent.'
     -
       vid: topic
+      tid: '426'
+      langcode: en
+      name: 'Culture / Music / Motown'
+      description__value: '<p>Motown and the Detroit sound: Motown nights, tribute and theatre shows built on the catalogue, Motown-led party nights. A broader soul night is Soul; add Soul as related when a Motown night plays wider.</p>'
+      description__format: basic_html
+      weight: '0'
+      parent: '44'
+      uuid: 9134de61-c954-43f0-b0bb-fd9a337e83b2
+      field_reader_summary:
+        -
+          value: 'Motown nights, tribute shows and the Detroit sound around the Solent.'
+    -
+      vid: topic
       tid: '367'
       langcode: en
       name: 'Culture / Music / Pop'
-      description__value: '<p>Pop in the chart sense: pop acts, K-pop and J-pop events, tribute and party nights built on pop. Pop choirs take Funk &amp; Soul or Classical when that fits better, else Pop.</p>'
+      description__value: '<p>Pop in the chart sense: pop acts, K-pop and J-pop events, tribute and party nights built on pop. Pop choirs take Soul, Gospel or Classical when that fits better, else Pop.</p>'
       description__format: basic_html
       weight: '0'
       parent: '44'
@@ -8437,7 +8528,7 @@ taxonomies:
       tid: '369'
       langcode: en
       name: 'Culture / Music / R&B'
-      description__value: '<p>Contemporary R&amp;B and neo-soul: singers, showcases, R&amp;B nights. Parties led by afrobeats are Afrobeats; classic soul and funk are Funk &amp; Soul; rap is Hip Hop.</p>'
+      description__value: '<p>Contemporary R&amp;B and neo-soul: singers, showcases, R&amp;B nights. Parties led by afrobeats are Afrobeats; classic soul is Soul; funk is Funk; rap is Rap.</p>'
       description__format: basic_html
       weight: '0'
       parent: '44'
@@ -8447,17 +8538,30 @@ taxonomies:
           value: 'R&B and neo-soul singers, showcases and nights around the Solent.'
     -
       vid: topic
+      tid: '429'
+      langcode: en
+      name: 'Culture / Music / Rap'
+      description__value: "<p>Rap as the MCs' craft: rappers and rap showcases, cyphers and battles, rap workshops, UK rap that is not grime or drill. Hip Hop is the culture and the wider scene (DJs, producers, beat-making, the records); a rapper's gig takes Rap, with Hip Hop related when the night is the wider culture; grime and UK drill are Grime.</p>"
+      description__format: basic_html
+      weight: '0'
+      parent: '44'
+      uuid: b225b884-f0bc-4073-a802-9c7ba06f869f
+      field_reader_summary:
+        -
+          value: 'Rap and MC-led music: rappers, cyphers, battles and showcases around the Solent.'
+    -
+      vid: topic
       tid: '370'
       langcode: en
-      name: 'Culture / Music / Reggae & Dancehall'
-      description__value: '<p>Reggae and dancehall together: roots, dub, lovers rock, ragga, bashment and the sound systems, bands and DJs that play them. Ska and 2 Tone are Ska; dubstep is Dubstep; parties led by afrobeats are Afrobeats.</p>'
+      name: 'Culture / Music / Reggae'
+      description__value: '<p>Reggae: roots, dub, lovers rock, rocksteady-era reggae and the sound systems, bands and DJs that play them. Dancehall, ragga and bashment nights are Dancehall; ska and 2 Tone are Ska; dubstep is Dubstep; parties led by afrobeats are Afrobeats.</p>'
       description__format: basic_html
       weight: '0'
       parent: '44'
       uuid: 8a4fcfb0-5c87-4337-8fe5-2712c876f3c3
       field_reader_summary:
         -
-          value: 'Reggae, roots, dub, lovers rock and dancehall dances, bands and sound systems across the Solent.'
+          value: 'Reggae, roots, dub and lovers rock dances, bands and sound systems across the Solent.'
     -
       vid: topic
       tid: '371'
@@ -8476,7 +8580,7 @@ taxonomies:
       tid: '372'
       langcode: en
       name: 'Culture / Music / Ska'
-      description__value: '<p>Ska, 2 Tone, rocksteady and skinhead reggae. Roots and dub are Reggae; ska-punk bands take Punk and Ska.</p>'
+      description__value: '<p>Ska, 2 Tone, rocksteady and skinhead reggae. Roots and dub are Reggae; dancehall is Dancehall; ska-punk bands take Punk and Ska.</p>'
       description__format: basic_html
       weight: '0'
       parent: '44'
@@ -8484,6 +8588,32 @@ taxonomies:
       field_reader_summary:
         -
           value: 'Ska, 2 Tone and rocksteady bands and nights around the Solent.'
+    -
+      vid: topic
+      tid: '359'
+      langcode: en
+      name: 'Culture / Music / Soul'
+      description__value: '<p>Soul in its forms: classic and southern soul, northern soul, rare groove, neo-soul, and the soul choirs, singers and bands. Motown has its own term (a Motown night takes Motown, a soul all-dayer Soul); funk bands and funk nights are Funk; contemporary R&amp;B is R&amp;B; disco nights are Disco; gospel is Gospel.</p>'
+      description__format: basic_html
+      weight: '0'
+      parent: '44'
+      uuid: 72639b3f-c620-4feb-8518-204058ed476d
+      field_reader_summary:
+        -
+          value: 'Soul, northern soul and neo-soul nights, singers, bands and choirs around the Solent.'
+    -
+      vid: topic
+      tid: '430'
+      langcode: en
+      name: 'Culture / Music / Soundtrack & Film Score'
+      description__value: '<p>Music written for the screen and stage recordings: film-score concerts, live scores to a screening, Bollywood and Hollywood soundtrack nights, TV and game music, musical-theatre cast recordings. Overlaps Culture / Screen and Culture / Stage, which is fine: the film or show takes those, the music takes this.</p>'
+      description__format: basic_html
+      weight: '0'
+      parent: '44'
+      uuid: bc8dd7d0-5c04-4e2a-8b30-2fd6f1cbd8df
+      field_reader_summary:
+        -
+          value: 'Film scores, soundtracks, Bollywood and TV themes played and screened around the Solent.'
     -
       vid: topic
       tid: '373'
@@ -8528,14 +8658,14 @@ taxonomies:
       tid: '376'
       langcode: en
       name: 'Culture / Music / World'
-      description__value: '<p>Music rooted in traditions outside Britain, Ireland and North America: West African kora and griot music, Latin and Afro-Cuban, Indian classical and Bollywood, Balkan, Greek, Turkish, Middle Eastern and more. Afrobeats, reggae and dancehall have their own terms. Name the tradition in the item; this term may split by region once the content asks.</p>'
+      description__value: '<p>Music rooted in traditions outside Britain, Ireland and North America: West African kora and griot music, Indian classical and bhangra, Balkan, Greek, Turkish, Middle Eastern, flamenco and more. Latin American music is Latin; afrobeats, reggae and dancehall have their own terms; Bollywood soundtracks are Soundtrack &amp; Film Score. Name the tradition in the item; this term may split by region once the content asks.</p>'
       description__format: basic_html
       weight: '0'
       parent: '44'
       uuid: 57660d8e-710c-43bf-91b6-e86fd7a58156
       field_reader_summary:
         -
-          value: 'Music from Africa, Asia, the Caribbean, Latin America and beyond, played and heard across the Solent.'
+          value: 'Music from Africa, Asia, the Caribbean and beyond, played and heard across the Solent.'
     -
       vid: topic
       tid: '46'

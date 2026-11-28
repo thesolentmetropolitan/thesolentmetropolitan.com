@@ -69,7 +69,6 @@ module:
   smart_date_recur: 0
   smtp: 0
   structure_sync: 0
-  superfish: 0
   svg_image: 0
   system: 0
   taxonomy: 0

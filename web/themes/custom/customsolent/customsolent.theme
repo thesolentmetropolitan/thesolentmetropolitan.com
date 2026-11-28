@@ -322,6 +322,56 @@ function customsolent_preprocess_node(array &$variables): void {
       }
     }
     $variables['organiser_events_cache'] = ['#cache' => ['tags' => $relations->eventsCacheTags(), 'max-age' => $relations->maxAgeUntilMidnight()]];
+
+    // A programme that is on air as the page is read: "On now" by the
+    // date and a Listen live button to the station's stream (private
+    // #89). The page is cached until the broadcast starts or ends, so the
+    // button appears and goes with it.
+    $variables['programme_on_air'] = FALSE;
+    $variables['programme_live_url'] = '';
+    $variables['programme_live_label'] = '';
+    if ($is_programme) {
+      $now = \Drupal::time()->getRequestTime();
+      $next_change = NULL;
+      foreach ($node->get('field_when') as $item) {
+        $start = (int) $item->value;
+        $end = (int) $item->end_value;
+        if ($start <= $now && $now < $end) {
+          $variables['programme_on_air'] = TRUE;
+          $next_change = $next_change === NULL ? $end : min($next_change, $end);
+        }
+        elseif ($start > $now) {
+          $next_change = $next_change === NULL ? $start : min($next_change, $start);
+        }
+      }
+      foreach ($node->get('field_organisers')->referencedEntities() as $organiser) {
+        if ($organiser instanceof \Drupal\node\NodeInterface && epg_is_station($organiser)) {
+          $info = epg_station_info($organiser);
+          $variables['programme_live_url'] = $info['stream'] ?? '';
+          $variables['programme_live_label'] = ($info['kind'] ?? 'radio') === 'tv' ? (string) t('Watch live') : (string) t('Listen live');
+          $variables['organiser_events_cache']['#cache']['tags'] = \Drupal\Core\Cache\Cache::mergeTags($variables['organiser_events_cache']['#cache']['tags'], $info['broadcaster']->getCacheTags());
+          break;
+        }
+      }
+      if ($next_change !== NULL) {
+        $variables['organiser_events_cache']['#cache']['max-age'] = max(60, min($variables['organiser_events_cache']['#cache']['max-age'], $next_change - $now + 1));
+      }
+    }
+
+    // The venue(s) on a map beside the details (desktop) or under them
+    // (phone): every venue in field_where whose Location term, or an
+    // ancestor, has a point. The pegs go to the script as data; without
+    // it the address line says where.
+    $variables['venue_pegs'] = [];
+    foreach ($variables['where_list'] ?? [] as $venue) {
+      if ($venue['lat'] !== NULL && $venue['lon'] !== NULL) {
+        $variables['venue_pegs'][] = ['name' => $venue['name'], 'lat' => $venue['lat'], 'lon' => $venue['lon'], 'url' => $venue['url']];
+      }
+    }
+    if ($variables['venue_pegs']) {
+      $variables['venue_pegs_json'] = json_encode($variables['venue_pegs'], JSON_HEX_TAG | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+      $variables['#attached']['library'][] = 'customsolent/venue-map';
+    }
   }
 
   // Series and Collaboration pages: the kicker that names the kind of

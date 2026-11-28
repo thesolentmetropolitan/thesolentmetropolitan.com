@@ -170,6 +170,9 @@ function epg_theme(): array {
   return [
     'epg_guide' => [
       'variables' => [
+        // A render array printed above the guide (a site's banner for the
+        // page); a preprocess hook can set it. Nothing by default.
+        'banner' => NULL,
         'day' => '',
         'day_label' => '',
         'is_today' => FALSE,
@@ -263,14 +266,15 @@ function epg_schedule(\DateTimeImmutable $day): array {
   $stations = epg_stations();
   $format = epg_programme_format_tid();
   $tags = ['node_list:event', 'node_list:organisation', 'node_list:broadcaster'];
-  // The ruler: a mark every half hour; the hour marks carry the time, the
-  // half hours a lighter one, and midnight names the new day.
+  // The ruler: a mark every half hour in the 12-hour clock the blocks use
+  // ("6am", "6:30", "12pm"); the hour marks carry the time, the half
+  // hours a lighter one, and midnight names the new day.
   $hours = [];
   for ($m = 0; $m < EPG_WINDOW_MINUTES; $m += 30) {
     $at = $window_start->modify("+$m minutes");
     $hours[] = [
       'minute' => $m,
-      'label' => $at->format('G:i'),
+      'label' => $m % 60 === 0 ? $at->format('ga') : $at->format('g:i'),
       'half' => $m % 60 !== 0,
       'day' => ($at->format('H:i') === '00:00') ? $at->format('D j M') : '',
     ];
